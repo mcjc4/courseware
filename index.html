@@ -14,7 +14,7 @@
       linear-gradient(160deg,#eef6ff,#f2fdf7);
     background-attachment:fixed; color:#1f2d3d; min-height:100vh; padding:28px 18px 60px;
   }
-  .wrap { max-width:1060px; margin:0 auto; }
+  .wrap { max-width:1080px; margin:0 auto; }
   .hero {
     background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);
     border-radius:22px; padding:44px 40px 40px; color:#fff;
@@ -25,12 +25,31 @@
     font-size:13px; padding:4px 12px; border-radius:999px; margin-bottom:16px; letter-spacing:1px;
   }
   .hero h1 { font-size:34px; font-weight:700; letter-spacing:1px; }
-  .hero p { margin-top:12px; font-size:15px; opacity:.95; line-height:1.7; max-width:640px; }
-  .stat { display:flex; gap:26px; margin-top:24px; }
+  .hero p { margin-top:12px; font-size:15px; opacity:.95; line-height:1.7; max-width:680px; }
+  .stat { display:flex; gap:26px; margin-top:24px; flex-wrap:wrap; }
   .stat div { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); border-radius:14px; padding:10px 18px; }
   .stat b { font-size:22px; display:block; }
   .stat span { font-size:12px; opacity:.92; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; margin-top:26px; }
+  .filters {
+    margin-top:22px; background:#fff; border:1px solid #e3edf7; border-radius:18px; padding:18px 20px;
+    box-shadow:0 10px 30px -12px rgba(31,66,135,.16);
+    display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;
+  }
+  .fld { display:flex; flex-direction:column; gap:5px; flex:1 1 180px; }
+  .fld label { font-size:12px; color:#5c7185; font-weight:600; }
+  .fld select, .fld input {
+    padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
+    background:#f8fbff; color:#1f2d3d; font-family:inherit;
+  }
+  .fld select:focus, .fld input:focus { outline:none; border-color:#4f8ef7; }
+  .fld.search { flex:2 1 240px; }
+  .reset-btn {
+    background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
+    padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
+  }
+  .reset-btn:hover { background:#4f8ef7; color:#fff; }
+  .result-info { margin:14px 4px 0; font-size:13px; color:#5c7185; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin-top:16px; }
   .card {
     display:flex; gap:14px; background:#fff; border:1px solid #e3edf7; border-radius:20px;
     padding:20px 18px; text-decoration:none; color:inherit;
@@ -44,14 +63,22 @@
     display:flex; align-items:center; justify-content:center;
     font-size:14px; font-weight:600;
   }
-  .card-body { min-width:0; }
+  .card-body { min-width:0; flex:1; }
   .card-body h3 { font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .card-body p { font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }
+  .card-body .sub { font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .tag-chip {
+    font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4;
+  }
+  .tag-chip.k { background:#ecfdf6; color:#1a9e7a; }
+  .tag-chip.c { background:#fff4e6; color:#d98512; }
+  .src { font-size:11px; color:#93a7ba; margin-top:6px; }
   .go {
     display:inline-block; margin-top:10px; font-size:13px; color:#fff;
     background:linear-gradient(120deg,#4f8ef7,#22c3a6);
     padding:5px 14px; border-radius:999px;
   }
+  .empty { grid-column:1/-1; text-align:center; padding:40px; color:#93a7ba; }
   .foot { text-align:center; margin-top:34px; font-size:12px; color:#93a7ba; }
 </style>
 </head>
@@ -60,34 +87,155 @@
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
     <h1>高考解题课件库</h1>
-    <p>Fresh Gradient 教育风互动课件：拖拽演示、逐步推导、KaTeX 公式渲染，全部内嵌单文件，可离线打开。</p>
+    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式渲染，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点</b>筛选。</p>
     <div class="stat">
-      <div><b>2</b><span>个课件</span></div>
-      <div><b>6 科</b><span>覆盖高考学科</span></div>
+      <div><b>8</b><span>个课件</span></div>
+      <div><b>2</b><span>个学科</span></div>
+      <div><b>2</b><span>个章节</span></div>
       <div><b>单文件</b><span>零依赖离线运行</span></div>
     </div>
   </div>
-  <div class="grid">
 
-    <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener">
+  <div class="filters">
+    <div class="fld">
+      <label>学科</label>
+      <select id="fSubject"><option value="">全部</option><option value="数学">数学</option><option value="未分类">未分类</option></select>
+    </div>
+    <div class="fld">
+      <label>所属章节</label>
+      <select id="fChapter"><option value="">全部</option><option value="三角函数">三角函数</option><option value="未分类">未分类</option></select>
+    </div>
+    <div class="fld">
+      <label>知识点</label>
+      <select id="fKnowledge"><option value="">全部</option><option value="三角恒等变换">三角恒等变换</option><option value="三角恒等变换综合">三角恒等变换综合</option><option value="两角和与差">两角和与差</option><option value="两角和与差的余弦">两角和与差的余弦</option><option value="半角公式">半角公式</option><option value="未分类">未分类</option><option value="诱导公式与二倍角">诱导公式与二倍角</option></select>
+    </div>
+    <div class="fld search">
+      <label>搜索标题/来源</label>
+      <input id="fSearch" placeholder="输入关键字…" />
+    </div>
+    <button class="reset-btn" id="fReset">重置</button>
+  </div>
+  <div class="result-info" id="resultInfo">共 8 个课件</div>
+
+  <div class="grid" id="grid">
+    <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener" data-subject="未分类" data-chapter="未分类" data-knowledge="未分类">
       <span class="badge">01</span>
       <div class="card-body">
         <h3>橡皮筋与玩具车</h3>
-        <p>互动解题课件</p>
+        <p class="sub">互动解题课件</p>
+        <div class="tags"><span class="tag-chip">未分类</span><span class="tag-chip c">未分类</span><span class="tag-chip k">未分类</span></div>
+        
         <span class="go">打开课件 →</span>
       </div>
     </a>
-
-    <a class="card" href="lessons/02-water-balloons-bullet/" target="_blank" rel="noopener">
+    <a class="card" href="lessons/02-water-balloons-bullet/" target="_blank" rel="noopener" data-subject="未分类" data-chapter="未分类" data-knowledge="未分类">
       <span class="badge">02</span>
       <div class="card-body">
         <h3>四水球挡子弹</h3>
-        <p>互动解题课件</p>
+        <p class="sub">互动解题课件</p>
+        <div class="tags"><span class="tag-chip">未分类</span><span class="tag-chip c">未分类</span><span class="tag-chip k">未分类</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/03-math-trig-half-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="半角公式">
+      <span class="badge">03</span>
+      <div class="card-body">
+        <h3>半角公式求值</h3>
+        <p class="sub">三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">半角公式</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span></div>
+        <div class="src">2023·新高考全国II</div>
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/04-math-trig-sum-diff/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差的余弦">
+      <span class="badge">04</span>
+      <div class="card-body">
+        <h3>两角和差</h3>
+        <p class="sub">正切乘积 · 三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">两角和与差的余弦</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span></div>
+        <div class="src">2025·江苏省部分学校模拟</div>
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/05-math-trig-identities/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换">
+      <span class="badge">05</span>
+      <div class="card-body">
+        <h3>三角恒等变换判断</h3>
+        <p class="sub">三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">三角恒等变换</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span></div>
+        <div class="src">2025·景德镇期末</div>
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/06-math-trig-compound/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差">
+      <span class="badge">06</span>
+      <div class="card-body">
+        <h3>两角和差综合多选</h3>
+        <p class="sub">三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">两角和与差</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span></div>
+        <div class="src">2026·连云港模拟</div>
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/07-math-trig-double-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="诱导公式与二倍角">
+      <span class="badge">07</span>
+      <div class="card-body">
+        <h3>诱导公式与二倍角</h3>
+        <p class="sub">三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">诱导公式与二倍角</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">填空题</span></div>
+        <div class="src">2026·成都模拟</div>
+        <span class="go">打开课件 →</span>
+      </div>
+    </a>
+    <a class="card" href="lessons/08-math-trig-comprehensive/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换综合">
+      <span class="badge">08</span>
+      <div class="card-body">
+        <h3>三角恒等变换综合</h3>
+        <p class="sub">三角函数互动课件</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">三角恒等变换综合</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span></div>
+        <div class="src">2025·无锡期末</div>
         <span class="go">打开课件 →</span>
       </div>
     </a>
   </div>
-  <div class="foot">mcjc4 · GitHub Pages · 页面生成于 2026-09-04</div>
+  <div class="foot">mcjc4 · GitHub Pages · 页面生成于 2026-09-06</div>
 </div>
+<script>
+(function(){
+  const grid=document.getElementById('grid');
+  const cards=Array.from(grid.querySelectorAll('.card'));
+  const fS=document.getElementById('fSubject');
+  const fC=document.getElementById('fChapter');
+  const fK=document.getElementById('fKnowledge');
+  const fQ=document.getElementById('fSearch');
+  const info=document.getElementById('resultInfo');
+  function apply(){
+    const s=fS.value,c=fC.value,k=fK.value,q=fQ.value.trim().toLowerCase();
+    let n=0;
+    cards.forEach(card=>{
+      const okS=!s||card.dataset.subject===s;
+      const okC=!c||card.dataset.chapter===c;
+      const okK=!k||card.dataset.knowledge===k;
+      const okQ=!q||(card.textContent||'').toLowerCase().includes(q);
+      const show=okS&&okC&&okK&&okQ;
+      card.style.display=show?'':'none';
+      if(show) n++;
+    });
+    info.textContent='共 '+n+' 个课件';
+    if(n===0){
+      if(!document.getElementById('empty')){
+        const e=document.createElement('div');e.className='empty';e.id='empty';
+        e.textContent='没有符合条件的课件，试试换个筛选条件。';
+        grid.appendChild(e);
+      }
+    }else{
+      const e=document.getElementById('empty'); if(e) e.remove();
+    }
+  }
+  [fS,fC,fK,fQ].forEach(el=>el.addEventListener('input',apply));
+  document.getElementById('fReset').onclick=()=>{fS.value='';fC.value='';fK.value='';fQ.value='';apply();};
+})();
+</script>
 </body>
 </html>

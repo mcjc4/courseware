@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诱导公式与二倍角 · 三角函数互动课件</title>
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="诱导公式与二倍角">
+<meta name="source" content="2026·成都模拟">
+<meta name="type" content="填空题">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.input-row{margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.input-row input{padding:10px 14px;font-size:16px;border:2px solid #d6e4f2;border-radius:10px;width:140px;font-family:inherit}
+.input-row input:focus{outline:none;border-color:#4f8ef7}
+#checkBtn{background:#22c3a6;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;cursor:pointer;font-weight:600}
+#checkBtn:hover{background:#1bb094}
+#result{font-size:15px;font-weight:600;margin-top:10px}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px}
+th,td{border:1px solid #e3edf7;padding:9px 12px;text-align:left;vertical-align:top}
+th{background:#f3f8ff;color:#2a6df4}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="meta-bar">
+    <span class="chip"><b>学科</b>　数学</span>
+    <span class="chip"><b>所属章节</b>　三角函数</span>
+    <span class="chip"><b>知识点</b>　诱导公式与二倍角</span>
+    <span class="chip"><b>来源</b>　2026·成都模拟</span>
+    <span class="chip"><b>题型</b>　填空题</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">换元法 · 诱导公式 · 二倍角</div>
+    <h1>题10 · 由 sin(α+π/6) 求 sin(π/6−2α)<br><span class="rn">填空题</span></h1>
+    <p class="sub">条件是 $\sin\left(\alpha+\frac{\pi}{6}\right)$，目标是 $\sin\left(\frac{\pi}{6}-2\alpha\right)$。角从 $\alpha+\frac{\pi}{6}$ 变成了 $\frac{\pi}{6}-2\alpha$，<b>做换元 $\theta=\alpha+\frac{\pi}{6}$，把目标角用 $\theta$ 表示</b>，就能用二倍角和诱导公式秒解。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己做，再点开）</span>
+      <span id="ansShow" style="display:none">41/50</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 先输入你的答案，再看推导 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">已知 $\sin\left(\alpha+\dfrac{\pi}{6}\right)=\dfrac{3}{10}$，则 $\sin\left(\dfrac{\pi}{6}-2\alpha\right)=$ <u>　　　　　</u>。</p>
+      <div class="input-row">
+        <input id="ansInput" placeholder="如 41/50" />
+        <button id="checkBtn">✓ 检查答案</button>
+      </div>
+      <div id="result"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">1</span> 换元 <small>令 θ = α + π/6</small></h2>
+      <div class="step">
+        设 $\theta=\alpha+\dfrac{\pi}{6}$，则 $\alpha=\theta-\dfrac{\pi}{6}$。
+      </div>
+      <div class="step gold">
+        目标角：$\dfrac{\pi}{6}-2\alpha=\dfrac{\pi}{6}-2\left(\theta-\dfrac{\pi}{6}\right)
+        =\dfrac{\pi}{6}-2\theta+\dfrac{\pi}{3}=\dfrac{\pi}{2}-2\theta$
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">2</span> 诱导 + 二倍角 <small>转化为 cos 2θ</small></h2>
+      <div class="step">
+        $\sin\left(\dfrac{\pi}{6}-2\alpha\right)=\sin\left(\dfrac{\pi}{2}-2\theta\right)=\cos 2\theta$
+      </div>
+      <div class="step green">
+        用二倍角公式：$\cos 2\theta=1-2\sin^2\theta$
+      </div>
+      <div class="step gold">
+        已知 $\sin\theta=\dfrac{3}{10}$，所以：<br>
+        $\cos 2\theta=1-2\times\left(\dfrac{3}{10}\right)^2=1-2\times\dfrac{9}{100}=1-\dfrac{18}{100}=\dfrac{82}{100}=\dfrac{41}{50}$
+      </div>
+      <div class="insight">
+        <div class="it">⚡ 核心思路</div>
+        条件和目标的角不一样时，<b>换元是最直接的办法</b>。把条件角设为 $\theta$，用 $\theta$ 表示目标角，往往能直接套上二倍角/诱导公式。本题目标角恰好等于 $\frac{\pi}{2}-2\theta$，一步到位。
+      </div>
+      <button class="btn" onclick="document.getElementById('ansInput').value='';document.getElementById('result').textContent=''">↺ 重新作答</button>
+    </div>
+  </section>
+
+  <div class="foot">mcjc4 · 三角函数互动课件库</div>
+</div>
+
+<script>
+document.getElementById('checkBtn').onclick=()=>{
+  const v=document.getElementById('ansInput').value.trim().replace(/\s/g,'');
+  const r=document.getElementById('result');
+  const norm=s=>s.replace(/−/g,'-').replace(/／/g,'/');
+  const accept=new Set(['41/50','0.82','82/100','41／50']);
+  if(accept.has(norm(v))){r.textContent='✅ 正确！答案是 41/50。';r.style.color='#22c3a6'}
+  else{r.textContent='❌ 不对，再试试（提示：换元后目标角 = π/2 − 2θ）。';r.style.color='#ff6b6b'}
+};
+document.getElementById('ansBtn').onclick=()=>{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+};
+</script>
+</body>
+</html>

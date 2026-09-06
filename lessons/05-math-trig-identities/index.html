@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角恒等变换判断 · 三角函数互动课件</title>
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="三角恒等变换">
+<meta name="source" content="2025·景德镇期末">
+<meta name="type" content="多选题">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px}
+th,td{border:1px solid #e3edf7;padding:9px 12px;text-align:left;vertical-align:top}
+th{background:#f3f8ff;color:#2a6df4}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="meta-bar">
+    <span class="chip"><b>学科</b>　数学</span>
+    <span class="chip"><b>所属章节</b>　三角函数</span>
+    <span class="chip"><b>知识点</b>　三角恒等变换</span>
+    <span class="chip"><b>来源</b>　2025·景德镇期末</span>
+    <span class="chip"><b>题型</b>　多选题</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">公式辨析 · 逐项验证 · 多选</div>
+    <h1>题7 · 三角恒等式判断<br><span class="rn">四个式子哪个正确</span></h1>
+    <p class="sub">这类题没有捷径，<b>四个选项逐个化简验证</b>。每个选项都对应一个经典公式：二倍角正切、半角公式、降幂公式、和角正切。练熟了就能秒判。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己做，再点开）</span>
+      <span id="ansShow" style="display:none">B · D</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 点击选项验证，再看逐项推导 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">下列式子正确的是（　　）</p>
+      <div class="optlist" id="optlist">
+        <div class="oi" data-v="A" data-c="0"><b>A.</b>$\dfrac{1-\tan^2 15^\circ}{\tan 15^\circ}=\dfrac{2\sqrt3}{3}$<span class="fb" style="color:#c0392b">✗ 左边应为 $2\sqrt3$，不是 $\frac{2\sqrt3}{3}$。</span></div>
+        <div class="oi" data-v="B" data-c="1"><b>B.</b>$\dfrac{1-\cos\alpha}{\sin\alpha}=\tan\dfrac{\alpha}{2}$<span class="fb" style="color:#1a7a5c">✓ 这是半角公式的等价形式。</span></div>
+        <div class="oi" data-v="C" data-c="0"><b>C.</b>$\cos^2\!\left(\alpha+\dfrac{\pi}{4}\right)=\dfrac{1+\sin 2\alpha}{2}$<span class="fb" style="color:#c0392b">✗ 右边应为 $\frac{1-\sin 2\alpha}{2}$，符号错了。</span></div>
+        <div class="oi" data-v="D" data-c="1"><b>D.</b>$(1+\tan 18^\circ)(1+\tan 27^\circ)=2$<span class="fb" style="color:#1a7a5c">✓ 利用 $18^\circ+27^\circ=45^\circ$，展开后等于 2。</span></div>
+      </div>
+      <div id="fbMsg" style="margin-top:12px;font-size:14px;font-weight:600"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">A</span> 选项验证 <small>二倍角正切</small></h2>
+      <div class="step">
+        由 $\tan 2x=\dfrac{2\tan x}{1-\tan^2 x}$，得 $\dfrac{1-\tan^2 x}{\tan x}=\dfrac{2}{\tan 2x}=2\cot 2x$
+      </div>
+      <div class="step gold">
+        代入 $x=15^\circ$：左边 $=2\cot 30^\circ=2\sqrt3$，而选项给的是 $\dfrac{2\sqrt3}{3}$，<b>不相等</b>。
+      </div>
+      <p class="lead" style="color:#c0392b"><b>A 错误。</b></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">B</span> 选项验证 <small>半角公式</small></h2>
+      <div class="step">
+        $\dfrac{1-\cos\alpha}{\sin\alpha}=\dfrac{2\sin^2\frac{\alpha}{2}}{2\sin\frac{\alpha}{2}\cos\frac{\alpha}{2}}=\dfrac{\sin\frac{\alpha}{2}}{\cos\frac{\alpha}{2}}=\tan\dfrac{\alpha}{2}$
+      </div>
+      <div class="step green"><b>B 正确。</b>这是半角公式的常用等价形式。</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">C</span> 选项验证 <small>降幂公式 + 诱导</small></h2>
+      <div class="step">
+        $\cos^2\!\left(\alpha+\dfrac{\pi}{4}\right)=\dfrac{1+\cos\!\left(2\alpha+\dfrac{\pi}{2}\right)}{2}$
+      </div>
+      <div class="step gold">
+        而 $\cos\!\left(2\alpha+\dfrac{\pi}{2}\right)=-\sin 2\alpha$，所以右边 $=\dfrac{1-\sin 2\alpha}{2}$
+      </div>
+      <p class="lead" style="color:#c0392b"><b>C 错误。</b>选项写的是 $1+\sin 2\alpha$，符号反了。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">D</span> 选项验证 <small>和角正切（经典结论）</small></h2>
+      <p class="lead">注意到 $18^\circ+27^\circ=45^\circ$，而 $\tan 45^\circ=1$。</p>
+      <div class="step">
+        $\tan(18^\circ+27^\circ)=\dfrac{\tan 18^\circ+\tan 27^\circ}{1-\tan 18^\circ\tan 27^\circ}=1$<br>
+        所以 $\tan 18^\circ+\tan 27^\circ=1-\tan 18^\circ\tan 27^\circ$
+      </div>
+      <div class="step green">
+        $(1+\tan 18^\circ)(1+\tan 27^\circ)=1+\tan 18^\circ+\tan 27^\circ+\tan 18^\circ\tan 27^\circ$<br>
+        $=1+(1-\tan 18^\circ\tan 27^\circ)+\tan 18^\circ\tan 27^\circ=2$
+      </div>
+      <div class="insight">
+        <div class="it">⚡ 经典结论</div>
+        若 $A+B=45^\circ$，则 $(1+\tan A)(1+\tan B)=2$。记住这个结论，遇到类似题秒选。
+      </div>
+      <button class="btn" onclick="document.querySelectorAll('.oi').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('fbMsg').textContent=''">↺ 重新作答</button>
+    </div>
+  </section>
+
+  <div class="foot">mcjc4 · 三角函数互动课件库</div>
+</div>
+
+<script>
+const correct=new Set(['B','D']);
+const chosen=new Set();
+document.querySelectorAll('.oi').forEach(o=>{
+  o.addEventListener('click',()=>{
+    const v=o.dataset.v;
+    if(o.classList.contains('correct')||o.classList.contains('wrong')) return;
+    chosen.add(v);
+    const isCorrect=correct.has(v);
+    o.classList.add(isCorrect?'correct':'wrong');
+    const msg=document.getElementById('fbMsg');
+    if(isCorrect){msg.textContent='✅ '+v+' 正确！继续选其他正确项。';msg.style.color='#22c3a6'}
+    else{msg.textContent='❌ '+v+' 不对哦。';msg.style.color='#ff6b6b'}
+  });
+});
+document.getElementById('ansBtn').onclick=()=>{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+};
+</script>
+</body>
+</html>
