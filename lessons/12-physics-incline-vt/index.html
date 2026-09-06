@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>斜面 A、B 物块 v-t 图像 · 物理互动课件</title>
+<meta name="subject" content="物理">
+<meta name="chapter" content="匀变速直线运动">
+<meta name="knowledge" content="v-t图像与追及相遇">
+<meta name="source" content="2026·安徽芜湖市模拟">
+<meta name="type" content="多选题">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:940px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:700px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:17px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:1px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step.red{background:#fff0f0;border-left-color:#ff6b6b}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.warn{background:#fff0f0;border:1px solid #ffd0d0;border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#8b2c2c}
+.warn .it{font-weight:700;color:#e63946;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.foot a{color:#2a6df4;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.chart-box{margin-top:14px;background:#0f172a;border-radius:16px;padding:16px}
+.chart-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.chart-tools button{background:#22c3a6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.chart-tools button.ghost{background:transparent;color:#94a3b8;border:1px solid #475569}
+#chartCanvas{width:100%;max-width:100%;height:340px;background:#1e293b;border-radius:12px;display:block}
+.chart-readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px}
+.chart-readout .box{background:#1e293b;border-radius:10px;padding:10px 12px;color:#e2e8f0}
+.chart-readout .box .k{font-size:11px;color:#94a3b8}
+.chart-readout .box .v{font-size:15px;font-weight:700;color:#22d3ee;font-family:ui-monospace,monospace}
+.chart-scrub{margin-top:10px}
+.chart-scrub input{width:100%}
+.chart-scrub-row{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back-link" href="../../index.html">← 返回课件库</a>
+
+  <div class="meta-bar">
+    <span class="chip"><b>学科</b>　物理</span>
+    <span class="chip"><b>所属章节</b>　匀变速直线运动</span>
+    <span class="chip"><b>知识点</b>　v-t图像与追及相遇</span>
+    <span class="chip"><b>来源</b>　2026·安徽芜湖市模拟</span>
+    <span class="chip"><b>题型</b>　多选题</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">v-t 图像 · 粗糙斜面 · 加速度突变</div>
+    <h1>题6 · 斜面 A、B 两物块 v-t 图像<br><span class="rn">相遇问题与加速度方向突变</span></h1>
+    <p class="sub">本题最大的坑：<b>A 的 v-t 图在 t=2s 处有折点</b>！A 上滑时摩擦力沿斜面向下（加速度大），下滑时摩擦力沿斜面向上（加速度小），所以 A 在 t=2s 速度变零后，加速度从 -7.5 变成 -2.5。抓住这个折点，四个选项迎刃而解。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己选，再点开）</span>
+      <span id="ansShow" style="display:none">C</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 先点击选项试试，再看动画 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">在足够长的斜面上，使 A、B 两个相同小物块分别从不同位置沿斜面方向同时出发，选择沿斜面向上为正方向，它们运动的 $v-t$ 图像如图所示。在 $t=4\ \text{s}$ 时，A、B 两物块恰好在斜面上某一位置相遇，据图可知下列说法正确的是（　　）</p>
+      <div class="optlist" id="optlist">
+        <div class="oi" data-v="A"><b>A.</b>该斜面是光滑斜面<span class="fb" style="color:#c0392b">✗ A、B 加速度不同（A 上滑 a=-7.5，下滑 a=-2.5；B 全程 a=-2.5），说明有摩擦力，斜面粗糙。</span></div>
+        <div class="oi" data-v="B"><b>B.</b>$t=2\ \text{s}$ 时，A、B 两物块相距最远<span class="fb" style="color:#c0392b">✗ 0~4s 内两物块间距一直减小（A 上滑再下滑、B 一直下滑，间距从 50m 减到 0），最远在 t=0。</span></div>
+        <div class="oi" data-v="C"><b>C.</b>A、B 两物块在斜面上出发时相距 $50\ \text{m}$<span class="fb" style="color:#1a7a5c">✓ $\Delta x_A=10\text{m}$，$\Delta x_B=-40\text{m}$，相遇时初始间距 $=10-(-40)=50\text{m}$。</span></div>
+        <div class="oi" data-v="D"><b>D.</b>$t=4\ \text{s}$ 时，A、B 两物块相对于出发点的位移大小相等<span class="fb" style="color:#c0392b">✗ $|\Delta x_A|=10\text{m}$，$|\Delta x_B|=40\text{m}$，不相等。</span></div>
+      </div>
+      <div id="fbMsg" style="margin-top:12px;font-size:14px;font-weight:600"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">▶</span> v-t 图像动画 <small>注意 A 线在 t=2s 的折点</small></h2>
+      <p class="lead">A 线（蓝）从 15 m/s 减速，<b>t=2s 到 0 后斜率变缓</b>（加速度从 -7.5 变为 -2.5）；B 线（红）从 -5 m/s 一直匀减速到 -15 m/s。拖动时间轴观察，黄色虚线标记当前时刻。</p>
+      <div class="chart-box">
+        <div class="chart-tools">
+          <button id="btnPlay">▶ 播放</button>
+          <button id="btnReset" class="ghost">↺ 重置</button>
+        </div>
+        <canvas id="chartCanvas" width="860" height="340"></canvas>
+        <div class="chart-readout">
+          <div class="box"><div class="k">时间 t</div><div class="v" id="rT">0.0 s</div></div>
+          <div class="box"><div class="k">A 速度</div><div class="v" id="rVA">15 m/s</div></div>
+          <div class="box"><div class="k">B 速度</div><div class="v" id="rVB">-5 m/s</div></div>
+          <div class="box"><div class="k">两物间距</div><div class="v" id="rD">50 m</div></div>
+        </div>
+        <div class="chart-scrub">
+          <input type="range" id="scrub" min="0" max="100" step="0.1" value="0">
+          <div class="chart-scrub-row"><span>0 s</span><span>2 s（A 到最高点）</span><span>4 s（相遇）</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">1</span> 读图与加速度分析 <small>关键：A 线有折点</small></h2>
+      <div class="warn">
+        <div class="it">⚠️ 最关键的发现</div>
+        A 的 v-t 线<b>不是一条直线</b>！在 t=2s（A 速度为 0）处斜率突变。原因：A 上滑时摩擦力沿斜面向下，下滑时摩擦力沿斜面向上，加速度不同。
+      </div>
+      <div class="step gold">
+        <b>A 的运动：</b><br>
+        ① $0\sim 2\text{s}$ 上滑：$v_A$ 从 15→0，$a_{A1}=\dfrac{0-15}{2}=-7.5\ \text{m/s}^2$<br>
+        ② $2\sim 4\text{s}$ 下滑：$v_A$ 从 0→-5，$a_{A2}=\dfrac{-5-0}{2}=-2.5\ \text{m/s}^2$
+      </div>
+      <div class="step gold">
+        <b>B 的运动：</b>全程下滑，$v_B$ 从 -5→-15，$a_B=\dfrac{-15-(-5)}{4}=-2.5\ \text{m/s}^2$
+      </div>
+      <div class="step">
+        <b>物理验证：</b>设斜面倾角 $\theta$，摩擦系数 $\mu$。<br>
+        上滑加速度 $a_{\text{上}}=-(g\sin\theta+\mu g\cos\theta)=-7.5$<br>
+        下滑加速度 $a_{\text{下}}=-(g\sin\theta-\mu g\cos\theta)=-2.5$<br>
+        解得 $g\sin\theta=5$，$\mu g\cos\theta=2.5$。$\theta\approx30^\circ$，合理。<b>斜面粗糙</b>，A 错。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">2</span> 位移计算 <small>v-t 图面积 = 位移</small></h2>
+      <div class="step">
+        <b>A 的位移（0~4s）：</b><br>
+        0~2s：正三角形面积 $=\frac12\times2\times15=15\ \text{m}$<br>
+        2~4s：负三角形面积 $=\frac12\times2\times(-5)=-5\ \text{m}$<br>
+        $\Delta x_A = 15 + (-5) = \boxed{10\ \text{m}}$
+      </div>
+      <div class="step">
+        <b>B 的位移（0~4s）：</b><br>
+        梯形面积 $=\frac12\times(-5+(-15))\times4=-40\ \text{m}$<br>
+        $\Delta x_B = \boxed{-40\ \text{m}}$
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">3</span> 逐项判断</h2>
+      <div class="step red">
+        <b>A 错误。</b>$a_{A1}=-7.5\neq a_B=-2.5$，且上滑≠下滑加速度，说明有摩擦力，斜面粗糙。
+      </div>
+      <div class="step red">
+        <b>B 错误。</b>0~4s 内两物块间距从 50m 单调减小到 0（相遇），最远在 $t=0$，不是 $t=2$。
+      </div>
+      <div class="step green">
+        <b>C 正确。</b>设 A 出发点为原点，B 出发点在 $x=d$（B 在 A 上方）。<br>
+        $t=4\text{s}$ 相遇：$0+\Delta x_A = d+\Delta x_B$<br>
+        $10 = d - 40$ ⇒ $d = 50\ \text{m}$。出发时相距 $\boxed{50\ \text{m}}$。
+      </div>
+      <div class="step red">
+        <b>D 错误。</b>$|\Delta x_A|=|10|=10\ \text{m}$，$|\Delta x_B|=|-40|=40\ \text{m}$，不相等。
+      </div>
+      <div class="insight">
+        <div class="it">💡 通法总结</div>
+        斜面上的 v-t 图，看到物块速度过零（折返），立刻检查<b>斜率是否突变</b>——粗糙斜面上下滑加速度 < 上滑加速度（摩擦力反向）。光滑斜面则上下加速度相同（一条直线）。
+      </div>
+      <button class="btn" onclick="document.querySelectorAll('.oi').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('fbMsg').textContent=''">↺ 重新作答</button>
+    </div>
+  </section>
+
+  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html">← 返回课件库</a></div>
+</div>
+
+<script>
+const correct='C';
+document.querySelectorAll('.oi').forEach(o=>{
+  o.addEventListener('click',()=>{
+    if(o.classList.contains('correct')||o.classList.contains('wrong')) return;
+    const v=o.dataset.v;
+    const isCorrect=v===correct;
+    o.classList.add(isCorrect?'correct':'wrong');
+    const msg=document.getElementById('fbMsg');
+    if(isCorrect){msg.textContent='✅ 正确！答案是 C。';msg.style.color='#22c3a6'}
+    else{msg.textContent='❌ '+v+' 不对哦，注意 A 线在 t=2s 有折点。';msg.style.color='#ff6b6b'}
+  });
+});
+document.getElementById('ansBtn').onclick=()=>{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+};
+
+// A velocity: 0-2s: 15-7.5t; 2-4s: 0-2.5(t-2) = 5-2.5t
+function vA(t){ return t<=2 ? 15-7.5*t : 5-2.5*t; }
+function vB(t){ return -5-2.5*t; }
+function xA(t){
+  if(t<=2) return 15*t - 3.75*t*t;
+  const x2 = 15*2 - 3.75*4; // =15
+  return x2 + 0*(t-2) - 1.25*(t-2)*(t-2);
+}
+function xB(t){ return -5*t - 1.25*t*t; }
+
+const cv=document.getElementById('chartCanvas');
+const ctx=cv.getContext('2d');
+const W=cv.width, H=cv.height;
+let t=0, playing=false, raf=null, lastT=0;
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#1e293b'; ctx.fillRect(0,0,W,H);
+  const padL=50, padR=20, padT=30, padB=40;
+  const gw=W-padL-padR, gh=H-padT-padB;
+  const sx=tt=>padL+tt/4*gw;
+  const sy=vv=>padT+(15-vv)/30*gh; // v in [-15,15]
+  // grid
+  ctx.strokeStyle='#334155'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){ctx.beginPath();ctx.moveTo(sx(i),padT);ctx.lineTo(sx(i),H-padB);ctx.stroke();}
+  for(let v=-15;v<=15;v+=5){ctx.beginPath();ctx.moveTo(padL,sy(v));ctx.lineTo(W-padR,sy(v));ctx.stroke();}
+  // axes
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(padL,sy(0)); ctx.lineTo(W-padR,sy(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(sx(0),padT); ctx.lineTo(sx(0),H-padB); ctx.stroke();
+  // labels
+  ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif'; ctx.textAlign='right';
+  ctx.fillText('15', padL-6, sy(15)+4);
+  ctx.fillText('0', padL-6, sy(0)+4);
+  ctx.fillText('-15', padL-6, sy(-15)+4);
+  ctx.textAlign='center';
+  for(let i=0;i<=4;i++) ctx.fillText(i, sx(i), H-padB+16);
+  // A line (with kink)
+  ctx.strokeStyle='#60a5fa'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  ctx.moveTo(sx(0),sy(vA(0)));
+  ctx.lineTo(sx(2),sy(vA(2)));
+  ctx.lineTo(sx(4),sy(vA(4)));
+  ctx.stroke();
+  // B line
+  ctx.strokeStyle='#f87171'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  ctx.moveTo(sx(0),sy(vB(0)));
+  ctx.lineTo(sx(4),sy(vB(4)));
+  ctx.stroke();
+  // kink marker
+  ctx.fillStyle='#fbbf24'; ctx.beginPath(); ctx.arc(sx(2),sy(0),5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fbbf24'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('折点', sx(2)+8, sy(0)-8);
+  // labels
+  ctx.fillStyle='#60a5fa'; ctx.font='bold 13px sans-serif'; ctx.fillText('A', sx(4)+6, sy(vA(4))+5);
+  ctx.fillStyle='#f87171'; ctx.fillText('B', sx(4)+6, sy(vB(4))+5);
+  // current t
+  if(t>=0 && t<=4){
+    ctx.strokeStyle='#fbbf24'; ctx.lineWidth=1.5; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(sx(t),padT); ctx.lineTo(sx(t),H-padB); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#60a5fa'; ctx.beginPath(); ctx.arc(sx(t),sy(vA(t)),5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#f87171'; ctx.beginPath(); ctx.arc(sx(t),sy(vB(t)),5,0,Math.PI*2); ctx.fill();
+  }
+}
+function updateReadout(){
+  document.getElementById('rT').textContent=t.toFixed(1)+' s';
+  document.getElementById('rVA').textContent=vA(t).toFixed(1)+' m/s';
+  document.getElementById('rVB').textContent=vB(t).toFixed(1)+' m/s';
+  const d = (xB(t)+50) - xA(t); // B starts 50m above A
+  document.getElementById('rD').textContent=Math.abs(d).toFixed(1)+' m';
+  document.getElementById('scrub').value=Math.min(100,t/4*100);
+}
+function loop(ts){
+  if(!lastT) lastT=ts;
+  const dt=(ts-lastT)/1000; lastT=ts;
+  if(playing){ t+=dt*0.6; if(t>=4){t=4; playing=false; document.getElementById('btnPlay').textContent='▶ 播放';} }
+  draw(); updateReadout();
+  raf=requestAnimationFrame(loop);
+}
+document.getElementById('btnPlay').onclick=function(){
+  playing=!playing; this.textContent=playing?'⏸ 暂停':'▶ 播放';
+  if(t>=4) t=0; lastT=0;
+};
+document.getElementById('btnReset').onclick=()=>{t=0;playing=false;document.getElementById('btnPlay').textContent='▶ 播放';draw();updateReadout();};
+document.getElementById('scrub').oninput=e=>{t=parseFloat(e.target.value)/100*4;playing=false;document.getElementById('btnPlay').textContent='▶ 播放';draw();updateReadout();};
+draw(); updateReadout();
+raf=requestAnimationFrame(loop);
+</script>
+</body>
+</html>
