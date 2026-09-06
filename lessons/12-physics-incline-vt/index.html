@@ -8,7 +8,7 @@
 <meta name="subject" content="物理">
 <meta name="chapter" content="匀变速直线运动">
 <meta name="knowledge" content="v-t图像与追及相遇">
-<meta name="source" content="2026·安徽芜湖市模拟">
+<meta name="source" content="昕言解题课件库">
 <meta name="type" content="多选题">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -126,11 +126,11 @@ section{margin-top:20px}
 
   <section>
     <div class="card">
-      <h2><span class="num">▶</span> v-t 图像动画 <small>注意 A 线在 t=2s 的折点</small></h2>
+      <h2><span class="num">0</span> v-t 图像动画 <small>注意 A 线在 t=2s 的折点</small></h2>
       <p class="lead">A 线（蓝）从 15 m/s 减速，<b>t=2s 到 0 后斜率变缓</b>（加速度从 -7.5 变为 -2.5）；B 线（红）从 -5 m/s 一直匀减速到 -15 m/s。拖动时间轴观察，黄色虚线标记当前时刻。</p>
       <div class="chart-box">
         <div class="chart-tools">
-          <button id="btnPlay">▶ 播放</button>
+          <button id="btnPlay">► 播放</button>
           <button id="btnReset" class="ghost">↺ 重置</button>
         </div>
         <canvas id="chartCanvas" width="860" height="340"></canvas>
@@ -311,16 +311,16 @@ function updateReadout(){
 function loop(ts){
   if(!lastT) lastT=ts;
   const dt=(ts-lastT)/1000; lastT=ts;
-  if(playing){ t+=dt*0.6; if(t>=4){t=4; playing=false; document.getElementById('btnPlay').textContent='▶ 播放';} }
+  if(playing){ t+=dt*0.6; if(t>=4){t=4; playing=false; document.getElementById('btnPlay').textContent='► 播放';} }
   draw(); updateReadout();
   raf=requestAnimationFrame(loop);
 }
 document.getElementById('btnPlay').onclick=function(){
-  playing=!playing; this.textContent=playing?'⏸ 暂停':'▶ 播放';
+  playing=!playing; this.textContent=playing?'⏸ 暂停':'► 播放';
   if(t>=4) t=0; lastT=0;
 };
-document.getElementById('btnReset').onclick=()=>{t=0;playing=false;document.getElementById('btnPlay').textContent='▶ 播放';draw();updateReadout();};
-document.getElementById('scrub').oninput=e=>{t=parseFloat(e.target.value)/100*4;playing=false;document.getElementById('btnPlay').textContent='▶ 播放';draw();updateReadout();};
+document.getElementById('btnReset').onclick=()=>{t=0;playing=false;document.getElementById('btnPlay').textContent='► 播放';draw();updateReadout();};
+document.getElementById('scrub').oninput=e=>{t=parseFloat(e.target.value)/100*4;playing=false;document.getElementById('btnPlay').textContent='► 播放';draw();updateReadout();};
 draw(); updateReadout();
 raf=requestAnimationFrame(loop);
 </script>

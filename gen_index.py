@@ -95,7 +95,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>高考解题课件库 · 互动课件导航</title>
+<title>昕言解题课件库 · 互动课件导航</title>
 <style>
   * {{ margin:0; padding:0; box-sizing:border-box; }}
   body {{
@@ -178,7 +178,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 <div class="wrap">
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
-    <h1>高考解题课件库</h1>
+    <h1>昕言解题课件库</h1>
     <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式渲染，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点</b>筛选。</p>
     <div class="stat">
       <div><b>{count}</b><span>个课件</span></div>

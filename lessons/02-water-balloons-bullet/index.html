@@ -3,6 +3,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="number" content="物0002">
+<meta name="subject" content="物理">
+<meta name="chapter" content="匀变速直线运动">
+<meta name="knowledge" content="匀减速与逆向思维">
+<meta name="source" content="昕言解题课件库">
+<meta name="type" content="多选题">
 <title>四水球挡子弹 · 互动解题课件</title>
 <style>
 /* ===== Fonts ===== */
@@ -1297,7 +1302,7 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
   <section>
     <div class="card">
       <div class="sim-head">
-        <h2 style="margin:0;"><span class="num">▶</span> 0 · 现场模拟 <small>动手调参数</small></h2>
+        <h2 style="margin:0;"><span class="num">0</span> 0 · 现场模拟 <small>动手调参数</small></h2>
         <div class="sim-tools">
           <button class="btn primary" id="btnPlay">⏸ 暂停</button>
           <button class="btn" id="btnStep">⏭ 单步</button>
@@ -1779,7 +1784,7 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
     var dt=ts-last;last=ts;
     var rate=(dt/1000)*(1.0/6.0)*speedMul; // 满时长≈6s
     u+=rate;
-    if(u>=1){u=1;running=false;btnPlay.textContent='▶ 播放';}
+    if(u>=1){u=1;running=false;btnPlay.textContent='► 播放';}
     draw();
     requestAnimationFrame(tick);
   }
@@ -1788,18 +1793,18 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
   btnPlay.addEventListener('click',function(){
     if(u>=1){u=0;}
     running=!running;
-    btnPlay.textContent=running?'⏸ 暂停':'▶ 播放';
+    btnPlay.textContent=running?'⏸ 暂停':'► 播放';
   });
   btnStep.addEventListener('click',function(){
-    running=false;btnPlay.textContent='▶ 播放';
+    running=false;btnPlay.textContent='► 播放';
     u=Math.min(1,u+0.03);draw();
   });
   btnReset.addEventListener('click',function(){
-    running=false;btnPlay.textContent='▶ 播放';u=0;draw();
+    running=false;btnPlay.textContent='► 播放';u=0;draw();
   });
   btnFlip.addEventListener('click',function(){
     reverse=!reverse;
-    running=false;btnPlay.textContent='▶ 播放';
+    running=false;btnPlay.textContent='► 播放';
     if(reverse){
       simMode.textContent='逆向视角 · 匀加速';
       btnFlip.textContent='🔁 切回正视角';
@@ -1814,13 +1819,13 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
     draw();
   });
   sV0.addEventListener('input',function(){
-    v0=parseFloat(sV0.value);physics();u=Math.min(u,1);u=0;running=false;btnPlay.textContent='▶ 播放';draw();
+    v0=parseFloat(sV0.value);physics();u=Math.min(u,1);u=0;running=false;btnPlay.textContent='► 播放';draw();
   });
   sSpeed.addEventListener('input',function(){
     speedMul=parseFloat(sSpeed.value);spv.textContent=speedMul.toFixed(1)+'×';
   });
   sScrub.addEventListener('input',function(){
-    u=parseFloat(sScrub.value)/100; running=false; btnPlay.textContent='▶ 播放'; draw();
+    u=parseFloat(sScrub.value)/100; running=false; btnPlay.textContent='► 播放'; draw();
   });
 
   physics();rebuildBars();resize();

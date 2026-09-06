@@ -8,7 +8,7 @@
 <meta name="subject" content="物理">
 <meta name="chapter" content="匀变速直线运动">
 <meta name="knowledge" content="非常规运动图像(x/t²-1/t)">
-<meta name="source" content="新能源汽车礼让行人刹车">
+<meta name="source" content="昕言解题课件库">
 <meta name="type" content="单选题">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -129,11 +129,11 @@ section{margin-top:20px}
 
   <section>
     <div class="card">
-      <h2><span class="num">▶</span> 演示动画 <small>上方：刹车场景　下方：x/t²-1/t 图动态描点</small></h2>
+      <h2><span class="num">0</span> 演示动画 <small>上方：刹车场景　下方：x/t²-1/t 图动态描点</small></h2>
       <p class="lead">上方：小车从 10 m/s 开始刹车，最终停在人行道前 5 m。下方：随着刹车时间从 5s 倒推到 0.5s，红点在 x/t²-1/t 直线上移动，验证 $\frac{x}{t^2}=10\cdot\frac{1}{t}-1$。</p>
       <div class="sim">
         <div class="sim-tools">
-          <button id="btnPlay">▶ 播放</button>
+          <button id="btnPlay">► 播放</button>
           <button id="btnReset" class="ghost">↺ 重置</button>
           <span style="color:#94a3b8;font-size:12px">时间倒序演示（从停车瞬间 t=5s 往前推）</span>
         </div>
@@ -372,20 +372,20 @@ function loop(ts){
   const dt=(ts-lastT)/1000; lastT=ts;
   if(playing){
     t -= dt*0.8; // count down from 5 to 0.3
-    if(t<=0.3){ t=0.3; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; }
+    if(t<=0.3){ t=0.3; playing=false; document.getElementById('btnPlay').textContent='► 播放'; }
   }
   draw(); updateReadout();
   raf=requestAnimationFrame(loop);
 }
 document.getElementById('btnPlay').onclick=function(){
-  playing=!playing; this.textContent=playing?'⏸ 暂停':'▶ 播放';
+  playing=!playing; this.textContent=playing?'⏸ 暂停':'► 播放';
   if(t<=0.3) t=5; lastT=0;
 };
-document.getElementById('btnReset').onclick=()=>{ t=5; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout(); };
+document.getElementById('btnReset').onclick=()=>{ t=5; playing=false; document.getElementById('btnPlay').textContent='► 播放'; draw(); updateReadout(); };
 document.getElementById('scrub').oninput=e=>{
   const pct=parseFloat(e.target.value)/100;
   t=0.3+pct*(5-0.3);
-  playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout();
+  playing=false; document.getElementById('btnPlay').textContent='► 播放'; draw(); updateReadout();
 };
 draw(); updateReadout();
 raf=requestAnimationFrame(loop);

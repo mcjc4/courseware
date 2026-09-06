@@ -8,7 +8,7 @@
 <meta name="subject" content="物理">
 <meta name="chapter" content="匀变速直线运动">
 <meta name="knowledge" content="追及与相遇问题">
-<meta name="source" content="复习讲义·第一章 例3">
+<meta name="source" content="昕言解题课件库">
 <meta name="type" content="解答题">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -123,11 +123,11 @@ th{background:#f3f8ff;color:#2a6df4}
 
   <section>
     <div class="card">
-      <h2><span class="num">▶</span> 动画演示 <small>拖动时间轴看警车追赶</small></h2>
+      <h2><span class="num">0</span> 动画演示 <small>拖动时间轴看警车追赶</small></h2>
       <p class="lead">红色=警车（先匀加速到 20 m/s 后匀速），蓝色=货车（始终 12 m/s）。注意：<b>6s 时距离最大，10s 时警车达最大速度但仍落后，12.5s 时追上</b>。</p>
       <div class="sim">
         <div class="sim-tools">
-          <button id="btnPlay">▶ 播放</button>
+          <button id="btnPlay">► 播放</button>
           <button id="btnReset" class="ghost">↺ 重置</button>
           <span style="color:#94a3b8;font-size:12px">速度 ×0.5 播放</span>
         </div>
@@ -314,7 +314,7 @@ function loop(ts){
   const dt=(ts-lastT)/1000; lastT=ts;
   if(playing){
     t += dt*0.5;
-    if(t>=totalT){ t=totalT; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; }
+    if(t>=totalT){ t=totalT; playing=false; document.getElementById('btnPlay').textContent='► 播放'; }
   }
   draw(); updateReadout();
   raf=requestAnimationFrame(loop);
@@ -322,12 +322,12 @@ function loop(ts){
 
 document.getElementById('btnPlay').onclick=function(){
   playing=!playing;
-  this.textContent=playing?'⏸ 暂停':'▶ 播放';
+  this.textContent=playing?'⏸ 暂停':'► 播放';
   if(t>=totalT) t=0;
   lastT=0;
 };
-document.getElementById('btnReset').onclick=()=>{ t=0; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout(); };
-document.getElementById('scrub').oninput=e=>{ t=parseFloat(e.target.value)/100*totalT; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout(); };
+document.getElementById('btnReset').onclick=()=>{ t=0; playing=false; document.getElementById('btnPlay').textContent='► 播放'; draw(); updateReadout(); };
+document.getElementById('scrub').oninput=e=>{ t=parseFloat(e.target.value)/100*totalT; playing=false; document.getElementById('btnPlay').textContent='► 播放'; draw(); updateReadout(); };
 draw(); updateReadout();
 raf=requestAnimationFrame(loop);
 </script>
