@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>追及与相遇问题 · 物理互动课件</title>
+<title>警车追货车 · 物理互动课件</title>
 <meta name="subject" content="物理">
 <meta name="chapter" content="匀变速直线运动">
 <meta name="knowledge" content="追及与相遇问题">
-<meta name="source" content="复习讲义·第一章 例5">
+<meta name="source" content="复习讲义·第一章 例3">
 <meta name="type" content="解答题">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -19,6 +19,8 @@ body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif
   radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
   linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
 .wrap{max-width:940px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
 .meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
 .chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
 .chip b{color:#2a6df4}
@@ -62,8 +64,9 @@ table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px}
 th,td{border:1px solid #e3edf7;padding:9px 12px;text-align:left;vertical-align:top}
 th{background:#f3f8ff;color:#2a6df4}
 .foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.foot a{color:#2a6df4;text-decoration:none}
+.foot a:hover{text-decoration:underline}
 
-/* animation panel */
 .sim{margin-top:14px;background:#0f172a;border-radius:16px;padding:16px}
 .sim-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .sim-tools button{background:#22c3a6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
@@ -78,48 +81,46 @@ th{background:#f3f8ff;color:#2a6df4}
 .scrub{margin-top:10px}
 .scrub input{width:100%}
 .scrub-row{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:4px}
-
-.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
-.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <a class="back-link" href="../../index.html">← 返回课件库</a>
 
   <div class="meta-bar">
     <span class="chip"><b>学科</b>　物理</span>
     <span class="chip"><b>所属章节</b>　匀变速直线运动</span>
     <span class="chip"><b>知识点</b>　追及与相遇问题</span>
-    <span class="chip"><b>来源</b>　复习讲义·第一章 例5</span>
+    <span class="chip"><b>来源</b>　复习讲义·第一章 例3</span>
     <span class="chip"><b>题型</b>　解答题</span>
   </div>
 
   <header class="hero">
-    <div class="eyebrow">追及相遇 · 分段运动 · 关键陷阱</div>
-    <h1>例5 · 5G 自动驾驶测试车追及<br><span class="rn">求最远距离与并排时间</span></h1>
-    <p class="sub">甲车在前、速度大但在刹车；乙车在后、速度小但匀速。<b>最远距离出现在两车速度相等时</b>。但求并排时间时要小心——<b>甲刹车 10 秒就停下了</b>，而按二次方程算出的"并排时刻"在 10 秒之后，所以必须分段处理。</p>
+    <div class="eyebrow">追及相遇 · 分段运动 · 限速陷阱</div>
+    <h1>例3 · 警车追货车<br><span class="rn">求最大距离与追上时间</span></h1>
+    <p class="sub">警车从静止匀加速追赶匀速货车，但警车有<b>最大速度限制 20 m/s</b>。最远距离出现在两车速度相等时；求追上时间时要注意——<b>警车加速到最大速度时还没追上</b>，之后改为匀速追赶，必须分段计算。</p>
     <div class="answer">
       <span class="lbl">答案（先自己做，再点开）</span>
-      <span id="ansShow" style="display:none">(1) Δx = 45 m　(2) t = 12 s</span>
+      <span id="ansShow" style="display:none">(1) 36 m　(2) 12.5 s</span>
       <button id="ansBtn">🔍 显示 / 隐藏</button>
     </div>
-    <div class="scrollhint">▼ 先看动画直观感受，再读推导 ▼</div>
+    <div class="scrollhint">▼ 先看动画，再读推导 ▼</div>
   </header>
 
   <section>
     <div class="card problem-card">
       <div class="problem-head">📋 题目原文</div>
-      <p class="stem">甲、乙两辆 5G 自动驾驶测试车，在不同车道上沿同一方向做匀速直线运动，甲车在乙车前，甲车的速度大小 $v_1=72\ \text{km/h}$，乙车的速度大小 $v_2=36\ \text{km/h}$。当甲、乙两车相距 $x_0=20\ \text{m}$ 时，甲车因前方突发情况紧急刹车，已知刹车过程的运动可视为匀减速直线运动，加速度大小 $a=2\ \text{m/s}^2$，从刹车时开始计时，两车均可看作质点。求：</p>
-      <div class="subq"><b>(1)</b> 两车并排行驶之前，两者在运动方向上的最远距离 $\Delta x$；</div>
-      <div class="subq"><b>(2)</b> 从甲车开始减速到两车并排行驶所用时间 $t$。</div>
+      <p class="stem">一辆值勤的警车停在公路边，当警员发现从他旁边以 $v=12\ \text{m/s}$ 的速度匀速行驶的货车严重超载时，立即前去追赶，以 $a=2\ \text{m/s}^2$ 的加速度做匀加速运动，为确保安全，警车的行驶速度必须控制在 $72\ \text{km/h}$ 以内。问：</p>
+      <div class="subq"><b>(1)</b> 警车在追赶货车的过程中，两车间的最大距离是多少？</div>
+      <div class="subq"><b>(2)</b> 警车发动后要多长时间才能追上货车？</div>
     </div>
   </section>
 
   <section>
     <div class="card">
-      <h2><span class="num">▶</span> 动画演示 <small>拖动时间轴看两车运动</small></h2>
-      <p class="lead">蓝色=甲车（先快后慢，10s 停下），绿色=乙车（始终匀速）。红色虚线标记两者距离。注意观察：<b>5s 时距离最大，10s 时甲停下但还没并排，12s 时才追上</b>。</p>
+      <h2><span class="num">▶</span> 动画演示 <small>拖动时间轴看警车追赶</small></h2>
+      <p class="lead">红色=警车（先匀加速到 20 m/s 后匀速），蓝色=货车（始终 12 m/s）。注意：<b>6s 时距离最大，10s 时警车达最大速度但仍落后，12.5s 时追上</b>。</p>
       <div class="sim">
         <div class="sim-tools">
           <button id="btnPlay">▶ 播放</button>
@@ -129,13 +130,13 @@ th{background:#f3f8ff;color:#2a6df4}
         <canvas id="simCanvas" width="860" height="200"></canvas>
         <div class="readout">
           <div class="box"><div class="k">时间 t</div><div class="v" id="rT">0.0 s</div></div>
-          <div class="box"><div class="k">甲速度 v₁</div><div class="v" id="rV1">20 m/s</div></div>
-          <div class="box"><div class="k">乙速度 v₂</div><div class="v" id="rV2">10 m/s</div></div>
-          <div class="box" id="distBox"><div class="k">两车间距</div><div class="v" id="rD">20 m</div></div>
+          <div class="box"><div class="k">警车速度</div><div class="v" id="rVp">0 m/s</div></div>
+          <div class="box"><div class="k">货车速度</div><div class="v" id="rVc">12 m/s</div></div>
+          <div class="box" id="distBox"><div class="k">两车间距</div><div class="v" id="rD">0 m</div></div>
         </div>
         <div class="scrub">
           <input type="range" id="scrub" min="0" max="100" step="0.1" value="0">
-          <div class="scrub-row"><span>0 s</span><span>5 s（最远）</span><span>10 s（甲停下）</span><span>12 s（并排）</span></div>
+          <div class="scrub-row"><span>0 s</span><span>6 s（最远）</span><span>10 s（警车达最大速）</span><span>12.5 s（追上）</span></div>
         </div>
       </div>
     </div>
@@ -143,37 +144,36 @@ th{background:#f3f8ff;color:#2a6df4}
 
   <section>
     <div class="card">
-      <h2><span class="num">1</span> 审题与单位换算 <small>先把 km/h 换成 m/s</small></h2>
+      <h2><span class="num">1</span> 审题与单位换算</h2>
       <table>
         <tr><th>物理量</th><th>数值</th><th>说明</th></tr>
-        <tr><td>$v_1$（甲初速度）</td><td>$72\ \text{km/h}=20\ \text{m/s}$</td><td>刹车后匀减速，$a=-2\ \text{m/s}^2$</td></tr>
-        <tr><td>$v_2$（乙速度）</td><td>$36\ \text{km/h}=10\ \text{m/s}$</td><td>匀速</td></tr>
-        <tr><td>$x_0$</td><td>$20\ \text{m}$</td><td>初始时甲在乙前方 20 m</td></tr>
+        <tr><td>货车速度 $v$</td><td>$12\ \text{m/s}$</td><td>匀速</td></tr>
+        <tr><td>警车加速度 $a$</td><td>$2\ \text{m/s}^2$</td><td>从静止匀加速</td></tr>
+        <tr><td>警车最大速度 $v_m$</td><td>$72\ \text{km/h}=20\ \text{m/s}$</td><td>达到后匀速</td></tr>
       </table>
       <div class="step gold">
-        甲的运动方程：$x_1 = x_0 + v_1 t - \frac12 a t^2 = 20 + 20t - t^2$（$t\le 10\text{s}$）<br>
-        乙的运动方程：$x_2 = v_2 t = 10t$
+        警车加速到最大速度的时间：$t_m=\dfrac{v_m}{a}=\dfrac{20}{2}=10\ \text{s}$
       </div>
     </div>
   </section>
 
   <section>
     <div class="card">
-      <h2><span class="num">2</span> 第(1)问 最远距离 Δx <small>速度相等时距离最大</small></h2>
+      <h2><span class="num">2</span> 第(1)问 最大距离 <small>速度相等时距离最大</small></h2>
       <button class="reveal-btn" onclick="toggle('s1')">展开 / 收起推导</button>
       <div id="s1">
         <div class="step" style="display:none">
-          甲在前面且 $v_1>v_2$，所以一开始两者距离在<b>增大</b>；当甲减速到 $v_1=v_2$ 后，甲比乙慢，距离开始<b>减小</b>。所以<b>速度相等时距离最大</b>。
+          警车速度小于货车时，距离在增大；警车速度超过货车后，距离开始减小。所以<b>速度相等时距离最大</b>。
         </div>
         <div class="step gold" style="display:none">
-          令 $v_1 - at = v_2$：$20 - 2t = 10$ ⇒ $t = 5\ \text{s}$
+          令 $at = v$：$2t = 12$ ⇒ $t = 6\ \text{s}$（此时 $t<10\text{s}$，警车仍在加速阶段 ✓）
         </div>
         <div class="step" style="display:none">
-          此时甲位移：$x_1 = 20 + 20\times 5 - \frac12\times 2\times 5^2 = 20+100-25 = 95\ \text{m}$<br>
-          乙位移：$x_2 = 10\times 5 = 50\ \text{m}$
+          警车位移：$x_p = \frac12 a t^2 = \frac12\times 2\times 6^2 = 36\ \text{m}$<br>
+          货车位移：$x_c = v t = 12\times 6 = 72\ \text{m}$
         </div>
         <div class="step green" style="display:none">
-          $\Delta x = x_1 - x_2 = 95 - 50 = \boxed{45\ \text{m}}$
+          $\Delta x_{\max} = x_c - x_p = 72 - 36 = \boxed{36\ \text{m}}$
         </div>
       </div>
     </div>
@@ -181,33 +181,33 @@ th{background:#f3f8ff;color:#2a6df4}
 
   <section>
     <div class="card">
-      <h2><span class="num">3</span> 第(2)问 并排时间 t <small>⚠️ 先检查甲是否已停下</small></h2>
+      <h2><span class="num">3</span> 第(2)问 追上时间 <small>⚠️ 先判断追上发生在哪个阶段</small></h2>
       <button class="reveal-btn" onclick="toggle('s2')">展开 / 收起推导</button>
       <div id="s2">
         <div class="warn" style="display:none">
-          <div class="it">⚠️ 最关键的一步</div>
-          先算甲的刹车时间：$t_{\text{停}}=\dfrac{v_1}{a}=\dfrac{20}{2}=10\ \text{s}$。<br>
-          如果直接列方程 $x_1=x_2$ 求解，会得到 $t=5+3\sqrt5\approx 11.7\ \text{s}>10\ \text{s}$，说明<b>在并排之前甲已经停下了</b>！必须分段计算。
+          <div class="it">⚠️ 关键判断</div>
+          不能直接列 $\frac12 a t^2 = vt$ 求解，因为警车有最大速度限制。先算 $t=10\text{s}$（警车达最大速度）时两车的位置：
         </div>
         <div class="step" style="display:none">
-          <b>错误做法（很多人栽在这里）：</b><br>
-          $20+20t-t^2=10t$ ⇒ $t^2-10t-20=0$ ⇒ $t=5+3\sqrt5\approx 11.7\text{ s}$<br>
-          但此时假设甲还在运动，与"甲 10s 就停了"矛盾，结果无效。
+          $t=10\text{ s}$ 时：<br>
+          警车位移 $x_p = \frac12\times 2\times 10^2 = 100\ \text{m}$<br>
+          货车位移 $x_c = 12\times 10 = 120\ \text{m}$<br>
+          货车仍领先 $120-100=20\ \text{m}$，说明<b>追上发生在警车匀速阶段</b>。
         </div>
         <div class="step gold" style="display:none">
-          <b>正确分段：</b><br>
-          ① $0\sim 10\text{ s}$：甲在减速。$t=10\text{ s}$ 时，甲位移 $x_1=20+20\times 10-\frac12\times 2\times 10^2=120\text{ m}$，乙位移 $x_2=10\times 10=100\text{ m}$，间距 $=20\text{ m}$，甲仍在前面。
+          <b>分段计算：</b><br>
+          ① $0\sim 10\text{ s}$：警车匀加速，两车距离从 0 先增到 36m 再减到 20m。<br>
+          ② $10\text{ s}$ 之后：警车以 $20\ \text{m/s}$ 匀速，货车 $12\ \text{m/s}$，相对速度 $=20-12=8\ \text{m/s}$。
         </div>
         <div class="step green" style="display:none">
-          ② $10\text{ s}$ 之后：甲静止在 $x=120\text{ m}$ 处，乙继续以 $10\text{ m/s}$ 匀速追赶。<br>
-          还需追 $20\text{ m}$，时间 $t'=\dfrac{20}{10}=2\ \text{s}$。
+          还需追 $20\ \text{m}$，时间 $t'=\dfrac{20}{8}=2.5\ \text{s}$
         </div>
         <div class="step green" style="display:none">
-          总时间 $t = 10 + 2 = \boxed{12\ \text{s}}$
+          总时间 $t = 10 + 2.5 = \boxed{12.5\ \text{s}}$
         </div>
         <div class="insight" style="display:none">
-          <div class="it">💡 追及问题通法</div>
-          遇到"前车刹车、后车匀速"的追及问题，<b>第一步永远先算前车停车时间</b>，再判断后车是在前车停车前追上还是停车后追上。两种情况算法完全不同。
+          <div class="it">⚡ 常见错误</div>
+          直接用 $\frac12 a t^2 = vt$ 解得 $t=12\text{ s}$，这个答案看似接近但<b>是错的</b>，因为它假设警车全程加速、没有考虑 10s 后的限速。正确答案是 12.5s。
         </div>
       </div>
     </div>
@@ -217,15 +217,15 @@ th{background:#f3f8ff;color:#2a6df4}
     <div class="card">
       <h2><span class="num">4</span> 验证 <small>动画读数核对</small></h2>
       <div class="step">
-        $t=5\text{ s}$：间距 $=20+(20-10)\times 5-\frac12\times 2\times 25=20+50-25=45\text{ m}$ ✓（最大）<br>
-        $t=10\text{ s}$：甲走 $100\text{ m}$，乙走 $100\text{ m}$，间距 $=20\text{ m}$ ✓（甲刚停）<br>
-        $t=12\text{ s}$：甲走 $100\text{ m}$（已停），乙走 $120\text{ m}$，$x_0+100=120$ 追上 ✓
+        $t=6\text{ s}$：间距 $=12\times 6 - \frac12\times 2\times 36 = 72-36=36\text{ m}$ ✓（最大）<br>
+        $t=10\text{ s}$：警车走 $100\text{ m}$，货车走 $120\text{ m}$，间距 $=20\text{ m}$ ✓<br>
+        $t=12.5\text{ s}$：警车走 $100+20\times 2.5=150\text{ m}$，货车走 $12\times 12.5=150\text{ m}$，追上 ✓
       </div>
       <button class="btn" onclick="document.querySelectorAll('#s1 .step,#s2 .step,#s2 .warn,#s2 .insight').forEach(s=>s.style.display='none')">收起全部推导</button>
     </div>
   </section>
 
-  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
+  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html">← 返回课件库</a></div>
 </div>
 
 <script>
@@ -239,79 +239,67 @@ function toggle(id){
   els.forEach(s=>s.style.display=anyHidden?'block':'none');
 }
 
-// ===== Animation =====
 const cv=document.getElementById('simCanvas');
 const ctx=cv.getContext('2d');
 const W=cv.width, H=cv.height;
-// physics params
-const v1=20, v2=10, a=2, x0=20;
-const tStop=v1/a; // 10s
-const totalT=14; // animate a bit past catch
+const v=12, a=2, vm=20;
+const tAcc=vm/a; // 10s
+const totalT=15;
 let t=0, playing=false, raf=null, lastT=0;
 
-function pos1(tt){ // 甲的位置（从乙起点算，甲初始在 x0）
-  if(tt<=tStop) return x0 + v1*tt - 0.5*a*tt*tt;
-  return x0 + v1*tStop - 0.5*a*tStop*tStop; // = 120
+function posP(tt){
+  if(tt<=tAcc) return 0.5*a*tt*tt;
+  return 0.5*a*tAcc*tAcc + vm*(tt-tAcc);
 }
-function pos2(tt){ return v2*tt; }
-function vel1(tt){ return tt<=tStop ? v1-a*tt : 0; }
+function posC(tt){ return v*tt; }
+function velP(tt){ return tt<=tAcc ? a*tt : vm; }
 
 function draw(){
   ctx.clearRect(0,0,W,H);
-  // road
   ctx.fillStyle='#1e293b'; ctx.fillRect(0,0,W,H);
-  // scale: positions 0..140 map to 40..W-40
-  const maxX=140;
+  const maxX=180;
   const sx=x=>(40 + x/maxX*(W-80));
-  // lane lines
   ctx.strokeStyle='#334155'; ctx.lineWidth=2; ctx.setLineDash([12,10]);
   ctx.beginPath(); ctx.moveTo(0,H*0.35); ctx.lineTo(W,H*0.35); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(0,H*0.75); ctx.lineTo(W,H*0.75); ctx.stroke();
   ctx.setLineDash([]);
-  // labels
   ctx.fillStyle='#64748b'; ctx.font='11px sans-serif';
-  ctx.fillText('甲（前）', 6, H*0.35-6);
-  ctx.fillText('乙（后）', 6, H*0.75-6);
-  // distance marker
-  const p1=pos1(t), p2=pos2(t);
+  ctx.fillText('警车', 6, H*0.35-6);
+  ctx.fillText('货车', 6, H*0.75-6);
+  const pp=posP(t), pc=posC(t);
   const y1=H*0.35-22, y2=H*0.75+22;
-  if(p1>p2){
+  if(pc>pp){
     ctx.strokeStyle='#fb923c'; ctx.lineWidth=2; ctx.setLineDash([4,4]);
     ctx.beginPath();
-    ctx.moveTo(sx(p2),y1); ctx.lineTo(sx(p1),y1);
-    ctx.moveTo(sx(p2),y1); ctx.lineTo(sx(p2),y2);
-    ctx.moveTo(sx(p1),y1); ctx.lineTo(sx(p1),y2);
+    ctx.moveTo(sx(pp),y1); ctx.lineTo(sx(pc),y1);
+    ctx.moveTo(sx(pp),y1); ctx.lineTo(sx(pp),y2);
+    ctx.moveTo(sx(pc),y1); ctx.lineTo(sx(pc),y2);
     ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle='#fb923c'; ctx.font='bold 13px monospace';
-    ctx.fillText('间距 '+(p1-p2).toFixed(1)+' m', (sx(p1)+sx(p2))/2-30, y1-6);
+    ctx.fillText('间距 '+(pc-pp).toFixed(1)+' m', (sx(pp)+sx(pc))/2-30, y1-6);
   }
-  // car 甲
-  drawCar(sx(p1), H*0.35-18, '#60a5fa', '甲');
-  // car 乙
-  drawCar(sx(p2), H*0.75-18, '#34d399', '乙');
-  // start line
+  drawCar(sx(pp), H*0.35-18, '#f87171', '警');
+  drawCar(sx(pc), H*0.75-18, '#60a5fa', '货');
   ctx.strokeStyle='#475569'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(sx(0),0); ctx.lineTo(sx(0),H); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#64748b'; ctx.font='10px sans-serif'; ctx.fillText('t=0 起点', sx(0)+4, H-4);
 }
 function drawCar(x,y,color,label){
   ctx.fillStyle=color;
-  roundRect(ctx, x-22, y, 44, 22, 5); ctx.fill();
+  ctx.beginPath();
+  const r=5;
+  ctx.moveTo(x-22+r,y); ctx.arcTo(x-22,y+22,x-22+r,y+22,r);
+  ctx.arcTo(x-22,y+22,x+22,y+22,r); ctx.arcTo(x+22,y+22,x+22,y,r); ctx.arcTo(x+22,y,x-22,y,r);
+  ctx.closePath(); ctx.fill();
   ctx.fillStyle='#0f172a'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
   ctx.fillText(label, x, y+15); ctx.textAlign='left';
-}
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
-  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
 }
 
 function updateReadout(){
   document.getElementById('rT').textContent=t.toFixed(1)+' s';
-  const vv1=vel1(t);
-  document.getElementById('rV1').textContent=vv1.toFixed(1)+' m/s';
-  document.getElementById('rV2').textContent=v2.toFixed(1)+' m/s';
-  const d=pos1(t)-pos2(t);
+  document.getElementById('rVp').textContent=velP(t).toFixed(1)+' m/s';
+  document.getElementById('rVc').textContent=v.toFixed(1)+' m/s';
+  const d=posC(t)-posP(t);
   document.getElementById('rD').textContent=d.toFixed(1)+' m';
   document.getElementById('distBox').className='box'+(d<=0?' warn':'');
   document.getElementById('scrub').value=Math.min(100, t/totalT*100);
@@ -321,7 +309,7 @@ function loop(ts){
   if(!lastT) lastT=ts;
   const dt=(ts-lastT)/1000; lastT=ts;
   if(playing){
-    t += dt*0.5; // 0.5x speed
+    t += dt*0.5;
     if(t>=totalT){ t=totalT; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; }
   }
   draw(); updateReadout();
