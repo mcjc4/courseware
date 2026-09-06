@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>x/t²-1/t 图像刹车问题 · 物理互动课件</title>
+<meta name="number" content="物0007">
 <meta name="subject" content="物理">
 <meta name="chapter" content="匀变速直线运动">
 <meta name="knowledge" content="非常规运动图像(x/t²-1/t)">
@@ -24,6 +25,8 @@ body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif
 .meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
 .chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
 .chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
 .hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
 .hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
 .hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
@@ -67,6 +70,21 @@ section{margin-top:20px}
 .foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
 .foot a{color:#2a6df4;text-decoration:none}
 .foot a:hover{text-decoration:underline}
+
+/* animation */
+.sim{margin-top:14px;background:#0f172a;border-radius:16px;padding:16px}
+.sim-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.sim-tools button{background:#22c3a6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.sim-tools button.ghost{background:transparent;color:#94a3b8;border:1px solid #475569}
+#simCanvas{width:100%;max-width:100%;height:420px;background:#1e293b;border-radius:12px;display:block}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:12px}
+.readout .box{background:#1e293b;border-radius:10px;padding:10px 12px;color:#e2e8f0}
+.readout .box .k{font-size:11px;color:#94a3b8}
+.readout .box .v{font-size:15px;font-weight:700;color:#22d3ee;font-family:ui-monospace,monospace}
+.readout .box.warn .v{color:#fb923c}
+.scrub{margin-top:10px}
+.scrub input{width:100%}
+.scrub-row{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:4px}
 </style>
 </head>
 <body>
@@ -75,6 +93,7 @@ section{margin-top:20px}
   <a class="back-link" href="../../index.html">← 返回课件库</a>
 
   <div class="meta-bar">
+    <span class="chip num"><b>编号</b>　物0007</span>
     <span class="chip"><b>学科</b>　物理</span>
     <span class="chip"><b>所属章节</b>　匀变速直线运动</span>
     <span class="chip"><b>知识点</b>　非常规运动图像(x/t²-1/t)</span>
@@ -84,14 +103,14 @@ section{margin-top:20px}
 
   <header class="hero">
     <div class="eyebrow">非常规图像 · x/t²-1/t · 刹车模型</div>
-    <h1>题 · 新能源汽车刹车<br><span class="rn">从 x/t²-1/t 图像求初速度和加速度</span></h1>
+    <h1>物0007 · 新能源汽车刹车<br><span class="rn">从 x/t²-1/t 图像求初速度和加速度</span></h1>
     <p class="sub">这道题的图像坐标轴是 <b>x/t²</b> 和 <b>1/t</b>，不是常见的 v-t 或 x-t。关键技巧：把位移公式 $x=v_0t+\frac12 at^2$ 两边除以 $t^2$，得到 $\dfrac{x}{t^2}=v_0\cdot\dfrac{1}{t}+\dfrac{a}{2}$，这是一条直线！斜率 = $v_0$，截距 = $a/2$。</p>
     <div class="answer">
       <span class="lbl">答案（先自己选，再点开）</span>
       <span id="ansShow" style="display:none">B</span>
       <button id="ansBtn">🔍 显示 / 隐藏</button>
     </div>
-    <div class="scrollhint">▼ 先点击选项试试，再看推导 ▼</div>
+    <div class="scrollhint">▼ 先点击选项试试，再看动画 ▼</div>
   </header>
 
   <section>
@@ -102,9 +121,36 @@ section{margin-top:20px}
         <div class="oi" data-v="A"><b>A.</b>刹车的加速度大小为 $1.5\ \text{m/s}^2$<span class="fb" style="color:#c0392b">✗ 纵轴截距 $a/2=-1$，$a=-2\ \text{m/s}^2$，大小为 $2\ \text{m/s}^2$。</span></div>
         <div class="oi" data-v="B"><b>B.</b>在 $5\ \text{s}$ 时停下来<span class="fb" style="color:#1a7a5c">✓ $v_0=10\ \text{m/s}$，$|a|=2\ \text{m/s}^2$，$t_{\text{停}}=v_0/|a|=10/2=5\ \text{s}$。</span></div>
         <div class="oi" data-v="C"><b>C.</b>最终停在人行道前 $10\ \text{m}$ 处<span class="fb" style="color:#c0392b">✗ 刹车位移 $x=v_0^2/(2|a|)=100/4=25\ \text{m}$，距人行道 $30-25=5\ \text{m}$，不是 $10\ \text{m}$。</span></div>
-        <div class="oi" data-v="D"><b>D.</b>在 $6\ \text{s}$ 内行驶的位移大小为 $24\ \text{m}$<span class="fb" style="color:#c0392b">✗ 车在 $5\ \text{s}$ 已停下，$6\ \text{s}$ 内位移 $=25\ \text{m}$，不是 $24\ \text{m}$。</span></div>
+        <div class="oi" data-v="D"><b>D.</b>在 $6\ \text{s}$ 内行驶的位移大小为 $24\ \text{m}$<span class="fb" style="color:#c0392b">✗ 车在 $5\ \text{s}$ 已停下，$6\ \text{s}$ 内位移 $=25\ \text{m}$，不是 $24\ \text{m}$。<br>⚠️ 不能直接代入 $x=10\times6-\frac12\times2\times6^2=24$，因为 5s 后车已停！</span></div>
       </div>
       <div id="fbMsg" style="margin-top:12px;font-size:14px;font-weight:600"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">▶</span> 演示动画 <small>上方：刹车场景　下方：x/t²-1/t 图动态描点</small></h2>
+      <p class="lead">上方：小车从 10 m/s 开始刹车，最终停在人行道前 5 m。下方：随着刹车时间从 5s 倒推到 0.5s，红点在 x/t²-1/t 直线上移动，验证 $\frac{x}{t^2}=10\cdot\frac{1}{t}-1$。</p>
+      <div class="sim">
+        <div class="sim-tools">
+          <button id="btnPlay">▶ 播放</button>
+          <button id="btnReset" class="ghost">↺ 重置</button>
+          <span style="color:#94a3b8;font-size:12px">时间倒序演示（从停车瞬间 t=5s 往前推）</span>
+        </div>
+        <canvas id="simCanvas" width="860" height="420"></canvas>
+        <div class="readout">
+          <div class="box"><div class="k">刹车时间 t</div><div class="v" id="rT">5.0 s</div></div>
+          <div class="box"><div class="k">车速 v</div><div class="v" id="rV">0 m/s</div></div>
+          <div class="box"><div class="k">已行驶 x</div><div class="v" id="rX">25 m</div></div>
+          <div class="box"><div class="k">1/t</div><div class="v" id="rInv">0.20 /s</div></div>
+          <div class="box"><div class="k">x/t²</div><div class="v" id="rRatio">1.00</div></div>
+          <div class="box" id="gapBox"><div class="k">距人行道</div><div class="v" id="rGap">5 m</div></div>
+        </div>
+        <div class="scrub">
+          <input type="range" id="scrub" min="0" max="100" step="0.1" value="100">
+          <div class="scrub-row"><span>t→0（1/t→∞）</span><span>t=2.5s</span><span>t=5s（停车）</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -157,8 +203,7 @@ section{margin-top:20px}
         初始距人行道 $30\ \text{m}$，最终距人行道 $30-25=5\ \text{m}$，不是 $10\ \text{m}$。
       </div>
       <div class="step red">
-        <b>D 错误。</b>车在 $5\ \text{s}$ 已停下，$6\ \text{s}$ 内位移 $=25\ \text{m}$，不是 $24\ \text{m}$。<br>
-        <span style="color:#e63946">⚠️ 易错点：不能直接代入 $x=10\times6-\frac12\times2\times6^2=60-36=24$，因为 5s 后车已停！</span>
+        <b>D 错误。</b>车在 $5\ \text{s}$ 已停下，$6\ \text{s}$ 内位移 $=25\ \text{m}$，不是 $24\ \text{m}$。
       </div>
       <div class="insight">
         <div class="it">💡 通法总结</div>
@@ -189,6 +234,161 @@ document.getElementById('ansBtn').onclick=()=>{
   const a=document.getElementById('ansShow');
   a.style.display=a.style.display==='none'?'inline-block':'none';
 };
+
+// ===== Animation =====
+// physics: v0=10, a=-2, stops at t=5, x_max=25, sidewalk at 30
+const v0=10, a=-2, tStop=5, xStop=25, sidewalk=30;
+// t ranges from 0.3 to 5 (we animate backwards from 5 to 0.3 to show 1/t increasing)
+let t=5, playing=false, raf=null, lastT=0;
+
+function pos(t){ // braking displacement
+  if(t>=tStop) return xStop;
+  return v0*t + 0.5*a*t*t;
+}
+function vel(t){
+  if(t>=tStop) return 0;
+  return v0+a*t;
+}
+
+const cv=document.getElementById('simCanvas');
+const ctx=cv.getContext('2d');
+const W=cv.width, H=cv.height;
+const sceneH=180, graphY=200, graphH=200;
+
+function drawScene(){
+  // road
+  ctx.fillStyle='#1e293b';
+  ctx.fillRect(0,0,W,sceneH);
+  ctx.fillStyle='#334155';
+  ctx.fillRect(0,sceneH-50,W,50);
+  // lane dashes
+  ctx.strokeStyle='#fbbf24'; ctx.lineWidth=3; ctx.setLineDash([20,15]);
+  ctx.beginPath(); ctx.moveTo(0,sceneH-25); ctx.lineTo(W,sceneH-25); ctx.stroke(); ctx.setLineDash([]);
+  // sidewalk with kids (at x=sidewalk=30m mapped)
+  const scale = W/35; // 35m fits in width
+  const sx=x=>x*scale;
+  const swX=sx(sidewalk);
+  // sidewalk block
+  ctx.fillStyle='#475569'; ctx.fillRect(swX-4, sceneH-90, 8, 40);
+  // kids
+  ctx.fillStyle='#f87171'; ctx.beginPath(); ctx.arc(swX, sceneH-95, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fbbf24'; ctx.fillRect(swX-6, sceneH-88, 12, 14);
+  ctx.fillStyle='#60a5fa'; ctx.beginPath(); ctx.arc(swX+20, sceneH-95, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#34d399'; ctx.fillRect(swX+14, sceneH-88, 12, 14);
+  ctx.fillStyle='#e2e8f0'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('人行道', swX+8, sceneH-45);
+  // car
+  const carX=sx(pos(t));
+  ctx.fillStyle='#22d3ee';
+  // car body
+  ctx.fillRect(carX-25, sceneH-65, 50, 20);
+  ctx.fillStyle='#0f172a';
+  ctx.fillRect(carX-18, sceneH-58, 12, 10);
+  ctx.fillRect(carX+2, sceneH-58, 12, 10);
+  // wheels
+  ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(carX-15, sceneH-42, 6, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(carX+15, sceneH-42, 6, 0, Math.PI*2); ctx.fill();
+  // distance marker
+  if(t<=tStop){
+    ctx.strokeStyle='#fb923c'; ctx.lineWidth=2; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(carX, sceneH-70); ctx.lineTo(swX, sceneH-70); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#fb923c'; ctx.font='bold 12px monospace'; ctx.textAlign='center';
+    ctx.fillText((sidewalk-pos(t)).toFixed(1)+' m', (carX+swX)/2, sceneH-75);
+  }
+  // speed label above car
+  ctx.fillStyle='#22d3ee'; ctx.font='bold 13px monospace'; ctx.textAlign='center';
+  ctx.fillText(vel(t).toFixed(1)+' m/s', carX, sceneH-72);
+  ctx.textAlign='left';
+}
+
+function drawGraph(){
+  const padL=55, padR=20, padT=10, padB=30;
+  const gx=padL, gy=graphY+padT, gw=W-padL-padR, gh=graphH-padT-padB;
+  ctx.fillStyle='#1e293b'; ctx.fillRect(0,graphY,W,graphH+20);
+  // axes: x=1/t (0 to 0.5), y=x/t² (-1 to 5)
+  const xMax=0.5, yMin=-1.5, yMax=5;
+  const sx=v=>gx + v/xMax*gw;
+  const sy=v=>gy + (yMax-v)/(yMax-yMin)*gh;
+  // grid
+  ctx.strokeStyle='#334155'; ctx.lineWidth=1;
+  for(let i=0;i<=5;i++){const xx=sx(i*0.1);ctx.beginPath();ctx.moveTo(xx,gy);ctx.lineTo(xx,gy+gh);ctx.stroke();}
+  // axes
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(sx(0),gy); ctx.lineTo(sx(0),gy+gh); ctx.stroke(); // y axis
+  ctx.beginPath(); ctx.moveTo(gx,sy(0)); ctx.lineTo(gx+gw,sy(0)); ctx.stroke(); // x axis (y=0)
+  // labels
+  ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('1/t (1/s)', gx+gw/2, gy+gh+22);
+  ctx.save(); ctx.translate(15, gy+gh/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('x/t²', 0, 0); ctx.restore();
+  ctx.textAlign='right';
+  ctx.fillText('5', sx(0)-6, sy(5)+4);
+  ctx.fillText('0', sx(0)-6, sy(0)+4);
+  ctx.fillText('-1', sx(0)-6, sy(-1)+4);
+  ctx.textAlign='center';
+  for(let i=0;i<=5;i++) ctx.fillText((i*0.1).toFixed(1), sx(i*0.1), gy+gh+14);
+  // line y = 10*X - 1, from X=0 to X=0.5
+  ctx.strokeStyle='#22c3a6'; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(sx(0), sy(-1)); ctx.lineTo(sx(xMax), sy(10*xMax-1)); ctx.stroke();
+  // intercept markers
+  ctx.fillStyle='#fbbf24';
+  ctx.beginPath(); ctx.arc(sx(0), sy(-1), 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('截距=-1=a/2', sx(0)+70, sy(-1)-8);
+  ctx.beginPath(); ctx.arc(sx(0.1), sy(0), 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('(0.1, 0)', sx(0.1), sy(0)-10);
+  // current point
+  const invT = 1/t;
+  const ratio = pos(t)/(t*t);
+  if(invT <= xMax){
+    ctx.fillStyle='#f87171'; ctx.beginPath(); ctx.arc(sx(invT), sy(ratio), 6, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#f87171'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(sx(invT), sy(ratio)); ctx.lineTo(sx(invT), sy(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx(invT), sy(ratio)); ctx.lineTo(sx(0), sy(ratio)); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  ctx.textAlign='left';
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  drawScene();
+  drawGraph();
+}
+function updateReadout(){
+  document.getElementById('rT').textContent=t.toFixed(1)+' s';
+  document.getElementById('rV').textContent=vel(t).toFixed(1)+' m/s';
+  document.getElementById('rX').textContent=pos(t).toFixed(1)+' m';
+  document.getElementById('rInv').textContent=(1/t).toFixed(2)+' /s';
+  document.getElementById('rRatio').textContent=(pos(t)/(t*t)).toFixed(2);
+  const gap=sidewalk-pos(t);
+  document.getElementById('rGap').textContent=gap.toFixed(1)+' m';
+  document.getElementById('gapBox').className='box'+(gap<=0?' warn':'');
+  // scrub: 100 means t=5, 0 means t=0.3
+  const pct = (t-0.3)/(5-0.3)*100;
+  document.getElementById('scrub').value=Math.max(0,Math.min(100,pct));
+}
+function loop(ts){
+  if(!lastT) lastT=ts;
+  const dt=(ts-lastT)/1000; lastT=ts;
+  if(playing){
+    t -= dt*0.8; // count down from 5 to 0.3
+    if(t<=0.3){ t=0.3; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; }
+  }
+  draw(); updateReadout();
+  raf=requestAnimationFrame(loop);
+}
+document.getElementById('btnPlay').onclick=function(){
+  playing=!playing; this.textContent=playing?'⏸ 暂停':'▶ 播放';
+  if(t<=0.3) t=5; lastT=0;
+};
+document.getElementById('btnReset').onclick=()=>{ t=5; playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout(); };
+document.getElementById('scrub').oninput=e=>{
+  const pct=parseFloat(e.target.value)/100;
+  t=0.3+pct*(5-0.3);
+  playing=false; document.getElementById('btnPlay').textContent='▶ 播放'; draw(); updateReadout();
+};
+draw(); updateReadout();
+raf=requestAnimationFrame(loop);
 </script>
 </body>
 </html>

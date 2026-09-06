@@ -29,7 +29,7 @@ def extract_meta(path):
         return {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
                 'knowledge': '', 'source': '', 'type': ''}
     info = {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
-            'knowledge': '', 'source': '', 'type': ''}
+            'knowledge': '', 'source': '', 'type': '', 'number': ''}
     m = re.search(r'<title[^>]*>(.*?)</title>', head, re.S | re.I)
     if m:
         t = html.unescape(re.sub(r'\s+', ' ', m.group(1))).strip()
@@ -38,7 +38,7 @@ def extract_meta(path):
             info['title'], info['sub'] = main.strip(), sub.strip()
         else:
             info['title'] = t
-    for key in ('subject', 'chapter', 'knowledge', 'source', 'type'):
+    for key in ('subject', 'chapter', 'knowledge', 'source', 'type', 'number'):
         mm = re.search(r'<meta\s+name=["\']' + key + r'["\']\s+content=["\'](.*?)["\']', head, re.I)
         if mm:
             info[key] = html.unescape(mm.group(1)).strip()
@@ -70,6 +70,7 @@ def scan_lessons():
             'knowledge': meta['knowledge'] or '未分类',
             'source': meta['source'] or '',
             'type': meta['type'] or '',
+            'number': meta['number'] or '',
         })
     items.sort(key=lambda x: x['order'])
     for i, it in enumerate(items, 1):
@@ -79,7 +80,7 @@ def scan_lessons():
 
 
 CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}">
-      <span class="badge">{num}</span>
+      <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
         <p class="sub">{sub}</p>
@@ -271,7 +272,7 @@ def main():
             tags += f'<span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">{html.escape(it["type"])}</span>'
         source_html = f'<div class="src">{html.escape(it["source"])}</div>' if it['source'] else ''
         cards.append(CARD_TMPL.format(
-            link=it['link'], num=it['num'], title=html.escape(it['title']),
+            link=it['link'], number=it['number'] or it['num'], title=html.escape(it['title']),
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
