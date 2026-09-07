@@ -194,7 +194,7 @@ section{margin-top:20px}
       </div>
       <div class="graph-ctrl" id="g1-ctrl"></div>
       <div class="graph-legend"><span><span class="legend-dot" style="background:#5b7cfa"></span>f(x)=sin(2x+π/3)</span><span><span class="legend-dot" style="background:#e6397a"></span>对称轴 / 极大值</span><span><span class="legend-dot" style="background:#22c3a6"></span>对称中心</span><span><span class="legend-dot" style="background:#2a6df4"></span>零点</span><span style="background:rgba(34,195,166,.13);padding:1px 6px;border-radius:4px">递增区间</span></div>
-      <div class="graph-hint">🖱 悬停显示坐标 · 拖拽平移 · 滚轮缩放 · 双击复位</div>
+      <div class="graph-hint">🖱 悬停 · 拖拽平移 · 滚轮缩放 · 双击复位 · 📱 手指拖动 / 双指缩放</div>
     </div>
   </section>
   <div class="foot">mcjc4 · 三角函数互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
@@ -383,6 +383,50 @@ function initGraph(id,cfg){
     view.x0=initView.x0; view.x1=initView.x1; view.y0=initView.y0; view.y1=initView.y1;
     draw();
   });
+  var pinchDist=null;
+  function touchSpan(e){var t=e.touches; return Math.sqrt(Math.pow(t[0].clientX-t[1].clientX,2)+Math.pow(t[0].clientY-t[1].clientY,2));}
+  canvas.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    if(e.touches.length===1){
+      var t=e.touches[0], r=canvas.getBoundingClientRect();
+      mousePx=t.clientX-r.left;
+      dragging=true; downX=t.clientX; downY=t.clientY;
+      downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+    } else if(e.touches.length===2){
+      dragging=false; pinchDist=touchSpan(e);
+    }
+    draw();
+  },{passive:false});
+  canvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    var r=canvas.getBoundingClientRect();
+    if(e.touches.length===1 && dragging){
+      var t=e.touches[0];
+      mousePx=t.clientX-r.left;
+      var dx=(t.clientX-downX), dy=(t.clientY-downY);
+      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
+      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
+      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
+      draw();
+    } else if(e.touches.length===2 && pinchDist){
+      var nd=touchSpan(e), f=pinchDist/nd;
+      var midX=(e.touches[0].clientX+e.touches[1].clientX)/2-r.left;
+      var midY=(e.touches[0].clientY+e.touches[1].clientY)/2-r.top;
+      var mx=midX/W, my=midY/H;
+      var rx=view.x1-view.x0, ry=view.y1-view.y0;
+      var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
+      view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
+      var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
+      pinchDist=nd;
+      draw();
+    }
+  },{passive:false});
+  canvas.addEventListener('touchend',function(e){
+    e.preventDefault();
+    dragging=false; pinchDist=null;
+    if(e.touches.length===0) mousePx=null;
+    draw();
+  },{passive:false});
   window.addEventListener('resize',resize);
   resize();
   if(cfg.onParamChange) cfg.onParamChange();
