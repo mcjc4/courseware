@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>余弦函数求φ+值域与单调区间 · 三角函数互动课件</title>
+<meta name="number" content="数0010">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="余弦函数求值域与单调区间">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="解答题">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+.subq{margin-top:12px;font-size:14px;line-height:1.85;color:#2c3e50}
+.subq b{color:#2a6df4}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">← 返回课件库</a>
+  <div class="meta-bar">
+    <span class="chip num"><b>编号</b>　数0010</span>
+    <span class="chip"><b>学科</b>　数学</span>
+    <span class="chip"><b>所属章节</b>　三角函数</span>
+    <span class="chip"><b>知识点</b>　余弦函数求φ+值域与单调区间 </span>
+    <span class="chip"><b>来源</b>　我的解题课件库</span>
+    <span class="chip"><b>题型</b>　解答题</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">余弦函数 · 待定参数 · 值域 · 单调区间</div>
+    <h1>数0010 · 题11 · 2025全国II · 解答题</h1>
+    <p class="sub">第一问由 $f(0)=\frac{1}{2}$ 直接算出 $\varphi$（注意范围 $0\le\varphi<\pi$）。第二问构造 $g(x)=f(x)+f(x-\frac{\pi}{6})$，需要用到<b>余弦和角公式</b>展开，再<b>辅助角公式</b>合并成一个三角函数，最后求值域和单调区间。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己做，再点开）</span>
+      <span id="ansShow" style="display:none">(1) $\varphi=\dfrac{\pi}{3}$　(2) 值域 $\left[-\sqrt3,\,\sqrt3\right]$；单调递增区间 $\left[-\dfrac{7\pi}{12}+k\pi,\,-\dfrac{\pi}{12}+k\pi\right]$　单调递减区间 $\left[-\dfrac{\pi}{12}+k\pi,\,\dfrac{5\pi}{12}+k\pi\right]$</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 先选一个答案试试，再看逐步推导 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">(2025·全国II卷·13分) 已知函数 $f(x)=\cos(2x+\varphi)(0\le\varphi<\pi)$，$f(0)=\dfrac{1}{2}$。</p>
+    </div>
+  </section>
+  <section>
+    <div class="card">
+      <h2><span class="num">1</span> 第(1)问：求 $\varphi$</h2>
+      <p class="lead">代入 $x=0$：</p>
+      <div class="step gold">
+        $f(0)=\cos(\varphi)=\dfrac{1}{2}$
+      </div>
+      <p class="lead">由 $0\le\varphi<\pi$，余弦为 $\frac{1}{2}$ 的角只有 $\frac{\pi}{3}$：</p>
+      <div class="step green">
+        $\boxed{\varphi=\dfrac{\pi}{3}}$
+      </div>
+      <p class="lead">（$\varphi=\frac{5\pi}{3}$ 虽也满足 $\cos=\frac{1}{2}$，但 $\frac{5\pi}{3}>\pi$，不在范围内，舍去。）</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">2</span> 第(2)问：构造 $g(x)$ 并展开 <small>余弦和角公式</small></h2>
+      <p class="lead">$f(x)=\cos\!\left(2x+\frac{\pi}{3}\right)$，所以：</p>
+      <div class="step">
+        $g(x)=f(x)+f\!\left(x-\frac{\pi}{6}\right)=\cos\!\left(2x+\frac{\pi}{3}\right)+\cos\!\left(2\left(x-\frac{\pi}{6}\right)+\frac{\pi}{3}\right)$
+      </div>
+      <div class="step">
+        $=\cos\!\left(2x+\frac{\pi}{3}\right)+\cos(2x)$
+      </div>
+      <p class="lead">用余弦和角公式展开第一项：</p>
+      <div class="step gold">
+        $\cos\!\left(2x+\frac{\pi}{3}\right)=\cos2x\cos\frac{\pi}{3}-\sin2x\sin\frac{\pi}{3}=\frac{1}{2}\cos2x-\frac{\sqrt3}{2}\sin2x$
+      </div>
+      <div class="step">
+        $g(x)=\frac{1}{2}\cos2x-\frac{\sqrt3}{2}\sin2x+\cos2x=\boxed{\frac{3}{2}\cos2x-\frac{\sqrt3}{2}\sin2x}$
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">3</span> 辅助角公式合并 <small>化成 $A\cos(\omega x+\theta)$</small></h2>
+      <p class="lead">提取公共系数 $\sqrt3$：</p>
+      <div class="step gold">
+        $g(x)=\sqrt3\!\left(\frac{\sqrt3}{2}\cos2x-\frac{1}{2}\sin2x\right)$
+      </div>
+      <p class="lead">而 $\cos\frac{\pi}{6}=\frac{\sqrt3}{2}$，$\sin\frac{\pi}{6}=\frac{1}{2}$，由余弦差角公式：</p>
+      <div class="step">
+        $\frac{\sqrt3}{2}\cos2x-\frac{1}{2}\sin2x=\cos\frac{\pi}{6}\cos2x-\sin\frac{\pi}{6}\sin2x=\cos\!\left(2x+\frac{\pi}{6}\right)$
+      </div>
+      <div class="step green">
+        $\boxed{g(x)=\sqrt3\cos\!\left(2x+\frac{\pi}{6}\right)}$
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">4</span> 求值域 <small>最直白的一步</small></h2>
+      <p class="lead">$\cos$ 值域为 $[-1,1]$，所以：</p>
+      <div class="step green">
+        $g(x)=\sqrt3\cdot[-1,\,1]\;\Rightarrow\;\boxed{g(x)\in\left[-\sqrt3,\,\sqrt3\right]}$
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">5</span> 求单调区间 <small>令 $t=2x+\frac{\pi}{6}$，换元</small></h2>
+      <p class="lead">$g(x)=\sqrt3\cos t$ 的单调性与 $\cos t$ 一致。</p>
+      <p class="lead"><b>递减区间</b>：$\cos t$ 在 $[2k\pi,\pi+2k\pi]$ 递减</p>
+      <div class="step">
+        $2k\pi\le 2x+\frac{\pi}{6}\le \pi+2k\pi\;\Rightarrow\;-\frac{\pi}{12}+k\pi\le x\le \frac{5\pi}{12}+k\pi$
+      </div>
+      <p class="lead"><b>递增区间</b>：$\cos t$ 在 $[-\pi+2k\pi,\,2k\pi]$ 递增</p>
+      <div class="step">
+        $-\pi+2k\pi\le 2x+\frac{\pi}{6}\le 2k\pi\;\Rightarrow\;-\frac{7\pi}{12}+k\pi\le x\le -\frac{\pi}{12}+k\pi$
+      </div>
+      <div class="step green">
+        <b>递增</b>：$\left[-\dfrac{7\pi}{12}+k\pi,\,-\dfrac{\pi}{12}+k\pi\right]$
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <b>递减</b>：$\left[-\dfrac{\pi}{12}+k\pi,\,\dfrac{5\pi}{12}+k\pi\right]$
+      </div>
+      <div class="insight">
+        <div class="it">💡 易错点</div>
+        求 $\cos(\omega x+\theta)$ 的单调区间时，<b>不等号方向与 $\omega$ 符号无关</b>（不像解不等式要变号），直接整体代 $\cos$ 的单调区间即可。但如果 $\omega<0$，要先提取负号把它变正。
+      </div>
+      <button class="btn" onclick="alert('这是解答题，直接看推导即可')">解答题 · 无选项</button>
+    </div>
+  </section>
+  <div class="foot">mcjc4 · 三角函数互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
+</div>
+<script>
+document.getElementById('ansBtn').onclick=()=>{{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+}};
+</script></body>
+</html>
