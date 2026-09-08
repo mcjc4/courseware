@@ -368,46 +368,77 @@ function initGraph(id,cfg){
 var CFG={
   x0:-3,x1:3,y0:-3,y1:3,
   drawScene:function(ctx,sx,sy,W,H,win){
-    var EarthR=0.3;
+    var R=2.0;  // 圆轨道半径
+    var rp=0.5; // Q近地点到地球距离
+    var ra=3.0; // P远地点到地球距离
+    var a=(rp+ra)/2; var e=(ra-rp)/(ra+rp); var b=Math.sqrt(rp*ra); var C=(ra-rp)/2; // 椭圆中心
     // 地球
-    ctx.fillStyle='rgba(91,124,250,.3)'; ctx.beginPath(); ctx.arc(sx(0),sy(0),sx(EarthR)-sx(0),0,7); ctx.fill();
-    ctx.fillStyle='#5b7cfa'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#5b7cfa';
+    ctx.beginPath(); ctx.arc(sx(0),sy(0),sx(0.28)-sx(0),0,7); ctx.fill();
+    ctx.fillStyle='#3a5fbf'; ctx.beginPath(); ctx.arc(sx(0),sy(0),sx(0.20)-sx(0),0,7); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
     ctx.fillText('地球', sx(0), sy(0)+4);
-    // 圆轨道（夸父一号）
-    var rA=2.0;
-    ctx.strokeStyle='#5b7cfa'; ctx.lineWidth=2.5; ctx.setLineDash([]);
+    // 圆轨道（虚线，夸父一号）
+    ctx.strokeStyle='#5b7cfa'; ctx.lineWidth=1.8; ctx.setLineDash([6,4]);
     ctx.beginPath();
-    var rPix=sx(rA)-sx(0);
-    ctx.arc(sx(0),sy(0),rPix,0,7); ctx.stroke();
-    ctx.fillStyle='#5b7cfa'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('夸父一号（圆轨道）', sx(0), sy(rA)+18);
-    // 椭圆轨道（卫星S）
-    var a=rA, b=1.3;
-    ctx.strokeStyle='#e6397a'; ctx.lineWidth=2.5;
+    var rPix=sx(R)-sx(0);
+    ctx.arc(sx(0),sy(0),rPix,0,7); ctx.stroke(); ctx.setLineDash([]);
+    // 椭圆轨道（卫星S），焦点在地球
+    ctx.strokeStyle='#e6397a'; ctx.lineWidth=2.2; ctx.setLineDash([]);
     ctx.beginPath();
-    ctx.ellipse(sx(0),sy(0),sx(a)-sx(0),sy(b)-sy(0),0,0,7); ctx.stroke();
-    // A、B交点
-    ctx.fillStyle='#22c3a6'; ctx.beginPath(); ctx.arc(sx(a),sy(0),5,0,7); ctx.fill();
+    var cx=sx(C), cy=sy(0);
+    var rx=sx(a)-sx(0), ry=sy(b)-sy(0);
+    ctx.ellipse(cx,cy,rx,ry,0,0,7); ctx.stroke();
+    // 夸父一号：圆轨道左侧 (在 -R, 0)，v1向下
+    var KX=sx(-R), KY=sy(0);
+    ctx.fillStyle='#2c3e50'; ctx.beginPath(); ctx.arc(KX,KY,6,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#2c3e50'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('夸父一号', KX, KY-14);
+    // v1箭头（向下）
+    ctx.strokeStyle='#2c3e50'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(KX, KY+8); ctx.lineTo(KX, KY+28); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(KX-4, KY+24); ctx.lineTo(KX, KY+30); ctx.lineTo(KX+4, KY+24); ctx.stroke();
+    ctx.fillStyle='#2c3e50'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('v₁', KX-8, KY+34);
+    // Q近地点：(-rp, 0)
+    var QX=sx(-rp), QY=sy(0);
+    ctx.fillStyle='#f5a623'; ctx.beginPath(); ctx.arc(QX,QY,5,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#f5a623'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Q', QX, QY-14);
+    // P远地点：(ra, 0)，v2向上
+    var PX=sx(ra), PY=sy(0);
+    ctx.fillStyle='#ff6b6b'; ctx.beginPath(); ctx.arc(PX,PY,6,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#ff6b6b'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('卫星S', PX+4, PY-14);
+    // v2箭头（向上）
+    ctx.strokeStyle='#ff6b6b'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(PX, PY-8); ctx.lineTo(PX, PY-28); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(PX-4, PY-24); ctx.lineTo(PX, PY-30); ctx.lineTo(PX+4, PY-24); ctx.stroke();
+    ctx.fillStyle='#ff6b6b'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('v₂', PX+8, PY-26);
+    // A交点 (1.6, 1.2)
+    var AX=sx(1.6), AY=sy(1.2);
+    ctx.fillStyle='#22c3a6'; ctx.beginPath(); ctx.arc(AX,AY,5,0,7); ctx.fill();
     ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
     ctx.fillStyle='#22c3a6'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('A', sx(a)+12, sy(0)-12);
-    ctx.beginPath(); ctx.arc(sx(-a),sy(0),5,0,7); ctx.fill();
-    ctx.strokeStyle='#fff'; ctx.stroke();
-    ctx.fillText('B', sx(-a)-12, sy(0)-12);
-    // 远地点P（椭圆上最远点）
-    var Px=0, Py=b;
-    ctx.fillStyle='#ff6b6b'; ctx.beginPath(); ctx.arc(sx(Px),sy(Py),6,0,7); ctx.fill();
+    ctx.fillText('A', AX+10, AY-8);
+    // B交点 (1.6, -1.2)
+    var BX=sx(1.6), BY=sy(-1.2);
+    ctx.fillStyle='#22c3a6'; ctx.beginPath(); ctx.arc(BX,BY,5,0,7); ctx.fill();
     ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
-    ctx.fillStyle='#ff6b6b'; ctx.font='bold 13px sans-serif';
-    ctx.fillText('P(远地点,v₂)', sx(Px), sy(Py)+20);
-    // 近地点Q
-    ctx.fillStyle='#f5a623'; ctx.beginPath(); ctx.arc(sx(0),sy(-b),6,0,7); ctx.fill();
-    ctx.strokeStyle='#fff'; ctx.stroke();
-    ctx.fillStyle='#f5a623';
-    ctx.fillText('Q(近地点)', sx(0), sy(-b)-12);
-    // 标注
-    ctx.fillStyle='#e6397a'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('卫星S（椭圆轨道）', sx(0), sy(-b)-30);
+    ctx.fillStyle='#22c3a6'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('B', BX+10, BY+18);
+    // 虚线辅助：连A到地心、连B到地心
+    ctx.strokeStyle='rgba(100,120,150,.35)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(sx(0),sy(0)); ctx.lineTo(AX,AY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx(0),sy(0)); ctx.lineTo(BX,BY); ctx.stroke();
+    ctx.setLineDash([]);
+    // 地球符号 ⊕
+    ctx.fillStyle='#2c3e50'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('⊕', sx(0), sy(0)+4);
   }
 };
 initGraph("g1",CFG);
