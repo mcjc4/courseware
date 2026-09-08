@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四幅物理图景综合判断 · 物理互动课件</title>
+<meta name="number" content="物0011">
+<meta name="subject" content="物理">
+<meta name="chapter" content="电磁学综合">
+<meta name="knowledge" content="交流发电机-变压器-电磁感应-霍尔效应">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="多选题">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.graph-wrap{position:relative}
+.graph-wrap canvas{display:block;width:100%;height:360px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;cursor:crosshair;touch-action:none}
+.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
+.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3)}
+.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
+.graph-slider b{color:#2a6df4;min-width:22px}
+.graph-slider input[type=range]{width:200px;accent-color:#5b7cfa}
+.graph-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#4a5d72;margin-top:10px}
+.legend-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.graph-status{margin-top:12px;font-size:13.5px;color:#2c3e50;background:#f6faff;border-radius:10px;padding:11px 15px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">&#8592; 返回课件库</a>
+  <div class="meta-bar">
+    <span class="chip num"><b>编号</b>　物0011</span>
+    <span class="chip"><b>学科</b>　物理</span>
+    <span class="chip"><b>章节</b>　 content=</span>
+    <span class="chip"><b>知识点</b>　 content=</span>
+    <span class="chip"><b>来源</b>　我的解题课件库</span>
+    <span class="chip"><b>题型</b>　 content=</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">发电机·变压器·电磁阻尼·霍尔效应 四图综合</div>
+    <h1>物0011 · 题5 · 四幅图景判断</h1>
+    <p class="sub">四幅图分别涉及<b>交流发电机中性面、变压器电流比、带裂缝铝管的电磁阻尼、霍尔效应电势高低</b>。需逐一辨析：<b>中性面电动势为零、变压器电流与匝数成反比、裂缝铝管无完整涡流、金属霍尔效应电子偏转侧电势低</b>。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己做，再点开）</span>
+      <span id="ansShow" style="display:none">ACD</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 先选一个答案试试，再看逐步推导 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">有关下列四幅图的描述，正确的是（　　）<br>A. 图1中，匀速转动的线圈转至此位置时安培表的示数恰好为零<br>B. 图2中，变压器原副线圈电流之比 $\frac{I_1}{I_2}=\frac{n_1}{n_2}$<br>C. 图3中，强磁体从带有裂缝的铝管中静止下落（不计空气阻力）可视做自由落体运动<br>D. 图4中，金属材料导电的霍尔元件（电流和磁场方向如图所示）的N侧的电势较低</p>
+      <div class="optlist" id="optlist">
+        <div class="oi" data-v="A"><b>A.</b>图1中，匀速转动的线圈转至此位置时安培表的示数恰好为零<span class="fb">✓ 若图1为<b>中性面</b>位置（线圈平面与磁场垂直），此时磁通最大但<b>磁通变化率为零</b>，感应电动势瞬时值为零。</span></div>
+        <div class="oi" data-v="B"><b>B.</b>变压器原副线圈电流之比 I₁/I₂ = n₁/n₂<span class="fb">✗ 变压器<b>电流与匝数成反比</b>：$\frac{I_1}{I_2}=\frac{n_2}{n_1}$，不是 $\frac{n_1}{n_2}$。</span></div>
+        <div class="oi" data-v="C"><b>C.</b>强磁体从带裂缝铝管中下落可视作自由落体<span class="fb">✓ 铝管有裂缝→<b>不能形成完整感应电流回路</b>→无涡流阻尼→近似自由落体。</span></div>
+        <div class="oi" data-v="D"><b>D.</b>霍尔元件金属导电，N侧电势较低<span class="fb">✓ 金属（电子导电），电流向右→电子向左运动；磁场向下→洛伦兹力使电子偏向N侧→N侧聚集电子→<b>电势降低</b>。</span></div>
+      </div>    </div>
+  </section>
+  <section>
+    <div class="card">
+      <h2><span class="num">1</span> 图1：交流发电机中性面 <small>A选项</small></h2>
+      <p class="lead">线圈匀速转动产生交流电。线圈在<b>中性面</b>（平面与磁场垂直）时：</p>
+      <div class="step gold">
+        磁通量 $\Phi$ 最大 → 但 $\frac{d\Phi}{dt}=0$ → 感应电动势 $e=0$ → 电流瞬时为零
+      </div>
+      <p class="lead">若图1恰为中性面位置，安培表瞬时示数为零。A正确。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">2</span> 图2：变压器电流比 <small>B选项</small></h2>
+      <p class="lead">理想变压器功率守恒 $P_1=P_2$，即 $U_1 I_1 = U_2 I_2$；电压比 $\frac{U_1}{U_2}=\frac{n_1}{n_2}$，故：</p>
+      <div class="step">
+        $\frac{I_1}{I_2}=\frac{U_2}{U_1}=\frac{n_2}{n_1}$（电流与匝数<b>成反比</b>）
+      </div>
+      <p class="lead">B写的是 $\frac{n_1}{n_2}$（正比），<b>方向反了</b>。B错。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">3</span> 图3：裂缝铝管与电磁阻尼 <small>C选项</small></h2>
+      <p class="lead">强磁体在<b>完整铝管</b>中下落时，磁通变化在管壁产生<b>感应涡流</b>，涡流磁场阻碍磁体下落（电磁阻尼），加速度小于g。</p>
+      <p class="lead">但铝管有<b>裂缝</b>时，管壁不构成闭合回路，无法形成持续的感应电流：</p>
+      <div class="step gold">
+        裂缝→<b>电路断开</b>→无涡流→无阻尼力→近似<b>自由落体</b>（a=g）
+      </div>
+      <p class="lead">C正确。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">4</span> 图4：霍尔效应N侧电势 <small>D选项</small></h2>
+      <p class="lead">金属材料（自由电子导电），设电流方向向右，磁场方向向下：</p>
+      <div class="step">
+        电流→右 → 电子运动方向→左（$-v$）<br>
+        磁场 $\vec{B}$→下<br>
+        $\vec{v}\times\vec{B}$：$(-\hat{x})\times(-\hat{y})=+\hat{z}$（出纸面）<br>
+        电子受力 $\vec{F}=-e(\vec{v}\times\vec{B})=-\hat{z}$（向纸内）
+      </div>
+      <p class="lead">电子偏向纸内一侧（即N侧）。N侧聚集<b>负电荷</b>，电势降低。</p>
+      <div class="step green">
+        D正确：金属霍尔元件N侧电势较低
+      </div>
+      <div class="insight">
+        <div class="it">💡 霍尔效应判别法</div>
+        金属（电子导电）：用左手定则——四指指电流方向，磁场穿手心，拇指指电子偏转方向。电子聚集侧电势低。
+      </div>
+      <button class="btn" onclick="document.querySelectorAll('.oi').forEach(o=>o.classList.remove('sel','correct','wrong'))">↺ 重新作答</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">✦</span> 互动图像 <small>物理示意图</small></h2>
+      <div class="graph-wrap">
+        <canvas id="g1"></canvas>
+        <div class="graph-bubble" id="g1-bubble"></div>
+      </div>
+      <div class="graph-ctrl" id="g1-ctrl"></div>
+      <div class="graph-status" id="g1-status"></div>
+      <div class="graph-hint">🖱 悬停 · 拖拽平移 · 滚轮缩放 · 双击复位 · 📱 手指拖动 / 双指缩放</div>
+    </div>
+  </section>
+
+  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
+</div>
+<script>
+(function(){
+function initGraph(id,cfg){
+  var PI=Math.PI;
+  var canvas=document.getElementById(id);
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var bubble=document.getElementById(id+'-bubble');
+  var ctrlBox=document.getElementById(id+'-ctrl');
+  var DPR=window.devicePixelRatio||1;
+  var W=0,H=0;
+  var view={x0:cfg.x0,x1:cfg.x1,y0:cfg.y0,y1:cfg.y1};
+  var initView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+  function sx(x){return (x-view.x0)/(view.x1-view.x0)*W;}
+  function sy(y){return H-(y-view.y0)/(view.y1-view.y0)*H;}
+  function pickStep(range,opts){var g=range/7; for(var i=0;i<opts.length;i++){if(opts[i]>=g)return opts[i];} return opts[opts.length-1];}
+  var curves=(cfg.curves||[]).map(function(c){
+    return {color:c.color,width:c.width,label:c.label,fn:new Function('x','return ('+c.expr+');')};
+  });
+  (cfg.params||[]).forEach(function(p){
+    window[p.key]=p.value;
+    var row=document.createElement('label'); row.className='graph-slider';
+    row.innerHTML='<span>'+p.label+'：<b>'+p.value+'</b></span><input type="range" min="'+p.min+'" max="'+p.max+'" step="'+p.step+'" value="'+p.value+'">';
+    var inp=row.querySelector('input'), b=row.querySelector('b');
+    inp.addEventListener('input',function(){
+      window[p.key]=parseFloat(inp.value); b.textContent=inp.value;
+      draw(); if(cfg.onParamChange)cfg.onParamChange();
+    });
+    if(ctrlBox)ctrlBox.appendChild(row);
+  });
+  var mousePx=null, dragging=false, downX=0, downY=0, downView=null;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    (cfg.zones||[]).forEach(function(z){
+      ctx.fillStyle=z.color; ctx.fillRect(sx(z.x0),0,sx(z.x1)-sx(z.x0),H);
+      ctx.fillStyle='rgba(30,50,80,.55)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(z.label,(sx(z.x0)+sx(z.x1))/2,16);
+    });
+    if(cfg.drawScene) cfg.drawScene(ctx,sx,sy,W,H,window);
+    var xStep=pickStep(view.x1-view.x0,[0.5,1,2,5,10,50,100]);
+    var yStep=pickStep(view.y1-view.y0,[0.25,0.5,1,2,5,10,50,100,500,1000]);
+    ctx.strokeStyle='rgba(100,120,150,.10)'; ctx.lineWidth=1;
+    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
+      ctx.beginPath(); ctx.moveTo(sx(x),0); ctx.lineTo(sx(x),H); ctx.stroke();
+    }
+    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
+      ctx.beginPath(); ctx.moveTo(0,sy(y)); ctx.lineTo(W,sy(y)); ctx.stroke();
+    }
+    var hasX=(view.y0<0&&view.y1>0), hasY=(view.x0<0&&view.x1>0);
+    ctx.strokeStyle='rgba(40,55,80,.75)'; ctx.lineWidth=1.4;
+    if(hasX){ctx.beginPath(); ctx.moveTo(0,sy(0)); ctx.lineTo(W,sy(0)); ctx.stroke();}
+    if(hasY){ctx.beginPath(); ctx.moveTo(sx(0),0); ctx.lineTo(sx(0),H); ctx.stroke();}
+    ctx.fillStyle='rgba(40,55,80,.85)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    var yLbl=hasX? sy(0)+16 : H-10;
+    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
+      var X=sx(x); ctx.fillText(String(Math.round(x*100)/100),X,yLbl);
+    }
+    ctx.textAlign='right';
+    var xLbl=hasY? sx(0)-6 : W-8;
+    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
+      ctx.fillText(String(Math.round(y*100)/100),xLbl,sy(y)+4);
+    }
+    curves.forEach(function(c){
+      ctx.strokeStyle=c.color||'#5b7cfa'; ctx.lineWidth=c.width||2.5; ctx.setLineDash([]);
+      ctx.beginPath();
+      var N=Math.max(320,Math.floor(W*2));
+      for(var i=0;i<=N;i++){
+        var x=view.x0+(view.x1-view.x0)*i/N;
+        var y=c.fn(x);
+        if(isFinite(y)){ if(i===0)ctx.moveTo(sx(x),sy(y)); else ctx.lineTo(sx(x),sy(y)); }
+      }
+      ctx.stroke();
+    });
+    (cfg.vlines||[]).forEach(function(v){
+      var X=sx(v.x); ctx.strokeStyle=v.color||'#e6397a'; ctx.lineWidth=1.5; ctx.setLineDash(v.dash||[6,4]);
+      ctx.beginPath(); ctx.moveTo(X,0); ctx.lineTo(X,H); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle=v.color||'#e6397a'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v.label||'',X,14);
+    });
+    (cfg.points||[]).forEach(function(p){
+      var ci=curves[p.curve||0]; var y=p.y!==undefined?p.y:(ci?ci.fn(p.x):0);
+      var X=sx(p.x), Y=sy(y);
+      ctx.fillStyle=p.color||'#2fd0b4'; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.stroke();
+      ctx.fillStyle=p.color||'#2fd0b4'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(p.label||'', X, (Y<20?Y+18:Y-12));
+    });
+    if(mousePx!=null && !dragging && bubble && curves[0]){
+      var xd=view.x0+(mousePx/W)*(view.x1-view.x0);
+      var yd=curves[0].fn(xd);
+      var XX=mousePx, YY=sy(yd);
+      ctx.strokeStyle='rgba(120,140,170,.45)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(XX,0); ctx.lineTo(XX,H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,YY); ctx.lineTo(W,YY); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#ff6b6b'; ctx.beginPath(); ctx.arc(XX,YY,5,0,7); ctx.fill();
+      bubble.style.display='block';
+      bubble.style.left=Math.min(XX+14,W-150)+'px';
+      bubble.style.top=Math.max(8,YY-12)+'px';
+      bubble.innerHTML='x = '+xd.toFixed(3)+'<br>y = '+yd.toFixed(3);
+    } else if(bubble){ bubble.style.display='none'; }
+  }
+  function resize(){
+    var r=canvas.getBoundingClientRect();
+    W=r.width||600; H=r.height||340;
+    canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    draw();
+  }
+  canvas.addEventListener('mousemove',function(e){
+    var r=canvas.getBoundingClientRect();
+    mousePx=e.clientX-r.left;
+    if(dragging){
+      var dx=(e.clientX-downX), dy=(e.clientY-downY);
+      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
+      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
+      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
+    }
+    draw();
+  });
+  canvas.addEventListener('mousedown',function(e){
+    dragging=true; downX=e.clientX; downY=e.clientY;
+    downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+    var r=canvas.getBoundingClientRect(); mousePx=e.clientX-r.left;
+  });
+  window.addEventListener('mouseup',function(){dragging=false; draw();});
+  canvas.addEventListener('mouseleave',function(){mousePx=null; draw();});
+  canvas.addEventListener('wheel',function(e){
+    e.preventDefault();
+    var r=canvas.getBoundingClientRect();
+    var mx=(e.clientX-r.left)/W, my=(e.clientY-r.top)/H;
+    var rx=view.x1-view.x0, ry=view.y1-view.y0;
+    var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
+    var f=e.deltaY<0?0.85:1.18;
+    view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
+    var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
+    mousePx=e.clientX-r.left;
+    draw();
+  },{passive:false});
+  canvas.addEventListener('dblclick',function(){
+    view.x0=initView.x0; view.x1=initView.x1; view.y0=initView.y0; view.y1=initView.y1;
+    draw();
+  });
+  var pinchDist=null;
+  function touchSpan(e){var t=e.touches; return Math.sqrt(Math.pow(t[0].clientX-t[1].clientX,2)+Math.pow(t[0].clientY-t[1].clientY,2));}
+  canvas.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    if(e.touches.length===1){
+      var t=e.touches[0], r=canvas.getBoundingClientRect();
+      mousePx=t.clientX-r.left;
+      dragging=true; downX=t.clientX; downY=t.clientY;
+      downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+    } else if(e.touches.length===2){
+      dragging=false; pinchDist=touchSpan(e);
+    }
+    draw();
+  },{passive:false});
+  canvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    var r=canvas.getBoundingClientRect();
+    if(e.touches.length===1 && dragging){
+      var t=e.touches[0];
+      mousePx=t.clientX-r.left;
+      var dx=(t.clientX-downX), dy=(t.clientY-downY);
+      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
+      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
+      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
+      draw();
+    } else if(e.touches.length===2 && pinchDist){
+      var nd=touchSpan(e), f=pinchDist/nd;
+      var midX=(e.touches[0].clientX+e.touches[1].clientX)/2-r.left;
+      var midY=(e.touches[0].clientY+e.touches[1].clientY)/2-r.top;
+      var mx=midX/W, my=midY/H;
+      var rx=view.x1-view.x0, ry=view.y1-view.y0;
+      var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
+      view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
+      var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
+      pinchDist=nd;
+      draw();
+    }
+  },{passive:false});
+  canvas.addEventListener('touchend',function(e){
+    e.preventDefault();
+    dragging=false; pinchDist=null;
+    if(e.touches.length===0) mousePx=null;
+    draw();
+  },{passive:false});
+  window.addEventListener('resize',resize);
+  resize();
+  if(cfg.onParamChange) cfg.onParamChange();
+}
+var CFG={
+  x0:-1,x1:8,y0:-3,y1:3,
+  drawScene:function(ctx,sx,sy,W,H,win){
+    // 画4个示意图
+    var labels=['图1 发电机中性面','图2 变压器','图3 裂缝铝管','图4 霍尔效应'];
+    var cols=['#5b7cfa','#e6397a','#22c3a6','#f5a623'];
+    var xStarts=[0,2.5,4.5,6.5];
+    for(var i=0;i<4;i++){
+      var x0s=xStarts[i];
+      ctx.fillStyle='rgba(91,124,250,.05)';
+      ctx.fillRect(sx(x0s),sy(2.8),sx(1.8)-sx(0),sy(-2.8)-sy(2.8));
+      ctx.strokeStyle=cols[i]; ctx.lineWidth=1.5;
+      ctx.strokeRect(sx(x0s),sy(2.8),sx(1.8)-sx(0),sy(-2.8)-sy(2.8));
+      ctx.fillStyle=cols[i]; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(labels[i], sx(x0s+0.9), sy(2.5));
+    }
+    // 图1：线圈+磁场
+    ctx.strokeStyle='#5b7cfa'; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.ellipse(sx(0.9),sy(0),15,8,0,0,7); ctx.stroke();
+    ctx.fillStyle='#5b7cfa'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('B', sx(0.5), sy(2));
+    // 图2：变压器
+    ctx.strokeStyle='#e6397a'; ctx.lineWidth=2;
+    ctx.strokeRect(sx(2.6),sy(-0.8),sx(0.6)-sx(0),sy(1.6));
+    ctx.strokeRect(sx(3.4),sy(-0.8),sx(0.6)-sx(0),sy(1.6));
+    ctx.fillStyle='#e6397a'; ctx.font='10px sans-serif';
+    ctx.fillText('n₁:n₂', sx(3.3), sy(1.2));
+    // 图3：铝管+磁铁
+    ctx.strokeStyle='#22c3a6'; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(sx(4.7),sy(1.5)); ctx.lineTo(sx(4.7),sy(-1.5)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx(5.3),sy(1.5)); ctx.lineTo(sx(5.3),sy(-1.5)); ctx.stroke();
+    ctx.strokeStyle='#ff6b6b'; ctx.setLineDash([3,2]);
+    ctx.beginPath(); ctx.moveTo(sx(4.9),sy(1.5)); ctx.lineTo(sx(5.1),sy(1.5)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#22c3a6'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('裂缝', sx(5), sy(-1.8));
+    // 图4：霍尔元件
+    ctx.fillStyle='rgba(245,166,35,.3)';
+    ctx.fillRect(sx(6.6),sy(-0.6),sx(1.2)-sx(0),sy(1.2));
+    ctx.fillStyle='#f5a623'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('I→', sx(7.2), sy(0.8));
+    ctx.fillText('B↓', sx(6.8), sy(-1.5));
+    ctx.fillStyle='#ff6b6b'; ctx.font='bold 11px sans-serif';
+    ctx.fillText('N侧(低)', sx(6.6), sy(-0.9));
+  }
+};
+initGraph("g1",CFG);
+})();
+
+document.querySelectorAll('.oi').forEach(o=>{
+  o.addEventListener('click',()=>{
+    const sel=o.dataset.v;
+    const corrects={A:true,C:true,D:true};
+    document.querySelectorAll('.oi').forEach(x=>x.classList.remove('sel','correct','wrong'));
+    o.classList.add('sel');
+    if(corrects[sel]){{o.classList.add('correct');}}
+    else{{o.classList.add('wrong');}}
+  });
+});
+document.getElementById('ansBtn').onclick=()=>{{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+}};
+
+</script>
+</body>
+</html>
