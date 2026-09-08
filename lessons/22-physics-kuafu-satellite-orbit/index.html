@@ -387,7 +387,7 @@ var CFG={
     ctx.strokeStyle='#e6397a'; ctx.lineWidth=2.2; ctx.setLineDash([]);
     ctx.beginPath();
     var cx=sx(C), cy=sy(0);
-    var rx=sx(a)-sx(0), ry=sy(b)-sy(0);
+    var rx=sx(a)-sx(0), ry=Math.abs(sy(b)-sy(0));
     ctx.ellipse(cx,cy,rx,ry,0,0,7); ctx.stroke();
     // 夸父一号：圆轨道左侧 (在 -R, 0)，v1向下
     var KX=sx(-R), KY=sy(0);
