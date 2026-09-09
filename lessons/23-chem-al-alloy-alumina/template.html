@@ -261,6 +261,13 @@
       </div>
     </details>
     <details>
+      <summary>📌 过滤时为什么必须玻璃棒引流？</summary>
+      <div class="step-body">
+        <p>过滤操作的要点是“一贴、二低、三靠”。其中“三靠”要求烧杯嘴紧靠玻璃棒，让滤液沿玻璃棒缓缓流入漏斗。</p>
+        <p>如果直接倾倒，滤液容易溅出，还可能冲破滤纸，导致过滤失败或滤液浑浊。</p>
+      </div>
+    </details>
+    <details>
       <summary>📌 为什么过量 NaOH 不能制 Al(OH)₃？</summary>
       <div class="step-body">
         <p>Al(OH)₃ 是两性氢氧化物，会继续与过量强碱反应生成可溶的偏铝酸盐：</p>
@@ -309,7 +316,7 @@
 
   <section class="final-answer">
     <div class="heading">🏁 最终答案</div>
-    <div class="big">选 B：用图乙装置过滤溶解后混合物</div>
+    <div class="big">选 A：用图甲装置溶解铝合金</div>
     <p style="color:var(--text-secondary);font-size:0.9rem;">只有过滤能把不溶的 Cu 与含 Al³⁺ 的滤液分开，后续才能制备 Al(OH)₃ 并灼烧成 Al₂O₃。</p>
   </section>
 
@@ -680,10 +687,10 @@ function setCalcination(mode) {
 /* ---------- 选择交互 ---------- */
 var selectedOpt = null;
 var optionData = {
-  A: { title: "❌ A 错误", body: "图甲用酒精灯加热稀硫酸溶解铝合金。Al 与稀硫酸反应会放出 H₂，敞口加热会让氢气与空气混合，存在安全隐患；且此步无需加热。", why: "溶解操作本身可用烧杯，但不应在产生 H₂ 时用明火加热。" },
-  B: { title: "✅ B 正确", body: "Al 溶于稀硫酸后生成 Al₂(SO₄)₃ 溶液，Cu 不溶而留在固体中。用过滤装置把 Cu 残渣与滤液分开，符合“固液分离”的要求。", why: "过滤是除去不溶性固体杂质的正确操作，装置乙的漏斗、烧杯、玻璃棒引流均合理。" },
+  A: { title: "✅ A 正确", body: "Al 能与稀硫酸反应生成 Al₂(SO₄)₃ 和 H₂，而 Cu 在金属活动性顺序中位于 H 之后，不与稀硫酸反应。图甲用烧杯、玻璃棒搅拌并加热，是溶解合金的正确装置与操作。", why: "Al + H₂SO₄ → Al³⁺（溶液），Cu 不溶，后续可过滤除去。" },
+  B: { title: "❌ B 错误", body: "过滤时需要用玻璃棒引流，防止液体溅出并避免冲破滤纸。图乙直接把烧杯中的液体倒入漏斗，缺少玻璃棒引流，操作不规范。", why: "“一贴二低三靠”中的第三靠要求烧杯口紧靠玻璃棒，玻璃棒下端轻靠三层滤纸处。" },
   C: { title: "❌ C 错误", body: "图丙中写的是“过量 NaOH”。Al(OH)₃ 是两性氢氧化物，会继续与过量 OH⁻ 反应生成可溶的 AlO₂⁻，沉淀会被溶解掉。", why: "制备 Al(OH)₃ 应控制碱量，或用弱碱/通入 CO₂，不能用过量强碱。" },
-  D: { title: "❌ D 错误", body: "图丁用蒸发皿灼烧 Al(OH)₃。蒸发皿用于蒸发溶液，不耐受灼烧固体所需的高温；灼烧固体应使用坩埚。", why: "2Al(OH)₃ → Al₂O₃ + 3H₂O 需要较高温度，应使用坩埚 + 泥三角。" }
+  D: { title: "❌ D 错误", body: "图丁用蒸发皿灼烧 Al(OH)₃。蒸发皿用于蒸发溶液、浓缩液体，不适合高温灼烧固体；灼烧固体应使用坩埚 + 泥三角。", why: "2Al(OH)₃ → Al₂O₃ + 3H₂O 需要较高温度，应使用坩埚。" }
 };
 
 function chooseOption(opt) {
@@ -706,18 +713,18 @@ function chooseOption(opt) {
   document.getElementById("feedback-title").textContent = data.title;
   document.getElementById("feedback-body").textContent = data.body;
   document.getElementById("feedback-why").textContent = "💡 " + data.why;
-  fb.className = "feedback show " + (opt === "B" ? "ok" : "err");
+  fb.className = "feedback show " + (opt === "A" ? "ok" : "err");
   // mark final correct/wrong classes after short delay
   setTimeout(function () {
-    if (opt === "B") {
+    if (opt === "A") {
       if (optEl) optEl.classList.add("correct");
       if (figEl) figEl.classList.add("correct");
     } else {
       if (optEl) optEl.classList.add("wrong");
       if (figEl) figEl.classList.add("wrong");
-      // also highlight the correct answer B
-      var correctOpt = document.querySelector('.opt-card[data-opt="B"]');
-      var correctFig = document.querySelector('.fig-card[data-fig="B"]');
+      // also highlight the correct answer A
+      var correctOpt = document.querySelector('.opt-card[data-opt="A"]');
+      var correctFig = document.querySelector('.fig-card[data-fig="A"]');
       if (correctOpt) correctOpt.classList.add("correct");
       if (correctFig) correctFig.classList.add("correct");
     }
