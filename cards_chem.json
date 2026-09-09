@@ -1,0 +1,40 @@
+[
+  {
+    "id": "化0001",
+    "subject": "化学",
+    "chapter": "金属及其化合物",
+    "knowledge": "铝的化合物/实验装置",
+    "title": "铝合金(含Al、Cu)制备Al₂O₃·四装置辨析",
+    "question": "实验室用铝合金(含Al、Cu)制备Al₂O₃，下列相关原理、装置及操作正确的是？A.甲(蒸发皿溶解) B.乙(过滤) C.丙(过量NaOH) D.丁(蒸发皿灼烧)",
+    "answer": "B",
+    "signals": [
+      {
+        "signal": "用蒸发皿加热溶解固体",
+        "conclusion": "蒸发皿只能用于蒸发结晶溶液，不能做反应容器；溶解应用烧杯/锥形瓶+玻璃棒",
+        "warn": "记住：蒸发皿≠反应容器"
+      },
+      {
+        "signal": "铝与稀硫酸反应",
+        "conclusion": "2Al+3H₂SO₄=Al₂(SO₄)₃+3H₂↑；Cu与稀硫酸不反应，过滤可除铜",
+        "warn": "Al是活泼金属，Cu在H后不与稀酸反应"
+      },
+      {
+        "signal": "过滤装置判断",
+        "conclusion": "一贴二低三靠：滤纸贴漏斗、滤纸低漏斗、液面低滤纸；烧杯嘴靠玻璃棒、玻璃棒靠三层滤纸、漏斗下端靠烧杯内壁",
+        "warn": "玻璃棒引流方向别搞反"
+      },
+      {
+        "signal": "加过量NaOH制备Al(OH)₃",
+        "conclusion": "Al(OH)₃两性，Al(OH)₃+NaOH=NaAlO₂+2H₂O，过量会溶解沉淀；应滴加至恰好沉淀或用氨水",
+        "warn": "制备Al(OH)₃不能用过量强碱"
+      },
+      {
+        "signal": "灼烧Al(OH)₃制Al₂O₃",
+        "conclusion": "2Al(OH)₃=Δ=Al₂O₃+3H₂O；灼烧固体必须用坩埚(耐高温陶瓷)，蒸发皿是玻璃不能灼烧",
+        "warn": "坩埚≠蒸发皿：坩埚烧固体，蒸发皿烧溶液"
+      }
+    ],
+    "link": "https://mcjc4.github.io/courseware/lessons/24-chem-al-alloy-alumina/",
+    "source": "我的解题课件库"
+  }
+]

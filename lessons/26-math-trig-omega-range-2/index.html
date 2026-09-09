@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>正弦函数在指定区间单调递增 · 三角函数互动课件</title>
+
+<meta name="number" content="数0012">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="正弦函数单调区间与 ω 约束">
+<meta name="source" content="高考模拟题">
+<meta name="type" content="单选题">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px;display:none}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step.red{background:#fff0f0;border-left-color:#ff6b6b}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.problem-img-wrap{margin-top:14px;border:1px dashed #c5d6e8;border-radius:12px;padding:10px;text-align:center;background:#f8fbff}
+.problem-img-wrap img{max-width:100%;border-radius:8px}
+.graph-wrap{position:relative}
+.graph-wrap canvas{display:block;width:100%;height:360px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;cursor:crosshair;touch-action:none}
+.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
+.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3)}
+.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
+.graph-slider b{color:#2a6df4;min-width:22px}
+.graph-slider input[type=range]{width:200px;accent-color:#5b7cfa}
+.graph-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#4a5d72;margin-top:10px}
+.legend-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.stat-badge{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.92);border:1px solid #d6e4f2;border-radius:10px;padding:8px 12px;font-size:12.5px;color:#2c3e50;font-weight:600;line-height:1.7;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.stat-badge .v{color:#2a6df4;font-weight:700}
+.stat-badge .v.warn{color:#ff6b6b}
+.stat-badge .v.ok{color:#22c3a6}
+.warning-box{background:#fff0f0;border:1px solid #ffcaca;border-radius:12px;padding:12px 16px;margin-top:14px;font-size:13.5px;color:#b23a3a;line-height:1.75}
+.warning-box b{color:#ff6b6b}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back-link" href="https://mcjc4.github.io/courseware/">← 返回导航页</a>
+
+
+<div class="meta-bar">
+  <div class="chip num"><b>数0012</b></div>
+  <div class="chip"><b>学科</b> 数学</div>
+  <div class="chip"><b>章节</b> 三角函数</div>
+  <div class="chip"><b>知识点</b> 正弦函数单调区间与 ω 约束</div>
+  <div class="chip"><b>题型</b> 单选题</div>
+  <div class="chip"><b>来源</b> 高考模拟题</div>
+</div>
+
+
+<div class="hero">
+  <div class="eyebrow">高考数学 · 三角函数</div>
+  <h1><span class="rn">数0012 · 单选题</span><br>正弦函数在指定区间单调递增</h1>
+  <div class="sub">已知 $f(x)=\sin(\omega x+\frac{\pi}{6}),\omega>0$ 在 $\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$ 上单调递增，求 $\omega$ 的取值范围</div>
+  <div class="answer">
+    <span class="lbl">正确答案：</span>
+    <span id="ansShow">A</span>
+    <button id="ansBtn">显示/隐藏答案</button>
+  </div>
+  <div class="scrollhint">↓ 向下滚动查看互动图像和详解</div>
+</div>
+
+<section>
+  <div class="card problem-card">
+    <h2><span class="num">1</span> 题目</h2>
+    <div class="problem-head">高考模拟题 | 单选题</div>
+    <div class="stem">已知函数 $f(x)=\sin(\omega x+\frac{\pi}{6})$（其中 $\omega>0$）在区间 $\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$ 上单调递增，则 $\omega$ 的取值范围是：</div>
+  <div class="problem-img-wrap"><img src="img/problem.jpg" onerror="this.style.display='none';this.parentElement.style.display='none'"></div>
+
+    <div class="optlist">
+    <div class="oi" data-v="A"><b>A.</b> $(0,\,2]$<span class="fb">✅ 正确答案</span></div>
+    <div class="oi" data-v="B"><b>B.</b> $(0,\,8]$<span class="fb">❌ 不是本题答案</span></div>
+    <div class="oi" data-v="C"><b>C.</b> $[2,\,8]$<span class="fb">❌ 不是本题答案</span></div>
+    <div class="oi" data-v="D"><b>D.</b> $[0,\,2]$<span class="fb">❌ 不是本题答案</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <h2><span class="num">2</span> 互动图像 <small>鼠标悬停看坐标 · 滚轮缩放 · 拖拽平移 · 双指触摸缩放</small></h2>
+    <div class="graph-wrap" id="gw">
+      <canvas id="graph"></canvas>
+      <div class="graph-bubble" id="bubble"></div>
+      <div class="stat-badge" id="stat"><span id="wMax">单调性：<span class="v">—</span></span></div>
+    </div>
+    <div class="graph-ctrl">
+    <div class="graph-slider"><span>ω =</span><b id="omegaVal">1.00</b><input id="omegaSlider" type="range" min="0.2" max="5" step="0.05" value="1.0"></div>
+    </div>
+    <div class="graph-legend">
+      <span><span class="legend-dot" style="background:#4f8ef7"></span>f(x)=sin(ωx+π/6)</span><span><span class="legend-dot" style="background:#4f8ef7;opacity:0.3"></span>[-π/12, π/6]</span>
+    </div>
+    <div class="graph-hint">💡 调 ω 滑块，观察图像变化和题目条件是否满足</div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <h2><span class="num">3</span> 详解步骤</h2>
+  <div class="step "><b>做变量替换：</b>令 $u=\omega x+\frac{\pi}{6}$，因为 $x\in\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$，所以<br>$u\in\left[-\frac{\omega\pi}{12}+\frac{\pi}{6},\ \frac{\omega\pi}{6}+\frac{\pi}{6}\right]$</div>
+  <div class="step "><b>\sin u 的递增区间为：</b>$u\in\left[-\frac{\pi}{2}+2k\pi,\frac{\pi}{2}+2k\pi\right]$，取 $k=0$ 情形（因为区间长度有限），需要<br>$\left[-\frac{\omega\pi}{12}+\frac{\pi}{6},\ \frac{\omega\pi}{6}+\frac{\pi}{6}\right] \subseteq \left[-\frac{\pi}{2},\frac{\pi}{2}\right]$</div>
+  <div class="step "><b>列出两个端点约束：</b><br>左端点：$-\frac{\omega\pi}{12}+\frac{\pi}{6}\ge -\frac{\pi}{2}$ ⟹ $\frac{\omega\pi}{12}\le\frac{2\pi}{3}$ ⟹ $\omega\le 8$<br>右端点：$\frac{\omega\pi}{6}+\frac{\pi}{6}\le\frac{\pi}{2}$ ⟹ $\frac{\omega\pi}{6}\le\frac{\pi}{3}$ ⟹ $\omega\le 2$</div>
+  <div class="step green"><b>取交集：</b>$\omega\le 2$ 且 $\omega>0$，故 $\omega\in(0,\,2]$</div>
+
+    
+    <div class="insight">
+      <div class="it">💡 核心思想</div>
+      方法口诀：<b>单调区间问题 → 先做变量替换 $u=\omega x+\varphi$，再把区间映射到 $u$ 空间，最后用"子集"条件（左端点≥递增区间左端点、右端点≤递增区间右端点）列出不等式</b>。
+    </div>
+  </div>
+</section>
+
+<div class="foot">—— 数0012 · 正弦函数在指定区间单调递增 ——</div>
+
+</div>
+
+<script>
+// ===== 选项交互 =====
+const correctOpt='A';
+document.querySelectorAll('.oi').forEach(o=>{
+  o.addEventListener('click',()=>{
+    const sel=o.dataset.v;
+    document.querySelectorAll('.oi').forEach(x=>x.classList.remove('sel','correct','wrong'));
+    o.classList.add('sel');
+    if(sel===correctOpt){o.classList.add('correct');}
+    else{o.classList.add('wrong');}
+  });
+});
+document.getElementById('ansBtn').onclick=()=>{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+};
+</script>
+
+<script>
+// ===== Canvas 引擎 + 通用交互 =====
+
+// ====== 通用 Canvas 交互引擎 ======
+(function(){{
+  const cv=document.getElementById('graph');
+  const ctx=cv.getContext('2d');
+  const wrap=cv.parentElement;
+  const bubble=document.getElementById('bubble');
+  const stat=document.getElementById('stat');
+
+  // ----- 视图参数 -----
+  let view={{xMin:-0.6, xMax:1.8, yMin:-1.6, yMax:1.6}};
+  let dpr=window.devicePixelRatio||1;
+
+  function resize(){{
+    const r=cv.getBoundingClientRect();
+    cv.width=r.width*dpr;
+    cv.height=r.height*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }}
+  resize();
+  window.addEventListener('resize',resize);
+
+  function W(){{return cv.clientWidth;}}
+  function H(){{return cv.clientHeight;}}
+
+  function xToPx(x){{return (x-view.xMin)/(view.xMax-view.xMin)*W();}}
+  function yToPx(y){{return H()-(y-view.yMin)/(view.yMax-view.yMin)*H();}}
+  function pxToX(px){{return px/W()*(view.xMax-view.xMin)+view.xMin;}}
+  function pxToY(py){{return (1-py/H())*(view.yMax-view.yMin)+view.yMin;}}
+
+  // ----- 绘制 π 刻度轴 -----
+  function drawAxes(){{
+    ctx.clearRect(0,0,W(),H());
+    // 背景网格
+    ctx.strokeStyle='#eef2f8';
+    ctx.lineWidth=1;
+    // 垂直 π 刻度
+    const piVals=[];
+    const piStep=0.2617993877991494;
+    let v=Math.ceil(view.xMin/piStep)*piStep;
+    while(v<=view.xMax){{piVals.push(v);v+=piStep;}}
+    // 水平线
+    for(let gy=Math.ceil(view.yMin);gy<=Math.floor(view.yMax);gy++){{
+      ctx.beginPath();
+      ctx.moveTo(xToPx(view.xMin),yToPx(gy));
+      ctx.lineTo(xToPx(view.xMax),yToPx(gy));
+      ctx.stroke();
+    }}
+    for(const pv of piVals){{
+      ctx.beginPath();
+      ctx.moveTo(xToPx(pv),yToPx(view.yMin));
+      ctx.lineTo(xToPx(pv),yToPx(view.yMax));
+      ctx.stroke();
+    }}
+    // 坐标轴
+    ctx.strokeStyle='#7a8fa3';
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(xToPx(view.xMin),yToPx(0));
+    ctx.lineTo(xToPx(view.xMax),yToPx(0));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xToPx(0),yToPx(view.yMin));
+    ctx.lineTo(xToPx(0),yToPx(view.yMax));
+    ctx.stroke();
+    // π 标签
+    ctx.fillStyle='#7a8fa3';
+    ctx.font='12px system-ui';
+    ctx.textAlign='center';
+    for(const pv of piVals){{
+      if(Math.abs(pv)<0.0001)continue;
+      const lbl=formatPi(pv);
+      ctx.fillText(lbl,xToPx(pv),yToPx(0)+16);
+    }}
+    // y 整数标签
+    ctx.textAlign='right';
+    for(let gy=Math.ceil(view.yMin);gy<=Math.floor(view.yMax);gy++){{
+      if(gy===0)continue;
+      ctx.fillText(String(gy),xToPx(0)-6,yToPx(gy)+4);
+    }}
+  }}
+
+  function formatPi(v){{
+    const k=v/Math.PI;
+    const tol=0.001;
+    // 尝试常见分数
+    const tries=[[1,'π'],[0.5,'π/2'],[1/3,'π/3'],[1/4,'π/4'],[1/6,'π/6'],[2/3,'2π/3'],[3/4,'3π/4'],[5/6,'5π/6'],[1.5,'3π/2'],[2,'2π'],[2.5,'5π/2'],[3,'3π']];
+    for(const[n,lbl]of tries){{if(Math.abs(k-n)<tol)return lbl;if(Math.abs(k+n)<tol)return '-'+lbl;}}
+    if(Math.abs(k-Math.round(k))<tol){{
+      const r=Math.round(k);return r===1?'π':r===-1?'-π':r+'π';
+    }}
+    return v.toFixed(2);
+  }}
+
+  // ----- 绘制函数曲线 -----
+  function drawCurve(fn,color){{
+    ctx.strokeStyle=color;
+    ctx.lineWidth=2.5;
+    ctx.beginPath();
+    const step=(view.xMax-view.xMin)/600;
+    let started=false;
+    for(let x=view.xMin;x<=view.xMax;x+=step){{
+      const y=fn(x);
+      if(!isFinite(y)){{started=false;continue;}}
+      if(y<view.yMin-10||y>view.yMax+10){{started=false;continue;}}
+      if(!started){{ctx.moveTo(xToPx(x),yToPx(y));started=true;}}
+      else ctx.lineTo(xToPx(x),yToPx(y));
+    }}
+    ctx.stroke();
+  }}
+
+  // ----- 通用：画虚线 -----
+  function drawVDashed(x,color,lbl){{
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
+    ctx.beginPath();ctx.moveTo(xToPx(x),yToPx(view.yMin));ctx.lineTo(xToPx(x),yToPx(view.yMax));ctx.stroke();
+    ctx.setLineDash([]);
+    if(lbl){{ctx.fillStyle=color;ctx.font='bold 12px system-ui';ctx.textAlign='left';ctx.fillText(lbl,xToPx(x)+4,yToPx(view.yMax)-6);}}
+  }}
+  function drawHDashed(y,color,lbl){{
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
+    ctx.beginPath();ctx.moveTo(xToPx(view.xMin),yToPx(y));ctx.lineTo(xToPx(view.xMax),yToPx(y));ctx.stroke();
+    ctx.setLineDash([]);
+    if(lbl){{ctx.fillStyle=color;ctx.font='bold 12px system-ui';ctx.textAlign='right';ctx.fillText(lbl,xToPx(view.xMax)-6,yToPx(y)-6);}}
+  }}
+
+  // ----- 通用：画填充区间 -----
+  function drawBandX(x1,x2,color,alpha){{
+    ctx.fillStyle=color;ctx.globalAlpha=alpha||0.15;
+    ctx.fillRect(xToPx(x1),yToPx(view.yMax),xToPx(x2)-xToPx(x1),yToPx(view.yMin)-yToPx(view.yMax));
+    ctx.globalAlpha=1;
+  }}
+
+  // ----- 通用：画圆点 -----
+  function drawPoint(x,y,color,label){{
+    const px=xToPx(x),py=yToPx(y);
+    ctx.fillStyle=color;
+    ctx.beginPath();ctx.arc(px,py,5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+    if(label){{ctx.fillStyle=color;ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(label,px,py-10);}}
+  }}
+
+  // ----- 鼠标 hover -----
+  function updateBubble(e){{
+    const r=cv.getBoundingClientRect();
+    const px=e.clientX-r.left,py=e.clientY-r.top;
+    const x=pxToX(px),y=pxToY(py);
+    bubble.style.display='block';
+    bubble.style.left=(px+14)+'px';
+    bubble.style.top=(py-34)+'px';
+    bubble.textContent='x='+formatPi(x)+', y='+y.toFixed(3);
+  }}
+  cv.addEventListener('mousemove',updateBubble);
+  cv.addEventListener('mouseleave',()=>{{bubble.style.display='none';}});
+
+  // ----- 拖拽平移 -----
+  let dragging=false,lastX=0,lastY=0;
+  cv.addEventListener('mousedown',e=>{{dragging=true;lastX=e.clientX;lastY=e.clientY;}});
+  window.addEventListener('mouseup',()=>{{dragging=false;}});
+  window.addEventListener('mousemove',e=>{{
+    if(!dragging)return;
+    const dx=e.clientX-lastX,dy=e.clientY-lastY;
+    lastX=e.clientX;lastY=e.clientY;
+    const xr=view.xMax-view.xMin,yr=view.yMax-view.yMin;
+    view.xMin-=dx/W()*xr;view.xMax-=dx/W()*xr;
+    view.yMin+=dy/H()*yr;view.yMax+=dy/H()*yr;
+    draw();
+  }});
+
+  // ----- 滚轮缩放 -----
+  cv.addEventListener('wheel',e=>{{
+    e.preventDefault();
+    const r=cv.getBoundingClientRect();
+    const px=e.clientX-r.left,py=e.clientY-r.top;
+    const x=pxToX(px),y=pxToY(py);
+    const factor=e.deltaY>0?1.1:0.9;
+    view.xMin=x-(x-view.xMin)*factor;view.xMax=x+(view.xMax-x)*factor;
+    view.yMin=y-(y-view.yMin)*factor;view.yMax=y+(view.yMax-y)*factor;
+    draw();
+  },{passive:false});
+
+  // ----- 触摸 -----
+  let touches=[],pinchDist=0;
+  cv.addEventListener('touchstart',e=>{{
+    e.preventDefault();
+    touches=[...e.touches];
+    if(touches.length===2){{
+      pinchDist=Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY);
+    }}
+  },{passive:false});
+  cv.addEventListener('touchmove',e=>{{
+    e.preventDefault();
+    const t=[...e.touches];
+    if(t.length===1&&touches.length===1){{
+      const dx=t[0].clientX-touches[0].clientX;
+      const dy=t[0].clientY-touches[0].clientY;
+      const xr=view.xMax-view.xMin,yr=view.yMax-view.yMin;
+      view.xMin-=dx/W()*xr;view.xMax-=dx/W()*xr;
+      view.yMin+=dy/H()*yr;view.yMax+=dy/H()*yr;
+      draw();
+    }}else if(t.length===2&&touches.length===2){{
+      const d=Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+      if(pinchDist>0){{
+        const factor=pinchDist/d;
+        const cx=(t[0].clientX+t[1].clientX)/2,cy=(t[0].clientY+t[1].clientY)/2;
+        const r=cv.getBoundingClientRect();
+        const x=pxToX(cx-r.left),y=pxToY(cy-r.top);
+        view.xMin=x-(x-view.xMin)*factor;view.xMax=x+(view.xMax-x)*factor;
+        view.yMin=y-(y-view.yMin)*factor;view.yMax=y+(view.yMax-y)*factor;
+        draw();
+      }}
+      pinchDist=d;
+    }}
+    touches=t;
+  },{passive:false});
+  cv.addEventListener('touchend',e=>{{touches=[];pinchDist=0;}});
+
+  // ----- 由题目填充的函数 -----
+  // draw 由各题注入
+  window._lessonInit=function(extraDraw){{
+    draw=extraDraw;draw();
+  }};
+  window._resetView=function(xmn,xmx,ymn,ymx){{
+    view={{xMin:xmn,xMax:xmx,yMin:ymn,yMax:ymx}};
+    draw();
+  }};
+
+}})();
+
+</script>
+
+<script>
+// ===== 题目特定绘制逻辑 =====
+(function(){
+  const canvas=document.getElementById('graph');
+  const ctx=canvas.getContext('2d');
+  let omega=1.0;
+
+  function f(x){return Math.sin(omega*x+Math.PI/6);}
+  function draw(){
+    drawAxes();
+    drawBandX(-Math.PI/12,Math.PI/6,'#4f8ef7',0.18);
+    drawCurve(f,'#4f8ef7');
+    drawVDashed(-Math.PI/12,'#4f8ef7','');
+    drawVDashed(Math.PI/6,'#4f8ef7','');
+    drawHDashed(1,'#22c3a6','1');
+    drawHDashed(-1,'#22c3a6','-1');
+    drawVDashed(-Math.PI/2,'#999','');
+    drawVDashed(Math.PI/2,'#999','');
+    // 显示 u=ωx+π/6 在端点值
+    const u1=omega*(-Math.PI/12)+Math.PI/6;
+    const u2=omega*(Math.PI/6)+Math.PI/6;
+    drawVDashed(-Math.PI/12,'#ff6b6b',formatPi(u1));
+    drawVDashed(Math.PI/6,'#ff6b6b',formatPi(u2));
+    // 检查单调：取几个点比较
+    let monotone=true;
+    const pts=20;
+    let prev=f(-Math.PI/12);
+    for(let i=1;i<=pts;i++){
+      const x=-Math.PI/12+i*(Math.PI/6+Math.PI/12)/pts;
+      const y=f(x);
+      if(y<prev-0.01){monotone=false;break;}
+      prev=y;
+    }
+    const st=document.getElementById('wMax');
+    if(st) st.innerHTML='[-π/12,π/6]内：<span class="v '+(monotone?'ok':'warn')+'">'+(monotone?'单调递增':'不单调')+'</span>';
+  }
+
+
+  // 滑块绑定
+  const sl=document.getElementById('omegaSlider');
+  if(sl){
+    sl.addEventListener('input',e=>{
+      omega=parseFloat(e.target.value);
+      document.getElementById('omegaVal').textContent=omega.toFixed(2);
+      draw();
+    });
+  }
+
+  window._lessonInit(draw);
+})();
+</script>
+
+<script>
+  // 启动 KaTeX 渲染
+  document.addEventListener('DOMContentLoaded',()=>{
+    if(typeof renderMathInElement!=='undefined'){
+      renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+    }
+  });
+</script>
+
+</body>
+</html>
