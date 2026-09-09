@@ -418,6 +418,8 @@ document.getElementById('ansBtn').onclick=()=>{
     draw();
   };
 
+  window._g={drawAxes,drawCurve,drawBandX,drawVDashed,drawHDashed,drawPoint,formatPi};
+
 })();
 
 </script>
@@ -427,6 +429,7 @@ document.getElementById('ansBtn').onclick=()=>{
 (function(){
   const canvas=document.getElementById('graph');
   const ctx=canvas.getContext('2d');
+  const {drawAxes,drawCurve,drawBandX,drawVDashed,drawHDashed,drawPoint,formatPi}=window._g;
   let omega=2.0;
 
   const wMaxElem=document.getElementById('wMax');

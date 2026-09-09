@@ -418,6 +418,8 @@ document.getElementById('ansBtn').onclick=()=>{
     draw();
   };
 
+  window._g={drawAxes,drawCurve,drawBandX,drawVDashed,drawHDashed,drawPoint,formatPi};
+
 })();
 
 </script>
@@ -427,6 +429,7 @@ document.getElementById('ansBtn').onclick=()=>{
 (function(){
   const canvas=document.getElementById('graph');
   const ctx=canvas.getContext('2d');
+  const {drawAxes,drawCurve,drawBandX,drawVDashed,drawHDashed,drawPoint,formatPi}=window._g;
   let omega=4.0;
 
   function f(x){return 2*Math.cos(omega*x+Math.PI/6);}
