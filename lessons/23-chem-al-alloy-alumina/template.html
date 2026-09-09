@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="subject" content="化学" />
+<meta name="chapter" content="铝及其化合物" />
+<meta name="knowledge" content="实验装置与操作正误判断" />
+<meta name="type" content="单选题" />
+<title>铝合金制备 Al₂O₃ · 实验装置正误判断 · 互动解题课件</title>
+<style id="katex-css">__KATEX_CSS__</style>
+<style>
+  :root {
+    --brand1: #4f8ef7;
+    --brand2: #22c3a6;
+    --brand3: #7c5cf0;
+    --mint: #57d98d;
+    --page1: #eef6ff;
+    --page2: #f2fdf7;
+    --card: #ffffff;
+    --card-border: #e3edf7;
+    --text-primary: #1f2d3d;
+    --text-secondary: #5c7185;
+    --text-muted: #93a7ba;
+    --accent-blue: #2563eb;
+    --accent-green: #0d9488;
+    --accent-red: #dc2626;
+    --accent-yellow: #d97706;
+    --accent-purple: #7c5cf0;
+    --soft-blue: #eaf3ff;
+    --soft-green: #e8fbf1;
+    --soft-yellow: #fef7e8;
+    --soft-purple: #f4f0ff;
+    --soft-red: #fef2f2;
+    --border-soft: #dbe7f3;
+    --shadow: 0 10px 30px -12px rgba(31, 66, 135, 0.16);
+    --shadow-hover: 0 16px 36px -14px rgba(31, 66, 135, 0.24);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page1); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--text-primary); line-height: 1.65; min-height: 100vh;
+    padding: 1.1rem 0.9rem 2.5rem;
+    background:
+      radial-gradient(720px 460px at 12% -8%, rgba(79,142,247,0.14), transparent 62%),
+      radial-gradient(640px 420px at 96% -4%, rgba(34,195,166,0.15), transparent 60%),
+      radial-gradient(560px 380px at 50% 118%, rgba(124,92,240,0.08), transparent 62%),
+      linear-gradient(180deg, var(--page1), var(--page2) 46%, var(--page1));
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  .hero {
+    text-align: center; padding: 1.6rem 1.2rem 1.5rem; border-radius: 22px; color: #fff;
+    margin-bottom: 1rem;
+    background: linear-gradient(120deg, #5b7cfa 0%, #4f8ef7 34%, #2fd0b4 70%, #57d98d 100%);
+    box-shadow: 0 18px 40px -18px rgba(79,142,247,0.55);
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(300px 180px at 88% 12%, rgba(255,255,255,0.28), transparent 70%),
+      radial-gradient(240px 160px at 8% 90%, rgba(255,255,255,0.20), transparent 70%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero h1 { font-size: clamp(1.55rem, 4.2vw, 2.25rem); font-weight: 900; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(30,64,175,0.25); margin-top: 0.35rem; }
+  .hero p { color: rgba(255,255,255,0.92); font-size: 0.95rem; margin-top: 0.25rem; font-weight: 500; }
+  .tag { display: inline-block; padding: 0.14rem 0.6rem; margin: 0 0.18rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.35); color: #fff; backdrop-filter: blur(4px); }
+
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 20px; padding: 1.15rem 1.45rem 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .card:hover { box-shadow: var(--shadow-hover); }
+  .card h2 { font-size: 1.14rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.55rem; color: var(--text-primary); }
+  .card h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 1.7rem; height: 1.7rem; flex: none; background: linear-gradient(135deg, var(--brand1), var(--brand2)); color: #fff; border-radius: 50%; font-size: 0.9rem; font-weight: 700; box-shadow: 0 4px 10px -3px rgba(79,142,247,0.5); }
+  .sub { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.7rem; }
+  .sub strong { color: var(--accent-green); }
+
+  .problem-text { font-size: 0.97rem; color: var(--text-primary); padding: 0.85rem 1.05rem; background: var(--soft-blue); border-radius: 12px; border-left: 5px solid var(--brand1); line-height: 1.8; }
+  .problem-text strong { color: var(--accent-blue); }
+
+  .fig-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-top: 0.7rem; }
+  .fig-card {
+    background: #fbfdff; border: 2px solid var(--border-soft); border-radius: 16px; padding: 0.55rem 0.55rem 0.65rem;
+    text-align: center; transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s; cursor: pointer;
+  }
+  .fig-card:hover { border-color: var(--brand1); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .fig-card.active { border-color: var(--brand1); box-shadow: 0 0 0 4px rgba(79,142,247,0.12); }
+  .fig-card.correct { border-color: #10b981; background: #f0fdf4; box-shadow: 0 0 0 4px rgba(16,185,129,0.12); }
+  .fig-card.wrong { border-color: #ef4444; background: var(--soft-red); box-shadow: 0 0 0 4px rgba(239,68,68,0.12); }
+  .fig-card .label { display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: linear-gradient(135deg, var(--brand1), var(--brand2)); color: #fff; font-weight: 800; font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .fig-card .caption { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem; }
+  .fig-card canvas { display: block; width: 100%; height: auto; max-width: 320px; margin: 0 auto; }
+
+  .opt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.7rem; }
+  .opt-card {
+    display: flex; align-items: flex-start; gap: 0.65rem; text-align: left;
+    background: #fbfdff; border: 2px solid var(--border-soft); border-radius: 14px; padding: 0.75rem 0.85rem;
+    cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+  .opt-card:hover { border-color: var(--brand1); background: #f8fbff; }
+  .opt-card.selected { border-color: var(--brand1); background: var(--soft-blue); }
+  .opt-card.correct { border-color: #10b981; background: #f0fdf4; }
+  .opt-card.wrong { border-color: #ef4444; background: var(--soft-red); }
+  .opt-card .letter { flex: none; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: linear-gradient(135deg, var(--brand1), var(--brand2)); color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+  .opt-card.correct .letter { background: linear-gradient(135deg, #10b981, #34d399); }
+  .opt-card.wrong .letter { background: linear-gradient(135deg, #ef4444, #f87171); }
+  .opt-card .txt { font-size: 0.9rem; color: var(--text-primary); line-height: 1.55; }
+  .opt-card .txt sub, .opt-card .txt sup { font-size: 0.7em; }
+
+  .feedback {
+    display: none; margin-top: 0.8rem; border-radius: 14px; padding: 0.85rem 1rem; border: 1px solid var(--border-soft); background: #fff;
+  }
+  .feedback.show { display: block; animation: slideIn 0.25s ease; }
+  .feedback.ok { border-color: #6ee7b7; background: var(--soft-green); }
+  .feedback.err { border-color: #fecaca; background: var(--soft-red); }
+  .feedback .title { font-weight: 800; font-size: 1rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; }
+  .feedback.ok .title { color: #047857; }
+  .feedback.err .title { color: #b91c1c; }
+  .feedback p { font-size: 0.9rem; color: var(--text-primary); line-height: 1.75; margin-bottom: 0.4rem; }
+  .feedback .why { background: rgba(255,255,255,0.65); border-radius: 10px; padding: 0.55rem 0.75rem; font-size: 0.86rem; color: var(--text-secondary); }
+
+  .formula { background: #f8fbfe; padding: 0.6rem 0.85rem; border-radius: 12px; margin: 0.5rem 0 0.6rem; text-align: center; border: 1px solid var(--border-soft); overflow-x: auto; }
+  .formula-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .formula-row .formula { flex: 1 1 260px; margin: 0; }
+
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem; margin: 0.65rem 0 0.5rem; }
+  .control { background: #f8fbfe; padding: 0.45rem 0.8rem; border-radius: 12px; border: 1px solid var(--border-soft); }
+  .control label { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.2rem; font-weight: 700; }
+  .control .v { font-family: 'JetBrains Mono', 'Menlo', Consolas, monospace; color: var(--brand1); font-weight: 700; }
+  .control input[type="range"] { width: 100%; -webkit-appearance: none; background: transparent; height: 18px; cursor: pointer; }
+  .control input[type="range"]::-webkit-slider-runnable-track { height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--brand1), var(--brand2)); }
+  .control input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 15px; width: 15px; background: #fff; border: 3px solid var(--brand1); border-radius: 50%; margin-top: -5px; box-shadow: 0 1px 4px rgba(37,99,235,0.35); }
+
+  .buttons { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; }
+  button { padding: 0.38rem 0.9rem; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--brand1), var(--brand2)); color: #fff; font-weight: 700; cursor: pointer; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 6px 14px -6px rgba(79,142,247,0.55); transition: filter 0.15s, transform 0.1s, box-shadow 0.15s; }
+  button:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 8px 18px -6px rgba(79,142,247,0.6); }
+  button:active { transform: translateY(0); }
+  button.ghost { background: #fff; color: var(--text-primary); border: 1.5px solid var(--border-soft); box-shadow: none; }
+  button.ghost:hover { border-color: var(--brand1); color: var(--brand1); }
+  button.success { background: linear-gradient(135deg, #0d9488, var(--mint)); box-shadow: 0 6px 14px -6px rgba(13,148,136,0.5); }
+
+  .demo-box { background: #fbfdff; border: 1px dashed var(--border-soft); border-radius: 14px; padding: 0.75rem; margin-top: 0.5rem; }
+  .demo-status { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.45rem; text-align: center; font-weight: 600; }
+
+  details { margin: 0.5rem 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-soft); background: #fff; }
+  details > summary { padding: 0.68rem 0.95rem; cursor: pointer; background: #f6fafd; font-weight: 700; font-size: 0.94rem; list-style: none; user-select: none; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s; color: var(--text-primary); }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before { content: "▶"; font-size: 0.62rem; transition: transform 0.2s; color: var(--brand1); }
+  details[open] > summary::before { transform: rotate(90deg); }
+  details > summary:hover { background: var(--soft-blue); }
+  .step-body { padding: 0.8rem 1rem 1rem; font-size: 0.94rem; background: #fff; border-top: 1px solid var(--border-soft); }
+  .step-body p { margin-bottom: 0.5rem; }
+
+  .final-answer { text-align: center; padding: 1.5rem 1.2rem; background: linear-gradient(135deg, #e8fbf1, #eaf3ff 60%, #fdf3e7); border-radius: 20px; border: 1.5px solid #6ee7b7; box-shadow: var(--shadow); }
+  .final-answer .heading { font-size: 0.95rem; color: var(--text-secondary); font-weight: 700; letter-spacing: 1px; }
+  .final-answer .big { font-size: 1.32rem; font-weight: 800; margin: 0.9rem 0 0.45rem; color: #065f46; }
+
+  .softnote { background: linear-gradient(135deg, var(--soft-blue), #f0faf6); border: 1px solid var(--border-soft); border-radius: 14px; padding: 0.75rem 1rem; font-size: 0.92rem; margin: 0.6rem 0 0.75rem; line-height: 1.75; }
+  .softnote b { color: var(--accent-green); }
+  .softnote .hl { color: var(--accent-red); font-weight: 700; }
+
+  footer { text-align: center; margin-top: 1.8rem; color: var(--text-muted); font-size: 0.78rem; }
+
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 640px) {
+    body { padding: 0.6rem 0.5rem 2rem; }
+    .card { padding: 0.9rem 0.95rem 1rem; border-radius: 16px; }
+    .fig-grid, .opt-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <div>
+      <span class="tag">🧪 高中化学</span>
+      <span class="tag">⚗️ 实验装置</span>
+      <span class="tag">🎮 互动课件</span>
+    </div>
+    <h1>铝合金制备 Al₂O₃</h1>
+    <p>读懂每个装置，判断哪一步的原理、装置与操作都正确</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span> 题目</h2>
+    <div class="problem-text">
+      实验室用铝合金（含 <strong>Al</strong>、<strong>Cu</strong>）制备 <strong>Al₂O₃</strong>。
+      下列相关原理、装置及操作正确的是（　　）
+    </div>
+    <div class="fig-grid" id="fig-gallery">
+      <div class="fig-card" data-fig="甲" onclick="selectFigure('甲')">
+        <div class="label">甲</div>
+        <canvas id="canvas-甲"></canvas>
+        <div class="caption">溶解铝合金</div>
+      </div>
+      <div class="fig-card" data-fig="乙" onclick="selectFigure('乙')">
+        <div class="label">乙</div>
+        <canvas id="canvas-乙"></canvas>
+        <div class="caption">过滤混合物</div>
+      </div>
+      <div class="fig-card" data-fig="丙" onclick="selectFigure('丙')">
+        <div class="label">丙</div>
+        <canvas id="canvas-丙"></canvas>
+        <div class="caption">加入 NaOH 溶液</div>
+      </div>
+      <div class="fig-card" data-fig="丁" onclick="selectFigure('丁')">
+        <div class="label">丁</div>
+        <canvas id="canvas-丁"></canvas>
+        <div class="caption">灼烧 Al(OH)₃</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span> 选择你的判断</h2>
+    <p class="sub">点击 A / B / C / D，课件会高亮对应装置并告诉你为什么对或错。</p>
+    <div class="opt-grid">
+      <div class="opt-card" data-opt="A" onclick="chooseOption('A')">
+        <span class="letter">A</span>
+        <div class="txt">用图甲装置溶解铝合金</div>
+      </div>
+      <div class="opt-card" data-opt="B" onclick="chooseOption('B')">
+        <span class="letter">B</span>
+        <div class="txt">用图乙装置过滤溶解后混合物</div>
+      </div>
+      <div class="opt-card" data-opt="C" onclick="chooseOption('C')">
+        <span class="letter">C</span>
+        <div class="txt">用图丙制备 Al(OH)₃</div>
+      </div>
+      <div class="opt-card" data-opt="D" onclick="chooseOption('D')">
+        <span class="letter">D</span>
+        <div class="txt">用图丁装置灼烧 Al(OH)₃ 制 Al₂O₃</div>
+      </div>
+    </div>
+
+    <div id="feedback" class="feedback">
+      <div class="title" id="feedback-title"></div>
+      <p id="feedback-body"></p>
+      <div class="why" id="feedback-why"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span> 概念小课堂：从合金到氧化铝的“正确路线”</h2>
+    <div class="softnote">
+      💡 <b>核心思路：</b>Al 能溶于酸，Cu 不溶；过滤除去 Cu 后，把 Al³⁺ 变成 Al(OH)₃ 沉淀，
+      最后<span class="hl">灼烧</span>沉淀得到 Al₂O₃。
+      每一步都要选对仪器，否则产物就“跑偏”。
+    </div>
+    <div class="formula-row">
+      <div class="formula">$2\mathrm{Al}+3\mathrm{H_2SO_4}\rightarrow \mathrm{Al_2(SO_4)_3}+3\mathrm{H_2}\uparrow$</div>
+      <div class="formula">$\mathrm{Al^{3+}}+3\mathrm{OH^-}\rightarrow \mathrm{Al(OH)_3}\downarrow$</div>
+      <div class="formula">$2\mathrm{Al(OH)_3}\xrightarrow{\Delta}\mathrm{Al_2O_3}+3\mathrm{H_2O}$</div>
+    </div>
+    <details open>
+      <summary>📌 为什么 Al 溶、Cu 不溶？</summary>
+      <div class="step-body">
+        <p>在金属活动性顺序中，Al 位于 H 之前，能与稀硫酸反应放出 H₂；Cu 位于 H 之后，不与稀硫酸反应。</p>
+        <p>所以用稀硫酸处理后，Cu 以固体残渣形式留下，Al 进入溶液成为 Al³⁺。</p>
+      </div>
+    </details>
+    <details>
+      <summary>📌 为什么过量 NaOH 不能制 Al(OH)₃？</summary>
+      <div class="step-body">
+        <p>Al(OH)₃ 是两性氢氧化物，会继续与过量强碱反应生成可溶的偏铝酸盐：</p>
+        <div class="formula">$\mathrm{Al(OH)_3}+\mathrm{OH^-}\rightarrow \mathrm{AlO_2^-}+2\mathrm{H_2O}$</div>
+        <p>因此制备 Al(OH)₃ 应使用适量碱，或通入 CO₂、加入弱碱氨水等。</p>
+      </div>
+    </details>
+    <details>
+      <summary>📌 灼烧固体为什么用坩埚而不是蒸发皿？</summary>
+      <div class="step-body">
+        <p>蒸发皿用于蒸发溶液、浓缩液体；灼烧固体（尤其是需要较高温度分解的氢氧化物）应放在坩埚中，用泥三角支撑，酒精喷灯或马弗炉加热。</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">4</span> 互动实验室：亲手看错误在哪里</h2>
+    <p class="sub">拖动滑块、点击切换，把“错误装置”改成“正确装置”。</p>
+
+    <div class="demo-box">
+      <h3 style="font-size:0.95rem;margin-bottom:0.4rem;color:var(--text-primary);">丙：NaOH 加多了会怎样？</h3>
+      <div class="canvas-wrap" style="border:1px solid var(--border-soft);border-radius:14px;padding:0.3rem;background:#fff;">
+        <canvas id="canvas-丙-demo"></canvas>
+      </div>
+      <div class="controls" style="margin-top:0.5rem;">
+        <div class="control">
+          <label>加入 NaOH 的相对量 <span class="v" id="naoh-val">适量</span></label>
+          <input id="naoh-slider" type="range" min="0" max="2" step="0.01" value="0" />
+        </div>
+      </div>
+      <div class="demo-status" id="naoh-status">还未加 NaOH，溶液中只有 Al³⁺</div>
+    </div>
+
+    <div class="demo-box" style="margin-top:1rem;">
+      <h3 style="font-size:0.95rem;margin-bottom:0.4rem;color:var(--text-primary);">丁：蒸发皿 vs 坩埚</h3>
+      <div class="canvas-wrap" style="border:1px solid var(--border-soft);border-radius:14px;padding:0.3rem;background:#fff;">
+        <canvas id="canvas-丁-demo"></canvas>
+      </div>
+      <div class="buttons" style="justify-content:center;margin-top:0.6rem;">
+        <button id="btn-dish" class="ghost" onclick="setCalcination('dish')">图丁：蒸发皿</button>
+        <button id="btn-crucible" class="success" onclick="setCalcination('crucible')">✓ 改成坩埚</button>
+      </div>
+      <div class="demo-status" id="calc-status">蒸发皿用于蒸发浓缩，不适合高温灼烧固体</div>
+    </div>
+  </section>
+
+  <section class="final-answer">
+    <div class="heading">🏁 最终答案</div>
+    <div class="big">选 B：用图乙装置过滤溶解后混合物</div>
+    <p style="color:var(--text-secondary);font-size:0.9rem;">只有过滤能把不溶的 Cu 与含 Al³⁺ 的滤液分开，后续才能制备 Al(OH)₃ 并灼烧成 Al₂O₃。</p>
+  </section>
+
+  <footer>互动解题课件 · Fresh Gradient 教育风 · KaTeX 单文件离线版 · 小宇 ✨</footer>
+</div>
+
+<script>__KATEX_JS__</script>
+<script>__AUTORENDER_JS__</script>
+<script>
+function renderAllMath() {
+  if (window.renderMathInElement) {
+    try {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) { console.warn("KaTeX render fail", e); }
+  }
+}
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderAllMath);
+} else {
+  renderAllMath();
+}
+
+/* ---------- 画布工具 ---------- */
+function setupFigureCanvas(id, aspect) {
+  var cv = document.getElementById(id);
+  if (!cv) return null;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = cv.getBoundingClientRect();
+  var w = Math.max(220, Math.min(Math.round(rect.width), 340));
+  var h = Math.round(w / aspect);
+  cv.width = Math.round(w * dpr);
+  cv.height = Math.round(h * dpr);
+  cv.style.height = h + "px";
+  var ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx: ctx, W: w, H: h };
+}
+
+function drawStand(ctx, x, yBase, h, ringY, ringW) {
+  ctx.strokeStyle = "#64748b"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+  // base
+  ctx.beginPath(); ctx.moveTo(x - 28, yBase); ctx.lineTo(x + 28, yBase); ctx.stroke();
+  // vertical
+  ctx.beginPath(); ctx.moveTo(x, yBase); ctx.lineTo(x, yBase - h); ctx.stroke();
+  // ring / clamp
+  if (ringY !== undefined) {
+    ctx.beginPath(); ctx.moveTo(x, ringY); ctx.lineTo(x + (ringW || 35), ringY); ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(x + (ringW || 35), ringY, 10, 3, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+}
+
+function drawBeaker(ctx, cx, yBottom, w, h, opts) {
+  opts = opts || {};
+  var x1 = cx - w / 2, y1 = yBottom - h, x2 = cx + w / 2;
+  ctx.strokeStyle = "#5c7185"; ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1, yBottom - 5);
+  ctx.quadraticCurveTo(cx, yBottom + 3, x2, yBottom - 5);
+  ctx.lineTo(x2, y1);
+  ctx.stroke();
+  // rim
+  ctx.beginPath(); ctx.moveTo(x1 - 3, y1); ctx.lineTo(x2 + 3, y1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - 3, y1 - 3); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2, y1); ctx.lineTo(x2 + 3, y1 - 3); ctx.stroke();
+  // liquid
+  if (opts.liquid) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x1 + 1, yBottom - 5);
+    ctx.quadraticCurveTo(cx, yBottom + 3, x2 - 1, yBottom - 5);
+    ctx.lineTo(x2 - 1, y1 + opts.liquid);
+    var waveY = y1 + opts.liquid;
+    ctx.quadraticCurveTo(cx, waveY + 3, x1 + 1, waveY);
+    ctx.closePath();
+    ctx.clip();
+    ctx.fillStyle = "rgba(79,142,247,0.12)";
+    ctx.fill();
+    // solids
+    if (opts.solids) {
+      ctx.fillStyle = "#94a3b8";
+      for (var i = 0; i < opts.solids; i++) {
+        var sx = x1 + 12 + i * 18 + (i % 2) * 6;
+        var sy = yBottom - 10 - (i % 3) * 5;
+        ctx.fillRect(sx, sy, 9, 6);
+      }
+    }
+    // precipitate
+    if (opts.precip !== undefined) {
+      var alpha = Math.max(0, Math.min(1, opts.precip));
+      ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+      for (var j = 0; j < 18; j++) {
+        var px = x1 + 10 + (j * 17) % (w - 16);
+        var py = yBottom - 8 - ((j * 11) % 22);
+        ctx.beginPath(); ctx.arc(px, py, 2 + (j % 3), 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+  // glass rod
+  if (opts.rod) {
+    ctx.strokeStyle = "#93a7ba"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx - 20, y1 - 25); ctx.lineTo(cx + 8, yBottom - 15); ctx.stroke();
+  }
+  // label
+  if (opts.label) {
+    ctx.fillStyle = "#5c7185"; ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText(opts.label, cx, y1 + 14);
+  }
+}
+
+function drawBurner(ctx, cx, yTop, h) {
+  var yBase = yTop + h;
+  // lamp body
+  ctx.fillStyle = "#cbd5e1";
+  ctx.beginPath();
+  ctx.moveTo(cx - 18, yBase);
+  ctx.lineTo(cx + 18, yBase);
+  ctx.lineTo(cx + 12, yBase - 14);
+  ctx.lineTo(cx - 12, yBase - 14);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.4; ctx.stroke();
+  // cap/wick
+  ctx.beginPath(); ctx.moveTo(cx - 8, yBase - 14); ctx.lineTo(cx + 8, yBase - 14); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, yBase - 14); ctx.lineTo(cx, yBase - 20); ctx.stroke();
+  // flame
+  var fy = yBase - 20;
+  ctx.fillStyle = "#f59e0b";
+  ctx.beginPath();
+  ctx.moveTo(cx - 7, fy);
+  ctx.quadraticCurveTo(cx - 4, fy - h * 0.65, cx, fy - h);
+  ctx.quadraticCurveTo(cx + 4, fy - h * 0.65, cx + 7, fy);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#fde68a";
+  ctx.beginPath();
+  ctx.moveTo(cx - 3.5, fy);
+  ctx.quadraticCurveTo(cx - 2, fy - h * 0.35, cx, fy - h * 0.55);
+  ctx.quadraticCurveTo(cx + 2, fy - h * 0.35, cx + 3.5, fy);
+  ctx.closePath(); ctx.fill();
+}
+
+function drawFunnel(ctx, cx, yTop, h) {
+  var yStem = yTop + h * 0.65;
+  ctx.strokeStyle = "#5c7185"; ctx.lineWidth = 1.6;
+  // funnel cone
+  ctx.beginPath(); ctx.moveTo(cx - 22, yTop); ctx.lineTo(cx, yStem); ctx.lineTo(cx + 22, yTop); ctx.stroke();
+  // rim
+  ctx.beginPath(); ctx.moveTo(cx - 24, yTop); ctx.lineTo(cx + 24, yTop); ctx.stroke();
+  // stem
+  ctx.beginPath(); ctx.moveTo(cx - 3, yStem); ctx.lineTo(cx - 2, yStem + h * 0.45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx + 3, yStem); ctx.lineTo(cx + 2, yStem + h * 0.45); ctx.stroke();
+  // filter paper line
+  ctx.strokeStyle = "#94a3b8"; ctx.setLineDash([3, 2]);
+  ctx.beginPath(); ctx.moveTo(cx - 18, yTop + 4); ctx.lineTo(cx + 18, yTop + 4); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawDropper(ctx, cx, yTop, len) {
+  ctx.strokeStyle = "#5c7185"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx, yTop); ctx.lineTo(cx, yTop + len); ctx.stroke();
+  // bulb
+  ctx.fillStyle = "#fca5a5";
+  ctx.beginPath(); ctx.arc(cx, yTop - 6, 7, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 1.2; ctx.stroke();
+  // tip
+  ctx.beginPath(); ctx.moveTo(cx - 2, yTop + len); ctx.lineTo(cx + 2, yTop + len); ctx.lineTo(cx, yTop + len + 4); ctx.closePath(); ctx.fillStyle = "#cbd5e1"; ctx.fill();
+}
+
+function drawDrop(ctx, cx, y) {
+  ctx.fillStyle = "#4f8ef7";
+  ctx.beginPath(); ctx.arc(cx, y, 3, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawEvapDish(ctx, cx, yBottom, w, opts) {
+  opts = opts || {};
+  ctx.strokeStyle = "#5c7185"; ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.ellipse(cx, yBottom - 6, w / 2, 9, 0, 0, Math.PI);
+  ctx.lineTo(cx - w / 2, yBottom - 22);
+  ctx.quadraticCurveTo(cx, yBottom - 30, cx + w / 2, yBottom - 22);
+  ctx.lineTo(cx + w / 2, yBottom - 6);
+  ctx.stroke();
+  // solid
+  if (opts.solid) {
+    ctx.fillStyle = "#e2e8f0";
+    ctx.beginPath(); ctx.ellipse(cx, yBottom - 14, w / 2 - 6, 5, 0, 0, Math.PI * 2); ctx.fill();
+  }
+  // steam
+  if (opts.steam) {
+    ctx.strokeStyle = "rgba(148,163,184,0.5)"; ctx.lineWidth = 1.5;
+    for (var i = 0; i < 3; i++) {
+      var sx = cx - 15 + i * 15;
+      ctx.beginPath(); ctx.moveTo(sx, yBottom - 32); ctx.quadraticCurveTo(sx + 5, yBottom - 45, sx, yBottom - 55); ctx.stroke();
+    }
+  }
+  // rod
+  if (opts.rod) {
+    ctx.strokeStyle = "#93a7ba"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx + 18, yBottom - 40); ctx.lineTo(cx - 5, yBottom - 12); ctx.stroke();
+  }
+}
+
+function drawCrucible(ctx, cx, yBottom, w) {
+  // clay triangle
+  ctx.strokeStyle = "#9ca3af"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx - 26, yBottom - 6); ctx.lineTo(cx, yBottom - 32); ctx.lineTo(cx + 26, yBottom - 6); ctx.stroke();
+  // crucible bowl
+  ctx.strokeStyle = "#5c7185"; ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.ellipse(cx, yBottom - 26, w / 2, 10, 0, 0, Math.PI);
+  ctx.lineTo(cx - w / 2, yBottom - 42);
+  ctx.quadraticCurveTo(cx, yBottom - 50, cx + w / 2, yBottom - 42);
+  ctx.lineTo(cx + w / 2, yBottom - 26);
+  ctx.stroke();
+  // lid slightly ajar
+  ctx.beginPath(); ctx.ellipse(cx + 4, yBottom - 48, w / 2 - 2, 6, 0.15, 0, Math.PI * 2); ctx.stroke();
+  // contents
+  ctx.fillStyle = "#e2e8f0";
+  ctx.beginPath(); ctx.ellipse(cx, yBottom - 34, w / 2 - 6, 4, 0, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawBubbles(ctx, cx, yBottom, n, offset) {
+  ctx.strokeStyle = "rgba(79,142,247,0.4)"; ctx.lineWidth = 1.2;
+  for (var i = 0; i < n; i++) {
+    var bx = cx - 12 + ((i * 13 + offset) % 28);
+    var by = yBottom - 15 - ((i * 17 + offset * 2) % 35);
+    ctx.beginPath(); ctx.arc(bx, by, 1.5 + (i % 2), 0, Math.PI * 2); ctx.stroke();
+  }
+}
+
+/* ---------- 四个主图 ---------- */
+function drawFigures() {
+  var a = setupFigureCanvas("canvas-甲", 1.25);
+  if (a) { drawJia(a.ctx, a.W, a.H); }
+  var b = setupFigureCanvas("canvas-乙", 1.25);
+  if (b) { drawYi(b.ctx, b.W, b.H); }
+  var c = setupFigureCanvas("canvas-丙", 1.25);
+  if (c) { drawBing(c.ctx, c.W, c.H, 0); }
+  var d = setupFigureCanvas("canvas-丁", 1.25);
+  if (d) { drawDing(d.ctx, d.W, d.H, "dish"); }
+}
+
+function drawJia(ctx, W, H) {
+  ctx.clearRect(0, 0, W, H);
+  var cx = W * 0.55, baseY = H - 22, ringY = H * 0.62;
+  drawStand(ctx, W * 0.32, baseY, H * 0.72, ringY, 45);
+  // wire gauze
+  ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.ellipse(cx, ringY, 28, 5, 0, 0, Math.PI * 2); ctx.stroke();
+  // beaker on gauze
+  drawBeaker(ctx, cx, ringY - 4, 54, 46, { liquid: 25, solids: 4, rod: true, label: "稀硫酸" });
+  // label alloy
+  ctx.fillStyle = "#5c7185"; ctx.font = "11px sans-serif"; ctx.textAlign = "left";
+  ctx.fillText("铝合金", cx + 12, ringY - 8);
+  // burner below
+  drawBurner(ctx, cx, ringY + 6, 30);
+  // H2 warning
+  ctx.fillStyle = "#dc2626"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center";
+  ctx.fillText("H₂↑", cx + 28, ringY - 52);
+}
+
+function drawYi(ctx, W, H) {
+  ctx.clearRect(0, 0, W, H);
+  var standX = W * 0.45, baseY = H - 22, ringY = H * 0.42;
+  drawStand(ctx, standX, baseY, H * 0.78, ringY, 42);
+  // funnel
+  var fx = standX + 42, fy = ringY + 8;
+  drawFunnel(ctx, fx, fy, 56);
+  // receiving beaker
+  drawBeaker(ctx, fx, H - 24, 46, 38, { liquid: 16, label: "滤液" });
+  // pouring beaker + glass rod
+  var px = fx - 48, py = fy - 8;
+  ctx.save();
+  ctx.translate(px, py); ctx.rotate(-0.55);
+  drawBeaker(ctx, 0, 0, 34, 28, { liquid: 12 });
+  ctx.restore();
+  // glass rod guiding
+  ctx.strokeStyle = "#93a7ba"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(px + 5, py - 10); ctx.lineTo(fx - 12, fy + 18); ctx.stroke();
+  // liquid stream
+  ctx.strokeStyle = "rgba(79,142,247,0.35)"; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(px + 12, py + 8); ctx.lineTo(fx - 5, fy + 22); ctx.stroke();
+  // residue label
+  ctx.fillStyle = "#5c7185"; ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+  ctx.fillText("Cu 残渣", fx, fy + 72);
+}
+
+function drawBing(ctx, W, H, naoh) {
+  ctx.clearRect(0, 0, W, H);
+  var cx = W * 0.55, yb = H - 28;
+  // precipitate amount
+  var p = 0;
+  if (naoh > 0) {
+    if (naoh < 1) p = naoh; // increasing
+    else p = Math.max(0, 1 - (naoh - 1) * 1.2); // decreasing after excess
+  }
+  // draw beaker with precipitate/liquid first
+  drawBeaker(ctx, cx, yb, 58, 44, { liquid: 22, precip: p, label: "滤液" });
+  // dropper
+  var dx = cx + 2, dy = H * 0.12;
+  drawDropper(ctx, dx, dy, 42);
+  // drop
+  var dropY = dy + 42 + (naoh > 0 ? 14 : 0);
+  drawDrop(dx, dropY);
+  // NaOH label
+  ctx.fillStyle = "#5c7185"; ctx.font = "11px sans-serif"; ctx.textAlign = "left";
+  ctx.fillText("过量 NaOH", dx + 10, dy + 20);
+}
+
+function drawDing(ctx, W, H, mode) {
+  ctx.clearRect(0, 0, W, H);
+  var cx = W * 0.55, baseY = H - 22, ringY = H * 0.62;
+  drawStand(ctx, W * 0.32, baseY, H * 0.72, ringY, 45);
+  drawBurner(ctx, cx, ringY + 6, 30);
+  if (mode === "crucible") {
+    drawCrucible(ctx, cx, ringY - 2, 44);
+    ctx.fillStyle = "#047857"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText("坩埚 + 泥三角", cx, ringY - 58);
+  } else {
+    drawEvapDish(ctx, cx, ringY - 2, 56, { solid: true, steam: true, rod: true });
+    ctx.fillStyle = "#b45309"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText("蒸发皿", cx, ringY - 48);
+  }
+  // Al(OH)3 label
+  ctx.fillStyle = "#5c7185"; ctx.font = "11px sans-serif"; ctx.textAlign = "left";
+  ctx.fillText("Al(OH)₃", cx + 28, ringY - 18);
+}
+
+/* ---------- 丙、丁 互动演示 ---------- */
+var naohAmount = 0;
+var calcMode = "dish";
+
+function updateNaohDemo() {
+  var r = setupFigureCanvas("canvas-丙-demo", 1.5);
+  if (r) { drawBing(r.ctx, r.W, r.H, naohAmount); }
+  var status = document.getElementById("naoh-status");
+  var val = document.getElementById("naoh-val");
+  if (naohAmount === 0) { val.textContent = "未加"; status.textContent = "还未加 NaOH，溶液中只有 Al³⁺"; }
+  else if (naohAmount < 0.8) { val.textContent = "少量"; status.textContent = "开始生成 Al(OH)₃ 白色沉淀"; }
+  else if (naohAmount < 1.2) { val.textContent = "适量"; status.textContent = "沉淀量最多 ✓ 这正是制备 Al(OH)₃ 的合适时机"; }
+  else { val.textContent = "过量"; status.textContent = "沉淀被过量 OH⁻ 溶解：Al(OH)₃ + OH⁻ → AlO₂⁻ + 2H₂O"; }
+}
+
+function setCalcination(mode) {
+  calcMode = mode;
+  var r = setupFigureCanvas("canvas-丁-demo", 1.5);
+  if (r) { drawDing(r.ctx, r.W, r.H, mode); }
+  var status = document.getElementById("calc-status");
+  if (mode === "crucible") {
+    status.textContent = "✓ 正确：灼烧固体应使用坩埚 + 泥三角，耐高温";
+    document.getElementById("btn-crucible").classList.remove("ghost"); document.getElementById("btn-crucible").classList.add("success");
+    document.getElementById("btn-dish").classList.remove("success"); document.getElementById("btn-dish").classList.add("ghost");
+  } else {
+    status.textContent = "✗ 错误：蒸发皿用于蒸发浓缩，不适合高温灼烧";
+    document.getElementById("btn-dish").classList.remove("ghost"); document.getElementById("btn-dish").classList.add("success");
+    document.getElementById("btn-crucible").classList.remove("success"); document.getElementById("btn-crucible").classList.add("ghost");
+  }
+}
+
+/* ---------- 选择交互 ---------- */
+var selectedOpt = null;
+var optionData = {
+  A: { title: "❌ A 错误", body: "图甲用酒精灯加热稀硫酸溶解铝合金。Al 与稀硫酸反应会放出 H₂，敞口加热会让氢气与空气混合，存在安全隐患；且此步无需加热。", why: "溶解操作本身可用烧杯，但不应在产生 H₂ 时用明火加热。" },
+  B: { title: "✅ B 正确", body: "Al 溶于稀硫酸后生成 Al₂(SO₄)₃ 溶液，Cu 不溶而留在固体中。用过滤装置把 Cu 残渣与滤液分开，符合“固液分离”的要求。", why: "过滤是除去不溶性固体杂质的正确操作，装置乙的漏斗、烧杯、玻璃棒引流均合理。" },
+  C: { title: "❌ C 错误", body: "图丙中写的是“过量 NaOH”。Al(OH)₃ 是两性氢氧化物，会继续与过量 OH⁻ 反应生成可溶的 AlO₂⁻，沉淀会被溶解掉。", why: "制备 Al(OH)₃ 应控制碱量，或用弱碱/通入 CO₂，不能用过量强碱。" },
+  D: { title: "❌ D 错误", body: "图丁用蒸发皿灼烧 Al(OH)₃。蒸发皿用于蒸发溶液，不耐受灼烧固体所需的高温；灼烧固体应使用坩埚。", why: "2Al(OH)₃ → Al₂O₃ + 3H₂O 需要较高温度，应使用坩埚 + 泥三角。" }
+};
+
+function chooseOption(opt) {
+  selectedOpt = opt;
+  // reset visuals
+  document.querySelectorAll(".opt-card").forEach(function (el) {
+    el.classList.remove("selected", "correct", "wrong");
+  });
+  document.querySelectorAll(".fig-card").forEach(function (el) {
+    el.classList.remove("active", "correct", "wrong");
+  });
+  // mark selected option
+  var optEl = document.querySelector('.opt-card[data-opt="' + opt + '"]');
+  var figEl = document.querySelector('.fig-card[data-fig="' + opt + '"]');
+  if (optEl) optEl.classList.add("selected");
+  if (figEl) figEl.classList.add("active");
+  // show feedback
+  var fb = document.getElementById("feedback");
+  var data = optionData[opt];
+  document.getElementById("feedback-title").textContent = data.title;
+  document.getElementById("feedback-body").textContent = data.body;
+  document.getElementById("feedback-why").textContent = "💡 " + data.why;
+  fb.className = "feedback show " + (opt === "B" ? "ok" : "err");
+  // mark final correct/wrong classes after short delay
+  setTimeout(function () {
+    if (opt === "B") {
+      if (optEl) optEl.classList.add("correct");
+      if (figEl) figEl.classList.add("correct");
+    } else {
+      if (optEl) optEl.classList.add("wrong");
+      if (figEl) figEl.classList.add("wrong");
+      // also highlight the correct answer B
+      var correctOpt = document.querySelector('.opt-card[data-opt="B"]');
+      var correctFig = document.querySelector('.fig-card[data-fig="B"]');
+      if (correctOpt) correctOpt.classList.add("correct");
+      if (correctFig) correctFig.classList.add("correct");
+    }
+  }, 120);
+}
+
+function selectFigure(fig) {
+  chooseOption(fig);
+}
+
+/* ---------- 启动 ---------- */
+drawFigures();
+updateNaohDemo();
+setCalcination("dish");
+
+var naohSlider = document.getElementById("naoh-slider");
+naohSlider.addEventListener("input", function () {
+  naohAmount = parseFloat(naohSlider.value);
+  updateNaohDemo();
+});
+
+window.addEventListener("resize", function () {
+  drawFigures();
+  updateNaohDemo();
+  setCalcination(calcMode);
+});
+</script>
+</body>
+</html>
