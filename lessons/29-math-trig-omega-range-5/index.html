@@ -205,14 +205,21 @@ document.getElementById('ansBtn').onclick=()=>{
   let view={xMin:0.5, xMax:4.5, yMin:-1.6, yMax:1.6};
   let dpr=window.devicePixelRatio||1;
 
+  let _raf=null;
   function resize(){
     const r=cv.getBoundingClientRect();
+    if(r.width===0||r.height===0)return;
     cv.width=r.width*dpr;
     cv.height=r.height*dpr;
     ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(_raf)cancelAnimationFrame(_raf);
+    _raf=requestAnimationFrame(function(){
+      if(typeof draw==='function')draw();
+    });
   }
   resize();
   window.addEventListener('resize',resize);
+  window.addEventListener('orientationchange',resize);
 
   function W(){return cv.clientWidth;}
   function H(){return cv.clientHeight;}
