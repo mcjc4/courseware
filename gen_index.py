@@ -21,7 +21,8 @@ def extract_meta(path):
         return {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
                 'knowledge': '', 'source': '', 'type': '', 'tags': '', 'number': ''}
     info = {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
-            'knowledge': '', 'source': '', 'type': '', 'tags': '', 'number': ''}
+            'knowledge': '', 'source': '', 'type': '', 'tags': '', 'number': '',
+            'method': '', 'date': ''}
     m = re.search(r'<title[^>]*>(.*?)</title>', head, re.S | re.I)
     if m:
         t = html.unescape(re.sub(r'\s+', ' ', m.group(1))).strip()
@@ -30,7 +31,7 @@ def extract_meta(path):
             info['title'], info['sub'] = main.strip(), sub.strip()
         else:
             info['title'] = t
-    for key in ('subject', 'chapter', 'knowledge', 'source', 'type', 'number', 'tags'):
+    for key in ('subject', 'chapter', 'knowledge', 'source', 'type', 'number', 'tags', 'method', 'date'):
         mm = re.search(r'<meta\s+name=["\']' + key + r'["\']\s+content=["\'](.*?)["\']', head, re.I)
         if mm:
             info[key] = html.unescape(mm.group(1)).strip()
@@ -50,6 +51,8 @@ def scan_lessons():
         order = int(num.group(1)) if num else 10 ** 9
         meta = extract_meta(idx_path)
         mtime = datetime.fromtimestamp(os.path.getmtime(idx_path)).strftime('%Y-%m-%d')
+        # 制作日期：优先课件内 meta，回退文件 mtime
+        cdate = meta.get('date') or mtime
         items.append({
             'order': order,
             'num': num.group(1).zfill(2) if num else '',
@@ -57,10 +60,11 @@ def scan_lessons():
             'link': 'lessons/' + name + '/',
             'title': meta['title'],
             'sub': meta['sub'] or '互动解题课件',
-            'date': mtime,
+            'date': cdate,
             'subject': meta['subject'] or '未分类',
             'chapter': meta['chapter'] or '未分类',
             'knowledge': meta['knowledge'] or '未分类',
+            'method': meta.get('method') or '未标注',
             'source': meta['source'] or '',
             'type': meta['type'] or '',
             'number': meta['number'] or '',
@@ -74,7 +78,7 @@ def scan_lessons():
     return items
 
 
-CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-tags="{tags_attr}">
+CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-tags="{tags_attr}">
       <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
@@ -215,7 +219,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     <span class="tag">\u4e92\u52a8\u89e3\u9898\u8bfe\u4ef6\u5e93 \u00b7 \u5355\u6587\u4ef6\u79bb\u7ebf\u53ef\u7528</span>
     <a class="mgmt" href="manage.html">\u6807\u7b7e\u7ba1\u7406 \u2192</a>
     <h1>\u6615\u8a00\u89e3\u9898\u8bfe\u4ef6\u5e93</h1>
-    <p>Fresh Gradient \u6559\u80b2\u98ce\u4e92\u52a8\u8bfe\u4ef6\uff1a\u9010\u6b65\u63a8\u5bfc\u3001\u5373\u65f6\u53cd\u9988\u3001KaTeX \u516c\u5f0f\u7f16\u8bd1\uff0c\u5168\u90e8\u5185\u5d4c\u5355\u6587\u4ef6\uff0c\u53ef\u79bb\u7ebf\u6253\u5f00\u3002\u652f\u6301\u6309<b>\u5b66\u79d1 / \u7ae0\u8282 / \u77e5\u8bc6\u70b9 / \u6807\u7b7e</b>\u5f39\u7a97\u591a\u9009\u7b5b\u9009\u3002</p>
+    <p>Fresh Gradient \u6559\u80b2\u98ce\u4e92\u52a8\u8bfe\u4ef6\uff1a\u9010\u6b65\u63a8\u5bfc\u3001\u5373\u65f6\u53cd\u9988\u3001KaTeX \u516c\u5f0f\u7f16\u8bd1\uff0c\u5168\u90e8\u5185\u5d4c\u5355\u6587\u4ef6\uff0c\u53ef\u79bb\u7ebf\u6253\u5f00\u3002\u652f\u6301\u6309<b>\u5b66\u79d1 / \u7ae0\u8282 / \u77e5\u8bc6\u70b9 / \u89e3\u6cd5 / \u65e5\u671f</b>\u5f39\u7a97\u591a\u9009\u7b5b\u9009\u3002</p>
     <div class="stat">
       <div><b>{count}</b><span>\u4e2a\u8bfe\u4ef6</span></div>
       <div><b>{subject_count}</b><span>\u4e2a\u5b66\u79d1</span></div>
@@ -233,6 +237,7 @@ PAGE_TMPL = """<!DOCTYPE html>
           <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchSubject">
           <div class="popup-options">{subject_checks}</div>
           <div class="popup-actions">
+            <button type="button" data-all="subject">\u2611 \u5168\u9009</button>
             <button type="button" data-clear="subject">\u6e05\u9664</button>
             <button type="button" data-close="popupSubject">\u786e\u5b9a</button>
           </div>
@@ -247,6 +252,7 @@ PAGE_TMPL = """<!DOCTYPE html>
           <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchChapter">
           <div class="popup-options">{chapter_checks}</div>
           <div class="popup-actions">
+            <button type="button" data-all="chapter">\u2611 \u5168\u9009</button>
             <button type="button" data-clear="chapter">\u6e05\u9664</button>
             <button type="button" data-close="popupChapter">\u786e\u5b9a</button>
           </div>
@@ -261,6 +267,7 @@ PAGE_TMPL = """<!DOCTYPE html>
           <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchKnowledge">
           <div class="popup-options">{knowledge_checks}</div>
           <div class="popup-actions">
+            <button type="button" data-all="knowledge">\u2611 \u5168\u9009</button>
             <button type="button" data-clear="knowledge">\u6e05\u9664</button>
             <button type="button" data-close="popupKnowledge">\u786e\u5b9a</button>
           </div>
@@ -268,15 +275,31 @@ PAGE_TMPL = """<!DOCTYPE html>
       </div>
     </div>
     <div class="fld">
-      <label>\u6807\u7b7e</label>
+      <label>\u89e3\u6cd5</label>
       <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnTag">\u6807\u7b7e <span class="cnt zero" id="cntTag">0</span></button>
-        <div class="popup" id="popupTag">
-          <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchTag">
-          <div class="popup-options">{tag_checks}</div>
+        <button class="filter-btn" type="button" id="btnMethod">\u89e3\u6cd5 <span class="cnt zero" id="cntMethod">0</span></button>
+        <div class="popup" id="popupMethod">
+          <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchMethod">
+          <div class="popup-options">{method_checks}</div>
           <div class="popup-actions">
-            <button type="button" data-clear="tag">\u6e05\u9664</button>
-            <button type="button" data-close="popupTag">\u786e\u5b9a</button>
+            <button type="button" data-all="method">\u2611 \u5168\u9009</button>
+            <button type="button" data-clear="method">\u6e05\u9664</button>
+            <button type="button" data-close="popupMethod">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>\u5236\u4f5c\u65e5\u671f</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnDate">\u65e5\u671f <span class="cnt zero" id="cntDate">0</span></button>
+        <div class="popup" id="popupDate">
+          <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchDate">
+          <div class="popup-options">{date_checks}</div>
+          <div class="popup-actions">
+            <button type="button" data-all="date">\u2611 \u5168\u9009</button>
+            <button type="button" data-clear="date">\u6e05\u9664</button>
+            <button type="button" data-close="popupDate">\u786e\u5b9a</button>
           </div>
         </div>
       </div>
@@ -317,10 +340,10 @@ PAGE_TMPL = """<!DOCTYPE html>
       var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
       var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
-      var cardTags=(card.dataset.tags||'').split(';');
-      var okT=sets.tag.size===0||cardTags.some(function(t){{return sets.tag.has(t);}});
+      var okM=sets.method.size===0||sets.method.has(card.dataset.method);
+      var okD=sets.date.size===0||sets.date.has(card.dataset.date);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okT&&okQ;
+      var show=okS&&okC&&okK&&okM&&okD&&okQ;
       card.style.display=show?'':'none';
       if(show)n++;
     }});
@@ -377,6 +400,16 @@ PAGE_TMPL = """<!DOCTYPE html>
       apply();
     }});
   }});
+  document.querySelectorAll('.popup-actions button[data-all]').forEach(function(btn){{
+    btn.addEventListener('click',function(){{
+      var f=btn.dataset.all;
+      sets[f].clear();
+      document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{
+        cb.checked=true;sets[f].add(cb.value);
+      }});
+      updateCnt(f);apply();
+    }});
+  }});
   document.querySelectorAll('.popup-actions button[data-close]').forEach(function(btn){{
     btn.addEventListener('click',function(){{
       document.getElementById(btn.dataset.close).classList.remove('open');
@@ -385,7 +418,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 
   fQ.addEventListener('input',apply);
   document.getElementById('fReset').addEventListener('click',function(){{
-    ['subject','chapter','knowledge','tag'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','date'].forEach(function(f){{
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{cb.checked=false;}});
       updateCnt(f);
@@ -579,6 +612,8 @@ def main():
     subjects = sorted({it['subject'] for it in items if it['subject']})
     chapters = sorted({it['chapter'] for it in items if it['chapter']})
     knowledges = sorted({it['knowledge'] for it in items if it['knowledge']})
+    methods = sorted({it['method'] for it in items if it['method']})
+    dates = sorted({it['date'] for it in items if it['date']}, reverse=True)
     all_tags = set()
     for it in items:
         for t in it.get('tags_list', []):
@@ -595,12 +630,14 @@ def main():
                 tags += f'<span class="tag-chip" style="background:#f0f0ff;color:#555">{html.escape(tg)}</span>'
         if it['type']:
             tags += f'<span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">{html.escape(it["type"])}</span>'
+        tags += f'<span class="tag-chip" style="background:#fff7e6;color:#b45309">\U0001f4c5 {html.escape(it["date"])}</span>'
         source_html = f'<div class="src">{html.escape(it["source"])}</div>' if it['source'] else ''
         cards.append(CARD_TMPL.format(
             link=it['link'], number=it['number'] or it['num'], title=html.escape(it['title']),
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
+            method=html.escape(it['method']), date=html.escape(it['date']),
             tags_attr=html.escape(';'.join(it.get('tags_list', []))),
         ))
     cards_html = '\n'.join(cards) if cards else '    <div class="empty">暂无课件</div>'
@@ -612,7 +649,8 @@ def main():
         subject_checks=check_opts(subjects, 'subject'),
         chapter_checks=check_opts(chapters, 'chapter'),
         knowledge_checks=check_opts(knowledges, 'knowledge'),
-        tag_checks=check_opts(all_tags, 'tag'),
+        method_checks=check_opts(methods, 'method'),
+        date_checks=check_opts(dates, 'date'),
         cards=cards_html, date=today,
     )
     with open(OUT, 'w', encoding='utf-8') as f:
