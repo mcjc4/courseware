@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>标签管理 · 昕言解题课件库</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif; background:linear-gradient(160deg,#eef6ff,#f2fdf7); background-attachment:fixed; color:#1f2d3d; min-height:100vh; padding:24px 16px 60px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  .back { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #d6e4f2; border-radius:10px; padding:7px 14px; font-size:13px; color:#2a6df4; text-decoration:none; font-weight:600; margin-bottom:14px; box-shadow:0 4px 12px -6px rgba(31,66,135,.2); }
+  .back:hover { background:#4f8ef7; color:#fff; }
+  .hero { background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4); border-radius:22px; padding:36px 32px; color:#fff; box-shadow:0 18px 44px -18px rgba(47,120,240,.55); margin-bottom:20px; }
+  .hero h1 { font-size:28px; font-weight:700; }
+  .hero p { margin-top:10px; font-size:14px; opacity:.95; line-height:1.7; }
+  .toolbar { display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+  .toolbar input { padding:9px 14px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px; background:#fff; font-family:inherit; flex:1 1 200px; }
+  .toolbar input:focus { outline:none; border-color:#4f8ef7; }
+  .btn { padding:9px 18px; border:none; border-radius:10px; font-size:14px; cursor:pointer; font-weight:600; font-family:inherit; }
+  .btn-primary { background:linear-gradient(120deg,#4f8ef7,#22c3a6); color:#fff; }
+  .btn-secondary { background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; }
+  .btn:hover { opacity:.9; }
+  .tbl-wrap { background:#fff; border:1px solid #e3edf7; border-radius:18px; box-shadow:0 10px 30px -12px rgba(31,66,135,.16); overflow:hidden; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; min-width:700px; }
+  th { background:#f8fbff; padding:12px 14px; text-align:left; font-size:12px; color:#5c7185; font-weight:600; border-bottom:1px solid #e3edf7; white-space:nowrap; }
+  td { padding:10px 14px; font-size:13px; border-bottom:1px solid #f0f5ff; vertical-align:middle; }
+  tr:hover { background:#fafcff; }
+  .num { font-weight:600; color:#4f8ef7; white-space:nowrap; }
+  .title-cell { max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tag-input { width:100%; padding:6px 10px; border:1px solid #e0e8f0; border-radius:8px; font-size:13px; font-family:inherit; }
+  .tag-input:focus { outline:none; border-color:#4f8ef7; box-shadow:0 0 0 2px rgba(79,142,247,.15); }
+  .tag-input.dirty { border-color:#d98512; background:#fff8f0; }
+  .script-box { margin-top:20px; }
+  .script-box textarea { width:100%; min-height:220px; padding:14px; border:1.5px solid #d6e4f2; border-radius:12px; font-family:'Consolas','Monaco',monospace; font-size:12px; line-height:1.6; resize:vertical; background:#f8fbff; }
+  .copy-bar { display:flex; gap:10px; margin-top:10px; align-items:center; }
+  .copy-msg { font-size:13px; color:#1a9e7a; opacity:0; transition:opacity .3s; }
+  .copy-msg.show { opacity:1; }
+  .foot { text-align:center; margin-top:30px; font-size:12px; color:#93a7ba; }
+  .foot a { color:#4f8ef7; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← 返回导航页</a>
+  <div class="hero">
+    <h1>标签管理</h1>
+    <p>编辑每个课件的标签（分号分隔），点击「生成更新脚本」，复制到本地运行即可批量更新。</p>
+  </div>
+  <div class="toolbar">
+    <input id="searchBox" placeholder="搜索课件标题/编号/标签…" autocomplete="off">
+    <button class="btn btn-secondary" id="resetSearchBtn">显示全部</button>
+    <button class="btn btn-primary" id="genScriptBtn">生成更新脚本</button>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>编号</th><th>标题</th><th>学科</th><th>章节</th><th>知识点</th><th>标签（分号分隔，可编辑）</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="script-box" id="scriptBox" style="display:none">
+    <textarea id="scriptArea" readonly></textarea>
+    <div class="copy-bar">
+      <button class="btn btn-primary" id="copyBtn">复制脚本</button>
+      <span class="copy-msg" id="copyMsg">已复制！</span>
+    </div>
+  </div>
+  <div class="foot"><a href="index.html">返回导航</a> · mcjc4 · GitHub Pages</div>
+</div>
+<script>
+var data = [
+  {
+    "dir": "01-rubber-band-car",
+    "number": "物0001",
+    "title": "橡皮筋与玩具车",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "连接体与比例法",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学"
+  },
+  {
+    "dir": "02-water-balloons-bullet",
+    "number": "物0002",
+    "title": "四水球挡子弹",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "匀减速与逆向思维",
+    "tags": "互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学"
+  },
+  {
+    "dir": "03-math-trig-half-angle",
+    "number": "数0001",
+    "title": "半角公式求值",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "半角公式",
+    "tags": "KaTeX公式;三角函数;公式渲染;单选题;数学;昕言课件"
+  },
+  {
+    "dir": "04-math-trig-sum-diff",
+    "number": "数0002",
+    "title": "两角和差",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "两角和与差的余弦",
+    "tags": "KaTeX公式;三角函数;单选题;数学;昕言课件;机械波"
+  },
+  {
+    "dir": "05-math-trig-identities",
+    "number": "数0003",
+    "title": "三角恒等变换判断",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "三角恒等变换",
+    "tags": "KaTeX公式;三角函数;多选题;数学;昕言课件"
+  },
+  {
+    "dir": "06-math-trig-compound",
+    "number": "数0004",
+    "title": "两角和差综合多选",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "两角和与差",
+    "tags": "KaTeX公式;三角函数;多选题;数学;昕言课件;综合题"
+  },
+  {
+    "dir": "07-math-trig-double-angle",
+    "number": "数0005",
+    "title": "诱导公式与二倍角",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "诱导公式与二倍角",
+    "tags": "KaTeX公式;三角函数;公式渲染;填空题;数学;昕言课件"
+  },
+  {
+    "dir": "08-math-trig-comprehensive",
+    "number": "数0006",
+    "title": "三角恒等变换综合",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "三角恒等变换综合",
+    "tags": "KaTeX公式;三角函数;数学;昕言课件;综合题;解答题"
+  },
+  {
+    "dir": "09-physics-kinematics-chase",
+    "number": "物0003",
+    "title": "追及与相遇问题",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "追及与相遇问题",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学"
+  },
+  {
+    "dir": "10-physics-police-chase",
+    "number": "物0004",
+    "title": "警车追货车",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "追及与相遇问题",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学"
+  },
+  {
+    "dir": "11-physics-vbar-t-graph",
+    "number": "物0005",
+    "title": "v̄-t 图像分析",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "平均速度-时间图像",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学"
+  },
+  {
+    "dir": "12-physics-incline-vt",
+    "number": "物0006",
+    "title": "斜面 A、B 物块 v-t 图像",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "v-t图像与追及相遇",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学"
+  },
+  {
+    "dir": "13-physics-braking-x-over-t2",
+    "number": "物0007",
+    "title": "x/t²-1/t 图像刹车问题",
+    "subject": "物理",
+    "chapter": "匀变速直线运动",
+    "knowledge": "非常规运动图像(x/t²-1/t)",
+    "tags": "KaTeX公式;互动图像;匀变速直线运动;单选题;昕言课件;物理;运动学"
+  },
+  {
+    "dir": "14-math-trig-period",
+    "number": "数0007",
+    "title": "正弦函数周期与对称轴条件",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数周期性与极值点",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件"
+  },
+  {
+    "dir": "15-math-trig-symmetry",
+    "number": "数0008",
+    "title": "正弦函数对称轴+对称中心综合",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数对称性与单调性",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题;自制课件"
+  },
+  {
+    "dir": "16-math-trig-center-sym",
+    "number": "数0009",
+    "title": "正弦函数中心对称",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数中心对称与单调性/极值/对称轴/切线",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件"
+  },
+  {
+    "dir": "17-math-trig-comprehensive-2",
+    "number": "数0010",
+    "title": "余弦函数求φ+值域与单调区间",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "余弦函数求值域与单调区间",
+    "tags": "KaTeX公式;三角函数;互动图像;数学;机械波;自制课件;解答题"
+  },
+  {
+    "dir": "18-physics-nuclear-reactions",
+    "number": "物0008",
+    "title": "核反应方程四大类型判断",
+    "subject": "物理",
+    "chapter": "原子核物理",
+    "knowledge": "核反应方程-衰变-聚变-裂变",
+    "tags": "KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件"
+  },
+  {
+    "dir": "19-physics-thomson-cathode-ray",
+    "number": "物0009",
+    "title": "汤姆孙阴极射线实验",
+    "subject": "物理",
+    "chapter": "原子物理-电子发现",
+    "knowledge": "阴极射线-比荷-汤姆孙实验",
+    "tags": "KaTeX公式;互动图像;原子物理-电子发现;多选题;物理;粒子物理;自制课件"
+  },
+  {
+    "dir": "20-physics-guitar-string-wave",
+    "number": "物0010",
+    "title": "吉他琴弦波速与张力",
+    "subject": "物理",
+    "chapter": "机械波",
+    "knowledge": "弦上横波-波速公式-基频",
+    "tags": "KaTeX公式;互动图像;公式渲染;单选题;机械波;物理;自制课件"
+  },
+  {
+    "dir": "21-physics-four-figures",
+    "number": "物0011",
+    "title": "四幅物理图景综合判断",
+    "subject": "物理",
+    "chapter": "电磁学综合",
+    "knowledge": "交流发电机-变压器-电磁感应-霍尔效应",
+    "tags": "KaTeX公式;互动图像;多选题;物理;电磁学综合;综合题;自制课件"
+  },
+  {
+    "dir": "22-physics-kuafu-satellite-orbit",
+    "number": "物0012",
+    "title": "夸父一号卫星",
+    "subject": "物理",
+    "chapter": "万有引力与航天",
+    "knowledge": "圆轨道-椭圆轨道-开普勒定律-机械能",
+    "tags": "KaTeX公式;万有引力与航天;互动图像;多选题;天体物理;物理;综合题;自制课件"
+  },
+  {
+    "dir": "23-chem-al-alloy-alumina",
+    "number": "23",
+    "title": "铝合金制备 Al₂O₃",
+    "subject": "化学",
+    "chapter": "铝及其化合物",
+    "knowledge": "实验装置与操作正误判断",
+    "tags": "KaTeX公式;互动图像;化学;单选题;实验化学;铝及其化合物"
+  },
+  {
+    "dir": "24-chem-al-alloy-alumina",
+    "number": "化0001",
+    "title": "铝合金制备 Al₂O₃",
+    "subject": "化学",
+    "chapter": "金属及其化合物",
+    "knowledge": "铝的化合物/实验装置与操作",
+    "tags": "KaTeX公式;互动图像;化学;单选题;实验化学;自制课件;金属及其化合物"
+  },
+  {
+    "dir": "25-math-trig-omega-range-1",
+    "number": "数0011",
+    "title": "正弦函数在[0,π]上恰有两条对称轴",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数对称轴条件与 ω 取值",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波"
+  },
+  {
+    "dir": "26-math-trig-omega-range-2",
+    "number": "数0012",
+    "title": "正弦函数在指定区间单调递增",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数单调区间与 ω 约束",
+    "tags": "KaTeX公式;三角函数;互动图像;单选题;数学;机械波"
+  },
+  {
+    "dir": "27-math-trig-omega-range-3",
+    "number": "数0013",
+    "title": "余弦函数在[0,a]上的值域恰为[-2,√3]",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "余弦函数值域与区间长度",
+    "tags": "KaTeX公式;三角函数;互动图像;单选题;数学;机械波"
+  },
+  {
+    "dir": "28-math-trig-omega-range-4",
+    "number": "数0014",
+    "title": "正弦函数在(0,π)上恰有三个极值点与两个零点",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "极值点零点综合条件",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题"
+  },
+  {
+    "dir": "29-math-trig-omega-range-5",
+    "number": "数0015",
+    "title": "正弦函数在区间内没有零点",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "正弦函数零点分布与 ω",
+    "tags": "KaTeX公式;三角函数;互动图像;单选题;数学;机械波"
+  },
+  {
+    "dir": "30-math-trig-omega-range-6",
+    "number": "数0016",
+    "title": "由零点与对称轴条件求最大 ω",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "零点+对称轴+单调联合条件",
+    "tags": "KaTeX公式;三角函数;互动图像;函数性质;单选题;数学"
+  },
+  {
+    "dir": "31-math-trig-omega-range-7",
+    "number": "数0017",
+    "title": "余弦函数恰有两个极小值点且(0,π/4)不单调",
+    "subject": "数学",
+    "chapter": "三角函数",
+    "knowledge": "余弦函数极小值点与不单调联合条件",
+    "tags": "KaTeX公式;三角函数;互动图像;多选题;数学;机械波"
+  }
+];
+
+var tbody = document.getElementById('tbody');
+var searchBox = document.getElementById('searchBox');
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render(filter) {
+  filter = filter || '';
+  tbody.innerHTML = '';
+  data.forEach(function(it) {
+    if (filter) {
+      var hay = (it.number + ' ' + it.title + ' ' + it.subject + ' ' + it.chapter + ' ' + it.knowledge + ' ' + it.tags).toLowerCase();
+      if (hay.indexOf(filter) < 0) return;
+    }
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td class="num">' + esc(it.number) + '</td>'
+      + '<td class="title-cell" title="' + esc(it.title) + '">' + esc(it.title) + '</td>'
+      + '<td>' + esc(it.subject) + '</td>'
+      + '<td>' + esc(it.chapter) + '</td>'
+      + '<td>' + esc(it.knowledge) + '</td>'
+      + '<td><input class="tag-input" data-dir="' + esc(it.dir) + '" value="' + esc(it.tags) + '" data-orig="' + esc(it.tags) + '"></td>';
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.tag-input').forEach(function(inp) {
+    inp.addEventListener('input', function() {
+      inp.classList.toggle('dirty', inp.value !== inp.dataset.orig);
+    });
+  });
+}
+
+searchBox.addEventListener('input', function() { render(this.value.trim().toLowerCase()); });
+document.getElementById('resetSearchBtn').addEventListener('click', function() { searchBox.value = ''; render(''); });
+
+document.getElementById('genScriptBtn').addEventListener('click', function() {
+  var dirty = {};
+  tbody.querySelectorAll('.tag-input').forEach(function(inp) {
+    if (inp.value !== inp.dataset.orig) {
+      dirty[inp.dataset.dir] = inp.value;
+    }
+  });
+  var keys = Object.keys(dirty);
+  if (keys.length === 0) {
+    document.getElementById('scriptArea').value = '# 没有检测到修改。请先编辑一些标签再生成脚本。';
+  } else {
+    var lines = [];
+    lines.push('#!/usr/bin/env python3');
+    lines.push('# -*- coding: utf-8 -*-');
+    lines.push('"""标签批量更新脚本 - 由 manage.html 生成"""');
+    lines.push('import re, os');
+    lines.push('');
+    lines.push('base = r\'C:\\Users\\admin\\WorkBuddy\\courseware-site\\lessons\'');
+    lines.push('updates = {');
+    keys.forEach(function(d) {
+      var v = dirty[d].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      lines.push("    '" + d + "': '" + v + "',");
+    });
+    lines.push('}');
+    lines.push('');
+    lines.push("changed = 0");
+    lines.push("for dirname, new_tags in updates.items():");
+    lines.push("    fpath = os.path.join(base, dirname, 'index.html')");
+    lines.push("    if not os.path.exists(fpath):");
+    lines.push("        print(f'  SKIP: {dirname} (file not found)')");
+    lines.push("        continue");
+    lines.push("    with open(fpath, 'r', encoding='utf-8') as f:");
+    lines.push("        content = f.read()");
+    lines.push("    new_meta = '  <meta name=\"tags\" content=\"' + new_tags + '\">'");
+    lines.push("    if re.search(r'<meta\\s+name=[\"\\']tags[\"\\']', content):");
+    lines.push("        content = re.sub(r'<meta\\s+name=[\"\\']tags[\"\\']\\s+content=[\"\\'].*?[\"\\']', new_meta, content)");
+    lines.push("    else:");
+    lines.push("        metas = list(re.finditer(r'<meta\\s+[^>]*>', content))");
+    lines.push("        if metas:");
+    lines.push("            pos = metas[-1].end()");
+    lines.push("            content = content[:pos] + '\\n' + new_meta + content[pos:]");
+    lines.push("    with open(fpath, 'w', encoding='utf-8') as f:");
+    lines.push("        f.write(content)");
+    lines.push("    changed += 1");
+    lines.push("    print(f'  Updated: {dirname}')");
+    lines.push('');
+    lines.push("print(f'\\nDone! {changed} files updated.')");
+    lines.push("print('Now run: python gen_index.py')");
+    document.getElementById('scriptArea').value = lines.join('\n');
+  }
+  document.getElementById('scriptBox').style.display = 'block';
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  var ta = document.getElementById('scriptArea');
+  ta.select();
+  document.execCommand('copy');
+  var msg = document.getElementById('copyMsg');
+  msg.classList.add('show');
+  setTimeout(function() { msg.classList.remove('show'); }, 2000);
+});
+
+render('');
+</script>
+</body>
+</html>

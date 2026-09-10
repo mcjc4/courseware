@@ -24,6 +24,8 @@
     display:inline-block; background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.35);
     font-size:13px; padding:4px 12px; border-radius:999px; margin-bottom:16px; letter-spacing:1px;
   }
+  .hero a.mgmt { margin-left:12px; color:#fff; text-decoration:none; font-size:13px; opacity:.8; border-bottom:1px dashed rgba(255,255,255,.5); }
+  .hero a.mgmt:hover { opacity:1; }
   .hero h1 { font-size:34px; font-weight:700; letter-spacing:1px; }
   .hero p { margin-top:12px; font-size:15px; opacity:.95; line-height:1.7; max-width:680px; }
   .stat { display:flex; gap:26px; margin-top:24px; flex-wrap:wrap; }
@@ -35,14 +37,44 @@
     box-shadow:0 10px 30px -12px rgba(31,66,135,.16);
     display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;
   }
-  .fld { display:flex; flex-direction:column; gap:5px; flex:1 1 180px; }
+  .fld { display:flex; flex-direction:column; gap:5px; flex:1 1 160px; }
   .fld label { font-size:12px; color:#5c7185; font-weight:600; }
-  .fld select, .fld input {
+  .fld.search { flex:2 1 240px; }
+  .fld.search input {
     padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
     background:#f8fbff; color:#1f2d3d; font-family:inherit;
   }
-  .fld select:focus, .fld input:focus { outline:none; border-color:#4f8ef7; }
-  .fld.search { flex:2 1 240px; }
+  .fld input:focus { outline:none; border-color:#4f8ef7; }
+  .popup-filter { position:relative; }
+  .filter-btn {
+    padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
+    background:#f8fbff; color:#1f2d3d; cursor:pointer; font-family:inherit;
+    width:100%; text-align:left; display:flex; justify-content:space-between; align-items:center; gap:6px;
+  }
+  .filter-btn:hover { border-color:#4f8ef7; }
+  .filter-btn .cnt { background:#4f8ef7; color:#fff; border-radius:999px; padding:1px 8px; font-size:12px; min-width:20px; text-align:center; flex:none; }
+  .filter-btn .cnt.zero { background:#c5d4e8; }
+  .popup {
+    position:absolute; top:calc(100% + 4px); left:0; min-width:240px; max-width:340px;
+    background:#fff; border:1px solid #d6e4f2; border-radius:12px;
+    box-shadow:0 12px 32px -8px rgba(31,66,135,.2); z-index:200; display:none; padding:10px;
+  }
+  .popup.open { display:block; }
+  .popup-search {
+    width:100%; padding:7px 10px; border:1px solid #d6e4f2; border-radius:8px; font-size:13px;
+    margin-bottom:8px; font-family:inherit;
+  }
+  .popup-search:focus { outline:none; border-color:#4f8ef7; }
+  .popup-options { max-height:220px; overflow-y:auto; }
+  .popup-option {
+    display:flex; align-items:center; gap:8px; padding:5px 6px; cursor:pointer;
+    font-size:13px; border-radius:6px; color:#1f2d3d;
+  }
+  .popup-option:hover { background:#f0f5ff; }
+  .popup-option input { margin:0; }
+  .popup-actions { display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid #eef2f8; }
+  .popup-actions button { padding:5px 14px; border:1px solid #d6e4f2; border-radius:8px; font-size:12px; cursor:pointer; background:#fff; color:#5c7185; font-family:inherit; }
+  .popup-actions button:hover { background:#f0f5ff; color:#2a6df4; }
   .reset-btn {
     background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
     padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
@@ -58,18 +90,16 @@
   }
   .card:hover { transform:translateY(-3px); box-shadow:0 16px 36px -12px rgba(31,66,135,.26); }
   .badge {
-    flex:none; width:40px; height:40px; border-radius:50%;
+    flex:none; width:46px; height:46px; border-radius:50%;
     background:linear-gradient(135deg,#4f8ef7,#22c3a6); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-size:14px; font-weight:600;
+    font-size:11px; font-weight:600;
   }
   .card-body { min-width:0; flex:1; }
   .card-body h3 { font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .card-body .sub { font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }
   .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .tag-chip {
-    font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4;
-  }
+  .tag-chip { font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4; }
   .tag-chip.k { background:#ecfdf6; color:#1a9e7a; }
   .tag-chip.c { background:#fff4e6; color:#d98512; }
   .src { font-size:11px; color:#93a7ba; margin-top:6px; }
@@ -80,44 +110,86 @@
   }
   .empty { grid-column:1/-1; text-align:center; padding:40px; color:#93a7ba; }
   .foot { text-align:center; margin-top:34px; font-size:12px; color:#93a7ba; }
+  .foot a { color:#4f8ef7; text-decoration:none; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
+    <a class="mgmt" href="manage.html">标签管理 →</a>
     <h1>昕言解题课件库</h1>
-    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式渲染，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 标签</b>筛选。</p>
+    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式编译，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 标签</b>弹窗多选筛选。</p>
     <div class="stat">
       <div><b>31</b><span>个课件</span></div>
       <div><b>3</b><span>个学科</span></div>
       <div><b>9</b><span>个章节</span></div>
-      <div><b>单文件</b><span>零依赖离线运行</span></div>
+      <div><b>27</b><span>个标签</span></div>
     </div>
   </div>
 
   <div class="filters">
     <div class="fld">
       <label>学科</label>
-      <select id="fSubject"><option value="">全部</option><option value="化学">化学</option><option value="数学">数学</option><option value="物理">物理</option></select>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnSubject">学科 <span class="cnt zero" id="cntSubject">0</span></button>
+        <div class="popup" id="popupSubject">
+          <input class="popup-search" placeholder="搜索…" id="searchSubject">
+          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="subject" value="化学">化学</label><label class="popup-option"><input type="checkbox" data-filter="subject" value="数学">数学</label><label class="popup-option"><input type="checkbox" data-filter="subject" value="物理">物理</label></div>
+          <div class="popup-actions">
+            <button type="button" data-clear="subject">清除</button>
+            <button type="button" data-close="popupSubject">确定</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fld">
       <label>所属章节</label>
-      <select id="fChapter"><option value="">全部</option><option value="万有引力与航天">万有引力与航天</option><option value="三角函数">三角函数</option><option value="匀变速直线运动">匀变速直线运动</option><option value="原子核物理">原子核物理</option><option value="原子物理-电子发现">原子物理-电子发现</option><option value="机械波">机械波</option><option value="电磁学综合">电磁学综合</option><option value="金属及其化合物">金属及其化合物</option><option value="铝及其化合物">铝及其化合物</option></select>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnChapter">章节 <span class="cnt zero" id="cntChapter">0</span></button>
+        <div class="popup" id="popupChapter">
+          <input class="popup-search" placeholder="搜索…" id="searchChapter">
+          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="chapter" value="万有引力与航天">万有引力与航天</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="三角函数">三角函数</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="匀变速直线运动">匀变速直线运动</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="原子核物理">原子核物理</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="原子物理-电子发现">原子物理-电子发现</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="机械波">机械波</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="电磁学综合">电磁学综合</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="金属及其化合物">金属及其化合物</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="铝及其化合物">铝及其化合物</label></div>
+          <div class="popup-actions">
+            <button type="button" data-clear="chapter">清除</button>
+            <button type="button" data-close="popupChapter">确定</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fld">
       <label>知识点</label>
-      <select id="fKnowledge"><option value="">全部</option><option value="v-t图像与追及相遇">v-t图像与追及相遇</option><option value="三角恒等变换">三角恒等变换</option><option value="三角恒等变换综合">三角恒等变换综合</option><option value="两角和与差">两角和与差</option><option value="两角和与差的余弦">两角和与差的余弦</option><option value="交流发电机-变压器-电磁感应-霍尔效应">交流发电机-变压器-电磁感应-霍尔效应</option><option value="余弦函数值域与区间长度">余弦函数值域与区间长度</option><option value="余弦函数极小值点与不单调联合条件">余弦函数极小值点与不单调联合条件</option><option value="余弦函数求值域与单调区间">余弦函数求值域与单调区间</option><option value="匀减速与逆向思维">匀减速与逆向思维</option><option value="半角公式">半角公式</option><option value="圆轨道-椭圆轨道-开普勒定律-机械能">圆轨道-椭圆轨道-开普勒定律-机械能</option><option value="实验装置与操作正误判断">实验装置与操作正误判断</option><option value="平均速度-时间图像">平均速度-时间图像</option><option value="弦上横波-波速公式-基频">弦上横波-波速公式-基频</option><option value="极值点零点综合条件">极值点零点综合条件</option><option value="核反应方程-衰变-聚变-裂变">核反应方程-衰变-聚变-裂变</option><option value="正弦函数中心对称与单调性/极值/对称轴/切线">正弦函数中心对称与单调性/极值/对称轴/切线</option><option value="正弦函数单调区间与 ω 约束">正弦函数单调区间与 ω 约束</option><option value="正弦函数周期性与极值点">正弦函数周期性与极值点</option><option value="正弦函数对称性与单调性">正弦函数对称性与单调性</option><option value="正弦函数对称轴条件与 ω 取值">正弦函数对称轴条件与 ω 取值</option><option value="正弦函数零点分布与 ω">正弦函数零点分布与 ω</option><option value="诱导公式与二倍角">诱导公式与二倍角</option><option value="连接体与比例法">连接体与比例法</option><option value="追及与相遇问题">追及与相遇问题</option><option value="铝的化合物/实验装置与操作">铝的化合物/实验装置与操作</option><option value="阴极射线-比荷-汤姆孙实验">阴极射线-比荷-汤姆孙实验</option><option value="零点+对称轴+单调联合条件">零点+对称轴+单调联合条件</option><option value="非常规运动图像(x/t²-1/t)">非常规运动图像(x/t²-1/t)</option></select>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnKnowledge">知识点 <span class="cnt zero" id="cntKnowledge">0</span></button>
+        <div class="popup" id="popupKnowledge">
+          <input class="popup-search" placeholder="搜索…" id="searchKnowledge">
+          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="v-t图像与追及相遇">v-t图像与追及相遇</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="三角恒等变换">三角恒等变换</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="三角恒等变换综合">三角恒等变换综合</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="两角和与差">两角和与差</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="两角和与差的余弦">两角和与差的余弦</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="交流发电机-变压器-电磁感应-霍尔效应">交流发电机-变压器-电磁感应-霍尔效应</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数值域与区间长度">余弦函数值域与区间长度</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数极小值点与不单调联合条件">余弦函数极小值点与不单调联合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数求值域与单调区间">余弦函数求值域与单调区间</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="匀减速与逆向思维">匀减速与逆向思维</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="半角公式">半角公式</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="圆轨道-椭圆轨道-开普勒定律-机械能">圆轨道-椭圆轨道-开普勒定律-机械能</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="实验装置与操作正误判断">实验装置与操作正误判断</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="平均速度-时间图像">平均速度-时间图像</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="弦上横波-波速公式-基频">弦上横波-波速公式-基频</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="极值点零点综合条件">极值点零点综合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="核反应方程-衰变-聚变-裂变">核反应方程-衰变-聚变-裂变</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数中心对称与单调性/极值/对称轴/切线">正弦函数中心对称与单调性/极值/对称轴/切线</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数单调区间与 ω 约束">正弦函数单调区间与 ω 约束</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数周期性与极值点">正弦函数周期性与极值点</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数对称性与单调性">正弦函数对称性与单调性</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数对称轴条件与 ω 取值">正弦函数对称轴条件与 ω 取值</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数零点分布与 ω">正弦函数零点分布与 ω</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="诱导公式与二倍角">诱导公式与二倍角</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="连接体与比例法">连接体与比例法</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="追及与相遇问题">追及与相遇问题</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="铝的化合物/实验装置与操作">铝的化合物/实验装置与操作</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="阴极射线-比荷-汤姆孙实验">阴极射线-比荷-汤姆孙实验</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="零点+对称轴+单调联合条件">零点+对称轴+单调联合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="非常规运动图像(x/t²-1/t)">非常规运动图像(x/t²-1/t)</label></div>
+          <div class="popup-actions">
+            <button type="button" data-clear="knowledge">清除</button>
+            <button type="button" data-close="popupKnowledge">确定</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fld">
       <label>标签</label>
-      <select id="fTag"><option value="">全部</option><option value="KaTeX公式">KaTeX公式</option><option value="万有引力与航天">万有引力与航天</option><option value="三角函数">三角函数</option><option value="互动图像">互动图像</option><option value="公式渲染">公式渲染</option><option value="函数性质">函数性质</option><option value="匀变速直线运动">匀变速直线运动</option><option value="化学">化学</option><option value="单选题">单选题</option><option value="原子核物理">原子核物理</option><option value="原子物理-电子发现">原子物理-电子发现</option><option value="填空题">填空题</option><option value="多选题">多选题</option><option value="天体物理">天体物理</option><option value="实验化学">实验化学</option><option value="数学">数学</option><option value="昕言课件">昕言课件</option><option value="机械波">机械波</option><option value="物理">物理</option><option value="电磁学综合">电磁学综合</option><option value="粒子物理">粒子物理</option><option value="综合题">综合题</option><option value="自制课件">自制课件</option><option value="解答题">解答题</option><option value="运动学">运动学</option><option value="金属及其化合物">金属及其化合物</option><option value="铝及其化合物">铝及其化合物</option></select>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnTag">标签 <span class="cnt zero" id="cntTag">0</span></button>
+        <div class="popup" id="popupTag">
+          <input class="popup-search" placeholder="搜索…" id="searchTag">
+          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="tag" value="KaTeX公式">KaTeX公式</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="万有引力与航天">万有引力与航天</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="三角函数">三角函数</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="互动图像">互动图像</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="公式渲染">公式渲染</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="函数性质">函数性质</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="匀变速直线运动">匀变速直线运动</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="化学">化学</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="单选题">单选题</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="原子核物理">原子核物理</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="原子物理-电子发现">原子物理-电子发现</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="填空题">填空题</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="多选题">多选题</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="天体物理">天体物理</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="实验化学">实验化学</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="数学">数学</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="昕言课件">昕言课件</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="机械波">机械波</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="物理">物理</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="电磁学综合">电磁学综合</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="粒子物理">粒子物理</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="综合题">综合题</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="自制课件">自制课件</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="解答题">解答题</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="运动学">运动学</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="金属及其化合物">金属及其化合物</label><label class="popup-option"><input type="checkbox" data-filter="tag" value="铝及其化合物">铝及其化合物</label></div>
+          <div class="popup-actions">
+            <button type="button" data-clear="tag">清除</button>
+            <button type="button" data-close="popupTag">确定</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fld search">
       <label>搜索标题/来源</label>
-      <input id="fSearch" placeholder="输入关键字…" />
+      <input id="fSearch" placeholder="输入关键字…" autocomplete="off">
     </div>
-    <button class="reset-btn" id="fReset">重置</button>
+    <button class="reset-btn" id="fReset" type="button">重置</button>
   </div>
   <div class="result-info" id="resultInfo">共 31 个课件</div>
 
@@ -433,43 +505,106 @@
       </div>
     </a>
   </div>
-  <div class="foot">mcjc4 · GitHub Pages · 页面生成于 2026-09-10</div>
+  <div class="foot"><a href="manage.html">标签管理</a> · mcjc4 · GitHub Pages · 页面生成于 2026-09-10</div>
 </div>
 <script>
 (function(){
-  const grid=document.getElementById('grid');
-  const cards=Array.from(grid.querySelectorAll('.card'));
-  const fS=document.getElementById('fSubject');
-  const fC=document.getElementById('fChapter');
-  const fK=document.getElementById('fKnowledge');
-  const fT=document.getElementById('fTag');
-  const info=document.getElementById('resultInfo');
+  var grid=document.getElementById('grid');
+  var cards=Array.from(grid.querySelectorAll('.card'));
+  var fQ=document.getElementById('fSearch');
+  var info=document.getElementById('resultInfo');
+  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),tag:new Set()};
+  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',tag:'cntTag'};
+
+  function updateCnt(f){
+    var n=sets[f].size;
+    var el=document.getElementById(cntIds[f]);
+    el.textContent=n;
+    el.className=n===0?'cnt zero':'cnt';
+  }
+
   function apply(){
-    const s=fS.value,c=fC.value,k=fK.value,t=fT.value,q=fQ.value.trim().toLowerCase();
-    let n=0;
-    cards.forEach(card=>{
-      const okS=!s||card.dataset.subject===s;
-      const okC=!c||card.dataset.chapter===c;
-      const okK=!k||card.dataset.knowledge===k;
-      const okT=!t||(card.dataset.tags||'').split(';').includes(t);
-      const okQ=!q||(card.textContent||'').toLowerCase().includes(q);
-      const show=okS&&okC&&okK&&okT&&okQ;
+    var q=fQ.value.trim().toLowerCase();
+    var n=0;
+    cards.forEach(function(card){
+      var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
+      var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
+      var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
+      var cardTags=(card.dataset.tags||'').split(';');
+      var okT=sets.tag.size===0||cardTags.some(function(t){return sets.tag.has(t);});
+      var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
+      var show=okS&&okC&&okK&&okT&&okQ;
       card.style.display=show?'':'none';
-      if(show) n++;
+      if(show)n++;
     });
     info.textContent='共 '+n+' 个课件';
+    var empty=document.getElementById('emptyHint');
     if(n===0){
-      if(!document.getElementById('empty')){
-        const e=document.createElement('div');e.className='empty';e.id='empty';
-        e.textContent='没有符合条件的课件，试试换个筛选条件。';
-        grid.appendChild(e);
-      }
-    }else{
-      const e=document.getElementById('empty'); if(e) e.remove();
-    }
+      if(!empty){empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='没有符合条件的课件，试试换个筛选条件。';grid.appendChild(empty);}
+    }else{if(empty)empty.remove();}
   }
-  [fS,fC,fK,fT,fQ].forEach(el=>el.addEventListener('input',apply));
-  document.getElementById('fReset').onclick=()=>{fS.value='';fC.value='';fK.value='';fT.value='';fQ.value='';apply();};
+
+  document.querySelectorAll('.filter-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var popup=btn.nextElementSibling;
+      var isOpen=popup.classList.contains('open');
+      document.querySelectorAll('.popup.open').forEach(function(p){p.classList.remove('open');});
+      if(!isOpen)popup.classList.add('open');
+      var search=popup.querySelector('.popup-search');
+      if(search)setTimeout(function(){search.focus();},0);
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.popup-filter'))
+      document.querySelectorAll('.popup.open').forEach(function(p){p.classList.remove('open');});
+  });
+  document.querySelectorAll('.popup').forEach(function(p){
+    p.addEventListener('click',function(e){e.stopPropagation();});
+  });
+
+  document.querySelectorAll('.popup-option input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',function(){
+      var f=cb.dataset.filter,v=cb.value;
+      if(cb.checked)sets[f].add(v);else sets[f].delete(v);
+      updateCnt(f);
+      apply();
+    });
+  });
+
+  document.querySelectorAll('.popup-search').forEach(function(input){
+    input.addEventListener('input',function(){
+      var q=this.value.trim().toLowerCase();
+      this.closest('.popup').querySelectorAll('.popup-option').forEach(function(opt){
+        opt.style.display=(!q||opt.textContent.toLowerCase().indexOf(q)>=0)?'':'none';
+      });
+    });
+  });
+
+  document.querySelectorAll('.popup-actions button[data-clear]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var f=btn.dataset.clear;
+      sets[f].clear();
+      document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
+      updateCnt(f);
+      apply();
+    });
+  });
+  document.querySelectorAll('.popup-actions button[data-close]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.getElementById(btn.dataset.close).classList.remove('open');
+    });
+  });
+
+  fQ.addEventListener('input',apply);
+  document.getElementById('fReset').addEventListener('click',function(){
+    ['subject','chapter','knowledge','tag'].forEach(function(f){
+      sets[f].clear();
+      document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
+      updateCnt(f);
+    });
+    fQ.value='';apply();
+  });
 })();
 </script>
 </body>
