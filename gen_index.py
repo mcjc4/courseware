@@ -29,7 +29,7 @@ def extract_meta(path):
         return {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
                 'knowledge': '', 'source': '', 'type': ''}
     info = {'title': '未命名课件', 'sub': '', 'subject': '', 'chapter': '',
-            'knowledge': '', 'source': '', 'type': '', 'number': ''}
+            'knowledge': '', 'source': '', 'type': '', 'number': '', 'tags': ''}
     m = re.search(r'<title[^>]*>(.*?)</title>', head, re.S | re.I)
     if m:
         t = html.unescape(re.sub(r'\s+', ' ', m.group(1))).strip()
@@ -38,7 +38,7 @@ def extract_meta(path):
             info['title'], info['sub'] = main.strip(), sub.strip()
         else:
             info['title'] = t
-    for key in ('subject', 'chapter', 'knowledge', 'source', 'type', 'number'):
+    for key in ('subject', 'chapter', 'knowledge', 'source', 'type', 'number', 'tags'):
         mm = re.search(r'<meta\s+name=["\']' + key + r'["\']\s+content=["\'](.*?)["\']', head, re.I)
         if mm:
             info[key] = html.unescape(mm.group(1)).strip()
@@ -71,6 +71,8 @@ def scan_lessons():
             'source': meta['source'] or '',
             'type': meta['type'] or '',
             'number': meta['number'] or '',
+            'tags': meta['tags'] or '',
+            'tags_list': [t.strip() for t in (meta['tags'] or '').split(';') if t.strip()],
         })
     items.sort(key=lambda x: x['order'])
     for i, it in enumerate(items, 1):
@@ -79,7 +81,7 @@ def scan_lessons():
     return items
 
 
-CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}">
+CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-tags="{tags_attr}">
       <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
@@ -179,7 +181,7 @@ PAGE_TMPL = """<!DOCTYPE html>
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
     <h1>昕言解题课件库</h1>
-    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式渲染，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点</b>筛选。</p>
+    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式渲染，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 标签</b>筛选。</p>
     <div class="stat">
       <div><b>{count}</b><span>个课件</span></div>
       <div><b>{subject_count}</b><span>个学科</span></div>
@@ -201,6 +203,10 @@ PAGE_TMPL = """<!DOCTYPE html>
       <label>知识点</label>
       <select id="fKnowledge"><option value="">全部</option>{knowledge_options}</select>
     </div>
+    <div class="fld">
+      <label>标签</label>
+      <select id="fTag"><option value="">全部</option>{tag_options}</select>
+    </div>
     <div class="fld search">
       <label>搜索标题/来源</label>
       <input id="fSearch" placeholder="输入关键字…" />
@@ -221,17 +227,18 @@ PAGE_TMPL = """<!DOCTYPE html>
   const fS=document.getElementById('fSubject');
   const fC=document.getElementById('fChapter');
   const fK=document.getElementById('fKnowledge');
-  const fQ=document.getElementById('fSearch');
+  const fT=document.getElementById('fTag');
   const info=document.getElementById('resultInfo');
   function apply(){{
-    const s=fS.value,c=fC.value,k=fK.value,q=fQ.value.trim().toLowerCase();
+    const s=fS.value,c=fC.value,k=fK.value,t=fT.value,q=fQ.value.trim().toLowerCase();
     let n=0;
     cards.forEach(card=>{{
       const okS=!s||card.dataset.subject===s;
       const okC=!c||card.dataset.chapter===c;
       const okK=!k||card.dataset.knowledge===k;
+      const okT=!t||(card.dataset.tags||'').split(';').includes(t);
       const okQ=!q||(card.textContent||'').toLowerCase().includes(q);
-      const show=okS&&okC&&okK&&okQ;
+      const show=okS&&okC&&okK&&okT&&okQ;
       card.style.display=show?'':'none';
       if(show) n++;
     }});
@@ -246,8 +253,8 @@ PAGE_TMPL = """<!DOCTYPE html>
       const e=document.getElementById('empty'); if(e) e.remove();
     }}
   }}
-  [fS,fC,fK,fQ].forEach(el=>el.addEventListener('input',apply));
-  document.getElementById('fReset').onclick=()=>{{fS.value='';fC.value='';fK.value='';fQ.value='';apply();}};
+  [fS,fC,fK,fT,fQ].forEach(el=>el.addEventListener('input',apply));
+  document.getElementById('fReset').onclick=()=>{{fS.value='';fC.value='';fK.value='';fT.value='';fQ.value='';apply();}};
 }})();
 </script>
 </body>
@@ -259,6 +266,11 @@ def main():
     subjects = sorted({it['subject'] for it in items if it['subject']})
     chapters = sorted({it['chapter'] for it in items if it['chapter']})
     knowledges = sorted({it['knowledge'] for it in items if it['knowledge']})
+    all_tags = set()
+    for it in items:
+        for t in it.get('tags_list', []):
+            all_tags.add(t)
+    all_tags = sorted(all_tags)
 
     def opts(values):
         return ''.join(f'<option value="{html.escape(v)}">{html.escape(v)}</option>' for v in values)
@@ -268,6 +280,9 @@ def main():
         tags = (f'<span class="tag-chip">{html.escape(it["subject"])}</span>'
                 f'<span class="tag-chip c">{html.escape(it["chapter"])}</span>'
                 f'<span class="tag-chip k">{html.escape(it["knowledge"])}</span>')
+        if it.get('tags_list'):
+            for tg in it['tags_list']:
+                tags += f'<span class="tag-chip" style="background:#f0f0ff;color:#555">{html.escape(tg)}</span>'
         if it['type']:
             tags += f'<span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">{html.escape(it["type"])}</span>'
         source_html = f'<div class="src">{html.escape(it["source"])}</div>' if it['source'] else ''
@@ -276,6 +291,7 @@ def main():
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
+            tags_attr=html.escape(';'.join(it.get('tags_list', []))),
         ))
     cards_html = '\n'.join(cards) if cards else '    <div class="empty">暂无课件</div>'
 
@@ -283,7 +299,7 @@ def main():
     page = PAGE_TMPL.format(
         count=len(items), subject_count=len(subjects), chapter_count=len(chapters),
         subject_options=opts(subjects), chapter_options=opts(chapters),
-        knowledge_options=opts(knowledges), cards=cards_html, date=today,
+        knowledge_options=opts(knowledges), tag_options=opts(all_tags), cards=cards_html, date=today,
     )
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(page)
