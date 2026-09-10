@@ -1,0 +1,692 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>三角函数一般式 y = A sin(ωx + φ) + b</title>
+<meta name="number" content="数0019">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="三角函数图像与性质">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="讲课课件">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
+.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
+.back-link:hover{text-decoration:underline}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
+.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
+.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
+.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
+.hero p{font-size:15px;opacity:.95}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
+.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
+.slider-row{display:flex;align-items:center;margin:12px 0;gap:12px}
+.slider-row label{min-width:44px;font-weight:600;color:#00695c}
+.slider-row input[type=range]{flex:1;accent-color:#26a69a}
+.slider-row .val{min-width:70px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace}
+.derived-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
+.derived-item{background:#e0f2f1;border-radius:10px;padding:10px;text-align:center}
+.derived-item .lbl{font-size:12px;color:#546e7a;margin-bottom:4px}
+.derived-item .v{font-weight:700;color:#00695c;font-size:14px;font-family:Consolas,monospace}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border:none;border-radius:22px;padding:8px 20px;font-size:14px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
+.btn.active{background:linear-gradient(90deg,#ff9800,#ff5722)}
+.canvas-wrap{position:relative;margin-top:10px;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
+canvas{display:block;width:100%;touch-action:none}
+.tooltip{position:absolute;background:rgba(0,0,0,0.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
+.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0}
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+.step.blue{background:#e3f2fd;border-left-color:#1e88e5}
+.step.red{background:#ffebee;border-left-color:#e53935}
+.formula-box{background:linear-gradient(135deg,#e0f2f1,#e3f2fd);border:2px solid #26a69a;border-radius:12px;padding:16px;margin:14px 0;text-align:center;font-size:16px}
+.tag{display:inline-block;background:#ffb74d;color:#fff;font-size:12px;padding:2px 10px;border-radius:12px;margin-right:6px;font-weight:600}
+.tag.exam{background:#e53935}
+.tag.tip{background:#43a047}
+.brain-card{background:linear-gradient(135deg,#f3e5f5,#e1f5fe);border-radius:14px;padding:20px;margin-top:10px}
+.brain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:10px}
+.brain-item{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.brain-item .big{font-size:22px;font-weight:800;color:#00897b}
+.brain-item .desc{font-size:12px;color:#546e7a;margin-top:4px}
+ul.exam-list{margin:8px 0 8px 24px}
+ul.exam-list li{margin:4px 0}
+@media(max-width:600px){
+  .hero h1{font-size:20px}
+  .card{padding:18px}
+  .slider-row{flex-wrap:wrap}
+  .slider-row .val{min-width:auto}
+}
+</style>
+</head>
+<body>
+<a class="back-link" href="../../index.html">← 返回课程列表</a>
+
+<div class="meta-bar">
+  <span class="meta-chip key">数0019</span>
+  <span class="meta-chip">数学</span>
+  <span class="meta-chip">三角函数</span>
+  <span class="meta-chip">图像与性质</span>
+  <span class="meta-chip">讲课课件</span>
+</div>
+
+<div class="hero">
+  <h1>三角函数一般式 $y = A\sin(\omega x + \varphi) + b$</h1>
+  <p>理解四个参数 A、ω、φ、b 如何决定正弦曲线的形状、位置和周期。拖动滑块实时观察图像变化。</p>
+</div>
+
+<div class="card">
+  <h2>🎛 交互式图像探索</h2>
+  <p style="color:#546e7a;font-size:13px;margin-bottom:10px">拖动下方滑块改变参数；也可以在画布上拖动（水平方向改变 φ，垂直方向改变 b）。鼠标悬停查看坐标。</p>
+
+  <div class="slider-row">
+    <label for="sA">A</label>
+    <input type="range" id="sA" min="-3" max="3" step="0.1" value="1">
+    <span class="val" id="vA">1.0</span>
+    <span style="font-size:12px;color:#888">振幅（Amplitude）</span>
+  </div>
+  <div class="slider-row">
+    <label for="sW">ω</label>
+    <input type="range" id="sW" min="0.3" max="5" step="0.1" value="1">
+    <span class="val" id="vW">1.0</span>
+    <span style="font-size:12px;color:#888">角频率（Angular frequency）</span>
+  </div>
+  <div class="slider-row">
+    <label for="sP">φ</label>
+    <input type="range" id="sP" min="-3.14159" max="3.14159" step="0.05" value="0">
+    <span class="val" id="vP">0.00</span>
+    <span style="font-size:12px;color:#888">初相（Initial phase）</span>
+  </div>
+  <div class="slider-row">
+    <label for="sB">b</label>
+    <input type="range" id="sB" min="-3" max="3" step="0.1" value="0">
+    <span class="val" id="vB">0.0</span>
+    <span style="font-size:12px;color:#888">平衡位置（Vertical shift）</span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn ghost" id="btnReset">↺ 复位</button>
+    <button class="btn" id="btnRef">👁 隐藏参考线 y=sin x</button>
+  </div>
+
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="cv" width="800" height="420"></canvas>
+    <div class="tooltip" id="tip"></div>
+  </div>
+
+  <div class="derived-grid">
+    <div class="derived-item"><div class="lbl">振幅 |A|</div><div class="v" id="dA">1.0</div></div>
+    <div class="derived-item"><div class="lbl">周期 T = 2π/ω</div><div class="v" id="dT">6.28</div></div>
+    <div class="derived-item"><div class="lbl">频率 f = ω/(2π)</div><div class="v" id="dF">0.16</div></div>
+    <div class="derived-item"><div class="lbl">初相 φ</div><div class="v" id="dP">0.00</div></div>
+    <div class="derived-item"><div class="lbl">相位平移 -φ/ω</div><div class="v" id="dPS">0.00</div></div>
+    <div class="derived-item"><div class="lbl">平衡线 y = b</div><div class="v" id="dB">0.0</div></div>
+    <div class="derived-item"><div class="lbl">最大值</div><div class="v" id="dMax">1.0</div></div>
+    <div class="derived-item"><div class="lbl">最小值</div><div class="v" id="dMin">-1.0</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📖 公式解构</h2>
+  <p>标准形式：$y = A\sin(\omega x + \varphi) + b$，四个参数各有明确的几何意义：</p>
+
+  <div class="step">
+    <strong>A —— 振幅（Amplitude）</strong><br>
+    控制波浪的高度。$|A|$ 越大，波浪起伏越剧烈。$A < 0$ 时图像关于 x 轴对称翻转。
+  </div>
+  <div class="step green">
+    <strong>ω —— 角频率（Angular frequency）</strong><br>
+    控制波浪的疏密。$\omega$ 越大，波浪越密（周期 $T = \frac{2\pi}{\omega}$ 越小）。$\omega > 0$ 是标准情况。
+  </div>
+  <div class="step gold">
+    <strong>φ —— 初相（Initial phase）</strong><br>
+    控制左右平移。$\varphi > 0$ 时向左平移 $\left|\frac{\varphi}{\omega}\right|$ 个单位，$\varphi < 0$ 时向右平移。
+  </div>
+  <div class="step blue">
+    <strong>b —— 平衡位置（Vertical shift）</strong><br>
+    控制上下平移。图像关于直线 $y = b$ 上下对称（不再关于 x 轴对称）。
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="tag exam">考点①</span>已知参数 → 画图</h2>
+  <div class="formula-box">
+    例：已知 $y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$，求各量
+  </div>
+  <div class="step">
+    <ul class="exam-list">
+      <li>振幅：$|A| = |2| = \boldsymbol{2}$</li>
+      <li>周期：$T = \frac{2\pi}{\omega} = \frac{2\pi}{2} = \boldsymbol{\pi}$</li>
+      <li>初相：$\varphi = \boldsymbol{\frac{\pi}{3}}$</li>
+      <li>相位平移：$-\frac{\varphi}{\omega} = -\frac{\pi/3}{2} = \boldsymbol{-\frac{\pi}{6}}$（即向左平移 $\frac{\pi}{6}$）</li>
+      <li>平衡位置：$y = b = \boldsymbol{1}$</li>
+      <li>最大值：$b + |A| = 1 + 2 = \boldsymbol{3}$</li>
+      <li>最小值：$b - |A| = 1 - 2 = \boldsymbol{-1}$</li>
+    </ul>
+  </div>
+  <div class="step red">
+    <strong>易错：</strong>单调性区间求法（整体代换）：<br>
+    令 $u = 2x + \frac{\pi}{3}$，则 $y = 2\sin u + 1$。<br>
+    $\sin u$ 单调递增区间是 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]$，代入 $u$ 解出 $x$：<br>
+    $-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi \Rightarrow x \in \left[-\frac{5\pi}{12} + k\pi,\ \frac{\pi}{12} + k\pi\right]$
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="tag exam">考点②</span>由图像 → 求参数</h2>
+  <p>已知图像特征反推 A, ω, φ, b 是高考高频题型。</p>
+
+  <div class="formula-box">
+    图像描述：波峰在 $x = \frac{\pi}{6}$，周期 $T = \pi$，平衡线 $y = 1$，且过点 $(0, 1)$。
+  </div>
+
+  <div class="step">
+    <strong>第一步：求 b</strong> —— 平衡线即 $y = b$，故 $\boldsymbol{b = 1}$。
+  </div>
+  <div class="step green">
+    <strong>第二步：求 A</strong> —— 从图像读出波峰为 $y = 3$，波谷为 $y = -1$，故 $|A| = \frac{3 - (-1)}{2} = \boldsymbol{2}$。开口向上，取 $A = 2$。
+  </div>
+  <div class="step gold">
+    <strong>第三步：求 ω</strong> —— $T = \pi$，由 $T = \frac{2\pi}{\omega}$ 得 $\omega = \frac{2\pi}{T} = \frac{2\pi}{\pi} = \boldsymbol{2}$。
+  </div>
+  <div class="step blue">
+    <strong>第四步：求 φ</strong> —— 波峰处 $\omega x + \varphi = \frac{\pi}{2} + 2k\pi$。代入 $x = \frac{\pi}{6}$、$\omega = 2$：<br>
+    $2 \cdot \frac{\pi}{6} + \varphi = \frac{\pi}{2} \Rightarrow \frac{\pi}{3} + \varphi = \frac{\pi}{2} \Rightarrow \boldsymbol{\varphi = \frac{\pi}{6}}$？<br>
+    <span style="color:#e53935;font-weight:700">等等，再验证 $x=0$ 时 $y=1$：</span><br>
+    $2\sin(\varphi) + 1 = 1 \Rightarrow \sin\varphi = 0 \Rightarrow \varphi = 0$。<br>
+    两处条件要自洽！检查：$\varphi = 0$ 时，$2\sin(2 \cdot \frac{\pi}{6}) + 1 = 2\sin(\frac{\pi}{3}) + 1 \approx 2.732 + 1 = 3.732 \neq 3$。矛盾！<br>
+    <strong>结论：</strong>图像描述必须自洽。正确描述应为：波峰在 $x = \boldsymbol{-\frac{\pi}{12}}$ 时，参数才能取 $b=1, A=2, \omega=2, \varphi=\frac{\pi}{6}$。
+  </div>
+  <div class="step red">
+    <strong>解题口诀：</strong>先 b（上下移）→ 再 A（振幅）→ 再 ω（周期）→ 最后 φ（初相）。前三个确定后，φ 必能唯一确定。
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="tag exam">考点③</span>图像变换（两种路径）</h2>
+  <div class="formula-box">
+    $y = \sin x \ \longrightarrow\ y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$
+  </div>
+
+  <h3>方法一：先平移 → 后伸缩（推荐，不易错）</h3>
+  <div class="step">
+    <ol style="margin-left:20px">
+      <li>$y = \sin x$</li>
+      <li><strong>向左平移 $\frac{\pi}{3}$</strong> 个单位：$y = \sin\left(x + \frac{\pi}{3}\right)$</li>
+      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin\left(2x + \frac{\pi}{3}\right)$</li>
+      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
+      <li><strong>向上平移 1</strong> 个单位：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
+    </ol>
+  </div>
+
+  <h3>方法二：先伸缩 → 后平移（易错！）</h3>
+  <div class="step gold">
+    <ol style="margin-left:20px">
+      <li>$y = \sin x$</li>
+      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin(2x)$</li>
+      <li><span style="color:#e53935;font-weight:700">向左平移 $\boldsymbol{\frac{\pi}{6}}$</span> 个单位（不是 $\frac{\pi}{3}$！）：$y = \sin\left(2\left(x + \frac{\pi}{6}\right)\right) = \sin\left(2x + \frac{\pi}{3}\right)$</li>
+      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
+      <li>向上平移 1：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
+    </ol>
+  </div>
+
+  <div class="step red">
+    <strong>易错点：</strong>先伸缩后平移时，平移量是 $\frac{|\varphi|}{\omega}$，而不是 $|\varphi|$。很多同学直接平移 $\frac{\pi}{3}$，导致错误。<br>
+    <strong>建议：</strong>答题时优先使用"先平移后伸缩"，更简单、出错率低。
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="tag exam">考点④</span>求单调区间（整体代换法）</h2>
+  <p>以 $y = 2\sin(2x + \frac{\pi}{3}) + 1$ 为例，求其单调递增区间。</p>
+
+  <div class="step green">
+    <strong>三步法：</strong><br>
+    ① <strong>换元：</strong>令 $u = 2x + \frac{\pi}{3}$，则原函数变为 $y = 2\sin u + 1$。<br>
+    ② <strong>解三角：</strong>$\sin u$ 的单调递增区间为 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]\ (k \in \mathbb{Z})$。<br>
+    ③ <strong>代回解 x：</strong>
+    $$-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi$$
+    $$-\frac{\pi}{2} - \frac{\pi}{3} + 2k\pi \leq 2x \leq \frac{\pi}{2} - \frac{\pi}{3} + 2k\pi$$
+    $$-\frac{5\pi}{6} + 2k\pi \leq 2x \leq \frac{\pi}{6} + 2k\pi$$
+    $$\boldsymbol{-\frac{5\pi}{12} + k\pi \leq x \leq \frac{\pi}{12} + k\pi \quad (k \in \mathbb{Z})}$$
+  </div>
+
+  <div class="step">
+    <strong>口诀：</strong>外层三角 + 内层一次 → 整体代换 → 解不等式。$\omega < 0$ 时先利用诱导公式把负号提到外面。
+  </div>
+</div>
+
+<div class="card">
+  <h2>🧠 一张图记住四个参数</h2>
+  <div class="brain-card">
+    <div class="brain-grid">
+      <div class="brain-item">
+        <div class="big">A</div>
+        <div class="desc">振幅 $|A|$ 决定波浪高度</div>
+      </div>
+      <div class="brain-item">
+        <div class="big">ω</div>
+        <div class="desc">角频率 $T = 2\pi/\omega$ 决定周期</div>
+      </div>
+      <div class="brain-item">
+        <div class="big">φ</div>
+        <div class="desc">初相 $-\varphi/\omega$ 决定左右平移</div>
+      </div>
+      <div class="brain-item">
+        <div class="big">b</div>
+        <div class="desc">平衡位置 决定上下平移</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:center;font-size:14px;color:#00695c">
+      最大值 $= b + |A|$ ， 最小值 $= b - |A|$
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var wrap = document.getElementById('canvasWrap');
+  var tip = document.getElementById('tip');
+
+  var sA = document.getElementById('sA'), sW = document.getElementById('sW'), sP = document.getElementById('sP'), sB = document.getElementById('sB');
+  var vA = document.getElementById('vA'), vW = document.getElementById('vW'), vP = document.getElementById('vP'), vB = document.getElementById('vB');
+  var dA = document.getElementById('dA'), dT = document.getElementById('dT'), dF = document.getElementById('dF'), dP2 = document.getElementById('dP'), dPS = document.getElementById('dPS'), dB = document.getElementById('dB'), dMax = document.getElementById('dMax'), dMin = document.getElementById('dMin');
+
+  var btnReset = document.getElementById('btnReset');
+  var btnRef = document.getElementById('btnRef');
+
+  var showRef = true;
+  var dragging = false;
+  var lastX = 0, lastY = 0;
+
+  var PI = Math.PI;
+
+  function fmtPhase(v){
+    var absV = Math.abs(v);
+    if (absV < 0.01) return '0';
+    var piV = v / PI;
+    var near = Math.round(piV * 6);
+    if (Math.abs(piV * 6 - near) < 0.15 && near !== 0){
+      var sign = near >= 0 ? '' : '-';
+      var n = Math.abs(near);
+      if (n === 6) return (v >= 0 ? '' : '-') + 'π';
+      if (n === 3) return sign + 'π/2';
+      if (n === 4) return sign + '2π/3';
+      if (n === 2) return sign + 'π/3';
+      if (n === 1) return sign + 'π/6';
+      return sign + n + 'π/6';
+    }
+    return v.toFixed(2);
+  }
+
+  function fmtXasPi(x){
+    var piV = x / PI;
+    if (Math.abs(piV) < 0.005) return '0';
+    var near = Math.round(piV * 12);
+    if (Math.abs(piV * 12 - near) < 0.1){
+      var sign = near >= 0 ? '' : '-';
+      var n = Math.abs(near);
+      if (n === 12) return (near >= 0 ? '' : '-') + 'π';
+      if (n === 6) return sign + 'π/2';
+      if (n === 4) return sign + 'π/3';
+      if (n === 3) return sign + 'π/4';
+      if (n === 2) return sign + 'π/6';
+      return sign + n + 'π/12';
+    }
+    return x.toFixed(2);
+  }
+
+  function params(){
+    return {
+      A: parseFloat(sA.value),
+      W: parseFloat(sW.value),
+      P: parseFloat(sP.value),
+      B: parseFloat(sB.value)
+    };
+  }
+
+  function yOf(p, x){
+    return p.A * Math.sin(p.W * x + p.P) + p.B;
+  }
+
+  function resize(){
+    var rect = wrap.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = rect.width * dpr;
+    cv.height = 420 * dpr;
+    cv.style.width = rect.width + 'px';
+    cv.style.height = '420px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  function draw(){
+    var W = cv.width / (window.devicePixelRatio || 1);
+    var H = cv.height / (window.devicePixelRatio || 1);
+    ctx.clearRect(0, 0, W, H);
+
+    var p = params();
+
+    var xMin = -2 * PI;
+    var xMax = 4 * PI;
+    var yMin = -3.5;
+    var yMax = 3.5;
+
+    var sx = function(x){ return (x - xMin) / (xMax - xMin) * W; };
+    var sy = function(y){ return H - (y - yMin) / (yMax - yMin) * H; };
+
+    ctx.fillStyle = '#fafafa';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 1;
+    for (var i = Math.ceil(xMin / (PI/2)); i <= Math.floor(xMax / (PI/2)); i++){
+      var gx = i * PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(sx(gx), 0);
+      ctx.lineTo(sx(gx), H);
+      ctx.stroke();
+    }
+    for (var j = Math.ceil(yMin); j <= Math.floor(yMax); j++){
+      ctx.beginPath();
+      ctx.moveTo(0, sy(j));
+      ctx.lineTo(W, sy(j));
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#546e7a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, sy(0)); ctx.lineTo(W, sy(0)); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(sx(0), 0); ctx.lineTo(sx(0), H); ctx.stroke();
+
+    ctx.fillStyle = '#546e7a';
+    ctx.font = '12px Consolas, monospace';
+    ctx.textAlign = 'center';
+    for (var k = Math.ceil(xMin / PI); k <= Math.floor(xMax / PI); k++){
+      if (k === 0) continue;
+      var lx = k * PI;
+      var lbl = (k === 1 ? 'π' : (k === -1 ? '-π' : (k + 'π')));
+      ctx.fillText(lbl, sx(lx), sy(0) + 14);
+    }
+    ctx.textAlign = 'right';
+    for (var m = Math.ceil(yMin); m <= Math.floor(yMax); m++){
+      if (m === 0) continue;
+      ctx.fillText(m.toString(), sx(0) - 4, sy(m) + 4);
+    }
+    ctx.fillText('0', sx(0) - 4, sy(0) + 14);
+
+    ctx.strokeStyle = '#ff9800';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, sy(p.B)); ctx.lineTo(W, sy(p.B)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#ff9800';
+    ctx.textAlign = 'left';
+    ctx.fillText('y = b = ' + p.B.toFixed(1), W - 130, sy(p.B) - 6);
+
+    if (showRef){
+      ctx.strokeStyle = '#bdbdbd';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      var first = true;
+      for (var t = xMin; t <= xMax; t += 0.02){
+        var yy = Math.sin(t);
+        if (yy < yMin - 1 || yy > yMax + 1){ first = true; continue; }
+        if (first){ ctx.moveTo(sx(t), sy(yy)); first = false; }
+        else ctx.lineTo(sx(t), sy(yy));
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    var T = 2 * PI / p.W;
+    var phaseShift = -p.P / p.W;
+    var winStart = phaseShift;
+    var winEnd = phaseShift + T;
+    ctx.fillStyle = 'rgba(38, 166, 154, 0.08)';
+    ctx.fillRect(sx(winStart), 0, sx(winEnd) - sx(winStart), H);
+    ctx.strokeStyle = '#26a69a';
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(sx(winStart), 0); ctx.lineTo(sx(winStart), H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx(winEnd), 0); ctx.lineTo(sx(winEnd), H); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#00695c';
+    ctx.font = '11px -apple-system,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('T = 2π/ω ≈ ' + T.toFixed(2), (sx(winStart) + sx(winEnd)) / 2, 20);
+
+    ctx.strokeStyle = '#1565c0';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    var first2 = true;
+    for (var t2 = xMin; t2 <= xMax; t2 += 0.015){
+      var y2 = yOf(p, t2);
+      if (y2 < yMin - 1 || y2 > yMax + 1){ first2 = true; continue; }
+      if (first2){ ctx.moveTo(sx(t2), sy(y2)); first2 = false; }
+      else ctx.lineTo(sx(t2), sy(y2));
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#43a047';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    var peakX = phaseShift + T / 4;
+    if (peakX >= xMin && peakX <= xMax){
+      ctx.moveTo(sx(peakX), sy(p.B));
+      ctx.lineTo(sx(peakX), sy(p.B + Math.abs(p.A)));
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#2e7d32';
+    ctx.font = '11px -apple-system,sans-serif';
+    ctx.fillText('|A| = ' + Math.abs(p.A).toFixed(1), sx(peakX) + 6, sy(p.B + Math.abs(p.A) / 2));
+
+    var pointRadius = 5;
+    var drawPoint = function(px, py, color){
+      if (px < xMin - 0.1 || px > xMax + 0.1) return;
+      ctx.beginPath();
+      ctx.arc(sx(px), sy(py), pointRadius, 0, 2 * PI);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    };
+
+    drawPoint(0, yOf(p, 0), '#7e57c2');
+
+    for (var kk = -2; kk <= 6; kk++){
+      var pkX = phaseShift + T/4 + kk * T;
+      var vkX = phaseShift - T/4 + kk * T;
+      if (pkX >= xMin && pkX <= xMax) drawPoint(pkX, p.B + Math.abs(p.A), '#e53935');
+      if (vkX >= xMin && vkX <= xMax) drawPoint(vkX, p.B - Math.abs(p.A), '#e53935');
+    }
+
+    for (var kz = -6; kz <= 12; kz++){
+      var zx = (kz * PI - p.P) / p.W;
+      if (zx >= xMin && zx <= xMax){
+        var zy = yOf(p, zx);
+        if (Math.abs(zy - p.B) < 0.01) drawPoint(zx, p.B, '#43a047');
+      }
+    }
+
+    var legX = 12, legY = H - 70;
+    ctx.font = '12px -apple-system,sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#1565c0';
+    ctx.fillRect(legX, legY, 22, 3);
+    ctx.fillStyle = '#37474f';
+    ctx.fillText('y = A sin(ωx + φ) + b', legX + 28, legY + 4);
+
+    if (showRef){
+      ctx.fillStyle = '#bdbdbd';
+      ctx.fillRect(legX, legY + 20, 22, 3);
+      ctx.fillStyle = '#37474f';
+      ctx.fillText('y = sin x', legX + 28, legY + 24);
+    }
+
+    ctx.beginPath(); ctx.arc(legX + 10, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#7e57c2'; ctx.fill();
+    ctx.fillStyle = '#37474f'; ctx.fillText('起点 (x=0)', legX + 28, legY + 46);
+
+    ctx.beginPath(); ctx.arc(legX + 130, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#e53935'; ctx.fill();
+    ctx.fillStyle = '#37474f'; ctx.fillText('峰/谷', legX + 148, legY + 46);
+
+    ctx.beginPath(); ctx.arc(legX + 200, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#43a047'; ctx.fill();
+    ctx.fillStyle = '#37474f'; ctx.fillText('过中线点', legX + 218, legY + 46);
+  }
+
+  function updateDerived(){
+    var p = params();
+    var absA = Math.abs(p.A);
+    var T = 2 * PI / p.W;
+    var f = p.W / (2 * PI);
+    var ps = -p.P / p.W;
+    vA.textContent = p.A.toFixed(1);
+    vW.textContent = p.W.toFixed(1);
+    vP.textContent = fmtPhase(p.P);
+    vB.textContent = p.B.toFixed(1);
+
+    dA.textContent = absA.toFixed(2);
+    dT.textContent = T.toFixed(2);
+    dF.textContent = f.toFixed(3);
+    dP2.textContent = fmtPhase(p.P);
+    dPS.textContent = fmtPhase(ps);
+    dB.textContent = p.B.toFixed(2);
+    dMax.textContent = (p.B + absA).toFixed(2);
+    dMin.textContent = (p.B - absA).toFixed(2);
+  }
+
+  function sync(){
+    draw();
+    updateDerived();
+  }
+
+  sA.addEventListener('input', sync);
+  sW.addEventListener('input', sync);
+  sP.addEventListener('input', sync);
+  sB.addEventListener('input', sync);
+
+  btnReset.addEventListener('click', function(){
+    sA.value = 1; sW.value = 1; sP.value = 0; sB.value = 0;
+    sync();
+  });
+
+  btnRef.addEventListener('click', function(){
+    showRef = !showRef;
+    btnRef.textContent = showRef ? '👁 隐藏参考线 y=sin x' : '👁 显示参考线 y=sin x';
+    if (showRef) btnRef.classList.remove('active');
+    else btnRef.classList.add('active');
+    draw();
+  });
+
+  function getLogicalXY(clientX, clientY){
+    var rect = cv.getBoundingClientRect();
+    var lx = (clientX - rect.left);
+    var ly = (clientY - rect.top);
+    var W = rect.width;
+    var H = rect.height;
+    var xMin = -2 * PI, xMax = 4 * PI;
+    var yMin = -3.5, yMax = 3.5;
+    var x = lx / W * (xMax - xMin) + xMin;
+    var y = yMax - ly / H * (yMax - yMin);
+    return { x: x, y: y };
+  }
+
+  cv.addEventListener('mousemove', function(e){
+    var pt = getLogicalXY(e.clientX, e.clientY);
+    var p = params();
+    var yv = yOf(p, pt.x);
+    tip.innerHTML = 'x = ' + fmtXasPi(pt.x) + '<br>y = ' + yv.toFixed(3);
+    var rect = cv.getBoundingClientRect();
+    var lx = e.clientX - rect.left;
+    var ly = e.clientY - rect.top;
+    tip.style.left = lx + 'px';
+    tip.style.top = ly + 'px';
+    tip.style.display = 'block';
+    if (dragging){
+      var dx = e.clientX - lastX;
+      var dy = e.clientY - lastY;
+      var rect2 = cv.getBoundingClientRect();
+      var W = rect2.width;
+      var H = rect2.height;
+      var dphi = -dx / W * (6 * PI) * 0.5;
+      var db = -dy / H * 7 * 0.5;
+      var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
+      var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
+      sP.value = newP;
+      sB.value = newB;
+      sync();
+      lastX = e.clientX; lastY = e.clientY;
+    }
+  });
+  cv.addEventListener('mouseleave', function(){ tip.style.display = 'none'; });
+
+  cv.addEventListener('mousedown', function(e){
+    dragging = true;
+    lastX = e.clientX; lastY = e.clientY;
+    e.preventDefault();
+  });
+  window.addEventListener('mouseup', function(){ dragging = false; });
+
+  cv.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    if (e.touches.length > 0){
+      dragging = true;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+    }
+  }, {passive:false});
+  cv.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    if (!dragging || e.touches.length === 0) return;
+    var t = e.touches[0];
+    var dx = t.clientX - lastX;
+    var dy = t.clientY - lastY;
+    var rect = cv.getBoundingClientRect();
+    var W = rect.width;
+    var H = rect.height;
+    var dphi = -dx / W * (6 * PI) * 0.5;
+    var db = -dy / H * 7 * 0.5;
+    var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
+    var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
+    sP.value = newP;
+    sB.value = newB;
+    sync();
+    lastX = t.clientX; lastY = t.clientY;
+  }, {passive:false});
+  cv.addEventListener('touchend', function(e){ e.preventDefault(); dragging = false; }, {passive:false});
+
+  window.addEventListener('resize', function(){ resize(); });
+
+  resize();
+  sync();
+
+  setTimeout(function(){
+    if (typeof renderMathInElement === 'function'){
+      renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+    }
+  }, 400);
+
+})();
+</script>
+</body>
+</html>
