@@ -1,0 +1,642 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0023 · ω的取值范围（极值点与零点）</title>
+<meta name="number" content="数0023">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-极值点与零点">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;极值点;零点;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 13px; opacity: 0.9; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 17px;
+    color: #667eea;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 4px solid #667eea;
+  }
+  .problem { font-size: 16px; line-height: 2; }
+  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #6d4c00;
+  }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .opt {
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: #fafbfc;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #34495e;
+    user-select: none;
+  }
+  .opt:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,126,234,0.15); }
+  .opt.correct { border-color: #27ae60; background: #e8f8ef; color: #1e8449; }
+  .opt.wrong { border-color: #e74c3c; background: #fdecea; color: #c0392b; }
+  .opt .label { font-size: 13px; color: #95a5a6; margin-bottom: 4px; font-weight: 400; }
+  .canvas-wrap {
+    background: #fafbfc;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #e8eef5;
+  }
+  canvas { display: block; width: 100%; border-radius: 8px; background: #fff; }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .controls label { font-size: 15px; font-weight: 600; color: #555; }
+  .slider {
+    flex: 1;
+    min-width: 180px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #dfe6ee;
+    border-radius: 3px;
+    outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(102,126,234,0.5);
+  }
+  .slider::-moz-range-thumb {
+    width: 22px; height: 22px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  .omega-val {
+    background: #667eea;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 70px;
+    text-align: center;
+  }
+  .counts { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .count-box {
+    background: #fff;
+    border: 1px solid #e8eef5;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .badge-status {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .badge-ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
+  .badge-no { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
+  .legend { display: flex; gap: 18px; margin-top: 10px; font-size: 13px; color: #666; flex-wrap: wrap; }
+  .legend span::before {
+    content: "";
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .legend .ex::before { background: #e74c3c; }
+  .legend .ze::before { background: #27ae60; }
+  .legend .hl::before { background: rgba(102,126,234,0.18); border-radius: 2px; }
+  .steps { display: none; }
+  .steps.show { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  .step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
+  }
+  .step.visible { opacity: 1; transform: translateX(0); }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: #667eea;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .step-body { flex: 1; font-size: 15px; }
+  .step-body .warn {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: #7a5b00;
+    font-size: 14px;
+  }
+  .step-body .humor {
+    color: #764ba2;
+    font-style: italic;
+    margin-top: 6px;
+    font-size: 14px;
+  }
+  .final-answer {
+    background: linear-gradient(135deg, #e8f8ef 0%, #d4efdf 100%);
+    border: 2px solid #27ae60;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e8449;
+  }
+  .btns { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: #667eea; color: #fff; }
+  .btn-primary:hover { background: #5568d3; transform: translateY(-1px); }
+  .btn-reset { background: #ecf0f1; color: #555; }
+  .btn-reset:hover { background: #d5dbdb; }
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 15px;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .feedback.ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
+  .feedback.bad { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
+  .footer { text-align: center; color: #aaa; font-size: 12px; padding: 16px 0; }
+  @media (max-width: 520px) {
+    .options { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+    .card { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <span class="badge">数0023 · 三角函数</span>
+    <h1>ω 的取值范围 —— 极值点与零点的双重约束</h1>
+    <div class="sub">2022 · 全国甲卷真题 · 单选题 · 互动图像课件</div>
+  </div>
+
+  <div class="card">
+    <h2>题目</h2>
+    <div class="problem">
+      <div class="src">（2022·全国甲卷）</div>
+      设函数 <span class="katex-el">f(x)=\sin(\omega x+\dfrac{\pi}{3})</span> 在区间 <span class="katex-el">(0,\pi)</span> 上<b>恰有三个极值点、两个零点</b>，则 <span class="katex-el">\omega</span> 的取值范围是（　　）
+    </div>
+    <div class="options" id="options">
+      <div class="opt" data-key="A"><div class="label">A</div><span class="katex-el">\left[\dfrac{5}{3},\dfrac{13}{6}\right)</span></div>
+      <div class="opt" data-key="B"><div class="label">B</div><span class="katex-el">\left[\dfrac{5}{3},\dfrac{19}{6}\right)</span></div>
+      <div class="opt" data-key="C"><div class="label">C</div><span class="katex-el">\left(\dfrac{13}{6},\dfrac{8}{3}\right]</span></div>
+      <div class="opt" data-key="D"><div class="label">D</div><span class="katex-el">\left(\dfrac{13}{6},\dfrac{19}{6}\right]</span></div>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="note">⚠️ 提示：有同学选了 D，这是个经典易错项。先动手试试下面的图像，再回来选答案！</div>
+  </div>
+
+  <div class="card">
+    <h2>互动图像</h2>
+    <div class="canvas-wrap">
+      <canvas id="cv" width="800" height="360"></canvas>
+      <div class="controls">
+        <label>ω =</label>
+        <input type="range" class="slider" id="omegaSlider" min="1" max="4" step="0.01" value="2.5">
+        <span class="omega-val" id="omegaVal">2.50</span>
+      </div>
+      <div class="counts">
+        <div class="count-box">极值点（红）：<span id="exCount">0</span></div>
+        <div class="count-box">零点（绿）：<span id="zeCount">0</span></div>
+      </div>
+      <span class="badge-status badge-no" id="statusBadge">✗ 条件未满足</span>
+      <div class="legend">
+        <span class="ex">极值点</span>
+        <span class="ze">零点</span>
+        <span class="hl">区间 (0, π) 高亮</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>解答步骤</h2>
+    <div class="steps" id="steps">
+      <div class="step" data-step="1">
+        <div class="step-num">1</div>
+        <div class="step-body">令 <span class="katex-el">u=\omega x+\dfrac{\pi}{3}</span>，当 <span class="katex-el">x\in(0,\pi)</span> 时，<span class="katex-el">u\in\left(\dfrac{\pi}{3},\,\omega\pi+\dfrac{\pi}{3}\right)</span>。注意是<b>开区间</b>，端点不算。</div>
+      </div>
+      <div class="step" data-step="2">
+        <div class="step-num">2</div>
+        <div class="step-body">极值点（sin 的峰谷）在 <span class="katex-el">u=\dfrac{\pi}{2}+k\pi</span>；零点在 <span class="katex-el">u=k\pi</span>。</div>
+      </div>
+      <div class="step" data-step="3">
+        <div class="step-num">3</div>
+        <div class="step-body">从 <span class="katex-el">\dfrac{\pi}{3}</span> 开始数：<br>极值点依次为 <span class="katex-el">\dfrac{\pi}{2},\dfrac{3\pi}{2},\dfrac{5\pi}{2},\dfrac{7\pi}{2}\cdots</span>；<br>零点依次为 <span class="katex-el">\pi,2\pi,3\pi\cdots</span>。</div>
+      </div>
+      <div class="step" data-step="4">
+        <div class="step-num">4</div>
+        <div class="step-body">恰有 <b>3 个极值点</b>：需包含 <span class="katex-el">\dfrac{5\pi}{2}</span> 但不包含 <span class="katex-el">\dfrac{7\pi}{2}</span>：<br><span class="katex-el">\dfrac{5\pi}{2}<\omega\pi+\dfrac{\pi}{3}\le\dfrac{7\pi}{2}\implies\dfrac{13}{6}<\omega\le\dfrac{19}{6}</span>。</div>
+      </div>
+      <div class="step" data-step="5">
+        <div class="step-num">5</div>
+        <div class="step-body">恰有 <b>2 个零点</b>：需包含 <span class="katex-el">2\pi</span> 但不包含 <span class="katex-el">3\pi</span>：<br><span class="katex-el">2\pi<\omega\pi+\dfrac{\pi}{3}\le3\pi\implies\dfrac{5}{3}<\omega\le\dfrac{8}{3}</span>。</div>
+      </div>
+      <div class="step" data-step="6">
+        <div class="step-num">6</div>
+        <div class="step-body">两个条件取交集：<br><span class="katex-el">\left(\dfrac{13}{6},\dfrac{19}{6}\right]\cap\left(\dfrac{5}{3},\dfrac{8}{3}\right]=\left(\dfrac{13}{6},\dfrac{8}{3}\right]</span>。<br>（因为 <span class="katex-el">\dfrac{8}{3}=\dfrac{16}{6}<\dfrac{19}{6}</span>，上界被收紧到 <span class="katex-el">\dfrac{8}{3}</span>）
+          <div class="humor">😄 两个条件取交集，像找对象既要高又要帅——少一条都不行！</div>
+        </div>
+      </div>
+      <div class="step" data-step="7">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="warn"><b>易错警示：</b>选 D 的同学只算了"3 个极值点"这一条，忘了"2 个零点"这条缰绳。当 <span class="katex-el">\omega>\dfrac{8}{3}</span> 时，第 3 个零点 <span class="katex-el">u=3\pi</span> 已经溜进来了！</div>
+          <div class="humor">🐴 选 D 的同学忘了零点这条缰绳——ω 一旦超过 8/3，零点这匹野马就撒欢了！</div>
+        </div>
+      </div>
+      <div class="final-answer" id="finalAns" style="display:none;">
+        正确答案：<span class="katex-el">\boxed{\left(\dfrac{13}{6},\dfrac{8}{3}\right]}</span> 　→　选项 C
+      </div>
+    </div>
+    <div class="btns">
+      <button class="btn btn-primary" id="nextBtn">下一步</button>
+      <button class="btn btn-reset" id="resetBtn">重置</button>
+    </div>
+  </div>
+
+  <div class="footer">我的解题课件库 · 数0023 · 三角函数 · ω范围</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var cv = document.getElementById("cv");
+  var ctx = cv.getContext("2d");
+  var slider = document.getElementById("omegaSlider");
+  var omegaVal = document.getElementById("omegaVal");
+  var exCountEl = document.getElementById("exCount");
+  var zeCountEl = document.getElementById("zeCount");
+  var statusBadge = document.getElementById("statusBadge");
+  var feedback = document.getElementById("feedback");
+  var options = document.getElementById("options");
+  var stepsWrap = document.getElementById("steps");
+  var nextBtn = document.getElementById("nextBtn");
+  var resetBtn = document.getElementById("resetBtn");
+  var finalAns = document.getElementById("finalAns");
+
+  var omega = 2.5;
+  var stepIndex = 0;
+  var totalSteps = 7;
+  var correctKey = "C";
+
+  function renderKatex(){
+    if(typeof renderMathInElement === "function"){
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left:"$$", right:"$$", display:true},
+          {left:"$", right:"$", display:false}
+        ],
+        throwOnError: false
+      });
+    }
+    var els = document.querySelectorAll(".katex-el");
+    for(var i=0;i<els.length;i++){
+      var el = els[i];
+      if(el.dataset.rendered === "1") continue;
+      if(typeof katex !== "undefined" && katex.render){
+        try{
+          katex.render(el.textContent, el, {throwOnError:false, displayMode:false});
+          el.dataset.rendered = "1";
+        }catch(e){}
+      }
+    }
+  }
+
+  function resize(){
+    var w = cv.parentElement.clientWidth - 28;
+    var h = 360;
+    cv.width = w;
+    cv.height = h;
+    draw();
+  }
+
+  function draw(){
+    var W = cv.width;
+    var H = cv.height;
+    ctx.clearRect(0,0,W,H);
+
+    var padL = 40, padR = 20, padT = 30, padB = 40;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var midY = padT + plotH/2;
+
+    var xMin = -0.5, xMax = Math.PI + 0.5;
+    var yMin = -1.3, yMax = 1.3;
+
+    function X(xv){ return padL + (xv - xMin)/(xMax - xMin) * plotW; }
+    function Y(yv){ return midY - (yv)/(yMax - yMin) * plotH * 0.5 * 2; }
+
+    ctx.strokeStyle = "#eef2f7";
+    ctx.lineWidth = 1;
+    for(var gx=0; gx<=Math.PI+0.5; gx += Math.PI/4){
+      ctx.beginPath();
+      ctx.moveTo(X(gx), padT);
+      ctx.lineTo(X(gx), padT+plotH);
+      ctx.stroke();
+    }
+    for(var gy=-1; gy<=1; gy+=0.5){
+      ctx.beginPath();
+      ctx.moveTo(padL, Y(gy));
+      ctx.lineTo(padL+plotW, Y(gy));
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = "rgba(102,126,234,0.10)";
+    ctx.fillRect(X(0), padT, X(Math.PI)-X(0), plotH);
+
+    ctx.strokeStyle = "#95a5a6";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, midY);
+    ctx.lineTo(padL+plotW, midY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT+plotH);
+    ctx.stroke();
+
+    ctx.fillStyle = "#7f8c8d";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    var ticks = [0, Math.PI/2, Math.PI];
+    var labels = ["0","π/2","π"];
+    for(var ti=0; ti<ticks.length; ti++){
+      var tx = X(ticks[ti]);
+      ctx.fillText(labels[ti], tx, padT+plotH+18);
+      ctx.beginPath();
+      ctx.moveTo(tx, midY-3);
+      ctx.lineTo(tx, midY+3);
+      ctx.stroke();
+    }
+    ctx.textAlign = "right";
+    ctx.fillText("1", padL-6, Y(1)+4);
+    ctx.fillText("-1", padL-6, Y(-1)+4);
+
+    var criticalU = [Math.PI/2, Math.PI, 3*Math.PI/2, 2*Math.PI, 5*Math.PI/2, 3*Math.PI, 7*Math.PI/2];
+    for(var ci=0; ci<criticalU.length; ci++){
+      var u0 = criticalU[ci];
+      var xc = (u0 - Math.PI/3)/omega;
+      if(xc < xMin || xc > xMax) continue;
+      var isExtreme = (Math.abs(Math.sin(u0)) > 0.99);
+      ctx.strokeStyle = isExtreme ? "rgba(231,76,60,0.35)" : "rgba(39,174,96,0.35)";
+      ctx.setLineDash([5,4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(X(xc), padT);
+      ctx.lineTo(X(xc), padT+plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.strokeStyle = "#667eea";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    var first = true;
+    var step = (xMax - xMin)/600;
+    for(var xv = xMin; xv <= xMax; xv += step){
+      var yv = Math.sin(omega * xv + Math.PI/3);
+      if(first){ ctx.moveTo(X(xv), Y(yv)); first = false; }
+      else { ctx.lineTo(X(xv), Y(yv)); }
+    }
+    ctx.stroke();
+
+    var extremeCount = 0;
+    var zeroCount = 0;
+    var r = Math.abs(5);
+
+    for(var k=-10; k<=20; k++){
+      var ue = Math.PI/2 + k*Math.PI;
+      var xe = (ue - Math.PI/3)/omega;
+      if(xe > 0 && xe < Math.PI){
+        var ye = Math.sin(ue);
+        ctx.beginPath();
+        ctx.arc(X(xe), Y(ye), Math.abs(r), 0, 2*Math.PI);
+        ctx.fillStyle = "#e74c3c";
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        extremeCount++;
+      }
+    }
+    for(var k2=-10; k2<=20; k2++){
+      var uz = k2*Math.PI;
+      var xz = (uz - Math.PI/3)/omega;
+      if(xz > 0 && xz < Math.PI){
+        ctx.beginPath();
+        ctx.arc(X(xz), Y(0), Math.abs(r), 0, 2*Math.PI);
+        ctx.fillStyle = "#27ae60";
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        zeroCount++;
+      }
+    }
+
+    ctx.strokeStyle = "#667eea";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,3]);
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT+plotH);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(Math.PI), padT);
+    ctx.lineTo(X(Math.PI), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    exCountEl.textContent = extremeCount;
+    zeCountEl.textContent = zeroCount;
+    if(extremeCount === 3 && zeroCount === 2){
+      statusBadge.textContent = "✓ 3极值 + 2零点";
+      statusBadge.className = "badge-status badge-ok";
+    } else {
+      statusBadge.textContent = "✗ 极值:" + extremeCount + " 零点:" + zeroCount + " (需3+2)";
+      statusBadge.className = "badge-status badge-no";
+    }
+  }
+
+  function updateOmega(){
+    omega = parseFloat(slider.value);
+    omegaVal.textContent = omega.toFixed(2);
+    draw();
+  }
+
+  function showFeedback(msg, type){
+    feedback.textContent = msg;
+    feedback.className = "feedback show " + type;
+  }
+
+  function handleOption(key, el){
+    var all = options.querySelectorAll(".opt");
+    for(var i=0;i<all.length;i++){
+      all[i].classList.remove("correct","wrong");
+    }
+    if(key === correctKey){
+      el.classList.add("correct");
+      showFeedback("🎉 太棒了！答案是 C。两个条件取交集，ω 被夹在 (13/6, 8/3]。", "ok");
+    } else {
+      el.classList.add("wrong");
+      document.querySelector('.opt[data-key="'+correctKey+'"]').classList.add("correct");
+      if(key === "D"){
+        showFeedback("差一点！D 只满足 3 个极值点，但此时有 3 个零点哦（ω>8/3 时第3个零点 u=3π 溜进来了）。正确答案是 C。", "bad");
+      } else {
+        showFeedback("再想想～正确答案是 C。记得极值点和零点两个条件都要满足，取交集哦！", "bad");
+      }
+    }
+  }
+
+  function revealStep(){
+    if(stepIndex < totalSteps){
+      stepsWrap.classList.add("show");
+      var step = stepsWrap.querySelector('.step[data-step="'+(stepIndex+1)+'"]');
+      if(step) step.classList.add("visible");
+      stepIndex++;
+      if(stepIndex === totalSteps){
+        finalAns.style.display = "block";
+        nextBtn.textContent = "已完成 ✓";
+        nextBtn.disabled = true;
+        nextBtn.style.opacity = "0.6";
+      }
+    }
+  }
+
+  function resetSteps(){
+    stepIndex = 0;
+    stepsWrap.classList.remove("show");
+    var steps = stepsWrap.querySelectorAll(".step");
+    for(var i=0;i<steps.length;i++){
+      steps[i].classList.remove("visible");
+    }
+    finalAns.style.display = "none";
+    nextBtn.textContent = "下一步";
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
+  }
+
+  slider.addEventListener("input", updateOmega);
+  slider.addEventListener("touchmove", function(e){ e.preventDefault(); updateOmega(); }, {passive:false});
+  slider.addEventListener("touchstart", function(e){ e.preventDefault(); }, {passive:false});
+
+  options.addEventListener("click", function(e){
+    var opt = e.target.closest(".opt");
+    if(opt) handleOption(opt.dataset.key, opt);
+  });
+
+  nextBtn.addEventListener("click", revealStep);
+  resetBtn.addEventListener("click", resetSteps);
+
+  window.addEventListener("resize", resize);
+  window.addEventListener("orientationchange", resize);
+
+  function init(){
+    renderKatex();
+    resize();
+    updateOmega();
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    var t = setInterval(function(){
+      if(typeof katex !== "undefined"){
+        clearInterval(t);
+        init();
+      }
+    }, 50);
+  }
+})();
+</script>
+</body>
+</html>

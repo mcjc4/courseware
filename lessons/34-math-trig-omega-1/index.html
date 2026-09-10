@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ω的取值范围·对称性 | 三角函数互动课件</title>
+
+<meta name="number" content="数0020">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-对称性">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;对称轴;数学">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:940px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:36px 34px 30px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:28px;font-weight:700;letter-spacing:1px;line-height:1.35}
+.hero h1 .rn{font-size:19px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:720px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px;display:none}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none;background:#fff}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.oi.wrong .fb{color:#c0392b}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50;opacity:0;max-height:0;overflow:hidden;transition:opacity .4s ease,max-height .4s ease,padding .3s ease}
+.step.show{opacity:1;max-height:600px;padding:12px 16px}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step.red{background:#fff0f0;border-left-color:#ff6b6b}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.step.gold .label{color:#d48806}
+.step.green .label{color:#1a9e7f}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px;transition:all .15s}
+.btn:hover{background:#3a7be8;transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:#4f8ef7;border:1.5px solid #cfe0ff}
+.btn.ghost:hover{background:#eef4ff}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.graph-wrap{position:relative}
+.graph-wrap canvas{display:block;width:100%;height:380px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;cursor:crosshair;touch-action:none}
+.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
+.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3);z-index:5}
+.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
+.graph-slider input[type=range]{flex:1;min-width:160px;max-width:320px;accent-color:#4f8ef7;cursor:pointer}
+.graph-val{background:#4f8ef7;color:#fff;padding:3px 11px;border-radius:8px;font-size:13px;font-weight:700;min-width:54px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:700;margin-left:auto}
+.badge.ok{background:#e6f8f0;color:#1a9e7f;border:1px solid #a7e6cf}
+.badge.no{background:#ffeaea;color:#c0392b;border:1px solid #f3bcbc}
+.count-pill{background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.count-pill b{color:#2a6df4;font-size:15px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12px;color:#55708a}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px}
+.legend i.dash{height:0;border-top:2px dashed}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">← 返回目录</a>
+  <div class="meta-bar">
+    <span class="chip num">编号&nbsp;<b>数0020</b></span>
+    <span class="chip">学科&nbsp;<b>数学</b></span>
+    <span class="chip">章节&nbsp;<b>三角函数</b></span>
+    <span class="chip">知识点&nbsp;<b>ω的取值范围-对称性</b></span>
+    <span class="chip">类型&nbsp;<b>单选题</b></span>
+  </div>
+
+  <div class="hero">
+    <span class="eyebrow">2025 · 呼和浩特模拟</span>
+    <h1>正弦函数对称轴与 <span class="rn">ω</span> 的取值范围</h1>
+    <div class="sub">已知 $f(x)=\sin(\omega x-\dfrac{\pi}{3})$（$\omega>0$）在 $[0,\pi]$ 上<strong>有且仅有两条对称轴</strong>，求 $\omega$ 的取值范围。拖动滑块观察对称轴数量如何随 $\omega$ 变化，亲手找出答案！</div>
+    <div class="answer">
+      <span class="lbl">答案：</span>
+      <span id="ansShow">A</span>
+      <button id="ansBtn">显示答案</button>
+    </div>
+    <div class="scrollhint">↓ 向下滑动，互动探索 + 逐步解析</div>
+  </div>
+
+  <section class="card problem-card">
+    <h2><span class="num">1</span>题目 <small>单选题</small></h2>
+    <div class="problem-head">（2025·呼和浩特模拟）</div>
+    <div class="stem">
+      已知函数 $f(x)=\sin(\omega x-\dfrac{\pi}{3})$（$\omega>0$）在区间 $[0,\pi]$ 上有且仅有两条对称轴，则 $\omega$ 的取值范围是（&nbsp;&nbsp;&nbsp;&nbsp;）
+    </div>
+    <div class="optlist" id="optlist">
+      <div class="oi" data-key="A"><b>A.</b> $\left[\dfrac{11}{6},\dfrac{17}{6}\right)$ <span class="fb">✓ 正确！前两条对称轴进门，第三条被挡在门外。</span></div>
+      <div class="oi" data-key="B"><b>B.</b> $\left(\dfrac{17}{6},\dfrac{23}{6}\right]$ <span class="fb">✗ 这个区间会出现 3 条甚至 4 条对称轴，多了。</span></div>
+      <div class="oi" data-key="C"><b>C.</b> $\left(\dfrac{11}{6},\dfrac{17}{6}\right]$ <span class="fb">✗ 端点搞反了：下界可取（含第2条），上界不可取（会多出第3条）。</span></div>
+      <div class="oi" data-key="D"><b>D.</b> $\left[\dfrac{17}{6},\dfrac{23}{6}\right)$ <span class="fb">✗ $\omega=17/6$ 时已经有 3 条对称轴了，从这里起步就超了。</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span>互动图像 <small>拖动滑块，观察对称轴数量</small></h2>
+    <div class="lead">
+      蓝色曲线为 $f(x)=\sin(\omega x-\dfrac{\pi}{3})$，浅灰色为参考 $\sin x$。绿色虚线是 $f(x)$ 的对称轴，落在 $[0,\pi]$ 内的对称轴数量必须恰好为 <strong>2</strong>。
+    </div>
+    <div class="graph-wrap">
+      <canvas id="cv"></canvas>
+      <div class="graph-bubble" id="bubble"></div>
+    </div>
+    <div class="graph-ctrl">
+      <div class="graph-slider">
+        <span>ω =</span>
+        <input type="range" id="slider" min="0.5" max="5" step="0.01" value="1.83">
+        <span class="graph-val" id="omegaVal">1.83</span>
+      </div>
+      <span class="count-pill">$[0,\pi]$ 内对称轴数：<b id="cntVal">2</b></span>
+      <span class="badge no" id="badge">不满足条件</span>
+    </div>
+    <div class="legend">
+      <span><i style="background:#4f8ef7"></i>$f(x)=\sin(\omega x-\pi/3)$</span>
+      <span><i style="background:#c9d6e3"></i>参考 $\sin x$</span>
+      <span><i class="dash" style="border-color:#22c3a6"></i>对称轴 $u=\frac{\pi}{2}+k\pi$</span>
+      <span><i style="background:rgba(91,124,250,.18);height:14px;width:14px;border-radius:3px"></i>$x\in[0,\pi]$ 区间</span>
+    </div>
+    <div class="graph-hint">提示：对称轴出现在正弦函数的波峰 / 波谷处，即 $\omega x-\dfrac{\pi}{3}=\dfrac{\pi}{2}+k\pi$。</div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span>逐步解析 <small>点「下一步」逐条揭晓</small></h2>
+    <div class="step gold" id="s1">
+      <span class="label">第一步 · 整体代换</span>令 $u=\omega x-\dfrac{\pi}{3}$，由 $x\in[0,\pi]$ 得 $u\in\left[-\dfrac{\pi}{3},\ \omega\pi-\dfrac{\pi}{3}\right]$。
+      <br><small style="color:#a87a06">💡 把 $\omega x-\dfrac{\pi}{3}$ 打包成整体 $u$，这招叫「整体代换」，专治各种 $\omega$ 不服。</small>
+    </div>
+    <div class="step" id="s2">
+      <span class="label">第二步 · 找对称轴</span>$\sin u$ 的对称轴位于波峰波谷，即 $u=\dfrac{\pi}{2}+k\pi$（$k\in\mathbb{Z}$）。题目要求恰好 2 条，意味着 $u$ 的区间内恰好包含 2 个这样的点。
+    </div>
+    <div class="step" id="s3">
+      <span class="label">第三步 · 列出候选</span>从 $k=0$ 开始排：$k=0\to\dfrac{\pi}{2}$，$k=1\to\dfrac{3\pi}{2}$，$k=2\to\dfrac{5\pi}{2}$。
+      <br><small style="color:#4a5d72">🎯 $k=0,1,2$ 三个候选，前两个要进门，第三个吃闭门羹。</small>
+    </div>
+    <div class="step green" id="s4">
+      <span class="label">第四步 · 列不等式</span>要包含前两个但不含第三个，则右端点需满足：
+      $$\dfrac{3\pi}{2}\ \le\ \omega\pi-\dfrac{\pi}{3}\ <\ \dfrac{5\pi}{2}$$
+    </div>
+    <div class="step green" id="s5">
+      <span class="label">第五步 · 解不等式</span>三边同加 $\dfrac{\pi}{3}$：
+      $$\dfrac{3\pi}{2}+\dfrac{\pi}{3}\le\omega\pi<\dfrac{5\pi}{2}+\dfrac{\pi}{3}$$
+      $$\dfrac{11\pi}{6}\le\omega\pi<\dfrac{17\pi}{6}$$
+      同除以 $\pi$，得
+      $$\omega\in\left[\dfrac{11}{6},\ \dfrac{17}{6}\right)$$
+    </div>
+    <div class="step red" id="s6">
+      <span class="label">结论</span>$\omega\in\left[\dfrac{11}{6},\dfrac{17}{6}\right)$，对应选项 <strong>A</strong>。
+      <br><small style="color:#c0392b">⚠️ 端点陷阱：下界 $11/6$ 可取（此时恰好含第 2 条），上界 $17/6$ 不可取（此时会冒出第 3 条）。</small>
+    </div>
+    <div>
+      <button class="btn" id="nextBtn">下一步</button>
+      <button class="btn ghost" id="resetBtn">重置</button>
+    </div>
+    <div class="insight">
+      <div class="it">🧠 解题心法</div>
+      遇到「在某区间上恰有 $n$ 条对称轴 / 零点 / 极值点」类问题，核心套路是：<strong>整体代换 → 写出标准点列 → 用区间端点卡不等式 → 注意端点是否可取</strong>。$\omega$ 就像一根松紧带，拉得越长，区间内塞下的周期越多，对称轴也跟着变多。
+    </div>
+  </section>
+
+  <div class="foot">我的解题课件库 · 数学 · 三角函数 · ω的取值范围-对称性</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var slider = document.getElementById('slider');
+  var omegaVal = document.getElementById('omegaVal');
+  var cntVal = document.getElementById('cntVal');
+  var badge = document.getElementById('badge');
+  var bubble = document.getElementById('bubble');
+  var ansBtn = document.getElementById('ansBtn');
+  var ansShow = document.getElementById('ansShow');
+  var optlist = document.getElementById('optlist');
+  var nextBtn = document.getElementById('nextBtn');
+  var resetBtn = document.getElementById('resetBtn');
+
+  var omega = parseFloat(slider.value);
+  var currentStep = 0;
+  var totalSteps = 6;
+  var dpr = window.devicePixelRatio || 1;
+
+  var PI = Math.PI;
+
+  function resize(){
+    var rect = cv.getBoundingClientRect();
+    var w = Math.max(300, Math.floor(rect.width));
+    var h = Math.max(280, Math.floor(rect.height));
+    cv.width = w * dpr;
+    cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cv._w = w;
+    cv._h = h;
+    draw();
+  }
+
+  function countAxes(w){
+    var cnt = 0;
+    var list = [];
+    for(var k = -5; k <= 20; k++){
+      var x = (5*PI/6 + k*PI) / w;
+      if(x >= 0 && x <= PI){
+        cnt++;
+        list.push(x);
+      }
+    }
+    return {cnt: cnt, list: list};
+  }
+
+  function draw(){
+    var w = cv._w || 600;
+    var h = cv._h || 380;
+    ctx.clearRect(0, 0, w, h);
+
+    var padL = 46, padR = 20, padT = 24, padB = 40;
+    var plotW = w - padL - padR;
+    var plotH = h - padT - padB;
+
+    var xMin = -0.4, xMax = PI + 0.6;
+    var yMin = -1.4, yMax = 1.4;
+
+    function X(xv){ return padL + (xv - xMin)/(xMax - xMin) * plotW; }
+    function Y(yv){ return padT + (yMax - yv)/(yMax - yMin) * plotH; }
+
+    ctx.fillStyle = 'rgba(91,124,250,0.10)';
+    ctx.fillRect(X(0), padT, X(PI) - X(0), plotH);
+    ctx.strokeStyle = 'rgba(91,124,250,0.35)';
+    ctx.setLineDash([]);
+    ctx.lineWidth = 1;
+    ctx.strokeRect(X(0), padT, X(PI) - X(0), plotH);
+
+    ctx.strokeStyle = '#e8eef5';
+    ctx.lineWidth = 1;
+    var gx;
+    for(gx = 0; gx <= xMax; gx += PI/4){
+      ctx.beginPath();
+      ctx.moveTo(X(gx), padT);
+      ctx.lineTo(X(gx), padT + plotH);
+      ctx.stroke();
+    }
+    var gy;
+    for(gy = -1; gy <= 1; gy += 0.5){
+      ctx.beginPath();
+      ctx.moveTo(padL, Y(gy));
+      ctx.lineTo(padL + plotW, Y(gy));
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#9fb0c3';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, Y(0));
+    ctx.lineTo(padL + plotW, Y(0));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT + plotH);
+    ctx.stroke();
+
+    ctx.fillStyle = '#7a8fa3';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    var ticks = [0, PI/4, PI/2, 3*PI/4, PI];
+    var lbls = ['0','π/4','π/2','3π/4','π'];
+    for(var ti = 0; ti < ticks.length; ti++){
+      ctx.fillText(lbls[ti], X(ticks[ti]), padT + plotH + 16);
+    }
+    ctx.textAlign = 'right';
+    ctx.fillText('1', padL - 6, Y(1) + 4);
+    ctx.fillText('-1', padL - 6, Y(-1) + 4);
+    ctx.fillText('x', padL + plotW + 4, Y(0) + 4);
+
+    ctx.strokeStyle = '#c9d6e3';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    var started = false;
+    for(var px = 0; px <= plotW; px += 1){
+      var xv = xMin + px / plotW * (xMax - xMin);
+      var yv = Math.sin(xv);
+      var sx = padL + px;
+      var sy = Y(yv);
+      if(!started){ ctx.moveTo(sx, sy); started = true; }
+      else { ctx.lineTo(sx, sy); }
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#4f8ef7';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    started = false;
+    for(var px2 = 0; px2 <= plotW; px2 += 1){
+      var xv2 = xMin + px2 / plotW * (xMax - xMin);
+      var yv2 = Math.sin(omega * xv2 - PI/3);
+      var sx2 = padL + px2;
+      var sy2 = Y(yv2);
+      if(!started){ ctx.moveTo(sx2, sy2); started = true; }
+      else { ctx.lineTo(sx2, sy2); }
+    }
+    ctx.stroke();
+
+    var info = countAxes(omega);
+    ctx.setLineDash([6, 5]);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#22c3a6';
+    for(var ai = 0; ai < info.list.length; ai++){
+      var ax = info.list[ai];
+      ctx.beginPath();
+      ctx.moveTo(X(ax), padT);
+      ctx.lineTo(X(ax), padT + plotH);
+      ctx.stroke();
+      var ay = Math.sin(omega * ax - PI/3);
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#22c3a6';
+      ctx.beginPath();
+      var r = Math.abs(4);
+      ctx.arc(X(ax), Y(ay), r, 0, 2*PI);
+      ctx.fill();
+      ctx.setLineDash([6, 5]);
+      ctx.strokeStyle = '#22c3a6';
+    }
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = 'rgba(91,124,250,0.6)';
+    ctx.setLineDash([3,3]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT + plotH);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(PI), padT);
+    ctx.lineTo(X(PI), padT + plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    cntVal.textContent = info.cnt;
+    omegaVal.textContent = omega.toFixed(2);
+    if(info.cnt === 2){
+      badge.textContent = '✓ 满足条件';
+      badge.className = 'badge ok';
+    } else {
+      badge.textContent = '✗ 不满足条件';
+      badge.className = 'badge no';
+    }
+  }
+
+  function onSliderChange(){
+    omega = parseFloat(slider.value);
+    draw();
+  }
+
+  function getCanvasX(clientX){
+    var rect = cv.getBoundingClientRect();
+    return clientX - rect.left;
+  }
+
+  function showBubble(clientX, text){
+    var rect = cv.getBoundingClientRect();
+    bubble.textContent = text;
+    bubble.style.display = 'block';
+    var bx = clientX - rect.left + 12;
+    var bw = bubble.offsetWidth;
+    if(bx + bw > rect.width) bx = clientX - rect.left - bw - 12;
+    bubble.style.left = bx + 'px';
+    bubble.style.top = '10px';
+  }
+
+  function hideBubble(){
+    bubble.style.display = 'none';
+  }
+
+  function onMove(e){
+    var touch = e.touches ? e.touches[0] : e;
+    var cx = getCanvasX(touch.clientX);
+    var rect = cv.getBoundingClientRect();
+    if(cx < 0 || cx > rect.width){ hideBubble(); return; }
+    var padL = 46, padR = 20;
+    var plotW = rect.width - padL - padR;
+    var xMin = -0.4, xMax = PI + 0.6;
+    var xv = xMin + (cx - padL) / plotW * (xMax - xMin);
+    if(xv < 0 || xv > PI){ hideBubble(); return; }
+    var yv = Math.sin(omega * xv - PI/3);
+    var info = countAxes(omega);
+    var txt = 'x=' + xv.toFixed(3) + '  f(x)=' + yv.toFixed(3) + '  轴数=' + info.cnt;
+    showBubble(touch.clientX, txt);
+  }
+
+  ansBtn.addEventListener('click', function(){
+    if(ansShow.style.display === 'none'){
+      ansShow.style.display = 'inline-block';
+      ansBtn.textContent = '隐藏答案';
+    } else {
+      ansShow.style.display = 'none';
+      ansBtn.textContent = '显示答案';
+    }
+  });
+
+  var options = optlist.querySelectorAll('.oi');
+  for(var i = 0; i < options.length; i++){
+    options[i].addEventListener('click', function(){
+      var key = this.getAttribute('data-key');
+      for(var j = 0; j < options.length; j++){
+        options[j].classList.remove('sel','correct','wrong');
+      }
+      if(key === 'A'){
+        this.classList.add('correct');
+      } else {
+        this.classList.add('wrong');
+        for(var k = 0; k < options.length; k++){
+          if(options[k].getAttribute('data-key') === 'A'){
+            options[k].classList.add('correct');
+          }
+        }
+      }
+    });
+  }
+
+  function showStep(n){
+    var el = document.getElementById('s' + n);
+    if(el) el.classList.add('show');
+  }
+  function hideAllSteps(){
+    for(var s = 1; s <= totalSteps; s++){
+      var el = document.getElementById('s' + s);
+      if(el) el.classList.remove('show');
+    }
+  }
+  nextBtn.addEventListener('click', function(){
+    if(currentStep < totalSteps){
+      currentStep++;
+      showStep(currentStep);
+    }
+  });
+  resetBtn.addEventListener('click', function(){
+    currentStep = 0;
+    hideAllSteps();
+  });
+
+  slider.addEventListener('input', onSliderChange);
+
+  cv.addEventListener('mousemove', onMove);
+  cv.addEventListener('mouseleave', hideBubble);
+  cv.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    onMove(e);
+  }, {passive:false});
+  cv.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    onMove(e);
+  }, {passive:false});
+  cv.addEventListener('touchend', function(e){
+    e.preventDefault();
+    hideBubble();
+  }, {passive:false});
+
+  window.addEventListener('resize', resize);
+
+  resize();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0022 · ω的取值范围-值域 | 三角函数</title>
+<meta name="number" content="数0022">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-值域">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;值域;余弦;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    color: #e8e8e8;
+    padding: 20px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .header {
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px 32px;
+    margin-bottom: 24px;
+    border-left: 5px solid #e94560;
+    backdrop-filter: blur(10px);
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .tag {
+    background: rgba(233,69,96,0.2);
+    color: #ff8fa3;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid rgba(233,69,96,0.4);
+  }
+  .title { font-size: 26px; font-weight: bold; color: #fff; margin-bottom: 8px; }
+  .subtitle { font-size: 14px; color: #a0a0c0; }
+  .card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card h2 {
+    color: #e94560;
+    font-size: 18px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .problem-text { font-size: 18px; line-height: 2; color: #f0f0f0; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .option-card {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .option-card:hover { border-color: #4ecca3; transform: translateY(-2px); }
+  .option-card.correct { border-color: #4ecca3; background: rgba(78,204,163,0.15); }
+  .option-card.wrong { border-color: #e94560; background: rgba(233,69,96,0.15); }
+  .option-label {
+    background: #e94560;
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; flex-shrink: 0;
+  }
+  .option-card.correct .option-label { background: #4ecca3; }
+  .option-card.wrong .option-label { background: #e94560; }
+  .feedback {
+    margin-top: 14px; padding: 14px 18px; border-radius: 10px;
+    font-size: 15px; display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: rgba(78,204,163,0.15); border-left: 4px solid #4ecca3; color: #4ecca3; }
+  .feedback.wrong { background: rgba(233,69,96,0.15); border-left: 4px solid #e94560; color: #ff8fa3; }
+  canvas { display: block; width: 100%; border-radius: 12px; background: #0d1b2a; touch-action: none; }
+  .slider-wrap { margin-top: 18px; padding: 16px; background: rgba(0,0,0,0.25); border-radius: 10px; }
+  .slider-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+  .a-value { font-size: 20px; font-weight: bold; color: #ffd166; }
+  .range-values { font-size: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+  .badge.ok { background: rgba(78,204,163,0.2); color: #4ecca3; border: 1px solid #4ecca3; }
+  .badge.fail { background: rgba(233,69,96,0.2); color: #ff8fa3; border: 1px solid #e94560; }
+  .fail-detail { color: #ff8fa3; font-size: 14px; margin-top: 6px; }
+  input[type=range] { width: 100%; -webkit-appearance: none; height: 6px; background: #2a2a4a; border-radius: 3px; outline: none; }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+    background: #ffd166; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 8px rgba(255,209,102,0.6);
+  }
+  .steps { display: none; }
+  .steps.show { display: block; }
+  .step {
+    background: rgba(255,255,255,0.05);
+    padding: 16px 20px; border-radius: 10px; margin-bottom: 12px;
+    border-left: 4px solid #4ecca3; line-height: 1.9; font-size: 15px; display: none;
+  }
+  .step.show { display: block; }
+  .step-num {
+    display: inline-block; background: #4ecca3; color: #0d1b2a;
+    width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px;
+    font-weight: bold; margin-right: 10px; font-size: 13px;
+  }
+  .humor {
+    background: rgba(255,209,102,0.1); border-left: 4px solid #ffd166;
+    color: #ffd166; padding: 12px 16px; border-radius: 8px; margin-top: 10px;
+    font-style: italic; font-size: 14px;
+  }
+  .btn-group { display: flex; gap: 12px; margin-top: 16px; }
+  .btn { padding: 10px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.3s; }
+  .btn-primary { background: #e94560; color: white; }
+  .btn-primary:hover { background: #ff6b81; }
+  .btn-secondary { background: rgba(255,255,255,0.1); color: #e8e8e8; border: 1px solid rgba(255,255,255,0.2); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 13px; color: #b0b0c8; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-box { width: 20px; height: 4px; border-radius: 2px; }
+  @media (max-width: 600px) { .options { grid-template-columns: 1fr; } .title { font-size: 20px; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="meta">
+      <span class="tag">数0022</span>
+      <span class="tag">数学</span>
+      <span class="tag">三角函数</span>
+      <span class="tag">ω的取值范围-值域</span>
+      <span class="tag">单选题</span>
+    </div>
+    <div class="title">ω 的取值范围 —— 值域问题</div>
+    <div class="subtitle">来源：我的解题课件库 · 2026·安康模拟</div>
+  </div>
+
+  <div class="card">
+    <h2>📝 题目</h2>
+    <div class="problem-text">
+      已知函数 <span id="f1"></span> 在区间 <span id="interval"></span> 上的值域为
+      <span id="range"></span>，则 <span id="avar"></span> 的取值范围为？
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 互动图像</h2>
+    <canvas id="cv" height="420"></canvas>
+    <div class="slider-wrap">
+      <div class="slider-info">
+        <div>
+          调整区间右端点 <span id="albl"></span>
+          <span class="a-value"><span id="aval"></span></span>
+        </div>
+        <div class="range-values">
+          <span>f<span class="badge" id="minBadge">min</span></span>
+          <span>f<span class="badge" id="maxBadge">max</span></span>
+          <span class="badge" id="statusBadge">—</span>
+        </div>
+      </div>
+      <input type="range" id="slider" min="0" max="3.14159265" step="0.001" value="1.309">
+      <div class="fail-detail" id="failDetail"></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-box" style="background:#4ecca3"></span>f(x)=2cos(2x+π/6)</div>
+      <div class="legend-item"><span class="legend-box" style="background:#ffd166"></span>区间 [0, a]</div>
+      <div class="legend-item"><span class="legend-box" style="background:#e94560"></span>y = -2</div>
+      <div class="legend-item"><span class="legend-box" style="background:#7c4dff"></span>y = √3</div>
+      <div class="legend-item"><span class="legend-box" style="background:#ff6b6b"></span>临界点 5π/12, 5π/6</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💡 解题步骤</h2>
+    <div class="steps" id="steps">
+      <div class="step" id="step1"><span class="step-num">1</span><span id="s1"></span></div>
+      <div class="step" id="step2"><span class="step-num">2</span><span id="s2"></span></div>
+      <div class="step" id="step3"><span class="step-num">3</span><span id="s3"></span></div>
+      <div class="step" id="step4"><span class="step-num">4</span><span id="s4"></span></div>
+      <div class="step" id="step5"><span class="step-num">5</span><span id="s5"></span></div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="nextBtn">下一步</button>
+      <button class="btn btn-secondary" id="resetBtn">重置</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var PI = Math.PI;
+  var stepIdx = 0;
+
+  function renderTex(id, tex, display) {
+    var el = document.getElementById(id);
+    if (el) {
+      katex.render(tex, el, { displayMode: !!display, throwOnError: false });
+    }
+  }
+
+  renderTex('f1', 'f(x)=2\\cos\\left(2x+\\dfrac{\\pi}{6}\\right)');
+  renderTex('interval', '[0,\\ a]');
+  renderTex('range', '[-2,\\ \\sqrt{3}]');
+  renderTex('avar', 'a');
+  renderTex('albl', 'a =');
+
+  var opts = [
+    { label: 'A', tex: '\\left[\\dfrac{5\\pi}{12},\\ \\dfrac{5\\pi}{6}\\right]', correct: true },
+    { label: 'B', tex: '\\left[\\dfrac{5\\pi}{12},\\ \\dfrac{11\\pi}{12}\\right]', correct: false },
+    { label: 'C', tex: '\\left[\\dfrac{2\\pi}{5},\\ \\dfrac{5\\pi}{12}\\right]', correct: false },
+    { label: 'D', tex: '\\left[\\dfrac{5\\pi}{12},\\ \\pi\\right]', correct: false }
+  ];
+  var optsEl = document.getElementById('options');
+  opts.forEach(function(o){
+    var card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = '<div class="option-label">' + o.label + '</div><div class="option-content"></div>';
+    optsEl.appendChild(card);
+    katex.render(o.tex, card.querySelector('.option-content'), { displayMode: true, throwOnError: false });
+    card.addEventListener('click', function(){
+      var all = optsEl.querySelectorAll('.option-card');
+      all.forEach(function(c){ c.classList.remove('correct','wrong'); });
+      var fb = document.getElementById('feedback');
+      if (o.correct) {
+        card.classList.add('correct');
+        fb.className = 'feedback correct show';
+        fb.textContent = '✓ 回答正确！左端点探底到 -1，右端点不能反弹过 √3/2，所以 a ∈ [5π/12, 5π/6]。';
+      } else {
+        card.classList.add('wrong');
+        fb.className = 'feedback wrong show';
+        fb.textContent = '✗ 不对哦～cos从 √3/2 出发一路下滑，必须探底到 -1（a ≥ 5π/12），又不能反弹超过 √3（a ≤ 5π/6）。';
+      }
+    });
+  });
+
+  renderTex('s1', '令\\ u = 2x + \\dfrac{\\pi}{6}，\\ x \\in [0,\\ a]，\\ 则\\ u \\in \\left[\\dfrac{\\pi}{6},\\ 2a+\\dfrac{\\pi}{6}\\right]。');
+  renderTex('s2', 'f(x)=2\\cos u，\\ 值域\\ [-2,\\ \\sqrt{3}]\\ 意味着\\ \\cos u \\in \\left[-1,\\ \\dfrac{\\sqrt{3}}{2}\\right]。');
+  renderTex('s3', '从\\ u=\\dfrac{\\pi}{6}\\ 出发（此时\\ \\cos=\\dfrac{\\sqrt{3}}{2}，恰为上限），\\cos u\\ 随\\ u\\ 增大而减小：\\newline \\bullet\\ 到达\\ -1\\ 需要\\ u \\ge \\pi \\Rightarrow 2a+\\dfrac{\\pi}{6} \\ge \\pi \\Rightarrow a \\ge \\dfrac{5\\pi}{12}（必须探底）\\newline \\bullet\\ 但\\ \\cos\\ 下次回到\\ \\dfrac{\\sqrt{3}}{2}\\ 在\\ u=2\\pi-\\dfrac{\\pi}{6}=\\dfrac{11\\pi}{6}，\\newline \\ \\ \\ \\ 所以\\ 2a+\\dfrac{\\pi}{6} \\le \\dfrac{11\\pi}{6} \\Rightarrow a \\le \\dfrac{5\\pi}{6}。');
+  renderTex('s4', '综上，\\ a \\in \\left[\\dfrac{5\\pi}{12},\\ \\dfrac{5\\pi}{6}\\right]。', true);
+  document.getElementById('s5').innerHTML = '<div class="humor">口诀：左端点探底到 -1，右端点不能反弹过 √3/2。不能反弹太高，否则就超纲了！</div>';
+
+  document.getElementById('nextBtn').addEventListener('click', function(){
+    var steps = document.querySelectorAll('.step');
+    if (stepIdx < steps.length) {
+      steps[stepIdx].classList.add('show');
+      stepIdx++;
+    }
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    stepIdx = 0;
+    document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('show'); });
+  });
+
+  var canvas = document.getElementById('cv');
+  var ctx = canvas.getContext('2d');
+  var slider = document.getElementById('slider');
+  var aVal = parseFloat(slider.value);
+
+  function f(x) { return 2 * Math.cos(2*x + PI/6); }
+
+  function draw() {
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    var padL = 50, padR = 30, padT = 30, padB = 50;
+    var xMin = -0.3, xMax = PI + 0.3;
+    var yMin = -2.6, yMax = 2.6;
+
+    function toPx(x, y) {
+      var px = padL + (x - xMin) / (xMax - xMin) * (W - padL - padR);
+      var py = padT + (yMax - y) / (yMax - yMin) * (H - padT - padB);
+      return [px, py];
+    }
+
+    ctx.strokeStyle = '#3a3a5a';
+    ctx.lineWidth = 1;
+    var origin = toPx(0, 0);
+    ctx.beginPath();
+    ctx.moveTo(padL, origin[1]);
+    ctx.lineTo(W - padR, origin[1]);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(origin[0], padT);
+    ctx.lineTo(origin[0], H - padB);
+    ctx.stroke();
+
+    ctx.fillStyle = '#8888aa';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    var marks = [0, PI/6, PI/3, PI/2, 2*PI/3, 5*PI/6, PI];
+    var labels = ['0','π/6','π/3','π/2','2π/3','5π/6','π'];
+    marks.forEach(function(m, i){
+      var p = toPx(m, 0);
+      ctx.beginPath();
+      ctx.moveTo(p[0], origin[1]-4);
+      ctx.lineTo(p[0], origin[1]+4);
+      ctx.strokeStyle = '#555577';
+      ctx.stroke();
+      ctx.fillText(labels[i], p[0], origin[1] + 18);
+    });
+    ctx.textAlign = 'right';
+    [-2, -1, 1, 2].forEach(function(v){
+      var p = toPx(0, v);
+      ctx.beginPath();
+      ctx.moveTo(origin[0]-4, p[1]);
+      ctx.lineTo(origin[0]+4, p[1]);
+      ctx.strokeStyle = '#555577';
+      ctx.stroke();
+      ctx.fillText(String(v), origin[0]-8, p[1]+4);
+    });
+
+    var aPx = toPx(aVal, 0)[0];
+    ctx.fillStyle = 'rgba(255,209,102,0.12)';
+    ctx.fillRect(origin[0], padT, aPx - origin[0], H - padT - padB);
+    ctx.strokeStyle = '#ffd166';
+    ctx.setLineDash([6,4]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(aPx, padT);
+    ctx.lineTo(aPx, H - padB);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    var sqrt3 = Math.sqrt(3);
+    var yNeg2 = toPx(0, -2)[1];
+    var ySqrt3 = toPx(0, sqrt3)[1];
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5,5]);
+    ctx.strokeStyle = '#e94560';
+    ctx.beginPath(); ctx.moveTo(padL, yNeg2); ctx.lineTo(W-padR, yNeg2); ctx.stroke();
+    ctx.strokeStyle = '#7c4dff';
+    ctx.beginPath(); ctx.moveTo(padL, ySqrt3); ctx.lineTo(W-padR, ySqrt3); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#e94560'; ctx.textAlign='left';
+    ctx.fillText('y = -2', W-padR-45, yNeg2-6);
+    ctx.fillStyle = '#7c4dff';
+    ctx.fillText('y = √3', W-padR-45, ySqrt3-6);
+
+    var critX = [5*PI/12, 5*PI/6];
+    critX.forEach(function(cx){
+      var cp = toPx(cx, f(cx));
+      ctx.fillStyle = '#ff6b6b';
+      ctx.beginPath();
+      ctx.arc(cp[0], cp[1], Math.abs(5), 0, 2*PI);
+      ctx.fill();
+      ctx.fillStyle = '#ff6b6b';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      var lbl = cx === 5*PI/12 ? '5π/12' : '5π/6';
+      ctx.fillText(lbl, cp[0], cp[1] - 10);
+    });
+
+    ctx.strokeStyle = '#4ecca3';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    var first = true;
+    for (var px = padL; px <= W - padR; px += 1) {
+      var x = xMin + (px - padL) / (W - padL - padR) * (xMax - xMin);
+      var y = f(x);
+      var p = toPx(x, y);
+      if (first) { ctx.moveTo(p[0], p[1]); first = false; }
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#ffd166';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    first = true;
+    for (var x = 0; x <= aVal + 0.0001; x += 0.005) {
+      var p = toPx(x, f(x));
+      if (first) { ctx.moveTo(p[0], p[1]); first = false; }
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+
+    [0, aVal].forEach(function(x){
+      var p = toPx(x, f(x));
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], Math.abs(4), 0, 2*PI);
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+
+    updateBadges();
+  }
+
+  function computeMinMax() {
+    var mn = Infinity, mx = -Infinity;
+    for (var x = 0; x <= aVal; x += 0.001) {
+      var y = f(x);
+      if (y < mn) mn = y;
+      if (y > mx) mx = y;
+    }
+    return [mn, mx];
+  }
+
+  function fmt(n) { return n.toFixed(3); }
+
+  function updateBadges() {
+    var mm = computeMinMax();
+    var mn = mm[0], mx = mm[1];
+    var minBadge = document.getElementById('minBadge');
+    var maxBadge = document.getElementById('maxBadge');
+    var statusBadge = document.getElementById('statusBadge');
+    var failDetail = document.getElementById('failDetail');
+
+    minBadge.textContent = 'min = ' + fmt(mn);
+    maxBadge.textContent = 'max = ' + fmt(mx);
+
+    var minOk = mn <= -2 + 0.01;
+    var maxOk = mx <= Math.sqrt(3) + 0.01;
+
+    if (minOk && maxOk) {
+      statusBadge.className = 'badge ok';
+      statusBadge.textContent = '值域正确 ✓';
+      failDetail.textContent = '';
+    } else {
+      statusBadge.className = 'badge fail';
+      statusBadge.textContent = '值域错误 ✗';
+      var parts = [];
+      if (!minOk) parts.push('最小值 ' + fmt(mn) + ' > -2，还没探底到 -1（a 太小）');
+      if (!maxOk) parts.push('最大值 ' + fmt(mx) + ' > √3，反弹过头了（a 太大）');
+      failDetail.textContent = '✗ ' + parts.join('；') + '。';
+    }
+  }
+
+  function updateA() {
+    aVal = parseFloat(slider.value);
+    renderTex('aval', 'a = ' + fmt(aVal));
+    draw();
+  }
+
+  function resize() {
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = 420;
+    draw();
+  }
+
+  slider.addEventListener('input', updateA);
+
+  function onTouchStart(e) { e.preventDefault(); }
+  function onTouchMove(e) { e.preventDefault(); }
+  canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+  canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+
+  window.addEventListener('resize', resize);
+
+  resize();
+  updateA();
+  document.getElementById('step1').classList.add('show');
+  stepIdx = 1;
+})();
+</script>
+</body>
+</html>

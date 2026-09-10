@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ω 的取值范围 · 单调性 · 三角函数互动课件</title>
+
+<meta name="number" content="数0021">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-单调性">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;单调性;数学">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="if(typeof renderMathInElement!=='undefined'){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});}"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px;display:none}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.oi.wrong .fb{color:#b23a3a}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50;display:none}
+.step.show{display:block;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step.red{background:#fff0f0;border-left-color:#ff6b6b}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.btn.ghost{background:#fff;color:#4f8ef7;border:1.5px solid #cfe0fb}
+.btn.ghost:hover{background:#eef5ff}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.graph-wrap{position:relative}
+.graph-wrap canvas{display:block;width:100%;height:380px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;touch-action:none}
+.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
+.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3);z-index:5}
+.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
+.graph-slider b{color:#2a6df4;min-width:36px}
+.graph-slider input[type=range]{width:240px;accent-color:#5b7cfa}
+.graph-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#4a5d72;margin-top:10px}
+.legend-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.stat-badge{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.95);border:1px solid #d6e4f2;border-radius:12px;padding:10px 14px;font-size:13px;color:#2c3e50;font-weight:600;line-height:1.7;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);z-index:4}
+.stat-badge .v{color:#2a6df4;font-weight:700}
+.stat-badge .v.warn{color:#ff6b6b}
+.stat-badge .v.ok{color:#22c3a6}
+.stat-badge .badge{display:inline-block;padding:2px 10px;border-radius:8px;font-size:12.5px;margin-top:4px}
+.stat-badge .badge.ok{background:#d7f5ec;color:#1a7a5c;border:1px solid #9fe3cb}
+.stat-badge .badge.warn{background:#ffe0e0;color:#b23a3a;border:1px solid #ffcaca}
+.uval{font-size:12px;color:#6a7f95;font-weight:500;margin-top:2px;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back-link" href="https://mcjc4.github.io/courseware/">← 返回导航页</a>
+
+<div class="meta-bar">
+  <div class="chip num"><b>数0021</b></div>
+  <div class="chip"><b>学科</b> 数学</div>
+  <div class="chip"><b>章节</b> 三角函数</div>
+  <div class="chip"><b>知识点</b> ω的取值范围-单调性</div>
+  <div class="chip"><b>题型</b> 单选题</div>
+  <div class="chip"><b>来源</b> 我的解题课件库</div>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">高考数学 · 三角函数</div>
+  <h1><span class="rn">数0021 · 单选题</span><br>由单调性确定 ω 的取值范围</h1>
+  <div class="sub">若函数 $f(x)=\sin(\omega x+\frac{\pi}{6})\ (\omega>0)$ 在 $\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$ 上单调递增，求 $\omega$ 的取值范围。</div>
+  <div class="answer">
+    <span class="lbl">正确答案：</span>
+    <span id="ansShow">A</span>
+    <button id="ansBtn">显示 / 隐藏答案</button>
+  </div>
+  <div class="scrollhint">↓ 拖动 ω 滑块，观察函数在给定区间上是否单调递增</div>
+</div>
+
+<section>
+  <div class="card problem-card">
+    <h2><span class="num">1</span> 题目</h2>
+    <div class="problem-head">我的解题课件库 | 单选题</div>
+    <div class="stem">若函数 $f(x)=\sin\left(\omega x+\frac{\pi}{6}\right)$（其中 $\omega>0$）在区间 $\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$ 上单调递增，则 $\omega$ 的取值范围是：</div>
+    <div class="optlist">
+      <div class="oi" data-v="A"><b>A.</b> $(0,2]$<span class="fb">✅ 正确！ω ≤ 2，"紧箍咒"右端点立了功。</span></div>
+      <div class="oi" data-v="B"><b>B.</b> $(0,4]$<span class="fb">❌ 还差一点。再看看右端点给的上限。</span></div>
+      <div class="oi" data-v="C"><b>C.</b> $(0,6]$<span class="fb">❌ 太大了，ω=6 时右端点早就越过 π/2 了。</span></div>
+      <div class="oi" data-v="D"><b>D.</b> $(0,8]$<span class="fb">❌ 这是左端点给的上限，别被它"骗"了，交集才是关键！</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <h2><span class="num">2</span> 互动图像 <small>拖动 ω 滑块 · 观察单调性</small></h2>
+    <div class="lead">绿色表示 $f(x)$ 单调递增区间，红色表示单调递减区间。两条虚线之间是题目给定区间 $\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$。</div>
+    <div class="graph-wrap" id="gw">
+      <canvas id="graph"></canvas>
+      <div class="graph-bubble" id="bubble"></div>
+      <div class="stat-badge" id="stat"></div>
+    </div>
+    <div class="graph-ctrl">
+      <div class="graph-slider"><span>ω =</span><b id="omegaVal">1.00</b><input id="omegaSlider" type="range" min="0.3" max="5" step="0.01" value="1"></div>
+    </div>
+    <div class="graph-legend">
+      <span><span class="legend-dot" style="background:#22c3a6"></span>递增段 (cos u &gt; 0)</span>
+      <span><span class="legend-dot" style="background:#ff6b6b"></span>递减段 (cos u &lt; 0)</span>
+      <span><span class="legend-dot" style="background:#4f8ef7;opacity:0.5"></span>题目区间</span>
+    </div>
+    <div class="graph-hint">💡 当两条虚线之间全是绿色时，右上角显示"单调递增 ✓"；出现红色就是"不单调 ✗"。</div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <h2><span class="num">3</span> 详解步骤</h2>
+    <div class="step">
+      <span class="label">步骤 1 · 整体代换：</span>令 $u=\omega x+\frac{\pi}{6}$，当 $x\in\left[-\frac{\pi}{12},\frac{\pi}{6}\right]$ 时，<br>
+      $u\in\left[-\frac{\omega\pi}{12}+\frac{\pi}{6},\ \frac{\omega\pi}{6}+\frac{\pi}{6}\right]$。<br>
+      <span style="color:#7a8fa3;font-size:13px">🤵 整体代换又来了——这是 ω 的"贴身保镖"，把复杂的复合函数变回简单的 $\sin u$。</span>
+    </div>
+    <div class="step">
+      <span class="label">步骤 2 · 找 sin u 的递增区间：</span>$\sin u$ 的单调递增区间为 $\left[-\frac{\pi}{2}+2k\pi,\frac{\pi}{2}+2k\pi\right],\ k\in\mathbb{Z}$。<br>
+      取 $k=0$，得核心递增区间 $\left[-\frac{\pi}{2},\frac{\pi}{2}\right]$。<br>
+      <span style="color:#7a8fa3;font-size:13px">🚗 $\sin$ 在 $\left[-\frac{\pi}{2},\frac{\pi}{2}\right]$ 上一路狂飙，出了这个区间就开始走下坡了。</span>
+    </div>
+    <div class="step">
+      <span class="label">步骤 3 · 让 u 区间"钻进"递增区间：</span>要使 $f(x)$ 在题设区间单调递增，需 $u$ 的整个范围都落在 $\left[-\frac{\pi}{2},\frac{\pi}{2}\right]$ 内：<br>
+      <b>左端点：</b>$-\frac{\omega\pi}{12}+\frac{\pi}{6}\ge -\frac{\pi}{2}\implies \omega\le 8$<br>
+      <b>右端点：</b>$\frac{\omega\pi}{6}+\frac{\pi}{6}\le \frac{\pi}{2}\implies \omega\le 2$
+    </div>
+    <div class="step gold">
+      <span class="label">步骤 4 · 取交集：</span>两个条件同时满足，取交集得 $\omega\le 2$，又 $\omega>0$，<br>
+      所以 $\omega\in(0,2]$。<br>
+      <span style="color:#b8860b;font-size:13px">🧠 右端点是"紧箍咒"——$x=\frac{\pi}{6}$ 时 $u$ 不能超过 $\frac{\pi}{2}$，否则 $\sin$ 就开始走下坡路了。</span>
+    </div>
+    <div class="step green">
+      <span class="label">最终答案：</span>$\boxed{\omega\in(0,2]}$，选 <b style="color:#22c3a6">A</b>。
+    </div>
+
+    <div class="insight">
+      <div class="it">💡 核心思想</div>
+      处理"在某区间单调"问题的套路：<b>整体代换 → 找外层函数的单调区间 → 让内层 u 的范围整个落进去 → 解不等式取交集</b>。记住：两个上限取较小的那个才是真正的"紧箍咒"！
+    </div>
+
+    <button class="btn" id="nextBtn">下一步</button>
+    <button class="btn ghost" id="resetBtn">重置</button>
+  </div>
+</section>
+
+<div class="foot">—— 数0021 · ω 的取值范围（单调性）——</div>
+
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('graph');
+  var ctx=cv.getContext('2d');
+  var bubble=document.getElementById('bubble');
+  var stat=document.getElementById('stat');
+  var omegaSlider=document.getElementById('omegaSlider');
+  var omegaVal=document.getElementById('omegaVal');
+
+  var omega=1.0;
+  var dpr=window.devicePixelRatio||1;
+  var view={xMin:-1.2, xMax:1.2, yMin:-1.5, yMax:1.5};
+
+  var X1=-Math.PI/12;
+  var X2=Math.PI/6;
+
+  function W(){return cv.clientWidth;}
+  function H(){return cv.clientHeight;}
+  function xToPx(x){return (x-view.xMin)/(view.xMax-view.xMin)*W();}
+  function yToPx(y){return H()-(y-view.yMin)/(view.yMax-view.yMin)*H();}
+  function pxToX(px){return px/W()*(view.xMax-view.xMin)+view.xMin;}
+  function pxToY(py){return (1-py/H())*(view.yMax-view.yMin)+view.yMin;}
+
+  function resize(){
+    var r=cv.getBoundingClientRect();
+    if(r.width===0||r.height===0)return;
+    cv.width=Math.round(r.width*dpr);
+    cv.height=Math.round(r.height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    draw();
+  }
+  window.addEventListener('resize',resize);
+  window.addEventListener('orientationchange',resize);
+
+  function f(x){return Math.sin(omega*x+Math.PI/6);}
+
+  function formatPi(v){
+    var k=v/Math.PI;
+    var tol=0.001;
+    var tries=[[1,'π'],[0.5,'π/2'],[1/3,'π/3'],[1/4,'π/4'],[1/6,'π/6'],[2/3,'2π/3'],[3/4,'3π/4'],[5/6,'5π/6'],[1.5,'3π/2'],[2,'2π'],[-1/6,'-π/6'],[-1/12,'-π/12']];
+    for(var i=0;i<tries.length;i++){
+      if(Math.abs(k-tries[i][0])<tol)return tries[i][1];
+    }
+    if(Math.abs(k-Math.round(k))<tol){
+      var r=Math.round(k);
+      if(r===0)return '0';
+      if(r===1)return 'π';
+      if(r===-1)return '-π';
+      return r+'π';
+    }
+    return v.toFixed(2);
+  }
+
+  function drawAxes(){
+    ctx.clearRect(0,0,W(),H());
+    ctx.strokeStyle='#eef2f8';
+    ctx.lineWidth=1;
+    var piStep=Math.PI/6;
+    var v=Math.ceil(view.xMin/piStep)*piStep;
+    while(v<=view.xMax+0.0001){
+      ctx.beginPath();
+      ctx.moveTo(xToPx(v),yToPx(view.yMin));
+      ctx.lineTo(xToPx(v),yToPx(view.yMax));
+      ctx.stroke();
+      v+=piStep;
+    }
+    for(var gy=Math.ceil(view.yMin);gy<=Math.floor(view.yMax);gy++){
+      ctx.beginPath();
+      ctx.moveTo(xToPx(view.xMin),yToPx(gy));
+      ctx.lineTo(xToPx(view.xMax),yToPx(gy));
+      ctx.stroke();
+    }
+    ctx.strokeStyle='#7a8fa3';
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(xToPx(view.xMin),yToPx(0));
+    ctx.lineTo(xToPx(view.xMax),yToPx(0));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xToPx(0),yToPx(view.yMin));
+    ctx.lineTo(xToPx(0),yToPx(view.yMax));
+    ctx.stroke();
+
+    ctx.fillStyle='#7a8fa3';
+    ctx.font='11px system-ui';
+    ctx.textAlign='center';
+    v=Math.ceil(view.xMin/piStep)*piStep;
+    while(v<=view.xMax+0.0001){
+      if(Math.abs(v)>0.0001){
+        ctx.fillText(formatPi(v),xToPx(v),yToPx(0)+15);
+      }
+      v+=piStep;
+    }
+    ctx.textAlign='right';
+    for(gy=Math.ceil(view.yMin);gy<=Math.floor(view.yMax);gy++){
+      if(gy!==0){
+        ctx.fillText(String(gy),xToPx(0)-6,yToPx(gy)+4);
+      }
+    }
+  }
+
+  function drawCurveColored(){
+    var step=(view.xMax-view.xMin)/800;
+    var started=false;
+    var prevX=0,prevY=0;
+    for(var x=view.xMin;x<=view.xMax;x+=step){
+      var y=f(x);
+      if(!isFinite(y)){started=false;continue;}
+      if(y<view.yMin-2||y>view.yMax+2){started=false;continue;}
+      var u=omega*x+Math.PI/6;
+      var inc=Math.cos(u)>=0;
+      ctx.strokeStyle=inc?'#22c3a6':'#ff6b6b';
+      ctx.lineWidth=2.6;
+      if(!started){
+        ctx.beginPath();
+        ctx.moveTo(xToPx(x),yToPx(y));
+        started=true;
+      }else{
+        ctx.beginPath();
+        ctx.moveTo(xToPx(prevX),yToPx(prevY));
+        ctx.lineTo(xToPx(x),yToPx(y));
+        ctx.stroke();
+      }
+      prevX=x;prevY=y;
+    }
+  }
+
+  function drawBandX(x1,x2,color,alpha){
+    ctx.fillStyle=color;
+    ctx.globalAlpha=alpha||0.15;
+    ctx.fillRect(xToPx(x1),yToPx(view.yMax),xToPx(x2)-xToPx(x1),yToPx(view.yMin)-yToPx(view.yMax));
+    ctx.globalAlpha=1;
+  }
+
+  function drawVDashed(x,color,lbl){
+    ctx.strokeStyle=color;
+    ctx.lineWidth=1.8;
+    ctx.setLineDash([7,5]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(x),yToPx(view.yMin));
+    ctx.lineTo(xToPx(x),yToPx(view.yMax));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    if(lbl){
+      ctx.fillStyle=color;
+      ctx.font='bold 12px system-ui';
+      ctx.textAlign='center';
+      ctx.fillText(lbl,xToPx(x),yToPx(view.yMax)-6);
+    }
+  }
+
+  function drawPoint(x,y,color,label){
+    var px=xToPx(x),py=yToPx(y);
+    var radius=Math.abs(5);
+    ctx.fillStyle=color;
+    ctx.beginPath();
+    ctx.arc(px,py,radius,0,Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle='#fff';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+    if(label){
+      ctx.fillStyle=color;
+      ctx.font='bold 11px system-ui';
+      ctx.textAlign='center';
+      ctx.fillText(label,px,py-10);
+    }
+  }
+
+  function checkMonotonic(){
+    var uLeft=-omega*Math.PI/12+Math.PI/6;
+    var uRight=omega*Math.PI/6+Math.PI/6;
+    var ok=false;
+    for(var k=-3;k<=3;k++){
+      var lo=-Math.PI/2+2*k*Math.PI;
+      var hi=Math.PI/2+2*k*Math.PI;
+      if(uLeft>=lo-1e-9&&uRight<=hi+1e-9){ok=true;break;}
+    }
+    return {ok:ok,uLeft:uLeft,uRight:uRight};
+  }
+
+  function fmtU(v){
+    var k=v/Math.PI;
+    var tol=0.001;
+    var tries=[[1/6,'π/6'],[-1/12,'-π/12'],[1/2,'π/2'],[-1/2,'-π/2'],[1/3,'π/3'],[0,'0'],[1,'π'],[-1,'-π'],[5/6,'5π/6'],[2/3,'2π/3']];
+    for(var i=0;i<tries.length;i++){
+      if(Math.abs(k-tries[i][0])<tol)return tries[i][1];
+    }
+    if(Math.abs(k)<0.01)return '0';
+    return k.toFixed(3)+'π';
+  }
+
+  function draw(){
+    drawAxes();
+    drawBandX(X1,X2,'#4f8ef7',0.10);
+    drawCurveColored();
+    drawVDashed(X1,'#4f8ef7','x=-π/12');
+    drawVDashed(X2,'#4f8ef7','x=π/6');
+
+    var res=checkMonotonic();
+    drawPoint(X1,f(X1),'#4f8ef7');
+    drawPoint(X2,f(X2),'#4f8ef7');
+
+    var uLeftTxt=fmtU(res.uLeft);
+    var uRightTxt=fmtU(res.uRight);
+    var html='<div>u 范围：</div>';
+    html+='<span class="uval">左端点 u = '+uLeftTxt+'</span>';
+    html+='<span class="uval">右端点 u = '+uRightTxt+'</span>';
+    if(res.ok){
+      html+='<span class="badge ok">单调递增 ✓</span>';
+    }else{
+      html+='<span class="badge warn">不单调 ✗</span>';
+    }
+    stat.innerHTML=html;
+  }
+
+  function updateBubble(e){
+    var r=cv.getBoundingClientRect();
+    var px=e.clientX-r.left,py=e.clientY-r.top;
+    var x=pxToX(px),y=f(x);
+    bubble.style.display='block';
+    bubble.style.left=(px+14)+'px';
+    bubble.style.top=(py-34)+'px';
+    bubble.textContent='x='+formatPi(x)+', u='+fmtU(omega*x+Math.PI/6)+', f='+y.toFixed(3);
+  }
+  cv.addEventListener('mousemove',updateBubble);
+  cv.addEventListener('mouseleave',function(){bubble.style.display='none';});
+
+  cv.addEventListener('touchstart',function(e){
+    e.preventDefault();
+  },{passive:false});
+  cv.addEventListener('touchmove',function(e){
+    e.preventDefault();
+  },{passive:false});
+
+  omegaSlider.addEventListener('input',function(){
+    omega=parseFloat(omegaSlider.value);
+    omegaVal.textContent=omega.toFixed(2);
+    draw();
+  });
+
+  var correctOpt='A';
+  var opts=document.querySelectorAll('.oi');
+  for(var i=0;i<opts.length;i++){
+    (function(o){
+      o.addEventListener('click',function(){
+        for(var j=0;j<opts.length;j++){
+          opts[j].classList.remove('sel','correct','wrong');
+        }
+        o.classList.add('sel');
+        if(o.dataset.v===correctOpt){
+          o.classList.add('correct');
+        }else{
+          o.classList.add('wrong');
+        }
+      });
+    })(opts[i]);
+  }
+
+  var ansBtn=document.getElementById('ansBtn');
+  var ansShow=document.getElementById('ansShow');
+  ansBtn.addEventListener('click',function(){
+    ansShow.style.display=ansShow.style.display==='none'?'inline-block':'none';
+  });
+
+  var steps=document.querySelectorAll('.step');
+  var stepIdx=0;
+  var nextBtn=document.getElementById('nextBtn');
+  var resetBtn=document.getElementById('resetBtn');
+  nextBtn.addEventListener('click',function(){
+    if(stepIdx<steps.length){
+      steps[stepIdx].classList.add('show');
+      stepIdx++;
+    }
+  });
+  resetBtn.addEventListener('click',function(){
+    for(var k=0;k<steps.length;k++){
+      steps[k].classList.remove('show');
+    }
+    stepIdx=0;
+  });
+
+  resize();
+})();
+</script>
+
+</body>
+</html>

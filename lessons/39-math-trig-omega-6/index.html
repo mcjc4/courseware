@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0025 · ω的取值范围（对称性与单调性）</title>
+<meta name="number" content="数0025">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-对称性与单调性">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container { max-width: 880px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 13px; opacity: 0.9; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 17px;
+    color: #667eea;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 4px solid #667eea;
+  }
+  .problem { font-size: 16px; line-height: 2; }
+  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #6d4c00;
+  }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .opt {
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: #fafbfc;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    user-select: none;
+  }
+  .opt:hover { border-color: #667eea; background: #f0f4ff; }
+  .opt.correct { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
+  .opt.wrong { border-color: #f44336; background: #ffebee; color: #c62828; }
+  .opt.disabled { pointer-events: none; opacity: 0.7; }
+  .answer-msg {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+  }
+  .answer-msg.show { display: block; }
+  .answer-msg.ok { background: #e8f5e9; color: #2e7d32; }
+  .answer-msg.bad { background: #ffebee; color: #c62828; }
+  .canvas-wrap {
+    background: #fafbff;
+    border: 1px solid #e8ebf2;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 14px;
+  }
+  canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
+  .controls {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .slider-row {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slider-row label { font-size: 14px; font-weight: 600; color: #555; }
+  .slider-row input[type=range] { flex: 1; accent-color: #667eea; }
+  .omega-val {
+    background: #667eea; color: #fff; padding: 4px 12px;
+    border-radius: 8px; font-weight: 700; font-size: 16px; min-width: 44px;
+    text-align: center;
+  }
+  .info-row {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+    font-size: 13px; color: #555;
+  }
+  .info-pill {
+    background: #eef1ff; padding: 4px 10px; border-radius: 14px;
+  }
+  .badge-mono {
+    display: inline-block; padding: 3px 12px; border-radius: 14px;
+    font-weight: 700; font-size: 14px; margin-left: 6px;
+  }
+  .badge-ok { background: #e8f5e9; color: #2e7d32; }
+  .badge-no { background: #ffebee; color: #c62828; }
+  .steps-wrap { margin-top: 10px; }
+  .step {
+    display: none;
+    background: #f7f9ff;
+    border-left: 3px solid #667eea;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  .step.show { display: block; animation: fade 0.4s ease; }
+  .step .tag {
+    display: inline-block; background: #667eea; color: #fff;
+    padding: 2px 10px; border-radius: 10px; font-size: 12px;
+    margin-right: 8px; font-weight: 600;
+  }
+  .step.humor {
+    background: #fff3e0; border-left-color: #ff9800; color: #6d4c00;
+  }
+  .step.humor .tag { background: #ff9800; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+  .btn-row { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; user-select: none;
+  }
+  .btn-primary { background: #667eea; color: #fff; }
+  .btn-primary:hover { background: #5568d3; }
+  .btn-ghost { background: #eef1ff; color: #667eea; }
+  .btn-ghost:hover { background: #e0e6ff; }
+  .footer { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <span class="badge">数0025 · 数学 · 三角函数</span>
+    <h1>ω的取值范围 —— 对称性与单调性</h1>
+    <div class="sub">考点：由对称轴与零点锁定 ω 为奇数，再用单调性筛选</div>
+  </div>
+
+  <div class="card">
+    <h2>题目</h2>
+    <div class="problem">
+      <div class="src">（2026·苏州模拟）</div>
+      已知函数 <span class="math">f(x)=\sin(\omega x+\varphi)</span>（<span class="math">\omega>0, |\varphi|<\dfrac{\pi}{2}</span>），
+      <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>，直线 <span class="math">x=\dfrac{\pi}{4}</span> 为 <span class="math">f(x)</span> 图象的一条对称轴，
+      且 <span class="math">f(x)</span> 在 <span class="math">\left(\dfrac{\pi}{18},\dfrac{5\pi}{36}\right)</span> 上单调，则 <span class="math">\omega</span> 的最大值为（&nbsp;&nbsp;&nbsp;&nbsp;）
+    </div>
+    <div class="options" id="options">
+      <div class="opt" data-key="A">A. 11</div>
+      <div class="opt" data-key="B">B. 9</div>
+      <div class="opt" data-key="C">C. 7</div>
+      <div class="opt" data-key="D">D. 5</div>
+    </div>
+    <div class="answer-msg" id="ansMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>互动图像</h2>
+    <div class="canvas-wrap">
+      <canvas id="cv"></canvas>
+    </div>
+    <div class="controls">
+      <div class="slider-row">
+        <label>ω =</label>
+        <input type="range" id="omegaSlider" min="1" max="13" step="2" value="9">
+        <span class="omega-val" id="omegaVal">9</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="info-pill">φ = <span id="phiVal"></span></span>
+      <span class="info-pill">区间内 u ∈ <span id="uRange"></span></span>
+      <span>单调性：<span class="badge-mono" id="monoBadge"></span></span>
+    </div>
+    <div class="note">橙色虚线为对称轴 <span class="math">x=\dfrac{\pi}{4}</span>，绿色圆点为零点 <span class="math">x=-\dfrac{\pi}{4}</span>，蓝色阴影为给定单调区间。</div>
+  </div>
+
+  <div class="card">
+    <h2>解题步骤</h2>
+    <div class="steps-wrap" id="stepsWrap">
+      <div class="step" data-step="1">
+        <span class="tag">步骤1</span>
+        由零点 <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>：
+        <span class="math">-\dfrac{\omega\pi}{4}+\varphi=m\pi</span>，即
+        <span class="math">\varphi=\dfrac{\omega\pi}{4}+m\pi</span>（<span class="math">m\in\mathbb{Z}</span>）。
+      </div>
+      <div class="step" data-step="2">
+        <span class="tag">步骤2</span>
+        由对称轴 <span class="math">x=\dfrac{\pi}{4}</span>：
+        <span class="math">\dfrac{\omega\pi}{4}+\varphi=\dfrac{\pi}{2}+n\pi</span>（<span class="math">n\in\mathbb{Z}</span>）。
+      </div>
+      <div class="step humor" data-step="3">
+        <span class="tag">关键</span>
+        两式相减：<span class="math">\dfrac{\omega\pi}{2}=\dfrac{\pi}{2}+(n-m)\pi</span>，
+        得 <span class="math">\omega=1+2(n-m)</span>。
+        <strong>所以 ω 必须是奇数：1, 3, 5, 7, 9, 11, …</strong>
+        <br>😎 <em>ω必须是奇数，直接砍掉一半选项！</em>
+      </div>
+      <div class="step" data-step="4">
+        <span class="tag">步骤4</span>
+        单调区间长度 <span class="math">=\dfrac{5\pi}{36}-\dfrac{\pi}{18}=\dfrac{\pi}{12}</span>。
+        <span class="math">\sin</span> 在长度 <span class="math">L</span> 的区间上单调，需
+        <span class="math">L\leqslant\dfrac{T}{2}=\dfrac{\pi}{\omega}</span>，即
+        <span class="math">\omega\leqslant 12</span>。
+      </div>
+      <div class="step humor" data-step="5">
+        <span class="tag">试值</span>
+        奇数候选从大往小：11, 9, 7, 5, …
+        <br>😎 <em>从大往小试，找到第一个单调的就收工！</em>
+      </div>
+      <div class="step" data-step="6">
+        <span class="tag">检验 ω=11</span>
+        <span class="math">\varphi=\dfrac{11\pi}{4}+m\pi</span>，取 <span class="math">m=-3</span> 得 <span class="math">\varphi=-\dfrac{\pi}{4}</span>。
+        <br>此时 <span class="math">u\in\left(\dfrac{13\pi}{36},\dfrac{23\pi}{18}\right)</span>，包含 <span class="math">\dfrac{\pi}{2}</span>（峰点），<span class="math">\sin</span> 先增后减，
+        <strong style="color:#c62828;">不单调 ✗</strong>
+      </div>
+      <div class="step" data-step="7">
+        <span class="tag">检验 ω=9</span>
+        <span class="math">\varphi=\dfrac{9\pi}{4}+m\pi</span>，取 <span class="math">m=-2</span> 得 <span class="math">\varphi=\dfrac{\pi}{4}</span>。
+        <br>此时 <span class="math">u\in\left(\dfrac{3\pi}{4},\dfrac{3\pi}{2}\right)</span>，而 <span class="math">\sin</span> 在 <span class="math">\left[\dfrac{\pi}{2},\dfrac{3\pi}{2}\right]</span> 上单调递减，此区间是其子集，
+        <strong style="color:#2e7d32;">单调 ✓</strong>
+      </div>
+      <div class="step humor" data-step="8">
+        <span class="tag">结论</span>
+        所以 <span class="math">\omega</span> 的最大值为 <strong style="color:#667eea;font-size:18px;">9</strong>，选 <strong>B</strong>。
+        <br>😎 <em>口诀：先由对称性锁定 ω 为奇数，再从大往小试单调。对称轴和零点之间隔了半个周期。</em>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="nextBtn">下一步</button>
+      <button class="btn btn-ghost" id="resetBtn">重置</button>
+    </div>
+  </div>
+
+  <div class="footer">数0025 · 我的解题课件库 · 三角函数</div>
+</div>
+
+<script>
+(function(){
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var slider = document.getElementById('omegaSlider');
+  var omegaValEl = document.getElementById('omegaVal');
+  var phiValEl = document.getElementById('phiVal');
+  var uRangeEl = document.getElementById('uRange');
+  var monoBadge = document.getElementById('monoBadge');
+  var nextBtn = document.getElementById('nextBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var stepsWrap = document.getElementById('stepsWrap');
+  var options = document.querySelectorAll('#options .opt');
+  var ansMsg = document.getElementById('ansMsg');
+
+  var CORRECT = 'B';
+  var stepIndex = 0;
+  var totalSteps = stepsWrap.querySelectorAll('.step').length;
+
+  // Compute phi given omega (odd): phi = omega*pi/4 + m*pi, choose m so |phi|<pi/2
+  function computePhi(omega){
+    var base = omega * Math.PI / 4;
+    // reduce base to (-pi, pi]
+    var reduced = base - Math.round(base / Math.PI) * Math.PI;
+    if (reduced > Math.PI/2) reduced -= Math.PI;
+    if (reduced < -Math.PI/2) reduced += Math.PI;
+    return reduced;
+  }
+
+  function gcd(a, b){
+    a = Math.abs(a); b = Math.abs(b);
+    while (b){ var t = b; b = a % b; a = t; }
+    return a;
+  }
+
+  function formatPi(v){
+    var k = v / Math.PI;
+    if (Math.abs(k) < 1e-9) return '0';
+    var num = k * 4;
+    var n = Math.round(num);
+    var sign = n < 0 ? '-' : '';
+    var an = Math.abs(n);
+    if (an % 4 === 0){
+      var whole = an / 4;
+      if (whole === 1) return sign + 'π';
+      return sign + whole + 'π';
+    }
+    var g = gcd(an, 4);
+    var a = an / g;
+    var b = 4 / g;
+    if (a === 1){
+      return sign + 'π/' + b;
+    }
+    return sign + a + 'π/' + b;
+  }
+
+  // Check if sin(omega*x+phi) is monotonic on (pi/18, 5pi/36)
+  function isMonotonic(omega, phi){
+    var x1 = Math.PI/18;
+    var x2 = 5*Math.PI/36;
+    var u1 = omega*x1 + phi;
+    var u2 = omega*x2 + phi;
+    var lo = Math.min(u1, u2);
+    var hi = Math.max(u1, u2);
+    var kmin = Math.ceil((lo - Math.PI/2)/Math.PI + 1e-9);
+    var kmax = Math.floor((hi - Math.PI/2)/Math.PI - 1e-9);
+    return kmin > kmax;
+  }
+
+  function draw(){
+    var omega = parseInt(slider.value, 10);
+    var phi = computePhi(omega);
+
+    omegaValEl.textContent = omega;
+    phiValEl.textContent = formatPi(phi);
+
+    var x1 = Math.PI/18;
+    var x2 = 5*Math.PI/36;
+    var u1 = omega*x1 + phi;
+    var u2 = omega*x2 + phi;
+    var lo = Math.min(u1, u2);
+    var hi = Math.max(u1, u2);
+    uRangeEl.textContent = '(' + formatPi(lo) + ', ' + formatPi(hi) + ')';
+
+    var mono = isMonotonic(omega, phi);
+    if (mono){
+      monoBadge.textContent = '✓ ω=' + omega + ' 单调';
+      monoBadge.className = 'badge-mono badge-ok';
+    } else {
+      monoBadge.textContent = '✗ ω=' + omega + ' 不单调';
+      monoBadge.className = 'badge-mono badge-no';
+    }
+
+    var W = cv.width;
+    var H = cv.height;
+    var padL = 50, padR = 20, padT = 24, padB = 36;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var xMin = -Math.PI/2;
+    var xMax = Math.PI/2;
+    var yMin = -1.4;
+    var yMax = 1.4;
+
+    function xToPx(x){ return padL + (x - xMin)/(xMax - xMin) * plotW; }
+    function yToPx(y){ return padT + (yMax - y)/(yMax - yMin) * plotH; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.fillStyle = '#fafbff';
+    ctx.fillRect(padL, padT, plotW, plotH);
+
+    ctx.strokeStyle = '#e8ebf2';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    var xGrid = [-Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2];
+    for (var i = 0; i < xGrid.length; i++){
+      var px = xToPx(xGrid[i]);
+      ctx.moveTo(px, padT);
+      ctx.lineTo(px, padT + plotH);
+    }
+    for (var j = -1; j <= 1; j++){
+      var py = yToPx(j);
+      ctx.moveTo(padL, py);
+      ctx.lineTo(padL + plotW, py);
+    }
+    ctx.stroke();
+
+    // highlight monotonic interval
+    ctx.fillStyle = 'rgba(102,126,234,0.18)';
+    ctx.fillRect(xToPx(x1), padT, xToPx(x2)-xToPx(x1), plotH);
+    ctx.strokeStyle = 'rgba(102,126,234,0.5)';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(x1), padT);
+    ctx.lineTo(xToPx(x1), padT+plotH);
+    ctx.moveTo(xToPx(x2), padT);
+    ctx.lineTo(xToPx(x2), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // axes
+    ctx.strokeStyle = '#9aa3b2';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, yToPx(0));
+    ctx.lineTo(padL+plotW, yToPx(0));
+    ctx.moveTo(xToPx(0), padT);
+    ctx.lineTo(xToPx(0), padT+plotH);
+    ctx.stroke();
+
+    // axis labels
+    ctx.fillStyle = '#7a8499';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    var xLabels = [
+      {v:-Math.PI/4, t:'-π/4'},
+      {v:0, t:'0'},
+      {v:Math.PI/4, t:'π/4'},
+      {v:Math.PI/2, t:'π/2'}
+    ];
+    for (var k = 0; k < xLabels.length; k++){
+      ctx.fillText(xLabels[k].t, xToPx(xLabels[k].v), yToPx(0)+16);
+    }
+    ctx.textAlign = 'right';
+    ctx.fillText('1', padL-6, yToPx(1)+4);
+    ctx.fillText('-1', padL-6, yToPx(-1)+4);
+
+    // sine curve
+    ctx.strokeStyle = '#667eea';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    var first = true;
+    var steps = 600;
+    for (var s = 0; s <= steps; s++){
+      var x = xMin + (xMax - xMin) * s / steps;
+      var y = Math.sin(omega * x + phi);
+      var cx = xToPx(x);
+      var cy = yToPx(y);
+      if (first){ ctx.moveTo(cx, cy); first = false; }
+      else ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+
+    // axis of symmetry x=pi/4 (orange dashed)
+    ctx.strokeStyle = '#ff9800';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8,5]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(Math.PI/4), padT);
+    ctx.lineTo(xToPx(Math.PI/4), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#ff9800';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('对称轴 x=π/4', xToPx(Math.PI/4), padT-6);
+
+    // zero point x=-pi/4 (green dot)
+    var zx = xToPx(-Math.PI/4);
+    var zy = yToPx(Math.sin(omega*(-Math.PI/4)+phi));
+    ctx.fillStyle = '#4caf50';
+    ctx.beginPath();
+    ctx.arc(zx, zy, Math.abs(5), 0, 2*Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#2e7d32';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('零点', zx, zy - 10);
+
+    // monotonicity badge on canvas
+    ctx.font = 'bold 15px sans-serif';
+    var badgeText = mono ? ('✓ ω=' + omega + ' 单调') : ('✗ ω=' + omega + ' 不单调');
+    var badgeColor = mono ? '#2e7d32' : '#c62828';
+    var badgeBg = mono ? 'rgba(232,245,233,0.9)' : 'rgba(255,235,235,0.9)';
+    var tw = ctx.measureText(badgeText).width;
+    ctx.fillStyle = badgeBg;
+    ctx.fillRect(padL+8, padT+8, tw+18, 26);
+    ctx.fillStyle = badgeColor;
+    ctx.textAlign = 'left';
+    ctx.fillText(badgeText, padL+17, padT+26);
+  }
+
+  function resize(){
+    var rect = cv.getBoundingClientRect();
+    var w = Math.max(320, Math.floor(rect.width));
+    var h = Math.floor(w * 0.5);
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = w * dpr;
+    cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cv.style.height = h + 'px';
+    draw();
+  }
+
+  function showNextStep(){
+    if (stepIndex >= totalSteps){
+      stepIndex = totalSteps;
+      return;
+    }
+    stepIndex++;
+    var steps = stepsWrap.querySelectorAll('.step');
+    for (var i = 0; i < stepIndex; i++){
+      steps[i].classList.add('show');
+    }
+    if (stepIndex >= totalSteps){
+      nextBtn.textContent = '已完成';
+    }
+  }
+
+  function resetSteps(){
+    stepIndex = 0;
+    var steps = stepsWrap.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++){
+      steps[i].classList.remove('show');
+    }
+    nextBtn.textContent = '下一步';
+  }
+
+  function bindOptions(){
+    for (var i = 0; i < options.length; i++){
+      options[i].addEventListener('click', function(){
+        var key = this.getAttribute('data-key');
+        var isRight = key === CORRECT;
+        for (var j = 0; j < options.length; j++){
+          options[j].classList.add('disabled');
+          if (options[j].getAttribute('data-key') === CORRECT){
+            options[j].classList.add('correct');
+          }
+        }
+        if (!isRight){
+          this.classList.add('wrong');
+        }
+        ansMsg.className = 'answer-msg show ' + (isRight ? 'ok' : 'bad');
+        if (isRight){
+          ansMsg.textContent = '✓ 回答正确！ω 的最大值为 9，选 B。';
+        } else {
+          ansMsg.textContent = '✗ 再想想。提示：先由对称性判定 ω 为奇数，再从大往小检验单调性。';
+        }
+      });
+    }
+  }
+
+  function renderMath(){
+    if (window.renderMathInElement){
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '<span class="math">', right: '</span>', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  function init(){
+    resize();
+    bindOptions();
+    slider.addEventListener('input', draw);
+    slider.addEventListener('change', draw);
+    slider.addEventListener('touchstart', function(e){ e.preventDefault(); }, {passive:false});
+    slider.addEventListener('touchmove', function(e){ e.preventDefault(); }, {passive:false});
+    slider.addEventListener('touchend', function(e){ e.preventDefault(); }, {passive:false});
+
+    nextBtn.addEventListener('click', showNextStep);
+    resetBtn.addEventListener('click', resetSteps);
+
+    window.addEventListener('resize', resize);
+
+    var tries = 0;
+    function tryRender(){
+      if (window.katex){
+        renderMath();
+      } else if (tries < 50){
+        tries++;
+        setTimeout(tryRender, 100);
+      }
+    }
+    tryRender();
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
