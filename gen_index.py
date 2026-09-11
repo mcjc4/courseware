@@ -78,7 +78,7 @@ def scan_lessons():
     return items
 
 
-CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-tags="{tags_attr}">
+CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-num="{num_attr}" data-tags="{tags_attr}">
       <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
@@ -144,7 +144,11 @@ PAGE_TMPL = """<!DOCTYPE html>
     padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
     background:#f8fbff; color:#1f2d3d; font-family:inherit;
   }}
-  .fld input:focus {{ outline:none; border-color:#4f8ef7; }}
+  .fld input:focus, .fld select:focus {{ outline:none; border-color:#4f8ef7; }}
+  .fld select.sort-select {{
+    padding:9px 10px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
+    background:#f8fbff; color:#1f2d3d; font-family:inherit; cursor:pointer;
+  }}
   .popup-filter {{ position:relative; }}
   .filter-btn {{
     padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
@@ -318,6 +322,15 @@ PAGE_TMPL = """<!DOCTYPE html>
       <label>\u641c\u7d22\u6807\u9898/\u6765\u6e90</label>
       <input id="fSearch" placeholder="\u8f93\u5165\u5173\u952e\u5b57\u2026" autocomplete="off">
     </div>
+    <div class="fld">
+      <label>\u6392\u5e8f</label>
+      <select id="fSort" class="sort-select">
+        <option value="date-desc" selected>\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="date-asc">\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="num-desc">\u7f16\u53f7 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="num-asc">\u7f16\u53f7 \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+      </select>
+    </div>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
@@ -338,6 +351,20 @@ PAGE_TMPL = """<!DOCTYPE html>
   var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate'}};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
+  var fSort=document.getElementById('fSort');
+
+  function sortCards(){{
+    var mode=fSort.value||'date-desc';
+    var byDate=mode.indexOf('date')===0;
+    var desc=mode.indexOf('-desc')>0;
+    var sorted=cards.slice().sort(function(a,b){{
+      var ka=byDate?(a.dataset.date||''):(+a.dataset.num||0);
+      var kb=byDate?(b.dataset.date||''):(+b.dataset.num||0);
+      var r=ka<kb?-1:(ka>kb?1:0);
+      return desc?-r:r;
+    }});
+    sorted.forEach(function(c){{grid.appendChild(c);}});
+  }}
 
   function updateDateCnt(){{
     var n=(dateFrom.value?1:0)+(dateTo.value?1:0);
@@ -383,6 +410,7 @@ PAGE_TMPL = """<!DOCTYPE html>
   }}
 
   function apply(){{
+    sortCards();
     var q=fQ.value.trim().toLowerCase();
     currentQ=fQ.value.trim();
     var n=0;
@@ -475,6 +503,7 @@ PAGE_TMPL = """<!DOCTYPE html>
   }});
 
   fQ.addEventListener('input',apply);
+  fSort.addEventListener('change',apply);
   document.getElementById('fReset').addEventListener('click',function(){{
     ['subject','chapter','knowledge','method','date'].forEach(function(f){{
       sets[f].clear();
@@ -484,6 +513,8 @@ PAGE_TMPL = """<!DOCTYPE html>
     dateFrom.value='';dateTo.value='';updateDateCnt();
     fQ.value='';apply();
   }});
+
+  sortCards();
 }})();
 </script>
 </body>
@@ -693,6 +724,7 @@ def main():
         source_html = f'<div class="src">{html.escape(it["source"])}</div>' if it['source'] else ''
         cards.append(CARD_TMPL.format(
             link=it['link'], number=it['number'] or it['num'], title=html.escape(it['title']),
+            num_attr=html.escape(str(it['order'])),
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
