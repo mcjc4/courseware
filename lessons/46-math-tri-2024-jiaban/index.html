@@ -567,7 +567,7 @@ var STEPS = [
   { tx: '配方凑 (a+c)²', v: 3, desc: '目标 $\\sin A+\\sin C$，而正弦定理说它 $=\\dfrac{a+c}{2R}$ —— 需要 $a+c$！把手里信息配方：<div class="formula">$(a+c)^2=a^2+c^2+2ac=\\dfrac{13}{4}ac+\\dfrac{8}{4}ac=\\dfrac{21}{4}ac$</div><b>题眼在这一步</b>：$+2ac$ 的系数千万别配错（D 选项就是配成 $+ac$ 的尸体）。' },
   { tx: '√ac 换算成 b', v: 4, desc: '由 $b^2=\\dfrac94 ac$ 得 $\\sqrt{ac}=\\dfrac{2b}{3}$，于是<div class="formula">$a+c=\\dfrac{\\sqrt{21}}{2}\\cdot\\dfrac{2b}{3}=\\dfrac{\\sqrt{21}}{3}b$</div>万事俱备：$a+c$ 用 $b$ 表出，只差 $R$。' },
   { tx: '正弦定理收网', v: 5, desc: '$b=2R\\sin B=2R\\cdot\\dfrac{\\sqrt3}{2}=\\sqrt3 R\\Rightarrow R=\\dfrac{b}{\\sqrt3}$：<div class="formula">$\\sin A+\\sin C=\\dfrac{a+c}{2R}=\\dfrac{\\frac{\\sqrt{21}}{3}b}{2\\cdot\\frac{b}{\\sqrt3}}=\\dfrac{\\sqrt{63}}{6}=\\dfrac{\\sqrt7}{2}$</div><span class="verdict ok">$b$ 被完美约掉 —— 齐次式的红利 ✓</span> 例三角形实测：$4.583/(2\\times1.732)\\approx1.323$ ✓。' },
-  { tx: '收网选 C + 排尸', v: 5, desc: '<div class="formula">$\\boxed{\\sin A+\\sin C=\\dfrac{\\sqrt7}{2}\\quad\\text{选 C}}</div>$验尸报告：A、B 的分子 $\\sqrt{39}$ 查无出处；D $\\dfrac{3\\sqrt{13}}{13}$ 是配方时 $+2ac$ 写成 $+ac$ 的产物（$\\frac{13}{4}+1=\\frac{17}{4}$ 对不上）。<b>配方系数错一格，答案就换一个墓碑。</b>' }
+  { tx: '收网选 C + 排尸', v: 5, desc: '<div class="formula">$\\boxed{\\sin A+\\sin C=\\dfrac{\\sqrt7}{2}\\quad\\text{选 C}}$</div>验尸报告：A、B 的分子 $\\sqrt{39}$ 查无出处；D $\\dfrac{3\\sqrt{13}}{13}$ 是配方时 $+2ac$ 写成 $+ac$ 的产物（$\\frac{13}{4}+1=\\frac{17}{4}$ 对不上）。<b>配方系数错一格，答案就换一个墓碑。</b>' }
 ];
 
 bindQuiz('q1-yes', 'q1-no', 'q1-fb', false,
