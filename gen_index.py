@@ -38,6 +38,20 @@ def extract_meta(path):
     return info
 
 
+def read_cmeta(path):
+    """读课件内 <script id="c-meta"> 静态清单（统计联动数据源）。
+    注意：KaTeX 内嵌样式块 ~280KB，c-meta 在其后，必须全文读取"""
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            head = f.read()
+        m = re.search(r'<script type="application/json" id="c-meta">(.*?)</script>', head, re.S)
+        if m:
+            return json.loads(m.group(1))
+    except Exception:
+        pass
+    return None
+
+
 def scan_lessons():
     items = []
     for d in sorted(glob.glob(os.path.join(LESSONS_DIR, '*'))) or []:
@@ -53,13 +67,24 @@ def scan_lessons():
         mtime = datetime.fromtimestamp(os.path.getmtime(idx_path)).strftime('%Y-%m-%d')
         # 制作日期：优先课件内 meta，回退文件 mtime
         cdate = meta.get('date') or mtime
+        cm = read_cmeta(idx_path) or {}
+        cid = cm.get('id') or ('course_' + re.sub(r'[^a-z0-9]+', '_', name.lower()).strip('_'))
+        cm_title = cm.get('title') or ''
+        # 41-47 类「45 · 题名」被按 · 分段成纯数字标题，用 c-meta 完整题名修正
+        title = cm_title if (meta['title'].isdigit() and cm_title) else meta['title']
+        sub = meta['sub'] or '互动解题课件'
+        if title == cm_title and cm_title and '\u00b7' in cm_title and meta['title'].isdigit():
+            sub = cm_title.partition('\u00b7')[2].strip() or sub
+            title = cm_title.partition('\u00b7')[0].strip()
         items.append({
             'order': order,
             'num': num.group(1).zfill(2) if num else '',
             'dir': name,
             'link': 'lessons/' + name + '/',
-            'title': meta['title'],
-            'sub': meta['sub'] or '互动解题课件',
+            'title': title,
+            'sub': sub,
+            'cid': cid,
+            'points': cm.get('points', []),
             'date': cdate,
             'subject': meta['subject'] or '未分类',
             'chapter': meta['chapter'] or '未分类',
@@ -78,12 +103,13 @@ def scan_lessons():
     return items
 
 
-CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-num="{num_attr}" data-tags="{tags_attr}">
+CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-num="{num_attr}" data-cid="{cid}" data-tags="{tags_attr}">
       <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
         <p class="sub">{sub}</p>
         <div class="tags">{tags}</div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
         {source_html}
         <span class="go">打开课件 \u2192</span>
       </div>
@@ -221,6 +247,13 @@ PAGE_TMPL = """<!DOCTYPE html>
     background:linear-gradient(120deg,#4f8ef7,#22c3a6);
     padding:5px 14px; border-radius:999px;
   }}
+  .cstat-line {{ margin-top:9px; }}
+  .c-badge {{ display:inline-block; font-size:11px; padding:2px 9px; border-radius:999px; background:#f1f4f8; color:#7c8aa0; font-weight:600; }}
+  .c-badge.st-forgot {{ background:#fee2e2; color:#dc2626; }}
+  .c-badge.st-fuzzy {{ background:#fef3c7; color:#b45309; }}
+  .c-badge.st-skilled {{ background:#ecfdf5; color:#059669; }}
+  .forget-min {{ width:64px; padding:5px 6px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; font-family:inherit; }}
+  .stat-meta {{ color:#93a7ba; }}
   .empty {{ grid-column:1/-1; text-align:center; padding:40px; color:#93a7ba; }}
   .foot {{ text-align:center; margin-top:34px; font-size:12px; color:#93a7ba; }}
   .foot a {{ color:#4f8ef7; text-decoration:none; }}
@@ -318,6 +351,27 @@ PAGE_TMPL = """<!DOCTYPE html>
         </div>
       </div>
     </div>
+    <div class="fld">
+      <label>\u72b6\u6001</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnStatus">\u72b6\u6001 <span class="cnt zero" id="cntStatus">0</span></button>
+        <div class="popup" id="popupStatus">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="new">⚪ \u672a\u8bad\u7ec3</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ \u9700\u91cd\u7ec3\uff08\u6709\u5fd8\u8bb0\uff09</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">😐 \u5f85\u5de9\u56fa\uff08\u6709\u6a21\u7cca\uff09</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ \u5df2\u638c\u63e1\uff08\u5168\u719f\u7ec3\uff09</label>
+          </div>
+          <div class="popup-options drange">
+            <label class="popup-option dr-row"><span>\u5fd8\u8bb0\u2265</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" id="forgetMinClear">\u6e05\u9664\u9608\u503c</button>
+            <button type="button" data-close="popupStatus">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="fld search">
       <label>\u641c\u7d22\u6807\u9898/\u6765\u6e90</label>
       <input id="fSearch" placeholder="\u8f93\u5165\u5173\u952e\u5b57\u2026" autocomplete="off">
@@ -325,16 +379,20 @@ PAGE_TMPL = """<!DOCTYPE html>
     <div class="fld">
       <label>\u6392\u5e8f</label>
       <select id="fSort" class="sort-select">
-        <option value="date-desc" selected>\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="forgot-desc" selected>\u5fd8\u8bb0\u6570 \u5012\u5e8f\uff08\u91cd\u7ec3\u4f18\u5148\uff09</option>
+        <option value="visit-desc">\u6d4f\u89c8\u65f6\u95f4 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="visit-asc">\u6d4f\u89c8\u65f6\u95f4 \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="date-desc">\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
         <option value="date-asc">\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
         <option value="num-desc">\u7f16\u53f7 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
         <option value="num-asc">\u7f16\u53f7 \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
       </select>
     </div>
+    <button class="reset-btn" id="statRefresh" type="button" title="\u4ece\u4e91\u7aef\u91cd\u65b0\u62c9\u53d6\u7edf\u8ba1">🔄 \u5237\u65b0\u7edf\u8ba1</button>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">\u5171 {count} \u4e2a\u8bfe\u4ef6</div>
+  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span></div>
 
   <div class="grid" id="grid">
 {cards}
@@ -347,20 +405,26 @@ PAGE_TMPL = """<!DOCTYPE html>
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set()}};
-  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate'}};
+  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set()}};
+  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus'}};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
   var fSort=document.getElementById('fSort');
+  var forgetMin=document.getElementById('forgetMin');
 
   function sortCards(){{
-    var mode=fSort.value||'date-desc';
-    var byDate=mode.indexOf('date')===0;
+    var mode=fSort.value||'forgot-desc';
     var desc=mode.indexOf('-desc')>0;
+    var keyOf=function(card){{
+      if(mode.indexOf('forgot')===0) return (+card.dataset.forgot||0);
+      if(mode.indexOf('visit')===0) return card.dataset.browse||card.dataset.date||'';
+      if(mode.indexOf('date')===0) return card.dataset.date||'';
+      return (+card.dataset.num||0);
+    }};
+    var numeric=(mode.indexOf('forgot')===0||mode.indexOf('num')===0);
     var sorted=cards.slice().sort(function(a,b){{
-      var ka=byDate?(a.dataset.date||''):(+a.dataset.num||0);
-      var kb=byDate?(b.dataset.date||''):(+b.dataset.num||0);
-      var r=ka<kb?-1:(ka>kb?1:0);
+      var ka=keyOf(a),kb=keyOf(b);
+      var r=numeric?(ka-kb):(ka<kb?-1:(ka>kb?1:0));
       return desc?-r:r;
     }});
     sorted.forEach(function(c){{grid.appendChild(c);}});
@@ -380,20 +444,26 @@ PAGE_TMPL = """<!DOCTYPE html>
   }}
 
   var currentQ='';
-  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法'}};
+  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'状态'}};
+  var SLBL={{new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'}};
   function syncChecks(f,v){{
     document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=false;}});
   }}
   function renderChips(){{
     var box=document.getElementById('activeFilters');
     var chips=[];
-    ['subject','chapter','knowledge','method'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','status'].forEach(function(f){{
       sets[f].forEach(function(v){{
-        chips.push({{label:FNAME[f]+'：'+v, del:function(){{sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}}}});
+        var shown=(f==='status')?(SLBL[v]||v):v;
+        chips.push({{label:FNAME[f]+'：'+shown, del:function(){{sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}}}});
       }});
     }});
+    var fm=parseInt(forgetMin.value,10)||0;
+    if(fm>0){{
+      chips.push({{label:'忘记≥'+fm, del:function(){{forgetMin.value='';apply();}}}});
+    }}
     if(dateFrom.value||dateTo.value){{
-      chips.push({{label:'日期：'+(dateFrom.value||'早期')+' ~ '+(dateTo.value||'今天'), del:function(){{dateFrom.value='';dateTo.value='';updateDateCnt();apply();}}}});
+      chips.push({{label:'浏览：'+(dateFrom.value||'早期')+' ~ '+(dateTo.value||'今天'), del:function(){{dateFrom.value='';dateTo.value='';updateDateCnt();apply();}}}});
     }}
     if(currentQ){{
       chips.push({{label:'搜索：'+currentQ, del:function(){{fQ.value='';currentQ='';apply();}}}});
@@ -413,20 +483,24 @@ PAGE_TMPL = """<!DOCTYPE html>
     sortCards();
     var q=fQ.value.trim().toLowerCase();
     currentQ=fQ.value.trim();
+    var fm=parseInt(forgetMin.value,10)||0;
     var n=0;
     cards.forEach(function(card){{
       var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
       var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
-      var dv=card.dataset.date||'';
+      var okSt=sets.status.size===0||sets.status.has(card.dataset.status);
+      var okFm=!fm||(+card.dataset.forgot||0)>=fm;
+      var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okD&&okQ;
+      var show=okS&&okC&&okK&&okM&&okSt&&okFm&&okD&&okQ;
       card.style.display=show?'':'none';
       if(show)n++;
     }});
-    info.textContent='\u5171 '+n+' \u4e2a\u8bfe\u4ef6';
+    var rc=document.getElementById('resultCount');
+    if(rc)rc.textContent=n; // 只更新数字；不能用 textContent 覆盖整个 resultInfo（会清掉 statMeta 子节点）
     var empty=document.getElementById('emptyHint');
     if(n===0){{
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
@@ -504,16 +578,22 @@ PAGE_TMPL = """<!DOCTYPE html>
 
   fQ.addEventListener('input',apply);
   fSort.addEventListener('change',apply);
+  forgetMin.addEventListener('input',apply);
+  document.getElementById('forgetMinClear').addEventListener('click',function(){{
+    forgetMin.value='';apply();
+  }});
   document.getElementById('fReset').addEventListener('click',function(){{
-    ['subject','chapter','knowledge','method','date'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','date','status'].forEach(function(f){{
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{cb.checked=false;}});
       updateCnt(f);
     }});
     dateFrom.value='';dateTo.value='';updateDateCnt();
+    forgetMin.value='';
     fQ.value='';apply();
   }});
 
+  __STATS_JS__
   sortCards();
 }})();
 </script>
@@ -697,6 +777,104 @@ render('');
 </html>'''
 
 
+# 统计联动 JS（经 .replace 注入 IIFE 内，花括号无需双写）
+STATS_JS = r"""
+/* ===== 统计联动：本机直读 + 云端 max 合并 + 徽章（SOP §3.2~3.4）===== */
+var COURSES = __COURSES_JSON__;
+var cardByCid={};
+cards.forEach(function(card){ var cid=card.dataset.cid; if(cid)cardByCid[cid]=card; });
+var STAT_CACHE='nav_course_stats_cache';
+var statMap={};
+function statusOf(s){
+  if(!s||(s.skilled+s.fuzzy+s.forgot)===0) return 'new';
+  if(s.forgot>0) return 'forgot';
+  if(s.fuzzy>0) return 'fuzzy';
+  return 'skilled';
+}
+function fmtTs(ts){ if(!ts)return ''; var d=new Date(ts); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function collectLocal(){
+  var out={};
+  COURSES.forEach(function(c){
+    var s={}; try{ s=JSON.parse(localStorage.getItem('cstat:'+c.id))||{}; }catch(e){}
+    var lv=0; try{ var v=JSON.parse(localStorage.getItem('cvisit:'+c.id)); if(v&&v.ts)lv=v.ts; }catch(e){}
+    out[c.id]={skilled:s.skilled||0,fuzzy:s.fuzzy||0,forgot:s.forgot||0,visit:lv};
+  });
+  return out;
+}
+function renderBadge(cv){
+  var card=cardByCid[cv.id]; if(!card)return;
+  var el=card.querySelector('.c-badge'); if(!el)return;
+  var s=cv.stats, st=cv.status;
+  card.dataset.status=st;
+  card.dataset.forgot=s.forgot||0;
+  card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
+  var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
+  if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when; el.className='c-badge st-new'; }
+  else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-forgot'; }
+  else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-fuzzy'; }
+  else { el.textContent='✅ 已掌握 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-skilled'; }
+}
+function applyStats(map){
+  statMap=map||{};
+  var local=collectLocal();
+  COURSES.forEach(function(cv){
+    var loc=local[cv.id]||{};
+    var cl=statMap[cv.id]||{};
+    // 逐字段 max 合并：累计计数只增不减，max 永不回退
+    cv.stats={
+      skilled:Math.max(loc.skilled||0,cl.skilled||0),
+      fuzzy:Math.max(loc.fuzzy||0,cl.fuzzy||0),
+      forgot:Math.max(loc.forgot||0,cl.forgot||0)
+    };
+    // 浏览时间：本机与云端取最大，为空回退制作日期
+    cv.visitReal=Math.max(loc.visit||0,cl.visit||0)||0;
+    cv.visitTs=cv.visitReal||((cv.date&&(new Date(cv.date).getTime()))||0);
+    cv.status=statusOf(cv.stats);
+    renderBadge(cv);
+  });
+  apply(); // apply 内含 sortCards，云端回来后顺序自动刷新（SOP §3.6）
+}
+function fetchCloud(isRetry){
+  var cfg={url:'https://mixuqjognbdrafrrlivc.supabase.co',key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'};
+  try{ var c=JSON.parse(localStorage.getItem('course_cloud_cfg')); if(c&&c.url&&c.key)cfg=c; }catch(e){}
+  var ctl=('AbortController' in window)?new AbortController():null;
+  var timer=ctl?setTimeout(function(){ try{ctl.abort();}catch(e){} },15000):null; // 15s！
+  var meta=document.getElementById('statMeta');
+  fetch(cfg.url.replace(/\/+$/,'')+'/rest/v1/course_stats?select=*',{
+    headers:{'apikey':cfg.key,'Authorization':'Bearer '+cfg.key},
+    signal:ctl?ctl.signal:undefined
+  })
+  .then(function(r){ if(!r.ok)throw new Error('http '+r.status); return r.json(); })
+  .then(function(rows){
+    var map={};
+    (rows||[]).forEach(function(r){
+      map[r.course_id]={skilled:r.skilled||0,fuzzy:r.fuzzy||0,forgot:r.forgot||0,
+                        visit:r.last_visit?new Date(r.last_visit).getTime():0};
+    });
+    applyStats(map);
+    try{ localStorage.setItem(STAT_CACHE,JSON.stringify({ts:Date.now(),rows:map})); }catch(e){}
+    if(meta)meta.textContent='· 云端 '+Object.keys(map).length+' 张已上报 '+fmtTs(Date.now());
+  })
+  .catch(function(){
+    if(!isRetry){ if(meta)meta.textContent='· 云端拉取中…'; setTimeout(function(){ fetchCloud(true); },2500); return; }
+    if(meta)meta.textContent='· 云端暂不可达，显示本机/缓存数据';
+    var c=null; try{ c=JSON.parse(localStorage.getItem(STAT_CACHE)); }catch(e){}
+    if(c&&c.rows)applyStats(c.rows); else applyStats(collectLocal());
+  })
+  .then(function(){ if(timer)clearTimeout(timer); });
+}
+// 首屏：缓存秒显 → 云端合并
+var cached0=null; try{ cached0=JSON.parse(localStorage.getItem(STAT_CACHE)); }catch(e){}
+applyStats(cached0&&cached0.rows?cached0.rows:collectLocal());
+fetchCloud();
+document.getElementById('statRefresh').addEventListener('click',function(){
+  var meta=document.getElementById('statMeta');
+  if(meta)meta.textContent='· 刷新中…';
+  fetchCloud();
+});
+"""
+
+
 def main():
     items = scan_lessons()
     subjects = sorted({it['subject'] for it in items if it['subject']})
@@ -725,6 +903,7 @@ def main():
         cards.append(CARD_TMPL.format(
             link=it['link'], number=it['number'] or it['num'], title=html.escape(it['title']),
             num_attr=html.escape(str(it['order'])),
+            cid=html.escape(it['cid']),
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
@@ -734,6 +913,14 @@ def main():
     cards_html = '\n'.join(cards) if cards else '    <div class="empty">暂无课件</div>'
 
     today = datetime.now().strftime('%Y-%m-%d')
+    courses_json = json.dumps([{
+        'id': it['cid'],
+        'title': it['title'],
+        'subject': it['subject'],
+        'chapter': it['chapter'],
+        'points': it['points'],
+        'date': it['date'],
+    } for it in items], ensure_ascii=False, separators=(',', ':'))
     page = PAGE_TMPL.format(
         count=len(items), subject_count=len(subjects), chapter_count=len(chapters),
         tag_count=len(all_tags),
@@ -742,9 +929,10 @@ def main():
         knowledge_checks=check_opts(knowledges, 'knowledge'),
         method_checks=check_opts(methods, 'method'),
         dmin=dates_asc[0] if dates_asc else '2026-01-01',
-        dmax=dates_asc[-1] if dates_asc else datetime.now().strftime('%Y-%m-%d'),
+        dmax=datetime.now().strftime('%Y-%m-%d'),
         cards=cards_html, date=today,
     )
+    page = page.replace('__STATS_JS__', STATS_JS).replace('__COURSES_JSON__', courses_json)
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(page)
     print(f'OK: index.html ({len(page)/1024:.0f} KB) - {len(items)} courseware')
