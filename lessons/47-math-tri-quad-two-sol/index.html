@@ -601,7 +601,7 @@ var STEPS = [
   { tx: '位置关系（胜负手）', v: 3, desc: '$BC\\perp CD$ 给的是 $\\angle BCD=90^\\circ$，但 $\\triangle ACD$ 要用的是 $\\angle ACD$ —— 隔着一个 $\\angle ACB$：<div class="formula">$\\angle ACD=90^\\circ-\\angle ACB\ \\Rightarrow\ \\cos\\angle ACD=\\sin\\angle ACB=\\dfrac{1}{\\sqrt5}$</div><b>角度和差没问清，整题直接崩盘</b> —— 这步是全卷胜负手。（若取 $90^\\circ+\\angle ACB$，$\\cos=-\\frac{1}{\\sqrt5}$，代回得到 $CD^2+6CD+5=0$ 无正根，自动淘汰。）' },
   { tx: '△ACD 余弦定理', v: 3, desc: '第二棒开跑：<div class="formula">$40=45+CD^2-2\\cdot3\\sqrt5\\cdot CD\\cdot\\dfrac{1}{\\sqrt5}=45+CD^2-6CD$</div>整理：<div class="formula">$CD^2-6CD+5=0$</div>一元二次方程就位 —— 深呼吸，它马上要吐出<b>两个</b>根了。' },
   { tx: '第一根 CD=1', v: 1, desc: '十字相乘 $(CD-1)(CD-5)=0$。动画把 D 拽到 $CD=1$ 的位置（红点移动）—— $AD=\\sqrt{(1-3)^2+36}=\\sqrt{40}=2\\sqrt{10}$ ✓ 完全合法。先别急着写答案，<b>方程还有一个根</b>。' },
-  { tx: '双解检验收网', v: 5, desc: '动画再拽到 $CD=5$：$AD=\\sqrt{(5-3)^2+36}=\\sqrt{40}=2\\sqrt{10}$ —— <b>同样合法！</b>两个位置都摆得出满足全部条件的四边形（两面小红旗）。<div class="formula">$\\boxed{CD=1\ \\text{或}\ 5}</div>口诀：<b>解完方程回图形</b> —— 几何摆得出来的都要；只写一个根，一半分数当场蒸发。' }
+  { tx: '双解检验收网', v: 5, desc: '动画再拽到 $CD=5$：$AD=\\sqrt{(5-3)^2+36}=\\sqrt{40}=2\\sqrt{10}$ —— <b>同样合法！</b>两个位置都摆得出满足全部条件的四边形（两面小红旗）。<div class="formula">$\\boxed{CD=1\ \\text{或}\ 5}$</div>口诀：<b>解完方程回图形</b> —— 几何摆得出来的都要；只写一个根，一半分数当场蒸发。' }
 ];
 
 bindQuiz('q1-yes', 'q1-no', 'q1-fb', true,
