@@ -406,9 +406,29 @@ raf=requestAnimationFrame(loop);
 #cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
 #cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
 #cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-#cstat-flash.show{opacity:1}
-@media (max-width:640px){ #cstat-label{display:none} }
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-label{color:#5c7185;font-weight:600}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
 </style>
+<div id="crate-bar" title="课件评价：这套课件质量如何">
+  <span id="crate-label">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg">👍 好</button>
+  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <span id="crate-counts"></span>
+  <span id="crate-flash"></span>
+</div>
 <div id="cstat-bar" title="学习自评：点击累计计数">
   <span id="cstat-label">📋 自评</span>
   <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
@@ -427,21 +447,41 @@ raf=requestAnimationFrame(loop);
   try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
   if (!CM || !CM.id) return;
   var CSTAT_KEY = 'cstat:' + CM.id;
+  var CRATE_KEY = 'crate:' + CM.id;
   function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
   function recordCourseState(state){
     var s = readS();
     s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
     s.ts = Date.now();
     try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
     try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
     window.dispatchEvent(new CustomEvent('cstat:change'));
-    render();
+    render(); renderR();
+    return reset;
   }
   window.__recordCourseState = recordCourseState;
+  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
+  function rateCourse(kind){
+    var r = readR();
+    r[kind] = (r[kind]||0)+1;
+    r.ts = Date.now();
+    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderR();
+    return r[kind]||0;
+  }
+  window.__rateCourse = rateCourse;
   function render(){
     var s = readS();
     var el = document.getElementById('cstat-counts');
     if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function renderR(){
+    var r = readR();
+    var el = document.getElementById('crate-counts');
+    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
   }
   function flash(msg){
     var el = document.getElementById('cstat-flash');
@@ -451,20 +491,32 @@ raf=requestAnimationFrame(loop);
     clearTimeout(flash._t);
     flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
   }
-  function bind(id, state, label){
+  function bind(id, state, label, extra){
     var btn = document.getElementById(id);
     if (!btn) return;
     btn.addEventListener('click', function(){
-      recordCourseState(state);
+      var reset = recordCourseState(state);
       var n = readS()[state]||0;
+      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
+      flash(msg);
+    });
+  }
+  function bindRate(id, kind, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var n = rateCourse(kind);
       flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
     });
   }
   function init(){
-    bind('cstat-sk','skilled','\u719f\u7ec3');
+    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
     bind('cstat-fz','fuzzy','\u6a21\u7cca');
     bind('cstat-fg','forgot','\u5fd8\u8bb0');
-    render();
+    bindRate('crate-good','good','\ud83d\udc4d \u597d');
+    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
+    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    render(); renderR();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
@@ -481,6 +533,7 @@ raf=requestAnimationFrame(loop);
   if (!CM || !CM.id) return;
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
+  var CRATE_KEY = 'crate:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
@@ -498,7 +551,9 @@ raf=requestAnimationFrame(loop);
   function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
   function compute(){
     var s = readJSON(CSTAT_KEY, {});
-    return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0 };
+    var r = readJSON(CRATE_KEY, {});
+    return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0,
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
   }
   var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
   function report(){
@@ -537,6 +592,7 @@ raf=requestAnimationFrame(loop);
       body: JSON.stringify([{
         course_id: CID,
         skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
+        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
       }])
@@ -550,7 +606,7 @@ raf=requestAnimationFrame(loop);
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
-    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) report(); });
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
   }
