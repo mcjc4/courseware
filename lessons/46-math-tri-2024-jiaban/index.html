@@ -167,6 +167,7 @@
     .controls { grid-template-columns: 1fr 1fr; }
   }
 </style>
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC · 动画分步课件","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11","number":"46"}</script><!--/CSTAT-META-->
 </head>
 <body>
 <div class="container">
@@ -731,5 +732,172 @@ syncSlider();
 window.addEventListener('resize', onResize);
 requestAnimationFrame(loop);
 </script>
+<!--CSTAT-BEGIN-->
+<style id="cstat-style">
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#cstat-label{color:#5c7185;font-weight:600}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show{opacity:1}
+@media (max-width:640px){ #cstat-label{display:none} }
+</style>
+<div id="cstat-bar" title="学习自评：点击累计计数">
+  <span id="cstat-label">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
+  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
+  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>
+/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
+(function(){
+  'use strict';
+  if (window.__cstatUI) return;
+  window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CSTAT_KEY = 'cstat:' + CM.id;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function recordCourseState(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render();
+  }
+  window.__recordCourseState = recordCourseState;
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      recordCourseState(state);
+      var n = readS()[state]||0;
+      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
+    });
+  }
+  function init(){
+    bind('cstat-sk','skilled','\u719f\u7ec3');
+    bind('cstat-fz','fuzzy','\u6a21\u7cca');
+    bind('cstat-fg','forgot','\u5fd8\u8bb0');
+    render();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<script>
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+(function(){
+  'use strict';
+  if (window.__cstatReporter) return;
+  window.__cstatReporter = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CID = CM.id;
+  var CSTAT_KEY = 'cstat:' + CID;
+  var CVISIT_KEY = 'cvisit:' + CID;
+  var AUTO_KEY  = 'course_auto_sync';
+  var CFG_KEY   = 'course_cloud_cfg';
+  var DEFAULT_CLOUD = {
+    url: 'https://mixuqjognbdrafrrlivc.supabase.co',
+    key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
+  };
+  var STATS_TABLE = 'course_stats';
+  function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function cloudCfg(){
+    var c = readJSON(CFG_KEY, null);
+    if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
+    return DEFAULT_CLOUD;
+  }
+  function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
+  function compute(){
+    var s = readJSON(CSTAT_KEY, {});
+    return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0 };
+  }
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  function report(){
+    var s = compute();
+    var snap = JSON.stringify(s);
+    if (snap !== lastLocal){
+      lastLocal = snap;
+      try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){}
+    }
+    var vt = 0;
+    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    if (!vt){ vt = Date.now(); try{ localStorage.setItem(CVISIT_KEY, JSON.stringify({ts:vt})); }catch(e){} }
+    if (snap !== lastCloud && autoOn()){
+      lastCloud = snap;
+      clearTimeout(cloudTimer);
+      cloudTimer = setTimeout(pushCloud, 3000);
+    }
+  }
+  function pushCloud(){
+    if (inFlight){ setTimeout(pushCloud, 1500); return; }
+    inFlight = true;
+    var s = compute();
+    var cfg = cloudCfg();
+    var vt = 0;
+    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    var ctl = null, timer = null;
+    try { ctl = new AbortController(); } catch(e){}
+    var opts = {
+      method: 'POST',
+      headers: {
+        'apikey': cfg.key,
+        'Authorization': 'Bearer ' + cfg.key,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplications,return=minimal'
+      },
+      body: JSON.stringify([{
+        course_id: CID,
+        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
+        updated_at: new Date().toISOString(),
+        last_visit: vt ? new Date(vt).toISOString() : null
+      }])
+    };
+    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
+      .catch(function(){ lastCloud = ''; })
+      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+  }
+  function watch(){
+    report();
+    window.addEventListener('cstat:change', report);
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) report(); });
+    window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
+    setInterval(function(){ if (!document.hidden) report(); }, 5000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
+  else watch();
+})();
+</script>
+<!--CSTAT-END-->
 </body>
 </html>
