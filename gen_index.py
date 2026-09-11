@@ -352,15 +352,39 @@ PAGE_TMPL = """<!DOCTYPE html>
       </div>
     </div>
     <div class="fld">
-      <label>\u72b6\u6001</label>
+      <label>\u5b66\u4e60\u81ea\u8bc4</label>
       <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnStatus">\u72b6\u6001 <span class="cnt zero" id="cntStatus">0</span></button>
+        <button class="filter-btn" type="button" id="btnStatus">\u5b66\u4e60\u81ea\u8bc4 <span class="cnt zero" id="cntStatus">0</span></button>
         <div class="popup" id="popupStatus">
           <div class="popup-options">
             <label class="popup-option"><input type="checkbox" data-filter="status" value="new">⚪ \u672a\u8bad\u7ec3</label>
             <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ \u9700\u91cd\u7ec3\uff08\u6709\u5fd8\u8bb0\uff09</label>
             <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">😐 \u5f85\u5de9\u56fa\uff08\u6709\u6a21\u7cca\uff09</label>
             <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ \u5df2\u638c\u63e1\uff08\u5168\u719f\u7ec3\uff09</label>
+          </div>
+          <div class="popup-options drange">
+            <label class="popup-option dr-row"><span>\u5fd8\u8bb0\u2265</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" id="forgetMinClear">\u6e05\u9664\u9608\u503c</button>
+            <button type="button" data-close="popupStatus">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>\u8bfe\u4ef6\u8bc4\u4ef7</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnRating">\u8bfe\u4ef6\u8bc4\u4ef7 <span class="cnt zero" id="cntRating">0</span></button>
+        <div class="popup" id="popupRating">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="good">👍 \u597d</label>
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="hard">📕 \u8bfe\u4ef6\u4e0d\u597d\u61c2</label>
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="teach">🗣\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d</label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" data-clear="rating">\u6e05\u9664</button>
+            <button type="button" data-close="popupRating">\u786e\u5b9a</button>
           </div>
           <div class="popup-options drange">
             <label class="popup-option dr-row"><span>\u5fd8\u8bb0\u2265</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
@@ -379,9 +403,9 @@ PAGE_TMPL = """<!DOCTYPE html>
     <div class="fld">
       <label>\u6392\u5e8f</label>
       <select id="fSort" class="sort-select">
-        <option value="forgot-desc" selected>\u5fd8\u8bb0\u6570 \u5012\u5e8f\uff08\u91cd\u7ec3\u4f18\u5148\uff09</option>
-        <option value="visit-desc">\u6d4f\u89c8\u65f6\u95f4 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
-        <option value="visit-asc">\u6d4f\u89c8\u65f6\u95f4 \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="visit-desc" selected>\u6d4f\u89c8\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="visit-asc">\u6d4f\u89c8\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="forgot-desc">\u5fd8\u8bb0\u6570 \u5012\u5e8f\uff08\u91cd\u7ec3\u4f18\u5148\uff09</option>
         <option value="date-desc">\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
         <option value="date-asc">\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
         <option value="num-desc">\u7f16\u53f7 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
@@ -405,15 +429,15 @@ PAGE_TMPL = """<!DOCTYPE html>
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set()}};
-  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus'}};
+  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set()}};
+  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating'}};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
   var fSort=document.getElementById('fSort');
   var forgetMin=document.getElementById('forgetMin');
 
   function sortCards(){{
-    var mode=fSort.value||'forgot-desc';
+    var mode=fSort.value||'visit-desc';
     var desc=mode.indexOf('-desc')>0;
     var keyOf=function(card){{
       if(mode.indexOf('forgot')===0) return (+card.dataset.forgot||0);
@@ -444,7 +468,8 @@ PAGE_TMPL = """<!DOCTYPE html>
   }}
 
   var currentQ='';
-  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'状态'}};
+  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价'}};
+  var RLBL={{good:'好',hard:'课件不好懂',teach:'没老师讲的好'}};
   var SLBL={{new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'}};
   function syncChecks(f,v){{
     document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=false;}});
@@ -452,9 +477,9 @@ PAGE_TMPL = """<!DOCTYPE html>
   function renderChips(){{
     var box=document.getElementById('activeFilters');
     var chips=[];
-    ['subject','chapter','knowledge','method','status'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','status','rating'].forEach(function(f){{
       sets[f].forEach(function(v){{
-        var shown=(f==='status')?(SLBL[v]||v):v;
+        var shown=(f==='status')?(SLBL[v]||v):((f==='rating')?(RLBL[v]||v):v);
         chips.push({{label:FNAME[f]+'：'+shown, del:function(){{sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}}}});
       }});
     }});
@@ -491,11 +516,13 @@ PAGE_TMPL = """<!DOCTYPE html>
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
       var okSt=sets.status.size===0||sets.status.has(card.dataset.status);
+      var cr=(card.dataset.rating||'').split(',');
+      var okRt=sets.rating.size===0||cr.some(function(v){{return v&&sets.rating.has(v);}});
       var okFm=!fm||(+card.dataset.forgot||0)>=fm;
       var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okSt&&okFm&&okD&&okQ;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okFm&&okD&&okQ;
       card.style.display=show?'':'none';
       if(show)n++;
     }});
@@ -583,7 +610,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     forgetMin.value='';apply();
   }});
   document.getElementById('fReset').addEventListener('click',function(){{
-    ['subject','chapter','knowledge','method','date','status'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','date','status','rating'].forEach(function(f){{
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{cb.checked=false;}});
       updateCnt(f);
@@ -796,10 +823,35 @@ function collectLocal(){
   var out={};
   COURSES.forEach(function(c){
     var s={}; try{ s=JSON.parse(localStorage.getItem('cstat:'+c.id))||{}; }catch(e){}
+    var r={}; try{ r=JSON.parse(localStorage.getItem('crate:'+c.id))||{}; }catch(e){}
     var lv=0; try{ var v=JSON.parse(localStorage.getItem('cvisit:'+c.id)); if(v&&v.ts)lv=v.ts; }catch(e){}
-    out[c.id]={skilled:s.skilled||0,fuzzy:s.fuzzy||0,forgot:s.forgot||0,visit:lv};
+    out[c.id]={skilled:s.skilled||0,fuzzy:s.fuzzy||0,forgot:s.forgot||0,
+               rg:r.good||0,rh:r.hard||0,rt:r.teach||0,
+               visit:lv,ts:s.ts||0};
   });
   return out;
+}
+// 清零感知合并：熟练清零后 fuzzy/forgot 变小，max 会复活旧值 → 新 ts 侧为 0 时取 0（清零生效），否则 max
+function mergeStats(loc,cl){
+  var lts=loc.ts||0,cts=cl.ts||0;
+  function cnt(lv,cvv){
+    lv=lv||0;cvv=cvv||0;
+    if(lts>cts&&lv===0&&cvv>0)return 0;
+    if(cts>lts&&cvv===0&&lv>0)return 0;
+    return Math.max(lv,cvv);
+  }
+  return {
+    skilled:Math.max(loc.skilled||0,cl.skilled||0),
+    fuzzy:cnt(loc.fuzzy,cl.fuzzy),
+    forgot:cnt(loc.forgot,cl.forgot)
+  };
+}
+function ratingStr(s){
+  var p=[];
+  if(s.rg)p.push('👍'+s.rg);
+  if(s.rh)p.push('📕'+s.rh);
+  if(s.rt)p.push('🗣️'+s.rt);
+  return p.length?(' · ⭐'+p.join(' ')):'';
 }
 function renderBadge(cv){
   var card=cardByCid[cv.id]; if(!card)return;
@@ -807,12 +859,16 @@ function renderBadge(cv){
   var s=cv.stats, st=cv.status;
   card.dataset.status=st;
   card.dataset.forgot=s.forgot||0;
+  var rk=[];
+  if(s.rg)rk.push('good'); if(s.rh)rk.push('hard'); if(s.rt)rk.push('teach');
+  card.dataset.rating=rk.join(',');
   card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
   var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
-  if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when; el.className='c-badge st-new'; }
-  else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-forgot'; }
-  else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-fuzzy'; }
-  else { el.textContent='✅ 已掌握 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when; el.className='c-badge st-skilled'; }
+  var rt=ratingStr(s);
+  if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when+rt; el.className='c-badge st-new'; }
+  else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-forgot'; }
+  else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-fuzzy'; }
+  else { el.textContent='✅ 已掌握 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-skilled'; }
 }
 function applyStats(map){
   statMap=map||{};
@@ -820,12 +876,12 @@ function applyStats(map){
   COURSES.forEach(function(cv){
     var loc=local[cv.id]||{};
     var cl=statMap[cv.id]||{};
-    // 逐字段 max 合并：累计计数只增不减，max 永不回退
-    cv.stats={
-      skilled:Math.max(loc.skilled||0,cl.skilled||0),
-      fuzzy:Math.max(loc.fuzzy||0,cl.fuzzy||0),
-      forgot:Math.max(loc.forgot||0,cl.forgot||0)
-    };
+    // 熟练清零感知合并（fuzzy/forgot 新侧为 0 取 0），skilled 只增不减
+    cv.stats=mergeStats(loc,cl);
+    // 评价：累计计数只增不减，max 合并
+    cv.stats.rg=Math.max(loc.rg||0,cl.rg||0);
+    cv.stats.rh=Math.max(loc.rh||0,cl.rh||0);
+    cv.stats.rt=Math.max(loc.rt||0,cl.rt||0);
     // 浏览时间：本机与云端取最大，为空回退制作日期
     cv.visitReal=Math.max(loc.visit||0,cl.visit||0)||0;
     cv.visitTs=cv.visitReal||((cv.date&&(new Date(cv.date).getTime()))||0);
@@ -849,7 +905,9 @@ function fetchCloud(isRetry){
     var map={};
     (rows||[]).forEach(function(r){
       map[r.course_id]={skilled:r.skilled||0,fuzzy:r.fuzzy||0,forgot:r.forgot||0,
-                        visit:r.last_visit?new Date(r.last_visit).getTime():0};
+                        rg:r.rating_good||0,rh:r.rating_hard||0,rt:r.rating_teach||0,
+                        visit:r.last_visit?new Date(r.last_visit).getTime():0,
+                        ts:r.updated_at?new Date(r.updated_at).getTime():0};
     });
     applyStats(map);
     try{ localStorage.setItem(STAT_CACHE,JSON.stringify({ts:Date.now(),rows:map})); }catch(e){}
