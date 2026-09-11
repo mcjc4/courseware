@@ -594,7 +594,7 @@ var STEPS = [
   { tx: '选项 B：最大边定钝活', v: 1, desc: '判钝角只看最大边 $c=4t$ 的对角 $C$：<div class="formula">$\\cos C=\\dfrac{a^2+b^2-c^2}{2ab}=\\dfrac{4+9-16}{12}t^0=-\\dfrac14&lt;0$</div>$\\cos C&lt;0\\Rightarrow C$ 是钝角（$104.48^\\circ$，看红色弧）。<span class="verdict ok">B 对 ✓</span> 速判：$2^2+3^2=13&lt;16=4^2$，最大角必钝。' },
   { tx: '选项 C：海伦 + 倍数陷阱', v: 2, desc: '$a+b+c=18\\Rightarrow 9t=18\\Rightarrow t=2$，三边 $4,6,8$，$s=9$：<div class="formula">$\\Delta=\\sqrt{9\\times5\\times3\\times1}=\\sqrt{135}=3\\sqrt{15}$</div><span class="verdict no">C 错 ✗</span> 陷阱拆解：边翻倍（$t:1\\to2$），面积变 <b>4 倍</b>（相似比平方）：$4\\times\\frac{3\\sqrt{15}}{4}=3\\sqrt{15}$。命题人的 $6\\sqrt{15}$ 赌你以为面积只翻一倍。' },
   { tx: '选项 D：R 与 r 硬算', v: 1, desc: '$t=1$：$\\Delta=\\dfrac{3\\sqrt{15}}{4}$，$s=\\dfrac{9}{2}$。<div class="formula">$R=\\dfrac{abc}{4\\Delta}=\\dfrac{8}{\\sqrt{15}},\\quad r=\\dfrac{\\Delta}{s}=\\dfrac{\\sqrt{15}}{6}$</div>$5R=\\dfrac{8\\sqrt{15}}{3}=16r$ —— <span class="verdict ok">D 对 ✓</span> 看画布：紫色外接圆、青色内切圆同屏，两个公式硬代 30 秒，没有捷径。' },
-  { tx: '收网：答案 BD', v: 1, desc: '<div class="formula">$\\boxed{\\text{答案：BD}}</div>$复盘四刀：A 概念刀（角比≠正弦比）、B 符号刀（$\\cos C=-\\dfrac14&lt;0$）、C 陷阱刀（边翻倍面积×4）、D 硬算刀（$R=\\frac{abc}{4\\Delta}$、$r=\\frac{\\Delta}{s}$）。多选题不玄学，<b>逐项上秤</b>就是最稳的打法。' }
+  { tx: '收网：答案 BD', v: 1, desc: '<div class="formula">$\\boxed{\\text{答案：BD}}$</div>复盘四刀：A 概念刀（角比≠正弦比）、B 符号刀（$\\cos C=-\\dfrac14&lt;0$）、C 陷阱刀（边翻倍面积×4）、D 硬算刀（$R=\\frac{abc}{4\\Delta}$、$r=\\frac{\\Delta}{s}$）。多选题不玄学，<b>逐项上秤</b>就是最稳的打法。' }
 ];
 
 bindQuiz('q1-yes', 'q1-no', 'q1-fb', false,
