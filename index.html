@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="oArLwdkJvgDGzAzH2hCNFk">
+<head data-page-node-id="BnIL8S1XFFN8HJATS82hMM">
+<meta charset="UTF-8" data-page-node-id="6bGMExyQ9jy7ETTlOw5534">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="3BsvSh245lYDEKaEJ4Vk5R">
 <title>昕言解题课件库 · 互动课件导航</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -75,6 +75,9 @@
   .popup-actions { display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid #eef2f8; }
   .popup-actions button { padding:5px 14px; border:1px solid #d6e4f2; border-radius:8px; font-size:12px; cursor:pointer; background:#fff; color:#5c7185; font-family:inherit; }
   .popup-actions button:hover { background:#f0f5ff; color:#2a6df4; }
+  .popup-options.drange { display:flex; flex-direction:column; gap:8px; }
+  .popup-options .dr-row { display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .popup-options .dr-row select { flex:1; padding:6px 8px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; background:#fff; color:#1f2d3d; font-family:inherit; }
   .reset-btn {
     background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
     padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
@@ -113,578 +116,579 @@
   .foot a { color:#4f8ef7; text-decoration:none; }
 </style>
 </head>
-<body>
-<div class="wrap">
-  <div class="hero">
-    <span class="tag">互动解题课件库 · 单文件离线可用</span>
-    <a class="mgmt" href="manage.html">标签管理 →</a>
-    <h1>昕言解题课件库</h1>
-    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式编译，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 解法 / 日期</b>弹窗多选筛选。</p>
-    <div class="stat">
-      <div><b>47</b><span>个课件</span></div>
-      <div><b>4</b><span>个学科</span></div>
-      <div><b>16</b><span>个章节</span></div>
-      <div><b>53</b><span>个标签</span></div>
+<body data-page-node-id="eFTZiAZRW44pDFoXkNuEpN">
+<div class="wrap" data-page-node-id="QGVgG5E68uppueCYPHVYnz">
+  <div class="hero" data-page-node-id="u6etd3ZrnSbXoTHCIxU3Fz">
+    <span class="tag" data-page-node-id="Bh1WHUYfPyddeBRETlShIW">互动解题课件库 · 单文件离线可用</span>
+    <a class="mgmt" href="manage.html" data-page-node-id="cuGGXGTuUk3MJOZe2h4oDi">标签管理 →</a>
+    <h1 data-page-node-id="I2YKfztC8Ge71E70avU5qI">昕言解题课件库</h1>
+    <p data-page-node-id="aSD79n1wD7ZmECP5OJ3muw">Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式编译，全部内嵌单文件，可离线打开。支持按<b data-page-node-id="31PASr5FbtwcFRRqi20d5I">学科 / 章节 / 知识点 / 解法 / 日期</b>弹窗多选筛选。</p>
+    <div class="stat" data-page-node-id="LpuEimyW0R8qlBUIs66zQF">
+      <div data-page-node-id="pBe2cbk1ckHGaWHXAVCxWa"><b data-page-node-id="LPFxNDQDY5WaElcjUVpKfo">47</b><span data-page-node-id="7FreVMPGR1D2r2xYPxH2a3">个课件</span></div>
+      <div data-page-node-id="lhFzl50mansid3RiPnap8f"><b data-page-node-id="HEHubCzpikAueyDqNbRAPa">4</b><span data-page-node-id="MIHVSVMQm7OdSfkRXX32GV">个学科</span></div>
+      <div data-page-node-id="G7WKKPdMkAKAcBFeLeVFid"><b data-page-node-id="9GexJr5SDbVJsPcKWRVa5U">16</b><span data-page-node-id="8Az99O6TUBHAMYCmmYzawC">个章节</span></div>
+      <div data-page-node-id="yRvpvaB0Yt1La814iymN3J"><b data-page-node-id="QoSgByvCxAECms9icwb9Ml">53</b><span data-page-node-id="kkAOcXesVHH5UVtpP8nN7X">个标签</span></div>
     </div>
   </div>
 
-  <div class="filters">
-    <div class="fld">
-      <label>学科</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnSubject">学科 <span class="cnt zero" id="cntSubject">0</span></button>
-        <div class="popup" id="popupSubject">
-          <input class="popup-search" placeholder="搜索…" id="searchSubject">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="subject" value="化学">化学</label><label class="popup-option"><input type="checkbox" data-filter="subject" value="数学">数学</label><label class="popup-option"><input type="checkbox" data-filter="subject" value="物理">物理</label><label class="popup-option"><input type="checkbox" data-filter="subject" value="高中数学">高中数学</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="subject">☑ 全选</button>
-            <button type="button" data-clear="subject">清除</button>
-            <button type="button" data-close="popupSubject">确定</button>
+  <div class="filters" data-page-node-id="ezaBxDKcXFe58Xsin6LON3">
+    <div class="fld" data-page-node-id="W6fHQ48y7oCNEGYR47UxgD">
+      <label data-page-node-id="vHSEScjHHuYiX06FDp1D96">学科</label>
+      <div class="popup-filter" data-page-node-id="tfCiMLqizBeE0Zw4USdud8">
+        <button class="filter-btn" type="button" id="btnSubject" data-page-node-id="awy8m3rjg2D8DaWlQ3VClV">学科 <span class="cnt zero" id="cntSubject" data-page-node-id="8OrUzoB9DXuCXwuOFwW78h">0</span></button>
+        <div class="popup" id="popupSubject" data-page-node-id="j1IzxPzRcuxN04Ad0oIFAG">
+          <input class="popup-search" placeholder="搜索…" id="searchSubject" data-page-node-id="FgvrfIthg1E2ReBsR9XzFD">
+          <div class="popup-options" data-page-node-id="csQsKgCJvCNy36BPsFwAjb"><label class="popup-option" data-page-node-id="S9cx6BIpvF1GsGdXTDkyE7"><input type="checkbox" data-filter="subject" value="化学" data-page-node-id="3oJXVraKAcRM6a5H2x9c21">化学</label><label class="popup-option" data-page-node-id="hPPfXyhYJ0OeCGmCEGE3mD"><input type="checkbox" data-filter="subject" value="数学" data-page-node-id="70nogE6TNqGq7wQYvCauGS">数学</label><label class="popup-option" data-page-node-id="IaoCpMnlCTdudMkG2TIyYd"><input type="checkbox" data-filter="subject" value="物理" data-page-node-id="I5dOWHOiG0Cbbo0X0YBNsa">物理</label><label class="popup-option" data-page-node-id="E9GLueRBGmGJYleAUTi2dV"><input type="checkbox" data-filter="subject" value="高中数学" data-page-node-id="Y5gIj2RXLQL3n8G5Sr1GPE">高中数学</label></div>
+          <div class="popup-actions" data-page-node-id="ER8dA0J3ZTPX8E1zclulrN">
+            <button type="button" data-all="subject" data-page-node-id="5oZtTGgaEAWyblvuy4byMl">☑ 全选</button>
+            <button type="button" data-clear="subject" data-page-node-id="exxXWbYA4nxcXGhKkLmQTF">清除</button>
+            <button type="button" data-close="popupSubject" data-page-node-id="YIJ3FZS2MVZ5t8kaGtytC8">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld">
-      <label>所属章节</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnChapter">章节 <span class="cnt zero" id="cntChapter">0</span></button>
-        <div class="popup" id="popupChapter">
-          <input class="popup-search" placeholder="搜索…" id="searchChapter">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="chapter" value="万有引力与航天">万有引力与航天</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="三角函数">三角函数</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="三角函数 · 图象与性质">三角函数 · 图象与性质</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="三角函数 · 图象变换">三角函数 · 图象变换</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="匀变速直线运动">匀变速直线运动</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="原子核物理">原子核物理</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="原子物理-电子发现">原子物理-电子发现</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="数列·等差数列与求和">数列·等差数列与求和</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="机械波">机械波</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="电磁学综合">电磁学综合</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="解三角形·三角形形状判断">解三角形·三角形形状判断</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="解三角形·平面图形中的解三角形">解三角形·平面图形中的解三角形</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="解三角形·边角关系综合">解三角形·边角关系综合</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="解三角形·边角综合求值">解三角形·边角综合求值</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="金属及其化合物">金属及其化合物</label><label class="popup-option"><input type="checkbox" data-filter="chapter" value="铝及其化合物">铝及其化合物</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="chapter">☑ 全选</button>
-            <button type="button" data-clear="chapter">清除</button>
-            <button type="button" data-close="popupChapter">确定</button>
+    <div class="fld" data-page-node-id="yd2f2L0bH7MmeRMOBFZR8E">
+      <label data-page-node-id="SKtUejyzG2bmzRBmQbSfqQ">所属章节</label>
+      <div class="popup-filter" data-page-node-id="ge9LMbvQT30vqlrwpNpTHD">
+        <button class="filter-btn" type="button" id="btnChapter" data-page-node-id="csiv9O2dhZIUeOszFczkof">章节 <span class="cnt zero" id="cntChapter" data-page-node-id="ejJn0LEF4UuXWjxKZBnQ0Z">0</span></button>
+        <div class="popup" id="popupChapter" data-page-node-id="fKxLzLnFUVHzOEaATBYtlE">
+          <input class="popup-search" placeholder="搜索…" id="searchChapter" data-page-node-id="MxIoLmTE157BbUO08IkN9N">
+          <div class="popup-options" data-page-node-id="6viz0jg9Es9IDQqHyKJxeh"><label class="popup-option" data-page-node-id="dXVSF5qasI1Kgq0M3QXWvJ"><input type="checkbox" data-filter="chapter" value="万有引力与航天" data-page-node-id="wdGSbTWDXRNsOQ9M7JqEpu">万有引力与航天</label><label class="popup-option" data-page-node-id="626HHtGmydBhbm5RweCeLa"><input type="checkbox" data-filter="chapter" value="三角函数" data-page-node-id="06qx54AAEe7aIr0R3ZeTCB">三角函数</label><label class="popup-option" data-page-node-id="stnAHi4nP2BCzsBUiW3HcR"><input type="checkbox" data-filter="chapter" value="三角函数 · 图象与性质" data-page-node-id="DoGvMToLjlmHzrgcGTfT6F">三角函数 · 图象与性质</label><label class="popup-option" data-page-node-id="x0GiFe48Po4X0WPnwTAGNc"><input type="checkbox" data-filter="chapter" value="三角函数 · 图象变换" data-page-node-id="XgzDeiF3Jhwe7LCdCpAKcb">三角函数 · 图象变换</label><label class="popup-option" data-page-node-id="H4fnYm40kCpP7c1NTGTtVi"><input type="checkbox" data-filter="chapter" value="匀变速直线运动" data-page-node-id="L33BNk6pXV6FI5GV8opNOc">匀变速直线运动</label><label class="popup-option" data-page-node-id="7j0WBn67hTBBj6KoCynIIs"><input type="checkbox" data-filter="chapter" value="原子核物理" data-page-node-id="E58MdCyVVfnMTasWZ9mGHn">原子核物理</label><label class="popup-option" data-page-node-id="A6PjbG4hU3m2GBgKi02BJn"><input type="checkbox" data-filter="chapter" value="原子物理-电子发现" data-page-node-id="2SiBxWkxVzRlCgAMhVSIKp">原子物理-电子发现</label><label class="popup-option" data-page-node-id="zQ1lcgMy3llnOinyPeVjzE"><input type="checkbox" data-filter="chapter" value="数列·等差数列与求和" data-page-node-id="OVOHlYrgWL9mz9uSBWzDhh">数列·等差数列与求和</label><label class="popup-option" data-page-node-id="W9G0EP5BPIYV00AJPhnYQH"><input type="checkbox" data-filter="chapter" value="机械波" data-page-node-id="LpK9SB4Fa9bvZJfbXAMD8C">机械波</label><label class="popup-option" data-page-node-id="n1pu5TGmF0YBvfm3ZopXvE"><input type="checkbox" data-filter="chapter" value="电磁学综合" data-page-node-id="1CfZ15LbagYkzlaaas4cu0">电磁学综合</label><label class="popup-option" data-page-node-id="mTRiOzBos5gHm8zCtJF3x3"><input type="checkbox" data-filter="chapter" value="解三角形·三角形形状判断" data-page-node-id="RFGer72naE9qGMm3OfguyL">解三角形·三角形形状判断</label><label class="popup-option" data-page-node-id="qb0Pw6YZX86AkOX8bI7FjT"><input type="checkbox" data-filter="chapter" value="解三角形·平面图形中的解三角形" data-page-node-id="Z2G0jsABiGBb3enUHGGdGL">解三角形·平面图形中的解三角形</label><label class="popup-option" data-page-node-id="kvwOyanF9CIpfxR5IbUAmg"><input type="checkbox" data-filter="chapter" value="解三角形·边角关系综合" data-page-node-id="3qykkcpBHxCzKpCXZukG3A">解三角形·边角关系综合</label><label class="popup-option" data-page-node-id="0uDMuHSOusIDROnzclXc0J"><input type="checkbox" data-filter="chapter" value="解三角形·边角综合求值" data-page-node-id="EC2ONd0YSwQcxqVDJwkni4">解三角形·边角综合求值</label><label class="popup-option" data-page-node-id="FkOcJN70JfARjDxAvAoe72"><input type="checkbox" data-filter="chapter" value="金属及其化合物" data-page-node-id="Xe0Ic0XEvtJx3NeTXhdodC">金属及其化合物</label><label class="popup-option" data-page-node-id="CW7b1FQD6K5muDHiF14a9K"><input type="checkbox" data-filter="chapter" value="铝及其化合物" data-page-node-id="NYXLwv1kNS6VR6xFJ4A5vd">铝及其化合物</label></div>
+          <div class="popup-actions" data-page-node-id="x370399vEBrQj6BAmOyyXC">
+            <button type="button" data-all="chapter" data-page-node-id="7x7KFD9ShIsxOmVF5jBBPL">☑ 全选</button>
+            <button type="button" data-clear="chapter" data-page-node-id="0sQwk8pAJRE9szDIRyG6ur">清除</button>
+            <button type="button" data-close="popupChapter" data-page-node-id="1SJgHBOjZovJDqEDYMyYsI">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld">
-      <label>知识点</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnKnowledge">知识点 <span class="cnt zero" id="cntKnowledge">0</span></button>
-        <div class="popup" id="popupKnowledge">
-          <input class="popup-search" placeholder="搜索…" id="searchKnowledge">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="v-t图像与追及相遇">v-t图像与追及相遇</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式">y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="y=Asin(ωx+φ) 的对称轴">y=Asin(ωx+φ) 的对称轴</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-值域">ω的取值范围-值域</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-单调性">ω的取值范围-单调性</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-对称性">ω的取值范围-对称性</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-对称性与单调性">ω的取值范围-对称性与单调性</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-极值点">ω的取值范围-极值点</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-极值点与零点">ω的取值范围-极值点与零点</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-零点">ω的取值范围-零点</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="万能公式（万能代换）">万能公式（万能代换）</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="三角函数图像与性质">三角函数图像与性质</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="三角恒等变换">三角恒等变换</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="三角恒等变换综合">三角恒等变换综合</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="两角和与差">两角和与差</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="两角和与差的余弦">两角和与差的余弦</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="交流发电机-变压器-电磁感应-霍尔效应">交流发电机-变压器-电磁感应-霍尔效应</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数值域与区间长度">余弦函数值域与区间长度</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数极小值点与不单调联合条件">余弦函数极小值点与不单调联合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦函数求值域与单调区间">余弦函数求值域与单调区间</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦定理、正弦定理、齐次式、完全平方配方">余弦定理、正弦定理、齐次式、完全平方配方</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验">余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="匀减速与逆向思维">匀减速与逆向思维</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="升幂公式(半角平方)、余弦定理、勾股定理逆定理">升幂公式(半角平方)、余弦定理、勾股定理逆定理</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="半角公式">半角公式</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="圆轨道-椭圆轨道-开普勒定律-机械能">圆轨道-椭圆轨道-开普勒定律-机械能</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="实验装置与操作正误判断">实验装置与操作正误判断</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="平均速度-时间图像">平均速度-时间图像</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="弦上横波-波速公式-基频">弦上横波-波速公式-基频</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="极值点零点综合条件">极值点零点综合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="核反应方程-衰变-聚变-裂变">核反应方程-衰变-聚变-裂变</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数中心对称与单调性/极值/对称轴/切线">正弦函数中心对称与单调性/极值/对称轴/切线</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数单调区间与 ω 约束">正弦函数单调区间与 ω 约束</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数周期性与极值点">正弦函数周期性与极值点</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数对称性与单调性">正弦函数对称性与单调性</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数对称轴条件与 ω 取值">正弦函数对称轴条件与 ω 取值</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦函数零点分布与 ω">正弦函数零点分布与 ω</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆">正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="等差数列通项、裂项相消求和">等差数列通项、裂项相消求和</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="诱导公式与二倍角">诱导公式与二倍角</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="连接体与比例法">连接体与比例法</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="追及与相遇问题">追及与相遇问题</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="铝的化合物/实验装置与操作">铝的化合物/实验装置与操作</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="阴极射线-比荷-汤姆孙实验">阴极射线-比荷-汤姆孙实验</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="零点+对称轴+单调联合条件">零点+对称轴+单调联合条件</label><label class="popup-option"><input type="checkbox" data-filter="knowledge" value="非常规运动图像(x/t²-1/t)">非常规运动图像(x/t²-1/t)</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="knowledge">☑ 全选</button>
-            <button type="button" data-clear="knowledge">清除</button>
-            <button type="button" data-close="popupKnowledge">确定</button>
+    <div class="fld" data-page-node-id="F8zDSD7RrsVgLrvPv0Mxzz">
+      <label data-page-node-id="XYe9VfB0iRHhqgczfaz4Gj">知识点</label>
+      <div class="popup-filter" data-page-node-id="hryzvpdlMFQYuLToI0FYzV">
+        <button class="filter-btn" type="button" id="btnKnowledge" data-page-node-id="I3eRbohF2ZqfVkjC0KR4sy">知识点 <span class="cnt zero" id="cntKnowledge" data-page-node-id="TuGs0jBmTB1ABoVR7T8Yzw">0</span></button>
+        <div class="popup" id="popupKnowledge" data-page-node-id="SQ9pGcnIVpdZrKLowiTkoQ">
+          <input class="popup-search" placeholder="搜索…" id="searchKnowledge" data-page-node-id="oAlk9d9DeRN3KJGc1Wtw3A">
+          <div class="popup-options" data-page-node-id="WwGCeKk3bYltxidxJNtszj"><label class="popup-option" data-page-node-id="NaA0BXZryDIXebzeSMVcgS"><input type="checkbox" data-filter="knowledge" value="v-t图像与追及相遇" data-page-node-id="zEEGOUnLVy6wYf13sMHCEd">v-t图像与追及相遇</label><label class="popup-option" data-page-node-id="sYmB2H7xnzlGuV5AapWpD0"><input type="checkbox" data-filter="knowledge" value="y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式" data-page-node-id="69kzRahLSHXfJuEHnHJ5cK">y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式</label><label class="popup-option" data-page-node-id="5S7hqH10fJuNefE4QqZ2Yp"><input type="checkbox" data-filter="knowledge" value="y=Asin(ωx+φ) 的对称轴" data-page-node-id="vcuS3AHyVYEXmOm79aPkhl">y=Asin(ωx+φ) 的对称轴</label><label class="popup-option" data-page-node-id="rWfDNummoNyK73MizOS5uK"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-值域" data-page-node-id="lpiW7dqHJP4cSuyycUWkcr">ω的取值范围-值域</label><label class="popup-option" data-page-node-id="9dMTDq7dxrSHBQ8mgU82NQ"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-单调性" data-page-node-id="FspXhzBvZD5nNgCzBc03eU">ω的取值范围-单调性</label><label class="popup-option" data-page-node-id="VdqZ9lwtZ4Jf9NSpbzWLGQ"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-对称性" data-page-node-id="W0WpYHo3JRKpsF4flK9wUa">ω的取值范围-对称性</label><label class="popup-option" data-page-node-id="svuroS2IGgo0ZWKOMU2gli"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-对称性与单调性" data-page-node-id="HlbcJOQlx9lWHwpTqULMXz">ω的取值范围-对称性与单调性</label><label class="popup-option" data-page-node-id="yha01kjn2JBoCBI8kR4hsm"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-极值点" data-page-node-id="k1EmGDGmn4b1d5mKI1sZFq">ω的取值范围-极值点</label><label class="popup-option" data-page-node-id="0HIi0pRtiROFK6orhytYXw"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-极值点与零点" data-page-node-id="rSrEHjGCaywnVCPwSNm0Oo">ω的取值范围-极值点与零点</label><label class="popup-option" data-page-node-id="Rjms9P0bv98AqIL2pRP3fh"><input type="checkbox" data-filter="knowledge" value="ω的取值范围-零点" data-page-node-id="8GIq0P03lP6b1cyIHvbhFa">ω的取值范围-零点</label><label class="popup-option" data-page-node-id="i482bmKQ85roQUr46hxDOh"><input type="checkbox" data-filter="knowledge" value="万能公式（万能代换）" data-page-node-id="0AFTFnBH2JCJ8OUkgAy38o">万能公式（万能代换）</label><label class="popup-option" data-page-node-id="no7gNKVPnnyEJtBsJuUP3y"><input type="checkbox" data-filter="knowledge" value="三角函数图像与性质" data-page-node-id="ZfaOT1LDI1lTTpCT1PDdJY">三角函数图像与性质</label><label class="popup-option" data-page-node-id="Lz68VTZ2EKberH92rPuyFM"><input type="checkbox" data-filter="knowledge" value="三角恒等变换" data-page-node-id="OCeadI65OztfGkYRvS5B7u">三角恒等变换</label><label class="popup-option" data-page-node-id="ENvrfU2Z7f3vPZUAFgN4xq"><input type="checkbox" data-filter="knowledge" value="三角恒等变换综合" data-page-node-id="CGXQrIMQkQ3e5dA3Jaj9mD">三角恒等变换综合</label><label class="popup-option" data-page-node-id="72WcDnAhkTCFSdgMOwVuVe"><input type="checkbox" data-filter="knowledge" value="两角和与差" data-page-node-id="UfdhzOagFm05GInQ0AqEZ1">两角和与差</label><label class="popup-option" data-page-node-id="zJ6TczEPecToIteyrOD9ov"><input type="checkbox" data-filter="knowledge" value="两角和与差的余弦" data-page-node-id="KqJkj0DB3vW06AKTWnacWY">两角和与差的余弦</label><label class="popup-option" data-page-node-id="hE3tWu36PomlmPGi0PMdk7"><input type="checkbox" data-filter="knowledge" value="交流发电机-变压器-电磁感应-霍尔效应" data-page-node-id="yXsS4dXhFHF0lDLR8EAlPp">交流发电机-变压器-电磁感应-霍尔效应</label><label class="popup-option" data-page-node-id="9pmTfJL5PnilMx37pwRYEA"><input type="checkbox" data-filter="knowledge" value="余弦函数值域与区间长度" data-page-node-id="tO2rZ5NHYvx95glY0IqNYo">余弦函数值域与区间长度</label><label class="popup-option" data-page-node-id="c9hX8EpxEdBWbluTmSZPsn"><input type="checkbox" data-filter="knowledge" value="余弦函数极小值点与不单调联合条件" data-page-node-id="8Oge1T5PIFZA67AYEob8lX">余弦函数极小值点与不单调联合条件</label><label class="popup-option" data-page-node-id="SHQulHF9MBn0TbSNpImxds"><input type="checkbox" data-filter="knowledge" value="余弦函数求值域与单调区间" data-page-node-id="WMqBfn6T9mTbUGH6izrjD2">余弦函数求值域与单调区间</label><label class="popup-option" data-page-node-id="cz0hsgec2puBWUOBzQPaHF"><input type="checkbox" data-filter="knowledge" value="余弦定理、正弦定理、齐次式、完全平方配方" data-page-node-id="Ao8wHxTKL9cShv9qw2NMpP">余弦定理、正弦定理、齐次式、完全平方配方</label><label class="popup-option" data-page-node-id="57tzJkLDFc5QpVjn3sz7vy"><input type="checkbox" data-filter="knowledge" value="余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验" data-page-node-id="3BBshFJjKNrphgcHdr7smW">余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验</label><label class="popup-option" data-page-node-id="LW6s4czYRu6ZkEQfMP2jw8"><input type="checkbox" data-filter="knowledge" value="匀减速与逆向思维" data-page-node-id="39Kf6rVczIuKBV84lVbwCi">匀减速与逆向思维</label><label class="popup-option" data-page-node-id="5JXq75r65zr7gUobp83vWk"><input type="checkbox" data-filter="knowledge" value="升幂公式(半角平方)、余弦定理、勾股定理逆定理" data-page-node-id="OMJmXT4mnsvYPIlJyBmXMV">升幂公式(半角平方)、余弦定理、勾股定理逆定理</label><label class="popup-option" data-page-node-id="2kmkGhC56vNDjF9EcOK7hq"><input type="checkbox" data-filter="knowledge" value="半角公式" data-page-node-id="tzjLSjQCYkphixfF6QJLQu">半角公式</label><label class="popup-option" data-page-node-id="OBL623BAdSDOGPOLbbFymu"><input type="checkbox" data-filter="knowledge" value="圆轨道-椭圆轨道-开普勒定律-机械能" data-page-node-id="OwYhmnOCMNbJ7LC1SkOJHh">圆轨道-椭圆轨道-开普勒定律-机械能</label><label class="popup-option" data-page-node-id="cNoIEgcqMCKY7gP2ACtQKv"><input type="checkbox" data-filter="knowledge" value="实验装置与操作正误判断" data-page-node-id="H3O4AIyE58AD2PLtbWSoMq">实验装置与操作正误判断</label><label class="popup-option" data-page-node-id="dW4GBsMf7UKnRG3zZIPQNm"><input type="checkbox" data-filter="knowledge" value="平均速度-时间图像" data-page-node-id="pJ6OGlroRJuprOYBktx1Of">平均速度-时间图像</label><label class="popup-option" data-page-node-id="V5vp4dv5Ckxrnx1Q7d9Dgb"><input type="checkbox" data-filter="knowledge" value="弦上横波-波速公式-基频" data-page-node-id="icL9cW0TtB09okaCzuRwSj">弦上横波-波速公式-基频</label><label class="popup-option" data-page-node-id="x00ZJXs9ZLDZ35X48l3HE1"><input type="checkbox" data-filter="knowledge" value="极值点零点综合条件" data-page-node-id="r37CYOsFkPsVxu6bK5h1M4">极值点零点综合条件</label><label class="popup-option" data-page-node-id="3bdtBUnpLEFwpeB5N5iO3T"><input type="checkbox" data-filter="knowledge" value="核反应方程-衰变-聚变-裂变" data-page-node-id="mbqTFP1xPGOxHt1EskVsP4">核反应方程-衰变-聚变-裂变</label><label class="popup-option" data-page-node-id="UZu3IIbnhcQEoKCNT5eRMR"><input type="checkbox" data-filter="knowledge" value="正弦函数中心对称与单调性/极值/对称轴/切线" data-page-node-id="1DGmjTrQXxz8U25e2Rm6uX">正弦函数中心对称与单调性/极值/对称轴/切线</label><label class="popup-option" data-page-node-id="ZZPSgBCL1tarq7pVTupTGM"><input type="checkbox" data-filter="knowledge" value="正弦函数单调区间与 ω 约束" data-page-node-id="93bsmvEmLemFmjcIM02cNM">正弦函数单调区间与 ω 约束</label><label class="popup-option" data-page-node-id="vfWw8FcNCYg0XT591HjgKd"><input type="checkbox" data-filter="knowledge" value="正弦函数周期性与极值点" data-page-node-id="lf4peMcLlKIncuvfF7lhbI">正弦函数周期性与极值点</label><label class="popup-option" data-page-node-id="e2VEdSQL20XAxqusx3kLD3"><input type="checkbox" data-filter="knowledge" value="正弦函数对称性与单调性" data-page-node-id="eyOhyE0L4rSsSG0EkGsz8y">正弦函数对称性与单调性</label><label class="popup-option" data-page-node-id="cn64ZlcNQv0pNMQDlkqLAS"><input type="checkbox" data-filter="knowledge" value="正弦函数对称轴条件与 ω 取值" data-page-node-id="e5qmk80LFYk097QxDaZD3F">正弦函数对称轴条件与 ω 取值</label><label class="popup-option" data-page-node-id="mXhm9bJFWDajdIbMBnr7CQ"><input type="checkbox" data-filter="knowledge" value="正弦函数零点分布与 ω" data-page-node-id="1yytpUjRnHXFpkKJPE5giJ">正弦函数零点分布与 ω</label><label class="popup-option" data-page-node-id="RrT993lMWs8WClbx5BBLYE"><input type="checkbox" data-filter="knowledge" value="正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆" data-page-node-id="rt1TzEngXBQkWkuX9uZEAC">正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆</label><label class="popup-option" data-page-node-id="gCGK43lkmPGSraVVvA9SNj"><input type="checkbox" data-filter="knowledge" value="等差数列通项、裂项相消求和" data-page-node-id="eJnSg32rJPiNkO1EjVEHbR">等差数列通项、裂项相消求和</label><label class="popup-option" data-page-node-id="sYk4gydgGjKYU5VaCz5jC3"><input type="checkbox" data-filter="knowledge" value="诱导公式与二倍角" data-page-node-id="DeXg0KvPYEQTFVtFwjm31g">诱导公式与二倍角</label><label class="popup-option" data-page-node-id="U9CelSDOqFUS5pt09T5bZL"><input type="checkbox" data-filter="knowledge" value="连接体与比例法" data-page-node-id="KdKRUtNCPLT3LMSfMy7Uk0">连接体与比例法</label><label class="popup-option" data-page-node-id="tW0lEFz3wB6GpFBz7wn0sm"><input type="checkbox" data-filter="knowledge" value="追及与相遇问题" data-page-node-id="QdLGzBafQ23Lxoaypn8iGV">追及与相遇问题</label><label class="popup-option" data-page-node-id="BUX2Ok8uhnBdEDP1y2yuV4"><input type="checkbox" data-filter="knowledge" value="铝的化合物/实验装置与操作" data-page-node-id="ZUfygHCafewUOEOlw2zcjk">铝的化合物/实验装置与操作</label><label class="popup-option" data-page-node-id="TEouMdEa6rrPOK1SqUEFHg"><input type="checkbox" data-filter="knowledge" value="阴极射线-比荷-汤姆孙实验" data-page-node-id="uuS61rqr1uw80aLrIlakvW">阴极射线-比荷-汤姆孙实验</label><label class="popup-option" data-page-node-id="ryPlyZBtcX6YHYNHChSniJ"><input type="checkbox" data-filter="knowledge" value="零点+对称轴+单调联合条件" data-page-node-id="uDtAADJAkukgzhGNr96bSY">零点+对称轴+单调联合条件</label><label class="popup-option" data-page-node-id="r5nu2qFqCqacscGysZwdpX"><input type="checkbox" data-filter="knowledge" value="非常规运动图像(x/t²-1/t)" data-page-node-id="HamOHwygc03JSDmgcqtGMn">非常规运动图像(x/t²-1/t)</label></div>
+          <div class="popup-actions" data-page-node-id="vBr0e1karja78ZAaoujFyr">
+            <button type="button" data-all="knowledge" data-page-node-id="MMxNtdlYV28QvC4MuAybdu">☑ 全选</button>
+            <button type="button" data-clear="knowledge" data-page-node-id="QIBrMCNMlsvZF98lwBzqeh">清除</button>
+            <button type="button" data-close="popupKnowledge" data-page-node-id="kK7LsG6QM8ZpfaZGYCwsKl">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld">
-      <label>解法</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnMethod">解法 <span class="cnt zero" id="cntMethod">0</span></button>
-        <div class="popup" id="popupMethod">
-          <input class="popup-search" placeholder="搜索…" id="searchMethod">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="method" value="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理">升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理</label><label class="popup-option"><input type="checkbox" data-filter="method" value="基本量方程组 · 裂项相消 · 分组求和">基本量方程组 · 裂项相消 · 分组求和</label><label class="popup-option"><input type="checkbox" data-filter="method" value="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法">左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="拆三角形 · 追问位置关系 · 双解检验">拆三角形 · 追问位置关系 · 双解检验</label><label class="popup-option"><input type="checkbox" data-filter="method" value="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法">整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="未标注">未标注</label><label class="popup-option"><input type="checkbox" data-filter="method" value="特殊角降维 · 统一化边 · 配方整体代换">特殊角降维 · 统一化边 · 配方整体代换</label><label class="popup-option"><input type="checkbox" data-filter="method" value="边角互化 · 逐项定量验证 · 多选排除">边角互化 · 逐项定量验证 · 多选排除</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="method">☑ 全选</button>
-            <button type="button" data-clear="method">清除</button>
-            <button type="button" data-close="popupMethod">确定</button>
+    <div class="fld" data-page-node-id="6CGdTqVmKVeMQZDuQGB8aQ">
+      <label data-page-node-id="qynMTwfe7E6VSaIyEUOx3b">解法</label>
+      <div class="popup-filter" data-page-node-id="gSuBtLnKdTqQNQNG4011pm">
+        <button class="filter-btn" type="button" id="btnMethod" data-page-node-id="HQR4VtbXJ14wEYWmonZoa0">解法 <span class="cnt zero" id="cntMethod" data-page-node-id="3XrqBhSnbL7PTsYHHg6LQB">0</span></button>
+        <div class="popup" id="popupMethod" data-page-node-id="FzQ9PSSwVO0yo1j0ehj6Qa">
+          <input class="popup-search" placeholder="搜索…" id="searchMethod" data-page-node-id="ER0E5B0OPVq56A6mCeDXQx">
+          <div class="popup-options" data-page-node-id="XipcGR6awAJhmc3BcITUcK"><label class="popup-option" data-page-node-id="3eBWZeT57bAnieZorVRFnO"><input type="checkbox" data-filter="method" value="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理" data-page-node-id="cCCa4Wb5yAzSioqDUY9IqH">升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理</label><label class="popup-option" data-page-node-id="qQKAoRclkWvYkLRt4dW56o"><input type="checkbox" data-filter="method" value="基本量方程组 · 裂项相消 · 分组求和" data-page-node-id="9OzZEkRpE4JHbuvzBilVd3">基本量方程组 · 裂项相消 · 分组求和</label><label class="popup-option" data-page-node-id="ZcV0fpysnbx5CLEERNabIc"><input type="checkbox" data-filter="method" value="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法" data-page-node-id="cWVfTNRHutDljQSIWCfCq3">左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法</label><label class="popup-option" data-page-node-id="QZ02nkKMiQFmJW3VYBjEmX"><input type="checkbox" data-filter="method" value="拆三角形 · 追问位置关系 · 双解检验" data-page-node-id="pl7gW845emJ8HXgcfeffP5">拆三角形 · 追问位置关系 · 双解检验</label><label class="popup-option" data-page-node-id="n23eqem38PHrDdaFQVDRjx"><input type="checkbox" data-filter="method" value="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法" data-page-node-id="OYsF6aJ3byFaSbD24uG6l9">整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法</label><label class="popup-option" data-page-node-id="oK5XSyxVdy7GzpDK18HAM4"><input type="checkbox" data-filter="method" value="未标注" data-page-node-id="aThEL6BbFnF9GcL3sf5Usf">未标注</label><label class="popup-option" data-page-node-id="uwgCMmf5vVy69A6cK4UdDI"><input type="checkbox" data-filter="method" value="特殊角降维 · 统一化边 · 配方整体代换" data-page-node-id="vxqvjkaEnlp1dOZ4Fvx5x8">特殊角降维 · 统一化边 · 配方整体代换</label><label class="popup-option" data-page-node-id="gm5q0LzgZvpnUJC5YYwsxP"><input type="checkbox" data-filter="method" value="边角互化 · 逐项定量验证 · 多选排除" data-page-node-id="jDAJtjbRtK3BAll2Rf9onw">边角互化 · 逐项定量验证 · 多选排除</label></div>
+          <div class="popup-actions" data-page-node-id="6K0hKxzhFU9qsy7pSc3Gg9">
+            <button type="button" data-all="method" data-page-node-id="BWEpZ1avZlmw3YIFWVktCH">☑ 全选</button>
+            <button type="button" data-clear="method" data-page-node-id="a0XCRKZLgSy9o1nCgQZLYd">清除</button>
+            <button type="button" data-close="popupMethod" data-page-node-id="5M0DV9LAbFvdUHplvxsWuF">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld">
-      <label>制作日期</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnDate">日期 <span class="cnt zero" id="cntDate">0</span></button>
-        <div class="popup" id="popupDate">
-          <input class="popup-search" placeholder="搜索…" id="searchDate">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="date" value="2026-09-11">2026-09-11</label><label class="popup-option"><input type="checkbox" data-filter="date" value="2026-09-10">2026-09-10</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="date">☑ 全选</button>
-            <button type="button" data-clear="date">清除</button>
-            <button type="button" data-close="popupDate">确定</button>
+    <div class="fld" data-page-node-id="zChbNJ0KBjHo1kQ4rEQmZ6">
+      <label data-page-node-id="EQyqph2uflKtV4Z2TolOZI">制作日期</label>
+      <div class="popup-filter" data-page-node-id="wxWAIto62rybaOtI3mhbMB">
+        <button class="filter-btn" type="button" id="btnDate" data-page-node-id="0xWxJ4p69pvXzKNjj9Ioyt">日期 <span class="cnt zero" id="cntDate" data-page-node-id="1qIAaXYEcnqJaHq6nGcz11">0</span></button>
+        <div class="popup" id="popupDate" data-page-node-id="OnXl3BKyRlvo2tNXLtdKmM">
+          <div class="popup-options drange" data-page-node-id="lYtv4fAGDi9DeWXROnET2L">
+            <label class="popup-option dr-row" data-page-node-id="tNEm9FkGAYFtQhPX0YjuDl"><span data-page-node-id="1PV0863DSZnr14SZNXS6Dh">从</span><select id="dateFrom" data-page-node-id="UIeXhXFNtiyCHZQEG7IHdl"><option value="" data-page-node-id="5HRlkULUBBu4ZlFYRKGtex">不限</option><option value="2026-09-10" data-page-node-id="nSZh5SX5AisTZVWQK4DCrA">2026-09-10</option><option value="2026-09-11" data-page-node-id="PY8RyPlnkXFIyBMFCDozOw">2026-09-11</option></select></label>
+            <label class="popup-option dr-row" data-page-node-id="7xUwXt5AeSJeLJVix52NfV"><span data-page-node-id="vjTPsqyWDMVpdaZs14wYbw">至</span><select id="dateTo" data-page-node-id="nquFfQmDE5YYjn4n4Zl739"><option value="" data-page-node-id="W5vCFRUDwRVsfiTROJvlpY">不限</option><option value="2026-09-10" data-page-node-id="0WkE9g5j6QeKqiDfXqcDbB">2026-09-10</option><option value="2026-09-11" data-page-node-id="nEfrQ3fU8vLVJnQgB3PiRm">2026-09-11</option></select></label>
+          </div>
+          <div class="popup-actions" data-page-node-id="PudQuVwc5q21sdk0tUnrwJ">
+            <button type="button" id="dateClear" data-page-node-id="D79UdFcobsMuWcOgFDzILT">清除</button>
+            <button type="button" data-close="popupDate" data-page-node-id="r100lhducaqj36zoBbCPC3">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld search">
-      <label>搜索标题/来源</label>
-      <input id="fSearch" placeholder="输入关键字…" autocomplete="off">
+    <div class="fld search" data-page-node-id="Eg6f6QmvbOZwel5svp7DLx">
+      <label data-page-node-id="LYLM5wDyEZVY80iRWCfF8t">搜索标题/来源</label>
+      <input id="fSearch" placeholder="输入关键字…" autocomplete="off" data-page-node-id="iDVRUr39oGEN9QykvVY0Zq">
     </div>
-    <button class="reset-btn" id="fReset" type="button">重置</button>
+    <button class="reset-btn" id="fReset" type="button" data-page-node-id="KhkwIr6tPCCBbe6uuZYqyG">重置</button>
   </div>
-  <div class="result-info" id="resultInfo">共 47 个课件</div>
+  <div class="result-info" id="resultInfo" data-page-node-id="ugfTkVINTaRjQQOxqxTRqA">共 47 个课件</div>
 
-  <div class="grid" id="grid">
-    <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="连接体与比例法" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
-      <span class="badge">物0001</span>
-      <div class="card-body">
-        <h3>橡皮筋与玩具车</h3>
-        <p class="sub">互动解题课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">连接体与比例法</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+  <div class="grid" id="grid" data-page-node-id="TJF1eFqY4dpSMKiIIAE2UB">
+    <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="连接体与比例法" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学" data-page-node-id="o51gbcotNhO1KczKeFZhxV">
+      <span class="badge" data-page-node-id="4s2NvuDFw5v0GhQiLBuemT">物0001</span>
+      <div class="card-body" data-page-node-id="IhLmQMJBirCm0MbxsLRHsZ">
+        <h3 data-page-node-id="WgNuVQj0GQLcx9WxvrXNKC">橡皮筋与玩具车</h3>
+        <p class="sub" data-page-node-id="LOesfSUMUunuSqCfZphD2Q">互动解题课件</p>
+        <div class="tags" data-page-node-id="bs4T1o3yubAEK3CKNp1oU3"><span class="tag-chip" data-page-node-id="0gVtILJkzRHeciGGC1bicF">物理</span><span class="tag-chip c" data-page-node-id="N7ONcjlxIdiDv9oO0dFw4A">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="bkcHD37XnRAkHNOlQ3DBoz">连接体与比例法</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ZoFhDztXB0W9EXBjjjhvC6">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="G2VOj4Htbnruu6RHOjMRsz">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="gX7Dn2rMXm3DfRbFwW8bMB">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qmjYuMlsrcG5NTMc70Pw9D">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ihaYEe6tCw6nHQhQ0e8NHX">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qn7aOEEj5fCXN2X5Opb9Zm">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="TmgUbAYMOZaM6bakSjbZqE">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="uqmCnNNHp0fi8v0XwTndeU">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="KlaqCJyhJX7gSynaPeIW7l">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="Qrwu4EEYydfdcEF281CFsM">昕言解题课件库</div>
+        <span class="go" data-page-node-id="lDopNEMwSzVwZpyTN4q61J">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/02-water-balloons-bullet/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="匀减速与逆向思维" data-method="未标注" data-date="2026-09-10" data-tags="互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
-      <span class="badge">物0002</span>
-      <div class="card-body">
-        <h3>四水球挡子弹</h3>
-        <p class="sub">互动解题课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">匀减速与逆向思维</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/02-water-balloons-bullet/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="匀减速与逆向思维" data-method="未标注" data-date="2026-09-10" data-tags="互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学" data-page-node-id="Cbhx4xxeecne7J39sveqUx">
+      <span class="badge" data-page-node-id="n1DlFe0iNQajvb3GRv7lOJ">物0002</span>
+      <div class="card-body" data-page-node-id="gAlWoU3iyVmVuP0GGJWlGv">
+        <h3 data-page-node-id="OmUEP7sHH4BqCtHmqdTui7">四水球挡子弹</h3>
+        <p class="sub" data-page-node-id="4gd9RVzRwNOFcBJavzyHQD">互动解题课件</p>
+        <div class="tags" data-page-node-id="dJBfwI25A1HC9x4O64ItyN"><span class="tag-chip" data-page-node-id="sAjO6AY7NVKDp3yCku2Yn5">物理</span><span class="tag-chip c" data-page-node-id="a5y2addcvzaEoCLhE5YhEk">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="H7PLVoee9Z1YdHrbtvawMs">匀减速与逆向思维</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="f4Z18n27T6dSkFwxvqwNxR">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="WffsEiyZJFoYimawwZEhD7">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="pEqlF0bBUU8tG0u2OSsYtj">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="RNHoJpoIUx0bHtwVI7Da2G">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="NaIdAABzjKccB2F7V91Ypg">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="YqdYuev8kKiBlMHn0JWjIL">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="Gzr28puuW5Wnf7uKeAFdPF">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="RN0pHgOmJ4qCH9o2qZ1n10">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="mgF6CDePZFV4LC5UHfAhB9">昕言解题课件库</div>
+        <span class="go" data-page-node-id="WhIWEk3TrkQvHff7v9oeYN">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/03-math-trig-half-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="半角公式" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;公式渲染;单选题;数学;昕言课件">
-      <span class="badge">数0001</span>
-      <div class="card-body">
-        <h3>半角公式求值</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">半角公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/03-math-trig-half-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="半角公式" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;公式渲染;单选题;数学;昕言课件" data-page-node-id="CstJCQdYcMnJTrtc7WQBAB">
+      <span class="badge" data-page-node-id="MPOqjFuxjFLoFPqstsOu0g">数0001</span>
+      <div class="card-body" data-page-node-id="nBf9QZ0bGFOVUIMhxVce9s">
+        <h3 data-page-node-id="LB6ffV57B3pKemMw987sNe">半角公式求值</h3>
+        <p class="sub" data-page-node-id="bdXnHlu5bNn8RdAoLwrTyq">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="Ai305rxPR0V7SJnPrbbtgA"><span class="tag-chip" data-page-node-id="OmMrgWDzdkvRxrHQXDEqEY">数学</span><span class="tag-chip c" data-page-node-id="K74GXxUI7xBsF4cEEXRkk0">三角函数</span><span class="tag-chip k" data-page-node-id="NkR6HcvlFxDFvQz5vOq5dw">半角公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="WFisbsozjDcTdfN2H9jIAn">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="HcY3UWZOdPfO2GVALOEpBQ">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="CGAJxg4ehGLtvS61HqMX0z">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="t8doOiiVvJzuet9uWF1JXa">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="HSDQmJB0CH7rBGHS5BYvJf">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="YUs1xwZQykmmuIKu2hlJzH">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="OfDILBvSgxX3udaUDNj0PC">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="FyhinIdAsQxIbpfSXxynjM">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="R69PoB8FO58VkrQgS3ZFuM">昕言解题课件库</div>
+        <span class="go" data-page-node-id="8H7LC4VzrsXBQE3OlAdB2v">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/04-math-trig-sum-diff/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差的余弦" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;单选题;数学;昕言课件;机械波">
-      <span class="badge">数0002</span>
-      <div class="card-body">
-        <h3>两角和差</h3>
-        <p class="sub">正切乘积 · 三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">两角和与差的余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/04-math-trig-sum-diff/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差的余弦" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;单选题;数学;昕言课件;机械波" data-page-node-id="OOhNRJSesBQuzRKIWpawR0">
+      <span class="badge" data-page-node-id="vqg0fO59ZsM8T4CWRdbyK6">数0002</span>
+      <div class="card-body" data-page-node-id="9K7hgRUJdCGniHHe6HaPxH">
+        <h3 data-page-node-id="aQ6cXsCQEXb1eoWF9kPneS">两角和差</h3>
+        <p class="sub" data-page-node-id="LksxLNvQuZaiNouaLkUubc">正切乘积 · 三角函数互动课件</p>
+        <div class="tags" data-page-node-id="nhm9dY4GQCYKUYCpgz71GL"><span class="tag-chip" data-page-node-id="QtiBwrXIROo2AQE74CcdBH">数学</span><span class="tag-chip c" data-page-node-id="abEFAccrgJrtu10BTFjxzj">三角函数</span><span class="tag-chip k" data-page-node-id="I0iTQRVNksdVLIJc9hWUvt">两角和与差的余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="LsPOHHxftmcHzxHfOuvtUe">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="j4NwKLmfG5YpqX7j03yzCa">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="BfgBBXnhpVgnEC8SYIO5DN">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0tAnfpC7BFFHNqw7N7vMD8">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="QCa9DZaodNJGYwPJAPrNbP">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="4jTNKk22uUuEUktw2LHLkZ">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="yx3jDngSQm1TGKGA325d35">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="aRtGqA9lb21f5mgXSdVurK">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="P3KVuNtPhwY46x5FI3nvW3">昕言解题课件库</div>
+        <span class="go" data-page-node-id="x0JVHMSKvD8eJrJdHOUAuV">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/05-math-trig-identities/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件">
-      <span class="badge">数0003</span>
-      <div class="card-body">
-        <h3>三角恒等变换判断</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">三角恒等变换</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/05-math-trig-identities/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件" data-page-node-id="VmMJ7HRBX39alQOKZTWzCl">
+      <span class="badge" data-page-node-id="GO4j05c6GeKH2CSvs6ftZe">数0003</span>
+      <div class="card-body" data-page-node-id="jluzQmfONUzQJjeScTaEnJ">
+        <h3 data-page-node-id="eQFNQemUPRk1KrbQlluKyq">三角恒等变换判断</h3>
+        <p class="sub" data-page-node-id="EymGcnTN60s8IbWUFdDDDl">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="AsgalN5716ctFjfW5a3VSq"><span class="tag-chip" data-page-node-id="kXdcohiEtztmxrgv1tndo0">数学</span><span class="tag-chip c" data-page-node-id="b8tQ2BUsz372hSpzZUPKEL">三角函数</span><span class="tag-chip k" data-page-node-id="CZoR4oY9aSkUUsCYBjFzsT">三角恒等变换</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8lOfkViVIc4Kka56zoQDbt">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="N8ceImT9aP7jtTOCkgDcgJ">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zbkJHW38G0BO6zVXHE21wh">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="tbForzOf43ZF16pBw3gKwf">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="KSNF2noWqrsDpINXgtS4CD">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="OD5Gcgm7MOFyySWl38uFK2">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="Pmf0tSHKKDm2gPWXYnIcOl">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="DH6Mqev40waZDtrprX3If7">昕言解题课件库</div>
+        <span class="go" data-page-node-id="gNcFINtf6TLOkHnFJB7ipo">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/06-math-trig-compound/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件;综合题">
-      <span class="badge">数0004</span>
-      <div class="card-body">
-        <h3>两角和差综合多选</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">两角和与差</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/06-math-trig-compound/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件;综合题" data-page-node-id="bsYuUqMTmMUjMVwJYKBE4u">
+      <span class="badge" data-page-node-id="MgpBK3BzxRL00s5TGjxk09">数0004</span>
+      <div class="card-body" data-page-node-id="g9Q3dRyQ554SeOS9hvsCBp">
+        <h3 data-page-node-id="VWgsTWOodBr4NR7sjmQzc2">两角和差综合多选</h3>
+        <p class="sub" data-page-node-id="ufSUqLSNbp3y2UgKDsKk6U">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="DkDRpYYQUks1k9lX4uwSCU"><span class="tag-chip" data-page-node-id="qnPw672POPs4eYZurTECHu">数学</span><span class="tag-chip c" data-page-node-id="GPn1gSSdQxRzJSQ951GSg2">三角函数</span><span class="tag-chip k" data-page-node-id="VF3R8z04c9wjLW9xXM21MT">两角和与差</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="l3xrlG5Cmophirc8ZD5NXi">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wPm3LmM4ZN21kvbGHqv9AC">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="WXGl4BFxwNBGqBbCedR8kv">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="4npbCTKaJq2HF1OOQHGzYT">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="kl5tBlHN1Jqt5fuRfWC28J">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="9iApkVthoEaDBdXuB7UQ4h">综合题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="fcKvf0kLkQvyKjTlfErIdP">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="Hhs0aT5UFMLfCOfCuMmdjZ">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="K95UGgnSkwKrykEXNf6UD1">昕言解题课件库</div>
+        <span class="go" data-page-node-id="dBReAgBkla3Z1lPvhcLKuD">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/07-math-trig-double-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="诱导公式与二倍角" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;公式渲染;填空题;数学;昕言课件">
-      <span class="badge">数0005</span>
-      <div class="card-body">
-        <h3>诱导公式与二倍角</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">诱导公式与二倍角</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555">填空题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">填空题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/07-math-trig-double-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="诱导公式与二倍角" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;公式渲染;填空题;数学;昕言课件" data-page-node-id="grD7kNQeWhGJyRvdkwvVL8">
+      <span class="badge" data-page-node-id="dkZgbVftU3UoIcsWLAgEdp">数0005</span>
+      <div class="card-body" data-page-node-id="DNvUqLtU3R5tEuWZ9ARQo7">
+        <h3 data-page-node-id="MNz7vq8m3rjJKlTGhncNvg">诱导公式与二倍角</h3>
+        <p class="sub" data-page-node-id="Szb5gEdSgBRiBpuMUE0eoN">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="oHZ9tQI2F7tyrvB7cQdkFk"><span class="tag-chip" data-page-node-id="jXKgukLNNdlklZcV9SChSM">数学</span><span class="tag-chip c" data-page-node-id="3iKLaj09Xy9gB6AKnusst4">三角函数</span><span class="tag-chip k" data-page-node-id="144JvgLd0EGhSLe23zOWCO">诱导公式与二倍角</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="J9qs1YcBKjMGzFjnGHOnlh">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="CbVTZcMd29TcLQonRejl4F">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oJhTOl4Keq6CbtHI7vAcLy">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="HxEfWvRTj88RNGeBCmetuP">填空题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="tJaS8gEhBHZopREM9pIJcE">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="6CLyw1YrZt6PDrYpeRgvJw">昕言课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="m2vDuNAoosUSycaC7nIgZo">填空题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="shqzB56aFCMiua4YeCPa13">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="jQJEt4wcHForZ5iGakU71C">昕言解题课件库</div>
+        <span class="go" data-page-node-id="KwcxZxd3kLK7oaxdj35SLw">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/08-math-trig-comprehensive/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换综合" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;数学;昕言课件;综合题;解答题">
-      <span class="badge">数0006</span>
-      <div class="card-body">
-        <h3>三角恒等变换综合</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">三角恒等变换综合</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/08-math-trig-comprehensive/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换综合" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;数学;昕言课件;综合题;解答题" data-page-node-id="jdsX7CnntmmmBNfaCGXCFD">
+      <span class="badge" data-page-node-id="Fx5F521L2wzwNPUDclTpeD">数0006</span>
+      <div class="card-body" data-page-node-id="ColMk7k1toYGenkPZzQ9QF">
+        <h3 data-page-node-id="GHEJMM72zh9vvKno0V2fYy">三角恒等变换综合</h3>
+        <p class="sub" data-page-node-id="zWdLmdslyeuvC1gyxU3qQ4">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="f3FEodGx7RMHEvP5tNOCvI"><span class="tag-chip" data-page-node-id="ZZNwdG0dFaheX0OuLGG10t">数学</span><span class="tag-chip c" data-page-node-id="yFmPgUKo9IsuSi4HgFgJGs">三角函数</span><span class="tag-chip k" data-page-node-id="4269r0pQCN9ms89xBe44OF">三角恒等变换综合</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ksEMKM4mTib5kXv0uwyRWv">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="OreEdQXm5rYm9QEBuoGmrl">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ICARlVaHl4FLw5YNMQmb4t">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="LzvZEHW3POpZ1aOL1ciRrU">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="44kDh6QfxMpGQpKkIKMh6j">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="QsZkbnCxcJwgc2s5dldqPx">解答题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="Ztv6vEkByrfOOLHPogL1DC">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="6EsrVdSobueuDGXULrG026">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="4zzVpJm70Mq5oMuF159kni">昕言解题课件库</div>
+        <span class="go" data-page-node-id="kboJZzGBgVVi90wiSPe1bp">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/09-physics-kinematics-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
-      <span class="badge">物0003</span>
-      <div class="card-body">
-        <h3>追及与相遇问题</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">追及与相遇问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/09-physics-kinematics-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学" data-page-node-id="7UYpKb2Et6htEbuT4ql7ta">
+      <span class="badge" data-page-node-id="7FaGxZLFz7M9Dh5CmPW7Mc">物0003</span>
+      <div class="card-body" data-page-node-id="mVHnUkG1eABDXtEK8iqKfF">
+        <h3 data-page-node-id="PpgB86GL1TUtWbhv9tWlPZ">追及与相遇问题</h3>
+        <p class="sub" data-page-node-id="fwEzQ67VufVFha8JQJhLqV">物理互动课件</p>
+        <div class="tags" data-page-node-id="pfTyOhSpYhGNuVneekGEmI"><span class="tag-chip" data-page-node-id="eWYppln7T3umKvSax3Pbc0">物理</span><span class="tag-chip c" data-page-node-id="fIFSa2FdrA70IqdzGKEvTW">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="wkxUGcnHC3jRSNWk30uVlo">追及与相遇问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="lVrJ6lypcZAxPBCErxks1R">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="v9hDXIB3VnBOudnRBFiOnl">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="FXgepoow4NVFHOXFevPbDK">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="69WCPq8J6HJGooflZs5lvq">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="7xvlupAVeVRDEG2tWOBktg">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="W3HmtloCxNCpJi4FAMvlkT">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="N8GuT1n2sEdiZp6XplN7X1">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="aUMzSLD2g1E9KAHoHKdJPi">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="seI6CbyVTmlnt8Z9bH0Tsg">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="k4b7wkrCsjBsMakPGdp6Td">昕言解题课件库</div>
+        <span class="go" data-page-node-id="BSfW6BC95Nli5xzHvE8u24">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/10-physics-police-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
-      <span class="badge">物0004</span>
-      <div class="card-body">
-        <h3>警车追货车</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">追及与相遇问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/10-physics-police-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学" data-page-node-id="PgTjvemUSwUU9CTxV2mZtF">
+      <span class="badge" data-page-node-id="4hjVx3k2aUVHeqtDdwx78V">物0004</span>
+      <div class="card-body" data-page-node-id="UvLWd5K2Tw0IWFs7b8pXCK">
+        <h3 data-page-node-id="pZRy9RT2SAOZrZqrBFXbqR">警车追货车</h3>
+        <p class="sub" data-page-node-id="E0kCHUUB9rT40sEbxnIqAB">物理互动课件</p>
+        <div class="tags" data-page-node-id="Lhxcs4Xmbkp80Rl9gu0h9S"><span class="tag-chip" data-page-node-id="N3XHHQ0ocMjaw2DV02BoA7">物理</span><span class="tag-chip c" data-page-node-id="QegVn2K2xaEG3Pi52nYji9">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="U62G3MzVMc501Tvy1kCh0q">追及与相遇问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ySbAxmXi2Ph2BU1KimFJdb">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="31HQ3wLZjAoQdXHFKaKuyH">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="3S3E2Dd8y47oorQ1GNpIC5">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="pfrfRkU8HhXGCz2LNgywFw">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="lrhJO74FFN1maOOq1OrAnU">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="eeqse6GNcVwrAKsAgWCltM">解答题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="68aWAZPiIkp4fBDY9ABXGT">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="og4EVGjbEGvwpuyBUwafBp">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="QatmvRp791TbNscUHlz5CQ">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="f65LfDZdOXjS1RSCzqdFLU">昕言解题课件库</div>
+        <span class="go" data-page-node-id="KU2AqVgeWNfQF3YlwNzfRl">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/11-physics-vbar-t-graph/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="平均速度-时间图像" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
-      <span class="badge">物0005</span>
-      <div class="card-body">
-        <h3>v̄-t 图像分析</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">平均速度-时间图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/11-physics-vbar-t-graph/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="平均速度-时间图像" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学" data-page-node-id="oxXUT8p3DawBvtpOOkgjXV">
+      <span class="badge" data-page-node-id="PvxBJnNJHvVyc8poSOU077">物0005</span>
+      <div class="card-body" data-page-node-id="bPnBsTJi0Eoshv6BHICJdo">
+        <h3 data-page-node-id="sGC9472Zr7EGVRHjl8KHOR">v̄-t 图像分析</h3>
+        <p class="sub" data-page-node-id="EVZXle4WxINGZXPFiJBfeK">物理互动课件</p>
+        <div class="tags" data-page-node-id="TLnpu5ZsJyrWux6wf0qScl"><span class="tag-chip" data-page-node-id="O7iuTyoHEkbAzP0NTchWU5">物理</span><span class="tag-chip c" data-page-node-id="keTNcnyVoemKV5g3uDOCan">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="9AP0Ia07GLDNLepQYeo6cR">平均速度-时间图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8GDKdEruuyXG3kBmeojLsy">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wCEH4avqoa50I3WajvYFFE">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0kGTDytRsdtcOUJazSYkxN">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8NpGaUglUzvIyMlh5IaCtX">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="sg7WULmGpwhrm2uEIanPTP">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="eS4wGepDddwpN4FzQfp6RZ">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="23DgSa2mU2sixIAE1h0NN5">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="kBRb5Op0DNYbGIdvZYyrma">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="pUFNljALuDtLgnu3CELvm8">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="1GCv4SZT1nuBc4akaP9ozD">昕言解题课件库</div>
+        <span class="go" data-page-node-id="vcKLhOIanNgTBBNupONHVd">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/12-physics-incline-vt/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="v-t图像与追及相遇" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
-      <span class="badge">物0006</span>
-      <div class="card-body">
-        <h3>斜面 A、B 物块 v-t 图像</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">v-t图像与追及相遇</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/12-physics-incline-vt/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="v-t图像与追及相遇" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学" data-page-node-id="0Q469dEoYNEbQOeFhADtLH">
+      <span class="badge" data-page-node-id="QwsGOEZQdBY27odI27haBJ">物0006</span>
+      <div class="card-body" data-page-node-id="Q7bTPwgqnqVcsE03WDwhvp">
+        <h3 data-page-node-id="wcuOA33hw8TEAOR0esxYxc">斜面 A、B 物块 v-t 图像</h3>
+        <p class="sub" data-page-node-id="BszHXGZYU1bw8khTOCroMB">物理互动课件</p>
+        <div class="tags" data-page-node-id="Hj70giPuyP7EP7L9ONQelR"><span class="tag-chip" data-page-node-id="06Q5D73g4G5JFZHq0UKx9y">物理</span><span class="tag-chip c" data-page-node-id="hcEWZN4342qQo7zMXIO5Lj">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="Z3zHKhX07oUyAUGq7rn6UY">v-t图像与追及相遇</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="A0VC3T87R74dPuQ5f9B71n">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="FSQoEzdH8XMRthCIeoAFvD">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qgwtBz1m0LBX35StsNMJGA">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qp1fndlXHj2pWCYGZl9XMl">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="sGYAGJO1xLTZDfvsNjEDfB">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="J0a5kpICgQLuphneCL473V">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SSNaJ9jQ0eFbBX3qqimIA3">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="N4PClzouKZtLNostQjWQZk">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="YxlD7GyA8wOSExRYDrV669">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="wLlu9exjEyHDxZ8IsBkXLA">昕言解题课件库</div>
+        <span class="go" data-page-node-id="4MyrTtV0R4CfEpcqJmt132">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/13-physics-braking-x-over-t2/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="非常规运动图像(x/t²-1/t)" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;单选题;昕言课件;物理;运动学">
-      <span class="badge">物0007</span>
-      <div class="card-body">
-        <h3>x/t²-1/t 图像刹车问题</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">非常规运动图像(x/t²-1/t)</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">昕言解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/13-physics-braking-x-over-t2/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="非常规运动图像(x/t²-1/t)" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;匀变速直线运动;单选题;昕言课件;物理;运动学" data-page-node-id="nB7VsIwmfaZBCQqQhR425M">
+      <span class="badge" data-page-node-id="BeJMbLnPrGY79j2Dvtj7Xo">物0007</span>
+      <div class="card-body" data-page-node-id="cICYQGAKTkIAKOm5vbd9W1">
+        <h3 data-page-node-id="6HSY6z1QvClkmxzSAQLsfn">x/t²-1/t 图像刹车问题</h3>
+        <p class="sub" data-page-node-id="62ohzepgBzPNdrv1DBEAGO">物理互动课件</p>
+        <div class="tags" data-page-node-id="bWuY3sE4d6vOdDyhCMUlKS"><span class="tag-chip" data-page-node-id="j4QPL977OEB4qVXuPnUP2u">物理</span><span class="tag-chip c" data-page-node-id="7p8l2wQjPVbhzJfspek6bH">匀变速直线运动</span><span class="tag-chip k" data-page-node-id="5HZ7VF90jsCujiEaCY5fi3">非常规运动图像(x/t²-1/t)</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="l58eHEf4YnbEWzMaWEP2iU">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="CJONzpnVpPiwIEZu7ZaHTs">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="xnKDd1KzDkNaGUJgwkOuL7">匀变速直线运动</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="h0hKH9MUUp4Ds1fEhmZOpQ">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="KcWT6HnJQS1EbpLMCOrw35">昕言课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="R15lLeXAFKPp0ADGQWPn41">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Rfn3bvvLSvnF2zwkWXHf2Q">运动学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="akBxaE9UN3zKMsUwnFSmEC">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="YdiMZev7hV6kAHGrf9M6KP">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="ryHB11mTz4WYU9A5qmvHu6">昕言解题课件库</div>
+        <span class="go" data-page-node-id="c4zwxo5ssvLo8q54An9vZ6">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/14-math-trig-period/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数周期性与极值点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件">
-      <span class="badge">数0007</span>
-      <div class="card-body">
-        <h3>正弦函数周期与对称轴条件</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数周期性与极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/14-math-trig-period/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数周期性与极值点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件" data-page-node-id="UCcSj4MkrQnnREnZDcSswf">
+      <span class="badge" data-page-node-id="tcf48bocFecqpHiGWTxmws">数0007</span>
+      <div class="card-body" data-page-node-id="JDEdgExDc4g5ZPkMUYA2pa">
+        <h3 data-page-node-id="BJdrqVny8GFlaGDijSDI18">正弦函数周期与对称轴条件</h3>
+        <p class="sub" data-page-node-id="E0HkzcYOTdB4qN0SDMCtb3">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="sAY9saknCANEs3Ju6gqoph"><span class="tag-chip" data-page-node-id="8jeiC5o2xBkNWDoS4qeQyz">数学</span><span class="tag-chip c" data-page-node-id="7AsiR8oziLwiSvEiHBLd0Y">三角函数</span><span class="tag-chip k" data-page-node-id="ZgGIE8ssxeDYJ1DTlkjlHC">正弦函数周期性与极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="HbwG2dh4FNM0nJtX68PnOV">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="A87HKHgYU46F7ppq8ejqWD">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="7Km4eiB8o7k0UQTCD6ILLF">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="E5Iha53nKX2SeN1supfLZE">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="5WSFacEX8jfAF5CAkWMnXq">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="bmhbe1TIjjwDfMrhmDt5UY">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="RE5HggBfGb0QTPo3dCoQKB">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="MriqKYRA2B2Bwtn6Exo9p0">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="8YwgQ7FeA1fKYeVmqTLWwE">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="oDyEvauDBB4cFeJMDHUgXD">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="XMtEAah5mhDaozmvdP9y9K">我的解题课件库</div>
+        <span class="go" data-page-node-id="8CDjJGg0eCe5bbPZPwsijc">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/15-math-trig-symmetry/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称性与单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题;自制课件">
-      <span class="badge">数0008</span>
-      <div class="card-body">
-        <h3>正弦函数对称轴+对称中心综合</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数对称性与单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/15-math-trig-symmetry/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称性与单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题;自制课件" data-page-node-id="RgEr5B0w5DcY5X1F61qXg1">
+      <span class="badge" data-page-node-id="5ZLlk8ZAo2eCGWa7txRdi9">数0008</span>
+      <div class="card-body" data-page-node-id="2Bqu2EuGLTF7ekn03FfaCY">
+        <h3 data-page-node-id="NQU647jKQA6JJq9AR4OYXv">正弦函数对称轴+对称中心综合</h3>
+        <p class="sub" data-page-node-id="Mlh6MzjDyaqLDUOctmJ2NJ">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="bWWeAW6SbR15ZDej03BkzB"><span class="tag-chip" data-page-node-id="8bmnPCaaAUT0WTC6tLc8cb">数学</span><span class="tag-chip c" data-page-node-id="ujPfdT3zm3lT1grq0Vy6HL">三角函数</span><span class="tag-chip k" data-page-node-id="a4B9V7B5xa4PpFJ28vGbpS">正弦函数对称性与单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="IQ3RgtFdPQPXJmXyoq79bo">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qE4IBHjUB7F5CIltH33UQr">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="lo82qIsg8PAs3KC7gQxJ0x">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oGeSi2WBhaPmEiXDbcpI5E">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0ZG7QGhK4nb3sGeezjNKJR">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Ti8OoENWDLV8nSXCviGUOD">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="GGjGn2KBReNzEV8dFjVUGo">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8TFDzuBhliemY466EOHRB6">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="e8dNZyOjROWYA5bGwZrYoE">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="QT9ymB6X4PbybIT8QXmZ0T">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="xHPUnBjESlBL5vImXmLJFX">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="kN43onpwRZkFnOjHQ6846K">我的解题课件库</div>
+        <span class="go" data-page-node-id="Jwu8q0EQwOgOpnzssYJljI">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/16-math-trig-center-sym/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数中心对称与单调性/极值/对称轴/切线" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件">
-      <span class="badge">数0009</span>
-      <div class="card-body">
-        <h3>正弦函数中心对称</h3>
-        <p class="sub">性质判断 · 三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数中心对称与单调性/极值/对称轴/切线</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/16-math-trig-center-sym/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数中心对称与单调性/极值/对称轴/切线" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件" data-page-node-id="miBW5pCofDDAXP2NTfwyIX">
+      <span class="badge" data-page-node-id="lIJkMaW0ykqoV80lZ7OEQA">数0009</span>
+      <div class="card-body" data-page-node-id="zmXA5LCIrv4if7FbSPZCH8">
+        <h3 data-page-node-id="aoBYJ5zlTZFLFvNHD7nNHW">正弦函数中心对称</h3>
+        <p class="sub" data-page-node-id="LFBYNRTNfG8nYjrKm1uJ4b">性质判断 · 三角函数互动课件</p>
+        <div class="tags" data-page-node-id="N1eJNrJYsXggKiKHRH5UcF"><span class="tag-chip" data-page-node-id="YvZozC9epgcCjkHA70vRPm">数学</span><span class="tag-chip c" data-page-node-id="XJ5RxyIEhAr0xIilTFCWzj">三角函数</span><span class="tag-chip k" data-page-node-id="qlbuYD5uydn88oQWQ8pY2o">正弦函数中心对称与单调性/极值/对称轴/切线</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="7yLclgp6XnX7ZiSZGQCqmn">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="VB5RSdJoSyrKcJhmeOSzqL">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="VxXip6hGm7DhsWMtIHWrsi">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="KJDPmDqQgR2HkQwZO9dzEi">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="EvDOxPWOHCwOqsI1DUXJeA">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="u5VQmg5K8HgOWTdwHLAjj9">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="kWzMFmWqyDaWjojIo2IbAa">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="rZnbnq5Dlgl6t9kX4TX40c">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="fSL8DEgMb8X6NkJzQjXfWt">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="wpnFbyKzOwfG0x3JzM2ENe">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="Imldm9WqVZIAEm778tDiUf">我的解题课件库</div>
+        <span class="go" data-page-node-id="oOQjo4Q1On7I1fslGLj7Ks">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/17-math-trig-comprehensive-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数求值域与单调区间" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;数学;机械波;自制课件;解答题">
-      <span class="badge">数0010</span>
-      <div class="card-body">
-        <h3>余弦函数求φ+值域与单调区间</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">余弦函数求值域与单调区间</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/17-math-trig-comprehensive-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数求值域与单调区间" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;数学;机械波;自制课件;解答题" data-page-node-id="wXaHp27LYxpz2zmMpiGOUD">
+      <span class="badge" data-page-node-id="4Nv2AFHR6xnmqhxp42RnFH">数0010</span>
+      <div class="card-body" data-page-node-id="IgfRyueJ5Fo1cpRG9iqoK7">
+        <h3 data-page-node-id="rSigfY3ePLYCBpX8vaItxn">余弦函数求φ+值域与单调区间</h3>
+        <p class="sub" data-page-node-id="TZZVDTb1IwjIbLM3IBTNWu">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="Ei85U505wPmXLV77xvfiER"><span class="tag-chip" data-page-node-id="vhGXprBOnRXvjkp0xu9Rdw">数学</span><span class="tag-chip c" data-page-node-id="zISDy6Omzvl5zlBODrPB9r">三角函数</span><span class="tag-chip k" data-page-node-id="KfTmtRHCRSMVIfauLXS6hQ">余弦函数求值域与单调区间</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="GQRzXH9we5FUUY2Zpcma2R">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="lCdpyFU95fa44COheKA3rF">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="fnQvUPIWP3EWWRUcDbpQU6">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="sjkLjC95afWZJMh5XRh53B">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="g5eHLAioNfweNNQ4BZplfV">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="k3mkdFfUeQgkD8VzU3gfEv">自制课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oL0KGFd0H9eW5T5B11rpsU">解答题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="6PQpkonh367oGMe8bu3Qrh">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="YdfYWsOGelYlscU55Nu2MR">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="yjTJBba1hHlYEVAHmSNfio">我的解题课件库</div>
+        <span class="go" data-page-node-id="aW6ST742440Pb8vJLfcaRP">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/18-physics-nuclear-reactions/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子核物理" data-knowledge="核反应方程-衰变-聚变-裂变" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件">
-      <span class="badge">物0008</span>
-      <div class="card-body">
-        <h3>核反应方程四大类型判断</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">原子核物理</span><span class="tag-chip k">核反应方程-衰变-聚变-裂变</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">原子核物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/18-physics-nuclear-reactions/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子核物理" data-knowledge="核反应方程-衰变-聚变-裂变" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件" data-page-node-id="RDuL51O0HAb6NA0lIeD3Nr">
+      <span class="badge" data-page-node-id="NQI7FfNqFsdGazopaT1152">物0008</span>
+      <div class="card-body" data-page-node-id="Ryt3CbWaL2QyMMMbaxWQvc">
+        <h3 data-page-node-id="3ITyhpkCNrtCtRMmOyNxeI">核反应方程四大类型判断</h3>
+        <p class="sub" data-page-node-id="aurJB4nVUIFlyYIDfV8i9y">物理互动课件</p>
+        <div class="tags" data-page-node-id="LC7uK6w8g3culLIlGtKJnJ"><span class="tag-chip" data-page-node-id="FixRCmb0VyFrU9e56tg8UI">物理</span><span class="tag-chip c" data-page-node-id="c5qu0h8xhUC5MFoEaGFVx7">原子核物理</span><span class="tag-chip k" data-page-node-id="y6eI31P3KzACLA4J81urB9">核反应方程-衰变-聚变-裂变</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Mg0exxlwd8oJCaXPusVYhD">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SIc4FKRwK6v1DmBvvOc46T">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wv2EECdfxztG2pwnbAh8pU">原子核物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="NlIbTpMGnAzTtWH7OCxP5y">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="3tocCe6HgxBUgEwjS3grrh">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="prf4gUJracKM1F1qanWDF2">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="mJJe7tqNRghfHgxKjqjb6l">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="LTcX63ObGZBg8xXzQml3VE">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="JZyJ7fyxR4vVX48H0p68Xp">我的解题课件库</div>
+        <span class="go" data-page-node-id="BN7t5Owr8GuGaHngHdOmg2">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/19-physics-thomson-cathode-ray/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子物理-电子发现" data-knowledge="阴极射线-比荷-汤姆孙实验" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;原子物理-电子发现;多选题;物理;粒子物理;自制课件">
-      <span class="badge">物0009</span>
-      <div class="card-body">
-        <h3>汤姆孙阴极射线实验</h3>
-        <p class="sub">比荷测定 · 物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">原子物理-电子发现</span><span class="tag-chip k">阴极射线-比荷-汤姆孙实验</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">原子物理-电子发现</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">粒子物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/19-physics-thomson-cathode-ray/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子物理-电子发现" data-knowledge="阴极射线-比荷-汤姆孙实验" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;原子物理-电子发现;多选题;物理;粒子物理;自制课件" data-page-node-id="vYaHgY0yECJY9RUSQiYzeo">
+      <span class="badge" data-page-node-id="qN7AbP9lsc6fZc743VxleY">物0009</span>
+      <div class="card-body" data-page-node-id="2Q9NOGV7V8EAhexntkGxfl">
+        <h3 data-page-node-id="aYYh6vBL5D9KYLNKHSVL25">汤姆孙阴极射线实验</h3>
+        <p class="sub" data-page-node-id="Aabk2fNfex20MLMlIQTZOT">比荷测定 · 物理互动课件</p>
+        <div class="tags" data-page-node-id="8TIAuMBCRHBCeOqLb9WI0u"><span class="tag-chip" data-page-node-id="n2D0FnP13GpqhBbUFk1dyQ">物理</span><span class="tag-chip c" data-page-node-id="Ryv1dfLzcMFnbEsLX7wd7m">原子物理-电子发现</span><span class="tag-chip k" data-page-node-id="mF0YQJ2cVm6EDiSHt4yJ9X">阴极射线-比荷-汤姆孙实验</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="vHGcY5QEOC0QOy7o8REepH">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="hVL6b53tXDythBpabApKLc">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="pB2FkrsWcCDWAV3O1G6HJA">原子物理-电子发现</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="F7nsJAcNsTDkgYKVs0vQhe">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="xcxd5DoXfO2rrhb9fPIcYX">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ADYwsicqBhkt8KCHiotY0a">粒子物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="V3bnrnOAid9C2oLDCjvjkI">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="fyFDHUYPHXJo2jhzvk5BGP">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="vuCdXERQoDYDeuPXvpb2dB">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="Zwhs6GDV9OTFIGhJJUYuK3">我的解题课件库</div>
+        <span class="go" data-page-node-id="SVDwwK4daD7RpLMq9eIMqp">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/20-physics-guitar-string-wave/" target="_blank" rel="noopener" data-subject="物理" data-chapter="机械波" data-knowledge="弦上横波-波速公式-基频" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;公式渲染;单选题;机械波;物理;自制课件">
-      <span class="badge">物0010</span>
-      <div class="card-body">
-        <h3>吉他琴弦波速与张力</h3>
-        <p class="sub">横波公式 · 物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">机械波</span><span class="tag-chip k">弦上横波-波速公式-基频</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/20-physics-guitar-string-wave/" target="_blank" rel="noopener" data-subject="物理" data-chapter="机械波" data-knowledge="弦上横波-波速公式-基频" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;公式渲染;单选题;机械波;物理;自制课件" data-page-node-id="3tXgnAlAXjmI2Kyez9uIQx">
+      <span class="badge" data-page-node-id="5CFMCu0HekfDYkPz13TNh3">物0010</span>
+      <div class="card-body" data-page-node-id="cOENPv8Uw5JlTt2M3vKCoo">
+        <h3 data-page-node-id="0Vz6MMM6FyhFMGCIkwGM5y">吉他琴弦波速与张力</h3>
+        <p class="sub" data-page-node-id="mLyQ4PUgNZg8lOk5w4IF1u">横波公式 · 物理互动课件</p>
+        <div class="tags" data-page-node-id="1YpPrdilDX60GLovTB8cCg"><span class="tag-chip" data-page-node-id="yhXtqKwRQNkJimovGzdMJ0">物理</span><span class="tag-chip c" data-page-node-id="nmrW6eU8AxlllMpHXjfi4v">机械波</span><span class="tag-chip k" data-page-node-id="Ev3KTv15CetC8vF29YSPds">弦上横波-波速公式-基频</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wB2qmuG2geH4SCE8NZNFz9">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="liUx1R4iKhPDDNBgYqkdJL">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="5LZSJgteT70MC3Ftj8xrmR">公式渲染</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="vEwEaYTkGvmpPNZ1YEulN8">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Q7EBbEWcTNba3NJ6YkGxjB">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="xVCASrlVDgNi8KCA5ys8Vb">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="me37dnoruIWvoGNTde2auB">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="U9AsssaM255kt8HPibbh1T">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="stylTk9GKbH4H8b99xpPGX">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="bC9qer2IUmblsyhEhqNyDi">我的解题课件库</div>
+        <span class="go" data-page-node-id="kJKhRtgFozQb85L8WK1rnl">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/21-physics-four-figures/" target="_blank" rel="noopener" data-subject="物理" data-chapter="电磁学综合" data-knowledge="交流发电机-变压器-电磁感应-霍尔效应" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;多选题;物理;电磁学综合;综合题;自制课件">
-      <span class="badge">物0011</span>
-      <div class="card-body">
-        <h3>四幅物理图景综合判断</h3>
-        <p class="sub">物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">电磁学综合</span><span class="tag-chip k">交流发电机-变压器-电磁感应-霍尔效应</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">电磁学综合</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/21-physics-four-figures/" target="_blank" rel="noopener" data-subject="物理" data-chapter="电磁学综合" data-knowledge="交流发电机-变压器-电磁感应-霍尔效应" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;多选题;物理;电磁学综合;综合题;自制课件" data-page-node-id="xm7IChrIjqAJ5rLJ3HMK83">
+      <span class="badge" data-page-node-id="RGsWR2WdB88ql0fq2oPk8Y">物0011</span>
+      <div class="card-body" data-page-node-id="F9V0fmc7sJTMfNVCb49D0S">
+        <h3 data-page-node-id="vuS3s8AiOlN7jqbDXZ9LAg">四幅物理图景综合判断</h3>
+        <p class="sub" data-page-node-id="3JcxkrewOFLgz6TLhxrW0L">物理互动课件</p>
+        <div class="tags" data-page-node-id="S1quSCWGKBhjLiU4JQfVYB"><span class="tag-chip" data-page-node-id="qHR4DycyohHxaaKI96mVdd">物理</span><span class="tag-chip c" data-page-node-id="9hgR4ZOJnKEI9sAo7MQj5r">电磁学综合</span><span class="tag-chip k" data-page-node-id="d3cKiI1Qt6IiNP8gMO9wQT">交流发电机-变压器-电磁感应-霍尔效应</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="iKQokp2Uo9CdNzFScq7bCJ">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="fAHZiQJfX9KRiAFX7IlAms">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Caz8NQAUN3DezJw3CgXwzq">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zRBHN8lemj5c1TG1tfcZ0I">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="uHVneEDKIHsuFIEsr5Qo6Y">电磁学综合</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ITRgFYXKfe06tkBfCAYPlq">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="uGFn0zuNIMzMyhVw7TPou6">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="KIPuBjgYHOWY5cFwS3iKMc">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="NKcNXPtWznX0lPJMw10ENm">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="WFaQB2Js3RAsUxAykGbhlv">我的解题课件库</div>
+        <span class="go" data-page-node-id="QkQrmCXh7rmqZSCRVryCJK">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/22-physics-kuafu-satellite-orbit/" target="_blank" rel="noopener" data-subject="物理" data-chapter="万有引力与航天" data-knowledge="圆轨道-椭圆轨道-开普勒定律-机械能" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;万有引力与航天;互动图像;多选题;天体物理;物理;综合题;自制课件">
-      <span class="badge">物0012</span>
-      <div class="card-body">
-        <h3>夸父一号卫星</h3>
-        <p class="sub">圆轨道与椭圆轨道综合 · 物理互动课件</p>
-        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">万有引力与航天</span><span class="tag-chip k">圆轨道-椭圆轨道-开普勒定律-机械能</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">万有引力与航天</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">天体物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/22-physics-kuafu-satellite-orbit/" target="_blank" rel="noopener" data-subject="物理" data-chapter="万有引力与航天" data-knowledge="圆轨道-椭圆轨道-开普勒定律-机械能" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;万有引力与航天;互动图像;多选题;天体物理;物理;综合题;自制课件" data-page-node-id="8afumIKMsruwmbKziHOVUc">
+      <span class="badge" data-page-node-id="FJEjp9v6F4qdyPzG1k7qjf">物0012</span>
+      <div class="card-body" data-page-node-id="I9miQPbk44oicqcZVRSG1O">
+        <h3 data-page-node-id="7eYdquL74YzzEmuOE9DctP">夸父一号卫星</h3>
+        <p class="sub" data-page-node-id="h9dINh2QFAEiOAi90s5Ekk">圆轨道与椭圆轨道综合 · 物理互动课件</p>
+        <div class="tags" data-page-node-id="LOgTNze8rDFxjWKnG5dTYx"><span class="tag-chip" data-page-node-id="NlXUdtyodnVjDysrSFCk8C">物理</span><span class="tag-chip c" data-page-node-id="4qKVjz0DEuv838ecxFG0jt">万有引力与航天</span><span class="tag-chip k" data-page-node-id="5Mrtmy1GUCKFpiHDxmq4lR">圆轨道-椭圆轨道-开普勒定律-机械能</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="aFkq6afxBFdT6ZTNObFZw7">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="FKNC1dM6O783tve2J4DyZl">万有引力与航天</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="1Wj2zosddwIEtkQS0gJdMg">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0QJB3TxYMUsbowKoSOydpt">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zoScdJUhfzkRUkm8gsrqti">天体物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="MFgOAOKm00xebgX9NP5r0u">物理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="icWiOgjx2a1wl6sfij0ZoP">综合题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SCRjYgVGC3nk8LuQINNs6W">自制课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="sDZuEAokza1h7TBn7cJPXx">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="JaUe4toHJDAnNKjQTkP9Ow">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="6gJGEAJtdGwk3HT6TU6W5H">我的解题课件库</div>
+        <span class="go" data-page-node-id="Xj108CJRtbtA769FqGFaF1">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/23-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="铝及其化合物" data-knowledge="实验装置与操作正误判断" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;铝及其化合物">
-      <span class="badge">23</span>
-      <div class="card-body">
-        <h3>铝合金制备 Al₂O₃</h3>
-        <p class="sub">实验装置正误判断 · 互动解题课件</p>
-        <div class="tags"><span class="tag-chip">化学</span><span class="tag-chip c">铝及其化合物</span><span class="tag-chip k">实验装置与操作正误判断</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">实验化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">铝及其化合物</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
+    <a class="card" href="lessons/23-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="铝及其化合物" data-knowledge="实验装置与操作正误判断" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;铝及其化合物" data-page-node-id="gtFRVoNc4NOAHw620Ch3iQ">
+      <span class="badge" data-page-node-id="2c3v5iX6ITZW6jYX8Hk2MS">23</span>
+      <div class="card-body" data-page-node-id="BSuyr4N1FMwAcPo4jlWUOR">
+        <h3 data-page-node-id="36ScKvOzmdttCVnU1DFLlG">铝合金制备 Al₂O₃</h3>
+        <p class="sub" data-page-node-id="iBVV4XMQoGG5EI8t2kNLP8">实验装置正误判断 · 互动解题课件</p>
+        <div class="tags" data-page-node-id="F8y09T56aKb4UcZlCOGJgR"><span class="tag-chip" data-page-node-id="kzmwLCaZ1XV9sZG5KbUcAU">化学</span><span class="tag-chip c" data-page-node-id="BqWWPnGwBjFsUG05o7SO4g">铝及其化合物</span><span class="tag-chip k" data-page-node-id="xA9b5AP2IWRjDq5LXwaDBG">实验装置与操作正误判断</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="lceXTBFzUbKI1OE5AeyLL6">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ibPHs30mrlZdFLTp7oTaWe">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="bB22g9SYOZikRrxidKmgOm">化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="V7G6J9bxK6qWnSWdQCCrgb">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="DGCqwtC6GqhIDAWpCKm8xB">实验化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="OvheuKaGXDkvUXo9b4jUqx">铝及其化合物</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="G2I2maxvkuChat0mUG11aR">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="0TJDyTtWuG4kcuiPTzSZ3E">📅 2026-09-10</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="VBI5qqdRhDDEOko2IFAx54">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/24-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="金属及其化合物" data-knowledge="铝的化合物/实验装置与操作" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;自制课件;金属及其化合物">
-      <span class="badge">化0001</span>
-      <div class="card-body">
-        <h3>铝合金制备 Al₂O₃</h3>
-        <p class="sub">化学实验装置判断 · 互动课件</p>
-        <div class="tags"><span class="tag-chip">化学</span><span class="tag-chip c">金属及其化合物</span><span class="tag-chip k">铝的化合物/实验装置与操作</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">实验化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">自制课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">金属及其化合物</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/24-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="金属及其化合物" data-knowledge="铝的化合物/实验装置与操作" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;自制课件;金属及其化合物" data-page-node-id="gLi6k2S5O1AY0zoxtQy4WO">
+      <span class="badge" data-page-node-id="oVQwR2T9BP6GFYC7T5dDeo">化0001</span>
+      <div class="card-body" data-page-node-id="YRZrKvyIq2HVu0arbUveya">
+        <h3 data-page-node-id="LEUxNl1RuFxt4STbqvWhDp">铝合金制备 Al₂O₃</h3>
+        <p class="sub" data-page-node-id="DOX5NE3i8BplTDpzblg2Qf">化学实验装置判断 · 互动课件</p>
+        <div class="tags" data-page-node-id="4dYflP8mrGtHhyT4Mz40Pt"><span class="tag-chip" data-page-node-id="3hRTAm9IpklamuLp6rpkUo">化学</span><span class="tag-chip c" data-page-node-id="EJ96QVrEEVj1kCfUW8Lju0">金属及其化合物</span><span class="tag-chip k" data-page-node-id="GoiUxILC0kAmBQNIIQvLoF">铝的化合物/实验装置与操作</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="95p3iEbqIorDRlwYc7yhUz">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="cT4BBy783NfqGyrZQkkFPK">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="vZFA1kF7e2G9Ou7GyvhUWY">化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="W37tYsyvglNUuuq96voEaA">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SqiOsdlHkYEZpGqU3yhAX4">实验化学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="4kkDQVyulPuVR6mBN5gsVp">自制课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="z7iS7CdzbiIFLMU8MnYyvR">金属及其化合物</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="P5YxYSzYWFCU1FHXwIUxM3">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="H0WRgjwZUKqyupBxS9Ytz5">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="S8iNImt0G84a20P5HOGr9f">我的解题课件库</div>
+        <span class="go" data-page-node-id="AVGDChyanSBAey5lfGdm2X">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/25-math-trig-omega-range-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称轴条件与 ω 取值" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波">
-      <span class="badge">数0011</span>
-      <div class="card-body">
-        <h3>正弦函数在[0,π]上恰有两条对称轴</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数对称轴条件与 ω 取值</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2025呼和浩特模拟</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/25-math-trig-omega-range-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称轴条件与 ω 取值" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波" data-page-node-id="nfmNI05yrFxpHqIP4WzNkT">
+      <span class="badge" data-page-node-id="LMhmysBRb9PhKgXl7Uduup">数0011</span>
+      <div class="card-body" data-page-node-id="OC3cqnBG1R0zbp4OIpj7Jm">
+        <h3 data-page-node-id="10oYIs2anhHfNFPU8fIbW3">正弦函数在[0,π]上恰有两条对称轴</h3>
+        <p class="sub" data-page-node-id="q8xn1R98SyNitya4kuxb9l">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="qRW7ThaZeM3G5aBGE0eYqF"><span class="tag-chip" data-page-node-id="k59cEzH5QyedBb40oBqJCt">数学</span><span class="tag-chip c" data-page-node-id="mHWD2lebiSryae5L0MoCn1">三角函数</span><span class="tag-chip k" data-page-node-id="dpkPiFH0SbTg05SICtrJ1y">正弦函数对称轴条件与 ω 取值</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="LGyY2Gx2RBEw6D3iPTJL4H">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="cFOu8bEEgPhh9pHDc1qO6D">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="1Z7sBXcCupmKneXIIsH124">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="gY7ynEymmCKCeNkFWRN8bX">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SWpm6I1hLOzCCQ1EhQ9GHh">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="O3EPaFQRtGOepE5BGAzkJD">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="N2pLvFENkFKOUyFtSpFck1">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="9swwpG3X1X6lSgh6S5IB72">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="rc8B4ALwwdUrX6s5syIGRg">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="WxBzpoxvpb7CSlywo3W9o2">2025呼和浩特模拟</div>
+        <span class="go" data-page-node-id="wT50gDS7VNUjWSjOKQB2s8">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/26-math-trig-omega-range-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数单调区间与 ω 约束" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
-      <span class="badge">数0012</span>
-      <div class="card-body">
-        <h3>正弦函数在指定区间单调递增</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数单调区间与 ω 约束</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">高考模拟题</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/26-math-trig-omega-range-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数单调区间与 ω 约束" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波" data-page-node-id="BbqGhBisJGMk4C7d6KlS9d">
+      <span class="badge" data-page-node-id="tf2Hn5hit9dHi5IkdxCwIy">数0012</span>
+      <div class="card-body" data-page-node-id="Sg4miAeoo8Bq4VhQBlPEGa">
+        <h3 data-page-node-id="aK175wozyKjT59OijgimLy">正弦函数在指定区间单调递增</h3>
+        <p class="sub" data-page-node-id="bP9UJFq1lfK5PrJXgKavJd">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="wN1ArtCJQBRrnSr29Z4P9b"><span class="tag-chip" data-page-node-id="4kCWlel62YrHqmD84F1vzP">数学</span><span class="tag-chip c" data-page-node-id="lxGztle7I7yRqjgMgAQWqg">三角函数</span><span class="tag-chip k" data-page-node-id="FCd0ra8pIDDRxOmeD83EgO">正弦函数单调区间与 ω 约束</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8tg4wRGR1Gvy3pShh12XX1">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="bbhrulXnwW1460PpRprWFq">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Q4wwb7g6pxcDt7gsuY3cto">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="durhuiTIFnXrWITTOOOkfh">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="J0PkGwv5DN0FrmZ4kgEMi1">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="1GzaWYYB7SbLmNMzA9xM2b">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="l8tjE06OCYGbLhFEGsPXqm">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="AzSChuhBG8SYAUoAeXtp3o">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="ISRmy59y0MqbgYdG1irEOA">高考模拟题</div>
+        <span class="go" data-page-node-id="PyFswmb6fYbbvZcixhJrAg">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/27-math-trig-omega-range-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数值域与区间长度" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
-      <span class="badge">数0013</span>
-      <div class="card-body">
-        <h3>余弦函数在[0,a]上的值域恰为[-2,√3]</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">余弦函数值域与区间长度</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2026安康模拟</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/27-math-trig-omega-range-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数值域与区间长度" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波" data-page-node-id="TcVV0KIhQbqhEpZEaUluIJ">
+      <span class="badge" data-page-node-id="3sanslIvqoX4V4tHwVX4i2">数0013</span>
+      <div class="card-body" data-page-node-id="zpD7YFTHQNeE5ahKAKAu2U">
+        <h3 data-page-node-id="7Emh7C4CNajzd0P70nurHs">余弦函数在[0,a]上的值域恰为[-2,√3]</h3>
+        <p class="sub" data-page-node-id="XbxG3LxeE2E9mQ14eORQn6">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="dTl1AnNF5dn0KFlt0deuHm"><span class="tag-chip" data-page-node-id="ECSgBgdMhVlEGOXl2gT5JO">数学</span><span class="tag-chip c" data-page-node-id="dnR5DTdZQBgSHr231Iyx7r">三角函数</span><span class="tag-chip k" data-page-node-id="gBWsAL5XMCBIn800lbUc1Y">余弦函数值域与区间长度</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Tj3O95S3lAUB7K6JPDuesq">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="uW0Qr507JSs0ueUjRaQFkj">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wT8c4Sf6l3kNSWJUfJe0Lf">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="E2pkMByC6Y4Z0g97ssZvAA">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zFHsRIXtB9WjIYitfkor7R">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wyIrDZeh9XrBVwYLtf6Jpr">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="7a0J9X1QVVt5SVoVpssudF">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="e5zXWvuFnYNMmq5XyJCJly">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="3S9wwAUYIoDY2edGAIHOhT">2026安康模拟</div>
+        <span class="go" data-page-node-id="vT3sEEB5uWTKKw7o1UROG8">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/28-math-trig-omega-range-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="极值点零点综合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题">
-      <span class="badge">数0014</span>
-      <div class="card-body">
-        <h3>正弦函数在(0,π)上恰有三个极值点与两个零点</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">极值点零点综合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555">综合题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2022全国甲卷</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/28-math-trig-omega-range-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="极值点零点综合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题" data-page-node-id="Gxcj1jsS5WYdj1DOF4ST1C">
+      <span class="badge" data-page-node-id="VFlkcpezn8EUgykhfM79cj">数0014</span>
+      <div class="card-body" data-page-node-id="AQK7VNQpbU0BkE45PpcAkh">
+        <h3 data-page-node-id="YBWjmzZlIc8oHKZ5wKSHKt">正弦函数在(0,π)上恰有三个极值点与两个零点</h3>
+        <p class="sub" data-page-node-id="VtFb0zv2C9CKBDyYQlirDY">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="a2kgFIdAUIuJFO7GzdQ0XX"><span class="tag-chip" data-page-node-id="7Bo5YAvdUqsMoVSxaExK6Y">数学</span><span class="tag-chip c" data-page-node-id="MdctOxAGOgysE1YyhEKKJ8">三角函数</span><span class="tag-chip k" data-page-node-id="WQdaAYnWTn1SyqW9R8JCVa">极值点零点综合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="9rDOZ9bblvcczq0II7KBqR">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="VmRUYPMfRQv4dpj9YidTN9">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="bMHCVNQc85Z7EBfnAJpxB4">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="QnPM5xjZSCoVUqYdxXKt6m">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="vmGujInuiUhADIIpQXONyg">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Cb2mCGCZDGShlMx0VLRXOY">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="tFMBBdeszcXF8iFBOs14RN">机械波</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="wgf9bkaPvWwGaGtY58V37w">综合题</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="BoWBBAiV5l0weqbwdeaaqI">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="YYdu418HZOJEPdRy3YW6M9">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="WuTMSgviXxyA3KPuDY1vtl">2022全国甲卷</div>
+        <span class="go" data-page-node-id="FqsPEYoAWkELV340aXwMpE">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/29-math-trig-omega-range-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数零点分布与 ω" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
-      <span class="badge">数0015</span>
-      <div class="card-body">
-        <h3>正弦函数在区间内没有零点</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">正弦函数零点分布与 ω</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2025江门模拟</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/29-math-trig-omega-range-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数零点分布与 ω" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波" data-page-node-id="K0HFHsXbutY9ziJZhFqHsf">
+      <span class="badge" data-page-node-id="VY7LXx52qaZg2xmaHAXWBP">数0015</span>
+      <div class="card-body" data-page-node-id="A2EQbVn5SD8yU192r0TyuC">
+        <h3 data-page-node-id="dABcpuAgXvPucivUqX9uEM">正弦函数在区间内没有零点</h3>
+        <p class="sub" data-page-node-id="Tz4BARiRdpOzn8iIKrDdI0">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="ECKFPPt2SoIIm3GZnnv2DP"><span class="tag-chip" data-page-node-id="uSVBHd7uHKXCAmLDPrMl67">数学</span><span class="tag-chip c" data-page-node-id="mgIRXxbGL7L6JQAgjZUmhS">三角函数</span><span class="tag-chip k" data-page-node-id="EBU1XCtOIJs1duhfEwN8AS">正弦函数零点分布与 ω</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="bpLZPEyOyUoabssqEwnYMd">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="aOt0U82z84SCvxBRZIeTSk">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="40HGTZZqoxzrD8r1fHAi0A">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="263FSCrjsoc2bcbga9j9OF">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="yhlzYVLmK7kkJr2a3xtUBE">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="EFGizcXOT31eI2SHf6obNJ">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="GvHJbi3Kb2K5tLdmizNHj0">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="wDoggG7ZjkawJCrPfwOet9">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="4QCyeNeGiuOjnhdDQdZHxl">2025江门模拟</div>
+        <span class="go" data-page-node-id="JC7DJ0F1FyDR1BFqnv4rYV">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/30-math-trig-omega-range-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="零点+对称轴+单调联合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学">
-      <span class="badge">数0016</span>
-      <div class="card-body">
-        <h3>由零点与对称轴条件求最大 ω</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">零点+对称轴+单调联合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2026苏州模拟</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/30-math-trig-omega-range-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="零点+对称轴+单调联合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学" data-page-node-id="EYI3Ngppde3c1jDOZVsrWb">
+      <span class="badge" data-page-node-id="gsazkLssYYTbeg957MlYcl">数0016</span>
+      <div class="card-body" data-page-node-id="HVxWHWgKgrANDiSWiTNzVg">
+        <h3 data-page-node-id="b8t87Cp5DUE7UMYe2orEdc">由零点与对称轴条件求最大 ω</h3>
+        <p class="sub" data-page-node-id="TmRc0LAwHY64GLAAm5tjFu">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="3E3zYMuW11PnSvmQVmhTSx"><span class="tag-chip" data-page-node-id="GLCvRjCKvtkMSb3PukQd3e">数学</span><span class="tag-chip c" data-page-node-id="od3Z6EjZXLXRsC9VuaxwLn">三角函数</span><span class="tag-chip k" data-page-node-id="FXst8dDROHuyBiDZxHIHv0">零点+对称轴+单调联合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="jaS0MjLi0yp93NHS3V5euB">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qYBDOMgrczG9LBQMxAjVrG">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="JG9dYkhkGM8usv83mZapdd">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Q009IX1wTFmCWA3P4K9wUx">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="RrEKX6MAfjVXClMQW7Ya4Q">单选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="gEQblkBojMxOuEd44g1UTC">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="lyRwSEJwjBouEsSbFFP7Cz">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="A3u3032dvdTtURG3gPwDGR">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="b77C9nuoYKPtVLBgFDVyJP">2026苏州模拟</div>
+        <span class="go" data-page-node-id="C3BvniC0uk9TxdDqD1KmFQ">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/31-math-trig-omega-range-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数极小值点与不单调联合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;多选题;数学;机械波">
-      <span class="badge">数0017</span>
-      <div class="card-body">
-        <h3>余弦函数恰有两个极小值点且(0,π/4)不单调</h3>
-        <p class="sub">三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">余弦函数极小值点与不单调联合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">2025天津模拟</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/31-math-trig-omega-range-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数极小值点与不单调联合条件" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;多选题;数学;机械波" data-page-node-id="qCFHZg84ojk0uSFhEbAf72">
+      <span class="badge" data-page-node-id="XbZ5lsT4Y5Yhb1AAgoFERn">数0017</span>
+      <div class="card-body" data-page-node-id="zeOCCayFGxCq7GawtRTUWQ">
+        <h3 data-page-node-id="J7JIcIVLiZ2nY4ejHSELmJ">余弦函数恰有两个极小值点且(0,π/4)不单调</h3>
+        <p class="sub" data-page-node-id="6HP0LBANDqJ8yHkJvSdpf3">三角函数互动课件</p>
+        <div class="tags" data-page-node-id="VNmfnzPiXaEitmRIDGYyl0"><span class="tag-chip" data-page-node-id="fXQSFaQGgXfgv9RUpf6VhX">数学</span><span class="tag-chip c" data-page-node-id="SWsYKqNpDru8TvTSvDGX2K">三角函数</span><span class="tag-chip k" data-page-node-id="FMg6cXzLy2WO2M3R69tLhG">余弦函数极小值点与不单调联合条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zwtFhJvVCCVjzMQukEWmz6">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="SCIGsVlyDwqqLRttSUGgJ7">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="r6nvT6xoRQpeCxBdKHbh5y">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="yXDfjfF6EceOpnY4s2EY1R">多选题</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="3eZ2kEq4csn9KqWdJJfBO0">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="deLPtbzEBvJsQRNWlhGIrK">机械波</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="S7KPYofRdDEQZa4qWPAFoz">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="WsXsiwAvuJfCcwhHnb4CGG">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="CFHQUI6IuRVztyF4YOxQWi">2025天津模拟</div>
+        <span class="go" data-page-node-id="XdFfKUdIVDzX4sb9N3itqR">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/32-math-trig-universal-formula/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="万能公式（万能代换）" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;万能公式;函数性质;讲课课件;数学">
-      <span class="badge">数0018</span>
-      <div class="card-body">
-        <h3>三角函数万能公式</h3>
-        <p class="sub">互动讲课课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">万能公式（万能代换）</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">万能公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">讲课课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">讲课课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/32-math-trig-universal-formula/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="万能公式（万能代换）" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;万能公式;函数性质;讲课课件;数学" data-page-node-id="pV3AjELraHkrnNcFUPf8dH">
+      <span class="badge" data-page-node-id="ApBFx6O0AFWCryNEKXzGUt">数0018</span>
+      <div class="card-body" data-page-node-id="ujo80TV3VTYbYARZAYxI7T">
+        <h3 data-page-node-id="dUzx0u1wZHN3xXo9EwcPVi">三角函数万能公式</h3>
+        <p class="sub" data-page-node-id="rAFdxo3IoqBCvm1nuvXpnX">互动讲课课件</p>
+        <div class="tags" data-page-node-id="X7X1YfgNCLHBMS351IcXkq"><span class="tag-chip" data-page-node-id="85LjvNsZ2lAOXMyaR49WxO">数学</span><span class="tag-chip c" data-page-node-id="qpQ50tFoLa6cuUAlelklzD">三角函数</span><span class="tag-chip k" data-page-node-id="aQxGlww1HSpZgrHDCeAMIJ">万能公式（万能代换）</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="RI1skDCMReAaONaHOwgJiG">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ijX8XxLY6YWTyVStVUQkAJ">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="KmGAymFWcOx2gQep5TjWAL">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0eqq3OnGnvCmnMzkehGE0n">万能公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Ryk2iCtXBibm4EZQMuLIoL">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="uYlYIzWZF6yQ6oTDgqZCv5">讲课课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="TZAeHrJPuGiXT3JFmmB66C">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="ihPgfe4LzRbWc48bkISHi7">讲课课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="EetBDRyyfsIiLDtJdxqANR">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="dE5kph3yzGGNZjwbTYox4S">我的解题课件库</div>
+        <span class="go" data-page-node-id="WOdwwhRRvIRBJ7ynRfGR74">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/33-math-trig-asinwxpb/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角函数图像与性质" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件">
-      <span class="badge">数0019</span>
-      <div class="card-body">
-        <h3>三角函数一般式 y = A sin(ωx + φ) + b</h3>
-        <p class="sub">互动解题课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">三角函数图像与性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">图像变换</span><span class="tag-chip" style="background:#f0f0ff;color:#555">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555">讲课课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">讲课课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/33-math-trig-asinwxpb/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角函数图像与性质" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件" data-page-node-id="88jE8ActsN3wavm7BDmg4C">
+      <span class="badge" data-page-node-id="Z0Ihc9OGwzdGzS0LVpc0n0">数0019</span>
+      <div class="card-body" data-page-node-id="zjoeHi4yvs2zBSRr6wzyPN">
+        <h3 data-page-node-id="Dp9A33jmHONzIbxtGpVroL">三角函数一般式 y = A sin(ωx + φ) + b</h3>
+        <p class="sub" data-page-node-id="SkXGDgnPe1krkTEYt6WxUc">互动解题课件</p>
+        <div class="tags" data-page-node-id="nehfyJ6RiP6Ed52mVOkvKv"><span class="tag-chip" data-page-node-id="RQNG5NtpJrfspGG7UZBdJp">数学</span><span class="tag-chip c" data-page-node-id="uOIQihwQs4eHbCDbDXA19O">三角函数</span><span class="tag-chip k" data-page-node-id="5ejJ9k3vsqhEDj8t235kwU">三角函数图像与性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="2GHdrMWECxpq06cpIgWOLX">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="mpmUOb0ukvGsWoW4P9mwVN">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="doS6dPMEZzAjXX87UdeVzG">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="xQpp2fGtfByZ7I3lHmNXCo">图像变换</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oOxlpM6kBGB8shhv2kFgzL">函数性质</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="c5bD3a7ZGGONusP9vkZ4Zn">数学</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8w9Cwn44VAnT85e1gpblmE">讲课课件</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="DVjUo4vwF6luFpRc6svTaF">讲课课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="vVp93fAkJegZP1QzmqEMrc">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="E8NqZ3nY5ShkTmOwuNin3B">我的解题课件库</div>
+        <span class="go" data-page-node-id="BAA3C5lUlPgiB4iHcKOInS">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/34-math-trig-omega-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称轴;数学">
-      <span class="badge">数0020</span>
-      <div class="card-body">
-        <h3>ω的取值范围</h3>
-        <p class="sub">对称性 | 三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-对称性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">对称轴</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/34-math-trig-omega-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称轴;数学" data-page-node-id="tGlsm0EDimKtP9ryBqX6X0">
+      <span class="badge" data-page-node-id="h6ZRUzjE2ZYU7SPbG1TKzp">数0020</span>
+      <div class="card-body" data-page-node-id="3bWP7C7bIx23GrrLSZHCDS">
+        <h3 data-page-node-id="hJEjwhliGtjVhjxnGZctyw">ω的取值范围</h3>
+        <p class="sub" data-page-node-id="vQdHjiJ6w1gthM9KcFim3Q">对称性 | 三角函数互动课件</p>
+        <div class="tags" data-page-node-id="SHI6N0enqVgJkGdntjLy0m"><span class="tag-chip" data-page-node-id="7fH7NnjkBKPfaOMfCfNA6I">数学</span><span class="tag-chip c" data-page-node-id="UXuDuk1n58ValmkVLXrlLz">三角函数</span><span class="tag-chip k" data-page-node-id="EKqvoRMuOTpQcVdEKNpfjC">ω的取值范围-对称性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Psdg7LY5xoBQNfttNsj8i2">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="4JZOsvt0pM0kQbgy8EPPWd">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8xoHD0ysn14wbg00gOHPD4">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="EsNB18gooduEWXvuNw1syX">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="AkSZoLH3sFvlq9dHI4SPTD">对称轴</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="9m3NtIvzhtO0cXGw2xyzXx">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="AFumwkZnoaCLVtSCBcyJPH">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="Jo58OpE8ejVIu5OOMOQE4x">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="G4PR3sNUdS1q0i3H586nNw">我的解题课件库</div>
+        <span class="go" data-page-node-id="WM2xYUOq7RsXR0A9Kn2Cwh">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/35-math-trig-omega-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;单调性;数学">
-      <span class="badge">数0021</span>
-      <div class="card-body">
-        <h3>ω 的取值范围</h3>
-        <p class="sub">单调性 · 三角函数互动课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/35-math-trig-omega-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;单调性;数学" data-page-node-id="VDDlbHwlzwzPupJ5efLTuF">
+      <span class="badge" data-page-node-id="usdd68qsdrpIitK3vJnsT6">数0021</span>
+      <div class="card-body" data-page-node-id="xbpWKZConwuZIh0L9bZqb8">
+        <h3 data-page-node-id="XcV91IIKgLrI4C1kSAc9hJ">ω 的取值范围</h3>
+        <p class="sub" data-page-node-id="W37ggLdcIyE1T0Q7lIfk42">单调性 · 三角函数互动课件</p>
+        <div class="tags" data-page-node-id="sPl3ByitbqnloygFA96zDa"><span class="tag-chip" data-page-node-id="RyOesEvTEGgJhdDCoZezrr">数学</span><span class="tag-chip c" data-page-node-id="Nh6HncDjCXoogv3U7WDfkY">三角函数</span><span class="tag-chip k" data-page-node-id="FONq6oPrQLBZ5cWXndmG1y">ω的取值范围-单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="erjbhF7QP1WQ5LB5SHeLv2">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="jprXomOCHoEyCswKM3vp5A">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="zTntWyV2Pd8VZvAafdkRCJ">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="OGJxw9ijsKzkEqai9afZyZ">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ppRLTKo8AZSjcuvfCd9FBo">单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="XvKtKn8WY12yju7lU42Cmc">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="yeVBzqmMRl6LiTqaRfinRN">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="iIs4El03KTZisiuHmC8DMJ">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="n6CFB4yeCCCF0c7Fh6VA0w">我的解题课件库</div>
+        <span class="go" data-page-node-id="vp5IkiButK42CBlx9lj7G7">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/36-math-trig-omega-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-值域" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;值域;余弦;数学">
-      <span class="badge">数0022</span>
-      <div class="card-body">
-        <h3>数0022</h3>
-        <p class="sub">ω的取值范围-值域 | 三角函数</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-值域</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">值域</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/36-math-trig-omega-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-值域" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;值域;余弦;数学" data-page-node-id="5OFy4KtsMpFp5iSriV022R">
+      <span class="badge" data-page-node-id="kwfvuJRuDZCqEUEeL8lUCO">数0022</span>
+      <div class="card-body" data-page-node-id="jKeCFQUNJGZhVRPlOlIVAY">
+        <h3 data-page-node-id="iRGarG0hMZ2B2vTf6JKTo9">数0022</h3>
+        <p class="sub" data-page-node-id="oGJnF9Nj1nThlxamVzy5k4">ω的取值范围-值域 | 三角函数</p>
+        <div class="tags" data-page-node-id="7yUWgCPmm3oxHI3jjsZICb"><span class="tag-chip" data-page-node-id="FnN30OSwSkhrUlM9pJ3Ppg">数学</span><span class="tag-chip c" data-page-node-id="Qt7h5zWHiD1C77saly8Mvv">三角函数</span><span class="tag-chip k" data-page-node-id="7UKfzxa6w71IHtDvmx6UYg">ω的取值范围-值域</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="4JGdE2kOUXlwp9g7x5Oay0">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="z0wvq4yHlN1UZe1rDcxqEn">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="63AYBMOPC2koC8wTpqDVYu">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ZyunHANlUokeluBQTFtfNM">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="XFzwLUZwRMsdWe3HdsSGGy">值域</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="8DPA72hw1NC9TDPp8lnvCp">余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="MaEUTrhRBZJjngJ2kT4YsF">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="ZFBAYeI5fzEgGjJxEdPLbG">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="f2qzWFvsovhiQZWqU73dst">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="qEO0753U5D9QIQEC6tfm3N">我的解题课件库</div>
+        <span class="go" data-page-node-id="8Zha5DvKWlGWQFt0oXoFeK">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/37-math-trig-omega-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点与零点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;零点;数学">
-      <span class="badge">数0023</span>
-      <div class="card-body">
-        <h3>数0023</h3>
-        <p class="sub">ω的取值范围（极值点与零点）</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-极值点与零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/37-math-trig-omega-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点与零点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;零点;数学" data-page-node-id="aBBK2op8reqbPG3iusNjsN">
+      <span class="badge" data-page-node-id="TBMOskIFGlobAnk9Q3CbxI">数0023</span>
+      <div class="card-body" data-page-node-id="6n9tZM8ZsHi7USuBGb5rtu">
+        <h3 data-page-node-id="Yle7Q4RdMGRPHAzBU9LAMq">数0023</h3>
+        <p class="sub" data-page-node-id="Y8d9ReEm2S7eWXVr5oQGTY">ω的取值范围（极值点与零点）</p>
+        <div class="tags" data-page-node-id="o0E8vL0fVqrDutsQAJHmgo"><span class="tag-chip" data-page-node-id="Yevz4nRcvQVUdrzUAwBuQm">数学</span><span class="tag-chip c" data-page-node-id="1hCbqZp0CR1g0Qmj80eU2G">三角函数</span><span class="tag-chip k" data-page-node-id="XZumzt2zU1682fN7L7pPWL">ω的取值范围-极值点与零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Ijh2xCIGsvRoB4oWUSDrKq">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ZlYOKKkk2BKomF5a6Myabv">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="BuOPiab7BC6UJMJK4SbdlC">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="jDIXPP4eXcbunODvtL4iiW">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="jBUDm8gLDKMsUBnP6lYAPp">极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="DcsUt6HGvqL2e7jCNzLAfD">零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="njA6AbjMG5Xjmt6p3ib7CN">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="qhEZvrfwlsDZzhViCI2eSR">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="5gyCsnjrhfAEDCaPANwwds">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="rTilX0chff8cJW3udCNSNV">我的解题课件库</div>
+        <span class="go" data-page-node-id="rkn5NQKmlrqeQAIwQJAVYl">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/38-math-trig-omega-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-零点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;零点;数学">
-      <span class="badge">数0024</span>
-      <div class="card-body">
-        <h3>数0024</h3>
-        <p class="sub">ω的取值范围（零点）</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/38-math-trig-omega-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-零点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;零点;数学" data-page-node-id="cDLWnHeZ0WvSRqEeCGOYIC">
+      <span class="badge" data-page-node-id="s5pY5k9CFeiVRT3U6P75W0">数0024</span>
+      <div class="card-body" data-page-node-id="BH7LeurcIONZUEBcwIdked">
+        <h3 data-page-node-id="TBn3Qupedpu0IBJXOmSsQv">数0024</h3>
+        <p class="sub" data-page-node-id="LxYRRrAp0DC9n6hcDGZj4B">ω的取值范围（零点）</p>
+        <div class="tags" data-page-node-id="EQkdqeprzj4DLQ6CRcgt6E"><span class="tag-chip" data-page-node-id="E9SYEjzPSp54TWuJxfo0MJ">数学</span><span class="tag-chip c" data-page-node-id="SZAQL0k5RwqvF21Qa8y7RU">三角函数</span><span class="tag-chip k" data-page-node-id="e0vvVwi3ycRXFwfojGkFxZ">ω的取值范围-零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="83uMpfC51Bbs3HM2JmKVMY">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ZEPOTYVY3WsozXkqAE7BX6">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="6YHmd6iCOL99GgTuTegopn">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="YK9ghScP1dnyW27CSaw88n">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="OeZCUM2Dj5dqAS2k3GeUaA">零点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="9QqoLnLw3LvDrDn4QnXGXK">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="xFHfR8Y8dbuE4NWU2j7GDL">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="ecLbxqy9G6WrnOERgL6NR2">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="p9J81WNQZJBvFAkujCLuBp">我的解题课件库</div>
+        <span class="go" data-page-node-id="989kaDJsMdUy8UbXaju1EV">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/39-math-trig-omega-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性与单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学">
-      <span class="badge">数0025</span>
-      <div class="card-body">
-        <h3>数0025</h3>
-        <p class="sub">ω的取值范围（对称性与单调性）</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-对称性与单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">对称性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/39-math-trig-omega-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性与单调性" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学" data-page-node-id="tmnKC6eVkYLYvty9VyzeLF">
+      <span class="badge" data-page-node-id="0bGISnvk4w6sAYkwGLDZLs">数0025</span>
+      <div class="card-body" data-page-node-id="wPefl5NaH6swYlmZsSYcmi">
+        <h3 data-page-node-id="reFF6AQivDYrpZ2G3acFGZ">数0025</h3>
+        <p class="sub" data-page-node-id="izDAYQqGmJscBJr9LEBEQB">ω的取值范围（对称性与单调性）</p>
+        <div class="tags" data-page-node-id="v7aq0rkIbCcDKJCpx4D35a"><span class="tag-chip" data-page-node-id="mpJIeVNlcqVC8cCaJ0Ip3F">数学</span><span class="tag-chip c" data-page-node-id="9gWqR11AmE3aaDFiFkIFxm">三角函数</span><span class="tag-chip k" data-page-node-id="AFZJRtYZJ2FQmiLqcr0fSV">ω的取值范围-对称性与单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="GNZuqKDLZBvdHssdaJDtC4">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="FsQLFM4WVaje0tEO0xfE9f">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="dO19CHtSd1mD1NB6LgwbFK">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="BBneT2CcxS5kQFVRvzrLDx">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="mtp3yqkXl6SlukUXePi23a">对称性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="AYJuRIMNKLRrcpVzqbs2Ym">单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="iRIr2EFAmWhGmTn1YWxy6u">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="QBcN9t3GOxsjDeYT39CRKF">单选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="5Gfe9AOC4br6vFAWOm2QVJ">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="z7tBEyTy17xzIySE17EMuY">我的解题课件库</div>
+        <span class="go" data-page-node-id="Mc2N6Othj3FklYSqRxDHJk">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/40-math-trig-omega-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;余弦;数学">
-      <span class="badge">数0026</span>
-      <div class="card-body">
-        <h3>数0026</h3>
-        <p class="sub">ω的取值范围（极值点与单调性）</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数</span><span class="tag-chip k">ω的取值范围-极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
-        <div class="src">我的解题课件库</div>
-        <span class="go">打开课件 →</span>
+    <a class="card" href="lessons/40-math-trig-omega-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点" data-method="未标注" data-date="2026-09-10" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;余弦;数学" data-page-node-id="LkCaDxNR5Eg0BJXrCe9LWB">
+      <span class="badge" data-page-node-id="LXueADGJ3fa0G9pfz2jcVQ">数0026</span>
+      <div class="card-body" data-page-node-id="1L9xLYdgjIN5jNlrhuitGn">
+        <h3 data-page-node-id="Hz8ar6JrGV4D3mTjnuoFdl">数0026</h3>
+        <p class="sub" data-page-node-id="EG6YgHWnCKup1a5F7G4SSD">ω的取值范围（极值点与单调性）</p>
+        <div class="tags" data-page-node-id="zdD8jACTRHAJDE9wZwuVMj"><span class="tag-chip" data-page-node-id="ma2GlRl6mVMQg30FUV72xM">数学</span><span class="tag-chip c" data-page-node-id="BLH4KBU4ovsxz2Y1H831EG">三角函数</span><span class="tag-chip k" data-page-node-id="vGOvc4yKHBHMskgDl0USjV">ω的取值范围-极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="yrzZIt7BHzuDE1dGBMW84i">KaTeX公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="TgHswtWdtx538RuIM96des">三角函数</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="aUiFv46mJ5netaBiv1Bmdp">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="AkikOMjK3MmdpDcnuHxMA8">ω范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="fPnBvRxlPSuKmewDq2b151">极值点</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="gCi0uUwqIvGLIXJdfOXDDN">余弦</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0citnsToHuSpSBrKnSpW0l">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6" data-page-node-id="8grdcSXdWz6BsYtFnlDAHT">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="KEyOLsqLPA3EiwiNUHLDL7">📅 2026-09-10</span></div>
+        <div class="src" data-page-node-id="JD2jP3fuDYmy0HdDxi9pX6">我的解题课件库</div>
+        <span class="go" data-page-node-id="6uOBpbsGAwsneq3hy0Kr7p">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/41-math-trig-symaxis-two/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象与性质" data-knowledge="y=Asin(ωx+φ) 的对称轴" data-method="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法" data-date="2026-09-10" data-tags="">
-      <span class="badge">41</span>
-      <div class="card-body">
-        <h3>正弦对称轴数数课</h3>
-        <p class="sub">ω 恰好两条 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">高中数学</span><span class="tag-chip c">三角函数 · 图象与性质</span><span class="tag-chip k">y=Asin(ωx+φ) 的对称轴</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
+    <a class="card" href="lessons/41-math-trig-symaxis-two/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象与性质" data-knowledge="y=Asin(ωx+φ) 的对称轴" data-method="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法" data-date="2026-09-10" data-tags="" data-page-node-id="ELfAYBfgjq4P7Jb21wlHRG">
+      <span class="badge" data-page-node-id="1Fz2edHbyt2JFlTOTw5YVu">41</span>
+      <div class="card-body" data-page-node-id="uCwGXbL2BcF4LipAPBmdP7">
+        <h3 data-page-node-id="UE1mD3ekn479j6EEncPp2o">正弦对称轴数数课</h3>
+        <p class="sub" data-page-node-id="HnGrPZOBZYwiFM0Aj10ZM2">ω 恰好两条 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="fJ1GiDTWm03QWAo3qQxCsE"><span class="tag-chip" data-page-node-id="Mb71Jz03wfvnK7SqrgAyor">高中数学</span><span class="tag-chip c" data-page-node-id="7K68aZFNk6cvpyQWYnOcnS">三角函数 · 图象与性质</span><span class="tag-chip k" data-page-node-id="bj9MmFuH2ZdtkL85TAnfTZ">y=Asin(ωx+φ) 的对称轴</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="ntDNcJVGfNXo4YZvzYtfb8">📅 2026-09-10</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="NbTEWAII1x7sFRO3fXR0nN">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/42-math-trig-shift-t4/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象变换" data-knowledge="y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式" data-method="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法" data-date="2026-09-10" data-tags="">
-      <span class="badge">42</span>
-      <div class="card-body">
-        <h3>余弦图象平移「搬家课」</h3>
-        <p class="sub">右移 T/4 求解析式 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">高中数学</span><span class="tag-chip c">三角函数 · 图象变换</span><span class="tag-chip k">y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-10</span></div>
+    <a class="card" href="lessons/42-math-trig-shift-t4/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象变换" data-knowledge="y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式" data-method="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法" data-date="2026-09-10" data-tags="" data-page-node-id="ICfpXlfo2LTMPWl04ZYksu">
+      <span class="badge" data-page-node-id="9yRu6X9KfX1VwDVwOhDgHu">42</span>
+      <div class="card-body" data-page-node-id="pVCaYbGOgZv0XhzvXZY2re">
+        <h3 data-page-node-id="raav9cOwBEF76gAcO8II8t">余弦图象平移「搬家课」</h3>
+        <p class="sub" data-page-node-id="Cvpe6cfsNaKa0ILx4KaTzc">右移 T/4 求解析式 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="5JXnCjcs2xYwOillKHGB60"><span class="tag-chip" data-page-node-id="6TfSuWp2h7a6ATOpAASbAf">高中数学</span><span class="tag-chip c" data-page-node-id="E0P2My1n2wlBav1D2MI6cE">三角函数 · 图象变换</span><span class="tag-chip k" data-page-node-id="1mrV1AUgV8CtpEsEG7b4We">y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="qBSsyFNJTNpFqZL6fszI9Z">📅 2026-09-10</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="l8L3LnikBDmEJ55SUuAR3v">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/43-math-seq-ap-telescoping/" target="_blank" rel="noopener" data-subject="数学" data-chapter="数列·等差数列与求和" data-knowledge="等差数列通项、裂项相消求和" data-method="基本量方程组 · 裂项相消 · 分组求和" data-date="2026-09-11" data-tags="等差数列;裂项相消;分组求和;解答题">
-      <span class="badge">43</span>
-      <div class="card-body">
-        <h3>43</h3>
-        <p class="sub">等差数列通项与裂项求和 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">数列·等差数列与求和</span><span class="tag-chip k">等差数列通项、裂项相消求和</span><span class="tag-chip" style="background:#f0f0ff;color:#555">等差数列</span><span class="tag-chip" style="background:#f0f0ff;color:#555">裂项相消</span><span class="tag-chip" style="background:#f0f0ff;color:#555">分组求和</span><span class="tag-chip" style="background:#f0f0ff;color:#555">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-11</span></div>
+    <a class="card" href="lessons/43-math-seq-ap-telescoping/" target="_blank" rel="noopener" data-subject="数学" data-chapter="数列·等差数列与求和" data-knowledge="等差数列通项、裂项相消求和" data-method="基本量方程组 · 裂项相消 · 分组求和" data-date="2026-09-11" data-tags="等差数列;裂项相消;分组求和;解答题" data-page-node-id="x8qsM75MTQkul7aRXJRASL">
+      <span class="badge" data-page-node-id="ve5ADLv5FLcHPPhjhzUBGB">43</span>
+      <div class="card-body" data-page-node-id="A98HEiazEnPHFZwC4UkLoF">
+        <h3 data-page-node-id="mnBj7gQM4uhl5jHtAOZrTX">43</h3>
+        <p class="sub" data-page-node-id="NkrIlTkLH7X77S16X0DFXC">等差数列通项与裂项求和 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="ZSLvsba3Hs1Nfr0EbySNax"><span class="tag-chip" data-page-node-id="EATxhN1zt2ldiDGbSSssDW">数学</span><span class="tag-chip c" data-page-node-id="oOSDSQKi2mCGSRu2Gm1wMW">数列·等差数列与求和</span><span class="tag-chip k" data-page-node-id="PTwghQKLcmm7Fvl1dYeOM8">等差数列通项、裂项相消求和</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="ooYBGGTZwABisTCDCecZwB">等差数列</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="TMaXN240hExwyvV8joceiY">裂项相消</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qy7mA8wmuf2s1nUgJCDqKx">分组求和</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="qo3RbpBH2FMOxaFqmJWL9o">解答题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="PQnCTyKRNiAHEAMXyDroCj">📅 2026-09-11</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="jwGdRaPUGFDPmpmKaZUeu3">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/44-math-tri-halfangle-shape/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·三角形形状判断" data-knowledge="升幂公式(半角平方)、余弦定理、勾股定理逆定理" data-method="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理" data-date="2026-09-11" data-tags="升幂公式;余弦定理;勾股定理逆定理;判断形状">
-      <span class="badge">44</span>
-      <div class="card-body">
-        <h3>44</h3>
-        <p class="sub">半角平方判形状 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">解三角形·三角形形状判断</span><span class="tag-chip k">升幂公式(半角平方)、余弦定理、勾股定理逆定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">升幂公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">勾股定理逆定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">判断形状</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-11</span></div>
+    <a class="card" href="lessons/44-math-tri-halfangle-shape/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·三角形形状判断" data-knowledge="升幂公式(半角平方)、余弦定理、勾股定理逆定理" data-method="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理" data-date="2026-09-11" data-tags="升幂公式;余弦定理;勾股定理逆定理;判断形状" data-page-node-id="nwL7fpUJWScEqxcx7hQ6XG">
+      <span class="badge" data-page-node-id="rSASFp77rkUGXv5ikc3iCv">44</span>
+      <div class="card-body" data-page-node-id="r3DwmpVrtyMPUwtoByo6em">
+        <h3 data-page-node-id="cWMO6k7tWVDMmXVZzkTX4Y">44</h3>
+        <p class="sub" data-page-node-id="MRtZWxpvWjXV0xmRcOm254">半角平方判形状 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="V7zlDViDxZ9USt5FjroBQk"><span class="tag-chip" data-page-node-id="8ErrtFyxjKEHfUOPjgDXeA">数学</span><span class="tag-chip c" data-page-node-id="SVpI83pmGDEw2VMmSp6jC1">解三角形·三角形形状判断</span><span class="tag-chip k" data-page-node-id="w2vcPochwlJvhJnATQI7Xf">升幂公式(半角平方)、余弦定理、勾股定理逆定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="1JOCcBJBpollc6w5wSUftO">升幂公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="sMe2FISeB5xRhiKecHPWFJ">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="nKZ9YsJSFDQAJXwIYIzAdm">勾股定理逆定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="LcmSCUimPkk4wrA1QnT54A">判断形状</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="ztlwXrOVepN6So7Ll5ad4v">📅 2026-09-11</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="j2E0qPTfOcDsBNd1Hvdpba">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/45-math-tri-sin-ratio-multi/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角关系综合" data-knowledge="正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆" data-method="边角互化 · 逐项定量验证 · 多选排除" data-date="2026-09-11" data-tags="正弦定理;余弦定理;海伦公式;内切圆外接圆;多选题">
-      <span class="badge">45</span>
-      <div class="card-body">
-        <h3>45</h3>
-        <p class="sub">正弦比234多选逐项体检 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">解三角形·边角关系综合</span><span class="tag-chip k">正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆</span><span class="tag-chip" style="background:#f0f0ff;color:#555">正弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">海伦公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">内切圆外接圆</span><span class="tag-chip" style="background:#f0f0ff;color:#555">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-11</span></div>
+    <a class="card" href="lessons/45-math-tri-sin-ratio-multi/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角关系综合" data-knowledge="正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆" data-method="边角互化 · 逐项定量验证 · 多选排除" data-date="2026-09-11" data-tags="正弦定理;余弦定理;海伦公式;内切圆外接圆;多选题" data-page-node-id="QejLAKAgIzzXZIP5THS7E2">
+      <span class="badge" data-page-node-id="qqpxewdggAm2er8tS8vR7n">45</span>
+      <div class="card-body" data-page-node-id="9joC1oMuuHF0JRjMyYFNDB">
+        <h3 data-page-node-id="8TAyiLt9b9Yjf97ownnY1I">45</h3>
+        <p class="sub" data-page-node-id="cvKPJQ0ksieAmjMEp9UvSK">正弦比234多选逐项体检 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="z32VrbBkqEWFYOw8AEaQE4"><span class="tag-chip" data-page-node-id="t4Qu3gzYne1vyof2TEfFWv">数学</span><span class="tag-chip c" data-page-node-id="Nv74GLtOoZclDlcZ3zg4jV">解三角形·边角关系综合</span><span class="tag-chip k" data-page-node-id="B8jVR1R7JDJ5iQ3cXwJECW">正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="Dxi1FtS6gfgQA5VrHRcxw9">正弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="BD6C2jOWSx4CsdZal1jXkS">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="C2ACyet9JxVmWwxFMqhVpO">海伦公式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="QNdIPsBQkIUACUV1xHPRDo">内切圆外接圆</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="b0VgI5MaiBT5F2XqVqwKQH">多选题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="jRlPKYPUKDFi18B1kiac60">📅 2026-09-11</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="NZCPtlqyNa8NVffDOgZ5BQ">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/46-math-tri-2024-jiaban/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角综合求值" data-knowledge="余弦定理、正弦定理、齐次式、完全平方配方" data-method="特殊角降维 · 统一化边 · 配方整体代换" data-date="2026-09-11" data-tags="余弦定理;正弦定理;齐次式;配方">
-      <span class="badge">46</span>
-      <div class="card-body">
-        <h3>46</h3>
-        <p class="sub">2024全国甲卷sinA加sinC · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">解三角形·边角综合求值</span><span class="tag-chip k">余弦定理、正弦定理、齐次式、完全平方配方</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">正弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">齐次式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">配方</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-11</span></div>
+    <a class="card" href="lessons/46-math-tri-2024-jiaban/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角综合求值" data-knowledge="余弦定理、正弦定理、齐次式、完全平方配方" data-method="特殊角降维 · 统一化边 · 配方整体代换" data-date="2026-09-11" data-tags="余弦定理;正弦定理;齐次式;配方" data-page-node-id="8POe4yBD10Gk7cBURNw9Zf">
+      <span class="badge" data-page-node-id="6QMP5j3fK7jHDKDmW2perB">46</span>
+      <div class="card-body" data-page-node-id="nvq6bTYKFg0T8pazHvzPLB">
+        <h3 data-page-node-id="KYOqqJrT2C461tY3Pod9eA">46</h3>
+        <p class="sub" data-page-node-id="BVvV4vI1egrD5ByKHUSxFH">2024全国甲卷sinA加sinC · 动画分步课件</p>
+        <div class="tags" data-page-node-id="jdYJ96NePRMsF4jelncdZn"><span class="tag-chip" data-page-node-id="FFRF4hNJFGSgjsqGFt95kv">数学</span><span class="tag-chip c" data-page-node-id="oB3WzWBCcANZBkk2S1aqEU">解三角形·边角综合求值</span><span class="tag-chip k" data-page-node-id="sKb8Sbd27OaDB51ZAbb1Cj">余弦定理、正弦定理、齐次式、完全平方配方</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="0jfYI7w6EmL4Y9CzxvktNH">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="S720fu52ykEHUeJ1BWtWSy">正弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="fRt1ptMBY1IKj3MfPyRqCH">齐次式</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oN1wjQy7rKzUg8PzMDbRjN">配方</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="46TpCkIAFRwM2WMda2atS1">📅 2026-09-11</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="jVyxywDKLZD8bNFLkxrreK">打开课件 →</span>
       </div>
     </a>
-    <a class="card" href="lessons/47-math-tri-quad-two-sol/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·平面图形中的解三角形" data-knowledge="余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验" data-method="拆三角形 · 追问位置关系 · 双解检验" data-date="2026-09-11" data-tags="余弦定理;双解;分类讨论;四边形">
-      <span class="badge">47</span>
-      <div class="card-body">
-        <h3>47</h3>
-        <p class="sub">四边形ABCD求CD双解 · 动画分步课件</p>
-        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">解三角形·平面图形中的解三角形</span><span class="tag-chip k">余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">双解</span><span class="tag-chip" style="background:#f0f0ff;color:#555">分类讨论</span><span class="tag-chip" style="background:#f0f0ff;color:#555">四边形</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-11</span></div>
+    <a class="card" href="lessons/47-math-tri-quad-two-sol/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·平面图形中的解三角形" data-knowledge="余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验" data-method="拆三角形 · 追问位置关系 · 双解检验" data-date="2026-09-11" data-tags="余弦定理;双解;分类讨论;四边形" data-page-node-id="ympv3VU1ZhHEkiCYjG8ubw">
+      <span class="badge" data-page-node-id="tyH89DyeCk3N4ABDOOsiJv">47</span>
+      <div class="card-body" data-page-node-id="CXPbMrUodDeh3Qng9kEH0w">
+        <h3 data-page-node-id="ho92eykopxXt4tfqhHQfdq">47</h3>
+        <p class="sub" data-page-node-id="OnIBPEGBVT1Ly2G6Bu1gWa">四边形ABCD求CD双解 · 动画分步课件</p>
+        <div class="tags" data-page-node-id="IWPtyx63UjCl0uBEt8Bn12"><span class="tag-chip" data-page-node-id="7AZtocr6yXNpcD4S4fOjki">数学</span><span class="tag-chip c" data-page-node-id="6Rj7P9WxghXNsjydY7a0Sq">解三角形·平面图形中的解三角形</span><span class="tag-chip k" data-page-node-id="cjedf2hL2VGG77n41rImuN">余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="2wftsX03gCjv5MEVuXZafE">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="CFDLbe2bnnv7GzKUVDy9Aj">双解</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="gQb8iIEZiWA7jDHDXQb3iT">分类讨论</span><span class="tag-chip" style="background:#f0f0ff;color:#555" data-page-node-id="oZQAozE7ySy52uH82rR8A7">四边形</span><span class="tag-chip" style="background:#fff7e6;color:#b45309" data-page-node-id="HazrJDNZqP0NvTI6xXaBil">📅 2026-09-11</span></div>
         
-        <span class="go">打开课件 →</span>
+        <span class="go" data-page-node-id="Ait7MRJvglRJ88oLNxpE6g">打开课件 →</span>
       </div>
     </a>
   </div>
-  <div class="foot"><a href="manage.html">标签管理</a> · mcjc4 · GitHub Pages · 页面生成于 2026-09-11</div>
+  <div class="foot" data-page-node-id="N7Ff1NkZXlUuZt5iAZKQuA"><a href="manage.html" data-page-node-id="2tSpWLMUnEfaLk5PQhyAIh">标签管理</a> · mcjc4 · GitHub Pages · 页面生成于 2026-09-11</div>
 </div>
 <script>
 (function(){
@@ -692,8 +696,16 @@
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),tag:new Set()};
-  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',tag:'cntTag'};
+  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set()};
+  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate'};
+  var dateFrom=document.getElementById('dateFrom');
+  var dateTo=document.getElementById('dateTo');
+
+  function updateDateCnt(){
+    var n=(dateFrom.value?1:0)+(dateTo.value?1:0);
+    var el=document.getElementById('cntDate');
+    if(n>0){el.textContent=n;el.className='cnt';}else{el.textContent='0';el.className='cnt zero';}
+  }
 
   function updateCnt(f){
     var n=sets[f].size;
@@ -710,7 +722,8 @@
       var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
-      var okD=sets.date.size===0||sets.date.has(card.dataset.date);
+      var dv=card.dataset.date||'';
+      var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
       var show=okS&&okC&&okK&&okM&&okD&&okQ;
       card.style.display=show?'':'none';
@@ -785,6 +798,12 @@
     });
   });
 
+  dateFrom.addEventListener('change',function(){updateDateCnt();apply();});
+  dateTo.addEventListener('change',function(){updateDateCnt();apply();});
+  document.getElementById('dateClear').addEventListener('click',function(){
+    dateFrom.value='';dateTo.value='';updateDateCnt();apply();
+  });
+
   fQ.addEventListener('input',apply);
   document.getElementById('fReset').addEventListener('click',function(){
     ['subject','chapter','knowledge','method','date'].forEach(function(f){
@@ -792,6 +811,7 @@
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
       updateCnt(f);
     });
+    dateFrom.value='';dateTo.value='';updateDateCnt();
     fQ.value='';apply();
   });
 })();
