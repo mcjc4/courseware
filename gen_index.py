@@ -175,6 +175,9 @@ PAGE_TMPL = """<!DOCTYPE html>
   .popup-actions {{ display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid #eef2f8; }}
   .popup-actions button {{ padding:5px 14px; border:1px solid #d6e4f2; border-radius:8px; font-size:12px; cursor:pointer; background:#fff; color:#5c7185; font-family:inherit; }}
   .popup-actions button:hover {{ background:#f0f5ff; color:#2a6df4; }}
+  .popup-options.drange {{ display:flex; flex-direction:column; gap:8px; }}
+  .popup-options .dr-row {{ display:flex; align-items:center; gap:8px; justify-content:space-between; }}
+  .popup-options .dr-row select {{ flex:1; padding:6px 8px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; background:#fff; color:#1f2d3d; font-family:inherit; }}
   .reset-btn {{
     background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
     padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
@@ -294,11 +297,12 @@ PAGE_TMPL = """<!DOCTYPE html>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnDate">\u65e5\u671f <span class="cnt zero" id="cntDate">0</span></button>
         <div class="popup" id="popupDate">
-          <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchDate">
-          <div class="popup-options">{date_checks}</div>
+          <div class="popup-options drange">
+            <label class="popup-option dr-row"><span>\u4ece</span><select id="dateFrom"><option value="">\u4e0d\u9650</option>{date_options}</select></label>
+            <label class="popup-option dr-row"><span>\u81f3</span><select id="dateTo"><option value="">\u4e0d\u9650</option>{date_options}</select></label>
+          </div>
           <div class="popup-actions">
-            <button type="button" data-all="date">\u2611 \u5168\u9009</button>
-            <button type="button" data-clear="date">\u6e05\u9664</button>
+            <button type="button" id="dateClear">\u6e05\u9664</button>
             <button type="button" data-close="popupDate">\u786e\u5b9a</button>
           </div>
         </div>
@@ -323,8 +327,16 @@ PAGE_TMPL = """<!DOCTYPE html>
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),tag:new Set()}};
-  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',tag:'cntTag'}};
+  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set()}};
+  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate'}};
+  var dateFrom=document.getElementById('dateFrom');
+  var dateTo=document.getElementById('dateTo');
+
+  function updateDateCnt(){{
+    var n=(dateFrom.value?1:0)+(dateTo.value?1:0);
+    var el=document.getElementById('cntDate');
+    if(n>0){{el.textContent=n;el.className='cnt';}}else{{el.textContent='0';el.className='cnt zero';}}
+  }}
 
   function updateCnt(f){{
     var n=sets[f].size;
@@ -341,7 +353,8 @@ PAGE_TMPL = """<!DOCTYPE html>
       var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
-      var okD=sets.date.size===0||sets.date.has(card.dataset.date);
+      var dv=card.dataset.date||'';
+      var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
       var show=okS&&okC&&okK&&okM&&okD&&okQ;
       card.style.display=show?'':'none';
@@ -416,6 +429,12 @@ PAGE_TMPL = """<!DOCTYPE html>
     }});
   }});
 
+  dateFrom.addEventListener('change',function(){{updateDateCnt();apply();}});
+  dateTo.addEventListener('change',function(){{updateDateCnt();apply();}});
+  document.getElementById('dateClear').addEventListener('click',function(){{
+    dateFrom.value='';dateTo.value='';updateDateCnt();apply();
+  }});
+
   fQ.addEventListener('input',apply);
   document.getElementById('fReset').addEventListener('click',function(){{
     ['subject','chapter','knowledge','method','date'].forEach(function(f){{
@@ -423,6 +442,7 @@ PAGE_TMPL = """<!DOCTYPE html>
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{cb.checked=false;}});
       updateCnt(f);
     }});
+    dateFrom.value='';dateTo.value='';updateDateCnt();
     fQ.value='';apply();
   }});
 }})();
@@ -613,7 +633,7 @@ def main():
     chapters = sorted({it['chapter'] for it in items if it['chapter']})
     knowledges = sorted({it['knowledge'] for it in items if it['knowledge']})
     methods = sorted({it['method'] for it in items if it['method']})
-    dates = sorted({it['date'] for it in items if it['date']}, reverse=True)
+    dates_asc = sorted({it['date'] for it in items if it['date']})
     all_tags = set()
     for it in items:
         for t in it.get('tags_list', []):
@@ -650,7 +670,7 @@ def main():
         chapter_checks=check_opts(chapters, 'chapter'),
         knowledge_checks=check_opts(knowledges, 'knowledge'),
         method_checks=check_opts(methods, 'method'),
-        date_checks=check_opts(dates, 'date'),
+        date_options=''.join(f'<option value="{d}">{d}</option>' for d in dates_asc),
         cards=cards_html, date=today,
     )
     with open(OUT, 'w', encoding='utf-8') as f:
