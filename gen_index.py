@@ -177,7 +177,13 @@ PAGE_TMPL = """<!DOCTYPE html>
   .popup-actions button:hover {{ background:#f0f5ff; color:#2a6df4; }}
   .popup-options.drange {{ display:flex; flex-direction:column; gap:8px; }}
   .popup-options .dr-row {{ display:flex; align-items:center; gap:8px; justify-content:space-between; }}
-  .popup-options .dr-row select {{ flex:1; padding:6px 8px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; background:#fff; color:#1f2d3d; font-family:inherit; }}
+  .popup-options .dr-row input[type="date"] {{ flex:1; padding:5px 6px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; background:#fff; color:#1f2d3d; font-family:inherit; }}
+  .active-filters {{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:12px 0 2px; min-height:26px; }}
+  .active-filters .af-label {{ font-size:12px; color:#7c8aa0; font-weight:600; }}
+  .af-chip {{ display:inline-flex; align-items:center; gap:6px; padding:4px 6px 4px 12px; border-radius:999px; background:#eef4ff; color:#1d4ed8; border:1px solid #c7dbff; font-size:12px; font-weight:600; }}
+  .af-chip .x {{ cursor:pointer; width:18px; height:18px; line-height:16px; text-align:center; border-radius:50%; background:#dce7ff; color:#1e40af; font-size:12px; user-select:none; }}
+  .af-chip .x:hover {{ background:#1d4ed8; color:#fff; }}
+  .af-chip .x::before {{ content:"×"; }}
   .reset-btn {{
     background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
     padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
@@ -298,8 +304,8 @@ PAGE_TMPL = """<!DOCTYPE html>
         <button class="filter-btn" type="button" id="btnDate">\u65e5\u671f <span class="cnt zero" id="cntDate">0</span></button>
         <div class="popup" id="popupDate">
           <div class="popup-options drange">
-            <label class="popup-option dr-row"><span>\u4ece</span><select id="dateFrom"><option value="">\u4e0d\u9650</option>{date_options}</select></label>
-            <label class="popup-option dr-row"><span>\u81f3</span><select id="dateTo"><option value="">\u4e0d\u9650</option>{date_options}</select></label>
+            <label class="popup-option dr-row"><span>\u4ece</span><input type="date" id="dateFrom" min="{dmin}" max="{dmax}"></label>
+            <label class="popup-option dr-row"><span>\u81f3</span><input type="date" id="dateTo" min="{dmin}" max="{dmax}"></label>
           </div>
           <div class="popup-actions">
             <button type="button" id="dateClear">\u6e05\u9664</button>
@@ -314,6 +320,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     </div>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
+  <div class="active-filters" id="activeFilters"></div>
   <div class="result-info" id="resultInfo">\u5171 {count} \u4e2a\u8bfe\u4ef6</div>
 
   <div class="grid" id="grid">
@@ -345,8 +352,39 @@ PAGE_TMPL = """<!DOCTYPE html>
     el.className=n===0?'cnt zero':'cnt';
   }}
 
+  var currentQ='';
+  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法'}};
+  function syncChecks(f,v){{
+    document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=false;}});
+  }}
+  function renderChips(){{
+    var box=document.getElementById('activeFilters');
+    var chips=[];
+    ['subject','chapter','knowledge','method'].forEach(function(f){{
+      sets[f].forEach(function(v){{
+        chips.push({{label:FNAME[f]+'：'+v, del:function(){{sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}}}});
+      }});
+    }});
+    if(dateFrom.value||dateTo.value){{
+      chips.push({{label:'日期：'+(dateFrom.value||'早期')+' ~ '+(dateTo.value||'今天'), del:function(){{dateFrom.value='';dateTo.value='';updateDateCnt();apply();}}}});
+    }}
+    if(currentQ){{
+      chips.push({{label:'搜索：'+currentQ, del:function(){{fQ.value='';currentQ='';apply();}}}});
+    }}
+    if(!chips.length){{box.innerHTML='';return;}}
+    var out=['<span class="af-label">筛选条件：</span>'];
+    chips.forEach(function(c,i){{
+      out.push('<span class="af-chip" data-ci="'+i+'">'+c.label+'<span class="x" title="删除此条件"></span></span>');
+    }});
+    box.innerHTML=out.join('');
+    box.querySelectorAll('.af-chip').forEach(function(el){{
+      el.querySelector('.x').addEventListener('click',function(){{chips[+el.getAttribute('data-ci')].del();}});
+    }});
+  }}
+
   function apply(){{
     var q=fQ.value.trim().toLowerCase();
+    currentQ=fQ.value.trim();
     var n=0;
     cards.forEach(function(card){{
       var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
@@ -365,6 +403,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     if(n===0){{
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
     }}else{{if(empty)empty.remove();}}
+    renderChips();
   }}
 
   document.querySelectorAll('.filter-btn').forEach(function(btn){{
@@ -670,7 +709,8 @@ def main():
         chapter_checks=check_opts(chapters, 'chapter'),
         knowledge_checks=check_opts(knowledges, 'knowledge'),
         method_checks=check_opts(methods, 'method'),
-        date_options=''.join(f'<option value="{d}">{d}</option>' for d in dates_asc),
+        dmin=dates_asc[0] if dates_asc else '2026-01-01',
+        dmax=dates_asc[-1] if dates_asc else datetime.now().strftime('%Y-%m-%d'),
         cards=cards_html, date=today,
     )
     with open(OUT, 'w', encoding='utf-8') as f:
