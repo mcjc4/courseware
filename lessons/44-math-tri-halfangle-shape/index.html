@@ -1176,6 +1176,34 @@ requestAnimationFrame(loop);
 })();
 </script>
 <!--CSTAT-END-->
+<script id="imgfold-init">
+(function(){
+  var open=true;
+  try{open=localStorage.getItem('imgfold_open')!=='0';}catch(e){}
+  document.querySelectorAll('details.img-fold').forEach(function(d){d.open=open;});
+})();
+</script>
+<style id="imgclean-style">
+.img-switch-btns{display:flex;gap:8px;justify-content:center;margin:10px 0 2px;flex-wrap:wrap;}
+.imgsw{border:1.5px solid #d6e4f2;background:#f8fbff;color:#1f2d3d;font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;cursor:pointer;font-family:inherit;}
+.imgsw.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.imgv{max-width:100%;height:auto;}
+</style>
+<script id="imgclean-fn">
+function imgsw(btn,v){var f=btn.closest('.problem-figure');if(!f)return;
+  var c=f.querySelector('.imgv-clean'),o=f.querySelector('.imgv-orig');
+  if(c)c.style.display=(v==='clean')?'':'none';
+  if(o)o.style.display=(v==='orig')?'':'none';
+  f.querySelectorAll('.imgsw').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v);});
+}
+</script>
+<script id="imgfold-init">
+(function(){
+  var open=true;
+  try{open=localStorage.getItem('imgfold_open')!=='0';}catch(e){}
+  document.querySelectorAll('details.img-fold').forEach(function(d){d.open=open;});
+})();
+</script>
 <style id="cnote-style">
 #cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
 #cnotePill.drag{opacity:.85;transform:scale(1.04);}
@@ -1345,34 +1373,6 @@ requestAnimationFrame(loop);
     if(dragging)return;
     if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
   });
-})();
-</script>
-<script id="imgfold-init">
-(function(){
-  var open=true;
-  try{open=localStorage.getItem('imgfold_open')!=='0';}catch(e){}
-  document.querySelectorAll('details.img-fold').forEach(function(d){d.open=open;});
-})();
-</script>
-<style id="imgclean-style">
-.img-switch-btns{display:flex;gap:8px;justify-content:center;margin:10px 0 2px;flex-wrap:wrap;}
-.imgsw{border:1.5px solid #d6e4f2;background:#f8fbff;color:#1f2d3d;font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;cursor:pointer;font-family:inherit;}
-.imgsw.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
-.imgv{max-width:100%;height:auto;}
-</style>
-<script id="imgclean-fn">
-function imgsw(btn,v){var f=btn.closest('.problem-figure');if(!f)return;
-  var c=f.querySelector('.imgv-clean'),o=f.querySelector('.imgv-orig');
-  if(c)c.style.display=(v==='clean')?'':'none';
-  if(o)o.style.display=(v==='orig')?'':'none';
-  f.querySelectorAll('.imgsw').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v);});
-}
-</script>
-<script id="imgfold-init">
-(function(){
-  var open=true;
-  try{open=localStorage.getItem('imgfold_open')!=='0';}catch(e){}
-  document.querySelectorAll('details.img-fold').forEach(function(d){d.open=open;});
 })();
 </script>
 </body>
