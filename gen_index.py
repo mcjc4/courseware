@@ -448,16 +448,30 @@ PAGE_TMPL = """<!DOCTYPE html>
   function sortCards(){{
     var mode=fSort.value||'visit-desc';
     var desc=mode.indexOf('-desc')>0;
+    // 浏览日期排序：主键=毫秒级真实浏览时间戳（刚浏览的必排最前），无浏览记录的按制作日期兜底、再按编号
+    function visitKey(card){{
+      var ts=+card.dataset.browseTs||0;
+      if(ts>0) return [2,ts,0];
+      var d=card.dataset.date||'';
+      return [1,(new Date(d).getTime()||0),(+card.dataset.num||0)];
+    }}
     var keyOf=function(card){{
       if(mode.indexOf('forgot')===0) return (+card.dataset.forgot||0);
-      if(mode.indexOf('visit')===0) return card.dataset.browse||card.dataset.date||'';
+      if(mode.indexOf('visit')===0) return visitKey(card);
       if(mode.indexOf('date')===0) return card.dataset.date||'';
       return (+card.dataset.num||0);
     }};
     var numeric=(mode.indexOf('forgot')===0||mode.indexOf('num')===0);
     var sorted=cards.slice().sort(function(a,b){{
       var ka=keyOf(a),kb=keyOf(b);
-      var r=numeric?(ka-kb):(ka<kb?-1:(ka>kb?1:0));
+      var r;
+      if(mode.indexOf('visit')===0){{
+        // 数组逐位比较
+        for(var i=0;i<3;i++){{ if(ka[i]!==kb[i]){{ r=ka[i]<kb[i]?-1:1; return desc?-r:r; }} }}
+        r=0;
+      }}else{{
+        r=numeric?(ka-kb):(ka<kb?-1:(ka>kb?1:0));
+      }}
       return desc?-r:r;
     }});
     sorted.forEach(function(c){{grid.appendChild(c);}});
@@ -879,6 +893,7 @@ function renderBadge(cv){
   card.dataset.rating=rk.join(',');
   card.dataset.redo=s.rd?'1':'0';
   card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
+  card.dataset.browseTs=String(cv.visitReal||0); // 毫秒级真实浏览时间戳（无浏览=0），排序用
   var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
   var rt=ratingStr(s)+(s.rd?' · ✍️已重做':'');
   if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when+rt; el.className='c-badge st-new'; }
