@@ -220,6 +220,47 @@ PAGE_TMPL = """<!DOCTYPE html>
   }}
   .reset-btn:hover {{ background:#4f8ef7; color:#fff; }}
   .result-info {{ margin:14px 4px 0; font-size:13px; color:#5c7185; }}
+  .train-btn {{
+    margin-left:10px; border:none; cursor:pointer; font-size:13px; font-weight:600; color:#fff;
+    background:linear-gradient(120deg,#4f8ef7,#22c3a6); padding:6px 16px; border-radius:999px;
+    box-shadow:0 6px 16px -6px rgba(31,142,247,.5); transition:transform .15s;
+  }}
+  .train-btn:hover {{ transform:translateY(-1px); }}
+  /* ===== 专题练面板 ===== */
+  #trainOverlay {{ display:none; position:fixed; inset:0; z-index:999; background:rgba(23,38,58,.62); }}
+  #trainOverlay.open {{ display:flex; align-items:center; justify-content:center; }}
+  .train-panel {{
+    width:min(680px, 92vw); max-height:88vh; overflow:auto; background:#fff; border-radius:24px;
+    box-shadow:0 30px 80px -20px rgba(15,40,90,.5); display:flex; flex-direction:column;
+  }}
+  .train-head {{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px 0; }}
+  .train-progress {{ font-size:15px; font-weight:700; color:#1f2d3d; }}
+  .train-progress small {{ color:#7c8aa0; font-weight:500; margin-left:8px; }}
+  .train-close {{ border:none; background:#eef4fb; color:#41546e; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; }}
+  .train-body {{ padding:14px 22px; flex:1; }}
+  .train-body h3 {{ margin:4px 0 8px; font-size:20px; color:#17293f; line-height:1.45; }}
+  .train-body .t-sub {{ color:#6b7f95; font-size:13px; margin:0 0 10px; }}
+  .train-body .t-tags {{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }}
+  .train-body .t-tags span {{ background:#f0f6ff; color:#3b6cb4; border-radius:999px; padding:3px 12px; font-size:12px; }}
+  .train-body .t-badge {{ display:inline-block; font-size:12px; background:#f6f9fd; border:1px solid #e3edf7; border-radius:999px; padding:5px 12px; color:#51637a; }}
+  .train-body .t-date {{ margin-left:8px; color:#8fa1b5; font-size:12px; }}
+  .train-foot {{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 22px 18px; flex-wrap:wrap; }}
+  .train-nav {{ display:flex; gap:10px; align-items:center; }}
+  .train-nav button {{
+    border:1.5px solid #d6e4f2; background:#f8fbff; color:#1f2d3d; font-size:14px;
+    padding:9px 18px; border-radius:12px; cursor:pointer; transition:all .15s;
+  }}
+  .train-nav button:disabled {{ opacity:.35; cursor:not-allowed; }}
+  .train-nav button:not(:disabled):hover {{ border-color:#4f8ef7; color:#3b6cb4; }}
+  .train-open {{
+    border:none; cursor:pointer; font-size:14px; font-weight:600; color:#fff;
+    background:linear-gradient(120deg,#4f8ef7,#22c3a6); padding:10px 22px; border-radius:12px; text-decoration:none;
+  }}
+  .train-opts {{ display:flex; gap:14px; align-items:center; font-size:13px; color:#51637a; flex-wrap:wrap; }}
+  .train-opts label {{ display:flex; align-items:center; gap:5px; cursor:pointer; }}
+  .train-opts select {{ border:1.5px solid #d6e4f2; border-radius:8px; padding:4px 6px; font-size:12px; background:#f8fbff; color:#1f2d3d; }}
+  .train-redo input {{ transform:scale(1.15); cursor:pointer; }}
+  .train-tip {{ font-size:11px; color:#9db0c4; padding:0 22px 14px; }}
   .grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin-top:16px; }}
   .card {{
     display:flex; gap:14px; background:#fff; border:1px solid #e3edf7; border-radius:20px;
@@ -425,10 +466,42 @@ PAGE_TMPL = """<!DOCTYPE html>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span></div>
+  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button></div>
 
   <div class="grid" id="grid">
 {cards}
+  </div>
+  <!-- 专题练训练面板 -->
+  <div id="trainOverlay">
+    <div class="train-panel">
+      <div class="train-head">
+        <div class="train-progress"><span id="trainProgress">1 / 1</span><small id="trainOrderLbl">顺序</small></div>
+        <button class="train-close" id="trainClose" type="button" title="\u9000\u51fa (Esc)">✕</button>
+      </div>
+      <div class="train-body">
+        <h3 id="trainTitle"></h3>
+        <p class="t-sub" id="trainSub"></p>
+        <div class="t-tags" id="trainTags"></div>
+        <div><span class="t-badge" id="trainBadge"></span><span class="t-date" id="trainDate"></span></div>
+      </div>
+      <div class="train-foot">
+        <div class="train-nav">
+          <button id="trainPrev" type="button" title="\u5feb\u6377\u952e \u2190">← \u4e0a\u4e00\u9898</button>
+          <button id="trainNext" type="button" title="\u5feb\u6377\u952e \u2192">\u4e0b\u4e00\u9898 →</button>
+        </div>
+        <a class="train-open" id="trainOpen" href="#" target="_blank" rel="noopener">\u6253\u5f00\u8bfe\u4ef6 \u2197</a>
+        <div class="train-opts">
+          <label>\u987a\u5e8f
+            <select id="trainOrder">
+              <option value="seq" selected>\u987a\u5e8f</option>
+              <option value="random">\u968f\u673a</option>
+            </select>
+          </label>
+          <label class="train-redo"><input type="checkbox" id="trainRedo">✍️ \u5df2\u72ec\u7acb\u91cd\u505a</label>
+        </div>
+      </div>
+      <div class="train-tip">\u5feb\u6377\u952e：← \u4e0a\u4e00\u9898 · → \u4e0b\u4e00\u9898 · Esc \u9000\u51fa；\u4e0a\u6b21\u7ec3\u5230\u7684\u4f4d\u7f6e\u4f1a\u81ea\u52a8\u8bb0\u5fc6</div>
+    </div>
   </div>
   <div class="foot"><a href="manage.html">\u6807\u7b7e\u7ba1\u7406</a> \u00b7 mcjc4 \u00b7 GitHub Pages \u00b7 \u9875\u9762\u751f\u6210\u4e8e {date}</div>
 </div>
@@ -553,6 +626,8 @@ PAGE_TMPL = """<!DOCTYPE html>
     }});
     var rc=document.getElementById('resultCount');
     if(rc)rc.textContent=n; // 只更新数字；不能用 textContent 覆盖整个 resultInfo（会清掉 statMeta 子节点）
+    var tb=document.getElementById('trainBtn');
+    if(tb)tb.style.display=n>0?'':'none'; // 无筛选结果时隐藏专题练入口
     var empty=document.getElementById('emptyHint');
     if(n===0){{
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
@@ -871,8 +946,9 @@ function mergeStats(loc,cl){
     skilled:Math.max(loc.skilled||0,cl.skilled||0),
     fuzzy:cnt(loc.fuzzy,cl.fuzzy),
     forgot:cnt(loc.forgot,cl.forgot),
-    // 独立重做是状态不是累计：较新 ts 侧为准
-    rd:(cts>lts)?!!cl.rd:!!loc.rd
+    // 独立重做是状态不是累计：按重做自身 ts（rts）与云端 updated_at 较新侧为准
+    // （不能用自评 cstat 的 ts——从未打开过的课件 ts=0，导航页勾的重做会被云端顶掉）
+    rd:(loc.rts&&loc.rts>cts)?!!loc.rd:!!cl.rd
   };
 }
 function ratingStr(s){
@@ -961,6 +1037,119 @@ document.getElementById('statRefresh').addEventListener('click',function(){
   var meta=document.getElementById('statMeta');
   if(meta)meta.textContent='· 刷新中…';
   fetchCloud();
+});
+
+/* ===== 专题练：筛选结果逐张浏览训练 ===== */
+var trainOv=document.getElementById('trainOverlay');
+var trainList=[], trainIdx=0;
+var trainBtn=document.getElementById('trainBtn');
+var orderSel=document.getElementById('trainOrder');
+try{ var to=localStorage.getItem('train_order'); if(to)orderSel.value=to; }catch(e){}
+document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
+
+var cfgT={url:'https://mixuqjognbdrafrrlivc.supabase.co',key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'};
+try{ var ccfg=JSON.parse(localStorage.getItem('course_cloud_cfg')); if(ccfg&&ccfg.url&&ccfg.key)cfgT=ccfg; }catch(e){}
+
+function visibleCards(){ return cards.filter(function(c){ return c.style.display!=='none'; }); }
+function shuffleArr(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+function trainRender(){
+  var card=trainList[trainIdx]; if(!card)return;
+  var cid=card.dataset.cid||'';
+  document.getElementById('trainProgress').textContent=(trainIdx+1)+' / '+trainList.length;
+  var h=card.querySelector('h3');
+  document.getElementById('trainTitle').textContent=h?h.textContent:'';
+  var sub=card.querySelector('.sub');
+  document.getElementById('trainSub').textContent=sub?sub.textContent:'';
+  var tags=card.querySelector('.tags');
+  document.getElementById('trainTags').innerHTML=tags?tags.innerHTML:'';
+  var badge=card.querySelector('.c-badge');
+  var be=document.getElementById('trainBadge');
+  be.textContent=badge?badge.textContent:'';
+  be.className='t-badge '+(badge&&badge.className.split(' ')[1]||'');
+  document.getElementById('trainDate').textContent='制作 '+(card.dataset.date||'—');
+  document.getElementById('trainOpen').setAttribute('href',card.getAttribute('href'));
+  var rd=document.getElementById('trainRedo');
+  var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
+  rd.checked=d.done===1;
+  rd.dataset.cid=cid;
+  document.getElementById('trainPrev').disabled=(trainIdx<=0);
+  document.getElementById('trainNext').disabled=(trainIdx>=trainList.length-1);
+  try{ localStorage.setItem('train_pos',JSON.stringify({n:trainList.length,i:trainIdx})); }catch(e){}
+}
+function trainOpenPanel(){
+  var vis=visibleCards();
+  if(!vis.length)return;
+  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  trainIdx=0;
+  try{ // 位置记忆：题目数一致时恢复上次练到的位置
+    var p=JSON.parse(localStorage.getItem('train_pos'));
+    if(p&&p.n===trainList.length&&p.i>=0&&p.i<trainList.length)trainIdx=p.i;
+  }catch(e){}
+  trainOv.classList.add('open');
+  trainRender();
+}
+function trainClosePanel(){ trainOv.classList.remove('open'); }
+function trainStep(d){
+  var ni=trainIdx+d;
+  if(ni<0||ni>=trainList.length)return;
+  trainIdx=ni; trainRender();
+}
+// 面板内勾「已独立重做」→ 本机 + 徽章 + 云端合并上报
+function syncRedo(cid,done){
+  var h={'apikey':cfgT.key,'Authorization':'Bearer '+cfgT.key,'Content-Type':'application/json'};
+  var base=cfgT.url.replace(/\/+$/,'')+'/rest/v1/course_stats';
+  fetch(base+'?course_id=eq.'+encodeURIComponent(cid),{headers:h})
+  .then(function(r){ return r.ok?r.json():[]; })
+  .then(function(rows){
+    var row=(rows&&rows[0])||{};
+    var cl={skilled:row.skilled||0,fuzzy:row.fuzzy||0,forgot:row.forgot||0,
+            rg:row.rating_good||0,rh:row.rating_hard||0,rt:row.rating_teach||0,
+            rd:row.redone===true,
+            visit:row.last_visit?new Date(row.last_visit).getTime():0,
+            ts:row.updated_at?new Date(row.updated_at).getTime():0};
+    var loc=collectLocal()[cid]||{};
+    var m=mergeStats(loc,cl);
+    m.rg=Math.max(loc.rg||0,cl.rg||0);
+    m.rh=Math.max(loc.rh||0,cl.rh||0);
+    m.rt=Math.max(loc.rt||0,cl.rt||0);
+    var body={course_id:cid,skilled:m.skilled,fuzzy:m.fuzzy,forgot:m.forgot,
+              rating_good:m.rg,rating_hard:m.rh,rating_teach:m.rt,
+              redone:!!done,updated_at:new Date().toISOString(),
+              last_visit:loc.visit?new Date(loc.visit).toISOString():null};
+    return fetch(base+'?on_conflict=course_id',{
+      method:'POST',headers:Object.assign({'Prefer':'resolution=merge-duplicates'},h),
+      body:JSON.stringify(body)});
+  }).catch(function(){ /* 云端不可达不阻塞，本机已记账 */ });
+}
+trainBtn.addEventListener('click',trainOpenPanel);
+document.getElementById('trainClose').addEventListener('click',trainClosePanel);
+document.getElementById('trainPrev').addEventListener('click',function(){trainStep(-1);});
+document.getElementById('trainNext').addEventListener('click',function(){trainStep(1);});
+orderSel.addEventListener('change',function(){
+  try{ localStorage.setItem('train_order',orderSel.value); }catch(e){}
+  document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
+  var cur=trainList[trainIdx];
+  var vis=visibleCards();
+  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  trainIdx=0;
+  if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
+  trainRender();
+});
+document.getElementById('trainRedo').addEventListener('change',function(){
+  var cid=this.dataset.cid; if(!cid)return;
+  try{ localStorage.setItem('credo:'+cid,JSON.stringify({done:this.checked?1:0,ts:Date.now()})); }catch(e){}
+  applyStats(statMap); // 立即刷新卡片徽章与 data-redo
+  syncRedo(cid,this.checked);
+});
+document.addEventListener('keydown',function(e){
+  if(!trainOv.classList.contains('open'))return;
+  if(e.key==='ArrowLeft'){trainStep(-1);}
+  else if(e.key==='ArrowRight'){trainStep(1);}
+  else if(e.key==='Escape'){trainClosePanel();}
 });
 """
 
