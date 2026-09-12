@@ -470,6 +470,9 @@ document.getElementById('ansBtn').onclick=()=>{{
 #crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
 #credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
 #credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
+#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
 #crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 @media (max-width:640px){ #cstat-label,#crate-label{display:none} }
 #tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
@@ -490,7 +493,7 @@ document.getElementById('ansBtn').onclick=()=>{{
   <button type="button" id="crate-good" class="crg">👍 好</button>
   <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
   <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
-  <label id="credo-box" title="勾选表示不看讲解独立重做了一遍"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做</label>
+  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
   <span id="crate-counts"></span>
   <span id="crate-flash"></span>
 </div>
@@ -542,21 +545,35 @@ document.getElementById('ansBtn').onclick=()=>{{
   function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
   function setRedo(done){
     var d = readD();
+    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
     d.done = done ? 1 : 0;
-    d.ts = Date.now();
     try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
     try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
     window.dispatchEvent(new CustomEvent('cstat:change'));
-    return d.done;
+    renderRedoInfo();
+    return d;
   }
   window.__setRedo = setRedo;
+  function fmtHM(ts){
+    if (!ts) return '';
+    var d = new Date(ts);
+    var p = function(x){ return ('0'+x).slice(-2); };
+    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function renderRedoInfo(){
+    var el = document.getElementById('credo-info');
+    if (!el) return;
+    var d = readD();
+    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
+  }
   function initRedo(){
     var chk = document.getElementById('credo-chk');
     if (!chk) return;
     chk.checked = readD().done === 1;
+    renderRedoInfo();
     chk.addEventListener('change', function(){
-      var done = setRedo(chk.checked);
-      flash(done ? '\u2713 \u5df2\u6807\u8bb0\u72ec\u7acb\u91cd\u505a' : '\u5df2\u53d6\u6d88\u72ec\u7acb\u91cd\u505a\u6807\u8bb0');
+      var d = setRedo(chk.checked);
+      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
     });
   }
   function render(){
@@ -643,7 +660,7 @@ document.getElementById('ansBtn').onclick=()=>{{
     var d = readJSON(CREDO_KEY, {});
     return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0,
              rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
-             rd: d.done===1, rts: d.ts||0 };
+             rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
   }
   var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
   function report(){
@@ -684,6 +701,8 @@ document.getElementById('ansBtn').onclick=()=>{{
         skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
         rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
         redone: s.rd,
+        redo_count: s.rn||0,
+        redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
       }])
@@ -747,6 +766,82 @@ document.getElementById('ansBtn').onclick=()=>{{
   });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
   else build();
+})();
+</script>
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 <!--CSTAT-END-->
