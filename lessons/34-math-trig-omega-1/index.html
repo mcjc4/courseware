@@ -94,7 +94,7 @@ section{margin-top:20px}
 .legend i{display:inline-block;width:18px;height:3px;border-radius:2px}
 .legend i.dash{height:0;border-top:2px dashed}
 </style>
-<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_34_math_trig_omega_1","title":"ω的取值范围·对称性 | 三角函数互动课件","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-11","number":"数0020"}</script><!--/CSTAT-META-->
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_34_math_trig_omega_1","title":"ω的取值范围·对称性 | 三角函数互动课件","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-12","number":"数0020"}</script><!--/CSTAT-META-->
 </head>
 <body>
 <div class="wrap">
@@ -526,6 +526,8 @@ section{margin-top:20px}
 #crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
 #crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
 #crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
+#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
 #crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 @media (max-width:640px){ #cstat-label,#crate-label{display:none} }
 </style>
@@ -534,6 +536,7 @@ section{margin-top:20px}
   <button type="button" id="crate-good" class="crg">👍 好</button>
   <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
   <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <label id="credo-box" title="勾选表示不看讲解独立重做了一遍"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做</label>
   <span id="crate-counts"></span>
   <span id="crate-flash"></span>
 </div>
@@ -556,6 +559,7 @@ section{margin-top:20px}
   if (!CM || !CM.id) return;
   var CSTAT_KEY = 'cstat:' + CM.id;
   var CRATE_KEY = 'crate:' + CM.id;
+  var CREDO_KEY = 'credo:' + CM.id;
   function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
   function recordCourseState(state){
     var s = readS();
@@ -581,6 +585,26 @@ section{margin-top:20px}
     return r[kind]||0;
   }
   window.__rateCourse = rateCourse;
+  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
+  function setRedo(done){
+    var d = readD();
+    d.done = done ? 1 : 0;
+    d.ts = Date.now();
+    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    return d.done;
+  }
+  window.__setRedo = setRedo;
+  function initRedo(){
+    var chk = document.getElementById('credo-chk');
+    if (!chk) return;
+    chk.checked = readD().done === 1;
+    chk.addEventListener('change', function(){
+      var done = setRedo(chk.checked);
+      flash(done ? '\u2713 \u5df2\u6807\u8bb0\u72ec\u7acb\u91cd\u505a' : '\u5df2\u53d6\u6d88\u72ec\u7acb\u91cd\u505a\u6807\u8bb0');
+    });
+  }
   function render(){
     var s = readS();
     var el = document.getElementById('cstat-counts');
@@ -624,6 +648,7 @@ section{margin-top:20px}
     bindRate('crate-good','good','\ud83d\udc4d \u597d');
     bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
     bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    initRedo();
     render(); renderR();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -642,6 +667,7 @@ section{margin-top:20px}
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
   var CRATE_KEY = 'crate:' + CID;
+  var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
@@ -660,8 +686,10 @@ section{margin-top:20px}
   function compute(){
     var s = readJSON(CSTAT_KEY, {});
     var r = readJSON(CRATE_KEY, {});
+    var d = readJSON(CREDO_KEY, {});
     return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0,
-             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
+             rd: d.done===1, rts: d.ts||0 };
   }
   var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
   function report(){
@@ -701,6 +729,7 @@ section{margin-top:20px}
         course_id: CID,
         skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
         rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        redone: s.rd,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
       }])
@@ -714,7 +743,7 @@ section{margin-top:20px}
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
-    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY) report(); });
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
   }
