@@ -540,5 +540,98 @@ function imgsw(btn,v){var f=btn.closest('.problem-figure');if(!f)return;
   document.querySelectorAll('details.img-fold').forEach(function(d){d.open=open;});
 })();
 </script>
+
+<style>
+/* v8.5 宽屏双列：动画左 · 参数滑块右 */
+.duo{display:flex;flex-direction:column;gap:12px}
+.duo-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (min-width:900px), (orientation:landscape) and (min-width:640px){
+  .duo{flex-direction:row;align-items:flex-start}
+  .duo>.canvas-wrap{flex:1.7;min-width:0}
+  .duo>.duo-side{flex:1;max-width:360px}
+}
+/* v8.5 组卷网同题链接条 */
+.zj-bar{display:flex;align-items:center;gap:8px;margin:12px 0;padding:8px 12px;background:#f5f9ff;border:1px dashed #b9cff5;border-radius:12px;font-size:13px;flex-wrap:wrap}
+.zj-bar .zj-label{font-weight:700;color:#475569;white-space:nowrap}
+.zj-bar input{flex:1;min-width:180px;border:1px solid #cdddfa;border-radius:8px;padding:6px 10px;font-size:13px;outline:none;background:#fff;color:#1e293b}
+.zj-bar input:focus{border-color:#4f8ef7}
+.zj-open{color:#2563eb;font-weight:600;text-decoration:none;white-space:nowrap}
+.zj-stat{color:#94a3b8;font-size:12px}
+</style>
+
+<script>
+/* v8.5 ①宽屏/横屏：参数滑块移到动画区右侧 */
+(function(){
+function initDuo(){
+  var cw=document.querySelector('.canvas-wrap'), ct=document.querySelector('.controls');
+  if(!cw||!ct||cw.dataset.duo) return;
+  cw.dataset.duo='1';
+  var d=document.createElement('div'); d.className='duo';
+  var side=document.createElement('div'); side.className='duo-side';
+  cw.parentNode.insertBefore(d,cw);
+  d.appendChild(cw); side.appendChild(ct); d.appendChild(side);
+  try{ window.dispatchEvent(new Event('resize')); }catch(e){}
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initDuo);
+else initDuo();
+})();
+/* v8.5 ②组卷网同题链接（方案A：本地 localStorage + course_stats.zujuan_url 云同步） */
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script#c-meta');
+      if(m){ var j=JSON.parse(m.textContent); if(j&&j.id) return j.id; }
+    }catch(e){}
+    return location.pathname.replace(/\/+$/,'').split('/').pop()||'unknown';
+  })();
+  var LK='zujuan:'+CID;
+  var CFG={url:'https://mixuqjognbdrafrrlivc.supabase.co',key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'};
+  function initZj(){
+    if(document.getElementById('zjUrl')) return;
+    var bar=document.createElement('div'); bar.className='zj-bar';
+    bar.innerHTML='<span class="zj-ico">🔗</span><span class="zj-label">组卷网同题</span>'
+      +'<input id="zjUrl" type="url" placeholder="粘贴组卷网同题链接（失焦自动保存）">'
+      +'<a id="zjOpen" class="zj-open" target="_blank" rel="noopener" style="display:none">打开 ↗</a>'
+      +'<span id="zjStat" class="zj-stat"></span>';
+    var anchor=document.querySelector('details.img-fold')||document.querySelector('.hero');
+    if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(bar,anchor.nextSibling);
+    else document.body.appendChild(bar);
+    var inp=bar.querySelector('#zjUrl'), open=bar.querySelector('#zjOpen'), stat=bar.querySelector('#zjStat');
+    function show(v){ open.style.display=v?'':'none'; if(v) open.href=v; }
+    function save(){
+      var v=(inp.value||'').trim();
+      try{ localStorage.setItem(LK,v); }catch(e){}
+      show(v);
+      if(!v){ stat.textContent=''; return; }
+      stat.textContent='保存中…';
+      fetch(CFG.url.replace(/\/+$/,'')+'/rest/v1/course_stats',{
+        method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'resolution=merge-duplications,return=minimal'},
+        body:JSON.stringify([{course_id:CID,zujuan_url:v,updated_at:new Date().toISOString()}])
+      }).then(function(r){ stat.textContent=r.ok?'✓ 已同步云端':'⚠️ 云端列未建，暂存本地'; })
+        .catch(function(){ stat.textContent='⚠️ 网络失败，暂存本地'; });
+    }
+    inp.addEventListener('change',save);
+    inp.addEventListener('blur',save);
+    var v='';
+    try{ v=localStorage.getItem(LK)||''; }catch(e){}
+    if(v){ inp.value=v; show(v); stat.textContent='✓'; }
+    else{
+      fetch(CFG.url.replace(/\/+$/,'')+'/rest/v1/course_stats?course_id=eq.'+encodeURIComponent(CID)+'&select=zujuan_url',
+        {headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}})
+        .then(function(r){ return r.ok?r.json():[]; })
+        .then(function(a){
+          if(a&&a[0]&&a[0].zujuan_url){
+            inp.value=a[0].zujuan_url; show(a[0].zujuan_url);
+            try{ localStorage.setItem(LK,a[0].zujuan_url); }catch(e){}
+            stat.textContent='✓ 云端';
+          }
+        }).catch(function(){});
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initZj);
+  else initZj();
+})();
+</script>
 </body>
 </html>
