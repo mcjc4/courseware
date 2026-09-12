@@ -897,6 +897,8 @@ section{margin-top:20px}
 .cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
 .cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
 .cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
 #cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
 .cp-foot{display:flex;justify-content:space-between;align-items:center;}
 .cp-cnt{font-size:11.5px;color:#93a7ba;}
@@ -938,14 +940,21 @@ section{margin-top:20px}
   document.body.appendChild(pop);
   var sel={};
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
   function renderPop(){
     var vs=vocab(),n=localNotes();
     var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条，可连续点多个</div>';
     h+='<div class="cp-tags">';
-    vs.forEach(function(t){h+='<span class="cp-tag'+(sel[t]?' on':'')+'" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
     h+='</div>';
     h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
-    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">记一条</button></div>';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
     if(n.length){
       var last=n[n.length-1];
       var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
@@ -954,20 +963,25 @@ section{margin-top:20px}
     }
     pop.innerHTML=h;
     pop.querySelectorAll('.cp-tag').forEach(function(el){
-      el.addEventListener('click',function(){var t=el.getAttribute('data-t');if(sel[t])delete sel[t];else sel[t]=1;el.classList.toggle('on');});
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        saveRec([t],txt);
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+      });
     });
     var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
     var sv=pop.querySelector('#cnoteSave');
     sv.addEventListener('click',function(){
-      var tags=Object.keys(sel);
       var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-      if(!tags.length&&!txt){pop.querySelector('#cnoteTxt').focus();return;}
-      var rec={tags:tags,note:txt,ts:Date.now()};
-      var arr=localNotes();arr.push(rec);saveLocal(arr);
-      pushCloud(rec);
-      sel={};
-      sv.textContent='✓ 已记录';sv.disabled=true;
-      setTimeout(closePop,700);
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
     });
   }
   function openPop(){renderPop();pop.classList.add('open');}
@@ -977,9 +991,9 @@ section{margin-top:20px}
     var p=JSON.parse(localStorage.getItem(key)||'null');
     if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
   }catch(e){}
-  var timer=null,dragging=false,moved=false,sx=0,sy=0,ox=0,oy=0;
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
   pill.addEventListener('pointerdown',function(e){
-    dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
     var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
     timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
     e.preventDefault();
@@ -991,15 +1005,20 @@ section{margin-top:20px}
     nt=Math.max(4,Math.min(window.innerHeight-60,nt));
     pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
   });
-  window.addEventListener('pointerup',function(){
-    clearTimeout(timer);
-    if(dragging&&moved){
-      dragging=false;pill.classList.remove('drag');
-      try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(e){}
-    }else{
-      dragging=false;pill.classList.remove('drag');
-      if(pop.classList.contains('open'))closePop();else openPop();
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
     }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
   });
 })();
 </script>
