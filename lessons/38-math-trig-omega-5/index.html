@@ -954,5 +954,121 @@
 })();
 </script>
 <!--CSTAT-END-->
+<style id="cnote-style">
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+</style>
+<script id="cnote-inject">
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','记得这个套路没想到用在这','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 没想到';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag'+(sel[t]?' on':'')+'" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">记一条</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){var t=el.getAttribute('data-t');if(sel[t])delete sel[t];else sel[t]=1;el.classList.toggle('on');});
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var tags=Object.keys(sel);
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!tags.length&&!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      var rec={tags:tags,note:txt,ts:Date.now()};
+      var arr=localNotes();arr.push(rec);saveLocal(arr);
+      pushCloud(rec);
+      sel={};
+      sv.textContent='✓ 已记录';sv.disabled=true;
+      setTimeout(closePop,700);
+    });
+  }
+  function openPop(){renderPop();pop.classList.add('open');}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-100,nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(){
+    clearTimeout(timer);
+    if(dragging&&moved){
+      dragging=false;pill.classList.remove('drag');
+      try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(e){}
+    }else{
+      dragging=false;pill.classList.remove('drag');
+      if(pop.classList.contains('open'))closePop();else openPop();
+    }
+  });
+})();
+</script>
 </body>
 </html>
