@@ -486,7 +486,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button><button class="train-btn" id="noteAnBtn" type="button" title="\u6c47\u603b\u5168\u90e8\u8bfe\u4ef6\u7684\u300c\u6ca1\u60f3\u5230\u300d\u5361\u70b9\u8bb0\u5f55" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 \u9519\u56e0\u5206\u6790</button></div>
+  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button><button class="train-btn" id="noteAnBtn" type="button" title="\u6c47\u603b\u5168\u90e8\u8bfe\u4ef6\u7684\u300c\u6ca1\u60f3\u5230\u300d\u5361\u70b9\u8bb0\u5f55" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 \u9519\u56e0\u5206\u6790</button><button class="train-btn" id="cfgBtn" type="button" title="\u8bfe\u4ef6\u9875\u663e\u793a\u8bbe\u5b9a\uff08\u539f\u9898\u533a\u5f00\u5408/\u95ea\u70c1\u95f4\u9694\uff09" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ \u8bfe\u4ef6\u8bbe\u5b9a</button></div>
 
   <div class="grid" id="grid">
 {cards}
@@ -1174,6 +1174,44 @@ renderNoteTagChecks();
   overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.classList.remove('open');});
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&overlay.classList.contains('open'))overlay.classList.remove('open');
+  });
+})();
+
+/* ===== 课件页显示设定（⚙️）：原题区开合 / 红框闪烁间隔 ===== */
+(function(){
+  var cfgPop=null,cfgBtn=document.getElementById('cfgBtn');
+  function ensureCfgPop(){
+    if(cfgPop)return cfgPop;
+    cfgPop=document.createElement('div');cfgPop.id='cfgPop';
+    cfgPop.style.cssText='display:none;position:fixed;z-index:99998;background:#fff;border:1px solid #e3edf7;border-radius:14px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;width:270px;max-width:92vw;font-size:13px;color:#1f2d3d;';
+    cfgPop.innerHTML='<div style="font-weight:700;margin-bottom:10px">⚙️ 课件页显示设定</div>'
+      +'<label style="display:flex;align-items:center;gap:8px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="cfgFold"> 原题区默认展开（显示去手写版）</label>'
+      +'<label style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">「记错误原因」未记录时红框闪烁，间隔 <input type="number" id="cfgBlink" min="1" max="60" style="width:56px;padding:4px 6px;border:1px solid #d6e4f2;border-radius:8px;font-family:inherit"> 秒</label>'
+      +'<div style="margin-top:10px;font-size:11.5px;color:#93a7ba">改动即时保存，打开课件时生效</div>';
+    document.body.appendChild(cfgPop);
+    var cb=cfgPop.querySelector('#cfgFold'),bn=cfgPop.querySelector('#cfgBlink');
+    cb.checked=(function(){try{return localStorage.getItem('imgfold_open')!=='0';}catch(e){return true;}})();
+    bn.value=(function(){try{return localStorage.getItem('cnote_blink_sec')||5;}catch(e){return 5;}})();
+    cb.addEventListener('change',function(){
+      try{localStorage.setItem('imgfold_open',cb.checked?'1':'0');}catch(e){}
+    });
+    bn.addEventListener('change',function(){
+      var v=Math.max(1,Math.min(60,Math.round(+bn.value)||5));
+      try{localStorage.setItem('cnote_blink_sec',String(v));}catch(e){}
+      bn.value=v;
+    });
+    return cfgPop;
+  }
+  if(cfgBtn)cfgBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var p=ensureCfgPop();
+    var r=cfgBtn.getBoundingClientRect();
+    p.style.right=Math.max(8,window.innerWidth-r.right)+'px';
+    p.style.top=(r.bottom+8)+'px';
+    p.style.display=(p.style.display==='block')?'none':'block';
+  });
+  document.addEventListener('click',function(e){
+    if(cfgPop&&cfgPop.style.display==='block'&&!cfgPop.contains(e.target)&&e.target!==cfgBtn)cfgPop.style.display='none';
   });
 })();
 """
