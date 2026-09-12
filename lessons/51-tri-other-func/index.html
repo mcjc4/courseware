@@ -140,14 +140,14 @@
     <div class="controls" style="margin-top:.8rem;">
       <div class="control">
         <label>t = a/b <span class="v" id="t-val">1.00</span></label>
-        <input id="t-slider" type="range" min="0.05" max="10" step="0.05" value="1" />
+        <input id="t-slider" type="range" min="0.05" max="2.95" step="0.05" value="1" />
       </div>
       <div class="metric" style="display:flex;align-items:center;justify-content:center;gap:.6rem;">
         <span class="k" style="font-size:.7rem;">实时判定</span>
         <span id="liveBadge" class="badge-ok">✓ (a+c)/b = 2.41 &gt; 1</span>
       </div>
     </div>
-    <p class="hintline">🟦 曲线 $f(t)=t+\sqrt{t+1}$ 单调递增 · 红虚线 $y=1$ 是<b>渐近线（取不到）</b> · <b>(1, +∞)</b></p>
+    <p class="hintline">🟦 曲线 $f(t)=t+\sqrt{t+1}$ 单调递增 · 红虚线 $y=1$、$y=5$ 是<b>上下界（取不到）</b> · 灰虚线为无效区 · <b>(1, 5)</b></p>
   </section>
 
   <section class="card">
@@ -170,11 +170,12 @@
       </div>
     </details>
     <details>
-      <summary>🎯 (3) 单调性定范围</summary>
+      <summary>🎯 (3) 单调性 + 三角形不等式定范围</summary>
       <div class="step-body">
-        <p>$y=t$ 与 $y=\sqrt{t+1}$ 在 $(0,+\infty)$ 上都单调递增，所以 $f(t)$ <b>单调递增</b>。</p>
-        <p>$t\to 0^+$：$f\to 1$（<b>取不到</b>——$t=0$ 意味着 $a=0$，三角形塌了）；$t\to+\infty$：$f\to+\infty$，无上界。</p>
-        <div class="formula">$\dfrac{a+c}{b}\in\boxed{(1,\;+\infty)}$</div>
+        <p>$y=t$ 与 $y=\sqrt{t+1}$ 在 $(0,+\infty)$ 上都单调递增，所以 $f(t)$ <b>单调递增</b>。但 $t$ <span class="red">不是无上界的</span>——三角形不等式 $b+c&gt;a$ 卡住了它。</p>
+        <p>代 $a=tb,\ c=\sqrt{t+1}\,b$ 入 $b+c&gt;a$：$1+\sqrt{t+1}&gt;t\Rightarrow t^2-3t&lt;0\Rightarrow 0&lt;t&lt;3$（等价于 $\cos C&gt;-\dfrac12$，即 $C&lt;\dfrac{2\pi}{3}$）。</p>
+        <p>$t\to 0^+$：$f\to 1$（<b>取不到</b>——$a=0$，塌）；$t\to 3^-$：$f\to 5$（<b>取不到</b>——$b+c=a$，塌）。两端都<b>空心</b>。</p>
+        <div class="formula">$\dfrac{a+c}{b}\in\boxed{(1,\;5)}$</div>
         <p>⚠️ 别急着用均值不等式：$t+\sqrt{t+1}$ 两项一增一"根"，既不同号也不定和——<b>单调性才是正路</b>。</p>
       </div>
     </details>
@@ -215,7 +216,7 @@
 
   <section class="final-answer">
     <div class="heading">🏁 最终答案</div>
-    <div class="big">(1) $B=\dfrac{\pi}{4}$　(2) $\dfrac{a+c}{b}\in(1,\;+\infty)$</div>
+    <div class="big">(1) $B=\dfrac{\pi}{4}$　(2) $\dfrac{a+c}{b}\in(1,\;5)$</div>
     <div class="numerical">跟训3：8√3/9 ≈ 1.540　·　口诀：齐次不成换元上，单调定界空心墙</div>
   </section>
 
@@ -231,7 +232,7 @@ function renderAllMath(root) {
   }
 }
 function fOf(t) { return t + Math.sqrt(t + 1); }
-var T_LO = 0, T_HI = 10.5;
+var T_LO = 0, T_HI = 3.4;
 
 var disp = { t: 1 };
 var curFlags = {};
@@ -248,15 +249,18 @@ var STEPS = [
   { tx: "换元造函数", t: 1, flags: { axes: 1, curve: 1, cond: 1 },
     desc: '第(2)问 $\\frac{a+c}{b}$ 不是齐次式，<span class="red">基本不等式没有抓手</span>。两边除以 $b^2$：' +
           '$\\frac ab=\\left(\\frac cb\\right)^2-1$，令 $t=\\frac ab&gt;0$，则 $\\frac cb=\\sqrt{t+1}$，目标 $f(t)=t+\\sqrt{t+1}$（蓝曲线）。' },
-  { tx: "单调性上路", t: 3, flags: { axes: 1, curve: 1, dot: 1, pill: 1 },
+  { tx: "单调性上路", t: 2.8, flags: { axes: 1, curve: 1, dot: 1, pill: 1 },
     desc: '$y=t$ 和 $y=\\sqrt{t+1}$ 在 $(0,+\\infty)$ 上<b>双双递增</b>，所以 $f(t)$ 一路爬坡没有回头——' +
-          '拖滑块验证：$t$ 越大 $f$ 越大，永远不降。' },
+          '拖滑块验证：$t$ 越大 $f$ 越大。但 $t$ 真能一路大下去吗？下一步见分晓。' },
   { tx: "下界：t→0⁺ 的空心墙", t: 0.08, flags: { axes: 1, curve: 1, dot: 1, pill: 1, asymp: 1 },
     desc: '$t\\to 0^+$：$f\\to 1$，动点无限贴近红色渐近线 $y=1$，但<span class="red">永远碰不到</span>——' +
           '$t=0$ 意味着 $a=0$，三角形直接塌没。下界是<b>空心</b>的。' },
-  { tx: "结论", t: 4, flags: { axes: 1, curve: 1, dot: 1, pill: 1, asymp: 1, result: 1 },
-    desc: '$t\\to+\\infty$ 时 $f\\to+\\infty$ 无上界。所以 $\\frac{a+c}{b}\\in\\boxed{(1,+\\infty)}$。' +
-          '口诀：<b>「齐次不成换元上，单调定界空心墙」</b>。' }
+  { tx: "上界：t→3⁻ 的塌方线", t: 2.9, flags: { axes: 1, curve: 1, dot: 1, pill: 1, asymp: 1 },
+    desc: '别漏了三角形不等式 $b+c&gt;a$！代 $a=tb,\ c=\sqrt{t+1}b$ 解出 $0&lt;t&lt;3$。$t\\to3^-$ 时 $b+c\\to a$，三角形被压扁，' +
+          '$f\\to5$ <span class="red">取不到</span>——上界也是空心墙。' },
+  { tx: "结论", t: 2.5, flags: { axes: 1, curve: 1, dot: 1, pill: 1, asymp: 1, result: 1 },
+    desc: '下界 $1$、上界 $5$ 双双取不到：$\\frac{a+c}{b}\\in\\boxed{(1,5)}$。' +
+          '口诀：<b>「齐次不成换元上，单调定界空心墙；换元莫忘三角形，卡出上限才算香」</b>。' }
 ];
 
 var refs = null, confRefs = null;
@@ -272,7 +276,7 @@ function setupCanvas(canvas, ratioH) {
   return { ctx: ctx, W: w, H: h };
 }
 function tx(x, W) { var l = 46, r = 16; return l + x / T_HI * (W - l - r); }
-function ty(y, H) { var top = 16, bot = 46; return top + (13 - y) / (13 - 0) * (H - top - bot); }
+function ty(y, H) { var top = 16, bot = 46; return top + (6 - y) / (6 - 0) * (H - top - bot); }
 function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath(); ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
@@ -284,21 +288,26 @@ function render() {
   var v = fOf(disp.t);
   ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, W, H);
   ctx.strokeStyle = 'rgba(79,142,247,0.10)'; ctx.lineWidth = 1;
-  for (var g = 0; g <= 10; g += 1) { var gx = tx(g, W); ctx.beginPath(); ctx.moveTo(gx, ty(13, H)); ctx.lineTo(gx, ty(0, H)); ctx.stroke(); }
-  for (var gy = 0; gy <= 12; gy += 2) { var cy = ty(gy, H); ctx.beginPath(); ctx.moveTo(tx(0, W), cy); ctx.lineTo(tx(T_HI, W), cy); ctx.stroke(); }
+  for (var g = 0; g <= 3.4; g += 0.5) { var gx = tx(g, W); ctx.beginPath(); ctx.moveTo(gx, ty(13, H)); ctx.lineTo(gx, ty(0, H)); ctx.stroke(); }
+  for (var gy = 0; gy <= 5; gy += 1) { var cy = ty(gy, H); ctx.beginPath(); ctx.moveTo(tx(0, W), cy); ctx.lineTo(tx(T_HI, W), cy); ctx.stroke(); }
   ctx.strokeStyle = '#9db9dd'; ctx.lineWidth = 1.4;
   ctx.beginPath(); ctx.moveTo(tx(0, W), ty(0, H)); ctx.lineTo(tx(T_HI, W), ty(0, H)); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(tx(0, W), ty(0, H)); ctx.lineTo(tx(0, W), ty(13, H)); ctx.stroke();
   ctx.fillStyle = '#6b86ad'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-  [1, 2, 4, 6, 8, 10].forEach(function (g) { ctx.fillText(String(g), tx(g, W), ty(0, H) + 14); });
-  [2, 4, 6, 8, 10, 12].forEach(function (g) { ctx.fillStyle = '#8ea3bd'; ctx.fillText(String(g), tx(0, W) - 14, ty(g, H) + 3); });
+  [1, 2, 3].forEach(function (g) { ctx.fillText(String(g), tx(g, W), ty(0, H) + 14); });
+  [1, 2, 3, 4, 5].forEach(function (g) { ctx.fillStyle = '#8ea3bd'; ctx.fillText(String(g), tx(0, W) - 14, ty(g, H) + 3); });
   ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
   ctx.fillText('t = a/b', tx(T_HI, W) - 40, ty(0, H) - 8);
   if (F.asymp) {
     ctx.strokeStyle = 'rgba(220,38,38,0.75)'; ctx.setLineDash([7, 5]); ctx.lineWidth = 1.8;
-    ctx.beginPath(); ctx.moveTo(tx(0, W), ty(1, H)); ctx.lineTo(tx(T_HI, W), ty(1, H)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(tx(0, W), ty(1, H)); ctx.lineTo(tx(T_HI, W), ty(1, H)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx(0, W), ty(5, H)); ctx.lineTo(tx(T_HI, W), ty(5, H)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx(3, W), ty(0, H)); ctx.lineTo(tx(3, W), ty(5, H)); ctx.stroke();
+    ctx.setLineDash([]);
     ctx.fillStyle = '#b91c1c'; ctx.font = 'bold 11px sans-serif';
-    ctx.fillText('渐近线 y=1（t→0⁺ 贴近，取不到）', tx(0.2, W), ty(1, H) - 7);
+    ctx.fillText('下界 y=1（t→0⁺，取不到）', tx(0.1, W), ty(1, H) - 7);
+    ctx.fillText('上界 y=5（t→3⁻，取不到）', tx(0.1, W), ty(5, H) - 7);
+    ctx.fillText('t=3 塌方线', tx(3, W) - 62, ty(0.4, H));
   }
   if (F.r45) {
     ctx.fillStyle = 'rgba(232,251,241,0.95)'; ctx.strokeStyle = '#6ee7b7';
@@ -317,13 +326,21 @@ function render() {
     ctx.fillStyle = '#92400e'; ctx.fillText(s2, W - bw2, (F.r45 ? 44 : 10) + 17);
   }
   if (F.curve) {
-    ctx.strokeStyle = 'rgba(37,99,235,0.85)'; ctx.lineWidth = 2.4; ctx.beginPath();
-    for (var i = 0; i <= 260; i++) {
-      var tt = T_HI * i / 260;
+    ctx.lineWidth = 2.4;
+    ctx.strokeStyle = 'rgba(37,99,235,0.85)'; ctx.beginPath();
+    for (var i = 0; i <= 240; i++) {
+      var tt = 3 * i / 240;
       var cy2 = ty(fOf(tt), H);
       if (i === 0) ctx.moveTo(tx(tt, W), cy2); else ctx.lineTo(tx(tt, W), cy2);
     }
     ctx.stroke();
+    ctx.strokeStyle = 'rgba(148,163,184,0.5)'; ctx.setLineDash([4, 4]); ctx.beginPath();
+    for (var j = 0; j <= 30; j++) {
+      var t2 = 3 + 0.4 * j / 30;
+      var cy3 = ty(fOf(t2), H);
+      if (j === 0) ctx.moveTo(tx(t2, W), cy3); else ctx.lineTo(tx(t2, W), cy3);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
   }
   if (F.dot) {
     var px2 = tx(disp.t, W), py2 = ty(v, H);
@@ -344,7 +361,7 @@ function render() {
   }
   if (F.result) {
     ctx.font = 'bold 15px sans-serif'; ctx.textAlign = 'left';
-    var rt = '(a+c)/b ∈ (1, +∞)';
+    var rt = '(a+c)/b ∈ (1, 5)';
     var tw = ctx.measureText(rt).width;
     ctx.fillStyle = 'rgba(232,251,241,0.96)'; ctx.strokeStyle = '#6ee7b7'; ctx.lineWidth = 1.6;
     roundRect(ctx, W - tw - 38, 10, tw + 26, 30, 12); ctx.fill(); ctx.stroke();
@@ -420,7 +437,7 @@ function syncSlider() {
   document.getElementById('t-val').textContent = disp.t.toFixed(2);
   var v = fOf(disp.t), el = document.getElementById('liveBadge');
   el.className = 'badge-ok';
-  el.textContent = '✓ (a+c)/b = ' + v.toFixed(2) + ' > 1';
+  el.textContent = '✓ (a+c)/b = ' + v.toFixed(2) + ' ∈ (1,5)';
 }
 function spawnConfetti() {
   if (!confRefs) return;
