@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0027 · 解三角形中的最值与范围问题 | 专题课件</title>
+<meta name="number" content="数0027">
+<meta name="subject" content="数学">
+<meta name="chapter" content="解三角形">
+<meta name="knowledge" content="解三角形中的最值与范围问题">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="讲课课件">
+<meta name="tags" content="正弦定理;余弦定理;基本不等式;最值与范围问题;周长范围;面积范围;角度范围;互动图像;讲课课件;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 10% -6%,rgba(244,81,30,.12),transparent 55%),
+  radial-gradient(760px 400px at 96% -8%,rgba(13,110,253,.12),transparent 55%),
+  linear-gradient(160deg,#fff7f2,#eef6ff);
+  background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:22px 16px 70px;line-height:1.8}
+.wrap{max-width:1000px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #fde0d5;border-radius:12px;padding:7px 15px;font-size:14px;color:#d84315;text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(244,81,30,.08);transition:.2s}
+.back-link:hover{border-color:#d84315;transform:translateY(-1px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.meta-chip{background:#fff;border:1px solid #ffd0b8;border-radius:18px;padding:5px 13px;font-size:12px;color:#bf360c;font-weight:600}
+.meta-chip.key{background:linear-gradient(105deg,#f4511e,#ff7043);color:#fff;border:none}
+.hero{position:relative;overflow:hidden;border-radius:22px;margin:18px 0 26px;padding:34px 30px;
+  background:linear-gradient(135deg,#d32f2f 0%,#f4511e 46%,#ff9800 100%);color:#fff;
+  box-shadow:0 14px 40px rgba(216,67,21,.30)}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:230px;height:230px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.28),transparent 70%)}
+.hero h1{font-size:29px;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.hero .chip{background:rgba(255,255,255,.2);padding:3px 11px;border-radius:14px;font-size:12px;backdrop-filter:blur(4px)}
+.hero p{font-size:15px;opacity:.97}
+.hero .answer-toggle{margin-top:16px;background:#fff;color:#d84315;border:none;border-radius:22px;padding:9px 22px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18);transition:.2s}
+.hero .answer-toggle:hover{transform:translateY(-2px)}
+.hero .answer{display:none;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);border-radius:14px;padding:14px 18px;margin-top:16px;font-size:15px}
+.card{background:rgba(255,255,255,.94);border-radius:18px;padding:26px;margin-bottom:24px;box-shadow:0 6px 24px rgba(31,45,61,.08);border:1px solid rgba(13,110,253,.10)}
+.card h2{color:#c62828;font-size:21px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.card .lead{color:#546e7a;font-size:14px;margin-bottom:16px}
+.tldr{background:#fff3e0;border-left:5px solid #fb8c00;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:15px}
+.tldr b{color:#e65100}
+.k-box{background:#e8f0fe;border-radius:12px;padding:16px 18px;margin:16px 0}
+.k-box h3{color:#0d47a1;font-size:16px;margin-bottom:8px}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:18px 0}
+.tool{background:#fff;border:1px solid #e3e8f0;border-radius:14px;padding:18px;transition:.25s}
+.tool:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(13,110,253,.12);border-color:#90caf9}
+.tool .ic{font-size:26px;margin-bottom:8px}
+.tool h4{color:#1565c0;font-size:16px;margin-bottom:6px}
+.tool p{font-size:14px;color:#455a64}
+.tool .formula{background:#f4f8ff;border-radius:8px;padding:8px 12px;margin-top:10px;font-size:15px;color:#0d47a1;font-weight:600;text-align:center}
+.canvas-card{background:#fff;border-radius:18px;padding:22px;margin-bottom:24px;box-shadow:0 6px 24px rgba(31,45,61,.08)}
+.canvas-card h2{color:#c62828;font-size:20px;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.canvas-card .lead{color:#546e7a;font-size:14px;margin-bottom:14px}
+.canvas-wrap{position:relative;border-radius:14px;overflow:hidden;background:#0d1b2a;border:1px solid #16213e;touch-action:none}
+canvas{display:block;width:100%;touch-action:none}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:12px 2px 0;font-size:13px;color:#37474f}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px}
+.legend .dot{width:11px;height:11px;border-radius:50%}
+.controls{background:#f4f7fb;border-radius:12px;padding:14px 16px;margin-top:14px;border:1px solid #e3e8f0}
+.slider-row{display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap}
+.slider-row label{min-width:86px;font-weight:700;color:#c62828}
+.slider-row input[type=range]{flex:1;min-width:180px;accent-color:#f4511e;height:6px}
+.live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:12px}
+.live-item{background:#fff;border:1px solid #e9eef6;border-radius:12px;padding:10px;text-align:center}
+.live-item .l{font-size:12px;color:#78909c;margin-bottom:3px}
+.live-item .v{font-weight:800;color:#c62828;font-size:16px;font-family:Consolas,monospace}
+.live-item .v.hot{background:linear-gradient(90deg,#f4511e,#ff9800);-webkit-background-clip:text;background-clip:text;color:transparent}
+.step{background:#f0f7ff;border-left:4px solid #1e88e5;padding:16px 18px;border-radius:10px;margin:12px 0;display:none}
+.step.show{display:block;animation:pop .35s ease}
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+.step b.st{color:#1565c0}
+.step.gold b.st{color:#e65100}
+.step.green b.st{color:#2e7d32}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{border:none;border-radius:22px;padding:10px 22px;font-size:15px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(105deg,#1e88e5,#00acc1);transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,136,229,.3)}
+.btn.grey{background:linear-gradient(105deg,#90a4ae,#b0bec5)}
+.btn.grey:hover{box-shadow:none}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0;font-size:13px}
+.flow .node{background:#fff;border:1px solid #ffd0b8;color:#bf360c;border-radius:16px;padding:5px 13px;font-weight:600}
+.flow .arrow{color:#d84315;font-weight:800}
+.callout{display:flex;gap:12px;background:#fff8e1;border:1px solid #ffe082;border-radius:12px;padding:14px 16px;margin:14px 0}
+.callout .em{font-size:24px}
+.callout p{border-left:2px solid #ffb300;padding-left:12px;font-size:14px}
+.rhyme{background:linear-gradient(105deg,#c62828,#f4511e);border-radius:16px;color:#fff;padding:22px 24px;font-size:17px;line-height:2;letter-spacing:1px;text-align:center;box-shadow:0 10px 26px rgba(198,40,40,.25)}
+.rhyme b{color:#ffe082}
+.tip{border-left:4px solid #fb8c00;background:#fff3e0;padding:12px 16px;border-radius:0 10px 10px 0;font-size:14px;margin:14px 0}
+.interactive-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.22);color:#fff;padding:3px 11px;border-radius:14px;font-size:12px}
+.back-top{display:inline-block;margin-top:6px;color:#d84315;text-decoration:none;font-weight:600;font-size:14px}
+</style>
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_48_math_tri_extreme_range","title":"数0027 · 解三角形中的最值与范围问题 | 专题课件","subject":"数学","chapter":"解三角形","points":["解三角形中的最值与范围问题"],"date":"2026-09-12","number":"数0027"}</script><!--/CSTAT-META-->
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back-link" href="../../index.html">‹ 返回课件库</a>
+
+  <div class="meta-bar">
+    <span class="meta-chip key">数0027</span>
+    <span class="meta-chip">数学</span>
+    <span class="meta-chip">解三角形</span>
+    <span class="meta-chip">最值与范围问题</span>
+    <span class="meta-chip">我的解题课件库</span>
+    <span class="meta-chip">讲课课件</span>
+  </div>
+
+  <div class="hero" id="top">
+    <h1>🔺 §4.7 解三角形中的「最值与范围」</h1>
+    <div class="chips">
+      <span class="chip">高考热点</span>
+      <span class="chip">角度作变元</span>
+      <span class="chip">三角函数范围法</span>
+      <span class="chip">基本不等式</span>
+      <span class="interactive-badge">✦ 可互动动画</span>
+    </div>
+    <p>边长、周长、面积……凡是跟着「变」起来的量，总想偷偷告诉你它的<b>巅峰</b>和<b>谷底</b>。这一页，把「最值」从玄学变成套路。</p>
+    <button class="answer-toggle" onclick="var a=document.getElementById('heroAns');a.style.display=a.style.display==='block'?'none':'block'">🎯 先亮口诀 ★ 看完再走</button>
+    <div class="answer" id="heroAns">
+      <b>一句话压轴口诀：</b>「见<b>边角</b>→化正弦；见<b>积</b>→基本不等式；见<b>角度范围</b>→像 sin 那样装进 $[0,1]$ 的框里。」
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔎 一眼看懂：这类题到底在考谁？</h2>
+    <div class="lead">高考里的「最值与范围」，翻来覆去就三副面孔 👇</div>
+    <div class="tool-grid">
+      <div class="tool">
+        <div class="ic">📏</div>
+        <h4>与边长 / 周长有关</h4>
+        <p>求 $a+b$、$2a+c$、周长 $P$ 的最大值或范围。</p>
+        <div class="formula">$a=2R\sin A$</div>
+      </div>
+      <div class="tool">
+        <div class="ic">🟦</div>
+        <h4>与面积有关</h4>
+        <p>求 $S$ 的最大值，常卡在 $S=\tfrac12 ab\sin C$。</p>
+        <div class="formula">$S_{\max}=\tfrac12ab$</div>
+      </div>
+      <div class="tool">
+        <div class="ic">🎯</div>
+        <h4>与角的范围有关</h4>
+        <p>求角度 $A$ 或 $A+B$ 的取值范围，本质是三角函数值域。</p>
+        <div class="formula">$0&lt;\sin A \le 1$</div>
+      </div>
+    </div>
+    <div class="flow">
+      <span class="node">读题找「抓手」</span><span class="arrow">→</span>
+      <span class="node">正/余弦定理「边角互化」</span><span class="arrow">→</span>
+      <span class="node">统一成「一个角」的三角函数</span><span class="arrow">→</span>
+      <span class="node">求范围</span><span class="arrow">→</span>
+      <span class="node">验证取等</span>
+    </div>
+  </div>
+
+  <div class="canvas-card">
+    <h2>🎬 互动 ①「会呼吸的三角形」—— 一个滑块看懂面积最值</h2>
+    <div class="lead">两边定长，夹角「呼吸」。拖动蓝色滑块改变夹角 $C$，顶点 B 会自动「吸」走，面积颜色区域实时变化。</div>
+
+    <div class="canvas-wrap">
+      <canvas id="breath"></canvas>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#4ecca3"></i> 顶点 B（会动的点）</span>
+      <span><i style="background:#4ecca3"></i> 边 $a$、$b$</span>
+      <span><i style="background:#f4511e"></i> 面积着色区</span>
+      <span><i class="dot" style="background:#ffb300"></i> 面积最大位置（$C=90°$）</span>
+    </div>
+    <div class="controls" id="breathControls">
+      <div class="slider-row">
+        <label>夹角 C = <span id="breathDeg">90°</span></label>
+        <input type="range" id="breathSlider" min="15" max="165" step="1" value="90">
+      </div>
+      <div class="live-grid">
+        <div class="live-item"><div class="l">对边 $c=|\mathrm{AB}|$</div><div class="v" id="be_c">—</div></div>
+        <div class="live-item"><div class="l">面积 $S=\tfrac12 ab\sin C$</div><div class="v" id="be_S">—</div></div>
+        <div class="live-item"><div class="l">当前是否最大</div><div class="v" id="be_max">——</div></div>
+      </div>
+    </div>
+    <div class="tldr"><b>别急着切页</b>，先把滑块拖到 90° 附近感受一下：$S=\frac12 ab\sin C$，当 $\sin C$ 取到 1（即 $C=90°$）时面积封顶。<b>结论</b>：两定边夹出的面积，顶点在「直角位」最胖。</div>
+  </div>
+
+  <div class="canvas-card">
+    <h2>🎬 互动 ②「周长极限挑战」 —— 经典 $B=60°$ 模型</h2>
+    <div class="lead">拖动滑块转角度 $A$，看下方面板上周长 / 面积两条曲线一路冲高又回落——巅峰停在正三角形位。</div>
+
+    <div class="canvas-wrap">
+      <canvas id="peri"></canvas>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#ffb300"></i> 当前 $A$ 对应的点</span>
+      <span><i style="background:#1e88e5"></i> 周长 $P=a+b+c$ 曲线</span>
+      <span><i style="background:#fb8c00"></i> 面积 $S$ 曲线</span>
+    </div>
+    <div class="controls" id="periControls">
+      <div class="slider-row">
+        <label>A = <span id="periDeg">60°</span></label>
+        <input type="range" id="periSlider" min="1" max="119" step="1" value="60">
+      </div>
+      <div class="live-grid">
+        <div class="live-item"><div class="l">边 $a$</div><div class="v" id="pe_a">—</div></div>
+        <div class="live-item"><div class="l">边 $c$</div><div class="v" id="pe_c">—</div></div>
+        <div class="live-item"><div class="l">周长 $P=a+b+c$</div><div class="v" id="pe_P">—</div></div>
+        <div class="live-item"><div class="l">面积 $S$</div><div class="v" id="pe_S">—</div></div>
+      </div>
+    </div>
+    <div class="tldr">条件：$B=60°,\ b=2$。由正弦定理 $a=4\sin A,\ c=4\sin C$（$A+C=120°$）。看两条<b>曲线</b>的峰顶——正落在 $A=C=60°$ 处，此时 <b>$a+c$ 最大、面积也最大</b>。三角形越「正」，越能打。</div>
+  </div>
+
+  <div class="card">
+    <h2>📌 三大方法工具箱（背也要背进去）</h2>
+    <div class="lead">遇到最值与范围，先对照下面三把钥匙抄作业，九成题目当场拿下。</div>
+
+    <div class="k-box">
+      <h3>🔧 工具①：正弦定理化边为角（把边长变成三角函数）</h3>
+      <p>$\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R$，于是 $a=2R\sin A$。</p>
+      <p style="margin-top:8px">凡是<b>两项边之和、差、比</b>（如 $a+b$、$2a+c$），优先化成 $2R(\sin A+\sin B)$，再用和差化积或辅助角求最值。</p>
+    </div>
+
+    <div class="k-box">
+      <h3>🔧 工具②：基本不等式（专治乘积与平方和）</h3>
+      <p>$a^2+b^2\ge 2ab$，$ab\le\left(\dfrac{a+b}{2}\right)^2$，$a+b\ge 2\sqrt{ab}$。</p>
+      <p style="margin-top:8px">余弦定理给 $c^2=a^2+b^2-2ab\cos C$ 这类<b>平方式</b>时，一配基本不等式极易出动。</p>
+    </div>
+
+    <div class="k-box">
+      <h3>🔧 工具③：面积公式搭桥</h3>
+      <p>$S=\dfrac12 bc\sin A=\dfrac12 ac\sin B=\dfrac12 ab\sin C$。</p>
+      <p style="margin-top:8px">求面积最大，本质就是让 $\sin$(某个角)$=1$，或让两边之积取最大。</p>
+    </div>
+
+    <div class="callout">
+      <div class="em">⚠️</div>
+      <p><b>易错点：别忘了定义域！</b>把问题化成 $f(x)$ 求最值时，$x$ 常落在开区间（如 $A\in(0,120°)$），<b>取等点必须在定义域内</b>才算数，否则最大值温柔地取不到。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✍️ 实战演练：把套路打一遍</h2>
+    <div class="lead">先自己动脑，再用「下一步」按钮逐条对答案。</div>
+
+    <div class="tldr"><b>【例 1】</b> $\triangle ABC$ 中，$B=60°$，$b=2$，求 $a+c$ 的最大值与面积的最大值。</div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="showExerciseStep()">▶ 下一步</button>
+      <button class="btn grey" onclick="resetExercise()">↺ 重置</button>
+    </div>
+
+    <div class="step" id="ex1">
+      <b class="st">Step 1 · 找抓手 · 正弦定理化边为角：</b>
+      <p>由 $\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{2}{\sin 60°}=\dfrac{2}{\sqrt3/2}=\dfrac{4}{\sqrt3}$，故 $a=\dfrac{4}{\sqrt3}\sin A$，同理 $c=\dfrac{4}{\sqrt3}\sin C$，其中 $A+C=120°$。</p>
+    </div>
+    <div class="step gold" id="ex2">
+      <b class="st">Step 2 · 周长的「此消彼长」：</b>
+      <p>$a+c=\dfrac{4}{\sqrt3}(\sin A+\sin C)=\dfrac{4}{\sqrt3}\cdot 2\sin\dfrac{A+C}{2}\cos\dfrac{A-C}{2}$</p>
+      <p>$=\dfrac{8}{\sqrt3}\cdot \sin60°\cos\dfrac{A-C}{2}=\dfrac{8}{\sqrt3}\cdot\dfrac{\sqrt3}{2}\cos\dfrac{A-C}{2}=4\cos\dfrac{A-C}{2}$</p>
+      <p style="margin-top:8px">当 $\cos\dfrac{A-C}{2}$ 取到最大 $\boldsymbol{1}$，即 $A=C=60°$ 时，$a+c$ 取得最大值 $\boldsymbol{4}$。</p>
+    </div>
+    <div class="step green" id="ex3">
+      <b class="st">Step 3 · 面积封顶：</b>
+      <p>$S=\dfrac12 bc\sin A=\dfrac12\cdot\dfrac{4}{\sqrt3}\sin C\cdot\dfrac{4}{\sqrt3}\sin A=\dfrac{2\times4}{\dfrac43}\sin A\sin C=\dfrac{8}{3}\sin A\sin C$</p>
+      <p>由 $\sin A\sin C\le\left(\dfrac{\sin A+\sin C}{2}\right)^2$，当 $A=C=60°$：</p>
+      <p>$S_{\max}=\dfrac{8}{3}\cdot\dfrac{\sqrt3}{2}\cdot\dfrac{\sqrt3}{2}=\dfrac{8}{3}\cdot\dfrac{3}{4}=\boldsymbol{2}$。</p>
+      <p style="margin-top:8px">👉 同样在 <b>正三角形位</b>（$A=C=60°$）取得，和上方动画峰顶完全吻合！</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tldr"><b>【例 2（稍难 · 乘胜追击）】</b> $\triangle ABC$ 中，$A&lt;C$，且 $b^2=ac$，求 $\dfrac{1}{\tan A}+\dfrac{1}{\tan C}$ 的取值范围。</div>
+    <div class="btn-row">
+      <button class="btn" onclick="showEx2Step()">▶ 下一步</button>
+      <button class="btn grey" onclick="resetEx2()">↺ 重置</button>
+    </div>
+    <div class="step" id="e2s1">
+      <b class="st">Step 1 · 余弦定理绑定边角：</b>
+      <p>$b^2=a^2+c^2-2ac\cos B$，又 $b^2=ac$，两式相消得 $ac=a^2+c^2-2ac\cos B$。</p>
+      <p>两边同除以 $ac$：$1=\dfrac{a}{c}+\dfrac{c}{a}-2\cos B$。</p>
+      <p>而 $\dfrac{a}{c}+\dfrac{c}{a}\ge 2$（基本不等式）$\Rightarrow 1\ge 2-2\cos B\Rightarrow \cos B\ge\dfrac12$，又 $B\in(0,\pi)$，得 $\boldsymbol{B\le 60°}$。</p>
+    </div>
+    <div class="step gold" id="e2s2">
+      <b class="st">Step 2 · 目标式化简为单角：</b>
+      <p>$\dfrac{1}{\tan A}+\dfrac{1}{\tan C}=\dfrac{\cos A}{\sin A}+\dfrac{\cos C}{\sin C}=\dfrac{\sin(A+C)}{\sin A\sin C}=\dfrac{\sin B}{\sin A\sin C}$。</p>
+      <p style="margin-top:8px">又 $A+C=\pi-B$，且 $\sin A\sin C=\dfrac{\cos(A-C)-\cos(A+C)}{2}$。</p>
+    </div>
+    <div class="step green" id="e2s3">
+      <b class="st">Step 3 · 华丽转身——目标式竟能化简成 $\dfrac{1}{\sin B}$：</b>
+      <p>由 $\sin^2 B=\sin A\sin C$（$b=2R\sin B$ 与 $b^2=ac$ 合并即得），代入：</p>
+      <p>$\dfrac{1}{\tan A}+\dfrac{1}{\tan C}=\dfrac{\sin(A+C)}{\sin A\sin C}=\dfrac{\sin B}{\sin^2 B}=\boldsymbol{\dfrac{1}{\sin B}}$。</p>
+      <p style="margin-top:8px">再看 $B$ 的领地：由 Step 1 已知 $B\le 60°$；又 $A&lt;C$ 要求 $A\ne C$，而 $B=60°$ 会推出 $A=C=60°$ 被<b>排除</b>，故 $0&lt;B&lt;60°$。</p>
+      <p style="margin-top:8px">📣 于是 $\sin B\in(0,\tfrac{\sqrt3}{2})$，故目标式范围为：</p>
+      <p><b style="font-size:17px;color:#c62828">$\left(\dfrac{2\sqrt3}{3},\ +\infty\right)$（左<b>开</b>右无穷）</b> —— 下界在 $B\to 60°$ 时逼近但取不到，上界随 $B\to0^+$ 一路冲高。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧠 本讲记忆口诀</h2>
+    <div class="rhyme">
+      见<b>边比</b>用<b>正弦</b>，化角装 $[0,1]$ 的框；<br>
+      见<b>平方</b>用<b>余弦</b>，<b>不等式</b>来兜底；<br>
+      面积要想<b>大</b>，先让 $\sin$ 值到<b>家</b>；<br>
+      最后<b>验取等</b>，端点是<b>开</b>还是<b>闭</b>。
+    </div>
+    <div class="tip">⚠️ 三个高频坑：① 化角后忘了角有<b>范围</b>；② 基本不等式用错方向或忘了「一正二定三相等」；③ 算出最值却发现 <b>取不到</b>（端点在区间的「门缝」外）。</div>
+    <a class="back-top" href="#top">↑ 回到顶部</a>
+  </div>
+
+</div>
+
+<script>
+function toRad(d){return d*Math.PI/180}
+function fmt(x){return (Math.round(x*1000)/1000)}
+function sizeCanvas(cv){
+  var w=cv.parentElement.clientWidth;
+  var h=Math.max(320,Math.min(430,Math.round(w*0.62)));
+  var dpr=window.devicePixelRatio||1;
+  cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);
+  var ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx:ctx,w:w,h:h};
+}
+function mkPoint(ctx,x,y,r,color,border){
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=color;ctx.fill();
+  if(border){ctx.strokeStyle=border;ctx.lineWidth=2;ctx.stroke()}
+}
+
+// ============ 互动①：会呼吸的三角形 ============
+var Breathe={a:6,b:6};
+function initBreath(){
+  var slider=document.getElementById('breathSlider');
+  slider.addEventListener('input',function(){drawBreath()});
+  window.addEventListener('resize',function(){requestAnimationFrame(drawBreath)});
+  window.addEventListener('orientationchange',function(){setTimeout(function(){requestAnimationFrame(drawBreath)},300)});
+  drawBreath();
+}
+function drawBreath(){
+  var cv=document.getElementById('breath');
+  if(!cv.parentElement.clientWidth)return;
+  var s=sizeCanvas(cv),ctx=s.ctx,W=s.w,H=s.h;
+  ctx.clearRect(0,0,W,H);
+  var th=toRad(parseFloat(document.getElementById('breathSlider').value));
+  var a=Breathe.a,b=Breathe.b;
+  var c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(th));
+  var S=0.5*a*b*Math.sin(th);
+  var cx=W*0.32,cy=H*0.60;
+  var baseW=Math.min(W*0.5,200);
+  var scale=baseW/b;
+  var Ax=cx-b*scale, Ay=cy, Cx=cx+b*scale, Cy=cy;
+  var Bx=cx+a*scale*Math.cos(th), By=cy-a*scale*Math.sin(th);
+
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.closePath();
+  ctx.fillStyle='rgba(244,81,30,0.15)';ctx.fill();
+
+  ctx.strokeStyle='#4ecca3';ctx.lineWidth=3;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bx,By);ctx.lineTo(Cx,Cy);ctx.closePath();ctx.stroke();
+
+  mkPoint(ctx,Ax,Ay,6,'#ff8fa3');mkPoint(ctx,Cx,Cy,6,'#ff8fa3');
+  mkPoint(ctx,Bx,By,8,'#4ecca3','#fff');
+  ctx.fillStyle='#e8e8e8';ctx.font='bold 16px sans-serif';ctx.textAlign='center';
+  ctx.fillText('A',Ax-22,Ay+24);ctx.fillText('C',Cx+26,Ay+24);ctx.fillText('B',Bx,By-18);
+
+  var ang=Math.atan2(By-cy,Bx-cx);
+  var r0=Math.max(18,Math.abs(a*scale)*0.22);
+  ctx.strokeStyle='#ffb300';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(cx,cy,r0,0,ang,false);ctx.stroke();
+  ctx.fillStyle='#ffb300';ctx.font='13px sans-serif';
+  ctx.fillText('C',cx+r0*0.6,cy-r0*0.85);
+  ctx.fillStyle='#c9f0e0';ctx.font='13px sans-serif';
+  ctx.fillText('b',cx,cy+30);
+  ctx.fillText('a',(Ax+Bx)/2-6,(Ay+By)/2-8);
+
+  // 面积最大提示位 C=90°
+  var thm=toRad(90);
+  var Bxm=cx+a*scale*Math.cos(thm),Bym=cy-a*scale*Math.sin(thm);
+  ctx.strokeStyle='rgba(255,179,0,0.55)';ctx.lineWidth=2;ctx.setLineDash([3,5]);
+  ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Bxm,Bym);ctx.lineTo(Cx,Cy);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,179,0,0.8)';ctx.font='12px sans-serif';
+  ctx.fillText('Smax(C=90°)',Bxm+10,Bym-8);
+  mkPoint(ctx,Bxm,Bym,5,'rgba(255,179,0,0.75)');
+
+  document.getElementById('be_c').textContent=fmt(c);
+  document.getElementById('be_S').textContent=fmt(S);
+  var maxEl=document.getElementById('be_max');
+  var deg=Math.round(th*180/Math.PI);
+  if(deg===90){maxEl.textContent='▲ 达峰 '+fmt(0.5*a*b);maxEl.className='v hot'}
+  else{maxEl.textContent='拖到 90° 试试';maxEl.className='v'}
+  document.getElementById('breathDeg').textContent=deg+'°';
+}
+
+// ============ 互动②：周长极限挑战 ============
+function initPeri(){
+  var slider=document.getElementById('periSlider');
+  slider.addEventListener('input',function(){drawPeri()});
+  window.addEventListener('resize',function(){requestAnimationFrame(drawPeri)});
+  window.addEventListener('orientationchange',function(){setTimeout(function(){requestAnimationFrame(drawPeri)},300)});
+  drawPeri();
+}
+function drawPeri(){
+  var cv=document.getElementById('peri');
+  if(!cv.parentElement.clientWidth)return;
+  var s=sizeCanvas(cv),ctx=s.ctx,W=s.w,H=s.h;
+  ctx.clearRect(0,0,W,H);
+  var AA=parseFloat(document.getElementById('periSlider').value);
+  var A=toRad(AA),B=toRad(60),C=Math.PI-A-B;
+  var a=4*Math.sin(A),cc=4*Math.sin(C),b=2;
+  var P=a+b+cc,area=0.5*a*b*Math.sin(C);
+
+  var mar=44,plotW=W-mar*2,plotH=H*0.55;
+  var x0=mar,y0=mar+plotH;
+  function px(deg){return x0+(deg/120)*plotW}
+  function py(v,maxV){return y0-(v/maxV)*plotH}
+  function Pv(deg){var aa=toRad(deg);return 4*Math.sin(aa)+2+4*Math.sin(toRad(120-deg))}
+  function Sv(deg){var aa=toRad(deg);var c2=4*Math.sin(toRad(120-deg));return 0.5*4*Math.sin(aa)*2*Math.sin(toRad(120-deg))}
+
+  ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+plotW,y0);ctx.stroke();
+
+  // 画曲线
+  ctx.lineWidth=3;ctx.lineJoin='round';
+  for(var pass=0;pass<2;pass++){
+    var first=true;
+    for(var d=0;d<=120;d+=0.6){
+      var pv=pass===0?Pv(d):Sv(d);
+      var X=px(d),Ys=py(pv,14);
+      if(first){ctx.beginPath();ctx.moveTo(X,Ys);first=false}
+      else ctx.lineTo(X,Ys);
+    }
+    ctx.stroke();ctx.strokeStyle=pass===0?'#1e88e5':'#fb8c00';ctx.lineWidth=pass===0?3:2;
+    first=true;
+    for(var d=0;d<=120;d+=0.6){
+      var pv=pass===0?Pv(d):Sv(d);
+      var X=px(d),Ys=py(pv,14);
+      if(first){ctx.beginPath();ctx.moveTo(X,Ys);first=false}
+      else ctx.lineTo(X,Ys);
+    }
+    ctx.stroke();
+  }
+
+  // 图例注记
+  ctx.font='12px sans-serif';ctx.textAlign='left';
+  ctx.fillStyle='#9aa7b8';
+  ctx.fillText('0°',x0,H-6);
+  ctx.fillText('60°',px(60)-12,H-6);
+  ctx.fillText('120°',x0+plotW-24,H-6);
+  ctx.fillText('角度 A（A+C=120°）',x0+plotW*0.32,20);
+  ctx.fillStyle='#1e88e5';ctx.fillText('周长P '+fmt(Pv(60))+' @60°',x0,y0+18);
+  ctx.fillStyle='#fb8c00';ctx.fillText('面积S '+fmt(Sv(60))+' @60°',x0,y0+34);
+
+  // 当前竖线
+  var Xc=px(AA);
+  ctx.strokeStyle='rgba(255,255,255,0.4)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(Xc,y0-plotH);ctx.lineTo(Xc,y0);ctx.stroke();
+  mkPoint(ctx,Xc,py(P,14),6,'#ffb300');
+  mkPoint(ctx,Xc,py(area,14),6,'#ffb300');
+
+  document.getElementById('pe_a').textContent=fmt(a);
+  document.getElementById('pe_c').textContent=fmt(cc);
+  document.getElementById('pe_P').textContent=fmt(P);
+  document.getElementById('pe_S').textContent=fmt(area);
+  var peP=document.getElementById('pe_P'),peS=document.getElementById('pe_S');
+  peP.className=peS.className='v';
+  if(Math.floor(AA)===60){peP.className='v hot';peS.className='v hot'}
+  document.getElementById('periDeg').textContent=AA+'°';
+}
+
+// ============ 例题步骤动画 ============
+var exSteps=['ex1','ex2','ex3'],exIdx=0;
+function showExerciseStep(){
+  if(exIdx<exSteps.length){document.getElementById(exSteps[exIdx]).classList.add('show');exIdx++}
+  if(exIdx===exSteps.length){var b=document.querySelectorAll('.btn-row .btn')[0];if(b)b.innerHTML='🎉 此消彼长，巅峰正是正三角！'}
+}
+function resetExercise(){exIdx=0;exSteps.forEach(function(id){document.getElementById(id).classList.remove('show')});var b=document.querySelectorAll('.btn-row .btn')[0];if(b)b.innerHTML='▶ 下一步'}
+var ex2Steps=['e2s1','e2s2','e2s3'],ex2Idx=0;
+function showEx2Step(){
+  if(ex2Idx<ex2Steps.length){document.getElementById(ex2Steps[ex2Idx]).classList.add('show');ex2Idx++}
+  if(ex2Idx===ex2Steps.length){var b=document.querySelectorAll('.btn-row .btn')[2];if(b)b.innerHTML='🎉 不等式封边，三角定界！'}
+}
+function resetEx2(){ex2Idx=0;ex2Steps.forEach(function(id){document.getElementById(id).classList.remove('show')});var b=document.querySelectorAll('.btn-row .btn')[2];if(b)b.innerHTML='▶ 下一步'}
+
+initBreath();initPeri();
+</script>
+<!--CSTAT-BEGIN-->
+<style id="cstat-style">
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#cstat-label{color:#5c7185;font-weight:600}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-label{color:#5c7185;font-weight:600}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
+#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
+#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+</style>
+<div id="crate-bar" title="课件评价：这套课件质量如何">
+  <span id="crate-label">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg">👍 好</button>
+  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
+  <span id="crate-counts"></span>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" title="学习自评：点击累计计数">
+  <span id="cstat-label">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
+  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
+  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>
+/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
+(function(){
+  'use strict';
+  if (window.__cstatUI) return;
+  window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CSTAT_KEY = 'cstat:' + CM.id;
+  var CRATE_KEY = 'crate:' + CM.id;
+  var CREDO_KEY = 'credo:' + CM.id;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function recordCourseState(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render(); renderR();
+    return reset;
+  }
+  window.__recordCourseState = recordCourseState;
+  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
+  function rateCourse(kind){
+    var r = readR();
+    r[kind] = (r[kind]||0)+1;
+    r.ts = Date.now();
+    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderR();
+    return r[kind]||0;
+  }
+  window.__rateCourse = rateCourse;
+  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
+  function setRedo(done){
+    var d = readD();
+    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
+    d.done = done ? 1 : 0;
+    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderRedoInfo();
+    return d;
+  }
+  window.__setRedo = setRedo;
+  function fmtHM(ts){
+    if (!ts) return '';
+    var d = new Date(ts);
+    var p = function(x){ return ('0'+x).slice(-2); };
+    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function renderRedoInfo(){
+    var el = document.getElementById('credo-info');
+    if (!el) return;
+    var d = readD();
+    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
+  }
+  function initRedo(){
+    var chk = document.getElementById('credo-chk');
+    if (!chk) return;
+    chk.checked = readD().done === 1;
+    renderRedoInfo();
+    chk.addEventListener('change', function(){
+      var d = setRedo(chk.checked);
+      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
+    });
+  }
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function renderR(){
+    var r = readR();
+    var el = document.getElementById('crate-counts');
+    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var reset = recordCourseState(state);
+      var n = readS()[state]||0;
+      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
+      flash(msg);
+    });
+  }
+  function bindRate(id, kind, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var n = rateCourse(kind);
+      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
+    });
+  }
+  function init(){
+    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
+    bind('cstat-fz','fuzzy','\u6a21\u7cca');
+    bind('cstat-fg','forgot','\u5fd8\u8bb0');
+    bindRate('crate-good','good','\ud83d\udc4d \u597d');
+    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
+    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    initRedo();
+    render(); renderR();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<script>
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+(function(){
+  'use strict';
+  if (window.__cstatReporter) return;
+  window.__cstatReporter = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CID = CM.id;
+  var CSTAT_KEY = 'cstat:' + CID;
+  var CRATE_KEY = 'crate:' + CID;
+  var CREDO_KEY = 'credo:' + CID;
+  var CVISIT_KEY = 'cvisit:' + CID;
+  var AUTO_KEY  = 'course_auto_sync';
+  var CFG_KEY   = 'course_cloud_cfg';
+  var DEFAULT_CLOUD = {
+    url: 'https://mixuqjognbdrafrrlivc.supabase.co',
+    key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
+  };
+  var STATS_TABLE = 'course_stats';
+  function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function cloudCfg(){
+    var c = readJSON(CFG_KEY, null);
+    if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
+    return DEFAULT_CLOUD;
+  }
+  function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
+  function compute(){
+    var s = readJSON(CSTAT_KEY, {});
+    var r = readJSON(CRATE_KEY, {});
+    var d = readJSON(CREDO_KEY, {});
+    return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0,
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
+             rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
+  }
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  function report(){
+    var s = compute();
+    var snap = JSON.stringify(s);
+    if (snap !== lastLocal){
+      lastLocal = snap;
+      try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){}
+    }
+    var vt = 0;
+    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    if (!vt){ vt = Date.now(); try{ localStorage.setItem(CVISIT_KEY, JSON.stringify({ts:vt})); }catch(e){} }
+    if (snap !== lastCloud && autoOn()){
+      lastCloud = snap;
+      clearTimeout(cloudTimer);
+      cloudTimer = setTimeout(pushCloud, 3000);
+    }
+  }
+  function pushCloud(){
+    if (inFlight){ setTimeout(pushCloud, 1500); return; }
+    inFlight = true;
+    var s = compute();
+    var cfg = cloudCfg();
+    var vt = 0;
+    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    var ctl = null, timer = null;
+    try { ctl = new AbortController(); } catch(e){}
+    var opts = {
+      method: 'POST',
+      headers: {
+        'apikey': cfg.key,
+        'Authorization': 'Bearer ' + cfg.key,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplications,return=minimal'
+      },
+      body: JSON.stringify([{
+        course_id: CID,
+        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
+        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        redone: s.rd,
+        redo_count: s.rn||0,
+        redo_at: s.rts ? new Date(s.rts).toISOString() : null,
+        updated_at: new Date().toISOString(),
+        last_visit: vt ? new Date(vt).toISOString() : null
+      }])
+    };
+    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
+      .catch(function(){ lastCloud = ''; })
+      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+  }
+  function watch(){
+    report();
+    window.addEventListener('cstat:change', report);
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
+    window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
+    setInterval(function(){ if (!document.hidden) report(); }, 5000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
+  else watch();
+})();
+</script>
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!--CSTAT-END-->
+<style id="cnote-style">
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+</style>
+<script id="cnote-inject">
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','记得这个套路没想到用在这','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  function openPop(){renderPop();pop.classList.add('open');}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=5;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+</body>
+</html>
