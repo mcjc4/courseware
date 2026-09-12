@@ -580,7 +580,7 @@ PAGE_TMPL = """<!DOCTYPE html>
   }}
 
   var currentQ='';
-  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做'}};
+  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因'}};
   var RLBL={{good:'好',hard:'课件不好懂',teach:'没老师讲的好'}};
   var SLBL={{new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'}};
   function syncChecks(f,v){{
