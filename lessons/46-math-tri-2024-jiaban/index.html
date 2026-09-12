@@ -168,13 +168,18 @@
   }
 </style>
 <!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC · 动画分步课件","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11","number":"46"}</script><!--/CSTAT-META-->
+<style id="layoutfix-style">
+.hero{position:relative;}
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+</style>
 </head>
 <body>
 <div class="container">
 
-  <a class="back-nav" href="../../">🏠 返回课件库</a>
+  
 
   <header class="hero">
+  <a class="back-nav" href="../../">🏠 返回课件库</a>
     <div>
       <span class="tag">📘 高中数学 · 解三角形</span>
       <span class="tag">🎯 全国甲卷真题</span>
@@ -198,7 +203,7 @@
       （2024 · 全国甲卷）在 $\triangle ABC$ 中，内角 $A,\ B,\ C$ 所对的边分别为 $a,\ b,\ c$，若
       $B=\dfrac{\pi}{3}$，$b^2=\dfrac{9}{4}ac$，则 $\sin A+\sin C$ 等于（&nbsp;&nbsp;&nbsp;）
     </div>
-    <details class="img-fold" open>
+    <details class="img-fold">
       <summary>📷 原题图片（点击可收起）</summary>
       <div class="img-body">
         <figure class="problem-figure">
@@ -1194,10 +1199,28 @@ requestAnimationFrame(loop);
     pushCloud(rec);
     return rec;
   }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
   function renderPop(){
     var vs=vocab(),n=localNotes();
+    sel={};
     var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条，可连续点多个</div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
     h+='<div class="cp-tags">';
     vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
     h+='</div>';
@@ -1213,11 +1236,19 @@ requestAnimationFrame(loop);
     pop.querySelectorAll('.cp-tag').forEach(function(el){
       el.addEventListener('click',function(){
         var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+          }
+          return;
+        }
         var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        saveRec([t],txt);
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
         pop.querySelector('#cnoteTxt').value='';
         el.classList.add('done');
-        var cnt=pop.querySelector('.cp-cnt');
         if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
       });
     });
@@ -1269,6 +1300,20 @@ requestAnimationFrame(loop);
     if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
   });
 })();
+</script>
+<style id="imgclean-style">
+.img-switch-btns{display:flex;gap:8px;justify-content:center;margin:10px 0 2px;flex-wrap:wrap;}
+.imgsw{border:1.5px solid #d6e4f2;background:#f8fbff;color:#1f2d3d;font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;cursor:pointer;font-family:inherit;}
+.imgsw.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.imgv{max-width:100%;height:auto;}
+</style>
+<script id="imgclean-fn">
+function imgsw(btn,v){var f=btn.closest('.problem-figure');if(!f)return;
+  var c=f.querySelector('.imgv-clean'),o=f.querySelector('.imgv-orig');
+  if(c)c.style.display=(v==='clean')?'':'none';
+  if(o)o.style.display=(v==='orig')?'':'none';
+  f.querySelectorAll('.imgsw').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v);});
+}
 </script>
 </body>
 </html>
