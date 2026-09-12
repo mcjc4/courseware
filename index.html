@@ -163,6 +163,10 @@
     padding:5px 14px; border-radius:999px;
   }
   .cstat-line { margin-top:9px; }
+  .cnote-line { margin-top:9px; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+  .c-badge.st-note { background:#f3e8ff; color:#7c3aed; }
+  .cnote-chip { display:inline-block; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; padding:2px 9px; border-radius:999px; background:#f3e8ff; color:#7c3aed; font-weight:600; border:1px solid #e9d5ff; }
+  .cnote-chip.more { background:#f1f4f8; color:#7c8aa0; border-color:#e3e9f0; }
   .c-badge { display:inline-block; font-size:11px; padding:2px 9px; border-radius:999px; background:#f1f4f8; color:#7c8aa0; font-weight:600; }
   .c-badge.st-forgot { background:#fee2e2; color:#dc2626; }
   .c-badge.st-fuzzy { background:#fef3c7; color:#b45309; }
@@ -1464,7 +1468,12 @@ function refreshNoteData(){
       if(an&&an.parentNode)an.parentNode.insertBefore(line,an.nextSibling);
       else{var cb=card.querySelector('.card-body');if(cb)cb.appendChild(line);}
     }
-    line.textContent='📝 错因×'+recs.length+(tags.length?(' · '+tags.slice(0,2).join('/')):'');
+    line.innerHTML='';
+    var lab=document.createElement('span');lab.className='c-badge st-note';lab.textContent='📝 错因×'+recs.length;line.appendChild(lab);
+    tags.slice(0,3).forEach(function(t){
+      var ch=document.createElement('span');ch.className='cnote-chip';ch.textContent=t;ch.title=t;line.appendChild(ch);
+    });
+    if(tags.length>3){var mo=document.createElement('span');mo.className='cnote-chip more';mo.textContent='+'+(tags.length-3);line.appendChild(mo);}
     line.title=tags.join(' / ');
   });
   updateCnt('note');apply();
