@@ -633,6 +633,12 @@ PAGE_TMPL = """<!DOCTYPE html>
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
     }}else{{if(empty)empty.remove();}}
     renderChips();
+    // 持久化筛选状态：从课件返回导航页时恢复（陈总需求）
+    try{{
+      localStorage.setItem('nav_filters',JSON.stringify({{
+        sets:{{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo)}},
+        df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value}}));
+    }}catch(e){{}}
   }}
 
   document.querySelectorAll('.filter-btn').forEach(function(btn){{
@@ -719,6 +725,28 @@ PAGE_TMPL = """<!DOCTYPE html>
     forgetMin.value='';
     fQ.value='';apply();
   }});
+
+  // 恢复上次筛选状态：从课件页返回导航页时筛选结果不丢（须在首次 apply 前执行）
+  (function(){{
+    var sv=null; try{{ sv=JSON.parse(localStorage.getItem('nav_filters')); }}catch(e){{}}
+    if(sv&&sv.sets){{
+      ['subject','chapter','knowledge','method','status','rating','redo'].forEach(function(f){{
+        (sv.sets[f]||[]).forEach(function(v){{
+          sets[f].add(v);
+          document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=true;}});
+        }});
+        updateCnt(f);
+      }});
+    }}
+    if(sv){{
+      if(sv.df)dateFrom.value=sv.df;
+      if(sv.dt)dateTo.value=sv.dt;
+      updateDateCnt();
+      if(sv.fm)forgetMin.value=sv.fm;
+      if(sv.q)fQ.value=sv.q;
+      if(sv.sort)fSort.value=sv.sort;
+    }}
+  }})();
 
   __STATS_JS__
   sortCards();
@@ -1071,7 +1099,7 @@ function trainRender(){
   be.textContent=badge?badge.textContent:'';
   be.className='t-badge '+(badge&&badge.className.split(' ')[1]||'');
   document.getElementById('trainDate').textContent='制作 '+(card.dataset.date||'—');
-  document.getElementById('trainOpen').setAttribute('href',card.getAttribute('href'));
+  document.getElementById('trainOpen').setAttribute('href',card.getAttribute('href')+'?tr='+trainIdx); // 带序号，课件页显示串联导航
   var rd=document.getElementById('trainRedo');
   var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
   rd.checked=d.done===1;
@@ -1090,6 +1118,7 @@ function trainOpenPanel(){
     if(p&&p.n===trainList.length&&p.i>=0&&p.i<trainList.length)trainIdx=p.i;
   }catch(e){}
   trainOv.classList.add('open');
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
   trainRender();
 }
 function trainClosePanel(){ trainOv.classList.remove('open'); }
@@ -1137,6 +1166,7 @@ orderSel.addEventListener('change',function(){
   trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
   trainIdx=0;
   if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
   trainRender();
 });
 document.getElementById('trainRedo').addEventListener('change',function(){
