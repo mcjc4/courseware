@@ -887,7 +887,7 @@
               <option value="random">随机</option>
             </select>
           </label>
-          <label class="train-redo"><input type="checkbox" id="trainRedo">✍️ 已独立重做</label>
+          <label class="train-redo"><input type="checkbox" id="trainRedo">✍️ 已独立重做<span id="trainRedoInfo"></span></label>
         </div>
       </div>
       <div class="train-tip">快捷键：← 上一题 · → 下一题 · Esc 退出；上次练到的位置会自动记忆</div>
@@ -1152,6 +1152,7 @@ function statusOf(s){
   return 'skilled';
 }
 function fmtTs(ts){ if(!ts)return ''; var d=new Date(ts); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function fmtHM(ts){ if(!ts)return ''; var d=new Date(ts); var p=function(x){return ('0'+x).slice(-2);}; return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); }
 function collectLocal(){
   var out={};
   COURSES.forEach(function(c){
@@ -1162,6 +1163,7 @@ function collectLocal(){
     out[c.id]={skilled:s.skilled||0,fuzzy:s.fuzzy||0,forgot:s.forgot||0,
                rg:r.good||0,rh:r.hard||0,rt:r.teach||0,
                rd:d.done===1,rts:d.ts||0,
+               rn:d.n||0,
                visit:lv,ts:s.ts||0};
   });
   return out;
@@ -1179,9 +1181,12 @@ function mergeStats(loc,cl){
     skilled:Math.max(loc.skilled||0,cl.skilled||0),
     fuzzy:cnt(loc.fuzzy,cl.fuzzy),
     forgot:cnt(loc.forgot,cl.forgot),
-    // 独立重做是状态不是累计：按重做自身 ts（rts）与云端 updated_at 较新侧为准
-    // （不能用自评 cstat 的 ts——从未打开过的课件 ts=0，导航页勾的重做会被云端顶掉）
-    rd:(loc.rts&&loc.rts>cts)?!!loc.rd:!!cl.rd
+    // 独立重做：状态(done)与时间按「重做时间戳」较新侧——本地用 rts，云端必须用 redo_at
+    // （不能用 updated_at：它是混合字段时间戳，任何自评/评价上报都会刷新，会把重做状态顶掉；
+    //   也不能用自评 cstat 的 ts——从未打开过的课件 ts=0，导航页勾的重做会被顶掉）
+    rd:((loc.rts||0)>=(cl.rat||0))?!!loc.rd:!!cl.rd,
+    rn:Math.max(loc.rn||0,cl.rn||0),
+    rat:((loc.rts||0)>=(cl.rat||0))?(loc.rts||0):(cl.rat||0)
   };
 }
 function ratingStr(s){
@@ -1204,7 +1209,7 @@ function renderBadge(cv){
   card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
   card.dataset.browseTs=String(cv.visitReal||0); // 毫秒级真实浏览时间戳（无浏览=0），排序用
   var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
-  var rt=ratingStr(s)+(s.rd?' · ✍️已重做':'');
+  var rt=ratingStr(s)+(s.rd?(' · ✍️已重做×'+(s.rn||1)+(s.rat?(' · 上次 '+fmtHM(s.rat)):'')):'');
   if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when+rt; el.className='c-badge st-new'; }
   else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-forgot'; }
   else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-fuzzy'; }
@@ -1247,6 +1252,8 @@ function fetchCloud(isRetry){
       map[r.course_id]={skilled:r.skilled||0,fuzzy:r.fuzzy||0,forgot:r.forgot||0,
                         rg:r.rating_good||0,rh:r.rating_hard||0,rt:r.rating_teach||0,
                         rd:r.redone===true,
+                        rn:r.redo_count||0,
+                        rat:r.redo_at?new Date(r.redo_at).getTime():0,
                         visit:r.last_visit?new Date(r.last_visit).getTime():0,
                         ts:r.updated_at?new Date(r.updated_at).getTime():0};
     });
@@ -1309,6 +1316,8 @@ function trainRender(){
   var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
   rd.checked=d.done===1;
   rd.dataset.cid=cid;
+  var ri=document.getElementById('trainRedoInfo');
+  if(ri)ri.textContent=d.n?('×'+d.n+' · 上次 '+fmtHM(d.ts)):'';
   document.getElementById('trainPrev').disabled=(trainIdx<=0);
   document.getElementById('trainNext').disabled=(trainIdx>=trainList.length-1);
   try{ localStorage.setItem('train_pos',JSON.stringify({n:trainList.length,i:trainIdx})); }catch(e){}
@@ -1352,7 +1361,9 @@ function syncRedo(cid,done){
     m.rt=Math.max(loc.rt||0,cl.rt||0);
     var body={course_id:cid,skilled:m.skilled,fuzzy:m.fuzzy,forgot:m.forgot,
               rating_good:m.rg,rating_hard:m.rh,rating_teach:m.rt,
-              redone:!!done,updated_at:new Date().toISOString(),
+              redone:!!done,redo_count:m.rn||0,
+              redo_at:m.rat?new Date(m.rat).toISOString():null,
+              updated_at:new Date().toISOString(),
               last_visit:loc.visit?new Date(loc.visit).toISOString():null};
     return fetch(base+'?on_conflict=course_id',{
       method:'POST',headers:Object.assign({'Prefer':'resolution=merge-duplicates'},h),
@@ -1379,6 +1390,9 @@ document.getElementById('trainRedo').addEventListener('change',function(){
   try{ localStorage.setItem('credo:'+cid,JSON.stringify({done:this.checked?1:0,ts:Date.now()})); }catch(e){}
   applyStats(statMap); // 立即刷新卡片徽章与 data-redo
   syncRedo(cid,this.checked);
+  var ri=document.getElementById('trainRedoInfo');
+  var d2={}; try{ d2=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
+  if(ri)ri.textContent=d2.n?('×'+d2.n+' · 上次 '+fmtHM(d2.ts)):'';
 });
 document.addEventListener('keydown',function(e){
   if(!trainOv.classList.contains('open'))return;
