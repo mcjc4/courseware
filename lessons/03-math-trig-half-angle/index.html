@@ -73,6 +73,10 @@ th{background:#f3f8ff;color:#2a6df4}
 .chip.num b{color:#fff}
 </style>
 <!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_03_math_trig_half_angle","title":"半角公式求值 · 三角函数互动课件","subject":"数学","chapter":"三角函数","points":["半角公式"],"date":"2026-09-12","number":"数0001"}</script><!--/CSTAT-META-->
+<style id="layoutfix-style">
+.hero{position:relative;}
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -654,10 +658,28 @@ document.getElementById('ansBtn').onclick=()=>{
     pushCloud(rec);
     return rec;
   }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
   function renderPop(){
     var vs=vocab(),n=localNotes();
+    sel={};
     var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条，可连续点多个</div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
     h+='<div class="cp-tags">';
     vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
     h+='</div>';
@@ -673,11 +695,19 @@ document.getElementById('ansBtn').onclick=()=>{
     pop.querySelectorAll('.cp-tag').forEach(function(el){
       el.addEventListener('click',function(){
         var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+          }
+          return;
+        }
         var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        saveRec([t],txt);
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
         pop.querySelector('#cnoteTxt').value='';
         el.classList.add('done');
-        var cnt=pop.querySelector('.cp-cnt');
         if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
       });
     });
