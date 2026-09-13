@@ -113,6 +113,7 @@ CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" 
         {source_html}
         <span class="go">打开课件 \u2192</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>"""
 
 
@@ -263,12 +264,30 @@ PAGE_TMPL = """<!DOCTYPE html>
   .train-tip {{ font-size:11px; color:#9db0c4; padding:0 22px 14px; }}
   .grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin-top:16px; }}
   .card {{
+    position:relative;
     display:flex; gap:14px; background:#fff; border:1px solid #e3edf7; border-radius:20px;
     padding:20px 18px; text-decoration:none; color:inherit;
     box-shadow:0 10px 30px -12px rgba(31,66,135,.16);
     transition:transform .18s ease, box-shadow .18s ease;
   }}
   .card:hover {{ transform:translateY(-3px); box-shadow:0 16px 36px -12px rgba(31,66,135,.26); }}
+  .pick {{
+    position:absolute; top:12px; right:12px; width:22px; height:22px; border-radius:50%;
+    border:1.6px solid #c5d4e8; background:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
+  }}
+  .pick::before {{ content:""; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg) translateY(-2px); opacity:0; transition:opacity .12s; }}
+  .pick:hover {{ border-color:#4f8ef7; }}
+  .card.picked {{ border-color:#4f8ef7; box-shadow:0 0 0 1.5px #4f8ef7, 0 14px 34px -12px rgba(31,142,247,.35); }}
+  .card.picked .pick {{ background:#4f8ef7; border-color:#4f8ef7; }}
+  .card.picked .pick::before {{ opacity:1; }}
+  .pick-bar {{ display:inline-flex; align-items:center; gap:7px; margin-left:12px; vertical-align:middle; }}
+  .pk-info {{ font-size:13px; color:#5c7185; }}
+  .pk-info b {{ color:#2a6df4; font-size:14px; }}
+  .pk-btn {{ border:1.5px solid #d6e4f2; background:#fff; color:#5c7185; border-radius:999px; padding:4px 12px; font-size:12px; cursor:pointer; font-family:inherit; transition:all .15s; }}
+  .pk-btn:hover {{ border-color:#4f8ef7; color:#2a6df4; background:#f4f9ff; }}
+  .pk-btn.pk-clear {{ color:#b45309; border-color:#f2dcb8; }}
+  .pk-btn.pk-clear:hover {{ background:#fff7e6; border-color:#f0b35e; color:#b45309; }}
   .badge {{
     flex:none; width:46px; height:46px; border-radius:50%;
     background:linear-gradient(135deg,#4f8ef7,#22c3a6); color:#fff;
@@ -276,7 +295,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     font-size:11px; font-weight:600;
   }}
   .card-body {{ min-width:0; flex:1; }}
-  .card-body h3 {{ font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
+  .card-body h3 {{ font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:26px; }}
   .card-body .sub {{ font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }}
   .tags {{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }}
   .tag-chip {{ font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4; }}
@@ -486,7 +505,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button><button class="train-btn" id="noteAnBtn" type="button" title="\u6c47\u603b\u5168\u90e8\u8bfe\u4ef6\u7684\u300c\u6ca1\u60f3\u5230\u300d\u5361\u70b9\u8bb0\u5f55" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 \u9519\u56e0\u5206\u6790</button><button class="train-btn" id="cfgBtn" type="button" title="\u8bfe\u4ef6\u9875\u663e\u793a\u8bbe\u5b9a\uff08\u539f\u9898\u533a\u5f00\u5408/\u95ea\u70c1\u95f4\u9694\uff09" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ \u8bfe\u4ef6\u8bbe\u5b9a</button></div>
+  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button><button class="train-btn" id="noteAnBtn" type="button" title="\u6c47\u603b\u5168\u90e8\u8bfe\u4ef6\u7684\u300c\u6ca1\u60f3\u5230\u300d\u5361\u70b9\u8bb0\u5f55" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 \u9519\u56e0\u5206\u6790</button><button class="train-btn" id="cfgBtn" type="button" title="\u8bfe\u4ef6\u9875\u663e\u793a\u8bbe\u5b9a\uff08\u539f\u9898\u533a\u5f00\u5408/\u95ea\u70c1\u95f4\u9694\uff09" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ \u8bfe\u4ef6\u8bbe\u5b9a</button></div>
 
   <div class="grid" id="grid">
 {cards}
@@ -649,7 +668,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     var rc=document.getElementById('resultCount');
     if(rc)rc.textContent=n; // 只更新数字；不能用 textContent 覆盖整个 resultInfo（会清掉 statMeta 子节点）
     var tb=document.getElementById('trainBtn');
-    if(tb)tb.style.display=n>0?'':'none'; // 无筛选结果时隐藏专题练入口
+    if(tb){{var pc=(window.__pickedCount||0);tb.style.display=(n>0||pc>0)?'':'none';}}
     var empty=document.getElementById('emptyHint');
     if(n===0){{
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
@@ -1402,8 +1421,9 @@ function trainRender(){
 }
 function trainOpenPanel(){
   var vis=visibleCards();
-  if(!vis.length)return;
-  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  if(!base.length)return;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
   trainIdx=0;
   try{ // 位置记忆：题目数一致时恢复上次练到的位置
     var p=JSON.parse(localStorage.getItem('train_pos'));
@@ -1457,7 +1477,8 @@ orderSel.addEventListener('change',function(){
   document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
   var cur=trainList[trainIdx];
   var vis=visibleCards();
-  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
   trainIdx=0;
   if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
   try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
@@ -1478,6 +1499,45 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='ArrowRight'){trainStep(1);}
   else if(e.key==='Escape'){trainClosePanel();}
 });
+
+
+/* ===== 卡片勾选选集 -> 专题练（2026-09-13）===== */
+var PICK_KEY='nav_picked';
+var picked=new Set();
+try{ var _pj=JSON.parse(localStorage.getItem(PICK_KEY)); if(_pj&&_pj.length)picked=new Set(_pj); }catch(e){}
+function savePicked(){ try{ localStorage.setItem(PICK_KEY,JSON.stringify(Array.from(picked))); }catch(e){} }
+function syncTrainBtn(){
+  window.__pickedCount=picked.size;
+  var pc=document.getElementById('pickCount'); if(pc)pc.textContent=picked.size;
+  var tb=document.getElementById('trainBtn');
+  if(tb){
+    var anyVis=cards.some(function(c){ return c.style.display!=='none'; });
+    tb.style.display=(anyVis||picked.size>0)?'':'none';
+    tb.textContent = picked.size>0 ? ('\uD83C\uDFAF 专题练 ('+picked.size+')') : '\uD83C\uDFAF 专题练';
+    tb.title = picked.size>0 ? ('练已勾选的 '+picked.size+' 题') : '将当前筛选结果作为一组题，逐张浏览训练';
+  }
+}
+function syncPickUI(){
+  cards.forEach(function(card){ card.classList.toggle('picked', picked.has(card.dataset.cid)); });
+  syncTrainBtn();
+}
+function togglePick(card){
+  var cid=card.dataset.cid; if(!cid)return;
+  if(picked.has(cid))picked.delete(cid); else picked.add(cid);
+  savePicked(); syncPickUI();
+}
+cards.forEach(function(card){
+  var pk=card.querySelector('.pick'); if(!pk)return;
+  pk.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); togglePick(card); });
+  pk.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); togglePick(card); } });
+});
+(function(){
+  var bA=document.getElementById('pkAll'), bI=document.getElementById('pkInv'), bC=document.getElementById('pkClear');
+  if(bA)bA.addEventListener('click',function(){ visibleCards().forEach(function(c){ if(c.dataset.cid)picked.add(c.dataset.cid); }); savePicked(); syncPickUI(); });
+  if(bI)bI.addEventListener('click',function(){ visibleCards().forEach(function(c){ var id=c.dataset.cid; if(!id)return; if(picked.has(id))picked.delete(id); else picked.add(id); }); savePicked(); syncPickUI(); });
+  if(bC)bC.addEventListener('click',function(){ picked.clear(); savePicked(); syncPickUI(); });
+})();
+syncPickUI();
 """
 
 
