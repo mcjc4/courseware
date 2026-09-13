@@ -1041,11 +1041,13 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
   function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
   function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
   function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var DEFAULT_CLOUD = { url:'https://mixuqjognbdrafrrlivc.supabase.co', key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
   var CFG=(function(){
     var src=document.documentElement.innerHTML;
     var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
-    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
-    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+    var mk=src.match(/eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    if(mu&&mu[0]&&mk&&mk[0]) return {url:mu[0],key:mk[0]};
+    return DEFAULT_CLOUD;
   })();
   function pushCloud(rec){
     if(!CFG.url||!CFG.key)return;
