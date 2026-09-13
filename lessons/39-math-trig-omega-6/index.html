@@ -1,801 +1,1101 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>数0025 · ω的取值范围（对称性与单调性）</title>
-<meta name="number" content="数0025">
-<meta name="subject" content="数学">
-<meta name="chapter" content="三角函数">
-<meta name="knowledge" content="ω的取值范围-对称性与单调性">
-<meta name="source" content="我的解题课件库">
-<meta name="type" content="单选题">
-<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
-    color: #2c3e50;
-    line-height: 1.7;
-    padding: 20px;
-    min-height: 100vh;
-  }
-  .container { max-width: 880px; margin: 0 auto; }
-  .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    border-radius: 16px;
-    padding: 24px 28px;
-    margin-bottom: 22px;
-    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
-  }
-  .header .badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
-  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .header .sub { font-size: 13px; opacity: 0.9; }
-  .card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 22px 26px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  }
-  .card h2 {
-    font-size: 17px;
-    color: #667eea;
-    margin-bottom: 14px;
-    padding-left: 10px;
-    border-left: 4px solid #667eea;
-  }
-  .problem { font-size: 16px; line-height: 2; }
-  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
-  .note {
-    background: #fff8e1;
-    border-left: 4px solid #ffb300;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-top: 12px;
-    color: #6d4c00;
-  }
-  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
-  .opt {
-    border: 2px solid #e0e6ed;
-    border-radius: 12px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.25s;
-    background: #fafbfc;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    user-select: none;
-  }
-  .opt:hover { border-color: #667eea; background: #f0f4ff; }
-  .opt.correct { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
-  .opt.wrong { border-color: #f44336; background: #ffebee; color: #c62828; }
-  .opt.disabled { pointer-events: none; opacity: 0.7; }
-  .answer-msg {
-    margin-top: 14px;
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    display: none;
-  }
-  .answer-msg.show { display: block; }
-  .answer-msg.ok { background: #e8f5e9; color: #2e7d32; }
-  .answer-msg.bad { background: #ffebee; color: #c62828; }
-  .canvas-wrap {
-    background: #fafbff;
-    border: 1px solid #e8ebf2;
-    border-radius: 12px;
-    padding: 12px;
-    margin-top: 14px;
-  }
-  canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
-  .controls {
-    margin-top: 14px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-  }
-  .slider-row {
-    flex: 1;
-    min-width: 220px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .slider-row label { font-size: 14px; font-weight: 600; color: #555; }
-  .slider-row input[type=range] { flex: 1; accent-color: #667eea; }
-  .omega-val {
-    background: #667eea; color: #fff; padding: 4px 12px;
-    border-radius: 8px; font-weight: 700; font-size: 16px; min-width: 44px;
-    text-align: center;
-  }
-  .info-row {
-    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
-    font-size: 13px; color: #555;
-  }
-  .info-pill {
-    background: #eef1ff; padding: 4px 10px; border-radius: 14px;
-  }
-  .badge-mono {
-    display: inline-block; padding: 3px 12px; border-radius: 14px;
-    font-weight: 700; font-size: 14px; margin-left: 6px;
-  }
-  .badge-ok { background: #e8f5e9; color: #2e7d32; }
-  .badge-no { background: #ffebee; color: #c62828; }
-  .steps-wrap { margin-top: 10px; }
-  .step {
-    display: none;
-    background: #f7f9ff;
-    border-left: 3px solid #667eea;
-    padding: 12px 16px;
-    border-radius: 6px;
-    margin-top: 10px;
-    font-size: 15px;
-    line-height: 1.9;
-  }
-  .step.show { display: block; animation: fade 0.4s ease; }
-  .step .tag {
-    display: inline-block; background: #667eea; color: #fff;
-    padding: 2px 10px; border-radius: 10px; font-size: 12px;
-    margin-right: 8px; font-weight: 600;
-  }
-  .step.humor {
-    background: #fff3e0; border-left-color: #ff9800; color: #6d4c00;
-  }
-  .step.humor .tag { background: #ff9800; }
-  @keyframes fade { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
-  .btn-row { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    padding: 10px 22px; border: none; border-radius: 10px;
-    font-size: 15px; font-weight: 600; cursor: pointer;
-    transition: all 0.2s; user-select: none;
-  }
-  .btn-primary { background: #667eea; color: #fff; }
-  .btn-primary:hover { background: #5568d3; }
-  .btn-ghost { background: #eef1ff; color: #667eea; }
-  .btn-ghost:hover { background: #e0e6ff; }
-  .footer { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; }
-</style>
-<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_39_math_trig_omega_6","title":"数0025 · ω的取值范围（对称性与单调性）","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-13","number":"数0025"}</script><!--/CSTAT-META-->
-<style id="layoutfix-style">
-.hero{position:relative;}
-.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
-</style>
-</head>
-<body>
-<div class="container">
-
-  <div class="header">
-    <span class="badge">数0025 · 数学 · 三角函数</span>
-    <h1>ω的取值范围 —— 对称性与单调性</h1>
-    <div class="sub">考点：由对称轴与零点锁定 ω 为奇数，再用单调性筛选</div>
-  </div>
-
-  <div class="card">
-    <h2>题目</h2>
-    <div class="problem">
-      <div class="src">（2026·苏州模拟）</div>
-      已知函数 <span class="math">f(x)=\sin(\omega x+\varphi)</span>（<span class="math">\omega>0, |\varphi|<\dfrac{\pi}{2}</span>），
-      <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>，直线 <span class="math">x=\dfrac{\pi}{4}</span> 为 <span class="math">f(x)</span> 图象的一条对称轴，
-      且 <span class="math">f(x)</span> 在 <span class="math">\left(\dfrac{\pi}{18},\dfrac{5\pi}{36}\right)</span> 上单调，则 <span class="math">\omega</span> 的最大值为（&nbsp;&nbsp;&nbsp;&nbsp;）
-    </div>
-    <div class="options" id="options">
-      <div class="opt" data-key="A">A. 11</div>
-      <div class="opt" data-key="B">B. 9</div>
-      <div class="opt" data-key="C">C. 7</div>
-      <div class="opt" data-key="D">D. 5</div>
-    </div>
-    <div class="answer-msg" id="ansMsg"></div>
-  </div>
-
-  <div class="card">
-    <h2>互动图像</h2>
-    <div class="canvas-wrap">
-      <canvas id="cv"></canvas>
-    </div>
-    <div class="controls">
-      <div class="slider-row">
-        <label>ω =</label>
-        <input type="range" id="omegaSlider" min="1" max="13" step="2" value="9">
-        <span class="omega-val" id="omegaVal">9</span>
-      </div>
-    </div>
-    <div class="info-row">
-      <span class="info-pill">φ = <span id="phiVal"></span></span>
-      <span class="info-pill">区间内 u ∈ <span id="uRange"></span></span>
-      <span>单调性：<span class="badge-mono" id="monoBadge"></span></span>
-    </div>
-    <div class="note">橙色虚线为对称轴 <span class="math">x=\dfrac{\pi}{4}</span>，绿色圆点为零点 <span class="math">x=-\dfrac{\pi}{4}</span>，蓝色阴影为给定单调区间。</div>
-  </div>
-
-  <div class="card">
-    <h2>解题步骤</h2>
-    <div class="steps-wrap" id="stepsWrap">
-      <div class="step" data-step="1">
-        <span class="tag">步骤1</span>
-        由零点 <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>：
-        <span class="math">-\dfrac{\omega\pi}{4}+\varphi=m\pi</span>，即
-        <span class="math">\varphi=\dfrac{\omega\pi}{4}+m\pi</span>（<span class="math">m\in\mathbb{Z}</span>）。
-      </div>
-      <div class="step" data-step="2">
-        <span class="tag">步骤2</span>
-        由对称轴 <span class="math">x=\dfrac{\pi}{4}</span>：
-        <span class="math">\dfrac{\omega\pi}{4}+\varphi=\dfrac{\pi}{2}+n\pi</span>（<span class="math">n\in\mathbb{Z}</span>）。
-      </div>
-      <div class="step humor" data-step="3">
-        <span class="tag">关键</span>
-        两式相减：<span class="math">\dfrac{\omega\pi}{2}=\dfrac{\pi}{2}+(n-m)\pi</span>，
-        得 <span class="math">\omega=1+2(n-m)</span>。
-        <strong>所以 ω 必须是奇数：1, 3, 5, 7, 9, 11, …</strong>
-        <br>😎 <em>ω必须是奇数，直接砍掉一半选项！</em>
-      </div>
-      <div class="step" data-step="4">
-        <span class="tag">步骤4</span>
-        单调区间长度 <span class="math">=\dfrac{5\pi}{36}-\dfrac{\pi}{18}=\dfrac{\pi}{12}</span>。
-        <span class="math">\sin</span> 在长度 <span class="math">L</span> 的区间上单调，需
-        <span class="math">L\leqslant\dfrac{T}{2}=\dfrac{\pi}{\omega}</span>，即
-        <span class="math">\omega\leqslant 12</span>。
-      </div>
-      <div class="step humor" data-step="5">
-        <span class="tag">试值</span>
-        奇数候选从大往小：11, 9, 7, 5, …
-        <br>😎 <em>从大往小试，找到第一个单调的就收工！</em>
-      </div>
-      <div class="step" data-step="6">
-        <span class="tag">检验 ω=11</span>
-        <span class="math">\varphi=\dfrac{11\pi}{4}+m\pi</span>，取 <span class="math">m=-3</span> 得 <span class="math">\varphi=-\dfrac{\pi}{4}</span>。
-        <br>此时 <span class="math">u\in\left(\dfrac{13\pi}{36},\dfrac{23\pi}{18}\right)</span>，包含 <span class="math">\dfrac{\pi}{2}</span>（峰点），<span class="math">\sin</span> 先增后减，
-        <strong style="color:#c62828;">不单调 ✗</strong>
-      </div>
-      <div class="step" data-step="7">
-        <span class="tag">检验 ω=9</span>
-        <span class="math">\varphi=\dfrac{9\pi}{4}+m\pi</span>，取 <span class="math">m=-2</span> 得 <span class="math">\varphi=\dfrac{\pi}{4}</span>。
-        <br>此时 <span class="math">u\in\left(\dfrac{3\pi}{4},\dfrac{3\pi}{2}\right)</span>，而 <span class="math">\sin</span> 在 <span class="math">\left[\dfrac{\pi}{2},\dfrac{3\pi}{2}\right]</span> 上单调递减，此区间是其子集，
-        <strong style="color:#2e7d32;">单调 ✓</strong>
-      </div>
-      <div class="step humor" data-step="8">
-        <span class="tag">结论</span>
-        所以 <span class="math">\omega</span> 的最大值为 <strong style="color:#667eea;font-size:18px;">9</strong>，选 <strong>B</strong>。
-        <br>😎 <em>口诀：先由对称性锁定 ω 为奇数，再从大往小试单调。对称轴和零点之间隔了半个周期。</em>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="nextBtn">下一步</button>
-      <button class="btn btn-ghost" id="resetBtn">重置</button>
-    </div>
-  </div>
-
-  <div class="footer">数0025 · 我的解题课件库 · 三角函数</div>
-</div>
-
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0025 · ω的取值范围（对称性与单调性）</title>
+<meta name="number" content="数0025">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-对称性与单调性">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container { max-width: 880px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 13px; opacity: 0.9; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 17px;
+    color: #667eea;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 4px solid #667eea;
+  }
+  .problem { font-size: 16px; line-height: 2; }
+  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #6d4c00;
+  }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .opt {
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: #fafbfc;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    user-select: none;
+  }
+  .opt:hover { border-color: #667eea; background: #f0f4ff; }
+  .opt.correct { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
+  .opt.wrong { border-color: #f44336; background: #ffebee; color: #c62828; }
+  .opt.disabled { pointer-events: none; opacity: 0.7; }
+  .answer-msg {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+  }
+  .answer-msg.show { display: block; }
+  .answer-msg.ok { background: #e8f5e9; color: #2e7d32; }
+  .answer-msg.bad { background: #ffebee; color: #c62828; }
+  .canvas-wrap {
+    background: #fafbff;
+    border: 1px solid #e8ebf2;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 14px;
+  }
+  canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
+  .controls {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .slider-row {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slider-row label { font-size: 14px; font-weight: 600; color: #555; }
+  .slider-row input[type=range] { flex: 1; accent-color: #667eea; }
+  .omega-val {
+    background: #667eea; color: #fff; padding: 4px 12px;
+    border-radius: 8px; font-weight: 700; font-size: 16px; min-width: 44px;
+    text-align: center;
+  }
+  .info-row {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+    font-size: 13px; color: #555;
+  }
+  .info-pill {
+    background: #eef1ff; padding: 4px 10px; border-radius: 14px;
+  }
+  .badge-mono {
+    display: inline-block; padding: 3px 12px; border-radius: 14px;
+    font-weight: 700; font-size: 14px; margin-left: 6px;
+  }
+  .badge-ok { background: #e8f5e9; color: #2e7d32; }
+  .badge-no { background: #ffebee; color: #c62828; }
+  .steps-wrap { margin-top: 10px; }
+  .step {
+    display: none;
+    background: #f7f9ff;
+    border-left: 3px solid #667eea;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  .step.show { display: block; animation: fade 0.4s ease; }
+  .step .tag {
+    display: inline-block; background: #667eea; color: #fff;
+    padding: 2px 10px; border-radius: 10px; font-size: 12px;
+    margin-right: 8px; font-weight: 600;
+  }
+  .step.humor {
+    background: #fff3e0; border-left-color: #ff9800; color: #6d4c00;
+  }
+  .step.humor .tag { background: #ff9800; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+  .btn-row { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; user-select: none;
+  }
+  .btn-primary { background: #667eea; color: #fff; }
+  .btn-primary:hover { background: #5568d3; }
+  .btn-ghost { background: #eef1ff; color: #667eea; }
+  .btn-ghost:hover { background: #e0e6ff; }
+  .footer { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; }
+</style>
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_39_math_trig_omega_6","title":"数0025 · ω的取值范围（对称性与单调性）","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-13","number":"数0025"}</script><!--/CSTAT-META-->
+<style id="layoutfix-style">
+.hero{position:relative;}
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <span class="badge">数0025 · 数学 · 三角函数</span>
+    <h1>ω的取值范围 —— 对称性与单调性</h1>
+    <div class="sub">考点：由对称轴与零点锁定 ω 为奇数，再用单调性筛选</div>
+  </div>
+
+  <div class="card">
+    <h2>题目</h2>
+    <div class="problem">
+      <div class="src">（2026·苏州模拟）</div>
+      已知函数 <span class="math">f(x)=\sin(\omega x+\varphi)</span>（<span class="math">\omega>0, |\varphi|<\dfrac{\pi}{2}</span>），
+      <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>，直线 <span class="math">x=\dfrac{\pi}{4}</span> 为 <span class="math">f(x)</span> 图象的一条对称轴，
+      且 <span class="math">f(x)</span> 在 <span class="math">\left(\dfrac{\pi}{18},\dfrac{5\pi}{36}\right)</span> 上单调，则 <span class="math">\omega</span> 的最大值为（&nbsp;&nbsp;&nbsp;&nbsp;）
+    </div>
+    <div class="options" id="options">
+      <div class="opt" data-key="A">A. 11</div>
+      <div class="opt" data-key="B">B. 9</div>
+      <div class="opt" data-key="C">C. 7</div>
+      <div class="opt" data-key="D">D. 5</div>
+    </div>
+    <div class="answer-msg" id="ansMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>互动图像</h2>
+    <div class="canvas-wrap">
+      <canvas id="cv"></canvas>
+    </div>
+    <div class="controls">
+      <div class="slider-row">
+        <label>ω =</label>
+        <input type="range" id="omegaSlider" min="1" max="13" step="2" value="9">
+        <span class="omega-val" id="omegaVal">9</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="info-pill">φ = <span id="phiVal"></span></span>
+      <span class="info-pill">区间内 u ∈ <span id="uRange"></span></span>
+      <span>单调性：<span class="badge-mono" id="monoBadge"></span></span>
+    </div>
+    <div class="note">橙色虚线为对称轴 <span class="math">x=\dfrac{\pi}{4}</span>，绿色圆点为零点 <span class="math">x=-\dfrac{\pi}{4}</span>，蓝色阴影为给定单调区间。</div>
+  </div>
+
+  <div class="card">
+    <h2>解题步骤</h2>
+    <div class="steps-wrap" id="stepsWrap">
+      <div class="step" data-step="1">
+        <span class="tag">步骤1</span>
+        由零点 <span class="math">f\left(-\dfrac{\pi}{4}\right)=0</span>：
+        <span class="math">-\dfrac{\omega\pi}{4}+\varphi=m\pi</span>，即
+        <span class="math">\varphi=\dfrac{\omega\pi}{4}+m\pi</span>（<span class="math">m\in\mathbb{Z}</span>）。
+      </div>
+      <div class="step" data-step="2">
+        <span class="tag">步骤2</span>
+        由对称轴 <span class="math">x=\dfrac{\pi}{4}</span>：
+        <span class="math">\dfrac{\omega\pi}{4}+\varphi=\dfrac{\pi}{2}+n\pi</span>（<span class="math">n\in\mathbb{Z}</span>）。
+      </div>
+      <div class="step humor" data-step="3">
+        <span class="tag">关键</span>
+        两式相减：<span class="math">\dfrac{\omega\pi}{2}=\dfrac{\pi}{2}+(n-m)\pi</span>，
+        得 <span class="math">\omega=1+2(n-m)</span>。
+        <strong>所以 ω 必须是奇数：1, 3, 5, 7, 9, 11, …</strong>
+        <br>😎 <em>ω必须是奇数，直接砍掉一半选项！</em>
+      </div>
+      <div class="step" data-step="4">
+        <span class="tag">步骤4</span>
+        单调区间长度 <span class="math">=\dfrac{5\pi}{36}-\dfrac{\pi}{18}=\dfrac{\pi}{12}</span>。
+        <span class="math">\sin</span> 在长度 <span class="math">L</span> 的区间上单调，需
+        <span class="math">L\leqslant\dfrac{T}{2}=\dfrac{\pi}{\omega}</span>，即
+        <span class="math">\omega\leqslant 12</span>。
+      </div>
+      <div class="step humor" data-step="5">
+        <span class="tag">试值</span>
+        奇数候选从大往小：11, 9, 7, 5, …
+        <br>😎 <em>从大往小试，找到第一个单调的就收工！</em>
+      </div>
+      <div class="step" data-step="6">
+        <span class="tag">检验 ω=11</span>
+        <span class="math">\varphi=\dfrac{11\pi}{4}+m\pi</span>，取 <span class="math">m=-3</span> 得 <span class="math">\varphi=-\dfrac{\pi}{4}</span>。
+        <br>此时 <span class="math">u\in\left(\dfrac{13\pi}{36},\dfrac{23\pi}{18}\right)</span>，包含 <span class="math">\dfrac{\pi}{2}</span>（峰点），<span class="math">\sin</span> 先增后减，
+        <strong style="color:#c62828;">不单调 ✗</strong>
+      </div>
+      <div class="step" data-step="7">
+        <span class="tag">检验 ω=9</span>
+        <span class="math">\varphi=\dfrac{9\pi}{4}+m\pi</span>，取 <span class="math">m=-2</span> 得 <span class="math">\varphi=\dfrac{\pi}{4}</span>。
+        <br>此时 <span class="math">u\in\left(\dfrac{3\pi}{4},\dfrac{3\pi}{2}\right)</span>，而 <span class="math">\sin</span> 在 <span class="math">\left[\dfrac{\pi}{2},\dfrac{3\pi}{2}\right]</span> 上单调递减，此区间是其子集，
+        <strong style="color:#2e7d32;">单调 ✓</strong>
+      </div>
+      <div class="step humor" data-step="8">
+        <span class="tag">结论</span>
+        所以 <span class="math">\omega</span> 的最大值为 <strong style="color:#667eea;font-size:18px;">9</strong>，选 <strong>B</strong>。
+        <br>😎 <em>口诀：先由对称性锁定 ω 为奇数，再从大往小试单调。对称轴和零点之间隔了半个周期。</em>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="nextBtn">下一步</button>
+      <button class="btn btn-ghost" id="resetBtn">重置</button>
+    </div>
+  </div>
+
+  <div class="footer">数0025 · 我的解题课件库 · 三角函数</div>
+</div>
+
+<script>
+(function(){
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var slider = document.getElementById('omegaSlider');
+  var omegaValEl = document.getElementById('omegaVal');
+  var phiValEl = document.getElementById('phiVal');
+  var uRangeEl = document.getElementById('uRange');
+  var monoBadge = document.getElementById('monoBadge');
+  var nextBtn = document.getElementById('nextBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var stepsWrap = document.getElementById('stepsWrap');
+  var options = document.querySelectorAll('#options .opt');
+  var ansMsg = document.getElementById('ansMsg');
+
+  var CORRECT = 'B';
+  var stepIndex = 0;
+  var totalSteps = stepsWrap.querySelectorAll('.step').length;
+
+  // Compute phi given omega (odd): phi = omega*pi/4 + m*pi, choose m so |phi|<pi/2
+  function computePhi(omega){
+    var base = omega * Math.PI / 4;
+    // reduce base to (-pi, pi]
+    var reduced = base - Math.round(base / Math.PI) * Math.PI;
+    if (reduced > Math.PI/2) reduced -= Math.PI;
+    if (reduced < -Math.PI/2) reduced += Math.PI;
+    return reduced;
+  }
+
+  function gcd(a, b){
+    a = Math.abs(a); b = Math.abs(b);
+    while (b){ var t = b; b = a % b; a = t; }
+    return a;
+  }
+
+  function formatPi(v){
+    var k = v / Math.PI;
+    if (Math.abs(k) < 1e-9) return '0';
+    var num = k * 4;
+    var n = Math.round(num);
+    var sign = n < 0 ? '-' : '';
+    var an = Math.abs(n);
+    if (an % 4 === 0){
+      var whole = an / 4;
+      if (whole === 1) return sign + 'π';
+      return sign + whole + 'π';
+    }
+    var g = gcd(an, 4);
+    var a = an / g;
+    var b = 4 / g;
+    if (a === 1){
+      return sign + 'π/' + b;
+    }
+    return sign + a + 'π/' + b;
+  }
+
+  // Check if sin(omega*x+phi) is monotonic on (pi/18, 5pi/36)
+  function isMonotonic(omega, phi){
+    var x1 = Math.PI/18;
+    var x2 = 5*Math.PI/36;
+    var u1 = omega*x1 + phi;
+    var u2 = omega*x2 + phi;
+    var lo = Math.min(u1, u2);
+    var hi = Math.max(u1, u2);
+    var kmin = Math.ceil((lo - Math.PI/2)/Math.PI + 1e-9);
+    var kmax = Math.floor((hi - Math.PI/2)/Math.PI - 1e-9);
+    return kmin > kmax;
+  }
+
+  function draw(){
+    var omega = parseInt(slider.value, 10);
+    var phi = computePhi(omega);
+
+    omegaValEl.textContent = omega;
+    phiValEl.textContent = formatPi(phi);
+
+    var x1 = Math.PI/18;
+    var x2 = 5*Math.PI/36;
+    var u1 = omega*x1 + phi;
+    var u2 = omega*x2 + phi;
+    var lo = Math.min(u1, u2);
+    var hi = Math.max(u1, u2);
+    uRangeEl.textContent = '(' + formatPi(lo) + ', ' + formatPi(hi) + ')';
+
+    var mono = isMonotonic(omega, phi);
+    if (mono){
+      monoBadge.textContent = '✓ ω=' + omega + ' 单调';
+      monoBadge.className = 'badge-mono badge-ok';
+    } else {
+      monoBadge.textContent = '✗ ω=' + omega + ' 不单调';
+      monoBadge.className = 'badge-mono badge-no';
+    }
+
+    var W = cv.width;
+    var H = cv.height;
+    var padL = 50, padR = 20, padT = 24, padB = 36;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var xMin = -Math.PI/2;
+    var xMax = Math.PI/2;
+    var yMin = -1.4;
+    var yMax = 1.4;
+
+    function xToPx(x){ return padL + (x - xMin)/(xMax - xMin) * plotW; }
+    function yToPx(y){ return padT + (yMax - y)/(yMax - yMin) * plotH; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.fillStyle = '#fafbff';
+    ctx.fillRect(padL, padT, plotW, plotH);
+
+    ctx.strokeStyle = '#e8ebf2';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    var xGrid = [-Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2];
+    for (var i = 0; i < xGrid.length; i++){
+      var px = xToPx(xGrid[i]);
+      ctx.moveTo(px, padT);
+      ctx.lineTo(px, padT + plotH);
+    }
+    for (var j = -1; j <= 1; j++){
+      var py = yToPx(j);
+      ctx.moveTo(padL, py);
+      ctx.lineTo(padL + plotW, py);
+    }
+    ctx.stroke();
+
+    // highlight monotonic interval
+    ctx.fillStyle = 'rgba(102,126,234,0.18)';
+    ctx.fillRect(xToPx(x1), padT, xToPx(x2)-xToPx(x1), plotH);
+    ctx.strokeStyle = 'rgba(102,126,234,0.5)';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(x1), padT);
+    ctx.lineTo(xToPx(x1), padT+plotH);
+    ctx.moveTo(xToPx(x2), padT);
+    ctx.lineTo(xToPx(x2), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // axes
+    ctx.strokeStyle = '#9aa3b2';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, yToPx(0));
+    ctx.lineTo(padL+plotW, yToPx(0));
+    ctx.moveTo(xToPx(0), padT);
+    ctx.lineTo(xToPx(0), padT+plotH);
+    ctx.stroke();
+
+    // axis labels
+    ctx.fillStyle = '#7a8499';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    var xLabels = [
+      {v:-Math.PI/4, t:'-π/4'},
+      {v:0, t:'0'},
+      {v:Math.PI/4, t:'π/4'},
+      {v:Math.PI/2, t:'π/2'}
+    ];
+    for (var k = 0; k < xLabels.length; k++){
+      ctx.fillText(xLabels[k].t, xToPx(xLabels[k].v), yToPx(0)+16);
+    }
+    ctx.textAlign = 'right';
+    ctx.fillText('1', padL-6, yToPx(1)+4);
+    ctx.fillText('-1', padL-6, yToPx(-1)+4);
+
+    // sine curve
+    ctx.strokeStyle = '#667eea';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    var first = true;
+    var steps = 600;
+    for (var s = 0; s <= steps; s++){
+      var x = xMin + (xMax - xMin) * s / steps;
+      var y = Math.sin(omega * x + phi);
+      var cx = xToPx(x);
+      var cy = yToPx(y);
+      if (first){ ctx.moveTo(cx, cy); first = false; }
+      else ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+
+    // axis of symmetry x=pi/4 (orange dashed)
+    ctx.strokeStyle = '#ff9800';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8,5]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(Math.PI/4), padT);
+    ctx.lineTo(xToPx(Math.PI/4), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#ff9800';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('对称轴 x=π/4', xToPx(Math.PI/4), padT-6);
+
+    // zero point x=-pi/4 (green dot)
+    var zx = xToPx(-Math.PI/4);
+    var zy = yToPx(Math.sin(omega*(-Math.PI/4)+phi));
+    ctx.fillStyle = '#4caf50';
+    ctx.beginPath();
+    ctx.arc(zx, zy, Math.abs(5), 0, 2*Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#2e7d32';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('零点', zx, zy - 10);
+
+    // monotonicity badge on canvas
+    ctx.font = 'bold 15px sans-serif';
+    var badgeText = mono ? ('✓ ω=' + omega + ' 单调') : ('✗ ω=' + omega + ' 不单调');
+    var badgeColor = mono ? '#2e7d32' : '#c62828';
+    var badgeBg = mono ? 'rgba(232,245,233,0.9)' : 'rgba(255,235,235,0.9)';
+    var tw = ctx.measureText(badgeText).width;
+    ctx.fillStyle = badgeBg;
+    ctx.fillRect(padL+8, padT+8, tw+18, 26);
+    ctx.fillStyle = badgeColor;
+    ctx.textAlign = 'left';
+    ctx.fillText(badgeText, padL+17, padT+26);
+  }
+
+  function resize(){
+    var rect = cv.getBoundingClientRect();
+    var w = Math.max(320, Math.floor(rect.width));
+    var h = Math.floor(w * 0.5);
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = w * dpr;
+    cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cv.style.height = h + 'px';
+    draw();
+  }
+
+  function showNextStep(){
+    if (stepIndex >= totalSteps){
+      stepIndex = totalSteps;
+      return;
+    }
+    stepIndex++;
+    var steps = stepsWrap.querySelectorAll('.step');
+    for (var i = 0; i < stepIndex; i++){
+      steps[i].classList.add('show');
+    }
+    if (stepIndex >= totalSteps){
+      nextBtn.textContent = '已完成';
+    }
+  }
+
+  function resetSteps(){
+    stepIndex = 0;
+    var steps = stepsWrap.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++){
+      steps[i].classList.remove('show');
+    }
+    nextBtn.textContent = '下一步';
+  }
+
+  function bindOptions(){
+    for (var i = 0; i < options.length; i++){
+      options[i].addEventListener('click', function(){
+        var key = this.getAttribute('data-key');
+        var isRight = key === CORRECT;
+        for (var j = 0; j < options.length; j++){
+          options[j].classList.add('disabled');
+          if (options[j].getAttribute('data-key') === CORRECT){
+            options[j].classList.add('correct');
+          }
+        }
+        if (!isRight){
+          this.classList.add('wrong');
+        }
+        ansMsg.className = 'answer-msg show ' + (isRight ? 'ok' : 'bad');
+        if (isRight){
+          ansMsg.textContent = '✓ 回答正确！ω 的最大值为 9，选 B。';
+        } else {
+          ansMsg.textContent = '✗ 再想想。提示：先由对称性判定 ω 为奇数，再从大往小检验单调性。';
+        }
+      });
+    }
+  }
+
+  function renderMath(){
+    if (window.renderMathInElement){
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '<span class="math">', right: '</span>', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  function init(){
+    resize();
+    bindOptions();
+    slider.addEventListener('input', draw);
+    slider.addEventListener('change', draw);
+    slider.addEventListener('touchstart', function(e){ e.preventDefault(); }, {passive:false});
+    slider.addEventListener('touchmove', function(e){ e.preventDefault(); }, {passive:false});
+    slider.addEventListener('touchend', function(e){ e.preventDefault(); }, {passive:false});
+
+    nextBtn.addEventListener('click', showNextStep);
+    resetBtn.addEventListener('click', resetSteps);
+
+    window.addEventListener('resize', resize);
+
+    var tries = 0;
+    function tryRender(){
+      if (window.katex){
+        renderMath();
+      } else if (tries < 50){
+        tries++;
+        setTimeout(tryRender, 100);
+      }
+    }
+    tryRender();
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<!--CSTAT-BEGIN-->
+<style id="cstat-style">
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#cstat-label{color:#5c7185;font-weight:600}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-label{color:#5c7185;font-weight:600}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
+#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
+#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+</style>
+<div id="crate-bar" title="课件评价：这套课件质量如何">
+  <span id="crate-label">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg">👍 好</button>
+  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
+  <span id="crate-counts"></span>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" title="学习自评：点击累计计数">
+  <span id="cstat-label">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
+  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
+  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>
+/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
+(function(){
+  'use strict';
+  if (window.__cstatUI) return;
+  window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CSTAT_KEY = 'cstat:' + CM.id;
+  var CRATE_KEY = 'crate:' + CM.id;
+  var CREDO_KEY = 'credo:' + CM.id;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function recordCourseState(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render(); renderR();
+    return reset;
+  }
+  window.__recordCourseState = recordCourseState;
+  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
+  function rateCourse(kind){
+    var r = readR();
+    r[kind] = (r[kind]||0)+1;
+    r.ts = Date.now();
+    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderR();
+    return r[kind]||0;
+  }
+  window.__rateCourse = rateCourse;
+  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
+  function setRedo(done){
+    var d = readD();
+    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
+    d.done = done ? 1 : 0;
+    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderRedoInfo();
+    return d;
+  }
+  window.__setRedo = setRedo;
+  function fmtHM(ts){
+    if (!ts) return '';
+    var d = new Date(ts);
+    var p = function(x){ return ('0'+x).slice(-2); };
+    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function renderRedoInfo(){
+    var el = document.getElementById('credo-info');
+    if (!el) return;
+    var d = readD();
+    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
+  }
+  function initRedo(){
+    var chk = document.getElementById('credo-chk');
+    if (!chk) return;
+    chk.checked = readD().done === 1;
+    renderRedoInfo();
+    chk.addEventListener('change', function(){
+      var d = setRedo(chk.checked);
+      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
+    });
+  }
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function renderR(){
+    var r = readR();
+    var el = document.getElementById('crate-counts');
+    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var reset = recordCourseState(state);
+      var n = readS()[state]||0;
+      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
+      flash(msg);
+    });
+  }
+  function bindRate(id, kind, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var n = rateCourse(kind);
+      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
+    });
+  }
+  function init(){
+    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
+    bind('cstat-fz','fuzzy','\u6a21\u7cca');
+    bind('cstat-fg','forgot','\u5fd8\u8bb0');
+    bindRate('crate-good','good','\ud83d\udc4d \u597d');
+    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
+    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    initRedo();
+    render(); renderR();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!--CSTAT-END-->
+<style id="cnote-style">
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+</style>
+<script id="cnote-inject">
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  function openPop(){renderPop();pop.classList.add('open');}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=5;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+<!--FEAT-JS-REPORTER-BEGIN-->
 <script>
-(function(){
-  var cv = document.getElementById('cv');
-  var ctx = cv.getContext('2d');
-  var slider = document.getElementById('omegaSlider');
-  var omegaValEl = document.getElementById('omegaVal');
-  var phiValEl = document.getElementById('phiVal');
-  var uRangeEl = document.getElementById('uRange');
-  var monoBadge = document.getElementById('monoBadge');
-  var nextBtn = document.getElementById('nextBtn');
-  var resetBtn = document.getElementById('resetBtn');
-  var stepsWrap = document.getElementById('stepsWrap');
-  var options = document.querySelectorAll('#options .opt');
-  var ansMsg = document.getElementById('ansMsg');
-
-  var CORRECT = 'B';
-  var stepIndex = 0;
-  var totalSteps = stepsWrap.querySelectorAll('.step').length;
-
-  // Compute phi given omega (odd): phi = omega*pi/4 + m*pi, choose m so |phi|<pi/2
-  function computePhi(omega){
-    var base = omega * Math.PI / 4;
-    // reduce base to (-pi, pi]
-    var reduced = base - Math.round(base / Math.PI) * Math.PI;
-    if (reduced > Math.PI/2) reduced -= Math.PI;
-    if (reduced < -Math.PI/2) reduced += Math.PI;
-    return reduced;
-  }
-
-  function gcd(a, b){
-    a = Math.abs(a); b = Math.abs(b);
-    while (b){ var t = b; b = a % b; a = t; }
-    return a;
-  }
-
-  function formatPi(v){
-    var k = v / Math.PI;
-    if (Math.abs(k) < 1e-9) return '0';
-    var num = k * 4;
-    var n = Math.round(num);
-    var sign = n < 0 ? '-' : '';
-    var an = Math.abs(n);
-    if (an % 4 === 0){
-      var whole = an / 4;
-      if (whole === 1) return sign + 'π';
-      return sign + whole + 'π';
-    }
-    var g = gcd(an, 4);
-    var a = an / g;
-    var b = 4 / g;
-    if (a === 1){
-      return sign + 'π/' + b;
-    }
-    return sign + a + 'π/' + b;
-  }
-
-  // Check if sin(omega*x+phi) is monotonic on (pi/18, 5pi/36)
-  function isMonotonic(omega, phi){
-    var x1 = Math.PI/18;
-    var x2 = 5*Math.PI/36;
-    var u1 = omega*x1 + phi;
-    var u2 = omega*x2 + phi;
-    var lo = Math.min(u1, u2);
-    var hi = Math.max(u1, u2);
-    var kmin = Math.ceil((lo - Math.PI/2)/Math.PI + 1e-9);
-    var kmax = Math.floor((hi - Math.PI/2)/Math.PI - 1e-9);
-    return kmin > kmax;
-  }
-
-  function draw(){
-    var omega = parseInt(slider.value, 10);
-    var phi = computePhi(omega);
-
-    omegaValEl.textContent = omega;
-    phiValEl.textContent = formatPi(phi);
-
-    var x1 = Math.PI/18;
-    var x2 = 5*Math.PI/36;
-    var u1 = omega*x1 + phi;
-    var u2 = omega*x2 + phi;
-    var lo = Math.min(u1, u2);
-    var hi = Math.max(u1, u2);
-    uRangeEl.textContent = '(' + formatPi(lo) + ', ' + formatPi(hi) + ')';
-
-    var mono = isMonotonic(omega, phi);
-    if (mono){
-      monoBadge.textContent = '✓ ω=' + omega + ' 单调';
-      monoBadge.className = 'badge-mono badge-ok';
-    } else {
-      monoBadge.textContent = '✗ ω=' + omega + ' 不单调';
-      monoBadge.className = 'badge-mono badge-no';
-    }
-
-    var W = cv.width;
-    var H = cv.height;
-    var padL = 50, padR = 20, padT = 24, padB = 36;
-    var plotW = W - padL - padR;
-    var plotH = H - padT - padB;
-
-    var xMin = -Math.PI/2;
-    var xMax = Math.PI/2;
-    var yMin = -1.4;
-    var yMax = 1.4;
-
-    function xToPx(x){ return padL + (x - xMin)/(xMax - xMin) * plotW; }
-    function yToPx(y){ return padT + (yMax - y)/(yMax - yMin) * plotH; }
-
-    ctx.clearRect(0, 0, W, H);
-
-    ctx.fillStyle = '#fafbff';
-    ctx.fillRect(padL, padT, plotW, plotH);
-
-    ctx.strokeStyle = '#e8ebf2';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    var xGrid = [-Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2];
-    for (var i = 0; i < xGrid.length; i++){
-      var px = xToPx(xGrid[i]);
-      ctx.moveTo(px, padT);
-      ctx.lineTo(px, padT + plotH);
-    }
-    for (var j = -1; j <= 1; j++){
-      var py = yToPx(j);
-      ctx.moveTo(padL, py);
-      ctx.lineTo(padL + plotW, py);
-    }
-    ctx.stroke();
-
-    // highlight monotonic interval
-    ctx.fillStyle = 'rgba(102,126,234,0.18)';
-    ctx.fillRect(xToPx(x1), padT, xToPx(x2)-xToPx(x1), plotH);
-    ctx.strokeStyle = 'rgba(102,126,234,0.5)';
-    ctx.setLineDash([4,4]);
-    ctx.beginPath();
-    ctx.moveTo(xToPx(x1), padT);
-    ctx.lineTo(xToPx(x1), padT+plotH);
-    ctx.moveTo(xToPx(x2), padT);
-    ctx.lineTo(xToPx(x2), padT+plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // axes
-    ctx.strokeStyle = '#9aa3b2';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(padL, yToPx(0));
-    ctx.lineTo(padL+plotW, yToPx(0));
-    ctx.moveTo(xToPx(0), padT);
-    ctx.lineTo(xToPx(0), padT+plotH);
-    ctx.stroke();
-
-    // axis labels
-    ctx.fillStyle = '#7a8499';
-    ctx.font = '12px sans-serif';
-    ctx.textAlign = 'center';
-    var xLabels = [
-      {v:-Math.PI/4, t:'-π/4'},
-      {v:0, t:'0'},
-      {v:Math.PI/4, t:'π/4'},
-      {v:Math.PI/2, t:'π/2'}
-    ];
-    for (var k = 0; k < xLabels.length; k++){
-      ctx.fillText(xLabels[k].t, xToPx(xLabels[k].v), yToPx(0)+16);
-    }
-    ctx.textAlign = 'right';
-    ctx.fillText('1', padL-6, yToPx(1)+4);
-    ctx.fillText('-1', padL-6, yToPx(-1)+4);
-
-    // sine curve
-    ctx.strokeStyle = '#667eea';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    var first = true;
-    var steps = 600;
-    for (var s = 0; s <= steps; s++){
-      var x = xMin + (xMax - xMin) * s / steps;
-      var y = Math.sin(omega * x + phi);
-      var cx = xToPx(x);
-      var cy = yToPx(y);
-      if (first){ ctx.moveTo(cx, cy); first = false; }
-      else ctx.lineTo(cx, cy);
-    }
-    ctx.stroke();
-
-    // axis of symmetry x=pi/4 (orange dashed)
-    ctx.strokeStyle = '#ff9800';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([8,5]);
-    ctx.beginPath();
-    ctx.moveTo(xToPx(Math.PI/4), padT);
-    ctx.lineTo(xToPx(Math.PI/4), padT+plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#ff9800';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('对称轴 x=π/4', xToPx(Math.PI/4), padT-6);
-
-    // zero point x=-pi/4 (green dot)
-    var zx = xToPx(-Math.PI/4);
-    var zy = yToPx(Math.sin(omega*(-Math.PI/4)+phi));
-    ctx.fillStyle = '#4caf50';
-    ctx.beginPath();
-    ctx.arc(zx, zy, Math.abs(5), 0, 2*Math.PI);
-    ctx.fill();
-    ctx.fillStyle = '#2e7d32';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('零点', zx, zy - 10);
-
-    // monotonicity badge on canvas
-    ctx.font = 'bold 15px sans-serif';
-    var badgeText = mono ? ('✓ ω=' + omega + ' 单调') : ('✗ ω=' + omega + ' 不单调');
-    var badgeColor = mono ? '#2e7d32' : '#c62828';
-    var badgeBg = mono ? 'rgba(232,245,233,0.9)' : 'rgba(255,235,235,0.9)';
-    var tw = ctx.measureText(badgeText).width;
-    ctx.fillStyle = badgeBg;
-    ctx.fillRect(padL+8, padT+8, tw+18, 26);
-    ctx.fillStyle = badgeColor;
-    ctx.textAlign = 'left';
-    ctx.fillText(badgeText, padL+17, padT+26);
-  }
-
-  function resize(){
-    var rect = cv.getBoundingClientRect();
-    var w = Math.max(320, Math.floor(rect.width));
-    var h = Math.floor(w * 0.5);
-    var dpr = window.devicePixelRatio || 1;
-    cv.width = w * dpr;
-    cv.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cv.style.height = h + 'px';
-    draw();
-  }
-
-  function showNextStep(){
-    if (stepIndex >= totalSteps){
-      stepIndex = totalSteps;
-      return;
-    }
-    stepIndex++;
-    var steps = stepsWrap.querySelectorAll('.step');
-    for (var i = 0; i < stepIndex; i++){
-      steps[i].classList.add('show');
-    }
-    if (stepIndex >= totalSteps){
-      nextBtn.textContent = '已完成';
-    }
-  }
-
-  function resetSteps(){
-    stepIndex = 0;
-    var steps = stepsWrap.querySelectorAll('.step');
-    for (var i = 0; i < steps.length; i++){
-      steps[i].classList.remove('show');
-    }
-    nextBtn.textContent = '下一步';
-  }
-
-  function bindOptions(){
-    for (var i = 0; i < options.length; i++){
-      options[i].addEventListener('click', function(){
-        var key = this.getAttribute('data-key');
-        var isRight = key === CORRECT;
-        for (var j = 0; j < options.length; j++){
-          options[j].classList.add('disabled');
-          if (options[j].getAttribute('data-key') === CORRECT){
-            options[j].classList.add('correct');
-          }
-        }
-        if (!isRight){
-          this.classList.add('wrong');
-        }
-        ansMsg.className = 'answer-msg show ' + (isRight ? 'ok' : 'bad');
-        if (isRight){
-          ansMsg.textContent = '✓ 回答正确！ω 的最大值为 9，选 B。';
-        } else {
-          ansMsg.textContent = '✗ 再想想。提示：先由对称性判定 ω 为奇数，再从大往小检验单调性。';
-        }
-      });
-    }
-  }
-
-  function renderMath(){
-    if (window.renderMathInElement){
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left: '<span class="math">', right: '</span>', display: false}
-        ],
-        throwOnError: false
-      });
-    }
-  }
-
-  function init(){
-    resize();
-    bindOptions();
-    slider.addEventListener('input', draw);
-    slider.addEventListener('change', draw);
-    slider.addEventListener('touchstart', function(e){ e.preventDefault(); }, {passive:false});
-    slider.addEventListener('touchmove', function(e){ e.preventDefault(); }, {passive:false});
-    slider.addEventListener('touchend', function(e){ e.preventDefault(); }, {passive:false});
-
-    nextBtn.addEventListener('click', showNextStep);
-    resetBtn.addEventListener('click', resetSteps);
-
-    window.addEventListener('resize', resize);
-
-    var tries = 0;
-    function tryRender(){
-      if (window.katex){
-        renderMath();
-      } else if (tries < 50){
-        tries++;
-        setTimeout(tryRender, 100);
-      }
-    }
-    tryRender();
-  }
-
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-</script>
-<!--CSTAT-BEGIN-->
-<style id="cstat-style">
-#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#cstat-label{color:#5c7185;font-weight:600}
-#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
-#cstat-bar button:active{transform:scale(.95)}
-#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
-#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
-#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
-#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-#cstat-flash.show,#crate-flash.show{opacity:1}
-#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#crate-label{color:#5c7185;font-weight:600}
-#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
-#crate-bar button:active{transform:scale(.95)}
-#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
-#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
-#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
-#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
-#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
-#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
-#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
-#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
-#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
-#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
-  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
-#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
-#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
-#tnav-bar a{background:#f0f6ff;cursor:pointer}
-#tnav-bar a:hover{background:#dbeafe}
-#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
-#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
-#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
-#tnav-exit:hover{color:#ef4444}
-@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
-</style>
-<div id="crate-bar" title="课件评价：这套课件质量如何">
-  <span id="crate-label">⭐ 评价课件</span>
-  <button type="button" id="crate-good" class="crg">👍 好</button>
-  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
-  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
-  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
-  <span id="crate-counts"></span>
-  <span id="crate-flash"></span>
-</div>
-<div id="cstat-bar" title="学习自评：点击累计计数">
-  <span id="cstat-label">📋 自评</span>
-  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
-  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
-  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
-  <span id="cstat-counts"></span>
-  <span id="cstat-flash"></span>
-</div>
-<script>
-/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
-(function(){
-  'use strict';
-  if (window.__cstatUI) return;
-  window.__cstatUI = true;
-  var CM = null;
-  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
-  if (!CM || !CM.id) return;
-  var CSTAT_KEY = 'cstat:' + CM.id;
-  var CRATE_KEY = 'crate:' + CM.id;
-  var CREDO_KEY = 'credo:' + CM.id;
-  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
-  function recordCourseState(state){
-    var s = readS();
-    s[state] = (s[state]||0)+1;
-    var reset = false;
-    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
-    s.ts = Date.now();
-    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    render(); renderR();
-    return reset;
-  }
-  window.__recordCourseState = recordCourseState;
-  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
-  function rateCourse(kind){
-    var r = readR();
-    r[kind] = (r[kind]||0)+1;
-    r.ts = Date.now();
-    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderR();
-    return r[kind]||0;
-  }
-  window.__rateCourse = rateCourse;
-  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
-  function setRedo(done){
-    var d = readD();
-    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
-    d.done = done ? 1 : 0;
-    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderRedoInfo();
-    return d;
-  }
-  window.__setRedo = setRedo;
-  function fmtHM(ts){
-    if (!ts) return '';
-    var d = new Date(ts);
-    var p = function(x){ return ('0'+x).slice(-2); };
-    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
-  }
-  function renderRedoInfo(){
-    var el = document.getElementById('credo-info');
-    if (!el) return;
-    var d = readD();
-    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
-  }
-  function initRedo(){
-    var chk = document.getElementById('credo-chk');
-    if (!chk) return;
-    chk.checked = readD().done === 1;
-    renderRedoInfo();
-    chk.addEventListener('change', function(){
-      var d = setRedo(chk.checked);
-      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
-    });
-  }
-  function render(){
-    var s = readS();
-    var el = document.getElementById('cstat-counts');
-    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
-  }
-  function renderR(){
-    var r = readR();
-    var el = document.getElementById('crate-counts');
-    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
-  }
-  function flash(msg){
-    var el = document.getElementById('cstat-flash');
-    if (!el) return;
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(flash._t);
-    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
-  }
-  function bind(id, state, label, extra){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var reset = recordCourseState(state);
-      var n = readS()[state]||0;
-      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
-      flash(msg);
-    });
-  }
-  function bindRate(id, kind, label){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var n = rateCourse(kind);
-      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
-    });
-  }
-  function init(){
-    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
-    bind('cstat-fz','fuzzy','\u6a21\u7cca');
-    bind('cstat-fg','forgot','\u5fd8\u8bb0');
-    bindRate('crate-good','good','\ud83d\udc4d \u597d');
-    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
-    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
-    initRedo();
-    render(); renderR();
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<script>
-/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）=====
+ * 实时机制 A+B 双保险（2026-09-14）：
+ *   A = Supabase Realtime 订阅（设备 B 秒级收到推送即刷新）；连不上自动降级
+ *   B = 轮询（每 5s 拉一次云端聚合）作为保底
+ * 跨设备累加：pushCloud 改为「读云端当前值 + 本地增量 delta」写回，
+ *   syncBase 持久化到 localStorage，防页面刷新重复计数。
+ */
 (function(){
   'use strict';
   if (window.__cstatReporter) return;
@@ -808,6 +1108,7 @@
   var CRATE_KEY = 'crate:' + CID;
   var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
+  var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
   var DEFAULT_CLOUD = {
@@ -815,7 +1116,9 @@
     key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
   };
   var STATS_TABLE = 'course_stats';
+  var NOTES_TABLE = 'course_notes';
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function cloudCfg(){
     var c = readJSON(CFG_KEY, null);
     if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
@@ -830,7 +1133,89 @@
              rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
              rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
   }
-  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  // 已同步到云端的本地快照（用于计算 delta，防刷新重复累加）
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
+
+  /* ---------- 浮动数据面板 ---------- */
+  var chip = null;
+  function ensureChip(){
+    if (chip) return chip;
+    chip = document.createElement('div');
+    chip.className = 'cstat-chip';
+    chip.innerHTML = '<span class="cstat-ico">📊</span><span class="cstat-txt">课件数据</span>' +
+      '<div class="cstat-panel" style="display:none"></div>';
+    chip.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:60;max-width:260px;' +
+      'font:13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;cursor:pointer;user-select:none;';
+    var bar = 'background:linear-gradient(135deg,#1e3a8a,#0ea5e9);color:#fff;padding:7px 12px;' +
+      'border-radius:20px;box-shadow:0 4px 14px rgba(14,165,233,.35);display:flex;align-items:center;gap:6px;';
+    var barEl = document.createElement('span');
+    barEl.style.cssText = bar;
+    barEl.appendChild(chip.querySelector('.cstat-ico'));
+    barEl.appendChild(chip.querySelector('.cstat-txt'));
+    chip.insertBefore(barEl, chip.querySelector('.cstat-panel'));
+    var panel = chip.querySelector('.cstat-panel');
+    panel.style.cssText = 'margin-top:8px;background:rgba(15,23,42,.95);color:#e2e8f0;' +
+      'border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);' +
+      'font-size:12px;line-height:1.7;';
+    chip.addEventListener('click', function(e){
+      if (e.target === chip || e.target === barEl || barEl.contains(e.target)) {
+        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+      }
+    });
+    document.body.appendChild(chip);
+    return chip;
+  }
+  function renderStats(row, noteCount){
+    var panel = chip && chip.querySelector('.cstat-panel');
+    if (!panel) return;
+    row = row || {};
+    var skilled = row.skilled||0, fuzzy = row.fuzzy||0, forgot = row.forgot||0;
+    var rg = row.rating_good||0, rh = row.rating_hard||0, rt = row.rating_teach||0;
+    var total = skilled + fuzzy + forgot;
+    var h = '';
+    h += '<div style="opacity:.75;margin-bottom:4px">已有 ' + total + ' 人自评</div>';
+    h += '<div>熟练 <b style="color:#4ade80">' + skilled + '</b> · 模糊 <b style="color:#fbbf24">' + fuzzy + '</b> · 忘记 <b style="color:#f87171">' + forgot + '</b></div>';
+    h += '<div style="opacity:.75;margin:4px 0">评价</div>';
+    h += '<div>👍 好 <b>' + rg + '</b> · 🤔 不好懂 <b>' + rh + '</b> · 🧑‍🏫 没老师讲得好 <b>' + rt + '</b></div>';
+    if (noteCount) h += '<div style="margin-top:4px;opacity:.85">💡 记错 ' + noteCount + ' 条（见💡按钮）</div>';
+    panel.innerHTML = h;
+  }
+
+  /* ---------- 读回云端的聚合值 ---------- */
+  function fetchCloudRow(cfg, cb){
+    try {
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
+      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
+      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
+        if (timer) clearTimeout(timer);
+        cb(Array.isArray(j) && j.length ? j[0] : null);
+      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
+    } catch(e){ cb(null); }
+  }
+  function fetchNotesCount(cfg, cb){
+    try {
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + NOTES_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=course_id';
+      fetch(u, { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
+        .then(function(r){ return r.json(); }).then(function(j){
+          cb(Array.isArray(j) ? j.length : 0);
+        }).catch(function(){ cb(0); });
+    } catch(e){ cb(0); }
+  }
+  function refreshFromCloud(){
+    if (!autoOn()) return;
+    var cfg = cloudCfg();
+    fetchCloudRow(cfg, function(row){
+      fetchNotesCount(cfg, function(nc){ renderStats(row || {}, nc || 0); });
+    });
+  }
+
+  /* ---------- 上报（跨设备累加 delta） ---------- */
   function report(){
     var s = compute();
     var snap = JSON.stringify(s);
@@ -854,335 +1239,106 @@
     var cfg = cloudCfg();
     var vt = 0;
     try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    var ctl = null, timer = null;
-    try { ctl = new AbortController(); } catch(e){}
-    var opts = {
-      method: 'POST',
-      headers: {
-        'apikey': cfg.key,
-        'Authorization': 'Bearer ' + cfg.key,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplications,return=minimal'
-      },
-      body: JSON.stringify([{
+    fetchCloudRow(cfg, function(row){
+      var base = row || {};
+      var d = {
+        skilled: s.skilled - syncBase.skilled,
+        fuzzy:   s.fuzzy   - syncBase.fuzzy,
+        forgot:  s.forgot  - syncBase.forgot,
+        rg:      s.rg      - syncBase.rg,
+        rh:      s.rh      - syncBase.rh,
+        rt:      s.rt      - syncBase.rt
+      };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
+      var payload = {
         course_id: CID,
-        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
-        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        skilled: (base.skilled||0) + d.skilled,
+        fuzzy:   (base.fuzzy||0) + d.fuzzy,
+        forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
         redone: s.rd,
         redo_count: s.rn||0,
         redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
-      }])
-    };
-    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
-    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
-      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
-      .catch(function(){ lastCloud = ''; })
-      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+      };
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var opts = {
+        method: 'POST',
+        headers: {
+          'apikey': cfg.key,
+          'Authorization': 'Bearer ' + cfg.key,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplications,return=minimal'
+        },
+        body: JSON.stringify([payload])
+      };
+      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
+        .catch(function(){ /* 保留 syncBase，下次变更重试 */ })
+        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+    });
   }
+
+  /* ---------- A: Realtime 订阅（掉线自动降级轮询） ---------- */
+  function subscribeRealtime(){
+    try {
+      if (typeof WebSocket === 'undefined') return;
+      var cfg = cloudCfg();
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' +
+                  encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl);
+      var chan = 'cstat-' + CID;
+      var hb = null;
+      ws.onopen = function(){
+        rtAlive = true;
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: {
+          config: { postgres_changes: [
+            { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID },
+            { event: 'INSERT', schema: 'public', table: NOTES_TABLE, filter: 'course_id=eq.' + CID }
+          ] }
+        }, ref: '1' }));
+        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
+      };
+      ws.onmessage = function(ev){
+        try {
+          var m = JSON.parse(ev.data);
+          if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud();
+        } catch(e){}
+      };
+      ws.onerror = function(){ rtAlive = false; };
+      ws.onclose = function(){
+        rtAlive = false; if (hb) clearInterval(hb);
+        setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); // 自动重连
+      };
+    } catch(e){ /* 降级轮询 */ }
+  }
+
+  /* ---------- B: 轮询保底 ---------- */
+  function startPolling(){
+    setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000);
+  }
+
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
     window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
+    // 实时双保险
+    ensureChip();
+    refreshFromCloud();
+    startPolling();
+    subscribeRealtime();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
 })();
 </script>
-<script>
-/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
-(function(){
-  'use strict';
-  if (window.__tnav) return;
-  window.__tnav = true;
-  var ti = NaN;
-  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
-  if (isNaN(ti) || ti < 0) return;
-  var g = null;
-  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
-  if (!g || !g.urls || !g.urls.length) return;
-  var urls = g.urls;
-  function toUrl(u, idx){
-    var sep = u.indexOf('?') >= 0 ? '&' : '?';
-    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
-  }
-  function build(){
-    var bar = document.createElement('div');
-    bar.id = 'tnav-bar';
-    var prev = ti > 0
-      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
-      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
-    var next = ti < urls.length - 1
-      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
-      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
-    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
-      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
-      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
-    document.body.appendChild(bar);
-    document.getElementById('tnav-exit').addEventListener('click', function(){
-      bar.remove();
-      try { localStorage.removeItem('train_group'); } catch(e){}
-    });
-  }
-  document.addEventListener('keydown', function(e){
-    if (!document.getElementById('tnav-bar')) return;
-    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
-    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
-  });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
-})();
-</script>
-<script>
-/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
-(function(){
-  'use strict';
-  if (window.__bardrag) return;
-  window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
-  var LONG = 400, MOVE = 6;
-  function key(id){ return 'bar_pos:' + id; }
-  function place(el, l, t){
-    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
-    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
-    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
-    el.style.left = l + 'px';
-    el.style.top = t + 'px';
-    el.style.right = 'auto';
-    el.style.bottom = 'auto';
-    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
-  }
-  function restore(el){
-    try{
-      var p = JSON.parse(localStorage.getItem(key(el.id)));
-      if (p && typeof p.left === 'number') place(el, p.left, p.top);
-    }catch(e){}
-  }
-  function makeDraggable(el){
-    if (!el || el.__drag) return;
-    el.__drag = true;
-    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
-    el.style.touchAction = 'none';
-    el.addEventListener('pointerdown', function(e){
-      if (e.button) return;
-      sx = e.clientX; sy = e.clientY;
-      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
-      dragging = false; pid = e.pointerId;
-      clearTimeout(timer);
-      timer = setTimeout(function(){
-        dragging = true;
-        el.classList.add('bar-dragging');
-        try { el.setPointerCapture(pid); } catch(e2){}
-        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
-      }, LONG);
-    });
-    el.addEventListener('pointermove', function(e){
-      if (!dragging){
-        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
-        return;
-      }
-      e.preventDefault();
-      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
-    });
-    function up(){
-      clearTimeout(timer);
-      if (dragging){
-        el.classList.remove('bar-dragging');
-        try{
-          localStorage.setItem(key(el.id), JSON.stringify({
-            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
-        }catch(e2){}
-      }
-      dragging = false;
-    }
-    el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
-    window.addEventListener('resize', function(){ restore(el); });
-  }
-  function init(){
-    IDS.forEach(function(id){
-      var el = document.getElementById(id);
-      if (el){ makeDraggable(el); restore(el); }
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<!--CSTAT-END-->
-<style id="cnote-style">
-#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
-#cnotePill.drag{opacity:.85;transform:scale(1.04);}
-#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
-#cnotePop.open{display:block;}
-.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
-.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
-.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
-.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
-.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
-#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
-.cp-foot{display:flex;justify-content:space-between;align-items:center;}
-.cp-cnt{font-size:11.5px;color:#93a7ba;}
-#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
-#cnoteSave:disabled{opacity:.6;}
-.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
-#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
-@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
-</style>
-<script id="cnote-inject">
-(function(){
-  var CID=(function(){
-    try{
-      var m=document.querySelector('script[type="application/json"]#c-meta');
-      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
-    }catch(e){}
-    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
-  })();
-  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
-  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
-  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
-  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
-  var CFG=(function(){
-    var src=document.documentElement.innerHTML;
-    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
-    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
-    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
-  })();
-  function pushCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
-        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
-      }).catch(function(e){console.warn('[cnote] push fail',e);});
-    }catch(e){}
-  }
-  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
-  document.body.appendChild(pill);
-  var pop=document.createElement('div');pop.id='cnotePop';
-  document.body.appendChild(pop);
-  var sel={};
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function saveRec(tags,txt){
-    var rec={tags:tags,note:txt,ts:Date.now()};
-    var arr=localNotes();arr.push(rec);saveLocal(arr);
-    pushCloud(rec);
-    return rec;
-  }
-  function delCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      var iso=new Date(rec.ts).toISOString();
-      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
-    }catch(e){}
-  }
-  function cancelRec(tag,rec){
-    var arr=localNotes();
-    for(var i=arr.length-1;i>=0;i--){
-      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
-        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
-      }
-    }
-    return false;
-  }
-  function renderPop(){
-    var vs=vocab(),n=localNotes();
-    sel={};
-    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
-    h+='<div class="cp-tags">';
-    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
-    h+='</div>';
-    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
-    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
-    if(n.length){
-      var last=n[n.length-1];
-      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
-      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
-        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
-    }
-    pop.innerHTML=h;
-    pop.querySelectorAll('.cp-tag').forEach(function(el){
-      el.addEventListener('click',function(){
-        var t=el.getAttribute('data-t');
-        var cnt=pop.querySelector('.cp-cnt');
-        if(sel[t]){
-          if(cancelRec(t,sel[t])){
-            delete sel[t];el.classList.remove('done');
-            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
-            updBlink();
-          }
-          return;
-        }
-        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        var rec=saveRec([t],txt);
-        sel[t]=rec;
-        pop.querySelector('#cnoteTxt').value='';
-        el.classList.add('done');
-        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
-        updBlink();
-      });
-    });
-    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
-    var sv=pop.querySelector('#cnoteSave');
-    sv.addEventListener('click',function(){
-      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
-      saveRec([],txt);
-      pop.querySelector('#cnoteTxt').value='';
-      var cnt=pop.querySelector('.cp-cnt');
-      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
-      updBlink();
-    });
-  }
-  function openPop(){renderPop();pop.classList.add('open');}
-  function closePop(){pop.classList.remove('open');}
-  var key='bar_pos:cnote';
-  var blinkSec=5;
-  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
-  pill.style.setProperty('--blink-int',blinkSec+'s');
-  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
-  updBlink();
-  try{
-    var p=JSON.parse(localStorage.getItem(key)||'null');
-    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
-  }catch(e){}
-  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
-  pill.addEventListener('pointerdown',function(e){
-    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
-    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
-    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
-    e.preventDefault();
-  });
-  window.addEventListener('pointermove',function(e){
-    if(!dragging)return;moved=true;
-    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
-    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
-    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
-    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
-  });
-  window.addEventListener('pointerup',function(e){
-    if(arm){
-      arm=false;clearTimeout(timer);
-      if(dragging&&moved){
-        dragging=false;pill.classList.remove('drag');
-        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
-      }else{
-        dragging=false;pill.classList.remove('drag');
-        if(pop.classList.contains('open'))closePop();else openPop();
-      }
-      return;
-    }
-    if(dragging)return;
-    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
-  });
-})();
-</script>
-</body>
-</html>
+<!--FEAT-JS-REPORTER-END-->
+</body>
+</html>
