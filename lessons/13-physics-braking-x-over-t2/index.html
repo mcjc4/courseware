@@ -829,7 +829,7 @@ raf=requestAnimationFrame(loop);
     }catch(e){}
     return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
   })();
-  var DEF=['知道套路但忘了','记得这个套路没想到用在这','完全不知道有套路','计算出错','看错题干','其他'];
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
   function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
   function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
   function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
