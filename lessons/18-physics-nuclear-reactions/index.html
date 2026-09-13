@@ -1,618 +1,918 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>核反应方程四大类型判断 · 物理互动课件</title>
-<meta name="number" content="物0008">
-<meta name="subject" content="物理">
-<meta name="chapter" content="原子核物理">
-<meta name="knowledge" content="核反应方程-衰变-聚变-裂变">
-<meta name="source" content="我的解题课件库">
-<meta name="type" content="多选题">
-<meta name="tags" content="KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
-  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
-  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
-  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
-.wrap{max-width:920px;margin:0 auto}
-.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
-.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
-.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
-.chip b{color:#2a6df4}
-.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
-.chip.num b{color:#fff}
-.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
-.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
-.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
-.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
-.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
-.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.answer .lbl{font-size:12px;opacity:.9}
-#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
-#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
-.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-section{margin-top:20px}
-.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
-.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
-.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
-.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
-.problem-card{border-left:5px solid #4f8ef7}
-.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
-.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
-.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
-.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
-.oi.sel{border-color:#22c3a6;background:#eefcf7}
-.oi.correct{border-color:#22c3a6;background:#d7f5ec}
-.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
-.oi b{color:#2a6df4;margin-right:6px}
-.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
-.oi.correct .fb,.oi.wrong .fb{display:block}
-.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
-.step.gold{background:#fff8ec;border-left-color:#f5a623}
-.step.green{background:#eefcf7;border-left-color:#22c3a6}
-.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
-.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
-.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
-.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
-.btn:hover{background:#3a7be8}
-.katex{font-size:1.05em}
-.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
-.graph-wrap{position:relative}
-.graph-wrap canvas{display:block;width:100%;height:360px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;cursor:crosshair;touch-action:none}
-.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
-.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3)}
-.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
-.graph-slider b{color:#2a6df4;min-width:22px}
-.graph-slider input[type=range]{width:200px;accent-color:#5b7cfa}
-.graph-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#4a5d72;margin-top:10px}
-.legend-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-.graph-status{margin-top:12px;font-size:13.5px;color:#2c3e50;background:#f6faff;border-radius:10px;padding:11px 15px;line-height:1.8}
-</style>
-<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断 · 物理互动课件","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-13","number":"物0008"}</script><!--/CSTAT-META-->
-<style id="layoutfix-style">
-.hero{position:relative;}
-.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <a class="back-link" href="../../index.html">&#8592; 返回课件库</a>
-  <div class="meta-bar">
-    <span class="chip num"><b>编号</b>　物0008</span>
-    <span class="chip"><b>学科</b>　物理</span>
-    <span class="chip"><b>章节</b>　 content=</span>
-    <span class="chip"><b>知识点</b>　 content=</span>
-    <span class="chip"><b>来源</b>　我的解题课件库</span>
-    <span class="chip"><b>题型</b>　 content=</span>
-  </div>
-
-  <header class="hero">
-    <div class="eyebrow">核反应 · 质量数守恒 · 电荷数守恒 · 衰变类型</div>
-    <h1>物0008 · 题1 · 核反应方程判断</h1>
-    <p class="sub">四个核反应方程，分别涉及<b>人工核转变、轻核聚变、β衰变、α衰变</b>。关键是利用<b>质量数守恒和电荷数守恒</b>定出未知粒子，再结合<b>核物理史实和比结合能</b>概念逐一判断。</p>
-    <div class="answer">
-      <span class="lbl">答案（先自己做，再点开）</span>
-      <span id="ansShow" style="display:none">B</span>
-      <button id="ansBtn">🔍 显示 / 隐藏</button>
-    </div>
-    <div class="scrollhint">▼ 先选一个答案试试，再看逐步推导 ▼</div>
-  </header>
-
-  <section>
-    <div class="card problem-card">
-      <div class="problem-head">📋 题目原文</div>
-      <p class="stem">关于下列四个核反应方程，下列说法正确的是（　　）<br><br>① $\ce{^{9}_{4}Be + ^{4}_{2}He\rightarrow ^{12}_{6}C + X}$　② $\ce{4^{1}_{1}H\rightarrow ^{4}_{2}He + 2Y}$　③ $\ce{^{131}_{53}I\rightarrow ^{131}_{54}Xe + K}$　④ $\ce{^{238}_{94}Pu\rightarrow ^{234}_{92}X + ^{4}_{2}Y}$</p>
-      <div class="optlist" id="optlist">
-        <div class="oi" data-v="A"><b>A.</b>核反应方程①式中的X粒子最早由卢瑟福通过实验发现<span class="fb">✗ ①中X质量数=1、电荷数=0，是<b>中子</b> $\ce{^{1}_{0}n}$。卢瑟福发现的是<b>质子</b>（1919年用α轰击氮），中子是<b>查德威克</b>1932年发现的。</span></div>
-        <div class="oi" data-v="B"><b>B.</b>核反应方程②是轻核聚变反应，Y是正电子<span class="fb">✓ 正确！Y质量数=0、电荷数=1，是<b>正电子</b> $\ce{^{0}_{1}e}$。4个氢核聚变成氦核，同时放出2个正电子，这是<b>轻核聚变</b>反应（太阳产能机制）。</span></div>
-        <div class="oi" data-v="C"><b>C.</b>核反应方程③是β衰变方程，K是电子，说明原子核内存在电子<span class="fb">✗ K确实是电子 $\ce{^{0}_{-1}e}$（β衰变），但β衰变中电子是<b>中子衰变</b> $n\to p+e^-+\bar\nu_e$ 时产生的，<b>不是原子核内原本就存在的</b>。</span></div>
-        <div class="oi" data-v="D"><b>D.</b>核反应方程④是α衰变方程，Pu的比结合能比X大<span class="fb">✗ ④确实<b>是α衰变</b>（Y=α粒子）。但α衰变产物（子核+α粒子）比母核更稳定，<b>比结合能更高</b>。所以 $\ce{^{234}_{92}U}$ 的比结合能比 $\ce{^{238}_{94}Pu}$ <b>大</b>，D说反了。</span></div>
-      </div>    </div>
-  </section>
-  <section>
-    <div class="card">
-      <h2><span class="num">1</span> 守恒定粒子 <small>质量数+电荷数双守恒</small></h2>
-      <p class="lead">核反应中<b>质量数（上标）和电荷数（下标）始终守恒</b>。据此可定出每个未知粒子：</p>
-      <div class="step gold">
-        <span class="label">①</span> $\ce{^{9}_{4}Be + ^{4}_{2}He\rightarrow ^{12}_{6}C + X}$<br>
-        质量数：9+4=12+A → A=1；电荷数：4+2=6+Z → Z=0 → X=$\ce{^{1}_{0}n}$（中子）
-      </div>
-      <div class="step gold">
-        <span class="label">②</span> $\ce{4^{1}_{1}H\rightarrow ^{4}_{2}He + 2Y}$<br>
-        质量数：4=4+2A → A=0；电荷数：4=2+2Z → Z=1 → Y=$\ce{^{0}_{1}e}$（正电子）
-      </div>
-      <div class="step gold">
-        <span class="label">③</span> $\ce{^{131}_{53}I\rightarrow ^{131}_{54}Xe + K}$<br>
-        质量数：131=131+A → A=0；电荷数：53=54+Z → Z=-1 → K=$\ce{^{0}_{-1}e}$（电子，β⁻衰变）
-      </div>
-      <div class="step gold">
-        <span class="label">④</span> $\ce{^{238}_{94}Pu\rightarrow ^{234}_{92}X + ^{4}_{2}Y}$<br>
-        Y=$\ce{^{4}_{2}He}$（α粒子），X=$\ce{^{234}_{92}U}$ → <b>α衰变</b>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="card">
-      <h2><span class="num">2</span> 史实与概念辨析 <small>四个选项逐个判断</small></h2>
-      <div class="step">
-        <span class="label">A：</span>①的X=中子。卢瑟福1919年发现<b>质子</b>（α轰击氮：$\ce{^{14}_{7}N + ^{4}_{2}He → ^{17}_{8}O + ^{1}_{1}H}$）；中子是<b>查德威克</b>1932年发现（α轰击铍）。A<b>错</b>。
-      </div>
-      <div class="step green">
-        <span class="label">B：</span>4个氢核（质子）聚合成1个氦核，放出2个正电子和能量，是典型的<b>轻核聚变</b>（太阳核心反应）。B<b>正确</b>。
-      </div>
-      <div class="step">
-        <span class="label">C：</span>β⁻衰变本质是核内<b>中子</b>衰变：$n\to p+e^-+\bar\nu_e$，电子是衰变时"临时产生"的，<b>不是核内原有的</b>。C<b>错</b>。
-      </div>
-      <div class="step">
-        <span class="label">D：</span>α衰变释放能量，产物（U+α）比母核Pu更稳定，<b>比结合能更高</b>。D说"Pu比U大"与事实<b>相反</b>。D<b>错</b>。
-      </div>
-      <div class="insight">
-        <div class="it">💡 易错点</div>
-        ① 卢瑟福→质子，查德威克→中子，别混；② β衰变电子非核内原有；③ α衰变产物比结合能>b>母核</b>（趋向更稳定），方向别说反。
-      </div>
-      <button class="btn" onclick="document.querySelectorAll('.oi').forEach(o=>o.classList.remove('sel','correct','wrong'))">↺ 重新作答</button>
-    </div>
-  </section>
-
-  <section>
-    <div class="card">
-      <h2><span class="num">✦</span> 互动图像 <small>物理示意图</small></h2>
-      <div class="graph-wrap">
-        <canvas id="g1"></canvas>
-        <div class="graph-bubble" id="g1-bubble"></div>
-      </div>
-      <div class="graph-ctrl" id="g1-ctrl"></div>
-      <div class="graph-status" id="g1-status"></div>
-      <div class="graph-hint">🖱 悬停 · 拖拽平移 · 滚轮缩放 · 双击复位 · 📱 手指拖动 / 双指缩放</div>
-    </div>
-  </section>
-
-  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
-</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>核反应方程四大类型判断 · 物理互动课件</title>
+<meta name="number" content="物0008">
+<meta name="subject" content="物理">
+<meta name="chapter" content="原子核物理">
+<meta name="knowledge" content="核反应方程-衰变-聚变-裂变">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="多选题">
+<meta name="tags" content="KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(900px 420px at 8% -4%,rgba(91,124,250,.10),transparent 60%),
+  radial-gradient(760px 380px at 96% -6%,rgba(45,208,180,.12),transparent 60%),
+  linear-gradient(160deg,#eef6ff,#f2fdf7);background-attachment:fixed;color:#1f2d3d;min-height:100vh;padding:24px 16px 60px}
+.wrap{max-width:920px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d6e4f2;border-radius:10px;padding:7px 14px;font-size:13px;color:#2a6df4;text-decoration:none;font-weight:600;margin-bottom:14px;box-shadow:0 4px 12px -6px rgba(31,66,135,.2);transition:all .15s}
+.back-link:hover{background:#4f8ef7;color:#fff;transform:translateX(-2px)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{background:#fff;border:1px solid #d6e4f2;border-radius:999px;padding:6px 14px;font-size:13px;color:#3c5a7a;box-shadow:0 4px 12px -6px rgba(31,66,135,.2)}
+.chip b{color:#2a6df4}
+.chip.num{background:linear-gradient(135deg,#5b7cfa,#2fd0b4);color:#fff;border:none;font-weight:700}
+.chip.num b{color:#fff}
+.hero{background:linear-gradient(120deg,#5b7cfa,#4f8ef7 45%,#2fd0b4,#57d98d);border-radius:22px;padding:38px 34px 32px;color:#fff;box-shadow:0 18px 44px -18px rgba(47,120,240,.55)}
+.hero .eyebrow{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 12px;border-radius:999px;margin-bottom:14px;letter-spacing:1px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hero h1 .rn{font-size:20px;opacity:.92;font-weight:500}
+.hero .sub{margin-top:12px;font-size:14px;opacity:.96;line-height:1.7;max-width:680px}
+.answer{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.answer .lbl{font-size:12px;opacity:.9}
+#ansShow{font-size:20px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:10px;letter-spacing:2px}
+#ansBtn{background:#fff;color:#2a6df4;border:none;border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.scrollhint{margin-top:16px;font-size:12px;opacity:.85;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+section{margin-top:20px}
+.card{background:#fff;border:1px solid #e3edf7;border-radius:20px;padding:22px 22px;box-shadow:0 10px 30px -12px rgba(31,66,135,.16)}
+.card h2{font-size:19px;color:#1f2d3d;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card h2 .num{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4f8ef7,#22c3a6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.card h2 small{font-size:13px;color:#7a8fa3;font-weight:400}
+.lead{font-size:14px;color:#4a5d72;line-height:1.75;margin:8px 0 14px}
+.problem-card{border-left:5px solid #4f8ef7}
+.problem-head{font-size:13px;color:#2a6df4;font-weight:700;margin-bottom:10px}
+.stem{font-size:15px;line-height:1.85;color:#1f2d3d}
+.optlist{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.oi{border:1.5px solid #e3edf7;border-radius:12px;padding:11px 14px;font-size:14px;cursor:pointer;transition:all .15s;user-select:none}
+.oi:hover{border-color:#4f8ef7;background:#f3f8ff}
+.oi.sel{border-color:#22c3a6;background:#eefcf7}
+.oi.correct{border-color:#22c3a6;background:#d7f5ec}
+.oi.wrong{border-color:#ff6b6b;background:#ffe8e8}
+.oi b{color:#2a6df4;margin-right:6px}
+.oi .fb{margin-top:6px;font-size:13px;color:#1a7a5c;display:none}
+.oi.correct .fb,.oi.wrong .fb{display:block}
+.step{background:#f6faff;border-left:4px solid #4f8ef7;border-radius:10px;padding:12px 16px;margin:10px 0;font-size:14px;line-height:1.85;color:#2c3e50}
+.step.gold{background:#fff8ec;border-left-color:#f5a623}
+.step.green{background:#eefcf7;border-left-color:#22c3a6}
+.step .label{font-weight:700;color:#2a6df4;margin-right:6px}
+.insight{background:linear-gradient(120deg,#eef3ff,#ecfdf6);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:13.5px;line-height:1.75;color:#2c3e50}
+.insight .it{font-weight:700;color:#22c3a6;margin-bottom:4px}
+.btn{background:#4f8ef7;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:10px}
+.btn:hover{background:#3a7be8}
+.katex{font-size:1.05em}
+.foot{text-align:center;margin-top:30px;font-size:12px;color:#93a7ba}
+.graph-wrap{position:relative}
+.graph-wrap canvas{display:block;width:100%;height:360px;background:#fbfdff;border:1.5px solid #e3edf7;border-radius:14px;cursor:crosshair;touch-action:none}
+.graph-hint{font-size:12px;color:#8aa0b5;margin-top:10px;text-align:center}
+.graph-bubble{position:absolute;pointer-events:none;background:rgba(31,45,61,.93);color:#fff;padding:7px 11px;border-radius:9px;font-size:12.5px;line-height:1.6;display:none;white-space:nowrap;font-weight:600;box-shadow:0 6px 16px -6px rgba(0,0,0,.3)}
+.graph-ctrl{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.graph-slider{display:flex;align-items:center;gap:10px;font-size:13px;color:#3c5a7a;font-weight:600}
+.graph-slider b{color:#2a6df4;min-width:22px}
+.graph-slider input[type=range]{width:200px;accent-color:#5b7cfa}
+.graph-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#4a5d72;margin-top:10px}
+.legend-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.graph-status{margin-top:12px;font-size:13.5px;color:#2c3e50;background:#f6faff;border-radius:10px;padding:11px 15px;line-height:1.8}
+</style>
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断 · 物理互动课件","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-13","number":"物0008"}</script><!--/CSTAT-META-->
+<style id="layoutfix-style">
+.hero{position:relative;}
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">&#8592; 返回课件库</a>
+  <div class="meta-bar">
+    <span class="chip num"><b>编号</b>　物0008</span>
+    <span class="chip"><b>学科</b>　物理</span>
+    <span class="chip"><b>章节</b>　 content=</span>
+    <span class="chip"><b>知识点</b>　 content=</span>
+    <span class="chip"><b>来源</b>　我的解题课件库</span>
+    <span class="chip"><b>题型</b>　 content=</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">核反应 · 质量数守恒 · 电荷数守恒 · 衰变类型</div>
+    <h1>物0008 · 题1 · 核反应方程判断</h1>
+    <p class="sub">四个核反应方程，分别涉及<b>人工核转变、轻核聚变、β衰变、α衰变</b>。关键是利用<b>质量数守恒和电荷数守恒</b>定出未知粒子，再结合<b>核物理史实和比结合能</b>概念逐一判断。</p>
+    <div class="answer">
+      <span class="lbl">答案（先自己做，再点开）</span>
+      <span id="ansShow" style="display:none">B</span>
+      <button id="ansBtn">🔍 显示 / 隐藏</button>
+    </div>
+    <div class="scrollhint">▼ 先选一个答案试试，再看逐步推导 ▼</div>
+  </header>
+
+  <section>
+    <div class="card problem-card">
+      <div class="problem-head">📋 题目原文</div>
+      <p class="stem">关于下列四个核反应方程，下列说法正确的是（　　）<br><br>① $\ce{^{9}_{4}Be + ^{4}_{2}He\rightarrow ^{12}_{6}C + X}$　② $\ce{4^{1}_{1}H\rightarrow ^{4}_{2}He + 2Y}$　③ $\ce{^{131}_{53}I\rightarrow ^{131}_{54}Xe + K}$　④ $\ce{^{238}_{94}Pu\rightarrow ^{234}_{92}X + ^{4}_{2}Y}$</p>
+      <div class="optlist" id="optlist">
+        <div class="oi" data-v="A"><b>A.</b>核反应方程①式中的X粒子最早由卢瑟福通过实验发现<span class="fb">✗ ①中X质量数=1、电荷数=0，是<b>中子</b> $\ce{^{1}_{0}n}$。卢瑟福发现的是<b>质子</b>（1919年用α轰击氮），中子是<b>查德威克</b>1932年发现的。</span></div>
+        <div class="oi" data-v="B"><b>B.</b>核反应方程②是轻核聚变反应，Y是正电子<span class="fb">✓ 正确！Y质量数=0、电荷数=1，是<b>正电子</b> $\ce{^{0}_{1}e}$。4个氢核聚变成氦核，同时放出2个正电子，这是<b>轻核聚变</b>反应（太阳产能机制）。</span></div>
+        <div class="oi" data-v="C"><b>C.</b>核反应方程③是β衰变方程，K是电子，说明原子核内存在电子<span class="fb">✗ K确实是电子 $\ce{^{0}_{-1}e}$（β衰变），但β衰变中电子是<b>中子衰变</b> $n\to p+e^-+\bar\nu_e$ 时产生的，<b>不是原子核内原本就存在的</b>。</span></div>
+        <div class="oi" data-v="D"><b>D.</b>核反应方程④是α衰变方程，Pu的比结合能比X大<span class="fb">✗ ④确实<b>是α衰变</b>（Y=α粒子）。但α衰变产物（子核+α粒子）比母核更稳定，<b>比结合能更高</b>。所以 $\ce{^{234}_{92}U}$ 的比结合能比 $\ce{^{238}_{94}Pu}$ <b>大</b>，D说反了。</span></div>
+      </div>    </div>
+  </section>
+  <section>
+    <div class="card">
+      <h2><span class="num">1</span> 守恒定粒子 <small>质量数+电荷数双守恒</small></h2>
+      <p class="lead">核反应中<b>质量数（上标）和电荷数（下标）始终守恒</b>。据此可定出每个未知粒子：</p>
+      <div class="step gold">
+        <span class="label">①</span> $\ce{^{9}_{4}Be + ^{4}_{2}He\rightarrow ^{12}_{6}C + X}$<br>
+        质量数：9+4=12+A → A=1；电荷数：4+2=6+Z → Z=0 → X=$\ce{^{1}_{0}n}$（中子）
+      </div>
+      <div class="step gold">
+        <span class="label">②</span> $\ce{4^{1}_{1}H\rightarrow ^{4}_{2}He + 2Y}$<br>
+        质量数：4=4+2A → A=0；电荷数：4=2+2Z → Z=1 → Y=$\ce{^{0}_{1}e}$（正电子）
+      </div>
+      <div class="step gold">
+        <span class="label">③</span> $\ce{^{131}_{53}I\rightarrow ^{131}_{54}Xe + K}$<br>
+        质量数：131=131+A → A=0；电荷数：53=54+Z → Z=-1 → K=$\ce{^{0}_{-1}e}$（电子，β⁻衰变）
+      </div>
+      <div class="step gold">
+        <span class="label">④</span> $\ce{^{238}_{94}Pu\rightarrow ^{234}_{92}X + ^{4}_{2}Y}$<br>
+        Y=$\ce{^{4}_{2}He}$（α粒子），X=$\ce{^{234}_{92}U}$ → <b>α衰变</b>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">2</span> 史实与概念辨析 <small>四个选项逐个判断</small></h2>
+      <div class="step">
+        <span class="label">A：</span>①的X=中子。卢瑟福1919年发现<b>质子</b>（α轰击氮：$\ce{^{14}_{7}N + ^{4}_{2}He → ^{17}_{8}O + ^{1}_{1}H}$）；中子是<b>查德威克</b>1932年发现（α轰击铍）。A<b>错</b>。
+      </div>
+      <div class="step green">
+        <span class="label">B：</span>4个氢核（质子）聚合成1个氦核，放出2个正电子和能量，是典型的<b>轻核聚变</b>（太阳核心反应）。B<b>正确</b>。
+      </div>
+      <div class="step">
+        <span class="label">C：</span>β⁻衰变本质是核内<b>中子</b>衰变：$n\to p+e^-+\bar\nu_e$，电子是衰变时"临时产生"的，<b>不是核内原有的</b>。C<b>错</b>。
+      </div>
+      <div class="step">
+        <span class="label">D：</span>α衰变释放能量，产物（U+α）比母核Pu更稳定，<b>比结合能更高</b>。D说"Pu比U大"与事实<b>相反</b>。D<b>错</b>。
+      </div>
+      <div class="insight">
+        <div class="it">💡 易错点</div>
+        ① 卢瑟福→质子，查德威克→中子，别混；② β衰变电子非核内原有；③ α衰变产物比结合能>b>母核</b>（趋向更稳定），方向别说反。
+      </div>
+      <button class="btn" onclick="document.querySelectorAll('.oi').forEach(o=>o.classList.remove('sel','correct','wrong'))">↺ 重新作答</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2><span class="num">✦</span> 互动图像 <small>物理示意图</small></h2>
+      <div class="graph-wrap">
+        <canvas id="g1"></canvas>
+        <div class="graph-bubble" id="g1-bubble"></div>
+      </div>
+      <div class="graph-ctrl" id="g1-ctrl"></div>
+      <div class="graph-status" id="g1-status"></div>
+      <div class="graph-hint">🖱 悬停 · 拖拽平移 · 滚轮缩放 · 双击复位 · 📱 手指拖动 / 双指缩放</div>
+    </div>
+  </section>
+
+  <div class="foot">mcjc4 · 物理互动课件库　|　<a href="../../index.html" style="color:#2a6df4;text-decoration:none">← 返回课件库</a></div>
+</div>
+<script>
+(function(){
+function initGraph(id,cfg){
+  var PI=Math.PI;
+  var canvas=document.getElementById(id);
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var bubble=document.getElementById(id+'-bubble');
+  var ctrlBox=document.getElementById(id+'-ctrl');
+  var DPR=window.devicePixelRatio||1;
+  var W=0,H=0;
+  var view={x0:cfg.x0,x1:cfg.x1,y0:cfg.y0,y1:cfg.y1};
+  var initView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+  function sx(x){return (x-view.x0)/(view.x1-view.x0)*W;}
+  function sy(y){return H-(y-view.y0)/(view.y1-view.y0)*H;}
+  function pickStep(range,opts){var g=range/7; for(var i=0;i<opts.length;i++){if(opts[i]>=g)return opts[i];} return opts[opts.length-1];}
+  var curves=(cfg.curves||[]).map(function(c){
+    return {color:c.color,width:c.width,label:c.label,fn:new Function('x','return ('+c.expr+');')};
+  });
+  (cfg.params||[]).forEach(function(p){
+    window[p.key]=p.value;
+    var row=document.createElement('label'); row.className='graph-slider';
+    row.innerHTML='<span>'+p.label+'：<b>'+p.value+'</b></span><input type="range" min="'+p.min+'" max="'+p.max+'" step="'+p.step+'" value="'+p.value+'">';
+    var inp=row.querySelector('input'), b=row.querySelector('b');
+    inp.addEventListener('input',function(){
+      window[p.key]=parseFloat(inp.value); b.textContent=inp.value;
+      draw(); if(cfg.onParamChange)cfg.onParamChange();
+    });
+    if(ctrlBox)ctrlBox.appendChild(row);
+  });
+  var mousePx=null, dragging=false, downX=0, downY=0, downView=null;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    (cfg.zones||[]).forEach(function(z){
+      ctx.fillStyle=z.color; ctx.fillRect(sx(z.x0),0,sx(z.x1)-sx(z.x0),H);
+      ctx.fillStyle='rgba(30,50,80,.55)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(z.label,(sx(z.x0)+sx(z.x1))/2,16);
+    });
+    if(cfg.drawScene) cfg.drawScene(ctx,sx,sy,W,H,window);
+    var xStep=pickStep(view.x1-view.x0,[0.5,1,2,5,10,50,100]);
+    var yStep=pickStep(view.y1-view.y0,[0.25,0.5,1,2,5,10,50,100,500,1000]);
+    ctx.strokeStyle='rgba(100,120,150,.10)'; ctx.lineWidth=1;
+    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
+      ctx.beginPath(); ctx.moveTo(sx(x),0); ctx.lineTo(sx(x),H); ctx.stroke();
+    }
+    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
+      ctx.beginPath(); ctx.moveTo(0,sy(y)); ctx.lineTo(W,sy(y)); ctx.stroke();
+    }
+    var hasX=(view.y0<0&&view.y1>0), hasY=(view.x0<0&&view.x1>0);
+    ctx.strokeStyle='rgba(40,55,80,.75)'; ctx.lineWidth=1.4;
+    if(hasX){ctx.beginPath(); ctx.moveTo(0,sy(0)); ctx.lineTo(W,sy(0)); ctx.stroke();}
+    if(hasY){ctx.beginPath(); ctx.moveTo(sx(0),0); ctx.lineTo(sx(0),H); ctx.stroke();}
+    ctx.fillStyle='rgba(40,55,80,.85)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    var yLbl=hasX? sy(0)+16 : H-10;
+    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
+      var X=sx(x); ctx.fillText(String(Math.round(x*100)/100),X,yLbl);
+    }
+    ctx.textAlign='right';
+    var xLbl=hasY? sx(0)-6 : W-8;
+    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
+      ctx.fillText(String(Math.round(y*100)/100),xLbl,sy(y)+4);
+    }
+    curves.forEach(function(c){
+      ctx.strokeStyle=c.color||'#5b7cfa'; ctx.lineWidth=c.width||2.5; ctx.setLineDash([]);
+      ctx.beginPath();
+      var N=Math.max(320,Math.floor(W*2));
+      for(var i=0;i<=N;i++){
+        var x=view.x0+(view.x1-view.x0)*i/N;
+        var y=c.fn(x);
+        if(isFinite(y)){ if(i===0)ctx.moveTo(sx(x),sy(y)); else ctx.lineTo(sx(x),sy(y)); }
+      }
+      ctx.stroke();
+    });
+    (cfg.vlines||[]).forEach(function(v){
+      var X=sx(v.x); ctx.strokeStyle=v.color||'#e6397a'; ctx.lineWidth=1.5; ctx.setLineDash(v.dash||[6,4]);
+      ctx.beginPath(); ctx.moveTo(X,0); ctx.lineTo(X,H); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle=v.color||'#e6397a'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v.label||'',X,14);
+    });
+    (cfg.points||[]).forEach(function(p){
+      var ci=curves[p.curve||0]; var y=p.y!==undefined?p.y:(ci?ci.fn(p.x):0);
+      var X=sx(p.x), Y=sy(y);
+      ctx.fillStyle=p.color||'#2fd0b4'; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.stroke();
+      ctx.fillStyle=p.color||'#2fd0b4'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(p.label||'', X, (Y<20?Y+18:Y-12));
+    });
+    if(mousePx!=null && !dragging && bubble && curves[0]){
+      var xd=view.x0+(mousePx/W)*(view.x1-view.x0);
+      var yd=curves[0].fn(xd);
+      var XX=mousePx, YY=sy(yd);
+      ctx.strokeStyle='rgba(120,140,170,.45)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(XX,0); ctx.lineTo(XX,H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,YY); ctx.lineTo(W,YY); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#ff6b6b'; ctx.beginPath(); ctx.arc(XX,YY,5,0,7); ctx.fill();
+      bubble.style.display='block';
+      bubble.style.left=Math.min(XX+14,W-150)+'px';
+      bubble.style.top=Math.max(8,YY-12)+'px';
+      bubble.innerHTML='x = '+xd.toFixed(3)+'<br>y = '+yd.toFixed(3);
+    } else if(bubble){ bubble.style.display='none'; }
+  }
+  function resize(){
+    var r=canvas.getBoundingClientRect();
+    W=r.width||600; H=r.height||340;
+    canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    draw();
+  }
+  canvas.addEventListener('mousemove',function(e){
+    var r=canvas.getBoundingClientRect();
+    mousePx=e.clientX-r.left;
+    if(dragging){
+      var dx=(e.clientX-downX), dy=(e.clientY-downY);
+      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
+      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
+      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
+    }
+    draw();
+  });
+  canvas.addEventListener('mousedown',function(e){
+    dragging=true; downX=e.clientX; downY=e.clientY;
+    downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+    var r=canvas.getBoundingClientRect(); mousePx=e.clientX-r.left;
+  });
+  window.addEventListener('mouseup',function(){dragging=false; draw();});
+  canvas.addEventListener('mouseleave',function(){mousePx=null; draw();});
+  canvas.addEventListener('wheel',function(e){
+    e.preventDefault();
+    var r=canvas.getBoundingClientRect();
+    var mx=(e.clientX-r.left)/W, my=(e.clientY-r.top)/H;
+    var rx=view.x1-view.x0, ry=view.y1-view.y0;
+    var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
+    var f=e.deltaY<0?0.85:1.18;
+    view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
+    var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
+    mousePx=e.clientX-r.left;
+    draw();
+  },{passive:false});
+  canvas.addEventListener('dblclick',function(){
+    view.x0=initView.x0; view.x1=initView.x1; view.y0=initView.y0; view.y1=initView.y1;
+    draw();
+  });
+  var pinchDist=null;
+  function touchSpan(e){var t=e.touches; return Math.sqrt(Math.pow(t[0].clientX-t[1].clientX,2)+Math.pow(t[0].clientY-t[1].clientY,2));}
+  canvas.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    if(e.touches.length===1){
+      var t=e.touches[0], r=canvas.getBoundingClientRect();
+      mousePx=t.clientX-r.left;
+      dragging=true; downX=t.clientX; downY=t.clientY;
+      downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
+    } else if(e.touches.length===2){
+      dragging=false; pinchDist=touchSpan(e);
+    }
+    draw();
+  },{passive:false});
+  canvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    var r=canvas.getBoundingClientRect();
+    if(e.touches.length===1 && dragging){
+      var t=e.touches[0];
+      mousePx=t.clientX-r.left;
+      var dx=(t.clientX-downX), dy=(t.clientY-downY);
+      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
+      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
+      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
+      draw();
+    } else if(e.touches.length===2 && pinchDist){
+      var nd=touchSpan(e), f=pinchDist/nd;
+      var midX=(e.touches[0].clientX+e.touches[1].clientX)/2-r.left;
+      var midY=(e.touches[0].clientY+e.touches[1].clientY)/2-r.top;
+      var mx=midX/W, my=midY/H;
+      var rx=view.x1-view.x0, ry=view.y1-view.y0;
+      var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
+      view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
+      var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
+      pinchDist=nd;
+      draw();
+    }
+  },{passive:false});
+  canvas.addEventListener('touchend',function(e){
+    e.preventDefault();
+    dragging=false; pinchDist=null;
+    if(e.touches.length===0) mousePx=null;
+    draw();
+  },{passive:false});
+  window.addEventListener('resize',resize);
+  resize();
+  if(cfg.onParamChange) cfg.onParamChange();
+}
+var CFG={
+  x0:0,x1:10,y0:0,y1:10,
+  drawScene:function(ctx,sx,sy,W,H,win){
+    // 核素图：横轴N(中子数),纵轴Z(质子数)
+    ctx.fillStyle='#2c3e50'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('核素图 (N-Z 平面)', W/2, 18);
+    // 标题轴
+    ctx.fillStyle='#5b7cfa'; ctx.font='12px sans-serif';
+    ctx.textAlign='center'; ctx.fillText('中子数 N →', W-50, sy(0)-8);
+    ctx.save(); ctx.translate(sx(0)+10, 30); ctx.rotate(-Math.PI/2);
+    ctx.fillText('质子数 Z ↑', 0, 0); ctx.restore();
+    // 画核素点
+    var nuclides=[
+      {N:5,Z:4,name:'⁹Be',col:'#5b7cfa'},
+      {N:2,Z:2,name:'⁴He',col:'#e6397a'},
+      {N:6,Z:6,name:'¹²C',col:'#22c3a6'},
+      {N:1,Z:0,name:'n',col:'#f5a623'},
+      {N:0,Z:1,name:'H',col:'#e07a1f'},
+      {N:2,Z:2,name:'⁴He',col:'#e6397a'},
+      {N:0,Z:1,name:'e⁺',col:'#ff6b6b'},
+      {N:78,Z:53,name:'¹³¹I',col:'#5b7cfa'},
+      {N:77,Z:54,name:'¹³¹Xe',col:'#22c3a6'},
+      {N:0,Z:-1,name:'e⁻',col:'#ff6b6b'},
+      {N:142,Z:94,name:'²³⁸Pu',col:'#5b7cfa'},
+      {N:140,Z:92,name:'²³⁴U',col:'#22c3a6'},
+      {N:2,Z:2,name:'α',col:'#e6397a'}
+    ];
+    nuclides.forEach(function(n){
+      var X=sx(n.N*0.06+0.5), Y=sy(n.Z*0.06+0.5);
+      ctx.fillStyle=n.col; ctx.beginPath(); ctx.arc(X,Y,7,0,7); ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+      ctx.fillStyle=n.col; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(n.name, X, Y-12);
+    });
+  }
+};
+initGraph("g1",CFG);
+})();
+
+document.querySelectorAll('.oi').forEach(o=>{
+  o.addEventListener('click',()=>{
+    const sel=o.dataset.v;
+    const corrects={B:true};
+    document.querySelectorAll('.oi').forEach(x=>x.classList.remove('sel','correct','wrong'));
+    o.classList.add('sel');
+    if(corrects[sel]){{o.classList.add('correct');}}
+    else{{o.classList.add('wrong');}}
+  });
+});
+document.getElementById('ansBtn').onclick=()=>{{
+  const a=document.getElementById('ansShow');
+  a.style.display=a.style.display==='none'?'inline-block':'none';
+}};
+
+</script>
+<!--CSTAT-BEGIN-->
+<style id="cstat-style">
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#cstat-label{color:#5c7185;font-weight:600}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-label{color:#5c7185;font-weight:600}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
+#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
+#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+</style>
+<div id="crate-bar" title="课件评价：这套课件质量如何">
+  <span id="crate-label">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg">👍 好</button>
+  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
+  <span id="crate-counts"></span>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" title="学习自评：点击累计计数">
+  <span id="cstat-label">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
+  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
+  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>
+/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
+(function(){
+  'use strict';
+  if (window.__cstatUI) return;
+  window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CSTAT_KEY = 'cstat:' + CM.id;
+  var CRATE_KEY = 'crate:' + CM.id;
+  var CREDO_KEY = 'credo:' + CM.id;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function recordCourseState(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render(); renderR();
+    return reset;
+  }
+  window.__recordCourseState = recordCourseState;
+  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
+  function rateCourse(kind){
+    var r = readR();
+    r[kind] = (r[kind]||0)+1;
+    r.ts = Date.now();
+    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderR();
+    return r[kind]||0;
+  }
+  window.__rateCourse = rateCourse;
+  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
+  function setRedo(done){
+    var d = readD();
+    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
+    d.done = done ? 1 : 0;
+    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderRedoInfo();
+    return d;
+  }
+  window.__setRedo = setRedo;
+  function fmtHM(ts){
+    if (!ts) return '';
+    var d = new Date(ts);
+    var p = function(x){ return ('0'+x).slice(-2); };
+    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function renderRedoInfo(){
+    var el = document.getElementById('credo-info');
+    if (!el) return;
+    var d = readD();
+    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
+  }
+  function initRedo(){
+    var chk = document.getElementById('credo-chk');
+    if (!chk) return;
+    chk.checked = readD().done === 1;
+    renderRedoInfo();
+    chk.addEventListener('change', function(){
+      var d = setRedo(chk.checked);
+      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
+    });
+  }
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function renderR(){
+    var r = readR();
+    var el = document.getElementById('crate-counts');
+    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var reset = recordCourseState(state);
+      var n = readS()[state]||0;
+      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
+      flash(msg);
+    });
+  }
+  function bindRate(id, kind, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var n = rateCourse(kind);
+      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
+    });
+  }
+  function init(){
+    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
+    bind('cstat-fz','fuzzy','\u6a21\u7cca');
+    bind('cstat-fg','forgot','\u5fd8\u8bb0');
+    bindRate('crate-good','good','\ud83d\udc4d \u597d');
+    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
+    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    initRedo();
+    render(); renderR();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!--CSTAT-END-->
+<style id="cnote-style">
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+</style>
+<script id="cnote-inject">
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  function openPop(){renderPop();pop.classList.add('open');}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=5;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+<!--FEAT-JS-REPORTER-BEGIN-->
 <script>
-(function(){
-function initGraph(id,cfg){
-  var PI=Math.PI;
-  var canvas=document.getElementById(id);
-  if(!canvas) return;
-  var ctx=canvas.getContext('2d');
-  var bubble=document.getElementById(id+'-bubble');
-  var ctrlBox=document.getElementById(id+'-ctrl');
-  var DPR=window.devicePixelRatio||1;
-  var W=0,H=0;
-  var view={x0:cfg.x0,x1:cfg.x1,y0:cfg.y0,y1:cfg.y1};
-  var initView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
-  function sx(x){return (x-view.x0)/(view.x1-view.x0)*W;}
-  function sy(y){return H-(y-view.y0)/(view.y1-view.y0)*H;}
-  function pickStep(range,opts){var g=range/7; for(var i=0;i<opts.length;i++){if(opts[i]>=g)return opts[i];} return opts[opts.length-1];}
-  var curves=(cfg.curves||[]).map(function(c){
-    return {color:c.color,width:c.width,label:c.label,fn:new Function('x','return ('+c.expr+');')};
-  });
-  (cfg.params||[]).forEach(function(p){
-    window[p.key]=p.value;
-    var row=document.createElement('label'); row.className='graph-slider';
-    row.innerHTML='<span>'+p.label+'：<b>'+p.value+'</b></span><input type="range" min="'+p.min+'" max="'+p.max+'" step="'+p.step+'" value="'+p.value+'">';
-    var inp=row.querySelector('input'), b=row.querySelector('b');
-    inp.addEventListener('input',function(){
-      window[p.key]=parseFloat(inp.value); b.textContent=inp.value;
-      draw(); if(cfg.onParamChange)cfg.onParamChange();
-    });
-    if(ctrlBox)ctrlBox.appendChild(row);
-  });
-  var mousePx=null, dragging=false, downX=0, downY=0, downView=null;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    (cfg.zones||[]).forEach(function(z){
-      ctx.fillStyle=z.color; ctx.fillRect(sx(z.x0),0,sx(z.x1)-sx(z.x0),H);
-      ctx.fillStyle='rgba(30,50,80,.55)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
-      ctx.fillText(z.label,(sx(z.x0)+sx(z.x1))/2,16);
-    });
-    if(cfg.drawScene) cfg.drawScene(ctx,sx,sy,W,H,window);
-    var xStep=pickStep(view.x1-view.x0,[0.5,1,2,5,10,50,100]);
-    var yStep=pickStep(view.y1-view.y0,[0.25,0.5,1,2,5,10,50,100,500,1000]);
-    ctx.strokeStyle='rgba(100,120,150,.10)'; ctx.lineWidth=1;
-    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
-      ctx.beginPath(); ctx.moveTo(sx(x),0); ctx.lineTo(sx(x),H); ctx.stroke();
-    }
-    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
-      ctx.beginPath(); ctx.moveTo(0,sy(y)); ctx.lineTo(W,sy(y)); ctx.stroke();
-    }
-    var hasX=(view.y0<0&&view.y1>0), hasY=(view.x0<0&&view.x1>0);
-    ctx.strokeStyle='rgba(40,55,80,.75)'; ctx.lineWidth=1.4;
-    if(hasX){ctx.beginPath(); ctx.moveTo(0,sy(0)); ctx.lineTo(W,sy(0)); ctx.stroke();}
-    if(hasY){ctx.beginPath(); ctx.moveTo(sx(0),0); ctx.lineTo(sx(0),H); ctx.stroke();}
-    ctx.fillStyle='rgba(40,55,80,.85)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
-    var yLbl=hasX? sy(0)+16 : H-10;
-    for(var x=Math.ceil(view.x0/xStep)*xStep; x<=view.x1+1e-9; x+=xStep){
-      var X=sx(x); ctx.fillText(String(Math.round(x*100)/100),X,yLbl);
-    }
-    ctx.textAlign='right';
-    var xLbl=hasY? sx(0)-6 : W-8;
-    for(var y=Math.ceil(view.y0/yStep)*yStep; y<=view.y1+1e-9; y+=yStep){
-      ctx.fillText(String(Math.round(y*100)/100),xLbl,sy(y)+4);
-    }
-    curves.forEach(function(c){
-      ctx.strokeStyle=c.color||'#5b7cfa'; ctx.lineWidth=c.width||2.5; ctx.setLineDash([]);
-      ctx.beginPath();
-      var N=Math.max(320,Math.floor(W*2));
-      for(var i=0;i<=N;i++){
-        var x=view.x0+(view.x1-view.x0)*i/N;
-        var y=c.fn(x);
-        if(isFinite(y)){ if(i===0)ctx.moveTo(sx(x),sy(y)); else ctx.lineTo(sx(x),sy(y)); }
-      }
-      ctx.stroke();
-    });
-    (cfg.vlines||[]).forEach(function(v){
-      var X=sx(v.x); ctx.strokeStyle=v.color||'#e6397a'; ctx.lineWidth=1.5; ctx.setLineDash(v.dash||[6,4]);
-      ctx.beginPath(); ctx.moveTo(X,0); ctx.lineTo(X,H); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle=v.color||'#e6397a'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
-      ctx.fillText(v.label||'',X,14);
-    });
-    (cfg.points||[]).forEach(function(p){
-      var ci=curves[p.curve||0]; var y=p.y!==undefined?p.y:(ci?ci.fn(p.x):0);
-      var X=sx(p.x), Y=sy(y);
-      ctx.fillStyle=p.color||'#2fd0b4'; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.fill();
-      ctx.strokeStyle='#fff'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(X,Y,5,0,7); ctx.stroke();
-      ctx.fillStyle=p.color||'#2fd0b4'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
-      ctx.fillText(p.label||'', X, (Y<20?Y+18:Y-12));
-    });
-    if(mousePx!=null && !dragging && bubble && curves[0]){
-      var xd=view.x0+(mousePx/W)*(view.x1-view.x0);
-      var yd=curves[0].fn(xd);
-      var XX=mousePx, YY=sy(yd);
-      ctx.strokeStyle='rgba(120,140,170,.45)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(XX,0); ctx.lineTo(XX,H); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0,YY); ctx.lineTo(W,YY); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#ff6b6b'; ctx.beginPath(); ctx.arc(XX,YY,5,0,7); ctx.fill();
-      bubble.style.display='block';
-      bubble.style.left=Math.min(XX+14,W-150)+'px';
-      bubble.style.top=Math.max(8,YY-12)+'px';
-      bubble.innerHTML='x = '+xd.toFixed(3)+'<br>y = '+yd.toFixed(3);
-    } else if(bubble){ bubble.style.display='none'; }
-  }
-  function resize(){
-    var r=canvas.getBoundingClientRect();
-    W=r.width||600; H=r.height||340;
-    canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-    draw();
-  }
-  canvas.addEventListener('mousemove',function(e){
-    var r=canvas.getBoundingClientRect();
-    mousePx=e.clientX-r.left;
-    if(dragging){
-      var dx=(e.clientX-downX), dy=(e.clientY-downY);
-      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
-      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
-      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
-    }
-    draw();
-  });
-  canvas.addEventListener('mousedown',function(e){
-    dragging=true; downX=e.clientX; downY=e.clientY;
-    downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
-    var r=canvas.getBoundingClientRect(); mousePx=e.clientX-r.left;
-  });
-  window.addEventListener('mouseup',function(){dragging=false; draw();});
-  canvas.addEventListener('mouseleave',function(){mousePx=null; draw();});
-  canvas.addEventListener('wheel',function(e){
-    e.preventDefault();
-    var r=canvas.getBoundingClientRect();
-    var mx=(e.clientX-r.left)/W, my=(e.clientY-r.top)/H;
-    var rx=view.x1-view.x0, ry=view.y1-view.y0;
-    var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
-    var f=e.deltaY<0?0.85:1.18;
-    view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
-    var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
-    mousePx=e.clientX-r.left;
-    draw();
-  },{passive:false});
-  canvas.addEventListener('dblclick',function(){
-    view.x0=initView.x0; view.x1=initView.x1; view.y0=initView.y0; view.y1=initView.y1;
-    draw();
-  });
-  var pinchDist=null;
-  function touchSpan(e){var t=e.touches; return Math.sqrt(Math.pow(t[0].clientX-t[1].clientX,2)+Math.pow(t[0].clientY-t[1].clientY,2));}
-  canvas.addEventListener('touchstart',function(e){
-    e.preventDefault();
-    if(e.touches.length===1){
-      var t=e.touches[0], r=canvas.getBoundingClientRect();
-      mousePx=t.clientX-r.left;
-      dragging=true; downX=t.clientX; downY=t.clientY;
-      downView={x0:view.x0,x1:view.x1,y0:view.y0,y1:view.y1};
-    } else if(e.touches.length===2){
-      dragging=false; pinchDist=touchSpan(e);
-    }
-    draw();
-  },{passive:false});
-  canvas.addEventListener('touchmove',function(e){
-    e.preventDefault();
-    var r=canvas.getBoundingClientRect();
-    if(e.touches.length===1 && dragging){
-      var t=e.touches[0];
-      mousePx=t.clientX-r.left;
-      var dx=(t.clientX-downX), dy=(t.clientY-downY);
-      var rx=(downView.x1-downView.x0), ry=(downView.y1-downView.y0);
-      view.x0=downView.x0-dx/W*rx; view.x1=downView.x1-dx/W*rx;
-      view.y0=downView.y0+dy/H*ry; view.y1=downView.y1+dy/H*ry;
-      draw();
-    } else if(e.touches.length===2 && pinchDist){
-      var nd=touchSpan(e), f=pinchDist/nd;
-      var midX=(e.touches[0].clientX+e.touches[1].clientX)/2-r.left;
-      var midY=(e.touches[0].clientY+e.touches[1].clientY)/2-r.top;
-      var mx=midX/W, my=midY/H;
-      var rx=view.x1-view.x0, ry=view.y1-view.y0;
-      var cx=view.x0+mx*rx, cy=view.y0+(1-my)*ry;
-      view.x0=cx-rx*f*mx; view.x1=view.x0+rx*f;
-      var ry2=ry*f; view.y0=cy-ry2*(1-my); view.y1=view.y0+ry2;
-      pinchDist=nd;
-      draw();
-    }
-  },{passive:false});
-  canvas.addEventListener('touchend',function(e){
-    e.preventDefault();
-    dragging=false; pinchDist=null;
-    if(e.touches.length===0) mousePx=null;
-    draw();
-  },{passive:false});
-  window.addEventListener('resize',resize);
-  resize();
-  if(cfg.onParamChange) cfg.onParamChange();
-}
-var CFG={
-  x0:0,x1:10,y0:0,y1:10,
-  drawScene:function(ctx,sx,sy,W,H,win){
-    // 核素图：横轴N(中子数),纵轴Z(质子数)
-    ctx.fillStyle='#2c3e50'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('核素图 (N-Z 平面)', W/2, 18);
-    // 标题轴
-    ctx.fillStyle='#5b7cfa'; ctx.font='12px sans-serif';
-    ctx.textAlign='center'; ctx.fillText('中子数 N →', W-50, sy(0)-8);
-    ctx.save(); ctx.translate(sx(0)+10, 30); ctx.rotate(-Math.PI/2);
-    ctx.fillText('质子数 Z ↑', 0, 0); ctx.restore();
-    // 画核素点
-    var nuclides=[
-      {N:5,Z:4,name:'⁹Be',col:'#5b7cfa'},
-      {N:2,Z:2,name:'⁴He',col:'#e6397a'},
-      {N:6,Z:6,name:'¹²C',col:'#22c3a6'},
-      {N:1,Z:0,name:'n',col:'#f5a623'},
-      {N:0,Z:1,name:'H',col:'#e07a1f'},
-      {N:2,Z:2,name:'⁴He',col:'#e6397a'},
-      {N:0,Z:1,name:'e⁺',col:'#ff6b6b'},
-      {N:78,Z:53,name:'¹³¹I',col:'#5b7cfa'},
-      {N:77,Z:54,name:'¹³¹Xe',col:'#22c3a6'},
-      {N:0,Z:-1,name:'e⁻',col:'#ff6b6b'},
-      {N:142,Z:94,name:'²³⁸Pu',col:'#5b7cfa'},
-      {N:140,Z:92,name:'²³⁴U',col:'#22c3a6'},
-      {N:2,Z:2,name:'α',col:'#e6397a'}
-    ];
-    nuclides.forEach(function(n){
-      var X=sx(n.N*0.06+0.5), Y=sy(n.Z*0.06+0.5);
-      ctx.fillStyle=n.col; ctx.beginPath(); ctx.arc(X,Y,7,0,7); ctx.fill();
-      ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
-      ctx.fillStyle=n.col; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
-      ctx.fillText(n.name, X, Y-12);
-    });
-  }
-};
-initGraph("g1",CFG);
-})();
-
-document.querySelectorAll('.oi').forEach(o=>{
-  o.addEventListener('click',()=>{
-    const sel=o.dataset.v;
-    const corrects={B:true};
-    document.querySelectorAll('.oi').forEach(x=>x.classList.remove('sel','correct','wrong'));
-    o.classList.add('sel');
-    if(corrects[sel]){{o.classList.add('correct');}}
-    else{{o.classList.add('wrong');}}
-  });
-});
-document.getElementById('ansBtn').onclick=()=>{{
-  const a=document.getElementById('ansShow');
-  a.style.display=a.style.display==='none'?'inline-block':'none';
-}};
-
-</script>
-<!--CSTAT-BEGIN-->
-<style id="cstat-style">
-#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#cstat-label{color:#5c7185;font-weight:600}
-#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
-#cstat-bar button:active{transform:scale(.95)}
-#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
-#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
-#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
-#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-#cstat-flash.show,#crate-flash.show{opacity:1}
-#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#crate-label{color:#5c7185;font-weight:600}
-#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
-#crate-bar button:active{transform:scale(.95)}
-#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
-#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
-#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
-#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
-#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
-#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
-#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
-#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
-#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
-#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
-  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
-#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
-#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
-#tnav-bar a{background:#f0f6ff;cursor:pointer}
-#tnav-bar a:hover{background:#dbeafe}
-#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
-#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
-#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
-#tnav-exit:hover{color:#ef4444}
-@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
-</style>
-<div id="crate-bar" title="课件评价：这套课件质量如何">
-  <span id="crate-label">⭐ 评价课件</span>
-  <button type="button" id="crate-good" class="crg">👍 好</button>
-  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
-  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
-  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
-  <span id="crate-counts"></span>
-  <span id="crate-flash"></span>
-</div>
-<div id="cstat-bar" title="学习自评：点击累计计数">
-  <span id="cstat-label">📋 自评</span>
-  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
-  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
-  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
-  <span id="cstat-counts"></span>
-  <span id="cstat-flash"></span>
-</div>
-<script>
-/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
-(function(){
-  'use strict';
-  if (window.__cstatUI) return;
-  window.__cstatUI = true;
-  var CM = null;
-  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
-  if (!CM || !CM.id) return;
-  var CSTAT_KEY = 'cstat:' + CM.id;
-  var CRATE_KEY = 'crate:' + CM.id;
-  var CREDO_KEY = 'credo:' + CM.id;
-  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
-  function recordCourseState(state){
-    var s = readS();
-    s[state] = (s[state]||0)+1;
-    var reset = false;
-    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
-    s.ts = Date.now();
-    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    render(); renderR();
-    return reset;
-  }
-  window.__recordCourseState = recordCourseState;
-  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
-  function rateCourse(kind){
-    var r = readR();
-    r[kind] = (r[kind]||0)+1;
-    r.ts = Date.now();
-    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderR();
-    return r[kind]||0;
-  }
-  window.__rateCourse = rateCourse;
-  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
-  function setRedo(done){
-    var d = readD();
-    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
-    d.done = done ? 1 : 0;
-    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderRedoInfo();
-    return d;
-  }
-  window.__setRedo = setRedo;
-  function fmtHM(ts){
-    if (!ts) return '';
-    var d = new Date(ts);
-    var p = function(x){ return ('0'+x).slice(-2); };
-    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
-  }
-  function renderRedoInfo(){
-    var el = document.getElementById('credo-info');
-    if (!el) return;
-    var d = readD();
-    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
-  }
-  function initRedo(){
-    var chk = document.getElementById('credo-chk');
-    if (!chk) return;
-    chk.checked = readD().done === 1;
-    renderRedoInfo();
-    chk.addEventListener('change', function(){
-      var d = setRedo(chk.checked);
-      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
-    });
-  }
-  function render(){
-    var s = readS();
-    var el = document.getElementById('cstat-counts');
-    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
-  }
-  function renderR(){
-    var r = readR();
-    var el = document.getElementById('crate-counts');
-    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
-  }
-  function flash(msg){
-    var el = document.getElementById('cstat-flash');
-    if (!el) return;
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(flash._t);
-    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
-  }
-  function bind(id, state, label, extra){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var reset = recordCourseState(state);
-      var n = readS()[state]||0;
-      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
-      flash(msg);
-    });
-  }
-  function bindRate(id, kind, label){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var n = rateCourse(kind);
-      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
-    });
-  }
-  function init(){
-    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
-    bind('cstat-fz','fuzzy','\u6a21\u7cca');
-    bind('cstat-fg','forgot','\u5fd8\u8bb0');
-    bindRate('crate-good','good','\ud83d\udc4d \u597d');
-    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
-    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
-    initRedo();
-    render(); renderR();
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<script>
-/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）=====
+ * 实时机制 A+B 双保险（2026-09-14）：
+ *   A = Supabase Realtime 订阅（设备 B 秒级收到推送即刷新）；连不上自动降级
+ *   B = 轮询（每 5s 拉一次云端聚合）作为保底
+ * 跨设备累加：pushCloud 改为「读云端当前值 + 本地增量 delta」写回，
+ *   syncBase 持久化到 localStorage，防页面刷新重复计数。
+ */
 (function(){
   'use strict';
   if (window.__cstatReporter) return;
@@ -625,6 +925,7 @@ document.getElementById('ansBtn').onclick=()=>{{
   var CRATE_KEY = 'crate:' + CID;
   var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
+  var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
   var DEFAULT_CLOUD = {
@@ -632,7 +933,9 @@ document.getElementById('ansBtn').onclick=()=>{{
     key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
   };
   var STATS_TABLE = 'course_stats';
+  var NOTES_TABLE = 'course_notes';
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function cloudCfg(){
     var c = readJSON(CFG_KEY, null);
     if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
@@ -647,7 +950,89 @@ document.getElementById('ansBtn').onclick=()=>{{
              rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
              rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
   }
-  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  // 已同步到云端的本地快照（用于计算 delta，防刷新重复累加）
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
+
+  /* ---------- 浮动数据面板 ---------- */
+  var chip = null;
+  function ensureChip(){
+    if (chip) return chip;
+    chip = document.createElement('div');
+    chip.className = 'cstat-chip';
+    chip.innerHTML = '<span class="cstat-ico">📊</span><span class="cstat-txt">课件数据</span>' +
+      '<div class="cstat-panel" style="display:none"></div>';
+    chip.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:60;max-width:260px;' +
+      'font:13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;cursor:pointer;user-select:none;';
+    var bar = 'background:linear-gradient(135deg,#1e3a8a,#0ea5e9);color:#fff;padding:7px 12px;' +
+      'border-radius:20px;box-shadow:0 4px 14px rgba(14,165,233,.35);display:flex;align-items:center;gap:6px;';
+    var barEl = document.createElement('span');
+    barEl.style.cssText = bar;
+    barEl.appendChild(chip.querySelector('.cstat-ico'));
+    barEl.appendChild(chip.querySelector('.cstat-txt'));
+    chip.insertBefore(barEl, chip.querySelector('.cstat-panel'));
+    var panel = chip.querySelector('.cstat-panel');
+    panel.style.cssText = 'margin-top:8px;background:rgba(15,23,42,.95);color:#e2e8f0;' +
+      'border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);' +
+      'font-size:12px;line-height:1.7;';
+    chip.addEventListener('click', function(e){
+      if (e.target === chip || e.target === barEl || barEl.contains(e.target)) {
+        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+      }
+    });
+    document.body.appendChild(chip);
+    return chip;
+  }
+  function renderStats(row, noteCount){
+    var panel = chip && chip.querySelector('.cstat-panel');
+    if (!panel) return;
+    row = row || {};
+    var skilled = row.skilled||0, fuzzy = row.fuzzy||0, forgot = row.forgot||0;
+    var rg = row.rating_good||0, rh = row.rating_hard||0, rt = row.rating_teach||0;
+    var total = skilled + fuzzy + forgot;
+    var h = '';
+    h += '<div style="opacity:.75;margin-bottom:4px">已有 ' + total + ' 人自评</div>';
+    h += '<div>熟练 <b style="color:#4ade80">' + skilled + '</b> · 模糊 <b style="color:#fbbf24">' + fuzzy + '</b> · 忘记 <b style="color:#f87171">' + forgot + '</b></div>';
+    h += '<div style="opacity:.75;margin:4px 0">评价</div>';
+    h += '<div>👍 好 <b>' + rg + '</b> · 🤔 不好懂 <b>' + rh + '</b> · 🧑‍🏫 没老师讲得好 <b>' + rt + '</b></div>';
+    if (noteCount) h += '<div style="margin-top:4px;opacity:.85">💡 记错 ' + noteCount + ' 条（见💡按钮）</div>';
+    panel.innerHTML = h;
+  }
+
+  /* ---------- 读回云端的聚合值 ---------- */
+  function fetchCloudRow(cfg, cb){
+    try {
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
+      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
+      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
+        if (timer) clearTimeout(timer);
+        cb(Array.isArray(j) && j.length ? j[0] : null);
+      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
+    } catch(e){ cb(null); }
+  }
+  function fetchNotesCount(cfg, cb){
+    try {
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + NOTES_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=course_id';
+      fetch(u, { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
+        .then(function(r){ return r.json(); }).then(function(j){
+          cb(Array.isArray(j) ? j.length : 0);
+        }).catch(function(){ cb(0); });
+    } catch(e){ cb(0); }
+  }
+  function refreshFromCloud(){
+    if (!autoOn()) return;
+    var cfg = cloudCfg();
+    fetchCloudRow(cfg, function(row){
+      fetchNotesCount(cfg, function(nc){ renderStats(row || {}, nc || 0); });
+    });
+  }
+
+  /* ---------- 上报（跨设备累加 delta） ---------- */
   function report(){
     var s = compute();
     var snap = JSON.stringify(s);
@@ -671,335 +1056,106 @@ document.getElementById('ansBtn').onclick=()=>{{
     var cfg = cloudCfg();
     var vt = 0;
     try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    var ctl = null, timer = null;
-    try { ctl = new AbortController(); } catch(e){}
-    var opts = {
-      method: 'POST',
-      headers: {
-        'apikey': cfg.key,
-        'Authorization': 'Bearer ' + cfg.key,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplications,return=minimal'
-      },
-      body: JSON.stringify([{
+    fetchCloudRow(cfg, function(row){
+      var base = row || {};
+      var d = {
+        skilled: s.skilled - syncBase.skilled,
+        fuzzy:   s.fuzzy   - syncBase.fuzzy,
+        forgot:  s.forgot  - syncBase.forgot,
+        rg:      s.rg      - syncBase.rg,
+        rh:      s.rh      - syncBase.rh,
+        rt:      s.rt      - syncBase.rt
+      };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
+      var payload = {
         course_id: CID,
-        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
-        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        skilled: (base.skilled||0) + d.skilled,
+        fuzzy:   (base.fuzzy||0) + d.fuzzy,
+        forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
         redone: s.rd,
         redo_count: s.rn||0,
         redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
-      }])
-    };
-    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
-    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
-      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
-      .catch(function(){ lastCloud = ''; })
-      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+      };
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var opts = {
+        method: 'POST',
+        headers: {
+          'apikey': cfg.key,
+          'Authorization': 'Bearer ' + cfg.key,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplications,return=minimal'
+        },
+        body: JSON.stringify([payload])
+      };
+      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
+        .catch(function(){ /* 保留 syncBase，下次变更重试 */ })
+        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+    });
   }
+
+  /* ---------- A: Realtime 订阅（掉线自动降级轮询） ---------- */
+  function subscribeRealtime(){
+    try {
+      if (typeof WebSocket === 'undefined') return;
+      var cfg = cloudCfg();
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' +
+                  encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl);
+      var chan = 'cstat-' + CID;
+      var hb = null;
+      ws.onopen = function(){
+        rtAlive = true;
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: {
+          config: { postgres_changes: [
+            { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID },
+            { event: 'INSERT', schema: 'public', table: NOTES_TABLE, filter: 'course_id=eq.' + CID }
+          ] }
+        }, ref: '1' }));
+        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
+      };
+      ws.onmessage = function(ev){
+        try {
+          var m = JSON.parse(ev.data);
+          if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud();
+        } catch(e){}
+      };
+      ws.onerror = function(){ rtAlive = false; };
+      ws.onclose = function(){
+        rtAlive = false; if (hb) clearInterval(hb);
+        setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); // 自动重连
+      };
+    } catch(e){ /* 降级轮询 */ }
+  }
+
+  /* ---------- B: 轮询保底 ---------- */
+  function startPolling(){
+    setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000);
+  }
+
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
     window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
+    // 实时双保险
+    ensureChip();
+    refreshFromCloud();
+    startPolling();
+    subscribeRealtime();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
 })();
 </script>
-<script>
-/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
-(function(){
-  'use strict';
-  if (window.__tnav) return;
-  window.__tnav = true;
-  var ti = NaN;
-  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
-  if (isNaN(ti) || ti < 0) return;
-  var g = null;
-  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
-  if (!g || !g.urls || !g.urls.length) return;
-  var urls = g.urls;
-  function toUrl(u, idx){
-    var sep = u.indexOf('?') >= 0 ? '&' : '?';
-    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
-  }
-  function build(){
-    var bar = document.createElement('div');
-    bar.id = 'tnav-bar';
-    var prev = ti > 0
-      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
-      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
-    var next = ti < urls.length - 1
-      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
-      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
-    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
-      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
-      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
-    document.body.appendChild(bar);
-    document.getElementById('tnav-exit').addEventListener('click', function(){
-      bar.remove();
-      try { localStorage.removeItem('train_group'); } catch(e){}
-    });
-  }
-  document.addEventListener('keydown', function(e){
-    if (!document.getElementById('tnav-bar')) return;
-    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
-    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
-  });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
-})();
-</script>
-<script>
-/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
-(function(){
-  'use strict';
-  if (window.__bardrag) return;
-  window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
-  var LONG = 400, MOVE = 6;
-  function key(id){ return 'bar_pos:' + id; }
-  function place(el, l, t){
-    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
-    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
-    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
-    el.style.left = l + 'px';
-    el.style.top = t + 'px';
-    el.style.right = 'auto';
-    el.style.bottom = 'auto';
-    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
-  }
-  function restore(el){
-    try{
-      var p = JSON.parse(localStorage.getItem(key(el.id)));
-      if (p && typeof p.left === 'number') place(el, p.left, p.top);
-    }catch(e){}
-  }
-  function makeDraggable(el){
-    if (!el || el.__drag) return;
-    el.__drag = true;
-    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
-    el.style.touchAction = 'none';
-    el.addEventListener('pointerdown', function(e){
-      if (e.button) return;
-      sx = e.clientX; sy = e.clientY;
-      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
-      dragging = false; pid = e.pointerId;
-      clearTimeout(timer);
-      timer = setTimeout(function(){
-        dragging = true;
-        el.classList.add('bar-dragging');
-        try { el.setPointerCapture(pid); } catch(e2){}
-        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
-      }, LONG);
-    });
-    el.addEventListener('pointermove', function(e){
-      if (!dragging){
-        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
-        return;
-      }
-      e.preventDefault();
-      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
-    });
-    function up(){
-      clearTimeout(timer);
-      if (dragging){
-        el.classList.remove('bar-dragging');
-        try{
-          localStorage.setItem(key(el.id), JSON.stringify({
-            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
-        }catch(e2){}
-      }
-      dragging = false;
-    }
-    el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
-    window.addEventListener('resize', function(){ restore(el); });
-  }
-  function init(){
-    IDS.forEach(function(id){
-      var el = document.getElementById(id);
-      if (el){ makeDraggable(el); restore(el); }
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<!--CSTAT-END-->
-<style id="cnote-style">
-#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
-#cnotePill.drag{opacity:.85;transform:scale(1.04);}
-#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
-#cnotePop.open{display:block;}
-.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
-.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
-.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
-.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
-.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
-#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
-.cp-foot{display:flex;justify-content:space-between;align-items:center;}
-.cp-cnt{font-size:11.5px;color:#93a7ba;}
-#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
-#cnoteSave:disabled{opacity:.6;}
-.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
-#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
-@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
-</style>
-<script id="cnote-inject">
-(function(){
-  var CID=(function(){
-    try{
-      var m=document.querySelector('script[type="application/json"]#c-meta');
-      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
-    }catch(e){}
-    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
-  })();
-  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
-  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
-  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
-  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
-  var CFG=(function(){
-    var src=document.documentElement.innerHTML;
-    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
-    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
-    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
-  })();
-  function pushCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
-        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
-      }).catch(function(e){console.warn('[cnote] push fail',e);});
-    }catch(e){}
-  }
-  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
-  document.body.appendChild(pill);
-  var pop=document.createElement('div');pop.id='cnotePop';
-  document.body.appendChild(pop);
-  var sel={};
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function saveRec(tags,txt){
-    var rec={tags:tags,note:txt,ts:Date.now()};
-    var arr=localNotes();arr.push(rec);saveLocal(arr);
-    pushCloud(rec);
-    return rec;
-  }
-  function delCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      var iso=new Date(rec.ts).toISOString();
-      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
-    }catch(e){}
-  }
-  function cancelRec(tag,rec){
-    var arr=localNotes();
-    for(var i=arr.length-1;i>=0;i--){
-      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
-        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
-      }
-    }
-    return false;
-  }
-  function renderPop(){
-    var vs=vocab(),n=localNotes();
-    sel={};
-    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
-    h+='<div class="cp-tags">';
-    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
-    h+='</div>';
-    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
-    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
-    if(n.length){
-      var last=n[n.length-1];
-      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
-      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
-        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
-    }
-    pop.innerHTML=h;
-    pop.querySelectorAll('.cp-tag').forEach(function(el){
-      el.addEventListener('click',function(){
-        var t=el.getAttribute('data-t');
-        var cnt=pop.querySelector('.cp-cnt');
-        if(sel[t]){
-          if(cancelRec(t,sel[t])){
-            delete sel[t];el.classList.remove('done');
-            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
-            updBlink();
-          }
-          return;
-        }
-        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        var rec=saveRec([t],txt);
-        sel[t]=rec;
-        pop.querySelector('#cnoteTxt').value='';
-        el.classList.add('done');
-        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
-        updBlink();
-      });
-    });
-    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
-    var sv=pop.querySelector('#cnoteSave');
-    sv.addEventListener('click',function(){
-      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
-      saveRec([],txt);
-      pop.querySelector('#cnoteTxt').value='';
-      var cnt=pop.querySelector('.cp-cnt');
-      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
-      updBlink();
-    });
-  }
-  function openPop(){renderPop();pop.classList.add('open');}
-  function closePop(){pop.classList.remove('open');}
-  var key='bar_pos:cnote';
-  var blinkSec=5;
-  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
-  pill.style.setProperty('--blink-int',blinkSec+'s');
-  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
-  updBlink();
-  try{
-    var p=JSON.parse(localStorage.getItem(key)||'null');
-    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
-  }catch(e){}
-  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
-  pill.addEventListener('pointerdown',function(e){
-    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
-    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
-    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
-    e.preventDefault();
-  });
-  window.addEventListener('pointermove',function(e){
-    if(!dragging)return;moved=true;
-    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
-    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
-    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
-    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
-  });
-  window.addEventListener('pointerup',function(e){
-    if(arm){
-      arm=false;clearTimeout(timer);
-      if(dragging&&moved){
-        dragging=false;pill.classList.remove('drag');
-        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
-      }else{
-        dragging=false;pill.classList.remove('drag');
-        if(pop.classList.contains('open'))closePop();else openPop();
-      }
-      return;
-    }
-    if(dragging)return;
-    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
-  });
-})();
-</script>
-</body>
+<!--FEAT-JS-REPORTER-END-->
+</body>
 </html>
