@@ -1,920 +1,1220 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>数0026 · ω的取值范围（极值点与单调性）</title>
-<meta name="number" content="数0026">
-<meta name="subject" content="数学">
-<meta name="chapter" content="三角函数">
-<meta name="knowledge" content="ω的取值范围-极值点">
-<meta name="source" content="我的解题课件库">
-<meta name="type" content="多选题">
-<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;极值点;余弦;数学">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
-    color: #2c3e50;
-    line-height: 1.7;
-    padding: 20px;
-    min-height: 100vh;
-  }
-  .container { max-width: 880px; margin: 0 auto; }
-  .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    border-radius: 16px;
-    padding: 24px 28px;
-    margin-bottom: 22px;
-    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
-  }
-  .header .badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
-  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .header .sub { font-size: 13px; opacity: 0.9; }
-  .card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 22px 26px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  }
-  .card h2 {
-    font-size: 17px;
-    color: #667eea;
-    margin-bottom: 14px;
-    padding-left: 10px;
-    border-left: 4px solid #667eea;
-  }
-  .problem { font-size: 16px; line-height: 2; }
-  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
-  .note {
-    background: #fff8e1;
-    border-left: 4px solid #ffb300;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-top: 12px;
-    color: #6d4c00;
-  }
-  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
-  .opt {
-    border: 2px solid #e0e6ed;
-    border-radius: 12px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.25s;
-    background: #fafbfc;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: #34495e;
-    user-select: none;
-  }
-  .opt:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,126,234,0.15); }
-  .opt.selected { border-color: #e67e22; background: #fef5e7; color: #d35400; }
-  .opt.correct { border-color: #27ae60; background: #e8f8ef; color: #1e8449; }
-  .opt.wrong { border-color: #e74c3c; background: #fdecea; color: #c0392b; }
-  .opt .label { font-size: 13px; color: #95a5a6; margin-bottom: 4px; font-weight: 400; }
-  .opt.selected .label { color: #e67e22; }
-  .opt.correct .label { color: #1e8449; }
-  .opt.wrong .label { color: #c0392b; }
-  .canvas-wrap {
-    background: #fafbfc;
-    border-radius: 12px;
-    padding: 14px;
-    border: 1px solid #e8eef5;
-  }
-  canvas { display: block; width: 100%; border-radius: 8px; background: #fff; }
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-  .controls label { font-size: 15px; font-weight: 600; color: #555; }
-  .slider {
-    flex: 1;
-    min-width: 180px;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    background: #dfe6ee;
-    border-radius: 3px;
-    outline: none;
-  }
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 22px; height: 22px;
-    background: #667eea;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(102,126,234,0.5);
-  }
-  .slider::-moz-range-thumb {
-    width: 22px; height: 22px;
-    background: #667eea;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
-  .omega-val {
-    background: #667eea;
-    color: #fff;
-    padding: 4px 14px;
-    border-radius: 16px;
-    font-weight: 700;
-    font-size: 16px;
-    min-width: 70px;
-    text-align: center;
-  }
-  .counts { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
-  .count-box {
-    background: #fff;
-    border: 1px solid #e8eef5;
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-size: 15px;
-    font-weight: 600;
-  }
-  .badge-status {
-    display: inline-block;
-    padding: 5px 16px;
-    border-radius: 18px;
-    font-weight: 700;
-    font-size: 15px;
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-  .badge-ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
-  .badge-no { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
-  .badge-info { background: #eef2ff; color: #4a5fc1; border: 1px solid #667eea; }
-  .legend { display: flex; gap: 18px; margin-top: 10px; font-size: 13px; color: #666; flex-wrap: wrap; }
-  .legend span::before {
-    content: "";
-    display: inline-block;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-  .legend .min::before { background: #e74c3c; }
-  .legend .hl1::before { background: rgba(102,126,234,0.18); border-radius: 2px; }
-  .legend .hl2::before { background: rgba(230,126,34,0.22); border-radius: 2px; }
-  .range-line {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-  }
-  .steps { display: none; }
-  .steps.show { display: block; animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
-  .step {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 14px;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.4s ease;
-  }
-  .step.visible { opacity: 1; transform: translateX(0); }
-  .step-num {
-    flex-shrink: 0;
-    width: 28px; height: 28px;
-    background: #667eea;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .step-body { flex: 1; font-size: 15px; }
-  .step-body .warn {
-    background: #fff3cd;
-    border-left: 4px solid #ffc107;
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-top: 8px;
-    color: #7a5b00;
-    font-size: 14px;
-  }
-  .step-body .humor {
-    color: #764ba2;
-    font-style: italic;
-    margin-top: 6px;
-    font-size: 14px;
-  }
-  .final-answer {
-    background: linear-gradient(135deg, #e8f8ef 0%, #d4efdf 100%);
-    border: 2px solid #27ae60;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    margin-top: 16px;
-    font-size: 17px;
-    font-weight: 700;
-    color: #1e8449;
-  }
-  .btns { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
-  .btn {
-    padding: 10px 22px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-primary { background: #667eea; color: #fff; }
-  .btn-primary:hover { background: #5568d3; transform: translateY(-1px); }
-  .btn-submit { background: #27ae60; color: #fff; }
-  .btn-submit:hover { background: #1e8449; transform: translateY(-1px); }
-  .btn-reset { background: #ecf0f1; color: #555; }
-  .btn-reset:hover { background: #d5dbdb; }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .feedback {
-    margin-top: 14px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 15px;
-    display: none;
-  }
-  .feedback.show { display: block; animation: fadeIn 0.3s ease; }
-  .feedback.ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
-  .feedback.bad { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
-  .footer { text-align: center; color: #aaa; font-size: 12px; padding: 16px 0; }
-  @media (max-width: 520px) {
-    .options { grid-template-columns: 1fr; }
-    body { padding: 12px; }
-    .card { padding: 16px; }
-  }
-</style>
-<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_40_math_trig_omega_7","title":"数0026 · ω的取值范围（极值点与单调性）","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-13","number":"数0026"}</script><!--/CSTAT-META-->
-<style id="layoutfix-style">
-.hero{position:relative;}
-.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
-</style>
-</head>
-<body>
-<div class="container">
-  <div class="header">
-    <span class="badge">数0026 · 三角函数</span>
-    <h1>ω 的取值范围 —— 极值点与单调性的双重约束</h1>
-    <div class="sub">2025·天津模拟 · 多选题 · 互动图像课件</div>
-  </div>
-  <div class="card">
-    <h2>题目</h2>
-    <div class="problem">
-      <div class="src">（2025·天津模拟）</div>
-      已知函数 <span class="katex-el">f(x)=2\cos\left(\omega x+\dfrac{\pi}{6}\right)</span>（<span class="katex-el">\omega>0</span>）在 <span class="katex-el">(0,\pi)</span> 上<b>有且仅有 2 个极小值点</b>，且在 <span class="katex-el">\left(0,\dfrac{\pi}{4}\right)</span> 上<b>不单调</b>，则 <span class="katex-el">\omega</span> 的取值<b>不可能</b>是（　　）
-    </div>
-    <div class="options" id="options">
-      <div class="opt" data-key="A"><div class="label">A</div><span class="katex-el">\dfrac{17}{6}</span></div>
-      <div class="opt" data-key="B"><div class="label">B</div><span class="katex-el">\dfrac{10}{3}</span></div>
-      <div class="opt" data-key="C"><div class="label">C</div><span class="katex-el">4</span></div>
-      <div class="opt" data-key="D"><div class="label">D</div><span class="katex-el">\dfrac{29}{6}</span></div>
-    </div>
-    <div class="btns" style="margin-top:14px;">
-      <button class="btn btn-submit" id="submitBtn">提交答案</button>
-      <button class="btn btn-reset" id="clearSelBtn">清空选择</button>
-    </div>
-    <div class="feedback" id="feedback"></div>
-    <div class="note">⚠️ 提示：多选题，选出所有"不可能"的取值。先动手试试下面的图像，再回来选答案！特别注意 <span class="katex-el">\omega=\dfrac{10}{3}</span> 这个边界陷阱。</div>
-  </div>
-
-  <div class="card">
-    <h2>互动图像</h2>
-    <div class="canvas-wrap">
-      <canvas id="cv" width="820" height="380"></canvas>
-      <div class="controls">
-        <label>ω =</label>
-        <input type="range" class="slider" id="omegaSlider" min="1" max="5" step="0.01" value="3.5">
-        <span class="omega-val" id="omegaVal">3.50</span>
-      </div>
-      <div class="counts">
-        <div class="count-box">极小值点数（红）：<span id="minCount">0</span></div>
-        <div class="count-box">(0, π/4) 单调：<span id="monoBox">是</span></div>
-      </div>
-      <div>
-        <span class="badge-status badge-no" id="statusBadge">✗ 条件未满足</span>
-      </div>
-      <div class="range-line">
-        有效范围：<span class="katex-el">\omega\in\left(\dfrac{10}{3},\dfrac{29}{6}\right]</span> （即 <span class="katex-el">\left(\dfrac{20}{6},\dfrac{29}{6}\right]</span>）
-      </div>
-      <div class="legend">
-        <span class="min">极小值点 (cos=-1)</span>
-        <span class="hl1">区间 (0, π) 高亮</span>
-        <span class="hl2">子区间 (0, π/4) 高亮</span>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <h2>解答步骤</h2>
-    <div class="steps" id="steps">
-      <div class="step" data-step="1">
-        <div class="step-num">1</div>
-        <div class="step-body">令 <span class="katex-el">u=\omega x+\dfrac{\pi}{6}</span>，当 <span class="katex-el">x\in(0,\pi)</span> 时，<span class="katex-el">u\in\left(\dfrac{\pi}{6},\,\omega\pi+\dfrac{\pi}{6}\right)</span>。注意是<b>开区间</b>，端点不算。</div>
-      </div>
-      <div class="step" data-step="2">
-        <div class="step-num">2</div>
-        <div class="step-body"><span class="katex-el">\cos u</span> 的极小值点在 <span class="katex-el">u=\pi+2k\pi</span>（此时 <span class="katex-el">\cos u=-1</span>），是谷底。</div>
-      </div>
-      <div class="step" data-step="3">
-        <div class="step-num">3</div>
-        <div class="step-body">恰有 <b>2 个极小值点</b>：需包含 <span class="katex-el">u=\pi</span> 和 <span class="katex-el">u=3\pi</span>，但不包含 <span class="katex-el">u=5\pi</span>：<br>
-          <span class="katex-el">3\pi<\omega\pi+\dfrac{\pi}{6}\implies\omega>\dfrac{17}{6}</span>；<br>
-          <span class="katex-el">\omega\pi+\dfrac{\pi}{6}\le 5\pi\implies\omega\le\dfrac{29}{6}</span>。<br>
-          故 <span class="katex-el">\omega\in\left(\dfrac{17}{6},\dfrac{29}{6}\right]</span>。
-        </div>
-      </div>
-      <div class="step" data-step="4">
-        <div class="step-num">4</div>
-        <div class="step-body">在 <span class="katex-el">\left(0,\dfrac{\pi}{4}\right)</span> 上<b>不单调</b>：此时 <span class="katex-el">u\in\left(\dfrac{\pi}{6},\dfrac{\omega\pi}{4}+\dfrac{\pi}{6}\right)</span>。<br>
-          <span class="katex-el">\cos u</span> 在 <span class="katex-el">u=\pi</span> 处取极小值（导数变号），要"不单调"需 <span class="katex-el">\pi</span> 落在该区间内：<br>
-          <span class="katex-el">\dfrac{\omega\pi}{4}+\dfrac{\pi}{6}>\pi\implies\omega>\dfrac{10}{3}</span>。
-        </div>
-      </div>
-      <div class="step" data-step="5">
-        <div class="step-num">5</div>
-        <div class="step-body">两个条件取<b>交集</b>：<br>
-          <span class="katex-el">\left(\dfrac{17}{6},\dfrac{29}{6}\right]\cap\left(\dfrac{10}{3},+\infty\right)=\left(\dfrac{10}{3},\dfrac{29}{6}\right]</span>。<br>
-          （因为 <span class="katex-el">\dfrac{10}{3}=\dfrac{20}{6}>\dfrac{17}{6}</span>，下界被收紧到 <span class="katex-el">\dfrac{10}{3}</span>）
-          <div class="humor">😄 两个条件取交集，ω要同时满足两个要求——既要够多的极小值点，又要在小区间里"不老实"！</div>
-        </div>
-      </div>
-      <div class="step" data-step="6">
-        <div class="step-num">6</div>
-        <div class="step-body">检验选项：<br>
-          A. <span class="katex-el">\dfrac{17}{6}<\dfrac{20}{6}</span>，不在范围 → <b>不可能</b> ✓<br>
-          B. <span class="katex-el">\dfrac{10}{3}=\dfrac{20}{6}</span>，开区间端点，不在范围 → <b>不可能</b> ✓<br>
-          C. <span class="katex-el">4=\dfrac{24}{6}</span>，在范围 → 可能<br>
-          D. <span class="katex-el">\dfrac{29}{6}</span>，在范围 → 可能
-        </div>
-      </div>
-      <div class="step" data-step="7">
-        <div class="step-num">7</div>
-        <div class="step-body">
-          <div class="warn"><b>易错警示（B 的陷阱）：</b>当 <span class="katex-el">\omega=\dfrac{10}{3}</span> 时，在区间 <span class="katex-el">(0,\pi/4)</span> 上 <span class="katex-el">u\in(\pi/6,\pi)</span>，<span class="katex-el">\cos u</span> 恰好一路递减（单调），并不"不单调"。题目要求"不单调"，所以必须严格 <span class="katex-el">\omega>\dfrac{10}{3}</span>，端点 <span class="katex-el">\dfrac{10}{3}</span> 要排除！</div>
-          <div class="humor">🕳️ ω=10/3是陷阱，区间上cos刚好一路向下，算单调，不是"不单调"——差一点点就掉坑里了！</div>
-        </div>
-      </div>
-      <div class="final-answer" id="finalAns" style="display:none;">
-        正确答案：<span style="font-size:22px;">A B</span> （A、B 均不可能是 ω 的取值）
-      </div>
-    </div>
-    <div class="btns">
-      <button class="btn btn-primary" id="nextBtn">下一步</button>
-      <button class="btn btn-reset" id="resetBtn">重置</button>
-    </div>
-  </div>
-
-  <div class="footer">我的解题课件库 · 数0026 · 三角函数 · ω范围 · 极值点与单调性</div>
-</div>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数0026 · ω的取值范围（极值点与单调性）</title>
+<meta name="number" content="数0026">
+<meta name="subject" content="数学">
+<meta name="chapter" content="三角函数">
+<meta name="knowledge" content="ω的取值范围-极值点">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="多选题">
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;ω范围;极值点;余弦;数学">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fef6ff 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container { max-width: 880px; margin: 0 auto; }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(102,126,234,0.25);
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 13px; opacity: 0.9; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 17px;
+    color: #667eea;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 4px solid #667eea;
+  }
+  .problem { font-size: 16px; line-height: 2; }
+  .problem .src { color: #888; font-size: 13px; margin-bottom: 8px; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #6d4c00;
+  }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .opt {
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: #fafbfc;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #34495e;
+    user-select: none;
+  }
+  .opt:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,126,234,0.15); }
+  .opt.selected { border-color: #e67e22; background: #fef5e7; color: #d35400; }
+  .opt.correct { border-color: #27ae60; background: #e8f8ef; color: #1e8449; }
+  .opt.wrong { border-color: #e74c3c; background: #fdecea; color: #c0392b; }
+  .opt .label { font-size: 13px; color: #95a5a6; margin-bottom: 4px; font-weight: 400; }
+  .opt.selected .label { color: #e67e22; }
+  .opt.correct .label { color: #1e8449; }
+  .opt.wrong .label { color: #c0392b; }
+  .canvas-wrap {
+    background: #fafbfc;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #e8eef5;
+  }
+  canvas { display: block; width: 100%; border-radius: 8px; background: #fff; }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .controls label { font-size: 15px; font-weight: 600; color: #555; }
+  .slider {
+    flex: 1;
+    min-width: 180px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #dfe6ee;
+    border-radius: 3px;
+    outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(102,126,234,0.5);
+  }
+  .slider::-moz-range-thumb {
+    width: 22px; height: 22px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  .omega-val {
+    background: #667eea;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 70px;
+    text-align: center;
+  }
+  .counts { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .count-box {
+    background: #fff;
+    border: 1px solid #e8eef5;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .badge-status {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  .badge-ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
+  .badge-no { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
+  .badge-info { background: #eef2ff; color: #4a5fc1; border: 1px solid #667eea; }
+  .legend { display: flex; gap: 18px; margin-top: 10px; font-size: 13px; color: #666; flex-wrap: wrap; }
+  .legend span::before {
+    content: "";
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .legend .min::before { background: #e74c3c; }
+  .legend .hl1::before { background: rgba(102,126,234,0.18); border-radius: 2px; }
+  .legend .hl2::before { background: rgba(230,126,34,0.22); border-radius: 2px; }
+  .range-line {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  .steps { display: none; }
+  .steps.show { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  .step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
+  }
+  .step.visible { opacity: 1; transform: translateX(0); }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: #667eea;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .step-body { flex: 1; font-size: 15px; }
+  .step-body .warn {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: #7a5b00;
+    font-size: 14px;
+  }
+  .step-body .humor {
+    color: #764ba2;
+    font-style: italic;
+    margin-top: 6px;
+    font-size: 14px;
+  }
+  .final-answer {
+    background: linear-gradient(135deg, #e8f8ef 0%, #d4efdf 100%);
+    border: 2px solid #27ae60;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e8449;
+  }
+  .btns { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: #667eea; color: #fff; }
+  .btn-primary:hover { background: #5568d3; transform: translateY(-1px); }
+  .btn-submit { background: #27ae60; color: #fff; }
+  .btn-submit:hover { background: #1e8449; transform: translateY(-1px); }
+  .btn-reset { background: #ecf0f1; color: #555; }
+  .btn-reset:hover { background: #d5dbdb; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 15px;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .feedback.ok { background: #e8f8ef; color: #1e8449; border: 1px solid #27ae60; }
+  .feedback.bad { background: #fdecea; color: #c0392b; border: 1px solid #e74c3c; }
+  .footer { text-align: center; color: #aaa; font-size: 12px; padding: 16px 0; }
+  @media (max-width: 520px) {
+    .options { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+    .card { padding: 16px; }
+  }
+</style>
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_40_math_trig_omega_7","title":"数0026 · ω的取值范围（极值点与单调性）","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-13","number":"数0026"}</script><!--/CSTAT-META-->
+<style id="layoutfix-style">
+.hero{position:relative;}
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <span class="badge">数0026 · 三角函数</span>
+    <h1>ω 的取值范围 —— 极值点与单调性的双重约束</h1>
+    <div class="sub">2025·天津模拟 · 多选题 · 互动图像课件</div>
+  </div>
+  <div class="card">
+    <h2>题目</h2>
+    <div class="problem">
+      <div class="src">（2025·天津模拟）</div>
+      已知函数 <span class="katex-el">f(x)=2\cos\left(\omega x+\dfrac{\pi}{6}\right)</span>（<span class="katex-el">\omega>0</span>）在 <span class="katex-el">(0,\pi)</span> 上<b>有且仅有 2 个极小值点</b>，且在 <span class="katex-el">\left(0,\dfrac{\pi}{4}\right)</span> 上<b>不单调</b>，则 <span class="katex-el">\omega</span> 的取值<b>不可能</b>是（　　）
+    </div>
+    <div class="options" id="options">
+      <div class="opt" data-key="A"><div class="label">A</div><span class="katex-el">\dfrac{17}{6}</span></div>
+      <div class="opt" data-key="B"><div class="label">B</div><span class="katex-el">\dfrac{10}{3}</span></div>
+      <div class="opt" data-key="C"><div class="label">C</div><span class="katex-el">4</span></div>
+      <div class="opt" data-key="D"><div class="label">D</div><span class="katex-el">\dfrac{29}{6}</span></div>
+    </div>
+    <div class="btns" style="margin-top:14px;">
+      <button class="btn btn-submit" id="submitBtn">提交答案</button>
+      <button class="btn btn-reset" id="clearSelBtn">清空选择</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="note">⚠️ 提示：多选题，选出所有"不可能"的取值。先动手试试下面的图像，再回来选答案！特别注意 <span class="katex-el">\omega=\dfrac{10}{3}</span> 这个边界陷阱。</div>
+  </div>
+
+  <div class="card">
+    <h2>互动图像</h2>
+    <div class="canvas-wrap">
+      <canvas id="cv" width="820" height="380"></canvas>
+      <div class="controls">
+        <label>ω =</label>
+        <input type="range" class="slider" id="omegaSlider" min="1" max="5" step="0.01" value="3.5">
+        <span class="omega-val" id="omegaVal">3.50</span>
+      </div>
+      <div class="counts">
+        <div class="count-box">极小值点数（红）：<span id="minCount">0</span></div>
+        <div class="count-box">(0, π/4) 单调：<span id="monoBox">是</span></div>
+      </div>
+      <div>
+        <span class="badge-status badge-no" id="statusBadge">✗ 条件未满足</span>
+      </div>
+      <div class="range-line">
+        有效范围：<span class="katex-el">\omega\in\left(\dfrac{10}{3},\dfrac{29}{6}\right]</span> （即 <span class="katex-el">\left(\dfrac{20}{6},\dfrac{29}{6}\right]</span>）
+      </div>
+      <div class="legend">
+        <span class="min">极小值点 (cos=-1)</span>
+        <span class="hl1">区间 (0, π) 高亮</span>
+        <span class="hl2">子区间 (0, π/4) 高亮</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>解答步骤</h2>
+    <div class="steps" id="steps">
+      <div class="step" data-step="1">
+        <div class="step-num">1</div>
+        <div class="step-body">令 <span class="katex-el">u=\omega x+\dfrac{\pi}{6}</span>，当 <span class="katex-el">x\in(0,\pi)</span> 时，<span class="katex-el">u\in\left(\dfrac{\pi}{6},\,\omega\pi+\dfrac{\pi}{6}\right)</span>。注意是<b>开区间</b>，端点不算。</div>
+      </div>
+      <div class="step" data-step="2">
+        <div class="step-num">2</div>
+        <div class="step-body"><span class="katex-el">\cos u</span> 的极小值点在 <span class="katex-el">u=\pi+2k\pi</span>（此时 <span class="katex-el">\cos u=-1</span>），是谷底。</div>
+      </div>
+      <div class="step" data-step="3">
+        <div class="step-num">3</div>
+        <div class="step-body">恰有 <b>2 个极小值点</b>：需包含 <span class="katex-el">u=\pi</span> 和 <span class="katex-el">u=3\pi</span>，但不包含 <span class="katex-el">u=5\pi</span>：<br>
+          <span class="katex-el">3\pi<\omega\pi+\dfrac{\pi}{6}\implies\omega>\dfrac{17}{6}</span>；<br>
+          <span class="katex-el">\omega\pi+\dfrac{\pi}{6}\le 5\pi\implies\omega\le\dfrac{29}{6}</span>。<br>
+          故 <span class="katex-el">\omega\in\left(\dfrac{17}{6},\dfrac{29}{6}\right]</span>。
+        </div>
+      </div>
+      <div class="step" data-step="4">
+        <div class="step-num">4</div>
+        <div class="step-body">在 <span class="katex-el">\left(0,\dfrac{\pi}{4}\right)</span> 上<b>不单调</b>：此时 <span class="katex-el">u\in\left(\dfrac{\pi}{6},\dfrac{\omega\pi}{4}+\dfrac{\pi}{6}\right)</span>。<br>
+          <span class="katex-el">\cos u</span> 在 <span class="katex-el">u=\pi</span> 处取极小值（导数变号），要"不单调"需 <span class="katex-el">\pi</span> 落在该区间内：<br>
+          <span class="katex-el">\dfrac{\omega\pi}{4}+\dfrac{\pi}{6}>\pi\implies\omega>\dfrac{10}{3}</span>。
+        </div>
+      </div>
+      <div class="step" data-step="5">
+        <div class="step-num">5</div>
+        <div class="step-body">两个条件取<b>交集</b>：<br>
+          <span class="katex-el">\left(\dfrac{17}{6},\dfrac{29}{6}\right]\cap\left(\dfrac{10}{3},+\infty\right)=\left(\dfrac{10}{3},\dfrac{29}{6}\right]</span>。<br>
+          （因为 <span class="katex-el">\dfrac{10}{3}=\dfrac{20}{6}>\dfrac{17}{6}</span>，下界被收紧到 <span class="katex-el">\dfrac{10}{3}</span>）
+          <div class="humor">😄 两个条件取交集，ω要同时满足两个要求——既要够多的极小值点，又要在小区间里"不老实"！</div>
+        </div>
+      </div>
+      <div class="step" data-step="6">
+        <div class="step-num">6</div>
+        <div class="step-body">检验选项：<br>
+          A. <span class="katex-el">\dfrac{17}{6}<\dfrac{20}{6}</span>，不在范围 → <b>不可能</b> ✓<br>
+          B. <span class="katex-el">\dfrac{10}{3}=\dfrac{20}{6}</span>，开区间端点，不在范围 → <b>不可能</b> ✓<br>
+          C. <span class="katex-el">4=\dfrac{24}{6}</span>，在范围 → 可能<br>
+          D. <span class="katex-el">\dfrac{29}{6}</span>，在范围 → 可能
+        </div>
+      </div>
+      <div class="step" data-step="7">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="warn"><b>易错警示（B 的陷阱）：</b>当 <span class="katex-el">\omega=\dfrac{10}{3}</span> 时，在区间 <span class="katex-el">(0,\pi/4)</span> 上 <span class="katex-el">u\in(\pi/6,\pi)</span>，<span class="katex-el">\cos u</span> 恰好一路递减（单调），并不"不单调"。题目要求"不单调"，所以必须严格 <span class="katex-el">\omega>\dfrac{10}{3}</span>，端点 <span class="katex-el">\dfrac{10}{3}</span> 要排除！</div>
+          <div class="humor">🕳️ ω=10/3是陷阱，区间上cos刚好一路向下，算单调，不是"不单调"——差一点点就掉坑里了！</div>
+        </div>
+      </div>
+      <div class="final-answer" id="finalAns" style="display:none;">
+        正确答案：<span style="font-size:22px;">A B</span> （A、B 均不可能是 ω 的取值）
+      </div>
+    </div>
+    <div class="btns">
+      <button class="btn btn-primary" id="nextBtn">下一步</button>
+      <button class="btn btn-reset" id="resetBtn">重置</button>
+    </div>
+  </div>
+
+  <div class="footer">我的解题课件库 · 数0026 · 三角函数 · ω范围 · 极值点与单调性</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var cv = document.getElementById("cv");
+  var ctx = cv.getContext("2d");
+  var slider = document.getElementById("omegaSlider");
+  var omegaVal = document.getElementById("omegaVal");
+  var minCountEl = document.getElementById("minCount");
+  var monoBox = document.getElementById("monoBox");
+  var statusBadge = document.getElementById("statusBadge");
+  var feedback = document.getElementById("feedback");
+  var options = document.getElementById("options");
+  var submitBtn = document.getElementById("submitBtn");
+  var clearSelBtn = document.getElementById("clearSelBtn");
+  var stepsWrap = document.getElementById("steps");
+  var nextBtn = document.getElementById("nextBtn");
+  var resetBtn = document.getElementById("resetBtn");
+  var finalAns = document.getElementById("finalAns");
+
+  var omega = 3.5;
+  var stepIndex = 0;
+  var totalSteps = 7;
+  var correctSet = { A: true, B: true, C: false, D: false };
+  var selected = { A: false, B: false, C: false, D: false };
+  var submitted = false;
+
+  var OMEGA_LOW = 10/3;
+  var OMEGA_HIGH = 29/6;
+  var PI = Math.PI;
+
+  function renderKatex(){
+    if(typeof renderMathInElement === "function"){
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left:"$$", right:"$$", display:true},
+          {left:"$", right:"$", display:false}
+        ],
+        throwOnError: false
+      });
+    }
+    var els = document.querySelectorAll(".katex-el");
+    for(var i=0;i<els.length;i++){
+      var el = els[i];
+      if(el.dataset.rendered === "1") continue;
+      if(typeof katex !== "undefined" && katex.render){
+        try{
+          katex.render(el.textContent, el, {throwOnError:false, displayMode:false});
+          el.dataset.rendered = "1";
+        }catch(e){}
+      }
+    }
+  }
+
+  function resize(){
+    var w = cv.parentElement.clientWidth - 28;
+    var h = 380;
+    cv.width = w;
+    cv.height = h;
+    draw();
+  }
+
+  function draw(){
+    var W = cv.width;
+    var H = cv.height;
+    ctx.clearRect(0,0,W,H);
+
+    var padL = 46, padR = 20, padT = 30, padB = 44;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var midY = padT + plotH/2;
+
+    var xMin = -0.3, xMax = PI + 0.3;
+    var yMin = -2.4, yMax = 2.4;
+
+    function X(xv){ return padL + (xv - xMin)/(xMax - xMin) * plotW; }
+    function Y(yv){ return midY - (yv)/(yMax - yMin) * plotH; }
+
+    ctx.strokeStyle = "#eef2f7";
+    ctx.lineWidth = 1;
+    for(var gx=0; gx<=PI+0.3; gx += PI/4){
+      ctx.beginPath();
+      ctx.moveTo(X(gx), padT);
+      ctx.lineTo(X(gx), padT+plotH);
+      ctx.stroke();
+    }
+    for(var gy=-2; gy<=2; gy+=1){
+      ctx.beginPath();
+      ctx.moveTo(padL, Y(gy));
+      ctx.lineTo(padL+plotW, Y(gy));
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = "rgba(102,126,234,0.10)";
+    ctx.fillRect(X(0), padT, X(PI)-X(0), plotH);
+
+    ctx.fillStyle = "rgba(230,126,34,0.18)";
+    ctx.fillRect(X(0), padT, X(PI/4)-X(0), plotH);
+
+    ctx.strokeStyle = "#95a5a6";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, midY);
+    ctx.lineTo(padL+plotW, midY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT+plotH);
+    ctx.stroke();
+
+    ctx.fillStyle = "#7f8c8d";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    var ticks = [0, PI/4, PI/2, 3*PI/4, PI];
+    var labels = ["0","π/4","π/2","3π/4","π"];
+    for(var ti=0; ti<ticks.length; ti++){
+      var tx = X(ticks[ti]);
+      ctx.fillText(labels[ti], tx, padT+plotH+18);
+      ctx.beginPath();
+      ctx.moveTo(tx, midY-3);
+      ctx.lineTo(tx, midY+3);
+      ctx.stroke();
+    }
+    ctx.textAlign = "right";
+    ctx.fillText("2", padL-6, Y(2)+4);
+    ctx.fillText("0", padL-6, Y(0)+4);
+    ctx.fillText("-2", padL-6, Y(-2)+4);
+
+    ctx.strokeStyle = "#667eea";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    var first = true;
+    var step = (xMax - xMin)/700;
+    for(var xv = xMin; xv <= xMax; xv += step){
+      var yv = 2*Math.cos(omega * xv + PI/6);
+      if(first){ ctx.moveTo(X(xv), Y(yv)); first = false; }
+      else { ctx.lineTo(X(xv), Y(yv)); }
+    }
+    ctx.stroke();
+
+    var minCount = 0;
+    var r = Math.abs(6);
+
+    for(var k=-5; k<=15; k++){
+      var um = PI + 2*k*PI;
+      var xm = (um - PI/6)/omega;
+      if(xm > 0 && xm < PI){
+        var ym = 2*Math.cos(um);
+        ctx.beginPath();
+        ctx.arc(X(xm), Y(ym), Math.abs(r), 0, 2*PI);
+        ctx.fillStyle = "#e74c3c";
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        minCount++;
+      }
+    }
+
+    ctx.strokeStyle = "#667eea";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,3]);
+    ctx.beginPath();
+    ctx.moveTo(X(0), padT);
+    ctx.lineTo(X(0), padT+plotH);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(X(PI), padT);
+    ctx.lineTo(X(PI), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = "#e67e22";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath();
+    ctx.moveTo(X(PI/4), padT);
+    ctx.lineTo(X(PI/4), padT+plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = "#667eea";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("(0, π)", X(PI/2), padT-8);
+
+    var uEnd = omega * PI/4 + PI/6;
+    var isMono = (uEnd <= PI);
+    monoBox.textContent = isMono ? "是" : "否";
+
+    var valid = (minCount === 2) && (!isMono);
+    minCountEl.textContent = minCount;
+
+    if(valid){
+      statusBadge.textContent = "✓ 满足条件（恰2极小值 + 子区间不单调）";
+      statusBadge.className = "badge-status badge-ok";
+    } else {
+      var reason = "";
+      if(minCount !== 2){
+        reason = "极小值点=" + minCount + "(需2)";
+      }
+      if(isMono){
+        if(reason !== "") reason += "；";
+        reason += "(0,π/4)单调(需不单调)";
+      }
+      statusBadge.textContent = "✗ " + reason;
+      statusBadge.className = "badge-status badge-no";
+    }
+  }
+
+  function updateOmega(){
+    omega = parseFloat(slider.value);
+    omegaVal.textContent = omega.toFixed(2);
+    draw();
+  }
+
+  function showFeedback(msg, type){
+    feedback.innerHTML = msg;
+    feedback.className = "feedback show " + type;
+  }
+
+  function toggleOption(key, el){
+    if(submitted) return;
+    selected[key] = !selected[key];
+    if(selected[key]){
+      el.classList.add("selected");
+    } else {
+      el.classList.remove("selected");
+    }
+    feedback.className = "feedback";
+  }
+
+  function clearSelection(){
+    submitted = false;
+    var all = options.querySelectorAll(".opt");
+    for(var i=0;i<all.length;i++){
+      all[i].classList.remove("selected","correct","wrong");
+      selected[all[i].dataset.key] = false;
+    }
+    feedback.className = "feedback";
+  }
+
+  function submitAnswer(){
+    submitted = true;
+    var all = options.querySelectorAll(".opt");
+    var correctCount = 0;
+    var wrongSelected = 0;
+    var missedCorrect = 0;
+    for(var i=0;i<all.length;i++){
+      var el = all[i];
+      var key = el.dataset.key;
+      el.classList.remove("selected");
+      var shouldSelect = correctSet[key];
+      var isSelected = selected[key];
+      if(shouldSelect){
+        el.classList.add("correct");
+        if(isSelected){ correctCount++; }
+        else { missedCorrect++; }
+      } else {
+        if(isSelected){
+          el.classList.add("wrong");
+          wrongSelected++;
+        }
+      }
+    }
+    if(wrongSelected === 0 && missedCorrect === 0){
+      showFeedback("🎉 完全正确！答案就是 A、B。<br>ω=17/6 太小（只有1个极小值点），ω=10/3 是边界陷阱（(0,π/4)上cos刚好单调递减）。", "ok");
+    } else {
+      var msg = "再检查一下～正确答案是 <b>A、B</b>（不可能的取值）。";
+      if(missedCorrect > 0){
+        msg += "<br>你漏选了" + missedCorrect + "个正确项（绿色标记的就是）。";
+      }
+      if(wrongSelected > 0){
+        msg += "<br>你错选了" + wrongSelected + "个项（红色标记的就是），它们其实是可能的取值。";
+      }
+      msg += "<br>注意 ω=10/3 这个陷阱：此时(0,π/4)上cos恰好单调递减，不算'不单调'！";
+      showFeedback(msg, "bad");
+    }
+  }
+
+  function revealStep(){
+    if(stepIndex < totalSteps){
+      stepsWrap.classList.add("show");
+      var step = stepsWrap.querySelector('.step[data-step="' + (stepIndex+1) + '"]');
+      if(step) step.classList.add("visible");
+      stepIndex++;
+      renderKatex();
+      if(stepIndex === totalSteps){
+        finalAns.style.display = "block";
+        nextBtn.textContent = "已完成 ✓";
+        nextBtn.disabled = true;
+        nextBtn.style.opacity = "0.6";
+      }
+    }
+  }
+
+  function resetSteps(){
+    stepIndex = 0;
+    stepsWrap.classList.remove("show");
+    var steps = stepsWrap.querySelectorAll(".step");
+    for(var i=0;i<steps.length;i++){
+      steps[i].classList.remove("visible");
+    }
+    finalAns.style.display = "none";
+    nextBtn.textContent = "下一步";
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
+  }
+
+  slider.addEventListener("input", updateOmega);
+  slider.addEventListener("touchmove", function(e){ e.preventDefault(); updateOmega(); }, {passive:false});
+  slider.addEventListener("touchstart", function(e){ e.preventDefault(); }, {passive:false});
+
+  options.addEventListener("click", function(e){
+    var opt = e.target.closest(".opt");
+    if(opt) toggleOption(opt.dataset.key, opt);
+  });
+
+  submitBtn.addEventListener("click", submitAnswer);
+  clearSelBtn.addEventListener("click", clearSelection);
+
+  nextBtn.addEventListener("click", revealStep);
+  resetBtn.addEventListener("click", resetSteps);
+
+  window.addEventListener("resize", resize);
+  window.addEventListener("orientationchange", resize);
+
+  function init(){
+    renderKatex();
+    resize();
+    updateOmega();
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    var t = setInterval(function(){
+      if(typeof katex !== "undefined"){
+        clearInterval(t);
+        init();
+      }
+    }, 50);
+  }
+})();
+</script>
+<!--CSTAT-BEGIN-->
+<style id="cstat-style">
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#cstat-label{color:#5c7185;font-weight:600}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-label{color:#5c7185;font-weight:600}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
+#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
+#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+</style>
+<div id="crate-bar" title="课件评价：这套课件质量如何">
+  <span id="crate-label">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg">👍 好</button>
+  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
+  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
+  <span id="crate-counts"></span>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" title="学习自评：点击累计计数">
+  <span id="cstat-label">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
+  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
+  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>
+/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
+(function(){
+  'use strict';
+  if (window.__cstatUI) return;
+  window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CSTAT_KEY = 'cstat:' + CM.id;
+  var CRATE_KEY = 'crate:' + CM.id;
+  var CREDO_KEY = 'credo:' + CM.id;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function recordCourseState(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render(); renderR();
+    return reset;
+  }
+  window.__recordCourseState = recordCourseState;
+  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
+  function rateCourse(kind){
+    var r = readR();
+    r[kind] = (r[kind]||0)+1;
+    r.ts = Date.now();
+    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderR();
+    return r[kind]||0;
+  }
+  window.__rateCourse = rateCourse;
+  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
+  function setRedo(done){
+    var d = readD();
+    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
+    d.done = done ? 1 : 0;
+    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    renderRedoInfo();
+    return d;
+  }
+  window.__setRedo = setRedo;
+  function fmtHM(ts){
+    if (!ts) return '';
+    var d = new Date(ts);
+    var p = function(x){ return ('0'+x).slice(-2); };
+    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function renderRedoInfo(){
+    var el = document.getElementById('credo-info');
+    if (!el) return;
+    var d = readD();
+    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
+  }
+  function initRedo(){
+    var chk = document.getElementById('credo-chk');
+    if (!chk) return;
+    chk.checked = readD().done === 1;
+    renderRedoInfo();
+    chk.addEventListener('change', function(){
+      var d = setRedo(chk.checked);
+      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
+    });
+  }
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
+  }
+  function renderR(){
+    var r = readR();
+    var el = document.getElementById('crate-counts');
+    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var reset = recordCourseState(state);
+      var n = readS()[state]||0;
+      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
+      flash(msg);
+    });
+  }
+  function bindRate(id, kind, label){
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var n = rateCourse(kind);
+      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
+    });
+  }
+  function init(){
+    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
+    bind('cstat-fz','fuzzy','\u6a21\u7cca');
+    bind('cstat-fg','forgot','\u5fd8\u8bb0');
+    bindRate('crate-good','good','\ud83d\udc4d \u597d');
+    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
+    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
+    initRedo();
+    render(); renderR();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!--CSTAT-END-->
+<style id="cnote-style">
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+</style>
+<script id="cnote-inject">
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  function openPop(){renderPop();pop.classList.add('open');}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=5;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+<!--FEAT-JS-REPORTER-BEGIN-->
 <script>
-(function(){
-  "use strict";
-  var cv = document.getElementById("cv");
-  var ctx = cv.getContext("2d");
-  var slider = document.getElementById("omegaSlider");
-  var omegaVal = document.getElementById("omegaVal");
-  var minCountEl = document.getElementById("minCount");
-  var monoBox = document.getElementById("monoBox");
-  var statusBadge = document.getElementById("statusBadge");
-  var feedback = document.getElementById("feedback");
-  var options = document.getElementById("options");
-  var submitBtn = document.getElementById("submitBtn");
-  var clearSelBtn = document.getElementById("clearSelBtn");
-  var stepsWrap = document.getElementById("steps");
-  var nextBtn = document.getElementById("nextBtn");
-  var resetBtn = document.getElementById("resetBtn");
-  var finalAns = document.getElementById("finalAns");
-
-  var omega = 3.5;
-  var stepIndex = 0;
-  var totalSteps = 7;
-  var correctSet = { A: true, B: true, C: false, D: false };
-  var selected = { A: false, B: false, C: false, D: false };
-  var submitted = false;
-
-  var OMEGA_LOW = 10/3;
-  var OMEGA_HIGH = 29/6;
-  var PI = Math.PI;
-
-  function renderKatex(){
-    if(typeof renderMathInElement === "function"){
-      renderMathInElement(document.body, {
-        delimiters: [
-          {left:"$$", right:"$$", display:true},
-          {left:"$", right:"$", display:false}
-        ],
-        throwOnError: false
-      });
-    }
-    var els = document.querySelectorAll(".katex-el");
-    for(var i=0;i<els.length;i++){
-      var el = els[i];
-      if(el.dataset.rendered === "1") continue;
-      if(typeof katex !== "undefined" && katex.render){
-        try{
-          katex.render(el.textContent, el, {throwOnError:false, displayMode:false});
-          el.dataset.rendered = "1";
-        }catch(e){}
-      }
-    }
-  }
-
-  function resize(){
-    var w = cv.parentElement.clientWidth - 28;
-    var h = 380;
-    cv.width = w;
-    cv.height = h;
-    draw();
-  }
-
-  function draw(){
-    var W = cv.width;
-    var H = cv.height;
-    ctx.clearRect(0,0,W,H);
-
-    var padL = 46, padR = 20, padT = 30, padB = 44;
-    var plotW = W - padL - padR;
-    var plotH = H - padT - padB;
-    var midY = padT + plotH/2;
-
-    var xMin = -0.3, xMax = PI + 0.3;
-    var yMin = -2.4, yMax = 2.4;
-
-    function X(xv){ return padL + (xv - xMin)/(xMax - xMin) * plotW; }
-    function Y(yv){ return midY - (yv)/(yMax - yMin) * plotH; }
-
-    ctx.strokeStyle = "#eef2f7";
-    ctx.lineWidth = 1;
-    for(var gx=0; gx<=PI+0.3; gx += PI/4){
-      ctx.beginPath();
-      ctx.moveTo(X(gx), padT);
-      ctx.lineTo(X(gx), padT+plotH);
-      ctx.stroke();
-    }
-    for(var gy=-2; gy<=2; gy+=1){
-      ctx.beginPath();
-      ctx.moveTo(padL, Y(gy));
-      ctx.lineTo(padL+plotW, Y(gy));
-      ctx.stroke();
-    }
-
-    ctx.fillStyle = "rgba(102,126,234,0.10)";
-    ctx.fillRect(X(0), padT, X(PI)-X(0), plotH);
-
-    ctx.fillStyle = "rgba(230,126,34,0.18)";
-    ctx.fillRect(X(0), padT, X(PI/4)-X(0), plotH);
-
-    ctx.strokeStyle = "#95a5a6";
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(padL, midY);
-    ctx.lineTo(padL+plotW, midY);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(X(0), padT);
-    ctx.lineTo(X(0), padT+plotH);
-    ctx.stroke();
-
-    ctx.fillStyle = "#7f8c8d";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "center";
-    var ticks = [0, PI/4, PI/2, 3*PI/4, PI];
-    var labels = ["0","π/4","π/2","3π/4","π"];
-    for(var ti=0; ti<ticks.length; ti++){
-      var tx = X(ticks[ti]);
-      ctx.fillText(labels[ti], tx, padT+plotH+18);
-      ctx.beginPath();
-      ctx.moveTo(tx, midY-3);
-      ctx.lineTo(tx, midY+3);
-      ctx.stroke();
-    }
-    ctx.textAlign = "right";
-    ctx.fillText("2", padL-6, Y(2)+4);
-    ctx.fillText("0", padL-6, Y(0)+4);
-    ctx.fillText("-2", padL-6, Y(-2)+4);
-
-    ctx.strokeStyle = "#667eea";
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    var first = true;
-    var step = (xMax - xMin)/700;
-    for(var xv = xMin; xv <= xMax; xv += step){
-      var yv = 2*Math.cos(omega * xv + PI/6);
-      if(first){ ctx.moveTo(X(xv), Y(yv)); first = false; }
-      else { ctx.lineTo(X(xv), Y(yv)); }
-    }
-    ctx.stroke();
-
-    var minCount = 0;
-    var r = Math.abs(6);
-
-    for(var k=-5; k<=15; k++){
-      var um = PI + 2*k*PI;
-      var xm = (um - PI/6)/omega;
-      if(xm > 0 && xm < PI){
-        var ym = 2*Math.cos(um);
-        ctx.beginPath();
-        ctx.arc(X(xm), Y(ym), Math.abs(r), 0, 2*PI);
-        ctx.fillStyle = "#e74c3c";
-        ctx.fill();
-        ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        minCount++;
-      }
-    }
-
-    ctx.strokeStyle = "#667eea";
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6,3]);
-    ctx.beginPath();
-    ctx.moveTo(X(0), padT);
-    ctx.lineTo(X(0), padT+plotH);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(X(PI), padT);
-    ctx.lineTo(X(PI), padT+plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    ctx.strokeStyle = "#e67e22";
-    ctx.lineWidth = 2;
-    ctx.setLineDash([4,3]);
-    ctx.beginPath();
-    ctx.moveTo(X(PI/4), padT);
-    ctx.lineTo(X(PI/4), padT+plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    ctx.fillStyle = "#667eea";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("(0, π)", X(PI/2), padT-8);
-
-    var uEnd = omega * PI/4 + PI/6;
-    var isMono = (uEnd <= PI);
-    monoBox.textContent = isMono ? "是" : "否";
-
-    var valid = (minCount === 2) && (!isMono);
-    minCountEl.textContent = minCount;
-
-    if(valid){
-      statusBadge.textContent = "✓ 满足条件（恰2极小值 + 子区间不单调）";
-      statusBadge.className = "badge-status badge-ok";
-    } else {
-      var reason = "";
-      if(minCount !== 2){
-        reason = "极小值点=" + minCount + "(需2)";
-      }
-      if(isMono){
-        if(reason !== "") reason += "；";
-        reason += "(0,π/4)单调(需不单调)";
-      }
-      statusBadge.textContent = "✗ " + reason;
-      statusBadge.className = "badge-status badge-no";
-    }
-  }
-
-  function updateOmega(){
-    omega = parseFloat(slider.value);
-    omegaVal.textContent = omega.toFixed(2);
-    draw();
-  }
-
-  function showFeedback(msg, type){
-    feedback.innerHTML = msg;
-    feedback.className = "feedback show " + type;
-  }
-
-  function toggleOption(key, el){
-    if(submitted) return;
-    selected[key] = !selected[key];
-    if(selected[key]){
-      el.classList.add("selected");
-    } else {
-      el.classList.remove("selected");
-    }
-    feedback.className = "feedback";
-  }
-
-  function clearSelection(){
-    submitted = false;
-    var all = options.querySelectorAll(".opt");
-    for(var i=0;i<all.length;i++){
-      all[i].classList.remove("selected","correct","wrong");
-      selected[all[i].dataset.key] = false;
-    }
-    feedback.className = "feedback";
-  }
-
-  function submitAnswer(){
-    submitted = true;
-    var all = options.querySelectorAll(".opt");
-    var correctCount = 0;
-    var wrongSelected = 0;
-    var missedCorrect = 0;
-    for(var i=0;i<all.length;i++){
-      var el = all[i];
-      var key = el.dataset.key;
-      el.classList.remove("selected");
-      var shouldSelect = correctSet[key];
-      var isSelected = selected[key];
-      if(shouldSelect){
-        el.classList.add("correct");
-        if(isSelected){ correctCount++; }
-        else { missedCorrect++; }
-      } else {
-        if(isSelected){
-          el.classList.add("wrong");
-          wrongSelected++;
-        }
-      }
-    }
-    if(wrongSelected === 0 && missedCorrect === 0){
-      showFeedback("🎉 完全正确！答案就是 A、B。<br>ω=17/6 太小（只有1个极小值点），ω=10/3 是边界陷阱（(0,π/4)上cos刚好单调递减）。", "ok");
-    } else {
-      var msg = "再检查一下～正确答案是 <b>A、B</b>（不可能的取值）。";
-      if(missedCorrect > 0){
-        msg += "<br>你漏选了" + missedCorrect + "个正确项（绿色标记的就是）。";
-      }
-      if(wrongSelected > 0){
-        msg += "<br>你错选了" + wrongSelected + "个项（红色标记的就是），它们其实是可能的取值。";
-      }
-      msg += "<br>注意 ω=10/3 这个陷阱：此时(0,π/4)上cos恰好单调递减，不算'不单调'！";
-      showFeedback(msg, "bad");
-    }
-  }
-
-  function revealStep(){
-    if(stepIndex < totalSteps){
-      stepsWrap.classList.add("show");
-      var step = stepsWrap.querySelector('.step[data-step="' + (stepIndex+1) + '"]');
-      if(step) step.classList.add("visible");
-      stepIndex++;
-      renderKatex();
-      if(stepIndex === totalSteps){
-        finalAns.style.display = "block";
-        nextBtn.textContent = "已完成 ✓";
-        nextBtn.disabled = true;
-        nextBtn.style.opacity = "0.6";
-      }
-    }
-  }
-
-  function resetSteps(){
-    stepIndex = 0;
-    stepsWrap.classList.remove("show");
-    var steps = stepsWrap.querySelectorAll(".step");
-    for(var i=0;i<steps.length;i++){
-      steps[i].classList.remove("visible");
-    }
-    finalAns.style.display = "none";
-    nextBtn.textContent = "下一步";
-    nextBtn.disabled = false;
-    nextBtn.style.opacity = "1";
-  }
-
-  slider.addEventListener("input", updateOmega);
-  slider.addEventListener("touchmove", function(e){ e.preventDefault(); updateOmega(); }, {passive:false});
-  slider.addEventListener("touchstart", function(e){ e.preventDefault(); }, {passive:false});
-
-  options.addEventListener("click", function(e){
-    var opt = e.target.closest(".opt");
-    if(opt) toggleOption(opt.dataset.key, opt);
-  });
-
-  submitBtn.addEventListener("click", submitAnswer);
-  clearSelBtn.addEventListener("click", clearSelection);
-
-  nextBtn.addEventListener("click", revealStep);
-  resetBtn.addEventListener("click", resetSteps);
-
-  window.addEventListener("resize", resize);
-  window.addEventListener("orientationchange", resize);
-
-  function init(){
-    renderKatex();
-    resize();
-    updateOmega();
-  }
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    var t = setInterval(function(){
-      if(typeof katex !== "undefined"){
-        clearInterval(t);
-        init();
-      }
-    }, 50);
-  }
-})();
-</script>
-<!--CSTAT-BEGIN-->
-<style id="cstat-style">
-#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#cstat-label{color:#5c7185;font-weight:600}
-#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
-#cstat-bar button:active{transform:scale(.95)}
-#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
-#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
-#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
-#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-#cstat-flash.show,#crate-flash.show{opacity:1}
-#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#crate-label{color:#5c7185;font-weight:600}
-#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
-#crate-bar button:active{transform:scale(.95)}
-#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
-#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
-#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
-#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
-#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
-#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
-#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
-#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
-#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
-#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
-  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
-#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
-#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
-#tnav-bar a{background:#f0f6ff;cursor:pointer}
-#tnav-bar a:hover{background:#dbeafe}
-#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
-#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
-#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
-#tnav-exit:hover{color:#ef4444}
-@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
-</style>
-<div id="crate-bar" title="课件评价：这套课件质量如何">
-  <span id="crate-label">⭐ 评价课件</span>
-  <button type="button" id="crate-good" class="crg">👍 好</button>
-  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
-  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
-  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
-  <span id="crate-counts"></span>
-  <span id="crate-flash"></span>
-</div>
-<div id="cstat-bar" title="学习自评：点击累计计数">
-  <span id="cstat-label">📋 自评</span>
-  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
-  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
-  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
-  <span id="cstat-counts"></span>
-  <span id="cstat-flash"></span>
-</div>
-<script>
-/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
-(function(){
-  'use strict';
-  if (window.__cstatUI) return;
-  window.__cstatUI = true;
-  var CM = null;
-  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
-  if (!CM || !CM.id) return;
-  var CSTAT_KEY = 'cstat:' + CM.id;
-  var CRATE_KEY = 'crate:' + CM.id;
-  var CREDO_KEY = 'credo:' + CM.id;
-  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
-  function recordCourseState(state){
-    var s = readS();
-    s[state] = (s[state]||0)+1;
-    var reset = false;
-    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
-    s.ts = Date.now();
-    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    render(); renderR();
-    return reset;
-  }
-  window.__recordCourseState = recordCourseState;
-  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
-  function rateCourse(kind){
-    var r = readR();
-    r[kind] = (r[kind]||0)+1;
-    r.ts = Date.now();
-    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderR();
-    return r[kind]||0;
-  }
-  window.__rateCourse = rateCourse;
-  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
-  function setRedo(done){
-    var d = readD();
-    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
-    d.done = done ? 1 : 0;
-    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderRedoInfo();
-    return d;
-  }
-  window.__setRedo = setRedo;
-  function fmtHM(ts){
-    if (!ts) return '';
-    var d = new Date(ts);
-    var p = function(x){ return ('0'+x).slice(-2); };
-    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
-  }
-  function renderRedoInfo(){
-    var el = document.getElementById('credo-info');
-    if (!el) return;
-    var d = readD();
-    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
-  }
-  function initRedo(){
-    var chk = document.getElementById('credo-chk');
-    if (!chk) return;
-    chk.checked = readD().done === 1;
-    renderRedoInfo();
-    chk.addEventListener('change', function(){
-      var d = setRedo(chk.checked);
-      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
-    });
-  }
-  function render(){
-    var s = readS();
-    var el = document.getElementById('cstat-counts');
-    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
-  }
-  function renderR(){
-    var r = readR();
-    var el = document.getElementById('crate-counts');
-    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
-  }
-  function flash(msg){
-    var el = document.getElementById('cstat-flash');
-    if (!el) return;
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(flash._t);
-    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
-  }
-  function bind(id, state, label, extra){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var reset = recordCourseState(state);
-      var n = readS()[state]||0;
-      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
-      flash(msg);
-    });
-  }
-  function bindRate(id, kind, label){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var n = rateCourse(kind);
-      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
-    });
-  }
-  function init(){
-    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
-    bind('cstat-fz','fuzzy','\u6a21\u7cca');
-    bind('cstat-fg','forgot','\u5fd8\u8bb0');
-    bindRate('crate-good','good','\ud83d\udc4d \u597d');
-    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
-    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
-    initRedo();
-    render(); renderR();
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<script>
-/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）=====
+ * 实时机制 A+B 双保险（2026-09-14）：
+ *   A = Supabase Realtime 订阅（设备 B 秒级收到推送即刷新）；连不上自动降级
+ *   B = 轮询（每 5s 拉一次云端聚合）作为保底
+ * 跨设备累加：pushCloud 改为「读云端当前值 + 本地增量 delta」写回，
+ *   syncBase 持久化到 localStorage，防页面刷新重复计数。
+ */
 (function(){
   'use strict';
   if (window.__cstatReporter) return;
@@ -927,6 +1227,7 @@
   var CRATE_KEY = 'crate:' + CID;
   var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
+  var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
   var DEFAULT_CLOUD = {
@@ -934,7 +1235,9 @@
     key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
   };
   var STATS_TABLE = 'course_stats';
+  var NOTES_TABLE = 'course_notes';
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function cloudCfg(){
     var c = readJSON(CFG_KEY, null);
     if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
@@ -949,7 +1252,89 @@
              rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
              rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
   }
-  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  // 已同步到云端的本地快照（用于计算 delta，防刷新重复累加）
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
+
+  /* ---------- 浮动数据面板 ---------- */
+  var chip = null;
+  function ensureChip(){
+    if (chip) return chip;
+    chip = document.createElement('div');
+    chip.className = 'cstat-chip';
+    chip.innerHTML = '<span class="cstat-ico">📊</span><span class="cstat-txt">课件数据</span>' +
+      '<div class="cstat-panel" style="display:none"></div>';
+    chip.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:60;max-width:260px;' +
+      'font:13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;cursor:pointer;user-select:none;';
+    var bar = 'background:linear-gradient(135deg,#1e3a8a,#0ea5e9);color:#fff;padding:7px 12px;' +
+      'border-radius:20px;box-shadow:0 4px 14px rgba(14,165,233,.35);display:flex;align-items:center;gap:6px;';
+    var barEl = document.createElement('span');
+    barEl.style.cssText = bar;
+    barEl.appendChild(chip.querySelector('.cstat-ico'));
+    barEl.appendChild(chip.querySelector('.cstat-txt'));
+    chip.insertBefore(barEl, chip.querySelector('.cstat-panel'));
+    var panel = chip.querySelector('.cstat-panel');
+    panel.style.cssText = 'margin-top:8px;background:rgba(15,23,42,.95);color:#e2e8f0;' +
+      'border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);' +
+      'font-size:12px;line-height:1.7;';
+    chip.addEventListener('click', function(e){
+      if (e.target === chip || e.target === barEl || barEl.contains(e.target)) {
+        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+      }
+    });
+    document.body.appendChild(chip);
+    return chip;
+  }
+  function renderStats(row, noteCount){
+    var panel = chip && chip.querySelector('.cstat-panel');
+    if (!panel) return;
+    row = row || {};
+    var skilled = row.skilled||0, fuzzy = row.fuzzy||0, forgot = row.forgot||0;
+    var rg = row.rating_good||0, rh = row.rating_hard||0, rt = row.rating_teach||0;
+    var total = skilled + fuzzy + forgot;
+    var h = '';
+    h += '<div style="opacity:.75;margin-bottom:4px">已有 ' + total + ' 人自评</div>';
+    h += '<div>熟练 <b style="color:#4ade80">' + skilled + '</b> · 模糊 <b style="color:#fbbf24">' + fuzzy + '</b> · 忘记 <b style="color:#f87171">' + forgot + '</b></div>';
+    h += '<div style="opacity:.75;margin:4px 0">评价</div>';
+    h += '<div>👍 好 <b>' + rg + '</b> · 🤔 不好懂 <b>' + rh + '</b> · 🧑‍🏫 没老师讲得好 <b>' + rt + '</b></div>';
+    if (noteCount) h += '<div style="margin-top:4px;opacity:.85">💡 记错 ' + noteCount + ' 条（见💡按钮）</div>';
+    panel.innerHTML = h;
+  }
+
+  /* ---------- 读回云端的聚合值 ---------- */
+  function fetchCloudRow(cfg, cb){
+    try {
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
+      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
+      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
+        if (timer) clearTimeout(timer);
+        cb(Array.isArray(j) && j.length ? j[0] : null);
+      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
+    } catch(e){ cb(null); }
+  }
+  function fetchNotesCount(cfg, cb){
+    try {
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + NOTES_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=course_id';
+      fetch(u, { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
+        .then(function(r){ return r.json(); }).then(function(j){
+          cb(Array.isArray(j) ? j.length : 0);
+        }).catch(function(){ cb(0); });
+    } catch(e){ cb(0); }
+  }
+  function refreshFromCloud(){
+    if (!autoOn()) return;
+    var cfg = cloudCfg();
+    fetchCloudRow(cfg, function(row){
+      fetchNotesCount(cfg, function(nc){ renderStats(row || {}, nc || 0); });
+    });
+  }
+
+  /* ---------- 上报（跨设备累加 delta） ---------- */
   function report(){
     var s = compute();
     var snap = JSON.stringify(s);
@@ -973,335 +1358,106 @@
     var cfg = cloudCfg();
     var vt = 0;
     try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    var ctl = null, timer = null;
-    try { ctl = new AbortController(); } catch(e){}
-    var opts = {
-      method: 'POST',
-      headers: {
-        'apikey': cfg.key,
-        'Authorization': 'Bearer ' + cfg.key,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplications,return=minimal'
-      },
-      body: JSON.stringify([{
+    fetchCloudRow(cfg, function(row){
+      var base = row || {};
+      var d = {
+        skilled: s.skilled - syncBase.skilled,
+        fuzzy:   s.fuzzy   - syncBase.fuzzy,
+        forgot:  s.forgot  - syncBase.forgot,
+        rg:      s.rg      - syncBase.rg,
+        rh:      s.rh      - syncBase.rh,
+        rt:      s.rt      - syncBase.rt
+      };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
+      var payload = {
         course_id: CID,
-        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
-        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        skilled: (base.skilled||0) + d.skilled,
+        fuzzy:   (base.fuzzy||0) + d.fuzzy,
+        forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
         redone: s.rd,
         redo_count: s.rn||0,
         redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
-      }])
-    };
-    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
-    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
-      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
-      .catch(function(){ lastCloud = ''; })
-      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+      };
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var opts = {
+        method: 'POST',
+        headers: {
+          'apikey': cfg.key,
+          'Authorization': 'Bearer ' + cfg.key,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplications,return=minimal'
+        },
+        body: JSON.stringify([payload])
+      };
+      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
+        .catch(function(){ /* 保留 syncBase，下次变更重试 */ })
+        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+    });
   }
+
+  /* ---------- A: Realtime 订阅（掉线自动降级轮询） ---------- */
+  function subscribeRealtime(){
+    try {
+      if (typeof WebSocket === 'undefined') return;
+      var cfg = cloudCfg();
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' +
+                  encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl);
+      var chan = 'cstat-' + CID;
+      var hb = null;
+      ws.onopen = function(){
+        rtAlive = true;
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: {
+          config: { postgres_changes: [
+            { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID },
+            { event: 'INSERT', schema: 'public', table: NOTES_TABLE, filter: 'course_id=eq.' + CID }
+          ] }
+        }, ref: '1' }));
+        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
+      };
+      ws.onmessage = function(ev){
+        try {
+          var m = JSON.parse(ev.data);
+          if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud();
+        } catch(e){}
+      };
+      ws.onerror = function(){ rtAlive = false; };
+      ws.onclose = function(){
+        rtAlive = false; if (hb) clearInterval(hb);
+        setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); // 自动重连
+      };
+    } catch(e){ /* 降级轮询 */ }
+  }
+
+  /* ---------- B: 轮询保底 ---------- */
+  function startPolling(){
+    setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000);
+  }
+
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
     window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
+    // 实时双保险
+    ensureChip();
+    refreshFromCloud();
+    startPolling();
+    subscribeRealtime();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
 })();
 </script>
-<script>
-/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
-(function(){
-  'use strict';
-  if (window.__tnav) return;
-  window.__tnav = true;
-  var ti = NaN;
-  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
-  if (isNaN(ti) || ti < 0) return;
-  var g = null;
-  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
-  if (!g || !g.urls || !g.urls.length) return;
-  var urls = g.urls;
-  function toUrl(u, idx){
-    var sep = u.indexOf('?') >= 0 ? '&' : '?';
-    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
-  }
-  function build(){
-    var bar = document.createElement('div');
-    bar.id = 'tnav-bar';
-    var prev = ti > 0
-      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
-      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
-    var next = ti < urls.length - 1
-      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
-      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
-    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
-      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
-      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
-    document.body.appendChild(bar);
-    document.getElementById('tnav-exit').addEventListener('click', function(){
-      bar.remove();
-      try { localStorage.removeItem('train_group'); } catch(e){}
-    });
-  }
-  document.addEventListener('keydown', function(e){
-    if (!document.getElementById('tnav-bar')) return;
-    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
-    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
-  });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
-})();
-</script>
-<script>
-/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
-(function(){
-  'use strict';
-  if (window.__bardrag) return;
-  window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
-  var LONG = 400, MOVE = 6;
-  function key(id){ return 'bar_pos:' + id; }
-  function place(el, l, t){
-    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
-    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
-    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
-    el.style.left = l + 'px';
-    el.style.top = t + 'px';
-    el.style.right = 'auto';
-    el.style.bottom = 'auto';
-    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
-  }
-  function restore(el){
-    try{
-      var p = JSON.parse(localStorage.getItem(key(el.id)));
-      if (p && typeof p.left === 'number') place(el, p.left, p.top);
-    }catch(e){}
-  }
-  function makeDraggable(el){
-    if (!el || el.__drag) return;
-    el.__drag = true;
-    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
-    el.style.touchAction = 'none';
-    el.addEventListener('pointerdown', function(e){
-      if (e.button) return;
-      sx = e.clientX; sy = e.clientY;
-      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
-      dragging = false; pid = e.pointerId;
-      clearTimeout(timer);
-      timer = setTimeout(function(){
-        dragging = true;
-        el.classList.add('bar-dragging');
-        try { el.setPointerCapture(pid); } catch(e2){}
-        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
-      }, LONG);
-    });
-    el.addEventListener('pointermove', function(e){
-      if (!dragging){
-        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
-        return;
-      }
-      e.preventDefault();
-      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
-    });
-    function up(){
-      clearTimeout(timer);
-      if (dragging){
-        el.classList.remove('bar-dragging');
-        try{
-          localStorage.setItem(key(el.id), JSON.stringify({
-            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
-        }catch(e2){}
-      }
-      dragging = false;
-    }
-    el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
-    window.addEventListener('resize', function(){ restore(el); });
-  }
-  function init(){
-    IDS.forEach(function(id){
-      var el = document.getElementById(id);
-      if (el){ makeDraggable(el); restore(el); }
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<!--CSTAT-END-->
-<style id="cnote-style">
-#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
-#cnotePill.drag{opacity:.85;transform:scale(1.04);}
-#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
-#cnotePop.open{display:block;}
-.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
-.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
-.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
-.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
-.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
-#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
-.cp-foot{display:flex;justify-content:space-between;align-items:center;}
-.cp-cnt{font-size:11.5px;color:#93a7ba;}
-#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
-#cnoteSave:disabled{opacity:.6;}
-.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
-#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
-@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
-</style>
-<script id="cnote-inject">
-(function(){
-  var CID=(function(){
-    try{
-      var m=document.querySelector('script[type="application/json"]#c-meta');
-      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
-    }catch(e){}
-    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
-  })();
-  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
-  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
-  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
-  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
-  var CFG=(function(){
-    var src=document.documentElement.innerHTML;
-    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
-    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
-    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
-  })();
-  function pushCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
-        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
-      }).catch(function(e){console.warn('[cnote] push fail',e);});
-    }catch(e){}
-  }
-  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
-  document.body.appendChild(pill);
-  var pop=document.createElement('div');pop.id='cnotePop';
-  document.body.appendChild(pop);
-  var sel={};
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function saveRec(tags,txt){
-    var rec={tags:tags,note:txt,ts:Date.now()};
-    var arr=localNotes();arr.push(rec);saveLocal(arr);
-    pushCloud(rec);
-    return rec;
-  }
-  function delCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      var iso=new Date(rec.ts).toISOString();
-      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
-    }catch(e){}
-  }
-  function cancelRec(tag,rec){
-    var arr=localNotes();
-    for(var i=arr.length-1;i>=0;i--){
-      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
-        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
-      }
-    }
-    return false;
-  }
-  function renderPop(){
-    var vs=vocab(),n=localNotes();
-    sel={};
-    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
-    h+='<div class="cp-tags">';
-    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
-    h+='</div>';
-    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
-    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
-    if(n.length){
-      var last=n[n.length-1];
-      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
-      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
-        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
-    }
-    pop.innerHTML=h;
-    pop.querySelectorAll('.cp-tag').forEach(function(el){
-      el.addEventListener('click',function(){
-        var t=el.getAttribute('data-t');
-        var cnt=pop.querySelector('.cp-cnt');
-        if(sel[t]){
-          if(cancelRec(t,sel[t])){
-            delete sel[t];el.classList.remove('done');
-            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
-            updBlink();
-          }
-          return;
-        }
-        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        var rec=saveRec([t],txt);
-        sel[t]=rec;
-        pop.querySelector('#cnoteTxt').value='';
-        el.classList.add('done');
-        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
-        updBlink();
-      });
-    });
-    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
-    var sv=pop.querySelector('#cnoteSave');
-    sv.addEventListener('click',function(){
-      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
-      saveRec([],txt);
-      pop.querySelector('#cnoteTxt').value='';
-      var cnt=pop.querySelector('.cp-cnt');
-      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
-      updBlink();
-    });
-  }
-  function openPop(){renderPop();pop.classList.add('open');}
-  function closePop(){pop.classList.remove('open');}
-  var key='bar_pos:cnote';
-  var blinkSec=5;
-  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
-  pill.style.setProperty('--blink-int',blinkSec+'s');
-  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
-  updBlink();
-  try{
-    var p=JSON.parse(localStorage.getItem(key)||'null');
-    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
-  }catch(e){}
-  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
-  pill.addEventListener('pointerdown',function(e){
-    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
-    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
-    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
-    e.preventDefault();
-  });
-  window.addEventListener('pointermove',function(e){
-    if(!dragging)return;moved=true;
-    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
-    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
-    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
-    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
-  });
-  window.addEventListener('pointerup',function(e){
-    if(arm){
-      arm=false;clearTimeout(timer);
-      if(dragging&&moved){
-        dragging=false;pill.classList.remove('drag');
-        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
-      }else{
-        dragging=false;pill.classList.remove('drag');
-        if(pop.classList.contains('open'))closePop();else openPop();
-      }
-      return;
-    }
-    if(dragging)return;
-    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
-  });
-})();
-</script>
-</body>
+<!--FEAT-JS-REPORTER-END-->
+</body>
 </html>
