@@ -137,12 +137,30 @@
   .train-tip { font-size:11px; color:#9db0c4; padding:0 22px 14px; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin-top:16px; }
   .card {
+    position:relative;
     display:flex; gap:14px; background:#fff; border:1px solid #e3edf7; border-radius:20px;
     padding:20px 18px; text-decoration:none; color:inherit;
     box-shadow:0 10px 30px -12px rgba(31,66,135,.16);
     transition:transform .18s ease, box-shadow .18s ease;
   }
   .card:hover { transform:translateY(-3px); box-shadow:0 16px 36px -12px rgba(31,66,135,.26); }
+  .pick {
+    position:absolute; top:12px; right:12px; width:22px; height:22px; border-radius:50%;
+    border:1.6px solid #c5d4e8; background:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
+  }
+  .pick::before { content:""; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg) translateY(-2px); opacity:0; transition:opacity .12s; }
+  .pick:hover { border-color:#4f8ef7; }
+  .card.picked { border-color:#4f8ef7; box-shadow:0 0 0 1.5px #4f8ef7, 0 14px 34px -12px rgba(31,142,247,.35); }
+  .card.picked .pick { background:#4f8ef7; border-color:#4f8ef7; }
+  .card.picked .pick::before { opacity:1; }
+  .pick-bar { display:inline-flex; align-items:center; gap:7px; margin-left:12px; vertical-align:middle; }
+  .pk-info { font-size:13px; color:#5c7185; }
+  .pk-info b { color:#2a6df4; font-size:14px; }
+  .pk-btn { border:1.5px solid #d6e4f2; background:#fff; color:#5c7185; border-radius:999px; padding:4px 12px; font-size:12px; cursor:pointer; font-family:inherit; transition:all .15s; }
+  .pk-btn:hover { border-color:#4f8ef7; color:#2a6df4; background:#f4f9ff; }
+  .pk-btn.pk-clear { color:#b45309; border-color:#f2dcb8; }
+  .pk-btn.pk-clear:hover { background:#fff7e6; border-color:#f0b35e; color:#b45309; }
   .badge {
     flex:none; width:46px; height:46px; border-radius:50%;
     background:linear-gradient(135deg,#4f8ef7,#22c3a6); color:#fff;
@@ -150,7 +168,7 @@
     font-size:11px; font-weight:600;
   }
   .card-body { min-width:0; flex:1; }
-  .card-body h3 { font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .card-body h3 { font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:26px; }
   .card-body .sub { font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }
   .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .tag-chip { font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4; }
@@ -360,7 +378,7 @@
     <button class="reset-btn" id="fReset" type="button">重置</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">共 <span id="resultCount">53</span> 个课件 <span class="stat-meta" id="statMeta"></span><button class="train-btn" id="trainBtn" type="button" title="将当前筛选结果作为一组题，逐张浏览训练">🎯 专题练</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
+  <div class="result-info" id="resultInfo">共 <span id="resultCount">53</span> 个课件 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="将当前筛选结果作为一组题，逐张浏览训练">🎯 专题练</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
 
   <div class="grid" id="grid">
     <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="连接体与比例法" data-method="未标注" data-date="2026-09-13" data-num="1" data-cid="course_01_rubber_band_car" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
@@ -373,6 +391,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/02-water-balloons-bullet/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="匀减速与逆向思维" data-method="未标注" data-date="2026-09-13" data-num="2" data-cid="course_02_water_balloons_bullet" data-tags="互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
       <span class="badge">物0002</span>
@@ -384,6 +403,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/03-math-trig-half-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="半角公式" data-method="未标注" data-date="2026-09-13" data-num="3" data-cid="course_03_math_trig_half_angle" data-tags="KaTeX公式;三角函数;公式渲染;单选题;数学;昕言课件">
       <span class="badge">数0001</span>
@@ -395,6 +415,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/04-math-trig-sum-diff/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差的余弦" data-method="未标注" data-date="2026-09-13" data-num="4" data-cid="course_04_math_trig_sum_diff" data-tags="KaTeX公式;三角函数;单选题;数学;昕言课件;机械波">
       <span class="badge">数0002</span>
@@ -406,6 +427,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/05-math-trig-identities/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换" data-method="未标注" data-date="2026-09-13" data-num="5" data-cid="course_05_math_trig_identities" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件">
       <span class="badge">数0003</span>
@@ -417,6 +439,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/06-math-trig-compound/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="两角和与差" data-method="未标注" data-date="2026-09-13" data-num="6" data-cid="course_06_math_trig_compound" data-tags="KaTeX公式;三角函数;多选题;数学;昕言课件;综合题">
       <span class="badge">数0004</span>
@@ -428,6 +451,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/07-math-trig-double-angle/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="诱导公式与二倍角" data-method="未标注" data-date="2026-09-13" data-num="7" data-cid="course_07_math_trig_double_angle" data-tags="KaTeX公式;三角函数;公式渲染;填空题;数学;昕言课件">
       <span class="badge">数0005</span>
@@ -439,6 +463,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/08-math-trig-comprehensive/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角恒等变换综合" data-method="未标注" data-date="2026-09-13" data-num="8" data-cid="course_08_math_trig_comprehensive" data-tags="KaTeX公式;三角函数;数学;昕言课件;综合题;解答题">
       <span class="badge">数0006</span>
@@ -450,6 +475,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/09-physics-kinematics-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-13" data-num="9" data-cid="course_09_physics_kinematics_chase" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
       <span class="badge">物0003</span>
@@ -461,6 +487,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/10-physics-police-chase/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="追及与相遇问题" data-method="未标注" data-date="2026-09-13" data-num="10" data-cid="course_10_physics_police_chase" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
       <span class="badge">物0004</span>
@@ -472,6 +499,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/11-physics-vbar-t-graph/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="平均速度-时间图像" data-method="未标注" data-date="2026-09-13" data-num="11" data-cid="course_11_physics_vbar_t_graph" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
       <span class="badge">物0005</span>
@@ -483,6 +511,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/12-physics-incline-vt/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="v-t图像与追及相遇" data-method="未标注" data-date="2026-09-13" data-num="12" data-cid="course_12_physics_incline_vt" data-tags="KaTeX公式;互动图像;匀变速直线运动;多选题;昕言课件;物理;运动学">
       <span class="badge">物0006</span>
@@ -494,6 +523,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/13-physics-braking-x-over-t2/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="非常规运动图像(x/t²-1/t)" data-method="未标注" data-date="2026-09-13" data-num="13" data-cid="course_13_physics_braking_x_over_t2" data-tags="KaTeX公式;互动图像;匀变速直线运动;单选题;昕言课件;物理;运动学">
       <span class="badge">物0007</span>
@@ -505,6 +535,7 @@
         <div class="src">昕言解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/14-math-trig-period/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数周期性与极值点" data-method="未标注" data-date="2026-09-13" data-num="14" data-cid="course_14_math_trig_period" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件">
       <span class="badge">数0007</span>
@@ -516,6 +547,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/15-math-trig-symmetry/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称性与单调性" data-method="未标注" data-date="2026-09-13" data-num="15" data-cid="course_15_math_trig_symmetry" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题;自制课件">
       <span class="badge">数0008</span>
@@ -527,6 +559,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/16-math-trig-center-sym/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数中心对称与单调性/极值/对称轴/切线" data-method="未标注" data-date="2026-09-13" data-num="16" data-cid="course_16_math_trig_center_sym" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;自制课件">
       <span class="badge">数0009</span>
@@ -538,6 +571,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/17-math-trig-comprehensive-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数求值域与单调区间" data-method="未标注" data-date="2026-09-13" data-num="17" data-cid="course_17_math_trig_comprehensive_2" data-tags="KaTeX公式;三角函数;互动图像;数学;机械波;自制课件;解答题">
       <span class="badge">数0010</span>
@@ -549,6 +583,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/18-physics-nuclear-reactions/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子核物理" data-knowledge="核反应方程-衰变-聚变-裂变" data-method="未标注" data-date="2026-09-13" data-num="18" data-cid="course_18_physics_nuclear_reactions" data-tags="KaTeX公式;互动图像;原子核物理;多选题;物理;自制课件">
       <span class="badge">物0008</span>
@@ -560,6 +595,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/19-physics-thomson-cathode-ray/" target="_blank" rel="noopener" data-subject="物理" data-chapter="原子物理-电子发现" data-knowledge="阴极射线-比荷-汤姆孙实验" data-method="未标注" data-date="2026-09-13" data-num="19" data-cid="course_19_physics_thomson_cathode_ray" data-tags="KaTeX公式;互动图像;原子物理-电子发现;多选题;物理;粒子物理;自制课件">
       <span class="badge">物0009</span>
@@ -571,6 +607,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/20-physics-guitar-string-wave/" target="_blank" rel="noopener" data-subject="物理" data-chapter="机械波" data-knowledge="弦上横波-波速公式-基频" data-method="未标注" data-date="2026-09-13" data-num="20" data-cid="course_20_physics_guitar_string_wave" data-tags="KaTeX公式;互动图像;公式渲染;单选题;机械波;物理;自制课件">
       <span class="badge">物0010</span>
@@ -582,6 +619,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/21-physics-four-figures/" target="_blank" rel="noopener" data-subject="物理" data-chapter="电磁学综合" data-knowledge="交流发电机-变压器-电磁感应-霍尔效应" data-method="未标注" data-date="2026-09-13" data-num="21" data-cid="course_21_physics_four_figures" data-tags="KaTeX公式;互动图像;多选题;物理;电磁学综合;综合题;自制课件">
       <span class="badge">物0011</span>
@@ -593,6 +631,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/22-physics-kuafu-satellite-orbit/" target="_blank" rel="noopener" data-subject="物理" data-chapter="万有引力与航天" data-knowledge="圆轨道-椭圆轨道-开普勒定律-机械能" data-method="未标注" data-date="2026-09-13" data-num="22" data-cid="course_22_physics_kuafu_satellite_orbit" data-tags="KaTeX公式;万有引力与航天;互动图像;多选题;天体物理;物理;综合题;自制课件">
       <span class="badge">物0012</span>
@@ -604,6 +643,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/23-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="铝及其化合物" data-knowledge="实验装置与操作正误判断" data-method="未标注" data-date="2026-09-13" data-num="23" data-cid="course_23_chem_al_alloy_alumina" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;铝及其化合物">
       <span class="badge">23</span>
@@ -615,6 +655,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/24-chem-al-alloy-alumina/" target="_blank" rel="noopener" data-subject="化学" data-chapter="金属及其化合物" data-knowledge="铝的化合物/实验装置与操作" data-method="未标注" data-date="2026-09-13" data-num="24" data-cid="course_24_chem_al_alloy_alumina" data-tags="KaTeX公式;互动图像;化学;单选题;实验化学;自制课件;金属及其化合物">
       <span class="badge">化0001</span>
@@ -626,6 +667,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/25-math-trig-omega-range-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数对称轴条件与 ω 取值" data-method="未标注" data-date="2026-09-13" data-num="25" data-cid="course_25_math_trig_omega_range_1" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波">
       <span class="badge">数0011</span>
@@ -637,6 +679,7 @@
         <div class="src">2025呼和浩特模拟</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/26-math-trig-omega-range-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数单调区间与 ω 约束" data-method="未标注" data-date="2026-09-13" data-num="26" data-cid="course_26_math_trig_omega_range_2" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
       <span class="badge">数0012</span>
@@ -648,6 +691,7 @@
         <div class="src">高考模拟题</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/27-math-trig-omega-range-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数值域与区间长度" data-method="未标注" data-date="2026-09-13" data-num="27" data-cid="course_27_math_trig_omega_range_3" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
       <span class="badge">数0013</span>
@@ -659,6 +703,7 @@
         <div class="src">2026安康模拟</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/28-math-trig-omega-range-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="极值点零点综合条件" data-method="未标注" data-date="2026-09-13" data-num="28" data-cid="course_28_math_trig_omega_range_4" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学;机械波;综合题">
       <span class="badge">数0014</span>
@@ -670,6 +715,7 @@
         <div class="src">2022全国甲卷</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/29-math-trig-omega-range-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="正弦函数零点分布与 ω" data-method="未标注" data-date="2026-09-13" data-num="29" data-cid="course_29_math_trig_omega_range_5" data-tags="KaTeX公式;三角函数;互动图像;单选题;数学;机械波">
       <span class="badge">数0015</span>
@@ -681,6 +727,7 @@
         <div class="src">2025江门模拟</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/30-math-trig-omega-range-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="零点+对称轴+单调联合条件" data-method="未标注" data-date="2026-09-13" data-num="30" data-cid="course_30_math_trig_omega_range_6" data-tags="KaTeX公式;三角函数;互动图像;函数性质;单选题;数学">
       <span class="badge">数0016</span>
@@ -692,6 +739,7 @@
         <div class="src">2026苏州模拟</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/31-math-trig-omega-range-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="余弦函数极小值点与不单调联合条件" data-method="未标注" data-date="2026-09-13" data-num="31" data-cid="course_31_math_trig_omega_range_7" data-tags="KaTeX公式;三角函数;互动图像;多选题;数学;机械波">
       <span class="badge">数0017</span>
@@ -703,6 +751,7 @@
         <div class="src">2025天津模拟</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/32-math-trig-universal-formula/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="万能公式（万能代换）" data-method="未标注" data-date="2026-09-13" data-num="32" data-cid="course_32_math_trig_universal_formula" data-tags="KaTeX公式;三角函数;互动图像;万能公式;函数性质;讲课课件;数学">
       <span class="badge">数0018</span>
@@ -714,6 +763,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/33-math-trig-asinwxpb/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="三角函数图像与性质" data-method="未标注" data-date="2026-09-13" data-num="33" data-cid="course_33_math_trig_asinwxpb" data-tags="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件">
       <span class="badge">数0019</span>
@@ -725,6 +775,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/34-math-trig-omega-1/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性" data-method="未标注" data-date="2026-09-13" data-num="34" data-cid="course_34_math_trig_omega_1" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称轴;数学">
       <span class="badge">数0020</span>
@@ -736,6 +787,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/35-math-trig-omega-2/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-单调性" data-method="未标注" data-date="2026-09-13" data-num="35" data-cid="course_35_math_trig_omega_2" data-tags="KaTeX公式;三角函数;互动图像;ω范围;单调性;数学">
       <span class="badge">数0021</span>
@@ -747,6 +799,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/36-math-trig-omega-3/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-值域" data-method="未标注" data-date="2026-09-13" data-num="36" data-cid="course_36_math_trig_omega_3" data-tags="KaTeX公式;三角函数;互动图像;ω范围;值域;余弦;数学">
       <span class="badge">数0022</span>
@@ -758,6 +811,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/37-math-trig-omega-4/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点与零点" data-method="未标注" data-date="2026-09-13" data-num="37" data-cid="course_37_math_trig_omega_4" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;零点;数学">
       <span class="badge">数0023</span>
@@ -769,6 +823,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/38-math-trig-omega-5/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-零点" data-method="未标注" data-date="2026-09-13" data-num="38" data-cid="course_38_math_trig_omega_5" data-tags="KaTeX公式;三角函数;互动图像;ω范围;零点;数学">
       <span class="badge">数0024</span>
@@ -780,6 +835,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/39-math-trig-omega-6/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-对称性与单调性" data-method="未标注" data-date="2026-09-13" data-num="39" data-cid="course_39_math_trig_omega_6" data-tags="KaTeX公式;三角函数;互动图像;ω范围;对称性;单调性;数学">
       <span class="badge">数0025</span>
@@ -791,6 +847,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/40-math-trig-omega-7/" target="_blank" rel="noopener" data-subject="数学" data-chapter="三角函数" data-knowledge="ω的取值范围-极值点" data-method="未标注" data-date="2026-09-13" data-num="40" data-cid="course_40_math_trig_omega_7" data-tags="KaTeX公式;三角函数;互动图像;ω范围;极值点;余弦;数学">
       <span class="badge">数0026</span>
@@ -802,6 +859,7 @@
         <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/41-math-trig-symaxis-two/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象与性质" data-knowledge="y=Asin(ωx+φ) 的对称轴" data-method="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法" data-date="2026-09-10" data-num="41" data-cid="course_41_math_trig_symaxis_two" data-tags="">
       <span class="badge">41</span>
@@ -813,6 +871,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/42-math-trig-shift-t4/" target="_blank" rel="noopener" data-subject="高中数学" data-chapter="三角函数 · 图象变换" data-knowledge="y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式" data-method="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法" data-date="2026-09-10" data-num="42" data-cid="course_42_math_trig_shift_t4" data-tags="">
       <span class="badge">42</span>
@@ -824,6 +883,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/43-math-seq-ap-telescoping/" target="_blank" rel="noopener" data-subject="数学" data-chapter="数列·等差数列与求和" data-knowledge="等差数列通项、裂项相消求和" data-method="基本量方程组 · 裂项相消 · 分组求和" data-date="2026-09-11" data-num="43" data-cid="course_43_math_seq_ap_telescoping" data-tags="等差数列;裂项相消;分组求和;解答题">
       <span class="badge">43</span>
@@ -835,6 +895,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/44-math-tri-halfangle-shape/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·三角形形状判断" data-knowledge="升幂公式(半角平方)、余弦定理、勾股定理逆定理" data-method="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理" data-date="2026-09-11" data-num="44" data-cid="course_44_math_tri_halfangle_shape" data-tags="升幂公式;余弦定理;勾股定理逆定理;判断形状">
       <span class="badge">44</span>
@@ -846,6 +907,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/45-math-tri-sin-ratio-multi/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角关系综合" data-knowledge="正弦定理边角互化、余弦定理判角、海伦公式、外接圆与内切圆" data-method="边角互化 · 逐项定量验证 · 多选排除" data-date="2026-09-11" data-num="45" data-cid="course_45_math_tri_sin_ratio_multi" data-tags="正弦定理;余弦定理;海伦公式;内切圆外接圆;多选题">
       <span class="badge">45</span>
@@ -857,6 +919,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/46-math-tri-2024-jiaban/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·边角综合求值" data-knowledge="余弦定理、正弦定理、齐次式、完全平方配方" data-method="特殊角降维 · 统一化边 · 配方整体代换" data-date="2026-09-11" data-num="46" data-cid="course_46_math_tri_2024_jiaban" data-tags="余弦定理;正弦定理;齐次式;配方">
       <span class="badge">46</span>
@@ -868,6 +931,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/47-math-tri-quad-two-sol/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形·平面图形中的解三角形" data-knowledge="余弦定理解三角形、构造直角三角形、角度和差关系、分类讨论与双解检验" data-method="拆三角形 · 追问位置关系 · 双解检验" data-date="2026-09-11" data-num="47" data-cid="course_47_math_tri_quad_two_sol" data-tags="余弦定理;双解;分类讨论;四边形">
       <span class="badge">47</span>
@@ -879,6 +943,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/48-math-tri-extreme-range/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形" data-knowledge="解三角形中的最值与范围问题" data-method="未标注" data-date="2026-09-13" data-num="48" data-cid="course_48_math_tri_extreme_range" data-tags="正弦定理;余弦定理;基本不等式;最值与范围问题;周长范围;面积范围;角度范围;互动图像;讲课课件;数学">
       <span class="badge">数0027</span>
@@ -887,9 +952,10 @@
         <p class="sub">解三角形中的最值与范围问题 | 专题课件</p>
         <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">解三角形</span><span class="tag-chip k">解三角形中的最值与范围问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">正弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">余弦定理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">基本不等式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">最值与范围问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">周长范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">面积范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">角度范围</span><span class="tag-chip" style="background:#f0f0ff;color:#555">互动图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">讲课课件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数学</span><span class="tag-chip" style="background:#f3e8ff;color:#8b5cf6">讲课课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-13</span></div>
         <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
-        <div class="src">🔵 trae 生成</div>
+        <div class="src">我的解题课件库</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/48-math-tri-max-range/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形" data-knowledge="最值与范围" data-method="正余弦定理·基本不等式" data-date="2026-09-12" data-num="48" data-cid="course_48_math_tri_max_range" data-tags="">
       <span class="badge">48</span>
@@ -901,6 +967,7 @@
         <div class="src">🟢 workbuddy 生成</div>
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/49-tri-proj-basic/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形" data-knowledge="最值与范围" data-method="投影公式·基本不等式" data-date="2026-09-13" data-num="49" data-cid="course_49_tri_proj_basic" data-tags="">
       <span class="badge">49</span>
@@ -912,6 +979,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/50-tri-to-trig/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形" data-knowledge="最值与范围" data-method="正弦定理·辅助角公式" data-date="2026-09-13" data-num="50" data-cid="course_50_tri_to_trig" data-tags="">
       <span class="badge">50</span>
@@ -923,6 +991,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/51-tri-other-func/" target="_blank" rel="noopener" data-subject="数学" data-chapter="解三角形" data-knowledge="最值与范围" data-method="换元·函数单调性" data-date="2026-09-13" data-num="51" data-cid="course_51_tri_other_func" data-tags="">
       <span class="badge">51</span>
@@ -934,6 +1003,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
     <a class="card" href="lessons/52-quiz-mix-cond-ineq/" target="_blank" rel="noopener" data-subject="数学" data-chapter="集合与常用逻辑/基本不等式" data-knowledge="补集·充分必要·基本不等式" data-method="判别式·乘1法·换元" data-date="2026-09-13" data-num="52" data-cid="course_52_quiz_mix_cond_ineq" data-tags="">
       <span class="badge">52</span>
@@ -945,6 +1015,7 @@
         
         <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
   </div>
   <!-- 专题练训练面板 -->
@@ -1105,7 +1176,7 @@
     var rc=document.getElementById('resultCount');
     if(rc)rc.textContent=n; // 只更新数字；不能用 textContent 覆盖整个 resultInfo（会清掉 statMeta 子节点）
     var tb=document.getElementById('trainBtn');
-    if(tb)tb.style.display=n>0?'':'none'; // 无筛选结果时隐藏专题练入口
+    if(tb){var pc=(window.__pickedCount||0);tb.style.display=(n>0||pc>0)?'':'none';}
     var empty=document.getElementById('emptyHint');
     if(n===0){
       if(!empty){empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='没有符合条件的课件，试试换个筛选条件。';grid.appendChild(empty);}
@@ -1412,8 +1483,9 @@ function trainRender(){
 }
 function trainOpenPanel(){
   var vis=visibleCards();
-  if(!vis.length)return;
-  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  if(!base.length)return;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
   trainIdx=0;
   try{ // 位置记忆：题目数一致时恢复上次练到的位置
     var p=JSON.parse(localStorage.getItem('train_pos'));
@@ -1467,7 +1539,8 @@ orderSel.addEventListener('change',function(){
   document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
   var cur=trainList[trainIdx];
   var vis=visibleCards();
-  trainList=(orderSel.value==='random')?shuffleArr(vis):vis.slice();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
   trainIdx=0;
   if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
   try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
@@ -1488,6 +1561,45 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='ArrowRight'){trainStep(1);}
   else if(e.key==='Escape'){trainClosePanel();}
 });
+
+
+/* ===== 卡片勾选选集 -> 专题练（2026-09-13）===== */
+var PICK_KEY='nav_picked';
+var picked=new Set();
+try{ var _pj=JSON.parse(localStorage.getItem(PICK_KEY)); if(_pj&&_pj.length)picked=new Set(_pj); }catch(e){}
+function savePicked(){ try{ localStorage.setItem(PICK_KEY,JSON.stringify(Array.from(picked))); }catch(e){} }
+function syncTrainBtn(){
+  window.__pickedCount=picked.size;
+  var pc=document.getElementById('pickCount'); if(pc)pc.textContent=picked.size;
+  var tb=document.getElementById('trainBtn');
+  if(tb){
+    var anyVis=cards.some(function(c){ return c.style.display!=='none'; });
+    tb.style.display=(anyVis||picked.size>0)?'':'none';
+    tb.textContent = picked.size>0 ? ('\uD83C\uDFAF 专题练 ('+picked.size+')') : '\uD83C\uDFAF 专题练';
+    tb.title = picked.size>0 ? ('练已勾选的 '+picked.size+' 题') : '将当前筛选结果作为一组题，逐张浏览训练';
+  }
+}
+function syncPickUI(){
+  cards.forEach(function(card){ card.classList.toggle('picked', picked.has(card.dataset.cid)); });
+  syncTrainBtn();
+}
+function togglePick(card){
+  var cid=card.dataset.cid; if(!cid)return;
+  if(picked.has(cid))picked.delete(cid); else picked.add(cid);
+  savePicked(); syncPickUI();
+}
+cards.forEach(function(card){
+  var pk=card.querySelector('.pick'); if(!pk)return;
+  pk.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); togglePick(card); });
+  pk.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); togglePick(card); } });
+});
+(function(){
+  var bA=document.getElementById('pkAll'), bI=document.getElementById('pkInv'), bC=document.getElementById('pkClear');
+  if(bA)bA.addEventListener('click',function(){ visibleCards().forEach(function(c){ if(c.dataset.cid)picked.add(c.dataset.cid); }); savePicked(); syncPickUI(); });
+  if(bI)bI.addEventListener('click',function(){ visibleCards().forEach(function(c){ var id=c.dataset.cid; if(!id)return; if(picked.has(id))picked.delete(id); else picked.add(id); }); savePicked(); syncPickUI(); });
+  if(bC)bC.addEventListener('click',function(){ picked.clear(); savePicked(); syncPickUI(); });
+})();
+syncPickUI();
 
   
 /* ===== 错因记录（💡没想到）：徽章 + 标签筛选 + 云合并 + 分析面板 ===== */
