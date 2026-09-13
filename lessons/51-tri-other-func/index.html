@@ -1106,7 +1106,13 @@ else initDuo();
 </script>
 <!--FEAT-JS-REPORTER-BEGIN-->
 <script>
-/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）===== */
+/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）=====
+ * 实时机制 A+B 双保险（2026-09-14）：
+ *   A = Supabase Realtime 订阅（设备 B 秒级收到推送即刷新）；连不上自动降级
+ *   B = 轮询（每 5s 拉一次云端聚合）作为保底
+ * 跨设备累加：pushCloud 改为「读云端当前值 + 本地增量 delta」写回，
+ *   syncBase 持久化到 localStorage，防页面刷新重复计数。
+ */
 (function(){
   'use strict';
   if (window.__cstatReporter) return;
@@ -1119,6 +1125,7 @@ else initDuo();
   var CRATE_KEY = 'crate:' + CID;
   var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
+  var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
   var DEFAULT_CLOUD = {
@@ -1126,7 +1133,9 @@ else initDuo();
     key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
   };
   var STATS_TABLE = 'course_stats';
+  var NOTES_TABLE = 'course_notes';
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function cloudCfg(){
     var c = readJSON(CFG_KEY, null);
     if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
@@ -1141,7 +1150,89 @@ else initDuo();
              rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
              rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
   }
-  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false;
+  // 已同步到云端的本地快照（用于计算 delta，防刷新重复累加）
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
+
+  /* ---------- 浮动数据面板 ---------- */
+  var chip = null;
+  function ensureChip(){
+    if (chip) return chip;
+    chip = document.createElement('div');
+    chip.className = 'cstat-chip';
+    chip.innerHTML = '<span class="cstat-ico">📊</span><span class="cstat-txt">课件数据</span>' +
+      '<div class="cstat-panel" style="display:none"></div>';
+    chip.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:60;max-width:260px;' +
+      'font:13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;cursor:pointer;user-select:none;';
+    var bar = 'background:linear-gradient(135deg,#1e3a8a,#0ea5e9);color:#fff;padding:7px 12px;' +
+      'border-radius:20px;box-shadow:0 4px 14px rgba(14,165,233,.35);display:flex;align-items:center;gap:6px;';
+    var barEl = document.createElement('span');
+    barEl.style.cssText = bar;
+    barEl.appendChild(chip.querySelector('.cstat-ico'));
+    barEl.appendChild(chip.querySelector('.cstat-txt'));
+    chip.insertBefore(barEl, chip.querySelector('.cstat-panel'));
+    var panel = chip.querySelector('.cstat-panel');
+    panel.style.cssText = 'margin-top:8px;background:rgba(15,23,42,.95);color:#e2e8f0;' +
+      'border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);' +
+      'font-size:12px;line-height:1.7;';
+    chip.addEventListener('click', function(e){
+      if (e.target === chip || e.target === barEl || barEl.contains(e.target)) {
+        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+      }
+    });
+    document.body.appendChild(chip);
+    return chip;
+  }
+  function renderStats(row, noteCount){
+    var panel = chip && chip.querySelector('.cstat-panel');
+    if (!panel) return;
+    row = row || {};
+    var skilled = row.skilled||0, fuzzy = row.fuzzy||0, forgot = row.forgot||0;
+    var rg = row.rating_good||0, rh = row.rating_hard||0, rt = row.rating_teach||0;
+    var total = skilled + fuzzy + forgot;
+    var h = '';
+    h += '<div style="opacity:.75;margin-bottom:4px">已有 ' + total + ' 人自评</div>';
+    h += '<div>熟练 <b style="color:#4ade80">' + skilled + '</b> · 模糊 <b style="color:#fbbf24">' + fuzzy + '</b> · 忘记 <b style="color:#f87171">' + forgot + '</b></div>';
+    h += '<div style="opacity:.75;margin:4px 0">评价</div>';
+    h += '<div>👍 好 <b>' + rg + '</b> · 🤔 不好懂 <b>' + rh + '</b> · 🧑‍🏫 没老师讲得好 <b>' + rt + '</b></div>';
+    if (noteCount) h += '<div style="margin-top:4px;opacity:.85">💡 记错 ' + noteCount + ' 条（见💡按钮）</div>';
+    panel.innerHTML = h;
+  }
+
+  /* ---------- 读回云端的聚合值 ---------- */
+  function fetchCloudRow(cfg, cb){
+    try {
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
+      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
+      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
+        if (timer) clearTimeout(timer);
+        cb(Array.isArray(j) && j.length ? j[0] : null);
+      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
+    } catch(e){ cb(null); }
+  }
+  function fetchNotesCount(cfg, cb){
+    try {
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + NOTES_TABLE +
+              '?course_id=eq.' + encodeURIComponent(CID) + '&select=course_id';
+      fetch(u, { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
+        .then(function(r){ return r.json(); }).then(function(j){
+          cb(Array.isArray(j) ? j.length : 0);
+        }).catch(function(){ cb(0); });
+    } catch(e){ cb(0); }
+  }
+  function refreshFromCloud(){
+    if (!autoOn()) return;
+    var cfg = cloudCfg();
+    fetchCloudRow(cfg, function(row){
+      fetchNotesCount(cfg, function(nc){ renderStats(row || {}, nc || 0); });
+    });
+  }
+
+  /* ---------- 上报（跨设备累加 delta） ---------- */
   function report(){
     var s = compute();
     var snap = JSON.stringify(s);
@@ -1165,39 +1256,101 @@ else initDuo();
     var cfg = cloudCfg();
     var vt = 0;
     try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    var ctl = null, timer = null;
-    try { ctl = new AbortController(); } catch(e){}
-    var opts = {
-      method: 'POST',
-      headers: {
-        'apikey': cfg.key,
-        'Authorization': 'Bearer ' + cfg.key,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplications,return=minimal'
-      },
-      body: JSON.stringify([{
+    fetchCloudRow(cfg, function(row){
+      var base = row || {};
+      var d = {
+        skilled: s.skilled - syncBase.skilled,
+        fuzzy:   s.fuzzy   - syncBase.fuzzy,
+        forgot:  s.forgot  - syncBase.forgot,
+        rg:      s.rg      - syncBase.rg,
+        rh:      s.rh      - syncBase.rh,
+        rt:      s.rt      - syncBase.rt
+      };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
+      var payload = {
         course_id: CID,
-        skilled: s.skilled, fuzzy: s.fuzzy, forgot: s.forgot,
-        rating_good: s.rg, rating_hard: s.rh, rating_teach: s.rt,
+        skilled: (base.skilled||0) + d.skilled,
+        fuzzy:   (base.fuzzy||0) + d.fuzzy,
+        forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
         redone: s.rd,
         redo_count: s.rn||0,
         redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
-      }])
-    };
-    if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
-    fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
-      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); })
-      .catch(function(){ lastCloud = ''; })
-      .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+      };
+      var ctl = null, timer = null;
+      try { ctl = new AbortController(); } catch(e){}
+      var opts = {
+        method: 'POST',
+        headers: {
+          'apikey': cfg.key,
+          'Authorization': 'Bearer ' + cfg.key,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplications,return=minimal'
+        },
+        body: JSON.stringify([payload])
+      };
+      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
+        .catch(function(){ /* 保留 syncBase，下次变更重试 */ })
+        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+    });
   }
+
+  /* ---------- A: Realtime 订阅（掉线自动降级轮询） ---------- */
+  function subscribeRealtime(){
+    try {
+      if (typeof WebSocket === 'undefined') return;
+      var cfg = cloudCfg();
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' +
+                  encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl);
+      var chan = 'cstat-' + CID;
+      var hb = null;
+      ws.onopen = function(){
+        rtAlive = true;
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: {
+          config: { postgres_changes: [
+            { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID },
+            { event: 'INSERT', schema: 'public', table: NOTES_TABLE, filter: 'course_id=eq.' + CID }
+          ] }
+        }, ref: '1' }));
+        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
+      };
+      ws.onmessage = function(ev){
+        try {
+          var m = JSON.parse(ev.data);
+          if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud();
+        } catch(e){}
+      };
+      ws.onerror = function(){ rtAlive = false; };
+      ws.onclose = function(){
+        rtAlive = false; if (hb) clearInterval(hb);
+        setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); // 自动重连
+      };
+    } catch(e){ /* 降级轮询 */ }
+  }
+
+  /* ---------- B: 轮询保底 ---------- */
+  function startPolling(){
+    setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000);
+  }
+
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
     window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
+    // 实时双保险
+    ensureChip();
+    refreshFromCloud();
+    startPolling();
+    subscribeRealtime();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
