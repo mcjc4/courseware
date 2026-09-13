@@ -62,9 +62,7 @@
 #cnoteSave {border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit; }
 #cnoteSave:disabled {opacity:.6; }
 #cnotePill.blink {animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite; }
-@keyframes cpulse {0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6); }
-
-/* === cnote 弹窗徽章样式（.cp-* 补全 2026-09-13，从47标准块提取）=== */
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}/* === cnote 弹窗徽章样式（.cp-* 补全 2026-09-13，从47标准块提取）=== */
 .cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
 .cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
 .cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
