@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>化0002 · Al₂O₃ 制备实验装置正误判断 | 化学</title>
+<meta name="number" content="化0002">
+<meta name="subject" content="化学">
+<meta name="chapter" content="金属及其化合物">
+<meta name="knowledge" content="铝的化合物制备·实验装置操作">
+<meta name="source" content="我的解题课件库">
+<meta name="type" content="单选题">
+<meta name="tags" content="铝;氧化铝;实验装置;过滤;灼烧;化学;KaTeX公式;讲课课件">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gg-blue:#2563eb;--gg-blue-dk:#1d4ed8;--gg-gray:#64748b;--gg-line:#cbd5e1;
+  --gg-bg:#ffffff;--gg-panel:#f1f5f9;--gg-danger:#dc2626;--gg-ok:#16a34a;
+  --gg-text:#1e293b;
+}
+body{font-family:'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif;
+  background:#f8fafc;color:var(--gg-text);min-height:100vh;padding:24px 18px 80px;line-height:1.75}
+.wrap{max-width:1060px;margin:0 auto}
+/* ---- top nav ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--gg-blue);text-decoration:none;font-size:14px;font-weight:600}
+.back-link:hover{text-decoration:underline}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px}
+.meta-chip{background:var(--gg-panel);border:1px solid var(--gg-line);border-radius:14px;padding:3px 12px;font-size:12px;color:var(--gg-gray);font-weight:600}
+.meta-chip.key{background:var(--gg-blue);border-color:var(--gg-blue);color:#fff}
+
+/* ---- GeoGebra-style panel ---- */
+.panel{background:var(--gg-bg);border:1px solid var(--gg-line);border-radius:6px;margin-bottom:18px;overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;background:var(--gg-panel);border-bottom:1px solid var(--gg-line);padding:8px 14px}
+.panel-title{font-size:13px;font-weight:700;color:var(--gg-blue);letter-spacing:0.5px;display:flex;align-items:center;gap:8px}
+.panel-title::before{content:"";width:10px;height:10px;background:var(--gg-blue);border-radius:2px;display:inline-block}
+.panel-body{padding:22px 24px}
+
+/* ---- hero ---- */
+.hero{background:linear-gradient(135deg,#1e40af 0%,#2563eb 55%,#0ea5e9 100%);border-radius:6px;color:#fff;padding:26px 28px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:.5px}
+.hero p{font-size:14px;opacity:.95}
+.hero .chips{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.hero .chip{background:rgba(255,255,255,.18);padding:3px 12px;border-radius:12px;font-size:12px;font-weight:600}
+
+/* ---- problem text ---- */
+.problem{font-size:16px;line-height:2;color:#0f172a;margin-bottom:14px}
+.problem b{color:var(--gg-blue-dk)}
+
+/* ---- flow chart ---- */
+.flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:12px 0;background:#fff;border:1px solid var(--gg-line);border-radius:6px;overflow:hidden}
+.flow-cell{padding:14px 10px;text-align:center;border-right:1px solid var(--gg-line);background:#fafbfc;cursor:pointer;transition:.25s}
+.flow-cell:last-child{border-right:none}
+.flow-cell:hover{background:#eff6ff}
+.flow-cell.active{background:#dbeafe;border-bottom:3px solid var(--gg-blue)}
+.flow-cell .step-num{display:inline-block;width:22px;height:22px;background:var(--gg-blue);color:#fff;border-radius:50%;font-size:12px;font-weight:700;line-height:22px;margin-bottom:6px}
+.flow-cell h4{font-size:13px;color:#0f172a;margin-bottom:4px}
+.flow-cell small{font-size:11px;color:var(--gg-gray)}
+.flow-cell .eq{font-size:11px;color:var(--gg-blue-dk);margin-top:4px;font-family:Consolas,monospace}
+
+/* ---- options grid ---- */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+.opt-card{background:#fff;border:2px solid var(--gg-line);border-radius:8px;padding:14px;cursor:pointer;transition:.22s;position:relative}
+.opt-card:hover{border-color:var(--gg-blue);background:#f8faff;transform:translateY(-1px)}
+.opt-card.correct{border-color:var(--gg-ok);background:#f0fdf4}
+.opt-card.wrong{border-color:var(--gg-danger);background:#fef2f2}
+.opt-label{position:absolute;top:-10px;left:14px;background:var(--gg-blue);color:#fff;padding:2px 12px;border-radius:10px;font-size:12px;font-weight:700;letter-spacing:1px}
+.opt-card.correct .opt-label{background:var(--gg-ok)}
+.opt-card.wrong .opt-label{background:var(--gg-danger)}
+.opt-card .opt-text{font-size:13px;color:#0f172a;margin-bottom:8px;padding-top:4px}
+.opt-card svg{display:block;width:100%;height:180px;background:#fff;border:1px solid var(--gg-panel);border-radius:4px}
+.opt-feedback{margin-top:6px;font-size:12px;color:var(--gg-gray);display:none}
+.opt-card.show-fb .opt-feedback{display:block}
+
+/* ---- explanation steps ---- */
+.exp-step{background:#fff;border-left:3px solid var(--gg-blue);border:1px solid var(--gg-line);border-left:3px solid var(--gg-blue);border-radius:4px;padding:14px 18px;margin:10px 0;display:none;animation:fadein .35s}
+.exp-step.show{display:block}
+.exp-step.correct{border-left-color:var(--gg-ok)}
+.exp-step.wrong{border-left-color:var(--gg-danger)}
+.exp-step h4{font-size:14px;color:#0f172a;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.exp-step .badge{font-size:11px;padding:2px 8px;border-radius:8px;font-weight:700;color:#fff}
+.exp-step .badge.ok{background:var(--gg-ok)}
+.exp-step .badge.no{background:var(--gg-danger)}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---- controls ---- */
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--gg-blue);background:var(--gg-blue);color:#fff;padding:7px 16px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--gg-blue-dk);border-color:var(--gg-blue-dk)}
+.btn.ghost{background:#fff;color:var(--gg-blue)}
+.btn.ghost:hover{background:#eff6ff}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* ---- tip / tl;dr ---- */
+.tldr{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:4px;padding:12px 16px;margin:12px 0;font-size:14px;color:#78350f}
+.tldr b{color:#b45309}
+.rule{background:#f0f9ff;border:1px solid #bae6fd;border-radius:4px;padding:10px 14px;margin:8px 0;font-size:13px;color:#0c4a6e}
+.rule b{color:#0369a1}
+
+/* ---- rhyme ---- */
+.rhyme{background:linear-gradient(105deg,#1d4ed8,#0ea5e9);color:#fff;border-radius:8px;padding:20px 22px;font-size:15px;line-height:2;margin:14px 0}
+.rhyme b{color:#fde68a}
+
+/* ---- back-top ---- */
+.back-top{display:inline-block;margin-top:8px;color:var(--gg-blue);text-decoration:none;font-size:13px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back-link" href="../../index.html">‹ 返回课件库</a>
+    <div class="meta-bar">
+      <span class="meta-chip key">化0002</span>
+      <span class="meta-chip">化学</span>
+      <span class="meta-chip">金属及其化合物</span>
+      <span class="meta-chip">我的解题课件库</span>
+      <span class="meta-chip">单选题</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>🧪 铝土矿变 Al₂O₃ · 实验装置判断题</h1>
+    <div class="chips">
+      <span class="chip">高考常考</span>
+      <span class="chip">实验操作</span>
+      <span class="chip">装置正误</span>
+      <span class="chip">元素化合物</span>
+    </div>
+    <p>四个图、四个操作、只有一个站得住脚。先预热，再上场 PK。</p>
+  </div>
+
+  <!-- ============ 预热：流程图 ============ -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">🔧 预热：Al₂O₃ 制备四步曲</div></div>
+    <div class="panel-body" style="padding-top:16px">
+      <p style="font-size:14px;color:#475569;margin-bottom:10px">从铝合金（Al + Cu）到 Al₂O₃，我们按「溶-滤-沉-烧」四步走：</p>
+      <div class="flow-row">
+        <div class="flow-cell active" data-step="1" onclick="highlightStep(1)">
+          <span class="step-num">1</span><h4>溶解</h4><small>稀硫酸溶解 Al</small>
+          <div class="eq">$\ce{2Al + 3H2SO4 -> Al2(SO4)3 + 3H2 ^}$</div>
+        </div>
+        <div class="flow-cell" data-step="2" onclick="highlightStep(2)">
+          <span class="step-num">2</span><h4>过滤</h4><small>除去不溶 Cu</small>
+          <div class="eq">滤纸上：Cu<br>滤液：Al₂(SO₄)₃</div>
+        </div>
+        <div class="flow-cell" data-step="3" onclick="highlightStep(3)">
+          <span class="step-num">3</span><h4>沉淀</h4><small>加碱得 Al(OH)₃</small>
+          <div class="eq">$\ce{Al^3+ + 3OH- -> Al(OH)3 v}$</div>
+        </div>
+        <div class="flow-cell" data-step="4" onclick="highlightStep(4)">
+          <span class="step-num">4</span><h4>灼烧</h4><small>得 Al₂O₃</small>
+          <div class="eq">$\ce{2Al(OH)3 ->[\triangle] Al2O3 + 3H2O}$</div>
+        </div>
+      </div>
+      <div class="tldr" id="stepTip">
+        <b>Step 1 · 溶解：</b>稀硫酸能溶铝不能溶铜，所以铜留在滤渣里。**注意**：Al 与稀硫酸常温就能反应，<b>不需要酒精灯加热</b>。
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 题目 ============ -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">📝 原题</div></div>
+    <div class="panel-body">
+      <p class="problem"><b>9.</b> 实验室用铝合金(含 Al、Cu)制备 Al₂O₃，下列相关原理、装置及操作正确的是（ ）</p>
+      <div class="options-grid" id="optsGrid">
+
+        <!-- 甲图：A选项 -->
+        <div class="opt-card" data-opt="A" onclick="pick('A')">
+          <span class="opt-label">A</span>
+          <div class="opt-text">用图甲装置溶解铝合金</div>
+          <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- 铁架台立柱 -->
+            <line x1="30" y1="20" x2="30" y2="170" stroke="#475569" stroke-width="2"/>
+            <line x1="20" y1="168" x2="60" y2="168" stroke="#475569" stroke-width="3"/>
+            <!-- 铁夹 -->
+            <rect x="28" y="60" width="4" height="35" fill="#475569"/>
+            <rect x="30" y="62" width="40" height="6" fill="#475569"/>
+            <!-- 烧杯 -->
+            <path d="M60 75 L130 75 L125 130 Q125 135 120 135 L70 135 Q65 135 65 130 Z" fill="#fef3c7" stroke="#475569" stroke-width="2"/>
+            <!-- 液面 -->
+            <path d="M66 85 Q95 82 124 85" stroke="#93c5fd" stroke-width="2" fill="none"/>
+            <!-- 固体颗粒 -->
+            <circle cx="78" cy="120" r="3" fill="#475569"/>
+            <circle cx="92" cy="125" r="2.5" fill="#475569"/>
+            <circle cx="105" cy="118" r="3" fill="#475569"/>
+            <circle cx="115" cy="128" r="2.5" fill="#475569"/>
+            <!-- 玻璃棒 -->
+            <line x1="100" y1="45" x2="95" y2="125" stroke="#a8a29e" stroke-width="3" stroke-linecap="round"/>
+            <!-- 酒精灯 -->
+            <ellipse cx="128" cy="155" rx="18" ry="6" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+            <rect x="115" y="115" width="26" height="38" rx="2" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+            <rect x="112" y="112" width="32" height="6" rx="2" fill="#cbd5e1"/>
+            <!-- 火焰 -->
+            <path d="M128 112 Q120 100 128 92 Q136 100 128 112 Z" fill="#f59e0b" opacity=".9"/>
+            <!-- 标签 -->
+            <text x="95" y="160" font-size="11" fill="#475569" font-weight="600">甲</text>
+          </svg>
+          <div class="opt-feedback">❌ 错：①烧杯下没垫石棉网，直接加热错误；②Al 与稀硫酸常温反应，不需要酒精灯。</div>
+        </div>
+
+        <!-- 乙图：B选项 -->
+        <div class="opt-card" data-opt="B" onclick="pick('B')">
+          <span class="opt-label">B</span>
+          <div class="opt-text">用图乙装置过滤溶解后混合物</div>
+          <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- 铁架台立柱 -->
+            <line x1="170" y1="20" x2="170" y2="170" stroke="#475569" stroke-width="2"/>
+            <line x1="160" y1="168" x2="200" y2="168" stroke="#475569" stroke-width="3"/>
+            <!-- 漏斗铁圈 -->
+            <rect x="168" y="55" width="4" height="8" fill="#475569"/>
+            <line x1="80" y1="62" x2="168" y2="62" stroke="#475569" stroke-width="3"/>
+            <!-- 漏斗 -->
+            <path d="M78 62 L120 62 L104 125 L92 125 Z" fill="#fecaca" stroke="#475569" stroke-width="2"/>
+            <!-- 滤纸阴影 -->
+            <path d="M80 64 L118 64 L104 122 L94 122 Z" fill="none" stroke="#f87171" stroke-width="1" stroke-dasharray="2"/>
+            <!-- 玻璃棒引流 -->
+            <line x1="40" y1="20" x2="100" y2="60" stroke="#a8a29e" stroke-width="3" stroke-linecap="round"/>
+            <!-- 上方烧杯（倒液体） -->
+            <path d="M25 18 L55 18 L52 42 Q52 46 49 46 L31 46 Q28 46 28 42 Z" fill="#dbeafe" stroke="#475569" stroke-width="1.5"/>
+            <path d="M29 24 Q40 22 50 24" stroke="#60a5fa" stroke-width="1.5" fill="none"/>
+            <!-- 下方烧杯接滤液 -->
+            <path d="M60 135 L130 135 L126 165 Q126 170 121 170 L69 170 Q64 170 64 165 Z" fill="#fef3c7" stroke="#475569" stroke-width="2"/>
+            <!-- 滤液液面 -->
+            <path d="M68 148 Q95 146 122 148" stroke="#fbbf24" stroke-width="2" fill="none"/>
+            <!-- 漏斗嘴贴烧杯壁 -->
+            <line x1="92" y1="125" x2="80" y2="148" stroke="#475569" stroke-width="1.5"/>
+            <text x="95" y="180" font-size="11" fill="#475569" font-weight="600">乙</text>
+          </svg>
+          <div class="opt-feedback">✅ 对：漏斗嘴贴烧杯壁、玻璃棒引流、滤纸紧贴漏斗壁——标准「一贴二低三靠」。</div>
+        </div>
+
+        <!-- 丙图：C选项 -->
+        <div class="opt-card" data-opt="C" onclick="pick('C')">
+          <span class="opt-label">C</span>
+          <div class="opt-text">用图丙制备 Al(OH)₃</div>
+          <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- 烧杯 -->
+            <path d="M60 75 L140 75 L135 150 Q135 155 130 155 L70 155 Q65 155 65 150 Z" fill="#dbeafe" stroke="#475569" stroke-width="2"/>
+            <!-- 滤液液面 -->
+            <path d="M68 92 Q100 90 132 92" stroke="#60a5fa" stroke-width="2" fill="none"/>
+            <!-- 胶头滴管 -->
+            <ellipse cx="100" cy="25" rx="12" ry="8" fill="#f87171" stroke="#475569" stroke-width="1.5"/>
+            <rect x="93" y="30" width="14" height="18" rx="2" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+            <line x1="100" y1="48" x2="100" y2="90" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+            <!-- 液滴 -->
+            <circle cx="100" cy="94" r="3" fill="#f87171"/>
+            <!-- 标签 -->
+            <text x="145" y="30" font-size="9" fill="#475569">过量</text>
+            <text x="145" y="42" font-size="9" fill="#475569">NaOH</text>
+            <text x="145" y="54" font-size="9" fill="#475569">溶液</text>
+            <text x="100" y="175" font-size="11" fill="#475569" font-weight="600">丙</text>
+          </svg>
+          <div class="opt-feedback">❌ 错：加<b>过量 NaOH</b> 会把生成的 Al(OH)₃ 溶解：$\ce{Al(OH)3 + OH- -> AlO2- + 2H2O}$。应改用弱碱氨水 $\ce{NH3·H2O}$。</div>
+        </div>
+
+        <!-- 丁图：D选项 -->
+        <div class="opt-card" data-opt="D" onclick="pick('D')">
+          <span class="opt-label">D</span>
+          <div class="opt-text">用图丁装置灼烧 Al(OH)₃ 制 Al₂O₃</div>
+          <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- 铁架台立柱 -->
+            <line x1="30" y1="20" x2="30" y2="170" stroke="#475569" stroke-width="2"/>
+            <line x1="20" y1="168" x2="60" y2="168" stroke="#475569" stroke-width="3"/>
+            <!-- 铁圈 -->
+            <rect x="28" y="70" width="4" height="6" fill="#475569"/>
+            <line x1="80" y1="76" x2="28" y2="76" stroke="#475569" stroke-width="3"/>
+            <!-- 蒸发皿 -->
+            <ellipse cx="100" cy="80" rx="38" ry="6" fill="#fde68a" stroke="#475569" stroke-width="2"/>
+            <path d="M62 80 Q100 100 138 80" fill="none" stroke="#475569" stroke-width="2"/>
+            <!-- Al(OH)3 白色固体 -->
+            <path d="M70 79 Q85 74 100 76 Q115 74 130 79" stroke="#a78bfa" stroke-width="2" fill="none"/>
+            <!-- 玻璃棒 -->
+            <line x1="100" y1="40" x2="100" y2="78" stroke="#a8a29e" stroke-width="3" stroke-linecap="round"/>
+            <!-- 酒精灯 -->
+            <ellipse cx="100" cy="155" rx="18" ry="6" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+            <rect x="87" y="115" width="26" height="38" rx="2" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+            <rect x="84" y="112" width="32" height="6" rx="2" fill="#cbd5e1"/>
+            <path d="M100 112 Q92 100 100 92 Q108 100 100 112 Z" fill="#f59e0b" opacity=".9"/>
+            <!-- 标签 -->
+            <text x="108" y="70" font-size="10" fill="#475569">Al(OH)₃</text>
+            <text x="95" y="175" font-size="11" fill="#475569" font-weight="600">丁</text>
+          </svg>
+          <div class="opt-feedback">❌ 错：灼烧固体应在<b>坩埚</b>中进行，蒸发皿用于加热溶液。且加热固体时试管口应略向下倾斜（或坩埚盖斜盖）。</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 详解 ============ -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">🧠 逐项击破（点选项看详细分析）</div></div>
+    <div class="panel-body">
+
+      <div class="btn-row">
+        <button class="btn ghost" onclick="revealAll()">👁 全部展开</button>
+        <button class="btn ghost" onclick="hideAll()">↺ 全部收起</button>
+      </div>
+
+      <div class="exp-step wrong" id="expA">
+        <h4><span class="badge no">A 错</span> 图甲的溶解装置有两个硬伤</h4>
+        <p>① <b>烧杯不能直接加热</b>，烧杯底面积大受热不均，必须垫<b>石棉网</b>；</p>
+        <p>② <b>Al 与稀硫酸常温即可反应</b>：$\ce{2Al + 3H2SO4 -> Al2(SO4)3 + 3H2 ^}$，而且 Al 表面有氧化膜，加热反而容易让 Cu 被氧化。</p>
+        <div class="rule"><b>口诀记一下：</b>烧杯烧瓶平底瓶，加热都要石棉垫；试管口小底又稳，直接加热不用衬。</div>
+      </div>
+
+      <div class="exp-step correct" id="expB">
+        <h4><span class="badge ok">B 对</span> 过滤操作完美踩中「一贴二低三靠」</h4>
+        <p>✅ <b>一贴</b>：滤纸紧贴漏斗内壁（不留气泡）<br>
+           ✅ <b>二低</b>：滤纸边缘低于漏斗边缘，液面低于滤纸边缘<br>
+           ✅ <b>三靠</b>：烧杯嘴靠玻璃棒、玻璃棒靠三层滤纸处、漏斗嘴下端靠烧杯内壁</p>
+        <p>图中玻璃棒引流方向、漏斗嘴贴杯壁都画对了，是教科书级示范。</p>
+      </div>
+
+      <div class="exp-step wrong" id="expC">
+        <h4><span class="badge no">C 错</span> 「过量 NaOH」会让 Al(OH)₃ 自己溶了</h4>
+        <p>生成的 Al(OH)₃ 是<b>两性氢氧化物</b>，遇到强碱会变成可溶性的偏铝酸钠：</p>
+        <p>$$\ce{Al(OH)3 + NaOH -> NaAlO2 + 2H2O}$$</p>
+        <p>想沉淀 Al³⁺ 又不让它溶解，应该用<b>弱碱</b>氨水 $\ce{NH3·H2O}$，氨水是弱电解质，即使过量也不会让 Al(OH)₃ 溶解：</p>
+        <p>$$\ce{Al^3+ + 3NH3·H2O -> Al(OH)3 v + 3NH4+}$$</p>
+      </div>
+
+      <div class="exp-step wrong" id="expD">
+        <h4><span class="badge no">D 错</span> 灼烧固体要用<b>坩埚</b>，不是蒸发皿</h4>
+        <p>蒸发皿是给<b>溶液蒸发结晶</b>用的（比如把 NaCl 水溶液蒸干）。要<b>高温灼烧固体</b>（Al(OH)₃ 分解需要 400°C 以上），必须用<b>坩埚 + 坩埚钳</b>，配泥三角、三脚架。</p>
+        <p>$$\ce{2Al(OH)3 ->[高温] Al2O3 + 3H2O}$$</p>
+        <div class="rule"><b>仪器功能对照表：</b><br>
+          <b>坩埚</b> → 灼烧固体 / <b>蒸发皿</b> → 蒸溶液 / <b>烧杯</b> → 常温配液 / <b>试管</b> → 少量反应
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ 总结 ============ -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">🎯 最后 30 秒 · 解题口诀</div></div>
+    <div class="panel-body">
+      <div class="rhyme">
+        烧杯加热<b>垫石棉</b>，<br>
+        过滤认准<b>三靠边</b>，<br>
+        Al(OH)₃ 遇碱<b>别过量</b>，<br>
+        灼烧固体用<b>坩埚</b>！
+      </div>
+      <div class="tldr"><b>本题答案：B</b>（过滤装置操作规范，其他三个各有一个经典操作错误）</div>
+      <a class="back-top" href="#top">↑ 回到顶部</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ 流程图高亮 ============
+function highlightStep(n){
+  document.querySelectorAll('.flow-cell').forEach(function(c){c.classList.remove('active')});
+  document.querySelector('.flow-cell[data-step="'+n+'"]').classList.add('active');
+  var tips={
+    1:'<b>Step 1 · 溶解：</b>稀硫酸能溶铝不能溶铜，所以铜留在滤渣里。<b>注意</b>：Al 与稀硫酸常温就能反应，<b>不需要酒精灯加热</b>。',
+    2:'<b>Step 2 · 过滤：</b>「一贴二低三靠」是过滤题的万能答案。滤渣是 Cu（金属活动性顺序表里铜在氢后面，不溶于稀硫酸）。',
+    3:'<b>Step 3 · 沉淀：</b>关键一步！加<b>弱碱氨水</b> $\ce{NH3·H2O}$ 而非过量 NaOH，否则 Al(OH)₃ 会被溶解。',
+    4:'<b>Step 4 · 灼烧：</b>在<b>坩埚</b>里高温分解 Al(OH)₃ 得到 Al₂O₃（白色固体）。蒸发皿在这里就派不上用场了。'
+  };
+  document.getElementById('stepTip').innerHTML=tips[n];
+}
+
+// ============ 选项点击 ============
+function pick(opt){
+  var card=document.querySelector('.opt-card[data-opt="'+opt+'"]');
+  var isCorrect=(opt==='B');
+  // 先清掉所有的状态
+  document.querySelectorAll('.opt-card').forEach(function(c){
+    c.classList.remove('correct','wrong','show-fb');
+  });
+  // 设置当前
+  card.classList.add(isCorrect?'correct':'wrong','show-fb');
+  // 同步展开对应详解
+  var exp=document.getElementById('exp'+opt);
+  if(exp){exp.classList.add('show');exp.scrollIntoView({behavior:'smooth',block:'nearest'})}
+}
+
+// ============ 全部展开 / 收起 ============
+function revealAll(){
+  document.querySelectorAll('.exp-step').forEach(function(s){s.classList.add('show')});
+  document.querySelectorAll('.opt-card').forEach(function(c){
+    var o=c.getAttribute('data-opt');
+    c.classList.add(o==='B'?'correct':'wrong','show-fb');
+  });
+}
+function hideAll(){
+  document.querySelectorAll('.exp-step').forEach(function(s){s.classList.remove('show')});
+  document.querySelectorAll('.opt-card').forEach(function(c){c.classList.remove('correct','wrong','show-fb')});
+}
+</script>
+</body>
+</html>
