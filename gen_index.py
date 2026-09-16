@@ -38,6 +38,20 @@ def extract_meta(path):
     return info
 
 
+def read_cmeta(path):
+    """读课件内 <script id="c-meta"> 静态清单（统计联动数据源）。
+    注意：KaTeX 内嵌样式块 ~280KB，c-meta 在其后，必须全文读取"""
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            head = f.read()
+        m = re.search(r'<script type="application/json" id="c-meta">(.*?)</script>', head, re.S)
+        if m:
+            return json.loads(m.group(1))
+    except Exception:
+        pass
+    return None
+
+
 def scan_lessons():
     items = []
     for d in sorted(glob.glob(os.path.join(LESSONS_DIR, '*'))) or []:
@@ -53,13 +67,24 @@ def scan_lessons():
         mtime = datetime.fromtimestamp(os.path.getmtime(idx_path)).strftime('%Y-%m-%d')
         # 制作日期：优先课件内 meta，回退文件 mtime
         cdate = meta.get('date') or mtime
+        cm = read_cmeta(idx_path) or {}
+        cid = cm.get('id') or ('course_' + re.sub(r'[^a-z0-9]+', '_', name.lower()).strip('_'))
+        cm_title = cm.get('title') or ''
+        # 41-47 类「45 · 题名」被按 · 分段成纯数字标题，用 c-meta 完整题名修正
+        title = cm_title if (meta['title'].isdigit() and cm_title) else meta['title']
+        sub = meta['sub'] or '互动解题课件'
+        if title == cm_title and cm_title and '\u00b7' in cm_title and meta['title'].isdigit():
+            sub = cm_title.partition('\u00b7')[2].strip() or sub
+            title = cm_title.partition('\u00b7')[0].strip()
         items.append({
             'order': order,
             'num': num.group(1).zfill(2) if num else '',
             'dir': name,
             'link': 'lessons/' + name + '/',
-            'title': meta['title'],
-            'sub': meta['sub'] or '互动解题课件',
+            'title': title,
+            'sub': sub,
+            'cid': cid,
+            'points': cm.get('points', []),
             'date': cdate,
             'subject': meta['subject'] or '未分类',
             'chapter': meta['chapter'] or '未分类',
@@ -78,15 +103,17 @@ def scan_lessons():
     return items
 
 
-CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-tags="{tags_attr}">
+CARD_TMPL = """    <a class="card" href="{link}" target="_blank" rel="noopener" data-subject="{subject}" data-chapter="{chapter}" data-knowledge="{knowledge}" data-method="{method}" data-date="{date}" data-num="{num_attr}" data-cid="{cid}" data-tags="{tags_attr}">
       <span class="badge">{number}</span>
       <div class="card-body">
         <h3>{title}</h3>
         <p class="sub">{sub}</p>
         <div class="tags">{tags}</div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
         {source_html}
         <span class="go">打开课件 \u2192</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>"""
 
 
@@ -144,7 +171,11 @@ PAGE_TMPL = """<!DOCTYPE html>
     padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
     background:#f8fbff; color:#1f2d3d; font-family:inherit;
   }}
-  .fld input:focus {{ outline:none; border-color:#4f8ef7; }}
+  .fld input:focus, .fld select:focus {{ outline:none; border-color:#4f8ef7; }}
+  .fld select.sort-select {{
+    padding:9px 10px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
+    background:#f8fbff; color:#1f2d3d; font-family:inherit; cursor:pointer;
+  }}
   .popup-filter {{ position:relative; }}
   .filter-btn {{
     padding:9px 12px; border:1.5px solid #d6e4f2; border-radius:10px; font-size:14px;
@@ -175,20 +206,88 @@ PAGE_TMPL = """<!DOCTYPE html>
   .popup-actions {{ display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid #eef2f8; }}
   .popup-actions button {{ padding:5px 14px; border:1px solid #d6e4f2; border-radius:8px; font-size:12px; cursor:pointer; background:#fff; color:#5c7185; font-family:inherit; }}
   .popup-actions button:hover {{ background:#f0f5ff; color:#2a6df4; }}
+  .popup-options.drange {{ display:flex; flex-direction:column; gap:8px; }}
+  .popup-options .dr-row {{ display:flex; align-items:center; gap:8px; justify-content:space-between; }}
+  .popup-options .dr-row input[type="date"] {{ flex:1; padding:5px 6px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; background:#fff; color:#1f2d3d; font-family:inherit; }}
+  .active-filters {{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:12px 0 2px; min-height:26px; }}
+  .active-filters .af-label {{ font-size:12px; color:#7c8aa0; font-weight:600; }}
+  .af-chip {{ display:inline-flex; align-items:center; gap:6px; padding:4px 6px 4px 12px; border-radius:999px; background:#eef4ff; color:#1d4ed8; border:1px solid #c7dbff; font-size:12px; font-weight:600; }}
+  .af-chip .x {{ cursor:pointer; width:18px; height:18px; line-height:16px; text-align:center; border-radius:50%; background:#dce7ff; color:#1e40af; font-size:12px; user-select:none; }}
+  .af-chip .x:hover {{ background:#1d4ed8; color:#fff; }}
+  .af-chip .x::before {{ content:"×"; }}
   .reset-btn {{
     background:#fff; color:#4f8ef7; border:1.5px solid #4f8ef7; border-radius:10px;
     padding:9px 16px; font-size:13px; cursor:pointer; font-weight:600; height:38px;
   }}
   .reset-btn:hover {{ background:#4f8ef7; color:#fff; }}
   .result-info {{ margin:14px 4px 0; font-size:13px; color:#5c7185; }}
+  .train-btn {{
+    margin-left:10px; border:none; cursor:pointer; font-size:13px; font-weight:600; color:#fff;
+    background:linear-gradient(120deg,#4f8ef7,#22c3a6); padding:6px 16px; border-radius:999px;
+    box-shadow:0 6px 16px -6px rgba(31,142,247,.5); transition:transform .15s;
+  }}
+  .train-btn:hover {{ transform:translateY(-1px); }}
+  /* ===== 专题练面板 ===== */
+  #trainOverlay {{ display:none; position:fixed; inset:0; z-index:999; background:rgba(23,38,58,.62); }}
+  #trainOverlay.open {{ display:flex; align-items:center; justify-content:center; }}
+  .train-panel {{
+    width:min(680px, 92vw); max-height:88vh; overflow:auto; background:#fff; border-radius:24px;
+    box-shadow:0 30px 80px -20px rgba(15,40,90,.5); display:flex; flex-direction:column;
+  }}
+  .train-head {{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px 0; }}
+  .train-progress {{ font-size:15px; font-weight:700; color:#1f2d3d; }}
+  .train-progress small {{ color:#7c8aa0; font-weight:500; margin-left:8px; }}
+  .train-close {{ border:none; background:#eef4fb; color:#41546e; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; }}
+  .train-body {{ padding:14px 22px; flex:1; }}
+  .train-body h3 {{ margin:4px 0 8px; font-size:20px; color:#17293f; line-height:1.45; }}
+  .train-body .t-sub {{ color:#6b7f95; font-size:13px; margin:0 0 10px; }}
+  .train-body .t-tags {{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }}
+  .train-body .t-tags span {{ background:#f0f6ff; color:#3b6cb4; border-radius:999px; padding:3px 12px; font-size:12px; }}
+  .train-body .t-badge {{ display:inline-block; font-size:12px; background:#f6f9fd; border:1px solid #e3edf7; border-radius:999px; padding:5px 12px; color:#51637a; }}
+  .train-body .t-date {{ margin-left:8px; color:#8fa1b5; font-size:12px; }}
+  .train-foot {{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 22px 18px; flex-wrap:wrap; }}
+  .train-nav {{ display:flex; gap:10px; align-items:center; }}
+  .train-nav button {{
+    border:1.5px solid #d6e4f2; background:#f8fbff; color:#1f2d3d; font-size:14px;
+    padding:9px 18px; border-radius:12px; cursor:pointer; transition:all .15s;
+  }}
+  .train-nav button:disabled {{ opacity:.35; cursor:not-allowed; }}
+  .train-nav button:not(:disabled):hover {{ border-color:#4f8ef7; color:#3b6cb4; }}
+  .train-open {{
+    border:none; cursor:pointer; font-size:14px; font-weight:600; color:#fff;
+    background:linear-gradient(120deg,#4f8ef7,#22c3a6); padding:10px 22px; border-radius:12px; text-decoration:none;
+  }}
+  .train-opts {{ display:flex; gap:14px; align-items:center; font-size:13px; color:#51637a; flex-wrap:wrap; }}
+  .train-opts label {{ display:flex; align-items:center; gap:5px; cursor:pointer; }}
+  .train-opts select {{ border:1.5px solid #d6e4f2; border-radius:8px; padding:4px 6px; font-size:12px; background:#f8fbff; color:#1f2d3d; }}
+  .train-redo input {{ transform:scale(1.15); cursor:pointer; }}
+  .train-tip {{ font-size:11px; color:#9db0c4; padding:0 22px 14px; }}
   .grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin-top:16px; }}
   .card {{
+    position:relative;
     display:flex; gap:14px; background:#fff; border:1px solid #e3edf7; border-radius:20px;
     padding:20px 18px; text-decoration:none; color:inherit;
     box-shadow:0 10px 30px -12px rgba(31,66,135,.16);
     transition:transform .18s ease, box-shadow .18s ease;
   }}
   .card:hover {{ transform:translateY(-3px); box-shadow:0 16px 36px -12px rgba(31,66,135,.26); }}
+  .pick {{
+    position:absolute; top:12px; right:12px; width:22px; height:22px; border-radius:50%;
+    border:1.6px solid #c5d4e8; background:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
+  }}
+  .pick::before {{ content:""; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg) translateY(-2px); opacity:0; transition:opacity .12s; }}
+  .pick:hover {{ border-color:#4f8ef7; }}
+  .card.picked {{ border-color:#4f8ef7; box-shadow:0 0 0 1.5px #4f8ef7, 0 14px 34px -12px rgba(31,142,247,.35); }}
+  .card.picked .pick {{ background:#4f8ef7; border-color:#4f8ef7; }}
+  .card.picked .pick::before {{ opacity:1; }}
+  .pick-bar {{ display:inline-flex; align-items:center; gap:7px; margin-left:12px; vertical-align:middle; }}
+  .pk-info {{ font-size:13px; color:#5c7185; }}
+  .pk-info b {{ color:#2a6df4; font-size:14px; }}
+  .pk-btn {{ border:1.5px solid #d6e4f2; background:#fff; color:#5c7185; border-radius:999px; padding:4px 12px; font-size:12px; cursor:pointer; font-family:inherit; transition:all .15s; }}
+  .pk-btn:hover {{ border-color:#4f8ef7; color:#2a6df4; background:#f4f9ff; }}
+  .pk-btn.pk-clear {{ color:#b45309; border-color:#f2dcb8; }}
+  .pk-btn.pk-clear:hover {{ background:#fff7e6; border-color:#f0b35e; color:#b45309; }}
   .badge {{
     flex:none; width:46px; height:46px; border-radius:50%;
     background:linear-gradient(135deg,#4f8ef7,#22c3a6); color:#fff;
@@ -196,7 +295,7 @@ PAGE_TMPL = """<!DOCTYPE html>
     font-size:11px; font-weight:600;
   }}
   .card-body {{ min-width:0; flex:1; }}
-  .card-body h3 {{ font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
+  .card-body h3 {{ font-size:16px; color:#1f2d3d; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:26px; }}
   .card-body .sub {{ font-size:13px; color:#5c7185; margin-top:5px; line-height:1.5; }}
   .tags {{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }}
   .tag-chip {{ font-size:11px; padding:2px 9px; border-radius:999px; background:#eef3ff; color:#2a6df4; }}
@@ -208,6 +307,17 @@ PAGE_TMPL = """<!DOCTYPE html>
     background:linear-gradient(120deg,#4f8ef7,#22c3a6);
     padding:5px 14px; border-radius:999px;
   }}
+  .cstat-line {{ margin-top:9px; }}
+  .cnote-line {{ margin-top:9px; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }}
+  .c-badge.st-note {{ background:#f3e8ff; color:#7c3aed; }}
+  .cnote-chip {{ display:inline-block; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; padding:2px 9px; border-radius:999px; background:#f3e8ff; color:#7c3aed; font-weight:600; border:1px solid #e9d5ff; }}
+  .cnote-chip.more {{ background:#f1f4f8; color:#7c8aa0; border-color:#e3e9f0; }}
+  .c-badge {{ display:inline-block; font-size:11px; padding:2px 9px; border-radius:999px; background:#f1f4f8; color:#7c8aa0; font-weight:600; }}
+  .c-badge.st-forgot {{ background:#fee2e2; color:#dc2626; }}
+  .c-badge.st-fuzzy {{ background:#fef3c7; color:#b45309; }}
+  .c-badge.st-skilled {{ background:#ecfdf5; color:#059669; }}
+  .forget-min {{ width:64px; padding:5px 6px; border:1px solid #d6e4f2; border-radius:8px; font-size:12.5px; font-family:inherit; }}
+  .stat-meta {{ color:#93a7ba; }}
   .empty {{ grid-column:1/-1; text-align:center; padding:40px; color:#93a7ba; }}
   .foot {{ text-align:center; margin-top:34px; font-size:12px; color:#93a7ba; }}
   .foot a {{ color:#4f8ef7; text-decoration:none; }}
@@ -294,12 +404,83 @@ PAGE_TMPL = """<!DOCTYPE html>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnDate">\u65e5\u671f <span class="cnt zero" id="cntDate">0</span></button>
         <div class="popup" id="popupDate">
-          <input class="popup-search" placeholder="\u641c\u7d22\u2026" id="searchDate">
-          <div class="popup-options">{date_checks}</div>
+          <div class="popup-options drange">
+            <label class="popup-option dr-row"><span>\u4ece</span><input type="date" id="dateFrom" min="{dmin}" max="{dmax}"></label>
+            <label class="popup-option dr-row"><span>\u81f3</span><input type="date" id="dateTo" min="{dmin}" max="{dmax}"></label>
+          </div>
           <div class="popup-actions">
-            <button type="button" data-all="date">\u2611 \u5168\u9009</button>
-            <button type="button" data-clear="date">\u6e05\u9664</button>
+            <button type="button" id="dateClear">\u6e05\u9664</button>
             <button type="button" data-close="popupDate">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>\u5b66\u4e60\u81ea\u8bc4</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnStatus">\u5b66\u4e60\u81ea\u8bc4 <span class="cnt zero" id="cntStatus">0</span></button>
+        <div class="popup" id="popupStatus">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="new">⚪ \u672a\u8bad\u7ec3</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ \u9700\u91cd\u7ec3\uff08\u6709\u5fd8\u8bb0\uff09</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">😐 \u5f85\u5de9\u56fa\uff08\u6709\u6a21\u7cca\uff09</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ \u5df2\u638c\u63e1\uff08\u5168\u719f\u7ec3\uff09</label>
+          </div>
+          <div class="popup-options drange">
+            <label class="popup-option dr-row"><span>\u5fd8\u8bb0\u2265</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" id="forgetMinClear">\u6e05\u9664\u9608\u503c</button>
+            <button type="button" data-close="popupStatus">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>\u8bfe\u4ef6\u8bc4\u4ef7</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnRating">\u8bfe\u4ef6\u8bc4\u4ef7 <span class="cnt zero" id="cntRating">0</span></button>
+        <div class="popup" id="popupRating">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="good">👍 \u597d</label>
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="hard">📕 \u8bfe\u4ef6\u4e0d\u597d\u61c2</label>
+            <label class="popup-option"><input type="checkbox" data-filter="rating" value="teach">🗣\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d</label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" data-clear="rating">\u6e05\u9664</button>
+            <button type="button" data-close="popupRating">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>\u72ec\u7acb\u91cd\u505a</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnRedo">\u72ec\u7acb\u91cd\u505a <span class="cnt zero" id="cntRedo">0</span></button>
+        <div class="popup" id="popupRedo">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="redo" value="done">✍\ufe0f \u5df2\u72ec\u7acb\u91cd\u505a</label>
+            <label class="popup-option"><input type="checkbox" data-filter="redo" value="undone">\u5c1a\u672a\u91cd\u505a</label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" data-clear="redo">\u6e05\u9664</button>
+            <button type="button" data-close="popupRedo">\u786e\u5b9a</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>错因记录</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnNote">错因 <span class="cnt zero" id="cntNote">0</span></button>
+        <div class="popup" id="popupNote">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="note" value="__any__">📝 有错因记录</label>
+          </div>
+          <div class="popup-options" id="noteTagChecks"></div>
+          <div class="popup-actions">
+            <button type="button" data-clear="note">清除</button>
+            <button type="button" data-close="popupNote">确定</button>
           </div>
         </div>
       </div>
@@ -308,12 +489,58 @@ PAGE_TMPL = """<!DOCTYPE html>
       <label>\u641c\u7d22\u6807\u9898/\u6765\u6e90</label>
       <input id="fSearch" placeholder="\u8f93\u5165\u5173\u952e\u5b57\u2026" autocomplete="off">
     </div>
+    <div class="fld">
+      <label>\u6392\u5e8f</label>
+      <select id="fSort" class="sort-select">
+        <option value="visit-desc" selected>\u6d4f\u89c8\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="visit-asc">\u6d4f\u89c8\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="forgot-desc">\u5fd8\u8bb0\u6570 \u5012\u5e8f\uff08\u91cd\u7ec3\u4f18\u5148\uff09</option>
+        <option value="date-desc">\u65e5\u671f \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="date-asc">\u65e5\u671f \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+        <option value="num-desc">\u7f16\u53f7 \u5012\u5e8f\uff08\u65b0\u2192\u65e7\uff09</option>
+        <option value="num-asc">\u7f16\u53f7 \u6b63\u5e8f\uff08\u65e7\u2192\u65b0\uff09</option>
+      </select>
+    </div>
+    <button class="reset-btn" id="statRefresh" type="button" title="\u4ece\u4e91\u7aef\u91cd\u65b0\u62c9\u53d6\u7edf\u8ba1">🔄 \u5237\u65b0\u7edf\u8ba1</button>
     <button class="reset-btn" id="fReset" type="button">\u91cd\u7f6e</button>
   </div>
-  <div class="result-info" id="resultInfo">\u5171 {count} \u4e2a\u8bfe\u4ef6</div>
+  <div class="active-filters" id="activeFilters"></div>
+  <div class="result-info" id="resultInfo">\u5171 <span id="resultCount">{count}</span> \u4e2a\u8bfe\u4ef6 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="\u5c06\u5f53\u524d\u7b5b\u9009\u7ed3\u679c\u4f5c\u4e3a\u4e00\u7ec4\u9898\uff0c\u9010\u5f20\u6d4f\u89c8\u8bad\u7ec3">🎯 \u4e13\u9898\u7ec3</button><button class="train-btn" id="noteAnBtn" type="button" title="\u6c47\u603b\u5168\u90e8\u8bfe\u4ef6\u7684\u300c\u6ca1\u60f3\u5230\u300d\u5361\u70b9\u8bb0\u5f55" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 \u9519\u56e0\u5206\u6790</button><button class="train-btn" id="cfgBtn" type="button" title="\u8bfe\u4ef6\u9875\u663e\u793a\u8bbe\u5b9a\uff08\u539f\u9898\u533a\u5f00\u5408/\u95ea\u70c1\u95f4\u9694\uff09" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ \u8bfe\u4ef6\u8bbe\u5b9a</button></div>
 
   <div class="grid" id="grid">
 {cards}
+  </div>
+  <!-- 专题练训练面板 -->
+  <div id="trainOverlay">
+    <div class="train-panel">
+      <div class="train-head">
+        <div class="train-progress"><span id="trainProgress">1 / 1</span><small id="trainOrderLbl">顺序</small></div>
+        <button class="train-close" id="trainClose" type="button" title="\u9000\u51fa (Esc)">✕</button>
+      </div>
+      <div class="train-body">
+        <h3 id="trainTitle"></h3>
+        <p class="t-sub" id="trainSub"></p>
+        <div class="t-tags" id="trainTags"></div>
+        <div><span class="t-badge" id="trainBadge"></span><span class="t-date" id="trainDate"></span></div>
+      </div>
+      <div class="train-foot">
+        <div class="train-nav">
+          <button id="trainPrev" type="button" title="\u5feb\u6377\u952e \u2190">← \u4e0a\u4e00\u9898</button>
+          <button id="trainNext" type="button" title="\u5feb\u6377\u952e \u2192">\u4e0b\u4e00\u9898 →</button>
+        </div>
+        <a class="train-open" id="trainOpen" href="#" target="_blank" rel="noopener">\u6253\u5f00\u8bfe\u4ef6 \u2197</a>
+        <div class="train-opts">
+          <label>\u987a\u5e8f
+            <select id="trainOrder">
+              <option value="seq" selected>\u987a\u5e8f</option>
+              <option value="random">\u968f\u673a</option>
+            </select>
+          </label>
+          <label class="train-redo"><input type="checkbox" id="trainRedo">✍️ \u5df2\u72ec\u7acb\u91cd\u505a<span id="trainRedoInfo"></span></label>
+        </div>
+      </div>
+      <div class="train-tip">\u5feb\u6377\u952e：← \u4e0a\u4e00\u9898 · → \u4e0b\u4e00\u9898 · Esc \u9000\u51fa；\u4e0a\u6b21\u7ec3\u5230\u7684\u4f4d\u7f6e\u4f1a\u81ea\u52a8\u8bb0\u5fc6</div>
+    </div>
   </div>
   <div class="foot"><a href="manage.html">\u6807\u7b7e\u7ba1\u7406</a> \u00b7 mcjc4 \u00b7 GitHub Pages \u00b7 \u9875\u9762\u751f\u6210\u4e8e {date}</div>
 </div>
@@ -323,8 +550,50 @@ PAGE_TMPL = """<!DOCTYPE html>
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),tag:new Set()}};
-  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',tag:'cntTag'}};
+  var sets={{subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set()}};
+  var cntIds={{subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',note:'cntNote'}};
+  var dateFrom=document.getElementById('dateFrom');
+  var dateTo=document.getElementById('dateTo');
+  var fSort=document.getElementById('fSort');
+  var forgetMin=document.getElementById('forgetMin');
+
+  function sortCards(){{
+    var mode=fSort.value||'visit-desc';
+    var desc=mode.indexOf('-desc')>0;
+    // 浏览日期排序：主键=毫秒级真实浏览时间戳（刚浏览的必排最前），无浏览记录的按制作日期兜底、再按编号
+    function visitKey(card){{
+      var ts=+card.dataset.browseTs||0;
+      if(ts>0) return [2,ts,0];
+      var d=card.dataset.date||'';
+      return [1,(new Date(d).getTime()||0),(+card.dataset.num||0)];
+    }}
+    var keyOf=function(card){{
+      if(mode.indexOf('forgot')===0) return (+card.dataset.forgot||0);
+      if(mode.indexOf('visit')===0) return visitKey(card);
+      if(mode.indexOf('date')===0) return card.dataset.date||'';
+      return (+card.dataset.num||0);
+    }};
+    var numeric=(mode.indexOf('forgot')===0||mode.indexOf('num')===0);
+    var sorted=cards.slice().sort(function(a,b){{
+      var ka=keyOf(a),kb=keyOf(b);
+      var r;
+      if(mode.indexOf('visit')===0){{
+        // 数组逐位比较
+        for(var i=0;i<3;i++){{ if(ka[i]!==kb[i]){{ r=ka[i]<kb[i]?-1:1; return desc?-r:r; }} }}
+        r=0;
+      }}else{{
+        r=numeric?(ka-kb):(ka<kb?-1:(ka>kb?1:0));
+      }}
+      return desc?-r:r;
+    }});
+    sorted.forEach(function(c){{grid.appendChild(c);}});
+  }}
+
+  function updateDateCnt(){{
+    var n=(dateFrom.value?1:0)+(dateTo.value?1:0);
+    var el=document.getElementById('cntDate');
+    if(n>0){{el.textContent=n;el.className='cnt';}}else{{el.textContent='0';el.className='cnt zero';}}
+  }}
 
   function updateCnt(f){{
     var n=sets[f].size;
@@ -333,25 +602,84 @@ PAGE_TMPL = """<!DOCTYPE html>
     el.className=n===0?'cnt zero':'cnt';
   }}
 
+  var currentQ='';
+  var FNAME={{subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因'}};
+  var RLBL={{good:'好',hard:'课件不好懂',teach:'没老师讲的好'}};
+  var SLBL={{new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'}};
+  function syncChecks(f,v){{
+    document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=false;}});
+  }}
+  function renderChips(){{
+    var box=document.getElementById('activeFilters');
+    var chips=[];
+    ['subject','chapter','knowledge','method','status','rating','redo','note'].forEach(function(f){{
+      sets[f].forEach(function(v){{
+        var shown=(f==='status')?(SLBL[v]||v):((f==='rating')?(RLBL[v]||v):((f==='note'&&v==='__any__')?'有记录':v));
+        chips.push({{label:FNAME[f]+'：'+shown, del:function(){{sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}}}});
+      }});
+    }});
+    var fm=parseInt(forgetMin.value,10)||0;
+    if(fm>0){{
+      chips.push({{label:'忘记≥'+fm, del:function(){{forgetMin.value='';apply();}}}});
+    }}
+    if(dateFrom.value||dateTo.value){{
+      chips.push({{label:'浏览：'+(dateFrom.value||'早期')+' ~ '+(dateTo.value||'今天'), del:function(){{dateFrom.value='';dateTo.value='';updateDateCnt();apply();}}}});
+    }}
+    if(currentQ){{
+      chips.push({{label:'搜索：'+currentQ, del:function(){{fQ.value='';currentQ='';apply();}}}});
+    }}
+    if(!chips.length){{box.innerHTML='';return;}}
+    var out=['<span class="af-label">筛选条件：</span>'];
+    chips.forEach(function(c,i){{
+      out.push('<span class="af-chip" data-ci="'+i+'">'+c.label+'<span class="x" title="删除此条件"></span></span>');
+    }});
+    box.innerHTML=out.join('');
+    box.querySelectorAll('.af-chip').forEach(function(el){{
+      el.querySelector('.x').addEventListener('click',function(){{chips[+el.getAttribute('data-ci')].del();}});
+    }});
+  }}
+
   function apply(){{
+    sortCards();
     var q=fQ.value.trim().toLowerCase();
+    currentQ=fQ.value.trim();
+    var fm=parseInt(forgetMin.value,10)||0;
     var n=0;
     cards.forEach(function(card){{
       var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
       var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
       var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
-      var okD=sets.date.size===0||sets.date.has(card.dataset.date);
+      var okSt=sets.status.size===0||sets.status.has(card.dataset.status);
+      var cr=(card.dataset.rating||'').split(',');
+      var okRt=sets.rating.size===0||cr.some(function(v){{return v&&sets.rating.has(v);}});
+      var rd=card.dataset.redo==='1';
+      var okRd=sets.redo.size===0||(sets.redo.has('done')&&rd)||(sets.redo.has('undone')&&!rd);
+      var nts=(card.dataset.noteTags||'').split('||').filter(Boolean);
+      var okNt=sets.note.size===0||(sets.note.has('__any__')&&nts.length>0)||nts.some(function(t){{return sets.note.has(t);}});
+      var okFm=!fm||(+card.dataset.forgot||0)>=fm;
+      var dv=card.dataset.browse||card.dataset.date||'';
+      var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okD&&okQ;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ;
       card.style.display=show?'':'none';
       if(show)n++;
     }});
-    info.textContent='\u5171 '+n+' \u4e2a\u8bfe\u4ef6';
+    var rc=document.getElementById('resultCount');
+    if(rc)rc.textContent=n; // 只更新数字；不能用 textContent 覆盖整个 resultInfo（会清掉 statMeta 子节点）
+    var tb=document.getElementById('trainBtn');
+    if(tb){{var pc=(window.__pickedCount||0);tb.style.display=(n>0||pc>0)?'':'none';}}
     var empty=document.getElementById('emptyHint');
     if(n===0){{
       if(!empty){{empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='\u6ca1\u6709\u7b26\u5408\u6761\u4ef6\u7684\u8bfe\u4ef6\uff0c\u8bd5\u8bd5\u6362\u4e2a\u7b5b\u9009\u6761\u4ef6\u3002';grid.appendChild(empty);}}
     }}else{{if(empty)empty.remove();}}
+    renderChips();
+    // 持久化筛选状态：从课件返回导航页时恢复（陈总需求）
+    try{{
+      localStorage.setItem('nav_filters',JSON.stringify({{
+        sets:{{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo)}},
+        df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value}}));
+    }}catch(e){{}}
   }}
 
   document.querySelectorAll('.filter-btn').forEach(function(btn){{
@@ -416,15 +744,54 @@ PAGE_TMPL = """<!DOCTYPE html>
     }});
   }});
 
+  dateFrom.addEventListener('change',function(){{updateDateCnt();apply();}});
+  dateTo.addEventListener('change',function(){{updateDateCnt();apply();}});
+  document.getElementById('dateClear').addEventListener('click',function(){{
+    dateFrom.value='';dateTo.value='';updateDateCnt();apply();
+  }});
+
   fQ.addEventListener('input',apply);
+  fSort.addEventListener('change',apply);
+  forgetMin.addEventListener('input',apply);
+  document.getElementById('forgetMinClear').addEventListener('click',function(){{
+    forgetMin.value='';apply();
+  }});
   document.getElementById('fReset').addEventListener('click',function(){{
-    ['subject','chapter','knowledge','method','date'].forEach(function(f){{
+    ['subject','chapter','knowledge','method','date','status','rating','redo','note'].forEach(function(f){{
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{cb.checked=false;}});
       updateCnt(f);
     }});
+    dateFrom.value='';dateTo.value='';updateDateCnt();
+    forgetMin.value='';
     fQ.value='';apply();
   }});
+
+  // 恢复上次筛选状态：从课件页返回导航页时筛选结果不丢（须在首次 apply 前执行）
+  (function(){{
+    var sv=null; try{{ sv=JSON.parse(localStorage.getItem('nav_filters')); }}catch(e){{}}
+    if(sv&&sv.sets){{
+      ['subject','chapter','knowledge','method','status','rating','redo'].forEach(function(f){{
+        (sv.sets[f]||[]).forEach(function(v){{
+          sets[f].add(v);
+          document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){{if(cb.value===v)cb.checked=true;}});
+        }});
+        updateCnt(f);
+      }});
+    }}
+    if(sv){{
+      if(sv.df)dateFrom.value=sv.df;
+      if(sv.dt)dateTo.value=sv.dt;
+      updateDateCnt();
+      if(sv.fm)forgetMin.value=sv.fm;
+      if(sv.q)fQ.value=sv.q;
+      if(sv.sort)fSort.value=sv.sort;
+    }}
+  }})();
+
+  __STATS_JS__
+  __NOTES_JS__
+  sortCards();
 }})();
 </script>
 </body>
@@ -607,13 +974,580 @@ render('');
 </html>'''
 
 
+# 错因记录联动 JS（经 .replace 注入 IIFE 内，在 STATS_JS 之后执行；花括号无需双写）
+NOTES_JS = r"""
+/* ===== 错因记录（💡没想到）：徽章 + 标签筛选 + 云合并 + 分析面板 ===== */
+var NOTE_DEF_TAGS=['知道套路但忘了','记得这个套路没想到用在这','完全不知道有套路','计算出错','看错题干','其他'];
+var noteTags=(function(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v.slice();}catch(e){}return NOTE_DEF_TAGS.slice();})();
+function saveNoteTags(){try{localStorage.setItem('note_tags',JSON.stringify(noteTags));}catch(e){}}
+var noteTagMap=(function(){try{return JSON.parse(localStorage.getItem('note_tag_map'))||{};}catch(e){return{};}})();
+function saveNoteTagMap(){try{localStorage.setItem('note_tag_map',JSON.stringify(noteTagMap));}catch(e){}}
+function mapTag(t){var g=0;while(noteTagMap[t]&&g<5){t=noteTagMap[t];g++;}return t;}
+var NOTE_CFG=(function(){
+  var src=document.documentElement.innerHTML;
+  var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+  var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+  return{url:mu?mu[0]:'',key:mk?mk[0]:''};
+})();
+function localNotes(cid){try{var v=JSON.parse(localStorage.getItem('cnote:'+cid));return Array.isArray(v)?v:[];}catch(e){return[];}}
+function saveLocalNotes(cid,arr){try{localStorage.setItem('cnote:'+cid,JSON.stringify(arr));}catch(e){}}
+var noteMap={};
+var cloudNotesRaw={};
+function mergeNotes(loc,cloud){
+  var seen={},out=[];
+  loc.concat(cloud).forEach(function(r){
+    var it={tags:(r.tags||[]).map(mapTag),note:r.note||'',ts:r.ts||0,_cat:r._cat||''};
+    var k=(it.ts||0)+'|'+it.tags.join(',');
+    if(seen[k])return;seen[k]=1;out.push(it);
+  });
+  out.sort(function(a,b){return (b.ts||0)-(a.ts||0);});
+  return out;
+}
+function refreshNoteData(){
+  COURSES.forEach(function(c){noteMap[c.id]=mergeNotes(localNotes(c.id),cloudNotesRaw[c.id]||[]);});
+  COURSES.forEach(function(c){
+    var card=cardByCid[c.id];if(!card)return;
+    var recs=noteMap[c.id]||[];
+    var tg={};recs.forEach(function(r){(r.tags||[]).forEach(function(t){tg[t]=1;});});
+    var tags=Object.keys(tg);
+    card.dataset.noteTags=tags.join('||');
+    card.dataset.noteN=String(recs.length);
+    var line=card.querySelector('.cnote-line');
+    if(!recs.length){if(line)line.remove();return;}
+    if(!line){
+      line=document.createElement('div');line.className='cnote-line';
+      var an=card.querySelector('.cstat-line');
+      if(an&&an.parentNode)an.parentNode.insertBefore(line,an.nextSibling);
+      else{var cb=card.querySelector('.card-body');if(cb)cb.appendChild(line);}
+    }
+    line.innerHTML='';
+    var lab=document.createElement('span');lab.className='c-badge st-note';lab.textContent='📝 错因×'+recs.length;line.appendChild(lab);
+    tags.slice(0,3).forEach(function(t){
+      var ch=document.createElement('span');ch.className='cnote-chip';ch.textContent=t;ch.title=t;line.appendChild(ch);
+    });
+    if(tags.length>3){var mo=document.createElement('span');mo.className='cnote-chip more';mo.textContent='+'+(tags.length-3);line.appendChild(mo);}
+    line.title=tags.join(' / ');
+  });
+  updateCnt('note');apply();
+}
+function noteHeaders(){
+  return{apikey:NOTE_CFG.key,Authorization:'Bearer '+NOTE_CFG.key};
+}
+function fetchCloudNotes(){
+  if(!NOTE_CFG.url||!NOTE_CFG.key)return;
+  fetch(NOTE_CFG.url+'/rest/v1/course_notes?select=course_id,tags,note,created_at',{headers:noteHeaders()})
+    .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+    .then(function(rows){
+      var by={};
+      (rows||[]).forEach(function(r){
+        var ts=0;try{ts=r.created_at?new Date(r.created_at).getTime():0;}catch(e){}
+        (by[r.course_id]=by[r.course_id]||[]).push({tags:r.tags||[],note:r.note||'',ts:ts,_cat:r.created_at||''});
+      });
+      cloudNotesRaw=by;refreshNoteData();
+    })
+    .catch(function(err){console.warn('[cnotes] cloud fetch fail',err);});
+}
+refreshNoteData();
+fetchCloudNotes();
+(function(){var sr=document.getElementById('statRefresh');if(sr)sr.addEventListener('click',function(){setTimeout(fetchCloudNotes,800);});})();
+function renderNoteTagChecks(){
+  var box=document.getElementById('noteTagChecks');if(!box)return;
+  box.innerHTML='';
+  noteTags.forEach(function(t){
+    var lb=document.createElement('label');lb.className='popup-option';
+    var cb=document.createElement('input');cb.type='checkbox';cb.setAttribute('data-filter','note');cb.value=t;
+    if(sets.note.has(t))cb.checked=true;
+    cb.addEventListener('change',function(){if(cb.checked)sets.note.add(t);else sets.note.delete(t);updateCnt('note');apply();});
+    lb.appendChild(cb);lb.appendChild(document.createTextNode(t));box.appendChild(lb);
+  });
+}
+renderNoteTagChecks();
+/* ===== 错因分析面板 ===== */
+(function(){
+  var st=document.createElement('style');
+  st.textContent='#noteAnOverlay{display:none;position:fixed;inset:0;z-index:998;background:rgba(23,38,58,.62);}'
+    +'#noteAnOverlay.open{display:flex;align-items:center;justify-content:center;}'
+    +'.notean-panel{width:min(720px,94vw);max-height:88vh;overflow:auto;background:#fff;border-radius:24px;box-shadow:0 30px 80px -20px rgba(15,40,90,.5);padding:20px 24px;}'
+    +'.notean-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}'
+    +'.notean-head h2{font-size:19px;color:#17293f;}'
+    +'.notean-close{border:none;background:#eef4fb;color:#41546e;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;}'
+    +'.notean-sec{margin-bottom:16px;}'
+    +'.notean-sec h3{font-size:13px;color:#5c7185;font-weight:600;margin-bottom:8px;}'
+    +'.notean-bar{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#1f2d3d;margin-bottom:5px;}'
+    +'.notean-bar .lb{width:150px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
+    +'.notean-bar .tr{flex:1;background:#f1f4f8;border-radius:4px;height:13px;}'
+    +'.notean-bar .fl{height:13px;border-radius:4px;background:linear-gradient(90deg,#4f8ef7,#22c3a6);}'
+    +'.notean-rec{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f8fbff;border-radius:10px;margin-bottom:6px;font-size:13px;}'
+    +'.notean-rec .tt{color:#2a6df4;cursor:pointer;font-weight:600;flex:none;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
+    +'.notean-rec .tg{color:#b45309;font-size:12px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
+    +'.notean-rec .dt{color:#93a7ba;font-size:11.5px;flex:none;}'
+    +'.notean-rec .dx{cursor:pointer;width:18px;height:18px;line-height:16px;text-align:center;border-radius:50%;background:#fee2e2;color:#dc2626;font-size:12px;flex:none;user-select:none;}'
+    +'.notean-tagrow{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;}'
+    +'.notean-tagrow .tn{flex:1;color:#1f2d3d;}'
+    +'.notean-tagrow button{border:1px solid #d6e4f2;border-radius:8px;padding:3px 10px;font-size:12px;cursor:pointer;background:#fff;color:#5c7185;}'
+    +'.notean-add{display:flex;gap:8px;margin-top:8px;}'
+    +'.notean-add input{flex:1;padding:7px 10px;border:1px solid #d6e4f2;border-radius:8px;font-size:13px;font-family:inherit;}'
+    +'.notean-empty{color:#93a7ba;font-size:13px;padding:8px 0;}';
+  document.head.appendChild(st);
+  var overlay=document.createElement('div');overlay.id='noteAnOverlay';
+  overlay.innerHTML='<div class="notean-panel"><div class="notean-head"><h2>📊 错因分析（没想到卡点）</h2><button class="notean-close" type="button" title="关闭 (Esc)">✕</button></div><div class="notean-body"></div></div>';
+  document.body.appendChild(overlay);
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function allRecords(){
+    var out=[];
+    COURSES.forEach(function(c){(noteMap[c.id]||[]).forEach(function(r){out.push({cid:c.id,title:c.title||c.id,link:c.link||'',rec:r});});});
+    out.sort(function(a,b){return (b.rec.ts||0)-(a.rec.ts||0);});
+    return out;
+  }
+  function renderAnalysis(){
+    var body=overlay.querySelector('.notean-body');
+    var recs=allRecords();
+    var h='';
+    h+='<div class="notean-sec"><h3>标签频次（全部课件）</h3>';
+    if(!recs.length){h+='<div class="notean-empty">还没有记录。在课件页点「💡 没想到」记一条。</div>';}
+    else{
+      var freq={};recs.forEach(function(x){(x.rec.tags||[]).forEach(function(t){freq[t]=(freq[t]||0)+1;});});
+      var arr=Object.keys(freq).map(function(t){return [t,freq[t]];});
+      arr.sort(function(a,b){return b[1]-a[1];});
+      var mx=arr[0][1]||1;
+      arr.forEach(function(p){
+        h+='<div class="notean-bar"><span class="lb" title="'+esc(p[0])+'">'+esc(p[0])+'</span><div class="tr"><div class="fl" style="width:'+Math.round(p[1]*100/mx)+'%"></div></div><span>'+p[1]+'</span></div>';
+      });
+    }
+    h+='</div>';
+    h+='<div class="notean-sec"><h3>记录明细（时间倒序，点标题打开课件，×删除记录）</h3>';
+    if(!recs.length){h+='<div class="notean-empty">暂无</div>';}
+    else{
+      recs.slice(0,200).forEach(function(x,i){
+        h+='<div class="notean-rec" data-ri="'+i+'"><span class="tt" data-ri="'+i+'" title="'+esc(x.title)+'">'+esc(x.title)+'</span>'
+          +'<span class="tg">'+esc((x.rec.tags||[]).join(' / '))+(x.rec.note?(' · '+esc(x.rec.note)):'')+'</span>'
+          +'<span class="dt">'+fmtHM(x.rec.ts||0)+'</span><span class="dx" data-ri="'+i+'" title="删除此记录">×</span></div>';
+      });
+      if(recs.length>200)h+='<div class="notean-empty">仅显示最近 200 条</div>';
+    }
+    h+='</div>';
+    h+='<div class="notean-sec"><h3>错因词表管理（改名会自动回填历史记录）</h3><div id="noteanTags">';
+    noteTags.forEach(function(t){
+      h+='<div class="notean-tagrow"><span class="tn">'+esc(t)+'</span><button type="button" data-rn="'+esc(t)+'">改名</button><button type="button" data-dt="'+esc(t)+'">删除</button></div>';
+    });
+    h+='</div><div class="notean-add"><input id="noteanNewTag" placeholder="新错因标签，如：图形看错"><button type="button" id="noteanAddBtn">添加</button></div></div>';
+    body.innerHTML=h;
+    body.querySelector('.notean-rec .tt')&&body.querySelectorAll('.notean-rec .tt').forEach(function(el){
+      el.addEventListener('click',function(){
+        var x=allRecords()[+el.getAttribute('data-ri')];
+        if(x&&x.link){window.open(x.link,'_blank');}
+      });
+    });
+    body.querySelectorAll('.notean-rec .dx').forEach(function(el){
+      el.addEventListener('click',function(){delNote(allRecords()[+el.getAttribute('data-ri')]);});
+    });
+    body.querySelectorAll('button[data-rn]').forEach(function(el){
+      el.addEventListener('click',function(){
+        var old=el.getAttribute('data-rn');
+        var nn=prompt('把「'+old+'」改名为：',old);
+        if(nn)renameTag(old,nn.trim());
+      });
+    });
+    body.querySelectorAll('button[data-dt]').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-dt');
+        if(!confirm('从词表删除「'+t+'」？（历史记录保留，统计仍会显示该标签）'))return;
+        noteTags=noteTags.filter(function(x){return x!==t;});saveNoteTags();
+        renderNoteTagChecks();renderAnalysis();
+      });
+    });
+    var addBtn=body.querySelector('#noteanAddBtn'),addInp=body.querySelector('#noteanNewTag');
+    if(addBtn)addBtn.addEventListener('click',function(){
+      var v=(addInp.value||'').trim();if(!v)return;
+      if(noteTags.indexOf(v)>=0){addInp.value='';return;}
+      noteTags.push(v);saveNoteTags();addInp.value='';
+      renderNoteTagChecks();renderAnalysis();
+    });
+  }
+  function renameTag(old,nn){
+    if(!nn||nn===old)return;
+    noteTagMap[old]=nn;saveNoteTagMap();
+    noteTags=noteTags.map(function(t){return t===old?nn:t;});saveNoteTags();
+    COURSES.forEach(function(c){
+      var arr=localNotes(c.id),ch=false;
+      arr.forEach(function(r){(r.tags||[]).forEach(function(t,i){if(t===old){r.tags[i]=nn;ch=true;}});});
+      if(ch)saveLocalNotes(c.id,arr);
+    });
+    renderNoteTagChecks();refreshNoteData();renderAnalysis();
+  }
+  function delNote(x){
+    if(!x)return;
+    var cid=x.cid,rec=x.rec;
+    saveLocalNotes(cid,localNotes(cid).filter(function(r){return r.ts!==rec.ts;}));
+    var done=function(){cloudNotesRaw[cid]=(cloudNotesRaw[cid]||[]).filter(function(r){return r._cat!==rec._cat;});refreshNoteData();renderAnalysis();};
+    if(rec._cat&&NOTE_CFG.url&&NOTE_CFG.key){
+      var q='course_id=eq.'+encodeURIComponent(cid)+'&created_at=eq.'+encodeURIComponent(rec._cat);
+      fetch(NOTE_CFG.url+'/rest/v1/course_notes?'+q,{method:'DELETE',headers:noteHeaders()})
+        .then(function(r){if(!r.ok)throw r.status;done();})
+        .catch(function(e){console.warn('[cnotes] cloud del fail',e);done();});
+    }else{refreshNoteData();renderAnalysis();}
+  }
+  var anBtn=document.getElementById('noteAnBtn');
+  if(anBtn)anBtn.addEventListener('click',function(){renderAnalysis();overlay.classList.add('open');});
+  overlay.querySelector('.notean-close').addEventListener('click',function(){overlay.classList.remove('open');});
+  overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.classList.remove('open');});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&overlay.classList.contains('open'))overlay.classList.remove('open');
+  });
+})();
+
+/* ===== 课件页显示设定（⚙️）：原题区开合 / 红框闪烁间隔 ===== */
+(function(){
+  var cfgPop=null,cfgBtn=document.getElementById('cfgBtn');
+  function ensureCfgPop(){
+    if(cfgPop)return cfgPop;
+    cfgPop=document.createElement('div');cfgPop.id='cfgPop';
+    cfgPop.style.cssText='display:none;position:fixed;z-index:99998;background:#fff;border:1px solid #e3edf7;border-radius:14px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;width:270px;max-width:92vw;font-size:13px;color:#1f2d3d;';
+    cfgPop.innerHTML='<div style="font-weight:700;margin-bottom:10px">⚙️ 课件页显示设定</div>'
+      +'<label style="display:flex;align-items:center;gap:8px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="cfgFold"> 原题区默认展开（显示去手写版）</label>'
+      +'<label style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">「记错误原因」未记录时红框闪烁，间隔 <input type="number" id="cfgBlink" min="1" max="60" style="width:56px;padding:4px 6px;border:1px solid #d6e4f2;border-radius:8px;font-family:inherit"> 秒</label>'
+      +'<div style="margin-top:10px;font-size:11.5px;color:#93a7ba">改动即时保存，打开课件时生效</div>';
+    document.body.appendChild(cfgPop);
+    var cb=cfgPop.querySelector('#cfgFold'),bn=cfgPop.querySelector('#cfgBlink');
+    cb.checked=(function(){try{return localStorage.getItem('imgfold_open')!=='0';}catch(e){return true;}})();
+    bn.value=(function(){try{return localStorage.getItem('cnote_blink_sec')||5;}catch(e){return 5;}})();
+    cb.addEventListener('change',function(){
+      try{localStorage.setItem('imgfold_open',cb.checked?'1':'0');}catch(e){}
+    });
+    bn.addEventListener('change',function(){
+      var v=Math.max(1,Math.min(60,Math.round(+bn.value)||5));
+      try{localStorage.setItem('cnote_blink_sec',String(v));}catch(e){}
+      bn.value=v;
+    });
+    return cfgPop;
+  }
+  if(cfgBtn)cfgBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var p=ensureCfgPop();
+    var r=cfgBtn.getBoundingClientRect();
+    p.style.right=Math.max(8,window.innerWidth-r.right)+'px';
+    p.style.top=(r.bottom+8)+'px';
+    p.style.display=(p.style.display==='block')?'none':'block';
+  });
+  document.addEventListener('click',function(e){
+    if(cfgPop&&cfgPop.style.display==='block'&&!cfgPop.contains(e.target)&&e.target!==cfgBtn)cfgPop.style.display='none';
+  });
+})();
+"""
+# 统计联动 JS（经 .replace 注入 IIFE 内，花括号无需双写）
+STATS_JS = r"""
+/* ===== 统计联动：本机直读 + 云端 max 合并 + 徽章（SOP §3.2~3.4）===== */
+var COURSES = __COURSES_JSON__;
+var cardByCid={};
+cards.forEach(function(card){ var cid=card.dataset.cid; if(cid)cardByCid[cid]=card; });
+var STAT_CACHE='nav_course_stats_cache';
+var statMap={};
+function statusOf(s){
+  if(!s||(s.skilled+s.fuzzy+s.forgot)===0) return 'new';
+  if(s.forgot>0) return 'forgot';
+  if(s.fuzzy>0) return 'fuzzy';
+  return 'skilled';
+}
+function fmtTs(ts){ if(!ts)return ''; var d=new Date(ts); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function fmtHM(ts){ if(!ts)return ''; var d=new Date(ts); var p=function(x){return ('0'+x).slice(-2);}; return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); }
+function collectLocal(){
+  var out={};
+  COURSES.forEach(function(c){
+    var s={}; try{ s=JSON.parse(localStorage.getItem('cstat:'+c.id))||{}; }catch(e){}
+    var r={}; try{ r=JSON.parse(localStorage.getItem('crate:'+c.id))||{}; }catch(e){}
+    var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+c.id))||{}; }catch(e){}
+    var lv=0; try{ var v=JSON.parse(localStorage.getItem('cvisit:'+c.id)); if(v&&v.ts)lv=v.ts; }catch(e){}
+    out[c.id]={skilled:s.skilled||0,fuzzy:s.fuzzy||0,forgot:s.forgot||0,
+               rg:r.good||0,rh:r.hard||0,rt:r.teach||0,
+               rd:d.done===1,rts:d.ts||0,
+               rn:d.n||0,
+               visit:lv,ts:s.ts||0};
+  });
+  return out;
+}
+// 清零感知合并：熟练清零后 fuzzy/forgot 变小，max 会复活旧值 → 新 ts 侧为 0 时取 0（清零生效），否则 max
+function mergeStats(loc,cl){
+  var lts=loc.ts||0,cts=cl.ts||0;
+  function cnt(lv,cvv){
+    lv=lv||0;cvv=cvv||0;
+    if(lts>cts&&lv===0&&cvv>0)return 0;
+    if(cts>lts&&cvv===0&&lv>0)return 0;
+    return Math.max(lv,cvv);
+  }
+  return {
+    skilled:Math.max(loc.skilled||0,cl.skilled||0),
+    fuzzy:cnt(loc.fuzzy,cl.fuzzy),
+    forgot:cnt(loc.forgot,cl.forgot),
+    // 独立重做：状态(done)与时间按「重做时间戳」较新侧——本地用 rts，云端必须用 redo_at
+    // （不能用 updated_at：它是混合字段时间戳，任何自评/评价上报都会刷新，会把重做状态顶掉；
+    //   也不能用自评 cstat 的 ts——从未打开过的课件 ts=0，导航页勾的重做会被顶掉）
+    rd:((loc.rts||0)>=(cl.rat||0))?!!loc.rd:!!cl.rd,
+    rn:Math.max(loc.rn||0,cl.rn||0),
+    rat:((loc.rts||0)>=(cl.rat||0))?(loc.rts||0):(cl.rat||0)
+  };
+}
+function ratingStr(s){
+  var p=[];
+  if(s.rg)p.push('👍'+s.rg);
+  if(s.rh)p.push('📕'+s.rh);
+  if(s.rt)p.push('🗣️'+s.rt);
+  return p.length?(' · ⭐'+p.join(' ')):'';
+}
+function renderBadge(cv){
+  var card=cardByCid[cv.id]; if(!card)return;
+  var el=card.querySelector('.c-badge'); if(!el)return;
+  var s=cv.stats, st=cv.status;
+  card.dataset.status=st;
+  card.dataset.forgot=s.forgot||0;
+  var rk=[];
+  if(s.rg)rk.push('good'); if(s.rh)rk.push('hard'); if(s.rt)rk.push('teach');
+  card.dataset.rating=rk.join(',');
+  card.dataset.redo=s.rd?'1':'0';
+  card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
+  card.dataset.browseTs=String(cv.visitReal||0); // 毫秒级真实浏览时间戳（无浏览=0），排序用
+  var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
+  var rt=ratingStr(s)+(s.rd?(' · ✍️已重做×'+(s.rn||1)+(s.rat?(' · 上次 '+fmtHM(s.rat)):'')):'');
+  if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when+rt; el.className='c-badge st-new'; }
+  else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-forgot'; }
+  else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-fuzzy'; }
+  else { el.textContent='✅ 已掌握 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-skilled'; }
+}
+function applyStats(map){
+  statMap=map||{};
+  var local=collectLocal();
+  COURSES.forEach(function(cv){
+    var loc=local[cv.id]||{};
+    var cl=statMap[cv.id]||{};
+    // 熟练清零感知合并（fuzzy/forgot 新侧为 0 取 0），skilled 只增不减
+    cv.stats=mergeStats(loc,cl);
+    // 评价：累计计数只增不减，max 合并
+    cv.stats.rg=Math.max(loc.rg||0,cl.rg||0);
+    cv.stats.rh=Math.max(loc.rh||0,cl.rh||0);
+    cv.stats.rt=Math.max(loc.rt||0,cl.rt||0);
+    // 浏览时间：本机与云端取最大，为空回退制作日期
+    cv.visitReal=Math.max(loc.visit||0,cl.visit||0)||0;
+    cv.visitTs=cv.visitReal||((cv.date&&(new Date(cv.date).getTime()))||0);
+    cv.status=statusOf(cv.stats);
+    renderBadge(cv);
+  });
+  apply(); // apply 内含 sortCards，云端回来后顺序自动刷新（SOP §3.6）
+}
+function fetchCloud(isRetry){
+  var cfg={url:'https://mixuqjognbdrafrrlivc.supabase.co',key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'};
+  try{ var c=JSON.parse(localStorage.getItem('course_cloud_cfg')); if(c&&c.url&&c.key)cfg=c; }catch(e){}
+  var ctl=('AbortController' in window)?new AbortController():null;
+  var timer=ctl?setTimeout(function(){ try{ctl.abort();}catch(e){} },15000):null; // 15s！
+  var meta=document.getElementById('statMeta');
+  fetch(cfg.url.replace(/\/+$/,'')+'/rest/v1/course_stats?select=*',{
+    headers:{'apikey':cfg.key,'Authorization':'Bearer '+cfg.key},
+    signal:ctl?ctl.signal:undefined
+  })
+  .then(function(r){ if(!r.ok)throw new Error('http '+r.status); return r.json(); })
+  .then(function(rows){
+    var map={};
+    (rows||[]).forEach(function(r){
+      map[r.course_id]={skilled:r.skilled||0,fuzzy:r.fuzzy||0,forgot:r.forgot||0,
+                        rg:r.rating_good||0,rh:r.rating_hard||0,rt:r.rating_teach||0,
+                        rd:r.redone===true,
+                        rn:r.redo_count||0,
+                        rat:r.redo_at?new Date(r.redo_at).getTime():0,
+                        visit:r.last_visit?new Date(r.last_visit).getTime():0,
+                        ts:r.updated_at?new Date(r.updated_at).getTime():0};
+    });
+    applyStats(map);
+    try{ localStorage.setItem(STAT_CACHE,JSON.stringify({ts:Date.now(),rows:map})); }catch(e){}
+    if(meta)meta.textContent='· 云端 '+Object.keys(map).length+' 张已上报 '+fmtTs(Date.now());
+  })
+  .catch(function(){
+    if(!isRetry){ if(meta)meta.textContent='· 云端拉取中…'; setTimeout(function(){ fetchCloud(true); },2500); return; }
+    if(meta)meta.textContent='· 云端暂不可达，显示本机/缓存数据';
+    var c=null; try{ c=JSON.parse(localStorage.getItem(STAT_CACHE)); }catch(e){}
+    if(c&&c.rows)applyStats(c.rows); else applyStats(collectLocal());
+  })
+  .then(function(){ if(timer)clearTimeout(timer); });
+}
+// 首屏：缓存秒显 → 云端合并
+var cached0=null; try{ cached0=JSON.parse(localStorage.getItem(STAT_CACHE)); }catch(e){}
+applyStats(cached0&&cached0.rows?cached0.rows:collectLocal());
+fetchCloud();
+document.getElementById('statRefresh').addEventListener('click',function(){
+  var meta=document.getElementById('statMeta');
+  if(meta)meta.textContent='· 刷新中…';
+  fetchCloud();
+});
+
+/* ===== 专题练：筛选结果逐张浏览训练 ===== */
+var trainOv=document.getElementById('trainOverlay');
+var trainList=[], trainIdx=0;
+var trainBtn=document.getElementById('trainBtn');
+var orderSel=document.getElementById('trainOrder');
+try{ var to=localStorage.getItem('train_order'); if(to)orderSel.value=to; }catch(e){}
+document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
+
+var cfgT={url:'https://mixuqjognbdrafrrlivc.supabase.co',key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'};
+try{ var ccfg=JSON.parse(localStorage.getItem('course_cloud_cfg')); if(ccfg&&ccfg.url&&ccfg.key)cfgT=ccfg; }catch(e){}
+
+function visibleCards(){ return cards.filter(function(c){ return c.style.display!=='none'; }); }
+function shuffleArr(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+function trainRender(){
+  var card=trainList[trainIdx]; if(!card)return;
+  var cid=card.dataset.cid||'';
+  document.getElementById('trainProgress').textContent=(trainIdx+1)+' / '+trainList.length;
+  var h=card.querySelector('h3');
+  document.getElementById('trainTitle').textContent=h?h.textContent:'';
+  var sub=card.querySelector('.sub');
+  document.getElementById('trainSub').textContent=sub?sub.textContent:'';
+  var tags=card.querySelector('.tags');
+  document.getElementById('trainTags').innerHTML=tags?tags.innerHTML:'';
+  var badge=card.querySelector('.c-badge');
+  var be=document.getElementById('trainBadge');
+  be.textContent=badge?badge.textContent:'';
+  be.className='t-badge '+(badge&&badge.className.split(' ')[1]||'');
+  document.getElementById('trainDate').textContent='制作 '+(card.dataset.date||'—');
+  document.getElementById('trainOpen').setAttribute('href',card.getAttribute('href')+'?tr='+trainIdx); // 带序号，课件页显示串联导航
+  var rd=document.getElementById('trainRedo');
+  var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
+  rd.checked=d.done===1;
+  rd.dataset.cid=cid;
+  var ri=document.getElementById('trainRedoInfo');
+  if(ri)ri.textContent=d.n?('×'+d.n+' · 上次 '+fmtHM(d.ts)):'';
+  document.getElementById('trainPrev').disabled=(trainIdx<=0);
+  document.getElementById('trainNext').disabled=(trainIdx>=trainList.length-1);
+  try{ localStorage.setItem('train_pos',JSON.stringify({n:trainList.length,i:trainIdx})); }catch(e){}
+}
+function trainOpenPanel(){
+  var vis=visibleCards();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  if(!base.length)return;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
+  trainIdx=0;
+  try{ // 位置记忆：题目数一致时恢复上次练到的位置
+    var p=JSON.parse(localStorage.getItem('train_pos'));
+    if(p&&p.n===trainList.length&&p.i>=0&&p.i<trainList.length)trainIdx=p.i;
+  }catch(e){}
+  trainOv.classList.add('open');
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
+  trainRender();
+}
+function trainClosePanel(){ trainOv.classList.remove('open'); }
+function trainStep(d){
+  var ni=trainIdx+d;
+  if(ni<0||ni>=trainList.length)return;
+  trainIdx=ni; trainRender();
+}
+// 面板内勾「已独立重做」→ 本机 + 徽章 + 云端合并上报
+function syncRedo(cid,done){
+  var h={'apikey':cfgT.key,'Authorization':'Bearer '+cfgT.key,'Content-Type':'application/json'};
+  var base=cfgT.url.replace(/\/+$/,'')+'/rest/v1/course_stats';
+  fetch(base+'?course_id=eq.'+encodeURIComponent(cid),{headers:h})
+  .then(function(r){ return r.ok?r.json():[]; })
+  .then(function(rows){
+    var row=(rows&&rows[0])||{};
+    var cl={skilled:row.skilled||0,fuzzy:row.fuzzy||0,forgot:row.forgot||0,
+            rg:row.rating_good||0,rh:row.rating_hard||0,rt:row.rating_teach||0,
+            rd:row.redone===true,
+            visit:row.last_visit?new Date(row.last_visit).getTime():0,
+            ts:row.updated_at?new Date(row.updated_at).getTime():0};
+    var loc=collectLocal()[cid]||{};
+    var m=mergeStats(loc,cl);
+    m.rg=Math.max(loc.rg||0,cl.rg||0);
+    m.rh=Math.max(loc.rh||0,cl.rh||0);
+    m.rt=Math.max(loc.rt||0,cl.rt||0);
+    var body={course_id:cid,skilled:m.skilled,fuzzy:m.fuzzy,forgot:m.forgot,
+              rating_good:m.rg,rating_hard:m.rh,rating_teach:m.rt,
+              redone:!!done,redo_count:m.rn||0,
+              redo_at:m.rat?new Date(m.rat).toISOString():null,
+              updated_at:new Date().toISOString(),
+              last_visit:loc.visit?new Date(loc.visit).toISOString():null};
+    return fetch(base+'?on_conflict=course_id',{
+      method:'POST',headers:Object.assign({'Prefer':'resolution=merge-duplicates'},h),
+      body:JSON.stringify(body)});
+  }).catch(function(){ /* 云端不可达不阻塞，本机已记账 */ });
+}
+trainBtn.addEventListener('click',trainOpenPanel);
+document.getElementById('trainClose').addEventListener('click',trainClosePanel);
+document.getElementById('trainPrev').addEventListener('click',function(){trainStep(-1);});
+document.getElementById('trainNext').addEventListener('click',function(){trainStep(1);});
+orderSel.addEventListener('change',function(){
+  try{ localStorage.setItem('train_order',orderSel.value); }catch(e){}
+  document.getElementById('trainOrderLbl').textContent=(orderSel.value==='random')?'随机':'顺序';
+  var cur=trainList[trainIdx];
+  var vis=visibleCards();
+  var base=(typeof picked!=='undefined'&&picked.size)?cards.filter(function(c){return picked.has(c.dataset.cid);}):vis;
+  trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
+  trainIdx=0;
+  if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
+  trainRender();
+});
+document.getElementById('trainRedo').addEventListener('change',function(){
+  var cid=this.dataset.cid; if(!cid)return;
+  try{ localStorage.setItem('credo:'+cid,JSON.stringify({done:this.checked?1:0,ts:Date.now()})); }catch(e){}
+  applyStats(statMap); // 立即刷新卡片徽章与 data-redo
+  syncRedo(cid,this.checked);
+  var ri=document.getElementById('trainRedoInfo');
+  var d2={}; try{ d2=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
+  if(ri)ri.textContent=d2.n?('×'+d2.n+' · 上次 '+fmtHM(d2.ts)):'';
+});
+document.addEventListener('keydown',function(e){
+  if(!trainOv.classList.contains('open'))return;
+  if(e.key==='ArrowLeft'){trainStep(-1);}
+  else if(e.key==='ArrowRight'){trainStep(1);}
+  else if(e.key==='Escape'){trainClosePanel();}
+});
+
+
+/* ===== 卡片勾选选集 -> 专题练（2026-09-13）===== */
+var PICK_KEY='nav_picked';
+var picked=new Set();
+try{ var _pj=JSON.parse(localStorage.getItem(PICK_KEY)); if(_pj&&_pj.length)picked=new Set(_pj); }catch(e){}
+function savePicked(){ try{ localStorage.setItem(PICK_KEY,JSON.stringify(Array.from(picked))); }catch(e){} }
+function syncTrainBtn(){
+  window.__pickedCount=picked.size;
+  var pc=document.getElementById('pickCount'); if(pc)pc.textContent=picked.size;
+  var tb=document.getElementById('trainBtn');
+  if(tb){
+    var anyVis=cards.some(function(c){ return c.style.display!=='none'; });
+    tb.style.display=(anyVis||picked.size>0)?'':'none';
+    tb.textContent = picked.size>0 ? ('\uD83C\uDFAF 专题练 ('+picked.size+')') : '\uD83C\uDFAF 专题练';
+    tb.title = picked.size>0 ? ('练已勾选的 '+picked.size+' 题') : '将当前筛选结果作为一组题，逐张浏览训练';
+  }
+}
+function syncPickUI(){
+  cards.forEach(function(card){ card.classList.toggle('picked', picked.has(card.dataset.cid)); });
+  syncTrainBtn();
+}
+function togglePick(card){
+  var cid=card.dataset.cid; if(!cid)return;
+  if(picked.has(cid))picked.delete(cid); else picked.add(cid);
+  savePicked(); syncPickUI();
+}
+cards.forEach(function(card){
+  var pk=card.querySelector('.pick'); if(!pk)return;
+  pk.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); togglePick(card); });
+  pk.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); togglePick(card); } });
+});
+(function(){
+  var bA=document.getElementById('pkAll'), bI=document.getElementById('pkInv'), bC=document.getElementById('pkClear');
+  if(bA)bA.addEventListener('click',function(){ visibleCards().forEach(function(c){ if(c.dataset.cid)picked.add(c.dataset.cid); }); savePicked(); syncPickUI(); });
+  if(bI)bI.addEventListener('click',function(){ visibleCards().forEach(function(c){ var id=c.dataset.cid; if(!id)return; if(picked.has(id))picked.delete(id); else picked.add(id); }); savePicked(); syncPickUI(); });
+  if(bC)bC.addEventListener('click',function(){ picked.clear(); savePicked(); syncPickUI(); });
+})();
+syncPickUI();
+"""
+
+
 def main():
     items = scan_lessons()
     subjects = sorted({it['subject'] for it in items if it['subject']})
     chapters = sorted({it['chapter'] for it in items if it['chapter']})
     knowledges = sorted({it['knowledge'] for it in items if it['knowledge']})
     methods = sorted({it['method'] for it in items if it['method']})
-    dates = sorted({it['date'] for it in items if it['date']}, reverse=True)
+    dates_asc = sorted({it['date'] for it in items if it['date']})
     all_tags = set()
     for it in items:
         for t in it.get('tags_list', []):
@@ -634,6 +1568,8 @@ def main():
         source_html = f'<div class="src">{html.escape(it["source"])}</div>' if it['source'] else ''
         cards.append(CARD_TMPL.format(
             link=it['link'], number=it['number'] or it['num'], title=html.escape(it['title']),
+            num_attr=html.escape(str(it['order'])),
+            cid=html.escape(it['cid']),
             sub=html.escape(it['sub']), tags=tags, source_html=source_html,
             subject=html.escape(it['subject']), chapter=html.escape(it['chapter']),
             knowledge=html.escape(it['knowledge']),
@@ -643,6 +1579,14 @@ def main():
     cards_html = '\n'.join(cards) if cards else '    <div class="empty">暂无课件</div>'
 
     today = datetime.now().strftime('%Y-%m-%d')
+    courses_json = json.dumps([{
+        'id': it['cid'],
+        'title': it['title'],
+        'subject': it['subject'],
+        'chapter': it['chapter'],
+        'points': it['points'],
+        'date': it['date'],
+    } for it in items], ensure_ascii=False, separators=(',', ':'))
     page = PAGE_TMPL.format(
         count=len(items), subject_count=len(subjects), chapter_count=len(chapters),
         tag_count=len(all_tags),
@@ -650,9 +1594,11 @@ def main():
         chapter_checks=check_opts(chapters, 'chapter'),
         knowledge_checks=check_opts(knowledges, 'knowledge'),
         method_checks=check_opts(methods, 'method'),
-        date_checks=check_opts(dates, 'date'),
+        dmin=dates_asc[0] if dates_asc else '2026-01-01',
+        dmax=datetime.now().strftime('%Y-%m-%d'),
         cards=cards_html, date=today,
     )
+    page = page.replace('__STATS_JS__', STATS_JS).replace('__NOTES_JS__', NOTES_JS).replace('__COURSES_JSON__', courses_json)
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(page)
     print(f'OK: index.html ({len(page)/1024:.0f} KB) - {len(items)} courseware')
