@@ -206,6 +206,84 @@ body{font-family:'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-ser
     </div>
   </div>
 
+  <!-- ============ Canvas 原理演示 ============ -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title"> 原理演示 · 动手拖一拖</div></div>
+    <div class="panel-body">
+      <p style="font-size:14px;color:#475569;margin-bottom:16px">截图看"长啥样"，Canvas 看"为什么"。拖滑块、点按钮，把原理玩明白。</p>
+
+      <!-- 演示1：过滤三靠 -->
+      <div style="margin-bottom:24px">
+        <h3 style="font-size:15px;color:#0f172a;margin-bottom:8px">① 过滤「三靠」角度演示</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:10px">拖拽玻璃棒角度，看引流方向变化。正确角度：玻璃棒下端轻触三层滤纸处，烧杯嘴靠玻璃棒。</p>
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <canvas id="cvFilter" width="420" height="320" style="border:1px solid #e5e7eb;border-radius:6px;background:#fff;cursor:grab;max-width:100%"></canvas>
+          <div style="flex:1;min-width:200px">
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-size:13px;line-height:1.8">
+              <div>玻璃棒角度：<b id="rodAngleVal">45°</b></div>
+              <div>引流状态：<b id="rodStatus" style="color:#16a34a">✅ 正确</b></div>
+              <div style="margin-top:8px;font-size:12px;color:#64748b">
+                👆 拖拽玻璃棒顶端改变角度<br>
+                绿色 = 正确引流方向<br>
+                红色 = 液体会溅出
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 演示2：NaOH 滴加量 vs 沉淀 -->
+      <div style="margin-bottom:24px">
+        <h3 style="font-size:15px;color:#0f172a;margin-bottom:8px">② NaOH 滴加量 vs Al(OH)₃ 沉淀量</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:10px">拖动滑块模拟滴加 NaOH 溶液，观察沉淀先增多后溶解的过程。这就是为什么不能用过量 NaOH！</p>
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <canvas id="cvNaOH" width="420" height="280" style="border:1px solid #e5e7eb;border-radius:6px;background:#fff;max-width:100%"></canvas>
+          <div style="flex:1;min-width:200px">
+            <div style="margin-bottom:10px">
+              <label style="font-size:13px;font-weight:600;color:#0f172a">NaOH 滴加量：</label>
+              <input type="range" id="naohSlider" min="0" max="100" value="0" style="width:100%;accent-color:#2563eb">
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-size:13px;line-height:1.8">
+              <div>滴加量：<b id="naohVal">0%</b></div>
+              <div>沉淀量：<b id="pptVal">0</b></div>
+              <div>反应阶段：<b id="naohStage" style="color:#2563eb">尚未开始</b></div>
+              <div style="margin-top:8px;font-size:12px;color:#64748b">
+                0-60%：沉淀生成阶段<br>
+                60-100%：沉淀溶解阶段
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 演示3：灼烧温度 vs 产物 -->
+      <div>
+        <h3 style="font-size:15px;color:#0f172a;margin-bottom:8px">③ 灼烧温度 vs 产物变化</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:10px">拖动温度滑块，看 Al(OH)₃ 如何分解成 Al₂O₃。注意：蒸发皿承受不了这个温度！</p>
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <canvas id="cvHeat" width="420" height="280" style="border:1px solid #e5e7eb;border-radius:6px;background:#fff;max-width:100%"></canvas>
+          <div style="flex:1;min-width:200px">
+            <div style="margin-bottom:10px">
+              <label style="font-size:13px;font-weight:600;color:#0f172a">加热温度：</label>
+              <input type="range" id="heatSlider" min="25" max="1200" value="25" step="10" style="width:100%;accent-color:#dc2626">
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-size:13px;line-height:1.8">
+              <div>当前温度：<b id="heatVal">25°C</b></div>
+              <div>主要产物：<b id="heatProduct" style="color:#2563eb">Al(OH)₃（白色固体）</b></div>
+              <div>状态：<b id="heatState">稳定</b></div>
+              <div style="margin-top:8px;font-size:12px;color:#64748b">
+                &lt;200°C：失去部分结晶水<br>
+                200-400°C：分解为 Al₂O + H₂O<br>
+                &gt;400°C：完全转化为 Al₂O
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ============ 详解 ============ -->
   <div class="panel">
     <div class="panel-head"><div class="panel-title">🧠 逐项击破（点选项看详细分析）</div></div>
@@ -311,6 +389,429 @@ function hideAll(){
   document.querySelectorAll('.exp-step').forEach(function(s){s.classList.remove('show')});
   document.querySelectorAll('.opt-card').forEach(function(c){c.classList.remove('correct','wrong','show-fb')});
 }
+
+
+// ============================================================
+// Canvas 原理演示代码
+// ============================================================
+
+// --- 演示1：过滤三靠角度 ---
+(function(){
+  var cv = document.getElementById('cvFilter');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = 420, H = 320;
+  var rodAngle = 45; // 玻璃棒角度（度）
+  var dragging = false;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // 背景
+    ctx.fillStyle = '#fafbfc';
+    ctx.fillRect(0,0,W,H);
+
+    // 铁架台（右侧）
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillRect(350, 40, 8, 240);  // 立柱
+    ctx.fillRect(330, 275, 48, 8);  // 底座
+    ctx.fillRect(320, 100, 35, 5);  // 铁夹
+
+    // 漏斗（锥形）
+    ctx.fillStyle = 'rgba(219,234,254,0.6)';
+    ctx.beginPath();
+    ctx.moveTo(220, 80);
+    ctx.lineTo(310, 80);
+    ctx.lineTo(280, 160);
+    ctx.lineTo(250, 160);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 漏斗颈
+    ctx.fillRect(262, 160, 6, 30);
+    ctx.strokeRect(262, 160, 6, 30);
+
+    // 下方烧杯
+    ctx.fillStyle = 'rgba(219,234,254,0.4)';
+    ctx.beginPath();
+    ctx.moveTo(200, 200);
+    ctx.lineTo(320, 200);
+    ctx.lineTo(310, 260);
+    ctx.lineTo(210, 260);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // 玻璃棒（可拖拽）
+    var rad = rodAngle * Math.PI / 180;
+    var rodLen = 120;
+    var rodEndX = 265 - rodLen * Math.cos(rad);
+    var rodEndY = 100 - rodLen * Math.sin(rad);
+    var rodStartX = 265;
+    var rodStartY = 100;
+
+    // 判断是否正确
+    var isCorrect = rodAngle >= 30 && rodAngle <= 60;
+    ctx.strokeStyle = isCorrect ? '#16a34a' : '#dc2626';
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(rodStartX, rodStartY);
+    ctx.lineTo(rodEndX, rodEndY);
+    ctx.stroke();
+
+    // 玻璃棒顶端圆点（拖拽手柄）
+    ctx.fillStyle = '#2563eb';
+    ctx.beginPath();
+    ctx.arc(rodEndX, rodEndY, 8, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 液滴（沿玻璃棒流下）
+    if(isCorrect){
+      ctx.fillStyle = 'rgba(96,165,250,0.7)';
+      ctx.beginPath();
+      ctx.arc(265, 115, 4, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // 标签
+    ctx.fillStyle = '#475569';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('玻璃棒', rodEndX - 20, rodEndY - 15);
+    ctx.fillText('漏斗', 265, 70);
+    ctx.fillText('烧杯', 260, 280);
+
+    // 更新 UI
+    document.getElementById('rodAngleVal').textContent = rodAngle + '°';
+    var statusEl = document.getElementById('rodStatus');
+    if(isCorrect){
+      statusEl.textContent = '✅ 正确';
+      statusEl.style.color = '#16a34a';
+    } else {
+      statusEl.textContent = '❌ 角度不当';
+      statusEl.style.color = '#dc2626';
+    }
+  }
+
+  // 拖拽事件
+  function getPos(e){
+    var rect = cv.getBoundingClientRect();
+    var scaleX = W / rect.width;
+    var scaleY = H / rect.height;
+    if(e.touches){
+      return { x: (e.touches[0].clientX - rect.left) * scaleX,
+               y: (e.touches[0].clientY - rect.top) * scaleY };
+    }
+    return { x: (e.clientX - rect.left) * scaleX,
+             y: (e.clientY - rect.top) * scaleY };
+  }
+
+  function onDown(e){
+    var pos = getPos(e);
+    var rad = rodAngle * Math.PI / 180;
+    var rodLen = 120;
+    var rodEndX = 265 - rodLen * Math.cos(rad);
+    var rodEndY = 100 - rodLen * Math.sin(rad);
+    var dist = Math.sqrt((pos.x-rodEndX)**2 + (pos.y-rodEndY)**2);
+    if(dist < 20) dragging = true;
+  }
+
+  function onMove(e){
+    if(!dragging) return;
+    e.preventDefault();
+    var pos = getPos(e);
+    var dx = 265 - pos.x;
+    var dy = 100 - pos.y;
+    var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    rodAngle = Math.max(10, Math.min(80, angle));
+    draw();
+  }
+
+  function onUp(){ dragging = false; }
+
+  cv.addEventListener('mousedown', onDown);
+  cv.addEventListener('mousemove', onMove);
+  cv.addEventListener('mouseup', onUp);
+  cv.addEventListener('mouseleave', onUp);
+  cv.addEventListener('touchstart', onDown, {passive:false});
+  cv.addEventListener('touchmove', onMove, {passive:false});
+  cv.addEventListener('touchend', onUp);
+
+  draw();
+})();
+
+// --- 演示2：NaOH 滴加量 vs 沉淀 ---
+(function(){
+  var cv = document.getElementById('cvNaOH');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = 420, H = 280;
+  var slider = document.getElementById('naohSlider');
+
+  function draw(){
+    var val = parseInt(slider.value);
+    ctx.clearRect(0,0,W,H);
+
+    // 背景
+    ctx.fillStyle = '#fafbfc';
+    ctx.fillRect(0,0,W,H);
+
+    // 坐标轴
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(50, 30);
+    ctx.lineTo(50, 230);
+    ctx.lineTo(390, 230);
+    ctx.stroke();
+
+    // X 轴标签
+    ctx.fillStyle = '#475569';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('NaOH 滴加量 →', 220, 255);
+    ctx.fillText('0%', 50, 245);
+    ctx.fillText('50%', 140, 245);
+    ctx.fillText('100%', 380, 245);
+
+    // Y 轴标签
+    ctx.save();
+    ctx.translate(15, 130);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('沉淀量 →', 0, 0);
+    ctx.restore();
+
+    // 绘制曲线
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for(var x = 0; x <= 100; x++){
+      var px = 50 + (x/100) * 340;
+      var py;
+      if(x <= 60){
+        // 上升阶段：0-60% 沉淀增加
+        py = 230 - (x/60) * 180;
+      } else {
+        // 下降阶段：60-100% 沉淀溶解
+        py = 50 + ((x-60)/40) * 180;
+      }
+      if(x===0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // 当前值标记
+    var curX = 50 + (val/100) * 340;
+    var curY;
+    if(val <= 60){
+      curY = 230 - (val/60) * 180;
+    } else {
+      curY = 50 + ((val-60)/40) * 180;
+    }
+
+    // 垂直虚线
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    ctx.moveTo(curX, 230);
+    ctx.lineTo(curX, curY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 圆点
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.arc(curX, curY, 6, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 峰值标记（60% 处）
+    ctx.fillStyle = '#16a34a';
+    ctx.beginPath();
+    ctx.arc(50 + 0.6*340, 50, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#16a34a';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('峰值 60%', 50 + 0.6*340 + 10, 55);
+
+    // 更新 UI
+    document.getElementById('naohVal').textContent = val + '%';
+    var ppt = val <= 60 ? Math.round(val/60*100) : Math.round(100 - (val-60)/40*100);
+    document.getElementById('pptVal').textContent = ppt;
+    var stageEl = document.getElementById('naohStage');
+    if(val === 0){
+      stageEl.textContent = '尚未开始';
+      stageEl.style.color = '#2563eb';
+    } else if(val < 60){
+      stageEl.textContent = '沉淀生成中';
+      stageEl.style.color = '#16a34a';
+    } else if(val === 60){
+      stageEl.textContent = '沉淀量最大';
+      stageEl.style.color = '#f59e0b';
+    } else if(val < 100){
+      stageEl.textContent = '沉淀溶解中';
+      stageEl.style.color = '#dc2626';
+    } else {
+      stageEl.textContent = '完全溶解';
+      stageEl.style.color = '#94a3b8';
+    }
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+})();
+
+// --- 演示3：灼烧温度 vs 产物 ---
+(function(){
+  var cv = document.getElementById('cvHeat');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = 420, H = 280;
+  var slider = document.getElementById('heatSlider');
+
+  function draw(){
+    var temp = parseInt(slider.value);
+    ctx.clearRect(0,0,W,H);
+
+    // 背景
+    ctx.fillStyle = '#fafbfc';
+    ctx.fillRect(0,0,W,H);
+
+    // 坩埚（简单示意）
+    var crucibleX = 210, crucibleY = 180;
+    ctx.fillStyle = '#fbbf24';
+    ctx.beginPath();
+    ctx.ellipse(crucibleX, crucibleY, 60, 12, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = '#fcd34d';
+    ctx.beginPath();
+    ctx.moveTo(crucibleX-58, crucibleY);
+    ctx.quadraticCurveTo(crucibleX, crucibleY+50, crucibleX+58, crucibleY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // 内容物（随温度变化颜色）
+    var contentColor;
+    if(temp < 200){
+      contentColor = 'rgba(255,255,255,0.9)';  // 白色 Al(OH)3
+    } else if(temp < 400){
+      // 渐变：白→黄
+      var ratio = (temp-200)/200;
+      contentColor = 'rgba(255,' + Math.round(255-ratio*100) + ',' + Math.round(255-ratio*200) + ',0.9)';
+    } else {
+      contentColor = 'rgba(255,255,255,0.95)';  // 白色 Al2O3
+    }
+
+    ctx.fillStyle = contentColor;
+    ctx.beginPath();
+    ctx.ellipse(crucibleX, crucibleY-5, 50, 8, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // 火焰（随温度变化大小）
+    var flameH = Math.min(60, temp/20);
+    if(temp > 50){
+      var g = ctx.createRadialGradient(crucibleX, crucibleY+60, 2, crucibleX, crucibleY+60-flameH, flameH);
+      g.addColorStop(0, 'rgba(253,224,71,0.9)');
+      g.addColorStop(0.5, 'rgba(249,115,22,0.7)');
+      g.addColorStop(1, 'rgba(220,38,38,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(crucibleX-20, crucibleY+55);
+      ctx.quadraticCurveTo(crucibleX, crucibleY+55-flameH, crucibleX+20, crucibleY+55);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // 温度曲线（小图）
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for(var x = 0; x <= 1200; x += 10){
+      var px = 50 + (x/1200) * 320;
+      var py;
+      if(x < 200){
+        py = 230 - (x/200) * 30;  // 轻微失水
+      } else if(x < 400){
+        py = 200 - ((x-200)/200) * 150;  // 快速分解
+      } else {
+        py = 50;  // 稳定
+      }
+      if(x===0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // 当前温度标记
+    var curX = 50 + (temp/1200) * 320;
+    var curY;
+    if(temp < 200){
+      curY = 230 - (temp/200) * 30;
+    } else if(temp < 400){
+      curY = 200 - ((temp-200)/200) * 150;
+    } else {
+      curY = 50;
+    }
+
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.arc(curX, curY, 5, 0, Math.PI*2);
+    ctx.fill();
+
+    // 坐标轴
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(50, 30);
+    ctx.lineTo(50, 230);
+    ctx.lineTo(390, 230);
+    ctx.stroke();
+
+    ctx.fillStyle = '#475569';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('温度 →', 220, 250);
+    ctx.fillText('0°C', 50, 245);
+    ctx.fillText('600°C', 220, 245);
+    ctx.fillText('1200°C', 380, 245);
+
+    // 更新 UI
+    document.getElementById('heatVal').textContent = temp + '°C';
+    var prodEl = document.getElementById('heatProduct');
+    var stateEl = document.getElementById('heatState');
+    if(temp < 200){
+      prodEl.textContent = 'Al(OH)₃（白色固体）';
+      prodEl.style.color = '#2563eb';
+      stateEl.textContent = '稳定';
+    } else if(temp < 400){
+      prodEl.textContent = 'Al(OH)₃ → Al₂O₃ 分解中';
+      prodEl.style.color = '#f59e0b';
+      stateEl.textContent = '分解反应';
+    } else {
+      prodEl.textContent = 'Al₂O₃（白色固体）';
+      prodEl.style.color = '#16a34a';
+      stateEl.textContent = '完全转化';
+    }
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+})();
+
 </script>
 </body>
 </html>
