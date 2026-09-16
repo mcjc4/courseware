@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>解题库 · 作业批改台</title>
+<style>
+  :root{
+    --bg:#f5f7fb; --card:#ffffff; --ink:#1f2937; --sub:#6b7280; --line:#e5e7eb;
+    --blue:#2563eb; --green:#16a34a; --red:#dc2626; --amber:#ea580c; --violet:#7c3aed;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  header{background:linear-gradient(90deg,#2563eb,#06b6d4,#10b981);color:#fff;padding:18px 22px;display:flex;align-items:center;gap:14px}
+  header h1{font-size:18px;margin:0;font-weight:700}
+  header a{color:#e0f2fe;text-decoration:none;font-size:13px;border:1px solid rgba(255,255,255,.5);padding:4px 10px;border-radius:8px}
+  .wrap{max-width:880px;margin:18px auto;padding:0 16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .panel h2{font-size:15px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .row > label{flex:0 0 auto;font-size:12px;color:var(--sub);align-self:center;min-width:64px}
+  select,input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;background:#fff}
+  textarea{resize:vertical;min-height:46px}
+  .qcard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;background:#fff;position:relative}
+  .qcard .qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .qcard .qidx{font-size:12px;color:var(--sub);font-weight:600}
+  .qcard .del{cursor:pointer;color:#9ca3af;font-size:13px;border:none;background:none}
+  .result-toggle{display:flex;gap:8px;margin:8px 0}
+  .rt-btn{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:13px;cursor:pointer;color:var(--sub)}
+  .rt-btn.active.right{background:#dcfce7;color:#166534;border-color:#86efac}
+  .rt-btn.active.wrong{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+  .wrong-only{display:none}
+  .wrong-only.show{display:block}
+  .btn{border:none;border-radius:9px;padding:9px 14px;font-size:13px;cursor:pointer;font-weight:600}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-ghost{background:#eef2ff;color:#4338ca}
+  .btn-add{background:#ecfdf5;color:#065f46;border:1px dashed #6ee7b7}
+  .result-area{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  .right-badge{display:inline-flex;align-items:center;gap:6px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:10px;padding:6px 10px;font-size:12px}
+  .history-item{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+  .history-item .meta{font-size:12px;color:var(--sub);margin-bottom:4px}
+  .history-item .sig{font-size:13px;color:#111827;margin-bottom:6px}
+  .redo-row{display:flex;gap:8px;align-items:center}
+  .redo-row .lbl{font-size:12px;color:var(--sub)}
+  .mini{border:none;border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer}
+  .mini.ok{background:#dcfce7;color:#166534}
+  .mini.no{background:#fee2e2;color:#991b1b}
+  .mini.done{background:#e5e7eb;color:#6b7280}
+  .muted{color:#9ca3af;font-size:12px}
+  .stat{font-size:12px;color:var(--sub);margin-left:auto}
+  .taghint{font-size:11px;color:#9ca3af;margin-top:2px}
+  #mcReady{position:fixed;top:10px;right:10px;font-size:11px;padding:4px 8px;border-radius:8px;background:#f3f4f6;color:#6b7280;z-index:9999}
+</style>
+</head>
+<body>
+<div id="mcReady">组件：检测中…</div>
+<header>
+  <h1>📒 解题库 · 作业批改台</h1>
+  <a href="./index.html">← 返回解题课</a>
+</header>
+
+<div class="wrap">
+
+  <!-- 作业信息 -->
+  <div class="panel">
+    <h2>① 作业信息</h2>
+    <div class="row">
+      <label>学科</label>
+      <select id="subject" style="flex:1;max-width:200px">
+        <option value="语文">语文</option>
+        <option value="数学" selected>数学</option>
+        <option value="英语">英语</option>
+        <option value="物理">物理</option>
+        <option value="化学">化学</option>
+        <option value="政治">政治</option>
+      </select>
+      <label>章节</label>
+      <input type="text" id="chapter" placeholder="如：三角函数·二倍角" style="flex:1">
+    </div>
+    <p class="taghint">批改记录会写入同一记忆卡 M 库，并在每题下方展示「命中的已有卡」与「准备增加的记忆卡（可编辑/审核）」。</p>
+  </div>
+
+  <!-- 批改区 -->
+  <div class="panel">
+    <h2>② 逐题批改 <span class="stat" id="qStat">0 题</span></h2>
+    <div id="qList"></div>
+    <button class="btn btn-add" id="addQ" style="width:100%">＋ 添加一题</button>
+  </div>
+
+  <!-- 历史错题 -->
+  <div class="panel">
+    <h2>③ 历史错题（本库） <button class="btn btn-ghost" id="loadHist" style="margin-left:8px;padding:5px 10px;font-size:12px">加载 / 刷新</button></h2>
+    <div id="historyList"><span class="muted">点击「加载 / 刷新」从 M 库读取 courseware 来源的错题。</span></div>
+  </div>
+
+</div>
+
+<!-- 共享审核组件：命中的卡 + 待加卡（编辑/审核） -->
+<script src="https://mcjc4.github.io/memory-card/mc_pending.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SUBJECTS = ['语文','数学','英语','物理','化学','政治'];
+  var WRONG_REASONS = ['计算错误','卡片看过但忘记了','审题失误','知道这个卡片但不知道要在这里用','完全不知道有这个套路'];
+  var SB_URL = 'https://mixuqjognbdrafrrlivc.supabase.co';
+  var SB_KEY = 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX';
+
+  var qCount = 0;
+  var qList = document.getElementById('qList');
+  var qStat = document.getElementById('qStat');
+
+  // ---- MC 组件初始化 ----
+  function ensureMC(){
+    if (window.MC && typeof MC.init === 'function'){
+      MC.init({url:SB_URL, key:SB_KEY, reviewer:'courseware'});
+      var r = document.getElementById('mcReady'); r.textContent='组件：已就绪'; r.style.background='#dcfce7'; r.style.color='#166534';
+      return true;
+    }
+    var r = document.getElementById('mcReady'); r.textContent='组件：未加载'; r.style.background='#fee2e2'; r.style.color='#991b1b';
+    return false;
+  }
+  window.addEventListener('load', function(){ ensureMC(); prefillTags(); });
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(m){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[m];}); }
+
+  // 错因标签/易错标签建议（datalist）
+  function prefillTags(){
+    try{
+      if(!window.MC) return;
+      MC.select('tags_master','select=name,category,color&limit=200').then(function(rows){
+        var dl = document.getElementById('tagSuggest'); if(!dl) return;
+        rows.forEach(function(t){ var o=document.createElement('option'); o.value=t.name; dl.appendChild(o); });
+      }).catch(function(){});
+    }catch(e){}
+  }
+
+  // ---- 添加一题 ----
+  document.getElementById('addQ').addEventListener('click', addProblem);
+  function addProblem(){
+    qCount++;
+    var card = document.createElement('div');
+    card.className = 'qcard';
+    var reasonOpts = WRONG_REASONS.map(function(r){return '<option value="'+esc(r)+'">'+esc(r)+'</option>';}).join('');
+    card.innerHTML =
+      '<div class="qhead"><span class="qidx">题 '+qCount+'</span><button class="del" data-x="del">✕ 删除</button></div>'+
+      '<textarea placeholder="题干 / 题目要点（可粘贴原题）" class="q-q"></textarea>'+
+      '<textarea placeholder="我的答案 / 错误点（可选）" class="q-a" style="margin-top:8px"></textarea>'+
+      '<div class="result-toggle">'+
+        '<button type="button" class="rt-btn right" data-r="right">✓ 做对了</button>'+
+        '<button type="button" class="rt-btn wrong" data-r="wrong">✗ 做错了</button>'+
+      '</div>'+
+      '<div class="wrong-only">'+
+        '<div class="row" style="margin-top:6px"><label>错因</label><select class="q-reason" style="flex:1">'+reasonOpts+'</select></div>'+
+        '<textarea placeholder="信号 signal：这题考的知识点信号（如：看到『二倍角』想到 cos2α 公式）" class="q-sig" style="margin-top:4px"></textarea>'+
+        '<textarea placeholder="结论 conclusion：由此得出的通用结论 / 易错点（如：cos2α 三个公式按已知量选择，勿张冠李戴）" class="q-con" style="margin-top:6px"></textarea>'+
+        '<input type="text" class="q-tags" placeholder="标签（逗号分隔，如：易错,高频），可输 # 提示" list="tagSuggest" style="margin-top:6px">'+
+        '<div class="taghint">标签会随卡片写入 M 库，门户可按标签聚合三模块。</div>'+
+      '</div>'+
+      '<button class="btn btn-primary" data-x="rec" style="margin-top:10px;width:100%">记录并生成记忆卡</button>'+
+      '<div class="result-area"></div>';
+    qList.appendChild(card);
+    qStat.textContent = qCount + ' 题';
+
+    card.querySelector('[data-x="del"]').addEventListener('click', function(){
+      card.parentNode.removeChild(card); qCount--; qStat.textContent = qCount + ' 题';
+    });
+    var rtBtns = card.querySelectorAll('.rt-btn');
+    rtBtns.forEach(function(b){
+      b.addEventListener('click', function(){
+        rtBtns.forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active');
+        var isWrong = b.getAttribute('data-r')==='wrong';
+        card.querySelector('.wrong-only').classList.toggle('show', isWrong);
+      });
+    });
+    card.querySelector('[data-x="rec"]').addEventListener('click', function(){ recordProblem(card); });
+  }
+
+  // ---- 记录一题 ----
+  async function recordProblem(card){
+    if(!ensureMC()){ alert('审核组件未加载，请刷新页面或检查网络（需能访问 mcjc4.github.io/memory-card/mc_pending.js）。'); return; }
+    var subject = document.getElementById('subject').value;
+    var chapter = document.getElementById('chapter').value.trim();
+    var question = card.querySelector('.q-q').value.trim();
+    var answer = card.querySelector('.q-a').value.trim();
+    var isWrong = card.querySelector('.rt-btn.wrong').classList.contains('active');
+    var isRight = card.querySelector('.rt-btn.right').classList.contains('active');
+    if(!question){ MC.toast('请先填写题干'); return; }
+    if(!isWrong && !isRight){ MC.toast('请选择「做对 / 做错」'); return; }
+
+    var area = card.querySelector('.result-area');
+    area.innerHTML = '';
+
+    if(isRight){
+      MC.toast('已记为正确（若是重做，请在下方历史区登记）');
+      var b = document.createElement('div'); b.className='right-badge'; b.textContent='✓ 已记为正确'; area.appendChild(b);
+      return;
+    }
+
+    // 错：校验信号/结论
+    var wrongReason = card.querySelector('.q-reason').value;
+    var signal = card.querySelector('.q-sig').value.trim();
+    var conclusion = card.querySelector('.q-con').value.trim();
+    var tagsRaw = card.querySelector('.q-tags').value.trim();
+    var tags = tagsRaw ? tagsRaw.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean) : [];
+    if(!signal || !conclusion){ MC.toast('做错时需填写「信号」与「结论」才能生成记忆卡'); return; }
+
+    // 1) 写 mistakes
+    var mRow = {
+      subject: subject, question: question, answer: answer,
+      wrong_reason: wrongReason, hit_card_id:'', hit_verdict:'', mastery:'unfamiliar',
+      source_module:'courseware', source_type:'lesson', tags: tags,
+      created_at: new Date().toISOString()
+    };
+    var mistakeId = '';
+    try{
+      var insM = await MC.insert(MC.tables.mistakes, mRow);
+      mistakeId = (insM && insM.mistake_id!=null) ? String(insM.mistake_id) : '';
+    }catch(e){
+      try{ var insM2 = await MC.insert(MC.tables.mistakes, Object.assign({executor:'cx'}, mRow)); mistakeId = (insM2&&insM2.mistake_id!=null)?String(insM2.mistake_id):''; }
+      catch(e2){ MC.toast('错题写入失败：'+e2.message); }
+    }
+
+    // 2) 生成待审卡（内置预筛）
+    var pendingRow = null;
+    try{
+      pendingRow = await MC.propose({
+        subject: subject, chapter: chapter, signal: signal, conclusion: conclusion,
+        sourceModule:'courseware', sourceType:'lesson', sourceId: mistakeId, tags: tags
+      });
+    }catch(e){ MC.toast('待审卡生成失败：'+e.message); }
+
+    // 3) 渲染：命中卡 + 待加卡
+    if(pendingRow){
+      var pf = (typeof pendingRow.payload==='string') ? JSON.parse(pendingRow.payload||'{}') : (pendingRow.payload||{});
+      if(pf.prefilter_card){
+        try{
+          var cards = await MC.select(MC.tables.cards, 'card_id=eq.'+encodeURIComponent(pf.prefilter_card)+'&select=card_id,signal,conclusion');
+          if(cards && cards.length) MC.renderHitCard(area, cards[0]);
+        }catch(e){ MC.toast('读取命中卡失败'); }
+      }
+      MC.renderReviewCard(area, pendingRow, { onDone:function(){} });
+    }
+  }
+
+  // ---- 历史错题 + 重做登记 ----
+  document.getElementById('loadHist').addEventListener('click', loadHistory);
+  async function loadHistory(){
+    if(!ensureMC()){ alert('审核组件未加载'); return; }
+    var box = document.getElementById('historyList');
+    box.innerHTML = '加载中…';
+    var rows = [];
+    try{ rows = await MC.select(MC.tables.mistakes, 'source_module=eq.courseware&order=created_at.desc&limit=100'); }
+    catch(e){ box.innerHTML = '<span class="muted">读取失败：'+esc(e.message)+'</span>'; return; }
+    if(!rows.length){ box.innerHTML = '<span class="muted">暂无 courseware 来源错题。</span>'; return; }
+    box.innerHTML = '';
+    rows.forEach(function(m){
+      var item = document.createElement('div'); item.className='history-item';
+      var meta = esc(m.subject||'')+(m.chapter?' · '+esc(m.chapter):'')+(m.wrong_reason?' · '+esc(m.wrong_reason):'')+' · '+new Date(m.created_at).toLocaleString('zh-CN');
+      item.innerHTML =
+        '<div class="meta">'+meta+'</div>'+
+        '<div class="sig"><b>题：</b>'+esc(m.question||'(空)')+'</div>'+
+        (m.hit_card_id?'<div class="meta" style="color:#065f46">命中卡 '+esc(m.hit_card_id)+'（'+(m.hit_verdict||'')+'）</div>':'<div class="meta" style="color:#991b1b">未命中 → 已生成待审卡</div>')+
+        '<div class="redo-row"><span class="lbl">重做：</span>'+
+          '<button class="mini ok" data-redo="1" data-mid="'+esc(m.mistake_id)+'">✓ 做对</button>'+
+          '<button class="mini no" data-redo="0" data-mid="'+esc(m.mistake_id)+'">✗ 又错</button>'+
+        '</div>';
+      box.appendChild(item);
+    });
+    box.querySelectorAll('[data-redo]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var mid = b.getAttribute('data-mid');
+        var correct = b.getAttribute('data-redo')==='1';
+        writeRedo(mid, correct);
+        var sibs = b.parentNode.querySelectorAll('.mini');
+        sibs.forEach(function(x){ x.classList.remove('ok','no'); x.classList.add('done'); x.disabled=true; });
+        b.classList.remove('done'); b.classList.add(correct?'ok':'no'); b.textContent = correct?'✓ 已记做对':'✗ 已记做错';
+      });
+    });
+  }
+
+  async function writeRedo(mistakeId, correct){
+    if(!mistakeId) return;
+    try{
+      await MC.insert('course_redo', { mistake_id: mistakeId, correct: correct, created_at: new Date().toISOString() });
+      MC.toast('重做结果已记录');
+    }catch(e){ console.warn('[grade] redo write fail', e); MC.toast('重做记录未落库（表可能未建，见补充 SQL）'); }
+  }
+
+  // 默认先放一题
+  addProblem();
+})();
+</script>
+<datalist id="tagSuggest"></datalist>
+</body>
+</html>
