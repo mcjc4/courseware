@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物0031 · 倾斜传送带-轻放上端 | 传送带专题</title>
+<meta name="number" content="物0031">
+<meta name="subject" content="物理">
+<meta name="chapter" content="传送带专题">
+<meta name="knowledge" content="倾斜传送带-轻放上端">
+<meta name="source" content="昕言解题课件库">
+<meta name="type" content="解答题">
+<meta name="tags" content="传送带;倾斜;轻放上端;加速下滑;物理">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{{delimiters:[{{left:'$$',right:'$$',display:true}},{{left:'$',right:'$',display:false}}]}});"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
+.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
+.back-link:hover{text-decoration:underline}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
+.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
+.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
+.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
+.hero p{font-size:15px;opacity:.95}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
+.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
+.problem-img{width:100%;border-radius:12px;border:1px solid #e0e0e0;margin-bottom:16px;cursor:pointer;transition:transform .2s}
+.problem-img:hover{transform:scale(1.01)}
+.canvas-wrap{position:relative;margin:16px 0;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
+canvas{display:block;width:100%;touch-action:none}
+.tooltip{position:absolute;background:rgba(0,0,0,.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
+.slider-row{display:flex;align-items:center;margin:10px 0;gap:12px}
+.slider-row label{min-width:80px;font-weight:600;color:#00695c;font-size:14px}
+.slider-row input[type=range]{flex:1;accent-color:#26a69a}
+.slider-row .val{min-width:90px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace;font-size:14px}
+.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0;transition:all .3s}
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+.step.hidden{display:none}
+.btn{border:none;border-radius:22px;padding:10px 24px;font-size:15px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s;margin:4px}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
+.btn-row{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+.formula-box{background:#f5f5f5;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:16px;text-align:center;border:1px solid #e0e0e0}
+.tip{background:#fff3e0;border-left:4px solid #ff9800;padding:12px 16px;border-radius:8px;margin:12px 0;font-size:14px;color:#e65100}
+.answer-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #43a047;border-radius:12px;padding:18px 22px;margin:16px 0;font-size:17px;font-weight:600;color:#2e7d32}
+</style>
+</head>
+<body>
+<div style="max-width:960px;margin:0 auto">
+<a class="back-link" href="../../index.html">← 返回课件库</a>
+<div class="meta-bar">
+  <span class="meta-chip key">物0031</span>
+  <span class="meta-chip">物理</span>
+  <span class="meta-chip">传送带专题</span>
+  <span class="meta-chip">倾斜传送带-轻放上端</span>
+  <span class="meta-chip">昕言解题课件库</span>
+  <span class="meta-chip">解答题</span>
+</div>
+<div class="hero">
+  <h1>传送带专题 ④ 倾斜传送带 · 轻放上端</h1>
+  <p>物块从顶端放手，传送带也向下转——谁跑得快？</p>
+</div>
+
+<div class="card">
+  <h2> 原题</h2>
+  <img class="problem-img" src="img/problem.jpg" alt="原题截图" onclick="this.style.transform=this.style.transform?'':'scale(1.5)';this.style.zIndex=this.style.zIndex?'':'100'">
+  <div class="formula-box">已知传送带长为 $L$，质量为 $m$ 的物块与传送带间摩擦因数为 $\mu$，现将物块轻放在传送带 $h$ 端（上端），传送带以速度 $v$ 向下运动。求物块经多长时间离开传送带？</div>
+</div>
+
+<div class="card">
+  <h2>🔬 互动演示</h2>
+  <p style="color:#666;font-size:14px;margin-bottom:10px">拖动滑块改变参数，观察传送带运动和 v-t 图像的变化</p>
+  <div class="slider-row">
+  <label>L (m)</label>
+  <input type="range" id="sL" min="1" max="20" step="0.5" value="10">
+  <span class="val" id="vL">10</span>
+</div><div class="slider-row">
+  <label>v (m/s)</label>
+  <input type="range" id="sv" min="1" max="10" step="0.5" value="5">
+  <span class="val" id="vv">5</span>
+</div><div class="slider-row">
+  <label>μ</label>
+  <input type="range" id="smu" min="0.05" max="0.8" step="0.05" value="0.3">
+  <span class="val" id="vmu">0.3</span>
+</div><div class="slider-row">
+  <label>θ (°)</label>
+  <input type="range" id="stheta" min="10" max="45" step="1" value="30">
+  <span class="val" id="vtheta">30</span>
+</div>
+  <div class="canvas-wrap">
+    <canvas id="cv" data-h="320"></canvas>
+    <div class="tooltip" id="tip"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📝 逐步解析</h2>
+  <p style="color:#666;font-size:14px">点击「下一步」逐步展开解题过程</p>
+  <div class="btn-row">
+    <button class="btn" onclick="showNext()"> 下一步</button>
+    <button class="btn ghost" onclick="showAll()">📖 展开全部</button>
+    <button class="btn ghost" onclick="hideAll()">🔄 重置</button>
+  </div>
+  <div class="step hidden" id="step1">
+  <h3>步骤1：初始状态</h3>
+  <p>物块 $v_0=0$，传送带向下速度 $v$。物块相对传送带向上滑，摩擦力沿斜面向下。</p>
+</div><div class="step hidden" id="step2">
+  <h3>步骤2：阶段一：加速（摩擦力向下）</h3>
+  <p>合力 $F=mg\sin\theta+\mu mg\cos\theta$，$a_1=g\sin\theta+\mu g\cos\theta$。加速到 $v$ 时位移 $x_1=\dfrac{v^2}{2a_1}$。</p>
+</div><div class="step gold hidden" id="step3">
+  <h3>步骤3：阶段二判断</h3>
+  <p>若 $x_1\geq L$：全程加速，$t=\sqrt{\dfrac{2L}{a_1}}$。若 $x_1<L$：共速后，因 $mg\sin\theta$ 与 $\mu mg\cos\theta$ 大小关系不同，可能匀速或继续加速。</p>
+</div><div class="step hidden" id="step4">
+  <h3>步骤4：共速后</h3>
+  <p>若 $\mu\geq\tan\theta$：匀速 $v$ 走完剩余 $L-x_1$。若 $\mu<\tan\theta$：继续加速 $a_2=g\sin\theta-\mu g\cos\theta$。</p>
+</div>
+  <div class="answer-box hidden" id="answerBox">
+    <strong> 最终答案：</strong>分情况讨论，核心加速度 $a_1=g\sin\theta+\mu g\cos\theta$（共速前），$a_2=g\sin\theta-\mu g\cos\theta$（共速后，仅当 $\mu<\tan\theta$）。
+  </div>
+</div>
+
+<div class="card">
+  <h2>💡 方法总结</h2>
+  <div class="tip">
+    <strong>传送带问题通用解题步骤：</strong><br>
+    1️⃣ 判断物块与传送带的相对运动方向 → 确定摩擦力方向<br>
+    2️⃣ 受力分析 → 求加速度<br>
+    3️⃣ 判断是否能达到共速 → 分阶段讨论<br>
+    4️⃣ 画 v-t 图辅助分析（面积=位移，斜率=加速度）<br>
+    5️⃣ 注意痕迹长度 = 相对位移（不是物块位移！）
+  </div>
+</div>
+
+<script>
+var stepCount = 4;
+var currentStep = 0;
+function showNext(){
+  if(currentStep < stepCount){
+    currentStep++;
+    document.getElementById('step'+currentStep).classList.remove('hidden');
+    if(currentStep === stepCount) document.getElementById('answerBox').classList.remove('hidden');
+    document.getElementById('step'+currentStep).scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function showAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.remove('hidden');
+  document.getElementById('answerBox').classList.remove('hidden');
+}
+function hideAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.add('hidden');
+  document.getElementById('answerBox').classList.add('hidden');
+  currentStep=0;
+}
+
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+var sL=document.getElementById('sL'),sv=document.getElementById('sv'),smu=document.getElementById('smu'),stheta=document.getElementById('stheta');
+var tip=document.getElementById('tip');
+function vals(){return{L:+sL.value,v:+sv.value,mu:+smu.value,theta:+stheta.value*Math.PI/180,g:10}}
+function draw(){
+  var W=cv.clientWidth,H=cv.clientHeight;
+  ctx.clearRect(0,0,W,H);
+  var{L,v,mu,theta,g}=vals();
+  var a1=g*Math.sin(theta)+mu*g*Math.cos(theta);
+  var x1=v*v/(2*a1);
+  // incline (top-left to bottom-right)
+  var topX=80,topY=H*0.2,baseX=W*0.55,baseY=H*0.75;
+  var len=Math.sqrt((baseX-topX)**2+(baseY-topY)**2);
+  ctx.strokeStyle='#78909c';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(topX,topY);ctx.lineTo(baseX,baseY);ctx.stroke();
+  // arrow down
+  var mx2=(topX+baseX)/2,my2=(topY+baseY)/2;
+  ctx.strokeStyle='#1565c0';ctx.lineWidth=2;
+  var dx=(baseX-topX)/len*40,dy=(baseY-topY)/len*40;
+  ctx.beginPath();ctx.moveTo(mx2-dx,my2-dy);ctx.lineTo(mx2+dx,my2+dy);ctx.stroke();
+  ctx.fillStyle='#1565c0';ctx.font='13px sans-serif';ctx.fillText('v='+v+' m/s ↓',mx2+10,my2+5);
+  // block at top
+  ctx.fillStyle='#ff7043';ctx.fillRect(topX+10,topY+5,22,20);
+  ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.fillText('m',topX+15,topY+19);
+  // angle
+  ctx.strokeStyle='#999';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(baseX,baseY);ctx.lineTo(baseX+50,baseY);ctx.stroke();
+  ctx.beginPath();ctx.arc(baseX,baseY,25,0,Math.atan2(baseY-topY,baseX-topX),false);ctx.stroke();
+  ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText('θ='+(theta*180/Math.PI).toFixed(0)+'°',baseX+10,baseY-10);
+  // v-t graph
+  var gx=W*0.6,gy=20,gw=W*0.36-20,gh=H*0.45;
+  ctx.strokeStyle='#ccc';ctx.strokeRect(gx,gy,gw,gh);
+  ctx.strokeStyle='#555';ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
+  var maxT=Math.max(v/a1*2,2),maxV=Math.max(v,5);
+  function tx(t){return gx+t/maxT*gw} function ty(vv){return gy+gh-vv/maxV*gh}
+  ctx.strokeStyle='#e91e63';ctx.lineWidth=2;ctx.beginPath();
+  ctx.moveTo(tx(0),ty(0));
+  if(x1<L){
+    var t1=v/a1;
+    ctx.lineTo(tx(t1),ty(v));
+    // after: check mu vs tan(theta)
+    if(mu>=Math.tan(theta)){
+      var t2=(L-x1)/v;
+      ctx.lineTo(tx(t1+t2),ty(v));
+    } else {
+      var a2=g*Math.sin(theta)-mu*g*Math.cos(theta);
+      var t2=(-v+Math.sqrt(v*v+2*a2*(L-x1)))/a2;
+      var vEnd=v+a2*t2;
+      ctx.lineTo(tx(t1+t2),ty(vEnd));
+    }
+  } else {
+    var tT=Math.sqrt(2*L/a1),vE=Math.sqrt(2*a1*L);
+    ctx.lineTo(tx(tT),ty(vE));
+  }
+  ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='11px sans-serif';
+  ctx.fillText('a₁=g(sinθ+μcosθ)='+a1.toFixed(2),gx+4,gy+gh+16);
+  var info=x1<L?'先加速到v，再'+(mu>=Math.tan(theta)?'匀速':'继续加速'):'全程加速';
+  ctx.fillText(info,10,H-10);
+}
+function onMove(e){
+  var r=cv.getBoundingClientRect();
+  var mx=(e.clientX||(e.touches&&e.touches[0].clientX))-r.left;
+  var my=(e.clientY||(e.touches&&e.touches[0].clientY))-r.top;
+  var W=cv.clientWidth,H=cv.clientHeight;
+  var{L,v,mu,theta,g}=vals();var a1=g*Math.sin(theta)+mu*g*Math.cos(theta);
+  var gx=W*0.6,gy=20,gw=W*0.36-20,gh=H*0.45;
+  if(mx>gx&&mx<gx+gw&&my>gy&&my<gy+gh){
+    var maxT=Math.max(v/a1*2,2),maxV=Math.max(v,5);
+    var t=(mx-gx)/gw*maxT,vv=(gy+gh-my)/gh*maxV;
+    tip.style.display='block';tip.style.left=mx+'px';tip.style.top=my+'px';
+    tip.textContent='t='+t.toFixed(2)+'s, v='+vv.toFixed(2)+'m/s';
+  } else tip.style.display='none';
+}
+cv.addEventListener('mousemove',onMove);
+cv.addEventListener('touchmove',function(e){e.preventDefault();onMove(e)},{passive:false});
+[sL,sv,smu,stheta].forEach(function(s){s.addEventListener('input',function(){upd();draw()})});
+function upd(){document.getElementById('vL').textContent=sL.value;document.getElementById('vv').textContent=sv.value;document.getElementById('vmu').textContent=smu.value;document.getElementById('vtheta').textContent=stheta.value}
+upd();draw();
+</script>
+
+</div>
+<script>
+// Canvas resize + touch support
+(function(){
+  var cvs = document.querySelectorAll('canvas');
+  function resizeAll(){
+    cvs.forEach(function(c){
+      var w = c.parentElement.clientWidth;
+      var h = c.dataset.h || Math.round(w*0.5);
+      var dpr = window.devicePixelRatio||1;
+      c.width = w*dpr; c.height = h*dpr;
+      c.style.height = h+'px';
+      c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+    });
+  }
+  window.addEventListener('resize', function(){ requestAnimationFrame(resizeAll); });
+  window.addEventListener('orientationchange', function(){ setTimeout(resizeAll, 300); });
+  resizeAll();
+})();
+</script>
+</body>
+</html>
