@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物0033 · 传送带痕迹长度 | 传送带专题</title>
+<meta name="number" content="物0033">
+<meta name="subject" content="物理">
+<meta name="chapter" content="传送带专题">
+<meta name="knowledge" content="传送带痕迹长度">
+<meta name="source" content="昕言解题课件库">
+<meta name="type" content="解答题">
+<meta name="tags" content="传送带;痕迹;相对位移;黑炭;物理">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{{delimiters:[{{left:'$$',right:'$$',display:true}},{{left:'$',right:'$',display:false}}]}});"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
+.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
+.back-link:hover{text-decoration:underline}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
+.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
+.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
+.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
+.hero p{font-size:15px;opacity:.95}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
+.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
+.problem-img{width:100%;border-radius:12px;border:1px solid #e0e0e0;margin-bottom:16px;cursor:pointer;transition:transform .2s}
+.problem-img:hover{transform:scale(1.01)}
+.canvas-wrap{position:relative;margin:16px 0;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
+canvas{display:block;width:100%;touch-action:none}
+.tooltip{position:absolute;background:rgba(0,0,0,.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
+.slider-row{display:flex;align-items:center;margin:10px 0;gap:12px}
+.slider-row label{min-width:80px;font-weight:600;color:#00695c;font-size:14px}
+.slider-row input[type=range]{flex:1;accent-color:#26a69a}
+.slider-row .val{min-width:90px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace;font-size:14px}
+.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0;transition:all .3s}
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+.step.hidden{display:none}
+.btn{border:none;border-radius:22px;padding:10px 24px;font-size:15px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s;margin:4px}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
+.btn-row{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+.formula-box{background:#f5f5f5;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:16px;text-align:center;border:1px solid #e0e0e0}
+.tip{background:#fff3e0;border-left:4px solid #ff9800;padding:12px 16px;border-radius:8px;margin:12px 0;font-size:14px;color:#e65100}
+.answer-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #43a047;border-radius:12px;padding:18px 22px;margin:16px 0;font-size:17px;font-weight:600;color:#2e7d32}
+</style>
+</head>
+<body>
+<div style="max-width:960px;margin:0 auto">
+<a class="back-link" href="../../index.html">← 返回课件库</a>
+<div class="meta-bar">
+  <span class="meta-chip key">物0033</span>
+  <span class="meta-chip">物理</span>
+  <span class="meta-chip">传送带专题</span>
+  <span class="meta-chip">传送带痕迹长度</span>
+  <span class="meta-chip">昕言解题课件库</span>
+  <span class="meta-chip">解答题</span>
+</div>
+<div class="hero">
+  <h1>传送带专题 ⑥ 黑炭滑块 · 痕迹长度</h1>
+  <p>滑块在皮带上留下的"签名"有多长？关键在相对位移！</p>
+</div>
+
+<div class="card">
+  <h2> 原题</h2>
+  <img class="problem-img" src="img/problem.jpg" alt="原题截图" onclick="this.style.transform=this.style.transform?'':'scale(1.5)';this.style.zIndex=this.style.zIndex?'':'100'">
+  <div class="formula-box">水平足够长的传送带以 $v_0$ 的速度运动，在其左端将一黑炭滑块轻轻放在上面，黑炭滑块滑动，传送到右端。已知黑炭滑块与传送带间的动摩擦系数 $\mu$，求黑炭滑块在皮带上所留下的痕迹的长度。</div>
+</div>
+
+<div class="card">
+  <h2>🔬 互动演示</h2>
+  <p style="color:#666;font-size:14px;margin-bottom:10px">拖动滑块改变参数，观察传送带运动和 v-t 图像的变化</p>
+  <div class="slider-row">
+  <label>v₀ (m/s)</label>
+  <input type="range" id="sv0" min="1" max="10" step="0.5" value="4">
+  <span class="val" id="vv0">4</span>
+</div><div class="slider-row">
+  <label>μ</label>
+  <input type="range" id="smu" min="0.05" max="0.8" step="0.05" value="0.2">
+  <span class="val" id="vmu">0.2</span>
+</div>
+  <div class="canvas-wrap">
+    <canvas id="cv" data-h="320"></canvas>
+    <div class="tooltip" id="tip"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📝 逐步解析</h2>
+  <p style="color:#666;font-size:14px">点击「下一步」逐步展开解题过程</p>
+  <div class="btn-row">
+    <button class="btn" onclick="showNext()"> 下一步</button>
+    <button class="btn ghost" onclick="showAll()">📖 展开全部</button>
+    <button class="btn ghost" onclick="hideAll()">🔄 重置</button>
+  </div>
+  <div class="step hidden" id="step1">
+  <h3>步骤1：滑块运动</h3>
+  <p>滑块从静止加速，$a=\mu g$，加速到 $v_0$ 用时 $t=\dfrac{v_0}{\mu g}$。</p>
+</div><div class="step hidden" id="step2">
+  <h3>步骤2：滑块位移</h3>
+  <p>$x_{\text{块}}=\dfrac{1}{2}\mu g\,t^2=\dfrac{v_0^2}{2\mu g}$。</p>
+</div><div class="step gold hidden" id="step3">
+  <h3>步骤3：传送带位移</h3>
+  <p>$x_{\text{带}}=v_0\,t=\dfrac{v_0^2}{\mu g}$。</p>
+</div><div class="step hidden" id="step4">
+  <h3>步骤4：痕迹长度</h3>
+  <p>痕迹 = 相对位移 $\Delta x=x_{\text{带}}-x_{\text{块}}=\dfrac{v_0^2}{2\mu g}$。共速后无相对滑动，不再留痕。</p>
+</div>
+  <div class="answer-box hidden" id="answerBox">
+    <strong> 最终答案：</strong>$\Delta x=\dfrac{v_0^2}{2\mu g}$
+  </div>
+</div>
+
+<div class="card">
+  <h2>💡 方法总结</h2>
+  <div class="tip">
+    <strong>传送带问题通用解题步骤：</strong><br>
+    1️⃣ 判断物块与传送带的相对运动方向 → 确定摩擦力方向<br>
+    2️⃣ 受力分析 → 求加速度<br>
+    3️⃣ 判断是否能达到共速 → 分阶段讨论<br>
+    4️⃣ 画 v-t 图辅助分析（面积=位移，斜率=加速度）<br>
+    5️⃣ 注意痕迹长度 = 相对位移（不是物块位移！）
+  </div>
+</div>
+
+<script>
+var stepCount = 4;
+var currentStep = 0;
+function showNext(){
+  if(currentStep < stepCount){
+    currentStep++;
+    document.getElementById('step'+currentStep).classList.remove('hidden');
+    if(currentStep === stepCount) document.getElementById('answerBox').classList.remove('hidden');
+    document.getElementById('step'+currentStep).scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function showAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.remove('hidden');
+  document.getElementById('answerBox').classList.remove('hidden');
+}
+function hideAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.add('hidden');
+  document.getElementById('answerBox').classList.add('hidden');
+  currentStep=0;
+}
+
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+var sv0=document.getElementById('sv0'),smu=document.getElementById('smu');
+var tip=document.getElementById('tip');
+var time=0,animId=null;
+function vals(){return{v0:+sv0.value,mu:+smu.value,g:10}}
+function draw(t){
+  var W=cv.clientWidth,H=cv.clientHeight;
+  ctx.clearRect(0,0,W,H);
+  var{v0,mu,g}=vals();
+  var a=mu*g;
+  var tAccel=v0/a;
+  var xBlock=0.5*a*Math.min(t,tAccel)*Math.min(t,tAccel);
+  if(t>tAccel) xBlock+=v0*(t-tAccel);
+  var xBelt=v0*t;
+  var trace=xBelt-xBlock;
+  var maxTrace=v0*v0/(2*a);
+  // belt
+  ctx.fillStyle='#b0bec5';ctx.fillRect(30,H*0.5,W-60,16);
+  // trace mark on belt
+  var traceLen=Math.min(trace,maxTrace);
+  var scale=(W-100)/Math.max(xBelt+20,10);
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  var tx0=30+(xBelt-traceLen)*scale;
+  ctx.fillRect(tx0,H*0.5+2,traceLen*scale,12);
+  // block
+  var bx=30+xBlock*scale;
+  ctx.fillStyle='#ff7043';ctx.fillRect(bx-12,H*0.5-20,24,20);
+  ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.fillText('m',bx-6,H*0.5-6);
+  // labels
+  ctx.fillStyle='#333';ctx.font='13px sans-serif';
+  ctx.fillText('t='+t.toFixed(2)+' s',10,20);
+  ctx.fillText('x_块='+xBlock.toFixed(2)+' m',10,38);
+  ctx.fillText('x_带='+xBelt.toFixed(2)+' m',10,56);
+  ctx.fillStyle='#e91e63';ctx.font='bold 14px sans-serif';
+  ctx.fillText('痕迹 Δx='+trace.toFixed(2)+' m (最终='+maxTrace.toFixed(2)+' m)',10,78);
+  // v-t graph
+  var gx=W*0.55,gy=20,gw=W*0.4-20,gh=H*0.4;
+  ctx.strokeStyle='#ccc';ctx.strokeRect(gx,gy,gw,gh);
+  ctx.strokeStyle='#555';ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
+  var maxT=tAccel*1.5,maxV=v0*1.2;
+  function tx(tt){return gx+tt/maxT*gw} function ty(vv){return gy+gh-vv/maxV*gh}
+  // belt v (constant)
+  ctx.strokeStyle='#1565c0';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+  ctx.beginPath();ctx.moveTo(tx(0),ty(v0));ctx.lineTo(tx(maxT),ty(v0));ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#1565c0';ctx.font='11px sans-serif';ctx.fillText('v_带',tx(maxT)+2,ty(v0)+4);
+  // block v
+  ctx.strokeStyle='#e91e63';ctx.lineWidth=2;ctx.beginPath();
+  ctx.moveTo(tx(0),ty(0));ctx.lineTo(tx(tAccel),ty(v0));ctx.stroke();
+  ctx.fillStyle='#e91e63';ctx.fillText('v_块',tx(tAccel)+2,ty(v0)-5);
+  // shaded area = trace
+  ctx.fillStyle='rgba(233,30,99,0.15)';ctx.beginPath();
+  ctx.moveTo(tx(0),ty(v0));ctx.lineTo(tx(0),ty(0));ctx.lineTo(tx(Math.min(t,tAccel)),ty(Math.min(a*t,v0)));
+  if(t<tAccel) ctx.lineTo(tx(t),ty(v0));
+  else {ctx.lineTo(tx(tAccel),ty(v0));ctx.lineTo(tx(t),ty(v0));}
+  ctx.closePath();ctx.fill();
+}
+function animate(){
+  var{v0,mu,g}=vals();
+  time+=0.05;
+  if(time>v0/(mu*g)*1.5) time=0;
+  draw(time);
+  animId=requestAnimationFrame(animate);
+}
+[sL=sv0,smu].forEach(function(s){s.addEventListener('input',function(){upd()})});
+// fix: sv0 not sL
+sv0.addEventListener('input',function(){upd()});
+smu.addEventListener('input',function(){upd()});
+function upd(){document.getElementById('vv0').textContent=sv0.value;document.getElementById('vmu').textContent=smu.value}
+upd();animate();
+</script>
+
+</div>
+<script>
+// Canvas resize + touch support
+(function(){
+  var cvs = document.querySelectorAll('canvas');
+  function resizeAll(){
+    cvs.forEach(function(c){
+      var w = c.parentElement.clientWidth;
+      var h = c.dataset.h || Math.round(w*0.5);
+      var dpr = window.devicePixelRatio||1;
+      c.width = w*dpr; c.height = h*dpr;
+      c.style.height = h+'px';
+      c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+    });
+  }
+  window.addEventListener('resize', function(){ requestAnimationFrame(resizeAll); });
+  window.addEventListener('orientationchange', function(){ setTimeout(resizeAll, 300); });
+  resizeAll();
+})();
+</script>
+</body>
+</html>
