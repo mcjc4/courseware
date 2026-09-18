@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物0034 · 倾斜传送带煤块综合题 | 传送带专题</title>
+<meta name="number" content="物0034">
+<meta name="subject" content="物理">
+<meta name="chapter" content="传送带专题">
+<meta name="knowledge" content="倾斜传送带煤块综合题">
+<meta name="source" content="昕言解题课件库">
+<meta name="type" content="解答题">
+<meta name="tags" content="传送带;倾斜;煤块;痕迹;综合;物理">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{{delimiters:[{{left:'$$',right:'$$',display:true}},{{left:'$',right:'$',display:false}}]}});"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
+.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
+.back-link:hover{text-decoration:underline}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
+.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
+.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
+.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
+.hero p{font-size:15px;opacity:.95}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
+.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
+.problem-img{width:100%;border-radius:12px;border:1px solid #e0e0e0;margin-bottom:16px;cursor:pointer;transition:transform .2s}
+.problem-img:hover{transform:scale(1.01)}
+.canvas-wrap{position:relative;margin:16px 0;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
+canvas{display:block;width:100%;touch-action:none}
+.tooltip{position:absolute;background:rgba(0,0,0,.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
+.slider-row{display:flex;align-items:center;margin:10px 0;gap:12px}
+.slider-row label{min-width:80px;font-weight:600;color:#00695c;font-size:14px}
+.slider-row input[type=range]{flex:1;accent-color:#26a69a}
+.slider-row .val{min-width:90px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace;font-size:14px}
+.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0;transition:all .3s}
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+.step.hidden{display:none}
+.btn{border:none;border-radius:22px;padding:10px 24px;font-size:15px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s;margin:4px}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
+.btn-row{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+.formula-box{background:#f5f5f5;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:16px;text-align:center;border:1px solid #e0e0e0}
+.tip{background:#fff3e0;border-left:4px solid #ff9800;padding:12px 16px;border-radius:8px;margin:12px 0;font-size:14px;color:#e65100}
+.answer-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #43a047;border-radius:12px;padding:18px 22px;margin:16px 0;font-size:17px;font-weight:600;color:#2e7d32}
+</style>
+</head>
+<body>
+<div style="max-width:960px;margin:0 auto">
+<a class="back-link" href="../../index.html">← 返回课件库</a>
+<div class="meta-bar">
+  <span class="meta-chip key">物0034</span>
+  <span class="meta-chip">物理</span>
+  <span class="meta-chip">传送带专题</span>
+  <span class="meta-chip">倾斜传送带煤块综合题</span>
+  <span class="meta-chip">昕言解题课件库</span>
+  <span class="meta-chip">解答题</span>
+</div>
+<div class="hero">
+  <h1>传送带专题 ⑦ 倾斜传送带 · 煤块综合</h1>
+  <p>θ=37°、L=10.25m、v₀=10m/s、μ=0.5——数据全给齐，算就完了！</p>
+</div>
+
+<div class="card">
+  <h2> 原题</h2>
+  <img class="problem-img" src="img/problem.jpg" alt="原题截图" onclick="this.style.transform=this.style.transform?'':'scale(1.5)';this.style.zIndex=this.style.zIndex?'':'100'">
+  <div class="formula-box">传送带与地面倾角 $\theta=37°$，从 $A$ 到 $B$ 长度为 $L=10.25\text{ m}$，传送带以 $v_0=10\text{ m/s}$ 的速率逆时针转动。在传送带上端 $A$ 无初速度地放一个质量为 $m=0.5\text{ kg}$ 的黑色煤块，它与传送带之间的动摩擦因数为 $\mu=0.5$。煤块在传送带上经过会留下黑色痕迹。已知 $\sin 37°=0.6$，$g$ 取 $10\text{ m/s}^2$。求：(1) 煤块从 $A$ 到 $B$ 的时间；(2) 煤块从 $A$ 到 $B$ 的过程中传送带上形成痕迹的长度。</div>
+</div>
+
+<div class="card">
+  <h2>🔬 互动演示</h2>
+  <p style="color:#666;font-size:14px;margin-bottom:10px">拖动滑块改变参数，观察传送带运动和 v-t 图像的变化</p>
+  <div class="slider-row">
+  <label>L (m)</label>
+  <input type="range" id="sL" min="5" max="20" step="0.25" value="10.25">
+  <span class="val" id="vL">10.25</span>
+</div><div class="slider-row">
+  <label>v₀ (m/s)</label>
+  <input type="range" id="sv0" min="5" max="15" step="0.5" value="10">
+  <span class="val" id="vv0">10</span>
+</div><div class="slider-row">
+  <label>μ</label>
+  <input type="range" id="smu" min="0.1" max="1.0" step="0.05" value="0.5">
+  <span class="val" id="vmu">0.5</span>
+</div><div class="slider-row">
+  <label>θ (°)</label>
+  <input type="range" id="stheta" min="20" max="50" step="1" value="37">
+  <span class="val" id="vtheta">37</span>
+</div>
+  <div class="canvas-wrap">
+    <canvas id="cv" data-h="320"></canvas>
+    <div class="tooltip" id="tip"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📝 逐步解析</h2>
+  <p style="color:#666;font-size:14px">点击「下一步」逐步展开解题过程</p>
+  <div class="btn-row">
+    <button class="btn" onclick="showNext()"> 下一步</button>
+    <button class="btn ghost" onclick="showAll()">📖 展开全部</button>
+    <button class="btn ghost" onclick="hideAll()">🔄 重置</button>
+  </div>
+  <div class="step hidden" id="step1">
+  <h3>步骤1：受力分析</h3>
+  <p>传送带逆时针转（$A$ 端向下运动），煤块 $v_0=0$ 放 $A$ 端。煤块相对传送带向上滑，摩擦力沿斜面向下。$mg\sin37°=3\text{ N}$，$\mu mg\cos37°=0.5\times5\times0.8=2\text{ N}$。</p>
+</div><div class="step hidden" id="step2">
+  <h3>步骤2：阶段一：加速到共速</h3>
+  <p>合力向下 $F=3+2=5\text{ N}$，$a_1=\dfrac{5}{0.5}=10\text{ m/s}^2$。加速到 $v_0=10\text{ m/s}$：$t_1=1\text{ s}$，$x_1=5\text{ m}$。传送带位移 $x_{\text{带}1}=10\text{ m}$。痕迹 $\Delta x_1=10-5=5\text{ m}$。</p>
+</div><div class="step gold hidden" id="step3">
+  <h3>步骤3：阶段二：共速后</h3>
+  <p>共速后 $mg\sin37°=3>\mu mg\cos37°=2$，煤块继续加速！$a_2=g\sin37°-\mu g\cos37°=6-4=2\text{ m/s}^2$。剩余位移 $L-x_1=5.25\text{ m}$。</p>
+</div><div class="step hidden" id="step4">
+  <h3>步骤4：阶段二时间</h3>
+  <p>$5.25=10t_2+\dfrac{1}{2}\times2\times t_2^2 \Rightarrow t_2^2+10t_2-5.25=0 \Rightarrow t_2=0.5\text{ s}$。此阶段煤块比传送带快，痕迹 $\Delta x_2=x_{\text{块}2}-x_{\text{带}2}=(10\times0.5+0.5)-10\times0.5=0.5\text{ m}$。</p>
+</div><div class="step hidden" id="step5">
+  <h3>步骤5：总时间和总痕迹</h3>
+  <p>总时间 $t=t_1+t_2=1.5\text{ s}$。总痕迹 $\Delta x=\Delta x_1+\Delta x_2=5+0.5=5.5\text{ m}$。</p>
+</div>
+  <div class="answer-box hidden" id="answerBox">
+    <strong> 最终答案：</strong>(1) $t=1.5\text{ s}$；(2) $\Delta x=5.5\text{ m}$
+  </div>
+</div>
+
+<div class="card">
+  <h2>💡 方法总结</h2>
+  <div class="tip">
+    <strong>传送带问题通用解题步骤：</strong><br>
+    1️⃣ 判断物块与传送带的相对运动方向 → 确定摩擦力方向<br>
+    2️⃣ 受力分析 → 求加速度<br>
+    3️⃣ 判断是否能达到共速 → 分阶段讨论<br>
+    4️⃣ 画 v-t 图辅助分析（面积=位移，斜率=加速度）<br>
+    5️⃣ 注意痕迹长度 = 相对位移（不是物块位移！）
+  </div>
+</div>
+
+<script>
+var stepCount = 5;
+var currentStep = 0;
+function showNext(){
+  if(currentStep < stepCount){
+    currentStep++;
+    document.getElementById('step'+currentStep).classList.remove('hidden');
+    if(currentStep === stepCount) document.getElementById('answerBox').classList.remove('hidden');
+    document.getElementById('step'+currentStep).scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function showAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.remove('hidden');
+  document.getElementById('answerBox').classList.remove('hidden');
+}
+function hideAll(){
+  for(var i=1;i<=stepCount;i++) document.getElementById('step'+i).classList.add('hidden');
+  document.getElementById('answerBox').classList.add('hidden');
+  currentStep=0;
+}
+
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+var sL=document.getElementById('sL'),sv0=document.getElementById('sv0'),smu=document.getElementById('smu'),stheta=document.getElementById('stheta');
+var tip=document.getElementById('tip');
+function vals(){return{L:+sL.value,v0:+sv0.value,mu:+smu.value,theta:+stheta.value*Math.PI/180,g:10}}
+function draw(){
+  var W=cv.clientWidth,H=cv.clientHeight;
+  ctx.clearRect(0,0,W,H);
+  var{L,v0,mu,theta,g}=vals();
+  var sinT=Math.sin(theta),cosT=Math.cos(theta);
+  var a1=g*sinT+mu*g*cosT;
+  var t1=v0/a1, x1=0.5*a1*t1*t1;
+  var a2=g*sinT-mu*g*cosT;
+  // incline
+  var topX=80,topY=H*0.15,baseX=W*0.5,baseY=H*0.7;
+  ctx.strokeStyle='#78909c';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(topX,topY);ctx.lineTo(baseX,baseY);ctx.stroke();
+  // arrow (belt moves from A to B, i.e. top to bottom)
+  var mx2=(topX+baseX)/2,my2=(topY+baseY)/2;
+  var len=Math.sqrt((baseX-topX)**2+(baseY-topY)**2);
+  var dx=(baseX-topX)/len*35,dy=(baseY-topY)/len*35;
+  ctx.strokeStyle='#1565c0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(mx2-dx,my2-dy);ctx.lineTo(mx2+dx,my2+dy);ctx.stroke();
+  ctx.fillStyle='#1565c0';ctx.font='12px sans-serif';ctx.fillText('v₀='+v0+' ↓',mx2+10,my2);
+  // A and B labels
+  ctx.fillStyle='#333';ctx.font='bold 14px sans-serif';ctx.fillText('A',topX-20,topY+5);ctx.fillText('B',baseX+10,baseY+5);
+  // block at A
+  ctx.fillStyle='#333';ctx.fillRect(topX+5,topY+2,20,18);
+  ctx.fillStyle='#fff';ctx.font='bold 10px sans-serif';ctx.fillText('m',topX+8,topY+15);
+  // angle
+  ctx.strokeStyle='#999';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(baseX,baseY);ctx.lineTo(baseX+50,baseY);ctx.stroke();
+  ctx.beginPath();ctx.arc(baseX,baseY,20,0,Math.atan2(baseY-topY,baseX-topX),false);ctx.stroke();
+  ctx.fillStyle='#666';ctx.font='11px sans-serif';ctx.fillText('θ='+(theta*180/Math.PI).toFixed(0)+'°',baseX+15,baseY-5);
+  // info panel
+  ctx.fillStyle='#333';ctx.font='12px sans-serif';
+  var info='a₁=g(sinθ+μcosθ)='+a1.toFixed(2)+' m/s²';
+  ctx.fillText(info,10,20);
+  ctx.fillText('t₁=v₀/a₁='+t1.toFixed(2)+' s, x₁='+x1.toFixed(2)+' m',10,36);
+  ctx.fillText('a₂=g(sinθ-μcosθ)='+a2.toFixed(2)+' m/s²',10,52);
+  if(x1<L){
+    var rem=L-x1;
+    var t2=(-v0+Math.sqrt(v0*v0+2*a2*rem))/a2;
+    var total=t1+t2;
+    var trace1=v0*t1-x1;
+    var xBlock2=v0*t2+0.5*a2*t2*t2;
+    var xBelt2=v0*t2;
+    var trace2=xBlock2-xBelt2;
+    ctx.fillText('剩余 '+rem.toFixed(2)+' m, t₂='+t2.toFixed(2)+' s',10,68);
+    ctx.fillStyle='#e91e63';ctx.font='bold 13px sans-serif';
+    ctx.fillText('总时间 t='+total.toFixed(2)+' s',10,88);
+    ctx.fillText('痕迹 Δx='+(trace1+trace2).toFixed(2)+' m (阶段1:'+trace1.toFixed(1)+' + 阶段2:'+trace2.toFixed(1)+')',10,106);
+  } else {
+    var tT=Math.sqrt(2*L/a1);
+    ctx.fillStyle='#e91e63';ctx.font='bold 13px sans-serif';
+    ctx.fillText('全程加速 t='+tT.toFixed(2)+' s',10,88);
+  }
+  // v-t graph
+  var gx=W*0.55,gy=15,gw=W*0.4-20,gh=H*0.35;
+  ctx.strokeStyle='#ccc';ctx.strokeRect(gx,gy,gw,gh);
+  ctx.strokeStyle='#555';ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
+  var maxT=Math.max(t1*2.5,2),maxV=Math.max(v0*1.3,5);
+  function tx(t){return gx+t/maxT*gw} function ty(vv){return gy+gh-vv/maxV*gh}
+  ctx.strokeStyle='#e91e63';ctx.lineWidth=2;ctx.beginPath();
+  ctx.moveTo(tx(0),ty(0));ctx.lineTo(tx(t1),ty(v0));
+  if(x1<L){
+    var rem=L-x1;
+    var t2=(-v0+Math.sqrt(v0*v0+2*a2*rem))/a2;
+    var vEnd=v0+a2*t2;
+    ctx.lineTo(tx(t1+t2),ty(vEnd));
+  }
+  ctx.stroke();
+  // belt speed line
+  ctx.strokeStyle='#1565c0';ctx.lineWidth=1;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(tx(0),ty(v0));ctx.lineTo(tx(maxT),ty(v0));ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#1565c0';ctx.font='10px sans-serif';ctx.fillText('v₀',tx(maxT)+2,ty(v0)+4);
+}
+function onMove(e){
+  var r=cv.getBoundingClientRect();
+  var mx=(e.clientX||(e.touches&&e.touches[0].clientX))-r.left;
+  var my=(e.clientY||(e.touches&&e.touches[0].clientY))-r.top;
+  var W=cv.clientWidth,H=cv.clientHeight;
+  var{L,v0,mu,theta,g}=vals();
+  var sinT=Math.sin(theta),cosT=Math.cos(theta);
+  var a1=g*sinT+mu*g*cosT,t1=v0/a1,x1=0.5*a1*t1*t1;
+  var gx=W*0.55,gy=15,gw=W*0.4-20,gh=H*0.35;
+  if(mx>gx&&mx<gx+gw&&my>gy&&my<gy+gh){
+    var maxT=Math.max(t1*2.5,2),maxV=Math.max(v0*1.3,5);
+    var t=(mx-gx)/gw*maxT,vv=(gy+gh-my)/gh*maxV;
+    tip.style.display='block';tip.style.left=mx+'px';tip.style.top=my+'px';
+    tip.textContent='t='+t.toFixed(2)+'s, v='+vv.toFixed(2)+'m/s';
+  } else tip.style.display='none';
+}
+cv.addEventListener('mousemove',onMove);
+cv.addEventListener('touchmove',function(e){e.preventDefault();onMove(e)},{passive:false});
+[sL,sv0,smu,stheta].forEach(function(s){s.addEventListener('input',function(){upd();draw()})});
+function upd(){document.getElementById('vL').textContent=sL.value;document.getElementById('vv0').textContent=sv0.value;document.getElementById('vmu').textContent=smu.value;document.getElementById('vtheta').textContent=stheta.value}
+upd();draw();
+</script>
+
+</div>
+<script>
+// Canvas resize + touch support
+(function(){
+  var cvs = document.querySelectorAll('canvas');
+  function resizeAll(){
+    cvs.forEach(function(c){
+      var w = c.parentElement.clientWidth;
+      var h = c.dataset.h || Math.round(w*0.5);
+      var dpr = window.devicePixelRatio||1;
+      c.width = w*dpr; c.height = h*dpr;
+      c.style.height = h+'px';
+      c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+    });
+  }
+  window.addEventListener('resize', function(){ requestAnimationFrame(resizeAll); });
+  window.addEventListener('orientationchange', function(){ setTimeout(resizeAll, 300); });
+  resizeAll();
+})();
+</script>
+</body>
+</html>
