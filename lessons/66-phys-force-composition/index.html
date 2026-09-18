@@ -358,9 +358,10 @@
 .gg-btns button.on{background:linear-gradient(120deg,#4f8ef7,#22c3a6);color:#fff;border-color:transparent}
 .gg-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:.5rem;margin:.55rem 0 .45rem}
 .gg-steps{display:flex;align-items:center;gap:.4rem;background:#f8fbfe;border:1px solid #d6e4f2;border-radius:12px;padding:.35rem .6rem;font-size:.82rem;font-weight:700;color:#1f2d3d}
-.gg-steps button{width:26px;height:26px;border-radius:8px;border:1px solid #d6e4f2;background:#fff;cursor:pointer;font-weight:900;color:#1d4ed8;font-family:inherit;line-height:1}
-.gg-steps button:hover{border-color:#4f8ef7}
-.gg-steps .nb{font-family:'JetBrains Mono',Consolas,monospace;min-width:24px;text-align:center;color:#0f766e;font-size:.95rem}
+.gg-steps button{width:30px;height:30px;border-radius:9px;border:1px solid #d6e4f2;background:#fff;cursor:pointer;font-weight:900;color:#1d4ed8;font-family:inherit;line-height:1;font-size:1rem;flex:0 0 auto;touch-action:manipulation}
+.gg-steps button:hover{border-color:#4f8ef7;background:#eef4ff}
+.gg-steps button:active{transform:scale(.92);background:#dbe9ff}
+.gg-steps .nb{font-family:'JetBrains Mono',Consolas,monospace;min-width:26px;text-align:center;color:#0f766e;font-size:1rem}
 .gg-q{background:#f8fbfe;border:1px solid #d6e4f2;border-radius:14px;margin:.55rem 0;overflow:hidden}
 .gg-q>summary{cursor:pointer;padding:.62rem .9rem;font-weight:800;font-size:.9rem;color:#1f2d3d;list-style:none;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .gg-q>summary::-webkit-details-marker{display:none}
@@ -378,14 +379,17 @@
 .gg-tbl td.y{color:#047857;font-weight:800}
 .gg-tbl td.n{color:#b91c1c;font-weight:800}
 
-/* ===== 横屏：仿真「参数栏 | 动画」左右排布，充分利用空间 ===== */
+/* ===== 横屏：整体卡片吃到页面宽度 85%，仿真「参数栏 | 动画」左右排布 ===== */
+@media (min-width:1200px){
+  .container{width:85vw;max-width:none}
+}
 .gg-sim-layout{display:flex;flex-direction:column;gap:1rem;align-items:stretch}
 .gg-sim-left{display:flex;flex-direction:column;gap:.4rem;min-width:0}
 .gg-sim-right{display:flex;flex-direction:column;min-width:0}
-.gg-sim-right .sim{max-width:none}
+.gg-sim-right .sim,.gg-sim-right .canvas-wrap .sim{max-width:none !important;margin:0}
 @media (min-width:880px){
   .gg-sim-layout{flex-direction:row;align-items:flex-start}
-  .gg-sim-left{flex:0 0 320px;order:1}
+  .gg-sim-left{flex:0 0 clamp(300px,25%,392px);order:1}
   .gg-sim-right{flex:1 1 auto;order:2;align-self:stretch}
   .gg-sim-right .canvas-wrap{height:100%}
 }
@@ -398,8 +402,11 @@
 .gg-fig svg{display:block;width:100%;height:auto}
 .gg-fig .cap{display:block;text-align:center;font-size:.76rem;color:#5c7185;margin-top:.32rem;line-height:1.5}
 @media (min-width:1000px){
-  .gg-q-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:1.15rem;align-items:start}
+  .gg-q-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,32%);gap:1.15rem;align-items:start}
   .gg-q-body>.gg-fig{grid-column:2;grid-row:1 / -1}   /* 图固定右栏，文字左栏自动流式 */
+}
+@media (min-width:1500px){
+  .gg-q-body{grid-template-columns:minmax(0,1fr) minmax(360px,30%)}
 }
 </style>
 
@@ -484,7 +491,7 @@
     <div class="gg-sim-right">
       <div class="canvas-wrap">
         <canvas id="sim-main" class="sim" width="860" height="470"></canvas>
-        <p class="hintline">✋ <b>拖动红点 / 蓝点</b>改变两个分力；坐标纸 <b>1 大格 = 1.0 N</b>（半格 0.5 N）。也可用左下滑块调 $F_1$、$F_2$、夹角 $\theta$。</p>
+        <p class="hintline">✋ <b>拖动红点 / 蓝点</b>改变两个分力；坐标纸 <b>1 大格 = 1.0 N</b>（半格 0.5 N）。横屏也可用<b>左侧参数栏</b>的滑块调 $F_1$、$F_2$、夹角 $\theta$。</p>
       </div>
     </div>
 
@@ -540,7 +547,7 @@
     <div class="gg-sim-right">
       <div class="canvas-wrap">
         <canvas id="sim-tri" class="sim" width="860" height="430"></canvas>
-        <p class="hintline">👆 用 <b>＋ / －</b> 改变三个钩码个数（每个钩码质量相同）；右侧是 $F_1$、$F_2$、$F_3$ 的矢量三角形 —— <b>闭合就能平衡，缺口就是"差多少"</b>。</p>
+        <p class="hintline">👆 用<b>左侧面板</b>的 <b>＋ / －</b> 改变三个钩码个数（每个钩码质量相同）；<b>画布右侧面板</b>实时画出 $F_1$、$F_2$、$F_3$ 的矢量三角形 —— <b>闭合就能平衡，缺口就是「差多少」</b>。</p>
       </div>
     </div>
 
@@ -996,9 +1003,15 @@ if (document.readyState === "loading") {
   if (!cv) return;
   var ctx = cv.getContext('2d');
   var CW = 860, CH = 470, DPR = Math.min(window.devicePixelRatio || 1, 2);
-  cv.width = CW * DPR; cv.height = CH * DPR;
-  cv.style.width = '100%'; cv.style.maxWidth = CW + 'px'; cv.style.height = 'auto';
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  cv.style.height = 'auto';
+  function fit() {
+    // 画布分辨率跟随「实际显示宽度」，横屏铺满整列也不会糊
+    var dis = cv.clientWidth || CW;
+    var k = Math.min(2.6, Math.max(1, dis / CW));
+    cv.width = Math.round(CW * k * DPR); cv.height = Math.round(CH * k * DPR);
+    cv.style.width = '100%'; cv.style.maxWidth = 'none';
+    ctx.setTransform(DPR * k, 0, 0, DPR * k, 0, 0);
+  }
 
   var S = 52, ox = 430, oy = 400;                 // 1 N = 52 px
   var COL = { f1: '#ef4444', f2: '#3b82f6', r: '#f59e0b', para: '#8fa7c4',
@@ -1290,7 +1303,11 @@ if (document.readyState === "loading") {
   document.getElementById('s-120').addEventListener('click', function () { preset(120); });
   document.getElementById('s-180').addEventListener('click', function () { preset(180); });
 
-  draw();
+  var __rt1;
+  window.addEventListener('resize', function () { clearTimeout(__rt1); __rt1 = setTimeout(function () { fit(); draw(); }, 120); });
+  window.addEventListener('orientationchange', function () { setTimeout(function () { fit(); draw(); }, 260); });
+  fit(); draw();
+  window.addEventListener('load', function () { fit(); draw(); });
 })();
 
 /* ================= 辅仿真：三力平衡（题3 装置） ================= */
@@ -1298,12 +1315,17 @@ if (document.readyState === "loading") {
   var cv = document.getElementById('sim-tri');
   if (!cv) return;
   var ctx = cv.getContext('2d');
-  var CW = 860, CH = 430, DPR = Math.min(window.devicePixelRatio || 1, 2);
-  cv.width = CW * DPR; cv.height = CH * DPR;
-  cv.style.width = '100%'; cv.style.maxWidth = CW + 'px'; cv.style.height = 'auto';
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  var CW = 1000, CH = 520, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  cv.style.height = 'auto';
+  function fit() {
+    var dis = cv.clientWidth || CW;
+    var k = Math.min(2.6, Math.max(1, dis / CW));
+    cv.width = Math.round(CW * k * DPR); cv.height = Math.round(CH * k * DPR);
+    cv.style.width = '100%'; cv.style.maxWidth = 'none';
+    ctx.setTransform(DPR * k, 0, 0, DPR * k, 0, 0);
+  }
 
-  var S = 52, ox = 300, oy = 380;
+  var S = 44, ox = 330, oy = 390;
   var A = { x: -2.4, y: 3.0 }, B = { x: 2.4, y: 3.0 };
   var st = { N1: 3, N2: 4, N3: 5 };
 
@@ -1316,8 +1338,8 @@ if (document.readyState === "loading") {
     var i, j, x, y, r;
     for (i = 0; i <= 80; i++) {
       x = -3.2 + i * 0.08;
-      for (j = 0; j <= 50; j++) {
-        y = -1.2 + j * 0.082;
+      for (j = 0; j <= 110; j++) {
+        y = -5.6 + j * 0.078;
         r = res(x, y);
         if (!best || r < best.r) best = { x: x, y: y, r: r };
       }
@@ -1331,7 +1353,7 @@ if (document.readyState === "loading") {
       if (g < 1e-9) break;
       var nx = best.x - gx / g * step, ny = best.y - gy / g * step;
       nx = Math.max(-3.4, Math.min(3.4, nx));
-      ny = Math.max(-1.3, Math.min(2.95, ny));
+      ny = Math.max(-5.7, Math.min(2.92, ny));
       var nr = res(nx, ny);
       if (nr < best.r) { best = { x: nx, y: ny, r: nr }; }
       else { step *= 0.97; }
@@ -1347,16 +1369,18 @@ if (document.readyState === "loading") {
   }
 
   function hookStack(cx, cy, n, dir, label) {
-    var w = 12, h = 9, gap = 3;
+    var room = (dir > 0) ? (CH - 20 - cy) : (cy - 10);          // 可用高度
+    var per = Math.max(6, Math.min(12, room / Math.max(n, 1))); // 每只钩码占位：自动压缩，不越出画布
+    var w = 12, h = per * 0.72, gap = per - h;
     for (var i = 0; i < n; i++) {
-      var yy = cy + dir * (i * (h + gap));
+      var yy = cy + dir * (i * per);
       ctx.fillStyle = i === 0 ? '#94a3b8' : '#a8b6c6';
       ctx.strokeStyle = '#64748b'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.rect(cx - w / 2, yy, w, h); ctx.fill(); ctx.stroke();
     }
     if (label) {
       ctx.fillStyle = '#475569'; ctx.font = '700 12px system-ui,sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText(label, cx, cy + dir * (n * (h + gap)) + (dir > 0 ? 14 : -6));
+      ctx.fillText(label, cx, cy + dir * (n * per) + (dir > 0 ? 13 : -5));
     }
   }
 
@@ -1364,15 +1388,14 @@ if (document.readyState === "loading") {
     ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, CW, CH);
 
     var O = solveO();
-    var err = O.r / (st.N1 + st.N2 + st.N3);
-    var ok = err < 0.02;
+    var ok = (Math.abs(st.N1 - st.N2) < st.N3) && (st.N3 < st.N1 + st.N2);   // 三角不等式，判定永远准确
 
-    // 木板
+    // 木板（等距圆环纸片）
     ctx.fillStyle = '#f8fbfe'; ctx.strokeStyle = '#cfe0f2'; ctx.lineWidth = 2;
     roundRect(sx(-3.5), sy(3.55), 7.0 * S, 4.95 * S, 14); ctx.fill(); ctx.stroke();
 
-    // 吊绳到 A / B（含滑轮外侧的钩码）
-    var Ox = sx(O.x), Oy = sy(O.y);
+    // 吊绳到 A / B（含滑轮外侧的钩码）；O 解过低时只做显示保护，不影响右侧矢量三角形
+    var Ox = sx(O.x), Oy = sy(Math.max(O.y, -0.85));
     var Ax = sx(A.x), Ay = sy(A.y), Bx = sx(B.x), By = sy(B.y);
 
     // 滑轮
@@ -1382,13 +1405,13 @@ if (document.readyState === "loading") {
     ctx.strokeStyle = '#7c6cf0'; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(Ox, Oy); ctx.lineTo(Ax, Ay); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(Ox, Oy); ctx.lineTo(Bx, By); ctx.stroke();
-    var Cy = Oy + 1.15 * S;
+    var Cy = Oy + 0.62 * S;
     ctx.beginPath(); ctx.moveTo(Ox, Oy); ctx.lineTo(Ox, Cy); ctx.stroke();
 
     // 力箭头（从 O 指向各绳方向）
     arrowSmall(Ox, Oy, Ox + (Ax - Ox) * 0.62, Oy + (Ay - Oy) * 0.62, '#ef4444');
     arrowSmall(Ox, Oy, Ox + (Bx - Ox) * 0.62, Oy + (By - Oy) * 0.62, '#3b82f6');
-    arrowSmall(Ox, Oy, Ox, Oy + 0.78 * S, '#22c55e');
+    arrowSmall(Ox, Oy, Ox, Oy + 0.46 * S, '#22c55e');
 
     // 钩码组
     hookStack(Ax, Ay - 6, st.N1, -1, 'N₁=' + st.N1);
@@ -1401,43 +1424,68 @@ if (document.readyState === "loading") {
     ctx.fillStyle = '#0f172a'; ctx.font = '800 13px system-ui,sans-serif'; ctx.textAlign = 'left';
     ctx.fillText('O', Ox + 9, Oy + 5);
 
-    // 右侧矢量三角形
-    var px = 560, py = 330, TS = 32;
+    // ===== 右侧「矢量三角形」独立面板：自动缩放 + 居中，永不超出画布 =====
+    var box = { x: 634, y: 32, w: 334, h: 456 };
     ctx.fillStyle = '#f8fbfe'; ctx.strokeStyle = '#d9e6f8'; ctx.lineWidth = 1.5;
-    roundRect(px - 22, 60, 268, 300, 12); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = '#1f2d3d'; ctx.font = '800 12.5px system-ui,sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText('矢量三角形（首尾相接）', px - 8, 82);
+    roundRect(box.x, box.y, box.w, box.h, 12); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#1f2d3d'; ctx.font = '800 13px system-ui,sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('矢量三角形（首尾相接）', box.x + 14, box.y + 22);
+    ctx.fillStyle = '#7b8ca0'; ctx.font = '600 11.5px system-ui,sans-serif';
+    ctx.fillText('闭合 ⇒ 三力平衡', box.x + 14, box.y + 39);
 
+    // O 到 A / B 的单位方向（世界坐标，y 向上为正）—— 用未裁剪的解，保证三角形闭合精度
     var u1 = { x: (A.x - O.x), y: (A.y - O.y) }, l1 = Math.hypot(u1.x, u1.y) || 1e-9;
     var u2 = { x: (B.x - O.x), y: (B.y - O.y) }, l2 = Math.hypot(u2.x, u2.y) || 1e-9;
     u1 = { x: u1.x / l1, y: u1.y / l1 }; u2 = { x: u2.x / l2, y: u2.y / l2 };
 
-    var P0 = { x: px, y: py };
-    var P1 = { x: P0.x + st.N1 * TS * u1.x, y: P0.y - st.N1 * TS * u1.y };
-    var P2 = { x: P1.x + st.N2 * TS * u2.x, y: P1.y - st.N2 * TS * u2.y };
-    var P3 = { x: P2.x, y: P2.y + st.N3 * TS };
+    // 单位空间（1 格 = 1 个钩码）：F₁ 沿 u1、F₂ 沿 u2、F₃ 竖直向下，首尾相接
+    var q0 = { x: 0, y: 0 };
+    var q1 = { x: q0.x + st.N1 * u1.x, y: q0.y + st.N1 * u1.y };
+    var q2 = { x: q1.x + st.N2 * u2.x, y: q1.y + st.N2 * u2.y };
+    var q3 = { x: q2.x, y: q2.y - st.N3 };
+    var mnx = Math.min(q0.x, q1.x, q2.x, q3.x), mxx = Math.max(q0.x, q1.x, q2.x, q3.x);
+    var mny = Math.min(q0.y, q1.y, q2.y, q3.y), mxy = Math.max(q0.y, q1.y, q2.y, q3.y);
+    var innerW = box.w - 76, innerH = box.h - 126;              // 留出标题与底部读数
+    var kT = Math.min(innerW / Math.max(mxx - mnx, 0.6), innerH / Math.max(mxy - mny, 0.6));
+    var cxT = box.x + box.w / 2, cyT = box.y + 52 + innerH / 2;
+    function mp(q) {
+      return { x: cxT + (q.x - (mnx + mxx) / 2) * kT, y: cyT - (q.y - (mny + mxy) / 2) * kT };
+    }
+    var P0 = mp(q0), P1 = mp(q1), P2 = mp(q2), P3 = mp(q3);
     var gap = Math.hypot(P3.x - P0.x, P3.y - P0.y);
+    var gapN = gap / kT;                                        // 换算回「格」
+
+    // 底衬：三角形内部淡填充
+    ctx.fillStyle = 'rgba(79,142,247,.07)';
+    ctx.beginPath(); ctx.moveTo(P0.x, P0.y); ctx.lineTo(P1.x, P1.y); ctx.lineTo(P2.x, P2.y); ctx.closePath(); ctx.fill();
 
     lineArrow(P0, P1, '#ef4444'); lineArrow(P1, P2, '#3b82f6'); lineArrow(P2, P3, '#22c55e');
-    ctx.font = '800 12px system-ui,sans-serif'; ctx.textAlign = 'center';
-    ctx.fillStyle = '#ef4444'; ctx.fillText('F₁', (P0.x + P1.x) / 2 - 12, (P0.y + P1.y) / 2);
-    ctx.fillStyle = '#3b82f6'; ctx.fillText('F₂', (P1.x + P2.x) / 2 + 12, (P1.y + P2.y) / 2);
-    ctx.fillStyle = '#16a34a'; ctx.fillText('F₃', (P2.x + P3.x) / 2 + 14, (P2.y + P3.y) / 2);
-    // 缺口
-    if (gap > 3) {
+    [P0, P1, P2, P3].forEach(function (p) {
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.4; ctx.stroke();
+    });
+    ctx.font = '800 12.5px system-ui,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#ef4444'; ctx.fillText('F₁', (P0.x + P1.x) / 2 - 14, (P0.y + P1.y) / 2 - 2);
+    ctx.fillStyle = '#3b82f6'; ctx.fillText('F₂', (P1.x + P2.x) / 2 + 14, (P1.y + P2.y) / 2 - 2);
+    ctx.fillStyle = '#16a34a'; ctx.fillText('F₃', (P2.x + P3.x) / 2 + 16, (P2.y + P3.y) / 2);
+    // 缺口 / 闭合提示
+    if (gapN > 0.06) {
       ctx.setLineDash([4, 4]); ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(P3.x, P3.y); ctx.lineTo(P0.x, P0.y); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = '#b91c1c'; ctx.font = '800 12px system-ui,sans-serif'; ctx.textAlign = 'left';
-      ctx.fillText('缺口 ' + (gap / TS).toFixed(1) + ' 格 → 合不上', P0.x - 10, P0.y + (P3.y > P0.y ? 92 : -14));
+    }
+    ctx.textAlign = 'left'; ctx.font = '800 12.5px system-ui,sans-serif';
+    if (gapN > 0.06) {
+      ctx.fillStyle = '#b91c1c';
+      ctx.fillText('✗ 缺口 ' + gapN.toFixed(2) + ' 格 → 合不上', box.x + 14, box.y + box.h - 15);
     } else {
-      ctx.fillStyle = '#047857'; ctx.font = '800 12.5px system-ui,sans-serif'; ctx.textAlign = 'left';
-      ctx.fillText('✓ 首尾闭合，能平衡', P0.x - 10, Math.max(P0.y, P3.y) + 22);
+      ctx.fillStyle = '#047857';
+      ctx.fillText('✓ 首尾闭合 → 能平衡', box.x + 14, box.y + box.h - 15);
     }
 
     // 读数面板
     document.getElementById('t-verdict').textContent = ok ? '可以 ✓' : '不可以 ✗';
     document.getElementById('t-verdict').style.color = ok ? '#047857' : '#b91c1c';
-    document.getElementById('t-gap').textContent = (gap / TS).toFixed(2) + ' 格';
+    document.getElementById('t-gap').textContent = gapN.toFixed(2) + ' 格';
     document.getElementById('t-rule').textContent =
       (Math.abs(st.N1 - st.N2) + '< ' + st.N3 + ' < ' + (st.N1 + st.N2)) + (ok ? ' ✓' : ' ✗');
     var ins = document.getElementById('t-insight');
@@ -1495,13 +1543,19 @@ if (document.readyState === "loading") {
     ctx.closePath(); ctx.fill();
   }
 
-  var wrap = cv.parentNode;
-  wrap.querySelectorAll('.gg-steps button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var k = 'N' + b.getAttribute('data-n');
-      var d = parseInt(b.getAttribute('data-d'), 10);
-      st[k] = Math.max(1, Math.min(8, st[k] + d));
-      document.getElementById('n' + b.getAttribute('data-n')).textContent = st[k];
+  // ⚠️ 参数栏与画布已分成左右两栏，事件必须绑到整个仿真区块（不能只取 canvas 的父节点）
+  var scope = (cv.closest ? cv.closest('.gg-sim-layout') : null) || document;
+  function setOne(i, v) {
+    v = Math.max(1, Math.min(8, v));
+    st['N' + i] = v;
+    var el = document.getElementById('n' + i);
+    if (el) el.textContent = v;
+  }
+  scope.querySelectorAll('.gg-steps button').forEach(function (b) {
+    b.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var i = b.getAttribute('data-n');
+      setOne(i, st['N' + i] + parseInt(b.getAttribute('data-d'), 10));
       draw();
     });
   });
@@ -1518,8 +1572,10 @@ if (document.readyState === "loading") {
   document.getElementById('t-d').addEventListener('click', function () { setAll(3, 4, 5); });
 
   var rt;
-  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 120); });
-  draw();
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { fit(); draw(); }, 120); });
+  window.addEventListener('orientationchange', function () { setTimeout(function () { fit(); draw(); }, 260); });
+  fit(); draw();
+  window.addEventListener('load', function () { fit(); draw(); });
 })();
 
 </script>
