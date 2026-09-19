@@ -278,19 +278,26 @@ function utf8(s){var out=[];for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);if
 function ingestCard(cid){
   var c = NEWCARDS[cid];
   var ccl = c.conclusion + '；警惕【' + c.warn + '】';
-  var row = {
-    card_id: cid,   /* cheXXXX：与 practice_sessions 引用 / 命中卡体系对齐（2026-09-19） */
-    subject: '化学', chapter: c.chapter, signal: c.signal, conclusion: ccl,
-    src: c.src, orig: '', link: '', no: c.no, note: '',
-    status: 'active', source_type: 'homework', source_id: HW.rid,
-    tags: ['新卡待下载', '待训练'],
-    fingerprint: normCard(c.signal) + '|' + normCard(c.conclusion),
-    updated_at: new Date().toISOString()
-  };
-  return fetch(HW.sbUrl + '/rest/v1/cards?on_conflict=card_id', {
-    method: 'POST', headers: Object.assign(H(), { Prefer: 'resolution=merge-duplicates' }),
-    body: JSON.stringify([row])
-  }).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return row.card_id; });
+  /* 2026-09-19 修复：先查卡是否已存在，已存在则【跳过、不覆盖】（避免全行 upsert 把已改标
+     「已入训练队列」的卡重置回「待训练」）；仅首次入库才写 tags。 */
+  return fetch(HW.sbUrl + '/rest/v1/cards?card_id=eq.' + encodeURIComponent(cid) + '&select=card_id', { headers: H() })
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(ex){
+      if(ex && ex.length) return cid;   /* 已入库，跳过 */
+      var row = {
+        card_id: cid,   /* cheXXXX：与 practice_sessions 引用 / 命中卡体系对齐（2026-09-19） */
+        subject: '化学', chapter: c.chapter, signal: c.signal, conclusion: ccl,
+        src: c.src, orig: '', link: '', no: c.no, note: '',
+        status: 'active', source_type: 'homework', source_id: HW.rid,
+        tags: ['新卡待下载', '待训练'],
+        fingerprint: normCard(c.signal) + '|' + normCard(c.conclusion),
+        updated_at: new Date().toISOString()
+      };
+      return fetch(HW.sbUrl + '/rest/v1/cards?on_conflict=card_id', {
+        method: 'POST', headers: Object.assign(H(), { Prefer: 'resolution=merge-duplicates' }),
+        body: JSON.stringify([row])
+      }).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return row.card_id; });
+    });
 }
 function markIngested(cno){
   document.querySelectorAll('.ingestBtn[data-cno="' + cno + '"]').forEach(function(b){
