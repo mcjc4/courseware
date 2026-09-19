@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>互动课件 · Q3 σ/π键计数与分子构型</title>
+<style>
+:root{--ink:#1f2430;--line:#e6e8ec;--mut:#6b7280;--ok:#1a8f5f;--bad:#c0392b}
+*{box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#f6f7f9;color:var(--ink);line-height:1.7;margin:0;padding:16px}
+h2{font-size:18px;margin:0 0 4px}
+.sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.stem{background:#fafbfc;border:1px solid var(--line);border-left:3px solid #9aa4b2;border-radius:8px;padding:11px 13px;font-size:14px;margin-bottom:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.opt{flex:1;min-width:220px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:#0b6bd1;box-shadow:0 2px 10px rgba(11,107,209,.12)}
+.opt b{font-size:15px}
+.opt .exp{display:none;margin-top:8px;font-size:13px;border-top:1px dashed var(--line);padding-top:8px}
+.opt.show .exp{display:block}
+.opt.ok{border-color:var(--ok)}.opt.ok.show{background:#f0fdf4}
+.opt.bad{border-color:var(--bad)}.opt.bad.show{background:#fef2f2}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:6px;margin-left:6px}
+.tag.ok{background:#d1fae5;color:#065f46}.tag.bad{background:#fee2e2;color:#991b1b}
+.hint{font-size:13px;color:var(--mut);background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+</style></head>
+<body>
+<h2>🔬 互动课件：σ/π键计数与分子构型</h2>
+<div class="sub">点击每个选项卡片展开解析（本题正解 A，学生误选 C）</div>
+<div class="stem">下列叙述正确的是：<br>A. 丙烯(CH₂=CHCH₃)分子中σ键和π键个数比为 8:1<br>B. 卤素氢化物和卤素碳化物(CX₄)的熔沸点均随相对分子质量增大而升高<br>C. PCl₃是由极性键构成的非极性分子<br>D. SO₃²⁻和NO₃⁻的空间构型均为平面三角形</div>
+<div class="row">
+  <div class="opt ok" onclick="this.classList.toggle('show')"><b>A. σ:π = 8:1</b><span class="tag ok">✓ 正解</span>
+    <div class="exp">丙烯 CH₂=CH-CH₃：6个C-H单键 + 1个C-C单键 + 1个C=C双键（含1σ+1π）<br>→ σ键 = 6+1+1 = 8，π键 = 1，σ:π = 8:1 ✔ 正确。</div></div>
+  <div class="opt bad" onclick="this.classList.toggle('show')"><b>B. 熔沸点均随Mr升高</b><span class="tag bad">✗ 排除</span>
+    <div class="exp">卤素氢化物中 <b>HF 分子间存在氢键</b>，沸点反常高，不随相对分子质量递增。碳化物CX₄无氢键随Mr升高——但"均"字使整句错误。</div></div>
+  <div class="opt bad" onclick="this.classList.toggle('show')"><b>C. PCl₃非极性分子</b><span class="tag bad">✗ 学生错选</span>
+    <div class="exp">PCl₃中心P有一对<b>孤电子对</b> → 三角锥形，是<b>极性分子</b>。"非极性"判断错误；学生还漏数了丙烯C=C里的那个σ键。</div></div>
+  <div class="opt bad" onclick="this.classList.toggle('show')"><b>D. 均平面三角形</b><span class="tag bad">✗ 排除</span>
+    <div class="exp">NO₃⁻中心N无孤对 → 平面三角形；但 <b>SO₃²⁻中心S有一对孤电子对</b> → 三角锥形。两者不"均"为平面三角形。</div></div>
+</div>
+<div class="hint">💡 计数口诀：<b>σ键数 = 全部单键数 + 每个双键里的1个σ；π键数 = 双键个数（三键算2个π）</b>。构型先看孤电子对——有孤对就"折"，无孤对才平面/直线。</div>
+<script>document.querySelectorAll('.opt').forEach(function(o){o.addEventListener('click',function(){o.classList.toggle('show');});});</script>
+</body></html>
