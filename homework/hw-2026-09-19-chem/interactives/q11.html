@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>互动课件 · Q11 高纯硫酸锰工业流程</title>
+<style>
+:root{--ink:#1f2430;--line:#e6e8ec;--mut:#6b7280;--ok:#1a8f5f;--bad:#c0392b}
+*{box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#f6f7f9;color:var(--ink);line-height:1.7;margin:0;padding:16px}
+h2{font-size:18px;margin:0 0 4px}
+.sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.stem{background:#fafbfc;border:1px solid var(--line);border-left:3px solid #9aa4b2;border-radius:8px;padding:11px 13px;font-size:13.5px;margin-bottom:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;flex-direction:column}
+.step{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;cursor:pointer;transition:.15s}
+.step:hover{border-color:#0b6bd1;box-shadow:0 2px 10px rgba(11,107,209,.12)}
+.step b{font-size:15px}
+.step .exp{display:none;margin-top:8px;font-size:13px;border-top:1px dashed var(--line);padding-top:8px}
+.step.show .exp{display:block}
+.step.ok{border-color:var(--ok)}.step.ok.show{background:#f0fdf4}
+.step.bad{border-color:var(--bad)}.step.bad.show{background:#fef2f2}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:6px;margin-left:6px}
+.tag.ok{background:#d1fae5;color:#065f46}.tag.bad{background:#fee2e2;color:#991b1b}
+.hint{font-size:13px;color:var(--mut);background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+</style></head>
+<body>
+<h2>🏭 互动课件：高纯硫酸锰工业流程</h2>
+<div class="sub">点击每个小问展开订正解析（部分完成，重点在(3)pH范围）</div>
+<div class="stem">天然二氧化锰粉与硫化锰矿（含Fe、Al、Mg、Zn、Ni、Si）制备高纯硫酸锰：<br>MnSO₄·MnO₂粉 →[H₂SO₄浸出](滤渣1含S、SiO₂)→[加MnO₂氧化]→[氨水调pH](滤渣2)→[Na₂S除杂1](滤渣3)→[MnF₂除杂2](滤渣4)→[NH₄HCO₃沉锰]→MnCO₃→[H₂SO₄]→MnSO₄</div>
+<div class="row">
+  <div class="step ok" onclick="this.classList.toggle('show')"><b>(1) 浸出反应</b><span class="tag ok">✓ 已对</span>
+    <div class="exp">MnO₂ + MnS + 2H₂SO₄ = 2MnSO₄ + S↓ + 2H₂O（MnO₂氧化S²⁻，自身降为Mn²⁺）。</div></div>
+  <div class="step ok" onclick="this.classList.toggle('show')"><b>(2) 加MnO₂的目的</b><span class="tag ok">◐ 不完整</span>
+    <div class="exp">将Fe²⁺氧化为Fe³⁺，便于调pH除去；且<b>不引入新杂质</b>（MnO₂还原产物是Mn²⁺，正是目标离子）。学生漏答"不引入新杂质"。</div></div>
+  <div class="step bad" onclick="this.classList.toggle('show')"><b>(3) 调pH范围</b><span class="tag bad">✗ 订正</span>
+    <div class="exp">下限4.7（Al³⁺沉淀完全），上限<b>8.1</b>（Mn²⁺开始沉淀pH），即 <b>4.7 ≤ pH &lt; 8.1</b>。学生写成上限8.3是错的——8.3是Fe²⁺沉淀完全pH，但氧化后铁已是Fe³⁺（pH2.8即沉淀完），上限应由保留的Mn²⁺决定。</div></div>
+  <div class="step ok" onclick="this.classList.toggle('show')"><b>(4) Na₂S除杂</b><span class="tag ok">✓ 已对</span>
+    <div class="exp">Zn²⁺ + S²⁻ = ZnS↓</div></div>
+  <div class="step bad" onclick="this.classList.toggle('show')"><b>(5) Mg²⁺沉淀完全所需c(F⁻)</b><span class="tag bad">空白</span>
+    <div class="exp">沉淀完全即 c(Mg²⁺) ≤ 1.0×10⁻⁵ mol/L；由 Ksp(MgF₂)=c(Mg²⁺)·c²(F⁻) 反算 c(F⁻)=√(Ksp/10⁻⁵)，代入题给Ksp即可（约 2×10⁻³ mol/L）。</div></div>
+  <div class="step ok" onclick="this.classList.toggle('show')"><b>(6) 沉锰</b><span class="tag ok">✓ 已对</span>
+    <div class="exp">Mn²⁺ + 2HCO₃⁻ = MnCO₃↓ + CO₂↑ + H₂O</div></div>
+</div>
+<div class="hint">💡 调pH除杂铁律：<b>上限 = 保留离子开始沉淀的pH</b>（本题Mn²⁺ 8.1），绝不能写成杂质离子沉淀完全pH（Fe²⁺ 8.3）。</div>
+<script>document.querySelectorAll('.step').forEach(function(o){o.addEventListener('click',function(){o.classList.toggle('show');});});</script>
+</body></html>
