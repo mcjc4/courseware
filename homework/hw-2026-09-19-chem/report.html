@@ -214,7 +214,7 @@ document.addEventListener('click', function(ev){
     var hcid=t.getAttribute('data-card');
     t.disabled=true; t.textContent='打标中…';
     pushTLK([hcid]);
-    tagCard(hcid,['待训练']).then(function(){ t.textContent='✓ 已加入训练库'; t.classList.add('done'); toast(hcid+' 已打标「待训练」+ 记录时间，已存入记忆卡训练库'); })
+    tagCard(hcid,['待训练','hw-train']).then(function(){ t.textContent='✓ 已加入训练库'; t.classList.add('done'); toast(hcid+' 已打标「待训练/hw-train」+ 记录时间，已存入记忆卡训练库'); })
       .catch(function(e){ t.disabled=false; t.textContent='➕ 加入训练'; toast('打标失败：'+(e.message||e)); });
   }
 });
@@ -231,7 +231,7 @@ function ingestCard(cid){
       if(ex&&ex.length) return cid; /* 已入库，跳过不覆盖 */
       var row={ card_id:cid, subject:c.subject, chapter:c.chapter, signal:c.signal, conclusion:ccl,
         src:c.src, orig:'', link:'', no:c.no, note:'', status:'active', source_type:'homework', source_id:HW.rid,
-        tags:['新卡待下载','待训练'], fingerprint:normCard(c.signal)+'|'+normCard(c.conclusion), updated_at:new Date().toISOString() };
+        tags:['新卡待下载','待训练','hw-train'], fingerprint:normCard(c.signal)+'|'+normCard(c.conclusion), updated_at:new Date().toISOString() };
       return fetch(HW.sbUrl+'/rest/v1/cards?on_conflict=card_id', { method:'POST', headers:Object.assign(H(),{Prefer:'resolution=merge-duplicates'}), body:JSON.stringify([row]) })
         .then(function(r){ if(!r.ok)throw new Error('HTTP '+r.status); return row.card_id; });
     });
