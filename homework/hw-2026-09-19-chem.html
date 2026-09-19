@@ -498,5 +498,36 @@ function doSave(){
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('load', run);
 })();
+
+/* ===== 状态持久化：加载即从云端回读每张卡当前标签，恢复按钮 done 态（修复刷新后恢复原样） ===== */
+function initTrainState(){
+  var ids = (typeof ALL_IDS !== 'undefined' && ALL_IDS) ? ALL_IDS.slice() : [];
+  if (!ids.length) return;
+  var inList = ids.map(function(i){ return "'" + i + "'"; }).join(',');
+  fetch(HW.sbUrl + '/rest/v1/cards?card_id=in.(' + inList + ')&select=card_id,tags', { headers: H() })
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(rows){
+      var byId = {};
+      (rows || []).forEach(function(r){ byId[r.card_id] = (Array.isArray(r.tags) ? r.tags : []); });
+      /* 命中卡「➕ 加入训练」：云端已带训练类标签即视为已加入训练库 */
+      document.querySelectorAll('.hitTrainBtn').forEach(function(b){
+        if (b.classList.contains('done')) return;
+        var id = b.getAttribute('data-card');
+        var tg = byId[id] || [];
+        if (tg.indexOf('待训练') >= 0 || tg.indexOf('已入训练队列') >= 0 || tg.indexOf('已训练') >= 0) {
+          b.textContent = '✓ 已加入训练库'; b.classList.add('done'); b.disabled = true;
+        }
+      });
+      /* 新卡「⬆ 记忆卡入库」：云端已存在该卡即视为已入库 */
+      document.querySelectorAll('.ingestBtn').forEach(function(b){
+        if (b.classList.contains('done')) return;
+        var id = b.getAttribute('data-cno');
+        if (byId[id]) { b.textContent = '✓ 已入库'; b.classList.add('done'); b.disabled = true; }
+      });
+    })
+    .catch(function(e){ /* 云端不可达：静默，按钮保持可点，下次刷新再尝试 */ });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTrainState);
+else initTrainState();
 </script>
 </body></html>
