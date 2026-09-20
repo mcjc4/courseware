@@ -688,7 +688,9 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
   if (!CM || !CM.id) return;
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
+  var RATE_KEY  = 'crate:' + CID;
   function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function readR(){ try{ return JSON.parse(localStorage.getItem(RATE_KEY))||{}; }catch(e){ return {}; } }
   function record(state){
     var s = readS();
     s[state] = (s[state]||0)+1;
@@ -719,10 +721,16 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
       flash(label+' ×'+n+' 已记录' + (extra && reset ? extra : ''));
     });
   }
-  // 评价课件：仅本地提示，不计数、不写云端
-  function rateLocal(id, label){
+  // 评价课件：写入本地 crate:<CID> 并触发云端上报（菜单不显示计数）
+  function rateLocal(id, field, label){
     var b = document.getElementById(id); if (!b) return;
-    b.addEventListener('click', function(e){ e.stopPropagation(); flash(label+'（已记下，不计入云端）'); });
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      var r = readR(); r[field] = (r[field]||0)+1;
+      try{ localStorage.setItem(RATE_KEY, JSON.stringify(r)); }catch(e){}
+      window.dispatchEvent(new CustomEvent('cstat:change'));
+      flash(label+'（已记下，计入云端）');
+    });
   }
   function bindToggle(barId, labelId){
     var bar = document.getElementById(barId), lab = document.getElementById(labelId);
@@ -733,9 +741,9 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
     bind('cstat-sk','skilled','✅ 答对','（部分对/答错已清零）');
     bind('cstat-fz','fuzzy','🟡 部分对');
     bind('cstat-fg','forgot','❌ 答错');
-    rateLocal('crate-good','👍 好');
-    rateLocal('crate-hard','📕 课件不好懂');
-    rateLocal('crate-teach','🗣️ 没老师讲的好');
+    rateLocal('crate-good','good','👍 好');
+    rateLocal('crate-hard','hard','📕 课件不好懂');
+    rateLocal('crate-teach','teach','🗣️ 没老师讲的好');
     bindToggle('cstat-bar','cstat-label');
     bindToggle('crate-bar','crate-label');
     render();
@@ -755,6 +763,7 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
   if (!CM || !CM.id) return;
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
+  var CRATE_KEY = 'crate:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
   var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
@@ -765,8 +774,14 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
   function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function cloudCfg(){ var c = readJSON(CFG_KEY, null); if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c; return DEFAULT_CLOUD; }
   function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
-  function compute(){ var s = readJSON(CSTAT_KEY, {}); return { skilled:s.skilled||0, fuzzy:s.fuzzy||0, forgot:s.forgot||0 }; }
-  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0});
+  // 仅上报课件页 UI 可改的字段：自评(cstat) + 评价(crate)。redo/notes 由门户/笔记脚本各自维护，避免回写覆盖。
+  function compute(){
+    var s = readJSON(CSTAT_KEY, {});
+    var r = readJSON(CRATE_KEY, {});
+    return { skilled:s.skilled||0, fuzzy:s.fuzzy||0, forgot:s.forgot||0,
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
+  }
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
   var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
   function fetchCloudRow(cfg, cb){
     try {
@@ -793,13 +808,17 @@ window.addEventListener('resize',function(){ initCanvases(); drawScene(); });
     var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
     fetchCloudRow(cfg, function(row){
       var base = row || {};
-      var d = { skilled: s.skilled - syncBase.skilled, fuzzy: s.fuzzy - syncBase.fuzzy, forgot: s.forgot - syncBase.forgot };
-      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot };
+      var d = { skilled: s.skilled - syncBase.skilled, fuzzy: s.fuzzy - syncBase.fuzzy, forgot: s.forgot - syncBase.forgot,
+                rg: s.rg - syncBase.rg, rh: s.rh - syncBase.rh, rt: s.rt - syncBase.rt };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
       var payload = {
         course_id: CID,
         skilled: (base.skilled||0) + d.skilled,
         fuzzy:   (base.fuzzy||0) + d.fuzzy,
         forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
       };
