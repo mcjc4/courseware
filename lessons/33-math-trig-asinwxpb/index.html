@@ -1,1344 +1,2330 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>三角函数一般式 y = A sin(ωx + φ) + b</title>
-<meta name="number" content="数0019">
-<meta name="subject" content="数学">
-<meta name="chapter" content="三角函数">
-<meta name="knowledge" content="三角函数图像与性质">
-<meta name="source" content="我的解题课件库">
-<meta name="type" content="讲课课件">
-<meta name="tags" content="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
-.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
-.back-link:hover{text-decoration:underline}
-.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
-.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
-.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
-.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
-.hero p{font-size:15px;opacity:.95}
-.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
-.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
-.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
-.slider-row{display:flex;align-items:center;margin:12px 0;gap:12px}
-.slider-row label{min-width:44px;font-weight:600;color:#00695c}
-.slider-row input[type=range]{flex:1;accent-color:#26a69a}
-.slider-row .val{min-width:70px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace}
-.derived-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
-.derived-item{background:#e0f2f1;border-radius:10px;padding:10px;text-align:center}
-.derived-item .lbl{font-size:12px;color:#546e7a;margin-bottom:4px}
-.derived-item .v{font-weight:700;color:#00695c;font-size:14px;font-family:Consolas,monospace}
-.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-.btn{border:none;border-radius:22px;padding:8px 20px;font-size:14px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
-.btn.active{background:linear-gradient(90deg,#ff9800,#ff5722)}
-.canvas-wrap{position:relative;margin-top:10px;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
-canvas{display:block;width:100%;touch-action:none}
-.tooltip{position:absolute;background:rgba(0,0,0,0.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
-.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0}
-.step.gold{background:#fff8e1;border-left-color:#ffb300}
-.step.green{background:#e8f5e9;border-left-color:#43a047}
-.step.blue{background:#e3f2fd;border-left-color:#1e88e5}
-.step.red{background:#ffebee;border-left-color:#e53935}
-.formula-box{background:linear-gradient(135deg,#e0f2f1,#e3f2fd);border:2px solid #26a69a;border-radius:12px;padding:16px;margin:14px 0;text-align:center;font-size:16px}
-.tag{display:inline-block;background:#ffb74d;color:#fff;font-size:12px;padding:2px 10px;border-radius:12px;margin-right:6px;font-weight:600}
-.tag.exam{background:#e53935}
-.tag.tip{background:#43a047}
-.brain-card{background:linear-gradient(135deg,#f3e5f5,#e1f5fe);border-radius:14px;padding:20px;margin-top:10px}
-.brain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:10px}
-.brain-item{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.brain-item .big{font-size:22px;font-weight:800;color:#00897b}
-.brain-item .desc{font-size:12px;color:#546e7a;margin-top:4px}
-ul.exam-list{margin:8px 0 8px 24px}
-ul.exam-list li{margin:4px 0}
-@media(max-width:600px){
-  .hero h1{font-size:20px}
-  .card{padding:18px}
-  .slider-row{flex-wrap:wrap}
-  .slider-row .val{min-width:auto}
-}
-</style>
-<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-13","number":"数0019"}</script><!--/CSTAT-META-->
-<style id="layoutfix-style">
-.hero{position:relative;}
-.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
-</style>
-</head>
-<body>
-<a class="back-link" href="../../index.html">← 返回课程列表</a>
-
-<div class="meta-bar">
-  <span class="meta-chip key">数0019</span>
-  <span class="meta-chip">数学</span>
-  <span class="meta-chip">三角函数</span>
-  <span class="meta-chip">图像与性质</span>
-  <span class="meta-chip">讲课课件</span>
-</div>
-
-<div class="hero">
-  <h1>三角函数一般式 $y = A\sin(\omega x + \varphi) + b$</h1>
-  <p>理解四个参数 A、ω、φ、b 如何决定正弦曲线的形状、位置和周期。拖动滑块实时观察图像变化。</p>
-</div>
-
-<div class="card">
-  <h2>🎛 交互式图像探索</h2>
-  <p style="color:#546e7a;font-size:13px;margin-bottom:10px">拖动下方滑块改变参数；也可以在画布上拖动（水平方向改变 φ，垂直方向改变 b）。鼠标悬停查看坐标。</p>
-
-  <div class="slider-row">
-    <label for="sA">A</label>
-    <input type="range" id="sA" min="-3" max="3" step="0.1" value="1">
-    <span class="val" id="vA">1.0</span>
-    <span style="font-size:12px;color:#888">振幅（Amplitude）</span>
-  </div>
-  <div class="slider-row">
-    <label for="sW">ω</label>
-    <input type="range" id="sW" min="0.3" max="5" step="0.1" value="1">
-    <span class="val" id="vW">1.0</span>
-    <span style="font-size:12px;color:#888">角频率（Angular frequency）</span>
-  </div>
-  <div class="slider-row">
-    <label for="sP">φ</label>
-    <input type="range" id="sP" min="-3.14159" max="3.14159" step="0.05" value="0">
-    <span class="val" id="vP">0.00</span>
-    <span style="font-size:12px;color:#888">初相（Initial phase）</span>
-  </div>
-  <div class="slider-row">
-    <label for="sB">b</label>
-    <input type="range" id="sB" min="-3" max="3" step="0.1" value="0">
-    <span class="val" id="vB">0.0</span>
-    <span style="font-size:12px;color:#888">平衡位置（Vertical shift）</span>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn ghost" id="btnReset">↺ 复位</button>
-    <button class="btn" id="btnRef">👁 隐藏参考线 y=sin x</button>
-  </div>
-
-  <div class="canvas-wrap" id="canvasWrap">
-    <canvas id="cv" width="800" height="420"></canvas>
-    <div class="tooltip" id="tip"></div>
-  </div>
-
-  <div class="derived-grid">
-    <div class="derived-item"><div class="lbl">振幅 |A|</div><div class="v" id="dA">1.0</div></div>
-    <div class="derived-item"><div class="lbl">周期 T = 2π/ω</div><div class="v" id="dT">6.28</div></div>
-    <div class="derived-item"><div class="lbl">频率 f = ω/(2π)</div><div class="v" id="dF">0.16</div></div>
-    <div class="derived-item"><div class="lbl">初相 φ</div><div class="v" id="dP">0.00</div></div>
-    <div class="derived-item"><div class="lbl">相位平移 -φ/ω</div><div class="v" id="dPS">0.00</div></div>
-    <div class="derived-item"><div class="lbl">平衡线 y = b</div><div class="v" id="dB">0.0</div></div>
-    <div class="derived-item"><div class="lbl">最大值</div><div class="v" id="dMax">1.0</div></div>
-    <div class="derived-item"><div class="lbl">最小值</div><div class="v" id="dMin">-1.0</div></div>
-  </div>
-</div>
-
-<div class="card">
-  <h2>📖 公式解构</h2>
-  <p>标准形式：$y = A\sin(\omega x + \varphi) + b$，四个参数各有明确的几何意义：</p>
-
-  <div class="step">
-    <strong>A —— 振幅（Amplitude）</strong><br>
-    控制波浪的高度。$|A|$ 越大，波浪起伏越剧烈。$A < 0$ 时图像关于 x 轴对称翻转。
-  </div>
-  <div class="step green">
-    <strong>ω —— 角频率（Angular frequency）</strong><br>
-    控制波浪的疏密。$\omega$ 越大，波浪越密（周期 $T = \frac{2\pi}{\omega}$ 越小）。$\omega > 0$ 是标准情况。
-  </div>
-  <div class="step gold">
-    <strong>φ —— 初相（Initial phase）</strong><br>
-    控制左右平移。$\varphi > 0$ 时向左平移 $\left|\frac{\varphi}{\omega}\right|$ 个单位，$\varphi < 0$ 时向右平移。
-  </div>
-  <div class="step blue">
-    <strong>b —— 平衡位置（Vertical shift）</strong><br>
-    控制上下平移。图像关于直线 $y = b$ 上下对称（不再关于 x 轴对称）。
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="tag exam">考点①</span>已知参数 → 画图</h2>
-  <div class="formula-box">
-    例：已知 $y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$，求各量
-  </div>
-  <div class="step">
-    <ul class="exam-list">
-      <li>振幅：$|A| = |2| = \boldsymbol{2}$</li>
-      <li>周期：$T = \frac{2\pi}{\omega} = \frac{2\pi}{2} = \boldsymbol{\pi}$</li>
-      <li>初相：$\varphi = \boldsymbol{\frac{\pi}{3}}$</li>
-      <li>相位平移：$-\frac{\varphi}{\omega} = -\frac{\pi/3}{2} = \boldsymbol{-\frac{\pi}{6}}$（即向左平移 $\frac{\pi}{6}$）</li>
-      <li>平衡位置：$y = b = \boldsymbol{1}$</li>
-      <li>最大值：$b + |A| = 1 + 2 = \boldsymbol{3}$</li>
-      <li>最小值：$b - |A| = 1 - 2 = \boldsymbol{-1}$</li>
-    </ul>
-  </div>
-  <div class="step red">
-    <strong>易错：</strong>单调性区间求法（整体代换）：<br>
-    令 $u = 2x + \frac{\pi}{3}$，则 $y = 2\sin u + 1$。<br>
-    $\sin u$ 单调递增区间是 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]$，代入 $u$ 解出 $x$：<br>
-    $-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi \Rightarrow x \in \left[-\frac{5\pi}{12} + k\pi,\ \frac{\pi}{12} + k\pi\right]$
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="tag exam">考点②</span>由图像 → 求参数</h2>
-  <p>已知图像特征反推 A, ω, φ, b 是高考高频题型。</p>
-
-  <div class="formula-box">
-    <strong>图像描述（完整自洽）：</strong>波峰最大值 $y = 3$，波谷最小值 $y = -1$，周期 $T = \pi$，平衡线 $y = 1$，且波峰位于 $x = \frac{\pi}{12}$。
-  </div>
-
-  <div class="step">
-    <strong>第一步：求 b</strong> —— 平衡线即 $y = b$，故 $\boldsymbol{b = 1}$。
-  </div>
-  <div class="step green">
-    <strong>第二步：求 A</strong> —— 由波峰、波谷与平衡线的距离关系：<br>
-    $|A| = \frac{\text{最大值} - \text{最小值}}{2} = \frac{3 - (-1)}{2} = 2$<br>
-    波峰在平衡线上方（开口向上），故 $\boldsymbol{A = 2}$。
-  </div>
-  <div class="step gold">
-    <strong>第三步：求 ω</strong> —— $T = \pi$，由 $T = \frac{2\pi}{\omega}$ 得：<br>
-    $\omega = \frac{2\pi}{T} = \frac{2\pi}{\pi} = \boldsymbol{2}$。
-  </div>
-  <div class="step blue">
-    <strong>第四步：求 φ</strong> —— 波峰处（正弦取最大值 1）：$\omega x + \varphi = \frac{\pi}{2} + 2k\pi$。<br>
-    代入已知 $x = \frac{\pi}{12}$、$\omega = 2$：<br>
-    $2 \cdot \frac{\pi}{12} + \varphi = \frac{\pi}{2} \Rightarrow \frac{\pi}{6} + \varphi = \frac{\pi}{2} \Rightarrow \boldsymbol{\varphi = \frac{\pi}{3}}$。
-  </div>
-  <div class="step green">
-    <strong>验证：</strong>把四个参数代入原式 $y = 2\sin(2x + \frac{\pi}{3}) + 1$：<br>
-    $x = \frac{\pi}{12}$ 时，$y = 2\sin(\frac{\pi}{6} + \frac{\pi}{3}) + 1 = 2\sin(\frac{\pi}{2}) + 1 = 2 + 1 = 3$ ✅（波峰）<br>
-    $x = 0$ 时，$y = 2\sin(\frac{\pi}{3}) + 1 = \sqrt{3} + 1 \approx 2.732$ ✅（无需额外过点条件，参数已自洽）
-  </div>
-  <div class="step red">
-    <strong>解题口诀：</strong>先 b（上下移）→ 再 A（振幅）→ 再 ω（周期）→ 最后 φ（初相）。<br>
-    <em>⚠️ 前提：图像描述必须自洽——所有给出的特征点（波峰位置、过点、零点）代入后能同时成立。如果推出矛盾，说明读题有误或题设本身出错。</em>
-  </div>
-
-</div>
-
-<div class="card">
-  <h2><span class="tag exam">考点③</span>图像变换（两种路径）</h2>
-  <div class="formula-box">
-    $y = \sin x \ \longrightarrow\ y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$
-  </div>
-
-  <h3>方法一：先平移 → 后伸缩（推荐，不易错）</h3>
-  <div class="step">
-    <ol style="margin-left:20px">
-      <li>$y = \sin x$</li>
-      <li><strong>向左平移 $\frac{\pi}{3}$</strong> 个单位：$y = \sin\left(x + \frac{\pi}{3}\right)$</li>
-      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin\left(2x + \frac{\pi}{3}\right)$</li>
-      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
-      <li><strong>向上平移 1</strong> 个单位：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
-    </ol>
-  </div>
-
-  <h3>方法二：先伸缩 → 后平移（易错！）</h3>
-  <div class="step gold">
-    <ol style="margin-left:20px">
-      <li>$y = \sin x$</li>
-      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin(2x)$</li>
-      <li><span style="color:#e53935;font-weight:700">向左平移 $\boldsymbol{\frac{\pi}{6}}$</span> 个单位（不是 $\frac{\pi}{3}$！）：$y = \sin\left(2\left(x + \frac{\pi}{6}\right)\right) = \sin\left(2x + \frac{\pi}{3}\right)$</li>
-      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
-      <li>向上平移 1：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
-    </ol>
-  </div>
-
-  <div class="step red">
-    <strong>易错点：</strong>先伸缩后平移时，平移量是 $\frac{|\varphi|}{\omega}$，而不是 $|\varphi|$。很多同学直接平移 $\frac{\pi}{3}$，导致错误。<br>
-    <strong>建议：</strong>答题时优先使用"先平移后伸缩"，更简单、出错率低。
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="tag exam">考点④</span>求单调区间（整体代换法）</h2>
-  <p>以 $y = 2\sin(2x + \frac{\pi}{3}) + 1$ 为例，求其单调递增区间。</p>
-
-  <div class="step green">
-    <strong>三步法：</strong><br>
-    ① <strong>换元：</strong>令 $u = 2x + \frac{\pi}{3}$，则原函数变为 $y = 2\sin u + 1$。<br>
-    ② <strong>解三角：</strong>$\sin u$ 的单调递增区间为 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]\ (k \in \mathbb{Z})$。<br>
-    ③ <strong>代回解 x：</strong>
-    $$-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi$$
-    $$-\frac{\pi}{2} - \frac{\pi}{3} + 2k\pi \leq 2x \leq \frac{\pi}{2} - \frac{\pi}{3} + 2k\pi$$
-    $$-\frac{5\pi}{6} + 2k\pi \leq 2x \leq \frac{\pi}{6} + 2k\pi$$
-    $$\boldsymbol{-\frac{5\pi}{12} + k\pi \leq x \leq \frac{\pi}{12} + k\pi \quad (k \in \mathbb{Z})}$$
-  </div>
-
-  <div class="step">
-    <strong>口诀：</strong>外层三角 + 内层一次 → 整体代换 → 解不等式。$\omega < 0$ 时先利用诱导公式把负号提到外面。
-  </div>
-</div>
-
-<div class="card">
-  <h2>🧠 一张图记住四个参数</h2>
-  <div class="brain-card">
-    <div class="brain-grid">
-      <div class="brain-item">
-        <div class="big">A</div>
-        <div class="desc">振幅 $|A|$ 决定波浪高度</div>
-      </div>
-      <div class="brain-item">
-        <div class="big">ω</div>
-        <div class="desc">角频率 $T = 2\pi/\omega$ 决定周期</div>
-      </div>
-      <div class="brain-item">
-        <div class="big">φ</div>
-        <div class="desc">初相 $-\varphi/\omega$ 决定左右平移</div>
-      </div>
-      <div class="brain-item">
-        <div class="big">b</div>
-        <div class="desc">平衡位置 决定上下平移</div>
-      </div>
-    </div>
-    <div style="margin-top:16px;text-align:center;font-size:14px;color:#00695c">
-      最大值 $= b + |A|$ ， 最小值 $= b - |A|$
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  'use strict';
-
-  var cv = document.getElementById('cv');
-  var ctx = cv.getContext('2d');
-  var wrap = document.getElementById('canvasWrap');
-  var tip = document.getElementById('tip');
-
-  var sA = document.getElementById('sA'), sW = document.getElementById('sW'), sP = document.getElementById('sP'), sB = document.getElementById('sB');
-  var vA = document.getElementById('vA'), vW = document.getElementById('vW'), vP = document.getElementById('vP'), vB = document.getElementById('vB');
-  var dA = document.getElementById('dA'), dT = document.getElementById('dT'), dF = document.getElementById('dF'), dP2 = document.getElementById('dP'), dPS = document.getElementById('dPS'), dB = document.getElementById('dB'), dMax = document.getElementById('dMax'), dMin = document.getElementById('dMin');
-
-  var btnReset = document.getElementById('btnReset');
-  var btnRef = document.getElementById('btnRef');
-
-  var showRef = true;
-  var dragging = false;
-  var lastX = 0, lastY = 0;
-
-  var PI = Math.PI;
-
-  function fmtPhase(v){
-    var absV = Math.abs(v);
-    if (absV < 0.01) return '0';
-    var piV = v / PI;
-    var near = Math.round(piV * 6);
-    if (Math.abs(piV * 6 - near) < 0.15 && near !== 0){
-      var sign = near >= 0 ? '' : '-';
-      var n = Math.abs(near);
-      if (n === 6) return (v >= 0 ? '' : '-') + 'π';
-      if (n === 3) return sign + 'π/2';
-      if (n === 4) return sign + '2π/3';
-      if (n === 2) return sign + 'π/3';
-      if (n === 1) return sign + 'π/6';
-      return sign + n + 'π/6';
-    }
-    return v.toFixed(2);
-  }
-
-  function fmtXasPi(x){
-    var piV = x / PI;
-    if (Math.abs(piV) < 0.005) return '0';
-    var near = Math.round(piV * 12);
-    if (Math.abs(piV * 12 - near) < 0.1){
-      var sign = near >= 0 ? '' : '-';
-      var n = Math.abs(near);
-      if (n === 12) return (near >= 0 ? '' : '-') + 'π';
-      if (n === 6) return sign + 'π/2';
-      if (n === 4) return sign + 'π/3';
-      if (n === 3) return sign + 'π/4';
-      if (n === 2) return sign + 'π/6';
-      return sign + n + 'π/12';
-    }
-    return x.toFixed(2);
-  }
-
-  function params(){
-    return {
-      A: parseFloat(sA.value),
-      W: parseFloat(sW.value),
-      P: parseFloat(sP.value),
-      B: parseFloat(sB.value)
-    };
-  }
-
-  function yOf(p, x){
-    return p.A * Math.sin(p.W * x + p.P) + p.B;
-  }
-
-  function resize(){
-    var rect = wrap.getBoundingClientRect();
-    var dpr = window.devicePixelRatio || 1;
-    cv.width = rect.width * dpr;
-    cv.height = 420 * dpr;
-    cv.style.width = rect.width + 'px';
-    cv.style.height = '420px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    draw();
-  }
-
-  function draw(){
-    var W = cv.width / (window.devicePixelRatio || 1);
-    var H = cv.height / (window.devicePixelRatio || 1);
-    ctx.clearRect(0, 0, W, H);
-
-    var p = params();
-
-    var xMin = -2 * PI;
-    var xMax = 4 * PI;
-    var yMin = -3.5;
-    var yMax = 3.5;
-
-    var sx = function(x){ return (x - xMin) / (xMax - xMin) * W; };
-    var sy = function(y){ return H - (y - yMin) / (yMax - yMin) * H; };
-
-    ctx.fillStyle = '#fafafa';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 1;
-    for (var i = Math.ceil(xMin / (PI/2)); i <= Math.floor(xMax / (PI/2)); i++){
-      var gx = i * PI / 2;
-      ctx.beginPath();
-      ctx.moveTo(sx(gx), 0);
-      ctx.lineTo(sx(gx), H);
-      ctx.stroke();
-    }
-    for (var j = Math.ceil(yMin); j <= Math.floor(yMax); j++){
-      ctx.beginPath();
-      ctx.moveTo(0, sy(j));
-      ctx.lineTo(W, sy(j));
-      ctx.stroke();
-    }
-
-    ctx.strokeStyle = '#546e7a';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(0, sy(0)); ctx.lineTo(W, sy(0)); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(sx(0), 0); ctx.lineTo(sx(0), H); ctx.stroke();
-
-    ctx.fillStyle = '#546e7a';
-    ctx.font = '12px Consolas, monospace';
-    ctx.textAlign = 'center';
-    for (var k = Math.ceil(xMin / PI); k <= Math.floor(xMax / PI); k++){
-      if (k === 0) continue;
-      var lx = k * PI;
-      var lbl = (k === 1 ? 'π' : (k === -1 ? '-π' : (k + 'π')));
-      ctx.fillText(lbl, sx(lx), sy(0) + 14);
-    }
-    ctx.textAlign = 'right';
-    for (var m = Math.ceil(yMin); m <= Math.floor(yMax); m++){
-      if (m === 0) continue;
-      ctx.fillText(m.toString(), sx(0) - 4, sy(m) + 4);
-    }
-    ctx.fillText('0', sx(0) - 4, sy(0) + 14);
-
-    ctx.strokeStyle = '#ff9800';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    ctx.moveTo(0, sy(p.B)); ctx.lineTo(W, sy(p.B)); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#ff9800';
-    ctx.textAlign = 'left';
-    ctx.fillText('y = b = ' + p.B.toFixed(1), W - 130, sy(p.B) - 6);
-
-    if (showRef){
-      ctx.strokeStyle = '#bdbdbd';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      var first = true;
-      for (var t = xMin; t <= xMax; t += 0.02){
-        var yy = Math.sin(t);
-        if (yy < yMin - 1 || yy > yMax + 1){ first = true; continue; }
-        if (first){ ctx.moveTo(sx(t), sy(yy)); first = false; }
-        else ctx.lineTo(sx(t), sy(yy));
-      }
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
-
-    var T = 2 * PI / p.W;
-    var phaseShift = -p.P / p.W;
-    var winStart = phaseShift;
-    var winEnd = phaseShift + T;
-    ctx.fillStyle = 'rgba(38, 166, 154, 0.08)';
-    ctx.fillRect(sx(winStart), 0, sx(winEnd) - sx(winStart), H);
-    ctx.strokeStyle = '#26a69a';
-    ctx.lineWidth = 1.2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath(); ctx.moveTo(sx(winStart), 0); ctx.lineTo(sx(winStart), H); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(sx(winEnd), 0); ctx.lineTo(sx(winEnd), H); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#00695c';
-    ctx.font = '11px -apple-system,sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('T = 2π/ω ≈ ' + T.toFixed(2), (sx(winStart) + sx(winEnd)) / 2, 20);
-
-    ctx.strokeStyle = '#1565c0';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    var first2 = true;
-    for (var t2 = xMin; t2 <= xMax; t2 += 0.015){
-      var y2 = yOf(p, t2);
-      if (y2 < yMin - 1 || y2 > yMax + 1){ first2 = true; continue; }
-      if (first2){ ctx.moveTo(sx(t2), sy(y2)); first2 = false; }
-      else ctx.lineTo(sx(t2), sy(y2));
-    }
-    ctx.stroke();
-
-    ctx.strokeStyle = '#43a047';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([3, 3]);
-    ctx.beginPath();
-    var peakX = phaseShift + T / 4;
-    if (peakX >= xMin && peakX <= xMax){
-      ctx.moveTo(sx(peakX), sy(p.B));
-      ctx.lineTo(sx(peakX), sy(p.B + Math.abs(p.A)));
-      ctx.stroke();
-    }
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#2e7d32';
-    ctx.font = '11px -apple-system,sans-serif';
-    ctx.fillText('|A| = ' + Math.abs(p.A).toFixed(1), sx(peakX) + 6, sy(p.B + Math.abs(p.A) / 2));
-
-    var pointRadius = 5;
-    var drawPoint = function(px, py, color){
-      if (px < xMin - 0.1 || px > xMax + 0.1) return;
-      ctx.beginPath();
-      ctx.arc(sx(px), sy(py), pointRadius, 0, 2 * PI);
-      ctx.fillStyle = color;
-      ctx.fill();
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-    };
-
-    drawPoint(0, yOf(p, 0), '#7e57c2');
-
-    for (var kk = -2; kk <= 6; kk++){
-      var pkX = phaseShift + T/4 + kk * T;
-      var vkX = phaseShift - T/4 + kk * T;
-      if (pkX >= xMin && pkX <= xMax) drawPoint(pkX, p.B + Math.abs(p.A), '#e53935');
-      if (vkX >= xMin && vkX <= xMax) drawPoint(vkX, p.B - Math.abs(p.A), '#e53935');
-    }
-
-    for (var kz = -6; kz <= 12; kz++){
-      var zx = (kz * PI - p.P) / p.W;
-      if (zx >= xMin && zx <= xMax){
-        var zy = yOf(p, zx);
-        if (Math.abs(zy - p.B) < 0.01) drawPoint(zx, p.B, '#43a047');
-      }
-    }
-
-    var legX = 12, legY = H - 70;
-    ctx.font = '12px -apple-system,sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#1565c0';
-    ctx.fillRect(legX, legY, 22, 3);
-    ctx.fillStyle = '#37474f';
-    ctx.fillText('y = A sin(ωx + φ) + b', legX + 28, legY + 4);
-
-    if (showRef){
-      ctx.fillStyle = '#bdbdbd';
-      ctx.fillRect(legX, legY + 20, 22, 3);
-      ctx.fillStyle = '#37474f';
-      ctx.fillText('y = sin x', legX + 28, legY + 24);
-    }
-
-    ctx.beginPath(); ctx.arc(legX + 10, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#7e57c2'; ctx.fill();
-    ctx.fillStyle = '#37474f'; ctx.fillText('起点 (x=0)', legX + 28, legY + 46);
-
-    ctx.beginPath(); ctx.arc(legX + 130, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#e53935'; ctx.fill();
-    ctx.fillStyle = '#37474f'; ctx.fillText('峰/谷', legX + 148, legY + 46);
-
-    ctx.beginPath(); ctx.arc(legX + 200, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#43a047'; ctx.fill();
-    ctx.fillStyle = '#37474f'; ctx.fillText('过中线点', legX + 218, legY + 46);
-  }
-
-  function updateDerived(){
-    var p = params();
-    var absA = Math.abs(p.A);
-    var T = 2 * PI / p.W;
-    var f = p.W / (2 * PI);
-    var ps = -p.P / p.W;
-    vA.textContent = p.A.toFixed(1);
-    vW.textContent = p.W.toFixed(1);
-    vP.textContent = fmtPhase(p.P);
-    vB.textContent = p.B.toFixed(1);
-
-    dA.textContent = absA.toFixed(2);
-    dT.textContent = T.toFixed(2);
-    dF.textContent = f.toFixed(3);
-    dP2.textContent = fmtPhase(p.P);
-    dPS.textContent = fmtPhase(ps);
-    dB.textContent = p.B.toFixed(2);
-    dMax.textContent = (p.B + absA).toFixed(2);
-    dMin.textContent = (p.B - absA).toFixed(2);
-  }
-
-  function sync(){
-    draw();
-    updateDerived();
-  }
-
-  sA.addEventListener('input', sync);
-  sW.addEventListener('input', sync);
-  sP.addEventListener('input', sync);
-  sB.addEventListener('input', sync);
-
-  btnReset.addEventListener('click', function(){
-    sA.value = 1; sW.value = 1; sP.value = 0; sB.value = 0;
-    sync();
-  });
-
-  btnRef.addEventListener('click', function(){
-    showRef = !showRef;
-    btnRef.textContent = showRef ? '👁 隐藏参考线 y=sin x' : '👁 显示参考线 y=sin x';
-    if (showRef) btnRef.classList.remove('active');
-    else btnRef.classList.add('active');
-    draw();
-  });
-
-  function getLogicalXY(clientX, clientY){
-    var rect = cv.getBoundingClientRect();
-    var lx = (clientX - rect.left);
-    var ly = (clientY - rect.top);
-    var W = rect.width;
-    var H = rect.height;
-    var xMin = -2 * PI, xMax = 4 * PI;
-    var yMin = -3.5, yMax = 3.5;
-    var x = lx / W * (xMax - xMin) + xMin;
-    var y = yMax - ly / H * (yMax - yMin);
-    return { x: x, y: y };
-  }
-
-  cv.addEventListener('mousemove', function(e){
-    var pt = getLogicalXY(e.clientX, e.clientY);
-    var p = params();
-    var yv = yOf(p, pt.x);
-    tip.innerHTML = 'x = ' + fmtXasPi(pt.x) + '<br>y = ' + yv.toFixed(3);
-    var rect = cv.getBoundingClientRect();
-    var lx = e.clientX - rect.left;
-    var ly = e.clientY - rect.top;
-    tip.style.left = lx + 'px';
-    tip.style.top = ly + 'px';
-    tip.style.display = 'block';
-    if (dragging){
-      var dx = e.clientX - lastX;
-      var dy = e.clientY - lastY;
-      var rect2 = cv.getBoundingClientRect();
-      var W = rect2.width;
-      var H = rect2.height;
-      var dphi = -dx / W * (6 * PI) * 0.5;
-      var db = -dy / H * 7 * 0.5;
-      var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
-      var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
-      sP.value = newP;
-      sB.value = newB;
-      sync();
-      lastX = e.clientX; lastY = e.clientY;
-    }
-  });
-  cv.addEventListener('mouseleave', function(){ tip.style.display = 'none'; });
-
-  cv.addEventListener('mousedown', function(e){
-    dragging = true;
-    lastX = e.clientX; lastY = e.clientY;
-    e.preventDefault();
-  });
-  window.addEventListener('mouseup', function(){ dragging = false; });
-
-  cv.addEventListener('touchstart', function(e){
-    e.preventDefault();
-    if (e.touches.length > 0){
-      dragging = true;
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-    }
-  }, {passive:false});
-  cv.addEventListener('touchmove', function(e){
-    e.preventDefault();
-    if (!dragging || e.touches.length === 0) return;
-    var t = e.touches[0];
-    var dx = t.clientX - lastX;
-    var dy = t.clientY - lastY;
-    var rect = cv.getBoundingClientRect();
-    var W = rect.width;
-    var H = rect.height;
-    var dphi = -dx / W * (6 * PI) * 0.5;
-    var db = -dy / H * 7 * 0.5;
-    var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
-    var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
-    sP.value = newP;
-    sB.value = newB;
-    sync();
-    lastX = t.clientX; lastY = t.clientY;
-  }, {passive:false});
-  cv.addEventListener('touchend', function(e){ e.preventDefault(); dragging = false; }, {passive:false});
-
-  window.addEventListener('resize', function(){ resize(); });
-
-  resize();
-  sync();
-
-  setTimeout(function(){
-    if (typeof renderMathInElement === 'function'){
-      renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
-    }
-  }, 400);
-
-})();
-</script>
-<!--CSTAT-BEGIN-->
-<style id="cstat-style">
-#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#cstat-label{color:#5c7185;font-weight:600}
-#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
-#cstat-bar button:active{transform:scale(.95)}
-#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
-#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
-#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
-#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-#cstat-flash.show,#crate-flash.show{opacity:1}
-#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
-  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
-#crate-label{color:#5c7185;font-weight:600}
-#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
-#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
-#crate-bar button:active{transform:scale(.95)}
-#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
-#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
-#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
-#crate-counts{color:#5c7185;font-size:11px;white-space:nowrap}
-#credo-box{display:flex;align-items:center;gap:4px;color:#5c7185;font-size:12px;cursor:pointer;white-space:nowrap;user-select:none}
-#credo-box input{cursor:pointer;accent-color:#22c3a6;width:14px;height:14px}
-#credo-info{color:#8fa1b5;font-size:11px;margin-left:4px;white-space:nowrap}
-#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
-#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
-#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
-@media (max-width:640px){ #cstat-label,#crate-label{display:none} }
-#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
-  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
-  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
-#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
-#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
-#tnav-bar a{background:#f0f6ff;cursor:pointer}
-#tnav-bar a:hover{background:#dbeafe}
-#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
-#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
-#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
-#tnav-exit:hover{color:#ef4444}
-@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
-</style>
-<div id="crate-bar" title="课件评价：这套课件质量如何">
-  <span id="crate-label">⭐ 评价课件</span>
-  <button type="button" id="crate-good" class="crg">👍 好</button>
-  <button type="button" id="crate-hard" class="crh">📕 课件不好懂</button>
-  <button type="button" id="crate-teach" class="crt">🗣️ 没老师讲的好</button>
-  <label id="credo-box" title="每次勾选记录一次重做并更新时间；取消勾选只改状态、历史次数保留"><input type="checkbox" id="credo-chk"> ✍️ 已独立重做<span id="credo-info"></span></label>
-  <span id="crate-counts"></span>
-  <span id="crate-flash"></span>
-</div>
-<div id="cstat-bar" title="学习自评：点击累计计数">
-  <span id="cstat-label">📋 自评</span>
-  <button type="button" id="cstat-sk" class="csk">✅ 熟练</button>
-  <button type="button" id="cstat-fz" class="cfz">😐 模糊</button>
-  <button type="button" id="cstat-fg" class="cfg">❌ 忘记</button>
-  <span id="cstat-counts"></span>
-  <span id="cstat-flash"></span>
-</div>
-<script>
-/* ===== 三状态自评：熟练/模糊/忘记（累计计数，每次点击 +1）===== */
-(function(){
-  'use strict';
-  if (window.__cstatUI) return;
-  window.__cstatUI = true;
-  var CM = null;
-  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
-  if (!CM || !CM.id) return;
-  var CSTAT_KEY = 'cstat:' + CM.id;
-  var CRATE_KEY = 'crate:' + CM.id;
-  var CREDO_KEY = 'credo:' + CM.id;
-  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
-  function recordCourseState(state){
-    var s = readS();
-    s[state] = (s[state]||0)+1;
-    var reset = false;
-    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
-    s.ts = Date.now();
-    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    render(); renderR();
-    return reset;
-  }
-  window.__recordCourseState = recordCourseState;
-  function readR(){ try{ return JSON.parse(localStorage.getItem(CRATE_KEY))||{}; }catch(e){ return {}; } }
-  function rateCourse(kind){
-    var r = readR();
-    r[kind] = (r[kind]||0)+1;
-    r.ts = Date.now();
-    try{ localStorage.setItem(CRATE_KEY, JSON.stringify(r)); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderR();
-    return r[kind]||0;
-  }
-  window.__rateCourse = rateCourse;
-  function readD(){ try{ return JSON.parse(localStorage.getItem(CREDO_KEY))||{}; }catch(e){ return {}; } }
-  function setRedo(done){
-    var d = readD();
-    if (done){ d.n = (d.n||0)+1; d.ts = Date.now(); } // 每次勾选记一次重做（取消勾选保留历史）
-    d.done = done ? 1 : 0;
-    try{ localStorage.setItem(CREDO_KEY, JSON.stringify(d)); }catch(e){}
-    try{ localStorage.setItem('cvisit:' + CM.id, JSON.stringify({ ts: Date.now() })); }catch(e){}
-    window.dispatchEvent(new CustomEvent('cstat:change'));
-    renderRedoInfo();
-    return d;
-  }
-  window.__setRedo = setRedo;
-  function fmtHM(ts){
-    if (!ts) return '';
-    var d = new Date(ts);
-    var p = function(x){ return ('0'+x).slice(-2); };
-    return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
-  }
-  function renderRedoInfo(){
-    var el = document.getElementById('credo-info');
-    if (!el) return;
-    var d = readD();
-    el.textContent = d.n ? ('×'+d.n+' · 上次 '+fmtHM(d.ts)) : '';
-  }
-  function initRedo(){
-    var chk = document.getElementById('credo-chk');
-    if (!chk) return;
-    chk.checked = readD().done === 1;
-    renderRedoInfo();
-    chk.addEventListener('change', function(){
-      var d = setRedo(chk.checked);
-      flash(d.done ? ('✓ 已记录第 '+d.n+' 次重做') : '已取消标记（历史次数保留）');
-    });
-  }
-  function render(){
-    var s = readS();
-    var el = document.getElementById('cstat-counts');
-    if (el) el.textContent = '\u2705'+(s.skilled||0)+' \u00b7 \ud83d\ude10'+(s.fuzzy||0)+' \u00b7 \u274c'+(s.forgot||0);
-  }
-  function renderR(){
-    var r = readR();
-    var el = document.getElementById('crate-counts');
-    if (el) el.textContent = '\ud83d\udc4d'+(r.good||0)+' \u00b7 \ud83d\udcd5'+(r.hard||0)+' \u00b7 \ud83d\udde3\ufe0f'+(r.teach||0);
-  }
-  function flash(msg){
-    var el = document.getElementById('cstat-flash');
-    if (!el) return;
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(flash._t);
-    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
-  }
-  function bind(id, state, label, extra){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var reset = recordCourseState(state);
-      var n = readS()[state]||0;
-      var msg = label+' \u00d7'+n+' \u5df2\u8bb0\u5f55' + (extra && reset ? extra : '');
-      flash(msg);
-    });
-  }
-  function bindRate(id, kind, label){
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var n = rateCourse(kind);
-      flash(label+' \u00d7'+n+' \u5df2\u8bb0\u5f55');
-    });
-  }
-  function init(){
-    bind('cstat-sk','skilled','\u719f\u7ec3','\uff08\u6a21\u7cca/\u5fd8\u8bb0\u5df2\u6e05\u96f6\uff09');
-    bind('cstat-fz','fuzzy','\u6a21\u7cca');
-    bind('cstat-fg','forgot','\u5fd8\u8bb0');
-    bindRate('crate-good','good','\ud83d\udc4d \u597d');
-    bindRate('crate-hard','hard','\ud83d\udcd5 \u8bfe\u4ef6\u4e0d\u597d\u61c2');
-    bindRate('crate-teach','teach','\ud83d\udde3\ufe0f \u6ca1\u8001\u5e08\u8bb2\u7684\u597d');
-    initRedo();
-    render(); renderR();
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-
-<script>
-/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
-(function(){
-  'use strict';
-  if (window.__tnav) return;
-  window.__tnav = true;
-  var ti = NaN;
-  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
-  if (isNaN(ti) || ti < 0) return;
-  var g = null;
-  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
-  if (!g || !g.urls || !g.urls.length) return;
-  var urls = g.urls;
-  function toUrl(u, idx){
-    var sep = u.indexOf('?') >= 0 ? '&' : '?';
-    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
-  }
-  function build(){
-    var bar = document.createElement('div');
-    bar.id = 'tnav-bar';
-    var prev = ti > 0
-      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
-      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
-    var next = ti < urls.length - 1
-      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
-      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
-    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
-      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
-      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
-    document.body.appendChild(bar);
-    document.getElementById('tnav-exit').addEventListener('click', function(){
-      bar.remove();
-      try { localStorage.removeItem('train_group'); } catch(e){}
-    });
-  }
-  document.addEventListener('keydown', function(e){
-    if (!document.getElementById('tnav-bar')) return;
-    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
-    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
-  });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
-})();
-</script>
-<script>
-/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
-(function(){
-  'use strict';
-  if (window.__bardrag) return;
-  window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
-  var LONG = 400, MOVE = 6;
-  function key(id){ return 'bar_pos:' + id; }
-  function place(el, l, t){
-    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
-    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
-    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
-    el.style.left = l + 'px';
-    el.style.top = t + 'px';
-    el.style.right = 'auto';
-    el.style.bottom = 'auto';
-    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
-  }
-  function restore(el){
-    try{
-      var p = JSON.parse(localStorage.getItem(key(el.id)));
-      if (p && typeof p.left === 'number') place(el, p.left, p.top);
-    }catch(e){}
-  }
-  function makeDraggable(el){
-    if (!el || el.__drag) return;
-    el.__drag = true;
-    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
-    el.style.touchAction = 'none';
-    el.addEventListener('pointerdown', function(e){
-      if (e.button) return;
-      sx = e.clientX; sy = e.clientY;
-      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
-      dragging = false; pid = e.pointerId;
-      clearTimeout(timer);
-      timer = setTimeout(function(){
-        dragging = true;
-        el.classList.add('bar-dragging');
-        try { el.setPointerCapture(pid); } catch(e2){}
-        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
-      }, LONG);
-    });
-    el.addEventListener('pointermove', function(e){
-      if (!dragging){
-        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
-        return;
-      }
-      e.preventDefault();
-      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
-    });
-    function up(){
-      clearTimeout(timer);
-      if (dragging){
-        el.classList.remove('bar-dragging');
-        try{
-          localStorage.setItem(key(el.id), JSON.stringify({
-            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
-        }catch(e2){}
-      }
-      dragging = false;
-    }
-    el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
-    window.addEventListener('resize', function(){ restore(el); });
-  }
-  function init(){
-    IDS.forEach(function(id){
-      var el = document.getElementById(id);
-      if (el){ makeDraggable(el); restore(el); }
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
-</script>
-<!--CSTAT-END-->
-<style id="cnote-style">
-#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
-#cnotePill.drag{opacity:.85;transform:scale(1.04);}
-#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
-#cnotePop.open{display:block;}
-.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
-.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
-.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
-.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
-.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
-#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
-.cp-foot{display:flex;justify-content:space-between;align-items:center;}
-.cp-cnt{font-size:11.5px;color:#93a7ba;}
-#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
-#cnoteSave:disabled{opacity:.6;}
-.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
-#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,5s);animation-iteration-count:infinite;}
-@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
-</style>
-<script id="cnote-inject">
-(function(){
-  var CID=(function(){
-    try{
-      var m=document.querySelector('script[type="application/json"]#c-meta');
-      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
-    }catch(e){}
-    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
-  })();
-  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
-  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
-  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
-  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
-  var CFG=(function(){
-    var src=document.documentElement.innerHTML;
-    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
-    var mk=src.match(/eyJhbGciOi[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
-    return{url:mu?mu[0]:'',key:mk?mk[0]:''};
-  })();
-  function pushCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
-        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
-      }).catch(function(e){console.warn('[cnote] push fail',e);});
-    }catch(e){}
-  }
-  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
-  document.body.appendChild(pill);
-  var pop=document.createElement('div');pop.id='cnotePop';
-  document.body.appendChild(pop);
-  var sel={};
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function saveRec(tags,txt){
-    var rec={tags:tags,note:txt,ts:Date.now()};
-    var arr=localNotes();arr.push(rec);saveLocal(arr);
-    pushCloud(rec);
-    return rec;
-  }
-  function delCloud(rec){
-    if(!CFG.url||!CFG.key)return;
-    try{
-      var iso=new Date(rec.ts).toISOString();
-      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
-        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
-    }catch(e){}
-  }
-  function cancelRec(tag,rec){
-    var arr=localNotes();
-    for(var i=arr.length-1;i>=0;i--){
-      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
-        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
-      }
-    }
-    return false;
-  }
-  function renderPop(){
-    var vs=vocab(),n=localNotes();
-    sel={};
-    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
-    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
-    h+='<div class="cp-tags">';
-    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
-    h+='</div>';
-    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
-    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
-    if(n.length){
-      var last=n[n.length-1];
-      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
-      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
-        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
-    }
-    pop.innerHTML=h;
-    pop.querySelectorAll('.cp-tag').forEach(function(el){
-      el.addEventListener('click',function(){
-        var t=el.getAttribute('data-t');
-        var cnt=pop.querySelector('.cp-cnt');
-        if(sel[t]){
-          if(cancelRec(t,sel[t])){
-            delete sel[t];el.classList.remove('done');
-            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
-            updBlink();
-          }
-          return;
-        }
-        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-        var rec=saveRec([t],txt);
-        sel[t]=rec;
-        pop.querySelector('#cnoteTxt').value='';
-        el.classList.add('done');
-        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
-        updBlink();
-      });
-    });
-    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
-    var sv=pop.querySelector('#cnoteSave');
-    sv.addEventListener('click',function(){
-      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
-      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
-      saveRec([],txt);
-      pop.querySelector('#cnoteTxt').value='';
-      var cnt=pop.querySelector('.cp-cnt');
-      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
-      updBlink();
-    });
-  }
-  function openPop(){renderPop();pop.classList.add('open');}
-  function closePop(){pop.classList.remove('open');}
-  var key='bar_pos:cnote';
-  var blinkSec=5;
-  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||5));}catch(e){}
-  pill.style.setProperty('--blink-int',blinkSec+'s');
-  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
-  updBlink();
-  try{
-    var p=JSON.parse(localStorage.getItem(key)||'null');
-    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
-  }catch(e){}
-  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
-  pill.addEventListener('pointerdown',function(e){
-    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
-    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
-    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
-    e.preventDefault();
-  });
-  window.addEventListener('pointermove',function(e){
-    if(!dragging)return;moved=true;
-    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
-    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
-    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
-    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
-  });
-  window.addEventListener('pointerup',function(e){
-    if(arm){
-      arm=false;clearTimeout(timer);
-      if(dragging&&moved){
-        dragging=false;pill.classList.remove('drag');
-        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
-      }else{
-        dragging=false;pill.classList.remove('drag');
-        if(pop.classList.contains('open'))closePop();else openPop();
-      }
-      return;
-    }
-    if(dragging)return;
-    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
-  });
-})();
-</script>
-<!--FEAT-JS-REPORTER-BEGIN-->
+﻿<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+
+<title>三角函数一般式 y = A sin(ωx + φ) + b</title>
+
+
+<meta name="number" content="数0019">
+
+
+<meta name="subject" content="数学">
+
+
+<meta name="chapter" content="三角函数">
+
+
+<meta name="knowledge" content="三角函数图像与性质">
+
+
+<meta name="source" content="我的解题课件库">
+
+
+<meta name="type" content="讲课课件">
+
+
+<meta name="tags" content="KaTeX公式;三角函数;互动图像;图像变换;函数性质;数学;讲课课件">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+
+
+<style>
+
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#e0f7fa 0%,#e8f5e9 100%);color:#2c3e50;min-height:100vh;padding:20px;line-height:1.8}
+
+
+.back-link{display:inline-block;margin-bottom:14px;color:#00897b;text-decoration:none;font-weight:600;font-size:14px}
+
+
+.back-link:hover{text-decoration:underline}
+
+
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+
+
+.meta-chip{background:#fff;border:1px solid #b2dfdb;border-radius:16px;padding:4px 12px;font-size:12px;color:#00695c}
+
+
+.meta-chip.key{background:linear-gradient(90deg,#26a69a,#29b6f6);color:#fff;border:none}
+
+
+.hero{background:linear-gradient(135deg,#00897b 0%,#26c6da 50%,#4dd0e1 100%);border-radius:20px;padding:36px 28px;color:#fff;margin-bottom:24px;box-shadow:0 8px 24px rgba(0,137,123,0.25)}
+
+
+.hero h1{font-size:28px;margin-bottom:10px;letter-spacing:1px}
+
+
+.hero p{font-size:15px;opacity:.95}
+
+
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+
+
+.card h2{color:#00695c;font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #b2dfdb}
+
+
+.card h3{color:#00897b;font-size:16px;margin:16px 0 10px}
+
+
+.slider-row{display:flex;align-items:center;margin:12px 0;gap:12px}
+
+
+.slider-row label{min-width:44px;font-weight:600;color:#00695c}
+
+
+.slider-row input[type=range]{flex:1;accent-color:#26a69a}
+
+
+.slider-row .val{min-width:70px;text-align:right;color:#00897b;font-weight:600;font-family:Consolas,monospace}
+
+
+.derived-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
+
+
+.derived-item{background:#e0f2f1;border-radius:10px;padding:10px;text-align:center}
+
+
+.derived-item .lbl{font-size:12px;color:#546e7a;margin-bottom:4px}
+
+
+.derived-item .v{font-weight:700;color:#00695c;font-size:14px;font-family:Consolas,monospace}
+
+
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+
+.btn{border:none;border-radius:22px;padding:8px 20px;font-size:14px;cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(90deg,#26a69a,#29b6f6);transition:transform .15s}
+
+
+.btn:hover{transform:translateY(-1px)}
+
+
+.btn.ghost{background:#fff;color:#00897b;border:2px solid #26a69a}
+
+
+.btn.active{background:linear-gradient(90deg,#ff9800,#ff5722)}
+
+
+.canvas-wrap{position:relative;margin-top:10px;border-radius:12px;overflow:hidden;background:#fafafa;border:1px solid #e0e0e0}
+
+
+canvas{display:block;width:100%;touch-action:none}
+
+
+.tooltip{position:absolute;background:rgba(0,0,0,0.82);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;pointer-events:none;display:none;transform:translate(-50%,-120%);font-family:Consolas,monospace;white-space:nowrap;z-index:10}
+
+
+.step{background:#e0f2f1;border-left:4px solid #26a69a;padding:14px 18px;border-radius:8px;margin:10px 0}
+
+
+.step.gold{background:#fff8e1;border-left-color:#ffb300}
+
+
+.step.green{background:#e8f5e9;border-left-color:#43a047}
+
+
+.step.blue{background:#e3f2fd;border-left-color:#1e88e5}
+
+
+.step.red{background:#ffebee;border-left-color:#e53935}
+
+
+.formula-box{background:linear-gradient(135deg,#e0f2f1,#e3f2fd);border:2px solid #26a69a;border-radius:12px;padding:16px;margin:14px 0;text-align:center;font-size:16px}
+
+
+.tag{display:inline-block;background:#ffb74d;color:#fff;font-size:12px;padding:2px 10px;border-radius:12px;margin-right:6px;font-weight:600}
+
+
+.tag.exam{background:#e53935}
+
+
+.tag.tip{background:#43a047}
+
+
+.brain-card{background:linear-gradient(135deg,#f3e5f5,#e1f5fe);border-radius:14px;padding:20px;margin-top:10px}
+
+
+.brain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:10px}
+
+
+.brain-item{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+
+
+.brain-item .big{font-size:22px;font-weight:800;color:#00897b}
+
+
+.brain-item .desc{font-size:12px;color:#546e7a;margin-top:4px}
+
+
+ul.exam-list{margin:8px 0 8px 24px}
+
+
+ul.exam-list li{margin:4px 0}
+
+
+@media(max-width:600px){
+
+
+  .hero h1{font-size:20px}
+
+
+  .card{padding:18px}
+
+
+  .slider-row{flex-wrap:wrap}
+
+
+  .slider-row .val{min-width:auto}
+
+
+}
+
+
+</style>
+
+
+<!--CSTAT-META--><script type="application/json" id="c-meta">{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-13","number":"数0019"}</script><!--/CSTAT-META-->
+
+
+<style id="layoutfix-style">
+
+
+.hero{position:relative;}
+
+
+.hero .back-nav{position:absolute;left:14px;top:14px;margin:0;}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<a class="back-link" href="../../index.html">← 返回课程列表</a>
+
+
+
+
+
+<div class="meta-bar">
+
+
+  <span class="meta-chip key">数0019</span>
+
+
+  <span class="meta-chip">数学</span>
+
+
+  <span class="meta-chip">三角函数</span>
+
+
+  <span class="meta-chip">图像与性质</span>
+
+
+  <span class="meta-chip">讲课课件</span>
+
+
+</div>
+
+
+
+
+
+<div class="hero">
+
+
+  <h1>三角函数一般式 $y = A\sin(\omega x + \varphi) + b$</h1>
+
+
+  <p>理解四个参数 A、ω、φ、b 如何决定正弦曲线的形状、位置和周期。拖动滑块实时观察图像变化。</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2>🎛 交互式图像探索</h2>
+
+
+  <p style="color:#546e7a;font-size:13px;margin-bottom:10px">拖动下方滑块改变参数；也可以在画布上拖动（水平方向改变 φ，垂直方向改变 b）。鼠标悬停查看坐标。</p>
+
+
+
+
+
+  <div class="slider-row">
+
+
+    <label for="sA">A</label>
+
+
+    <input type="range" id="sA" min="-3" max="3" step="0.1" value="1">
+
+
+    <span class="val" id="vA">1.0</span>
+
+
+    <span style="font-size:12px;color:#888">振幅（Amplitude）</span>
+
+
+  </div>
+
+
+  <div class="slider-row">
+
+
+    <label for="sW">ω</label>
+
+
+    <input type="range" id="sW" min="0.3" max="5" step="0.1" value="1">
+
+
+    <span class="val" id="vW">1.0</span>
+
+
+    <span style="font-size:12px;color:#888">角频率（Angular frequency）</span>
+
+
+  </div>
+
+
+  <div class="slider-row">
+
+
+    <label for="sP">φ</label>
+
+
+    <input type="range" id="sP" min="-3.14159" max="3.14159" step="0.05" value="0">
+
+
+    <span class="val" id="vP">0.00</span>
+
+
+    <span style="font-size:12px;color:#888">初相（Initial phase）</span>
+
+
+  </div>
+
+
+  <div class="slider-row">
+
+
+    <label for="sB">b</label>
+
+
+    <input type="range" id="sB" min="-3" max="3" step="0.1" value="0">
+
+
+    <span class="val" id="vB">0.0</span>
+
+
+    <span style="font-size:12px;color:#888">平衡位置（Vertical shift）</span>
+
+
+  </div>
+
+
+
+
+
+  <div class="btn-row">
+
+
+    <button class="btn ghost" id="btnReset">↺ 复位</button>
+
+
+    <button class="btn" id="btnRef">👁 隐藏参考线 y=sin x</button>
+
+
+  </div>
+
+
+
+
+
+  <div class="canvas-wrap" id="canvasWrap">
+
+
+    <canvas id="cv" width="800" height="420"></canvas>
+
+
+    <div class="tooltip" id="tip"></div>
+
+
+  </div>
+
+
+
+
+
+  <div class="derived-grid">
+
+
+    <div class="derived-item"><div class="lbl">振幅 |A|</div><div class="v" id="dA">1.0</div></div>
+
+
+    <div class="derived-item"><div class="lbl">周期 T = 2π/ω</div><div class="v" id="dT">6.28</div></div>
+
+
+    <div class="derived-item"><div class="lbl">频率 f = ω/(2π)</div><div class="v" id="dF">0.16</div></div>
+
+
+    <div class="derived-item"><div class="lbl">初相 φ</div><div class="v" id="dP">0.00</div></div>
+
+
+    <div class="derived-item"><div class="lbl">相位平移 -φ/ω</div><div class="v" id="dPS">0.00</div></div>
+
+
+    <div class="derived-item"><div class="lbl">平衡线 y = b</div><div class="v" id="dB">0.0</div></div>
+
+
+    <div class="derived-item"><div class="lbl">最大值</div><div class="v" id="dMax">1.0</div></div>
+
+
+    <div class="derived-item"><div class="lbl">最小值</div><div class="v" id="dMin">-1.0</div></div>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2>📖 公式解构</h2>
+
+
+  <p>标准形式：$y = A\sin(\omega x + \varphi) + b$，四个参数各有明确的几何意义：</p>
+
+
+
+
+
+  <div class="step">
+
+
+    <strong>A —— 振幅（Amplitude）</strong><br>
+
+
+    控制波浪的高度。$|A|$ 越大，波浪起伏越剧烈。$A < 0$ 时图像关于 x 轴对称翻转。
+
+
+  </div>
+
+
+  <div class="step green">
+
+
+    <strong>ω —— 角频率（Angular frequency）</strong><br>
+
+
+    控制波浪的疏密。$\omega$ 越大，波浪越密（周期 $T = \frac{2\pi}{\omega}$ 越小）。$\omega > 0$ 是标准情况。
+
+
+  </div>
+
+
+  <div class="step gold">
+
+
+    <strong>φ —— 初相（Initial phase）</strong><br>
+
+
+    控制左右平移。$\varphi > 0$ 时向左平移 $\left|\frac{\varphi}{\omega}\right|$ 个单位，$\varphi < 0$ 时向右平移。
+
+
+  </div>
+
+
+  <div class="step blue">
+
+
+    <strong>b —— 平衡位置（Vertical shift）</strong><br>
+
+
+    控制上下平移。图像关于直线 $y = b$ 上下对称（不再关于 x 轴对称）。
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2><span class="tag exam">考点①</span>已知参数 → 画图</h2>
+
+
+  <div class="formula-box">
+
+
+    例：已知 $y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$，求各量
+
+
+  </div>
+
+
+  <div class="step">
+
+
+    <ul class="exam-list">
+
+
+      <li>振幅：$|A| = |2| = \boldsymbol{2}$</li>
+
+
+      <li>周期：$T = \frac{2\pi}{\omega} = \frac{2\pi}{2} = \boldsymbol{\pi}$</li>
+
+
+      <li>初相：$\varphi = \boldsymbol{\frac{\pi}{3}}$</li>
+
+
+      <li>相位平移：$-\frac{\varphi}{\omega} = -\frac{\pi/3}{2} = \boldsymbol{-\frac{\pi}{6}}$（即向左平移 $\frac{\pi}{6}$）</li>
+
+
+      <li>平衡位置：$y = b = \boldsymbol{1}$</li>
+
+
+      <li>最大值：$b + |A| = 1 + 2 = \boldsymbol{3}$</li>
+
+
+      <li>最小值：$b - |A| = 1 - 2 = \boldsymbol{-1}$</li>
+
+
+    </ul>
+
+
+  </div>
+
+
+  <div class="step red">
+
+
+    <strong>易错：</strong>单调性区间求法（整体代换）：<br>
+
+
+    令 $u = 2x + \frac{\pi}{3}$，则 $y = 2\sin u + 1$。<br>
+
+
+    $\sin u$ 单调递增区间是 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]$，代入 $u$ 解出 $x$：<br>
+
+
+    $-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi \Rightarrow x \in \left[-\frac{5\pi}{12} + k\pi,\ \frac{\pi}{12} + k\pi\right]$
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2><span class="tag exam">考点②</span>由图像 → 求参数</h2>
+
+
+  <p>已知图像特征反推 A, ω, φ, b 是高考高频题型。</p>
+
+
+
+
+
+  <div class="formula-box">
+
+
+    <strong>图像描述（完整自洽）：</strong>波峰最大值 $y = 3$，波谷最小值 $y = -1$，周期 $T = \pi$，平衡线 $y = 1$，且波峰位于 $x = \frac{\pi}{12}$。
+
+
+  </div>
+
+
+
+
+
+  <div class="step">
+
+
+    <strong>第一步：求 b</strong> —— 平衡线即 $y = b$，故 $\boldsymbol{b = 1}$。
+
+
+  </div>
+
+
+  <div class="step green">
+
+
+    <strong>第二步：求 A</strong> —— 由波峰、波谷与平衡线的距离关系：<br>
+
+
+    $|A| = \frac{\text{最大值} - \text{最小值}}{2} = \frac{3 - (-1)}{2} = 2$<br>
+
+
+    波峰在平衡线上方（开口向上），故 $\boldsymbol{A = 2}$。
+
+
+  </div>
+
+
+  <div class="step gold">
+
+
+    <strong>第三步：求 ω</strong> —— $T = \pi$，由 $T = \frac{2\pi}{\omega}$ 得：<br>
+
+
+    $\omega = \frac{2\pi}{T} = \frac{2\pi}{\pi} = \boldsymbol{2}$。
+
+
+  </div>
+
+
+  <div class="step blue">
+
+
+    <strong>第四步：求 φ</strong> —— 波峰处（正弦取最大值 1）：$\omega x + \varphi = \frac{\pi}{2} + 2k\pi$。<br>
+
+
+    代入已知 $x = \frac{\pi}{12}$、$\omega = 2$：<br>
+
+
+    $2 \cdot \frac{\pi}{12} + \varphi = \frac{\pi}{2} \Rightarrow \frac{\pi}{6} + \varphi = \frac{\pi}{2} \Rightarrow \boldsymbol{\varphi = \frac{\pi}{3}}$。
+
+
+  </div>
+
+
+  <div class="step green">
+
+
+    <strong>验证：</strong>把四个参数代入原式 $y = 2\sin(2x + \frac{\pi}{3}) + 1$：<br>
+
+
+    $x = \frac{\pi}{12}$ 时，$y = 2\sin(\frac{\pi}{6} + \frac{\pi}{3}) + 1 = 2\sin(\frac{\pi}{2}) + 1 = 2 + 1 = 3$ ✅（波峰）<br>
+
+
+    $x = 0$ 时，$y = 2\sin(\frac{\pi}{3}) + 1 = \sqrt{3} + 1 \approx 2.732$ ✅（无需额外过点条件，参数已自洽）
+
+
+  </div>
+
+
+  <div class="step red">
+
+
+    <strong>解题口诀：</strong>先 b（上下移）→ 再 A（振幅）→ 再 ω（周期）→ 最后 φ（初相）。<br>
+
+
+    <em>⚠️ 前提：图像描述必须自洽——所有给出的特征点（波峰位置、过点、零点）代入后能同时成立。如果推出矛盾，说明读题有误或题设本身出错。</em>
+
+
+  </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2><span class="tag exam">考点③</span>图像变换（两种路径）</h2>
+
+
+  <div class="formula-box">
+
+
+    $y = \sin x \ \longrightarrow\ y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$
+
+
+  </div>
+
+
+
+
+
+  <h3>方法一：先平移 → 后伸缩（推荐，不易错）</h3>
+
+
+  <div class="step">
+
+
+    <ol style="margin-left:20px">
+
+
+      <li>$y = \sin x$</li>
+
+
+      <li><strong>向左平移 $\frac{\pi}{3}$</strong> 个单位：$y = \sin\left(x + \frac{\pi}{3}\right)$</li>
+
+
+      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin\left(2x + \frac{\pi}{3}\right)$</li>
+
+
+      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
+
+
+      <li><strong>向上平移 1</strong> 个单位：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
+
+
+    </ol>
+
+
+  </div>
+
+
+
+
+
+  <h3>方法二：先伸缩 → 后平移（易错！）</h3>
+
+
+  <div class="step gold">
+
+
+    <ol style="margin-left:20px">
+
+
+      <li>$y = \sin x$</li>
+
+
+      <li>横坐标压缩为原来的 $\frac{1}{2}$：$y = \sin(2x)$</li>
+
+
+      <li><span style="color:#e53935;font-weight:700">向左平移 $\boldsymbol{\frac{\pi}{6}}$</span> 个单位（不是 $\frac{\pi}{3}$！）：$y = \sin\left(2\left(x + \frac{\pi}{6}\right)\right) = \sin\left(2x + \frac{\pi}{3}\right)$</li>
+
+
+      <li>纵坐标伸长为原来的 2 倍：$y = 2\sin\left(2x + \frac{\pi}{3}\right)$</li>
+
+
+      <li>向上平移 1：$y = 2\sin\left(2x + \frac{\pi}{3}\right) + 1$ ✓</li>
+
+
+    </ol>
+
+
+  </div>
+
+
+
+
+
+  <div class="step red">
+
+
+    <strong>易错点：</strong>先伸缩后平移时，平移量是 $\frac{|\varphi|}{\omega}$，而不是 $|\varphi|$。很多同学直接平移 $\frac{\pi}{3}$，导致错误。<br>
+
+
+    <strong>建议：</strong>答题时优先使用"先平移后伸缩"，更简单、出错率低。
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2><span class="tag exam">考点④</span>求单调区间（整体代换法）</h2>
+
+
+  <p>以 $y = 2\sin(2x + \frac{\pi}{3}) + 1$ 为例，求其单调递增区间。</p>
+
+
+
+
+
+  <div class="step green">
+
+
+    <strong>三步法：</strong><br>
+
+
+    ① <strong>换元：</strong>令 $u = 2x + \frac{\pi}{3}$，则原函数变为 $y = 2\sin u + 1$。<br>
+
+
+    ② <strong>解三角：</strong>$\sin u$ 的单调递增区间为 $\left[-\frac{\pi}{2} + 2k\pi,\ \frac{\pi}{2} + 2k\pi\right]\ (k \in \mathbb{Z})$。<br>
+
+
+    ③ <strong>代回解 x：</strong>
+
+
+    $$-\frac{\pi}{2} + 2k\pi \leq 2x + \frac{\pi}{3} \leq \frac{\pi}{2} + 2k\pi$$
+
+
+    $$-\frac{\pi}{2} - \frac{\pi}{3} + 2k\pi \leq 2x \leq \frac{\pi}{2} - \frac{\pi}{3} + 2k\pi$$
+
+
+    $$-\frac{5\pi}{6} + 2k\pi \leq 2x \leq \frac{\pi}{6} + 2k\pi$$
+
+
+    $$\boldsymbol{-\frac{5\pi}{12} + k\pi \leq x \leq \frac{\pi}{12} + k\pi \quad (k \in \mathbb{Z})}$$
+
+
+  </div>
+
+
+
+
+
+  <div class="step">
+
+
+    <strong>口诀：</strong>外层三角 + 内层一次 → 整体代换 → 解不等式。$\omega < 0$ 时先利用诱导公式把负号提到外面。
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+  <h2>🧠 一张图记住四个参数</h2>
+
+
+  <div class="brain-card">
+
+
+    <div class="brain-grid">
+
+
+      <div class="brain-item">
+
+
+        <div class="big">A</div>
+
+
+        <div class="desc">振幅 $|A|$ 决定波浪高度</div>
+
+
+      </div>
+
+
+      <div class="brain-item">
+
+
+        <div class="big">ω</div>
+
+
+        <div class="desc">角频率 $T = 2\pi/\omega$ 决定周期</div>
+
+
+      </div>
+
+
+      <div class="brain-item">
+
+
+        <div class="big">φ</div>
+
+
+        <div class="desc">初相 $-\varphi/\omega$ 决定左右平移</div>
+
+
+      </div>
+
+
+      <div class="brain-item">
+
+
+        <div class="big">b</div>
+
+
+        <div class="desc">平衡位置 决定上下平移</div>
+
+
+      </div>
+
+
+    </div>
+
+
+    <div style="margin-top:16px;text-align:center;font-size:14px;color:#00695c">
+
+
+      最大值 $= b + |A|$ ， 最小值 $= b - |A|$
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
 <script>
-/* ===== 课件统计上报 reporter（独立脚本，不侵入课件既有逻辑）=====
- * 实时机制 A+B 双保险（2026-09-14）：
- *   A = Supabase Realtime 订阅（设备 B 秒级收到推送即刷新）；连不上自动降级
- *   B = 轮询（每 5s 拉一次云端聚合）作为保底
- * 跨设备累加：pushCloud 改为「读云端当前值 + 本地增量 delta」写回，
- *   syncBase 持久化到 localStorage，防页面刷新重复计数。
- */
+
+
 (function(){
+
+
   'use strict';
-  if (window.__cstatReporter) return;
-  window.__cstatReporter = true;
+
+
+
+
+
+  var cv = document.getElementById('cv');
+
+
+  var ctx = cv.getContext('2d');
+
+
+  var wrap = document.getElementById('canvasWrap');
+
+
+  var tip = document.getElementById('tip');
+
+
+
+
+
+  var sA = document.getElementById('sA'), sW = document.getElementById('sW'), sP = document.getElementById('sP'), sB = document.getElementById('sB');
+
+
+  var vA = document.getElementById('vA'), vW = document.getElementById('vW'), vP = document.getElementById('vP'), vB = document.getElementById('vB');
+
+
+  var dA = document.getElementById('dA'), dT = document.getElementById('dT'), dF = document.getElementById('dF'), dP2 = document.getElementById('dP'), dPS = document.getElementById('dPS'), dB = document.getElementById('dB'), dMax = document.getElementById('dMax'), dMin = document.getElementById('dMin');
+
+
+
+
+
+  var btnReset = document.getElementById('btnReset');
+
+
+  var btnRef = document.getElementById('btnRef');
+
+
+
+
+
+  var showRef = true;
+
+
+  var dragging = false;
+
+
+  var lastX = 0, lastY = 0;
+
+
+
+
+
+  var PI = Math.PI;
+
+
+
+
+
+  function fmtPhase(v){
+
+
+    var absV = Math.abs(v);
+
+
+    if (absV < 0.01) return '0';
+
+
+    var piV = v / PI;
+
+
+    var near = Math.round(piV * 6);
+
+
+    if (Math.abs(piV * 6 - near) < 0.15 && near !== 0){
+
+
+      var sign = near >= 0 ? '' : '-';
+
+
+      var n = Math.abs(near);
+
+
+      if (n === 6) return (v >= 0 ? '' : '-') + 'π';
+
+
+      if (n === 3) return sign + 'π/2';
+
+
+      if (n === 4) return sign + '2π/3';
+
+
+      if (n === 2) return sign + 'π/3';
+
+
+      if (n === 1) return sign + 'π/6';
+
+
+      return sign + n + 'π/6';
+
+
+    }
+
+
+    return v.toFixed(2);
+
+
+  }
+
+
+
+
+
+  function fmtXasPi(x){
+
+
+    var piV = x / PI;
+
+
+    if (Math.abs(piV) < 0.005) return '0';
+
+
+    var near = Math.round(piV * 12);
+
+
+    if (Math.abs(piV * 12 - near) < 0.1){
+
+
+      var sign = near >= 0 ? '' : '-';
+
+
+      var n = Math.abs(near);
+
+
+      if (n === 12) return (near >= 0 ? '' : '-') + 'π';
+
+
+      if (n === 6) return sign + 'π/2';
+
+
+      if (n === 4) return sign + 'π/3';
+
+
+      if (n === 3) return sign + 'π/4';
+
+
+      if (n === 2) return sign + 'π/6';
+
+
+      return sign + n + 'π/12';
+
+
+    }
+
+
+    return x.toFixed(2);
+
+
+  }
+
+
+
+
+
+  function params(){
+
+
+    return {
+
+
+      A: parseFloat(sA.value),
+
+
+      W: parseFloat(sW.value),
+
+
+      P: parseFloat(sP.value),
+
+
+      B: parseFloat(sB.value)
+
+
+    };
+
+
+  }
+
+
+
+
+
+  function yOf(p, x){
+
+
+    return p.A * Math.sin(p.W * x + p.P) + p.B;
+
+
+  }
+
+
+
+
+
+  function resize(){
+
+
+    var rect = wrap.getBoundingClientRect();
+
+
+    var dpr = window.devicePixelRatio || 1;
+
+
+    cv.width = rect.width * dpr;
+
+
+    cv.height = 420 * dpr;
+
+
+    cv.style.width = rect.width + 'px';
+
+
+    cv.style.height = '420px';
+
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+
+    draw();
+
+
+  }
+
+
+
+
+
+  function draw(){
+
+
+    var W = cv.width / (window.devicePixelRatio || 1);
+
+
+    var H = cv.height / (window.devicePixelRatio || 1);
+
+
+    ctx.clearRect(0, 0, W, H);
+
+
+
+
+
+    var p = params();
+
+
+
+
+
+    var xMin = -2 * PI;
+
+
+    var xMax = 4 * PI;
+
+
+    var yMin = -3.5;
+
+
+    var yMax = 3.5;
+
+
+
+
+
+    var sx = function(x){ return (x - xMin) / (xMax - xMin) * W; };
+
+
+    var sy = function(y){ return H - (y - yMin) / (yMax - yMin) * H; };
+
+
+
+
+
+    ctx.fillStyle = '#fafafa';
+
+
+    ctx.fillRect(0, 0, W, H);
+
+
+
+
+
+    ctx.strokeStyle = '#e0e0e0';
+
+
+    ctx.lineWidth = 1;
+
+
+    for (var i = Math.ceil(xMin / (PI/2)); i <= Math.floor(xMax / (PI/2)); i++){
+
+
+      var gx = i * PI / 2;
+
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(sx(gx), 0);
+
+
+      ctx.lineTo(sx(gx), H);
+
+
+      ctx.stroke();
+
+
+    }
+
+
+    for (var j = Math.ceil(yMin); j <= Math.floor(yMax); j++){
+
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(0, sy(j));
+
+
+      ctx.lineTo(W, sy(j));
+
+
+      ctx.stroke();
+
+
+    }
+
+
+
+
+
+    ctx.strokeStyle = '#546e7a';
+
+
+    ctx.lineWidth = 1.5;
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(0, sy(0)); ctx.lineTo(W, sy(0)); ctx.stroke();
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(sx(0), 0); ctx.lineTo(sx(0), H); ctx.stroke();
+
+
+
+
+
+    ctx.fillStyle = '#546e7a';
+
+
+    ctx.font = '12px Consolas, monospace';
+
+
+    ctx.textAlign = 'center';
+
+
+    for (var k = Math.ceil(xMin / PI); k <= Math.floor(xMax / PI); k++){
+
+
+      if (k === 0) continue;
+
+
+      var lx = k * PI;
+
+
+      var lbl = (k === 1 ? 'π' : (k === -1 ? '-π' : (k + 'π')));
+
+
+      ctx.fillText(lbl, sx(lx), sy(0) + 14);
+
+
+    }
+
+
+    ctx.textAlign = 'right';
+
+
+    for (var m = Math.ceil(yMin); m <= Math.floor(yMax); m++){
+
+
+      if (m === 0) continue;
+
+
+      ctx.fillText(m.toString(), sx(0) - 4, sy(m) + 4);
+
+
+    }
+
+
+    ctx.fillText('0', sx(0) - 4, sy(0) + 14);
+
+
+
+
+
+    ctx.strokeStyle = '#ff9800';
+
+
+    ctx.lineWidth = 1.5;
+
+
+    ctx.setLineDash([6, 4]);
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(0, sy(p.B)); ctx.lineTo(W, sy(p.B)); ctx.stroke();
+
+
+    ctx.setLineDash([]);
+
+
+    ctx.fillStyle = '#ff9800';
+
+
+    ctx.textAlign = 'left';
+
+
+    ctx.fillText('y = b = ' + p.B.toFixed(1), W - 130, sy(p.B) - 6);
+
+
+
+
+
+    if (showRef){
+
+
+      ctx.strokeStyle = '#bdbdbd';
+
+
+      ctx.lineWidth = 1.5;
+
+
+      ctx.setLineDash([4, 4]);
+
+
+      ctx.beginPath();
+
+
+      var first = true;
+
+
+      for (var t = xMin; t <= xMax; t += 0.02){
+
+
+        var yy = Math.sin(t);
+
+
+        if (yy < yMin - 1 || yy > yMax + 1){ first = true; continue; }
+
+
+        if (first){ ctx.moveTo(sx(t), sy(yy)); first = false; }
+
+
+        else ctx.lineTo(sx(t), sy(yy));
+
+
+      }
+
+
+      ctx.stroke();
+
+
+      ctx.setLineDash([]);
+
+
+    }
+
+
+
+
+
+    var T = 2 * PI / p.W;
+
+
+    var phaseShift = -p.P / p.W;
+
+
+    var winStart = phaseShift;
+
+
+    var winEnd = phaseShift + T;
+
+
+    ctx.fillStyle = 'rgba(38, 166, 154, 0.08)';
+
+
+    ctx.fillRect(sx(winStart), 0, sx(winEnd) - sx(winStart), H);
+
+
+    ctx.strokeStyle = '#26a69a';
+
+
+    ctx.lineWidth = 1.2;
+
+
+    ctx.setLineDash([5, 5]);
+
+
+    ctx.beginPath(); ctx.moveTo(sx(winStart), 0); ctx.lineTo(sx(winStart), H); ctx.stroke();
+
+
+    ctx.beginPath(); ctx.moveTo(sx(winEnd), 0); ctx.lineTo(sx(winEnd), H); ctx.stroke();
+
+
+    ctx.setLineDash([]);
+
+
+    ctx.fillStyle = '#00695c';
+
+
+    ctx.font = '11px -apple-system,sans-serif';
+
+
+    ctx.textAlign = 'center';
+
+
+    ctx.fillText('T = 2π/ω ≈ ' + T.toFixed(2), (sx(winStart) + sx(winEnd)) / 2, 20);
+
+
+
+
+
+    ctx.strokeStyle = '#1565c0';
+
+
+    ctx.lineWidth = 3;
+
+
+    ctx.beginPath();
+
+
+    var first2 = true;
+
+
+    for (var t2 = xMin; t2 <= xMax; t2 += 0.015){
+
+
+      var y2 = yOf(p, t2);
+
+
+      if (y2 < yMin - 1 || y2 > yMax + 1){ first2 = true; continue; }
+
+
+      if (first2){ ctx.moveTo(sx(t2), sy(y2)); first2 = false; }
+
+
+      else ctx.lineTo(sx(t2), sy(y2));
+
+
+    }
+
+
+    ctx.stroke();
+
+
+
+
+
+    ctx.strokeStyle = '#43a047';
+
+
+    ctx.lineWidth = 1.5;
+
+
+    ctx.setLineDash([3, 3]);
+
+
+    ctx.beginPath();
+
+
+    var peakX = phaseShift + T / 4;
+
+
+    if (peakX >= xMin && peakX <= xMax){
+
+
+      ctx.moveTo(sx(peakX), sy(p.B));
+
+
+      ctx.lineTo(sx(peakX), sy(p.B + Math.abs(p.A)));
+
+
+      ctx.stroke();
+
+
+    }
+
+
+    ctx.setLineDash([]);
+
+
+    ctx.fillStyle = '#2e7d32';
+
+
+    ctx.font = '11px -apple-system,sans-serif';
+
+
+    ctx.fillText('|A| = ' + Math.abs(p.A).toFixed(1), sx(peakX) + 6, sy(p.B + Math.abs(p.A) / 2));
+
+
+
+
+
+    var pointRadius = 5;
+
+
+    var drawPoint = function(px, py, color){
+
+
+      if (px < xMin - 0.1 || px > xMax + 0.1) return;
+
+
+      ctx.beginPath();
+
+
+      ctx.arc(sx(px), sy(py), pointRadius, 0, 2 * PI);
+
+
+      ctx.fillStyle = color;
+
+
+      ctx.fill();
+
+
+      ctx.strokeStyle = '#fff';
+
+
+      ctx.lineWidth = 1.5;
+
+
+      ctx.stroke();
+
+
+    };
+
+
+
+
+
+    drawPoint(0, yOf(p, 0), '#7e57c2');
+
+
+
+
+
+    for (var kk = -2; kk <= 6; kk++){
+
+
+      var pkX = phaseShift + T/4 + kk * T;
+
+
+      var vkX = phaseShift - T/4 + kk * T;
+
+
+      if (pkX >= xMin && pkX <= xMax) drawPoint(pkX, p.B + Math.abs(p.A), '#e53935');
+
+
+      if (vkX >= xMin && vkX <= xMax) drawPoint(vkX, p.B - Math.abs(p.A), '#e53935');
+
+
+    }
+
+
+
+
+
+    for (var kz = -6; kz <= 12; kz++){
+
+
+      var zx = (kz * PI - p.P) / p.W;
+
+
+      if (zx >= xMin && zx <= xMax){
+
+
+        var zy = yOf(p, zx);
+
+
+        if (Math.abs(zy - p.B) < 0.01) drawPoint(zx, p.B, '#43a047');
+
+
+      }
+
+
+    }
+
+
+
+
+
+    var legX = 12, legY = H - 70;
+
+
+    ctx.font = '12px -apple-system,sans-serif';
+
+
+    ctx.textAlign = 'left';
+
+
+    ctx.fillStyle = '#1565c0';
+
+
+    ctx.fillRect(legX, legY, 22, 3);
+
+
+    ctx.fillStyle = '#37474f';
+
+
+    ctx.fillText('y = A sin(ωx + φ) + b', legX + 28, legY + 4);
+
+
+
+
+
+    if (showRef){
+
+
+      ctx.fillStyle = '#bdbdbd';
+
+
+      ctx.fillRect(legX, legY + 20, 22, 3);
+
+
+      ctx.fillStyle = '#37474f';
+
+
+      ctx.fillText('y = sin x', legX + 28, legY + 24);
+
+
+    }
+
+
+
+
+
+    ctx.beginPath(); ctx.arc(legX + 10, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#7e57c2'; ctx.fill();
+
+
+    ctx.fillStyle = '#37474f'; ctx.fillText('起点 (x=0)', legX + 28, legY + 46);
+
+
+
+
+
+    ctx.beginPath(); ctx.arc(legX + 130, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#e53935'; ctx.fill();
+
+
+    ctx.fillStyle = '#37474f'; ctx.fillText('峰/谷', legX + 148, legY + 46);
+
+
+
+
+
+    ctx.beginPath(); ctx.arc(legX + 200, legY + 42, 4, 0, 2*PI); ctx.fillStyle = '#43a047'; ctx.fill();
+
+
+    ctx.fillStyle = '#37474f'; ctx.fillText('过中线点', legX + 218, legY + 46);
+
+
+  }
+
+
+
+
+
+  function updateDerived(){
+
+
+    var p = params();
+
+
+    var absA = Math.abs(p.A);
+
+
+    var T = 2 * PI / p.W;
+
+
+    var f = p.W / (2 * PI);
+
+
+    var ps = -p.P / p.W;
+
+
+    vA.textContent = p.A.toFixed(1);
+
+
+    vW.textContent = p.W.toFixed(1);
+
+
+    vP.textContent = fmtPhase(p.P);
+
+
+    vB.textContent = p.B.toFixed(1);
+
+
+
+
+
+    dA.textContent = absA.toFixed(2);
+
+
+    dT.textContent = T.toFixed(2);
+
+
+    dF.textContent = f.toFixed(3);
+
+
+    dP2.textContent = fmtPhase(p.P);
+
+
+    dPS.textContent = fmtPhase(ps);
+
+
+    dB.textContent = p.B.toFixed(2);
+
+
+    dMax.textContent = (p.B + absA).toFixed(2);
+
+
+    dMin.textContent = (p.B - absA).toFixed(2);
+
+
+  }
+
+
+
+
+
+  function sync(){
+
+
+    draw();
+
+
+    updateDerived();
+
+
+  }
+
+
+
+
+
+  sA.addEventListener('input', sync);
+
+
+  sW.addEventListener('input', sync);
+
+
+  sP.addEventListener('input', sync);
+
+
+  sB.addEventListener('input', sync);
+
+
+
+
+
+  btnReset.addEventListener('click', function(){
+
+
+    sA.value = 1; sW.value = 1; sP.value = 0; sB.value = 0;
+
+
+    sync();
+
+
+  });
+
+
+
+
+
+  btnRef.addEventListener('click', function(){
+
+
+    showRef = !showRef;
+
+
+    btnRef.textContent = showRef ? '👁 隐藏参考线 y=sin x' : '👁 显示参考线 y=sin x';
+
+
+    if (showRef) btnRef.classList.remove('active');
+
+
+    else btnRef.classList.add('active');
+
+
+    draw();
+
+
+  });
+
+
+
+
+
+  function getLogicalXY(clientX, clientY){
+
+
+    var rect = cv.getBoundingClientRect();
+
+
+    var lx = (clientX - rect.left);
+
+
+    var ly = (clientY - rect.top);
+
+
+    var W = rect.width;
+
+
+    var H = rect.height;
+
+
+    var xMin = -2 * PI, xMax = 4 * PI;
+
+
+    var yMin = -3.5, yMax = 3.5;
+
+
+    var x = lx / W * (xMax - xMin) + xMin;
+
+
+    var y = yMax - ly / H * (yMax - yMin);
+
+
+    return { x: x, y: y };
+
+
+  }
+
+
+
+
+
+  cv.addEventListener('mousemove', function(e){
+
+
+    var pt = getLogicalXY(e.clientX, e.clientY);
+
+
+    var p = params();
+
+
+    var yv = yOf(p, pt.x);
+
+
+    tip.innerHTML = 'x = ' + fmtXasPi(pt.x) + '<br>y = ' + yv.toFixed(3);
+
+
+    var rect = cv.getBoundingClientRect();
+
+
+    var lx = e.clientX - rect.left;
+
+
+    var ly = e.clientY - rect.top;
+
+
+    tip.style.left = lx + 'px';
+
+
+    tip.style.top = ly + 'px';
+
+
+    tip.style.display = 'block';
+
+
+    if (dragging){
+
+
+      var dx = e.clientX - lastX;
+
+
+      var dy = e.clientY - lastY;
+
+
+      var rect2 = cv.getBoundingClientRect();
+
+
+      var W = rect2.width;
+
+
+      var H = rect2.height;
+
+
+      var dphi = -dx / W * (6 * PI) * 0.5;
+
+
+      var db = -dy / H * 7 * 0.5;
+
+
+      var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
+
+
+      var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
+
+
+      sP.value = newP;
+
+
+      sB.value = newB;
+
+
+      sync();
+
+
+      lastX = e.clientX; lastY = e.clientY;
+
+
+    }
+
+
+  });
+
+
+  cv.addEventListener('mouseleave', function(){ tip.style.display = 'none'; });
+
+
+
+
+
+  cv.addEventListener('mousedown', function(e){
+
+
+    dragging = true;
+
+
+    lastX = e.clientX; lastY = e.clientY;
+
+
+    e.preventDefault();
+
+
+  });
+
+
+  window.addEventListener('mouseup', function(){ dragging = false; });
+
+
+
+
+
+  cv.addEventListener('touchstart', function(e){
+
+
+    e.preventDefault();
+
+
+    if (e.touches.length > 0){
+
+
+      dragging = true;
+
+
+      lastX = e.touches[0].clientX;
+
+
+      lastY = e.touches[0].clientY;
+
+
+    }
+
+
+  }, {passive:false});
+
+
+  cv.addEventListener('touchmove', function(e){
+
+
+    e.preventDefault();
+
+
+    if (!dragging || e.touches.length === 0) return;
+
+
+    var t = e.touches[0];
+
+
+    var dx = t.clientX - lastX;
+
+
+    var dy = t.clientY - lastY;
+
+
+    var rect = cv.getBoundingClientRect();
+
+
+    var W = rect.width;
+
+
+    var H = rect.height;
+
+
+    var dphi = -dx / W * (6 * PI) * 0.5;
+
+
+    var db = -dy / H * 7 * 0.5;
+
+
+    var newP = Math.max(-PI, Math.min(PI, parseFloat(sP.value) + dphi));
+
+
+    var newB = Math.max(-3, Math.min(3, parseFloat(sB.value) + db));
+
+
+    sP.value = newP;
+
+
+    sB.value = newB;
+
+
+    sync();
+
+
+    lastX = t.clientX; lastY = t.clientY;
+
+
+  }, {passive:false});
+
+
+  cv.addEventListener('touchend', function(e){ e.preventDefault(); dragging = false; }, {passive:false});
+
+
+
+
+
+  window.addEventListener('resize', function(){ resize(); });
+
+
+
+
+
+  resize();
+
+
+  sync();
+
+
+
+
+
+  setTimeout(function(){
+
+
+    if (typeof renderMathInElement === 'function'){
+
+
+      renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+
+
+    }
+
+
+  }, 400);
+
+
+
+
+
+})();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--COURSEWARE-FEAT-BEGIN-->
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+
+<div id="crate-bar" class="cbar collapsed" title="课件评价：这套课件质量如何">
+  <span id="crate-label" class="clab">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg cbtn">👍 好</button>
+  <button type="button" id="crate-hard" class="crh cbtn">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt cbtn">🗣️ 没老师讲的好</button>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" class="cbar collapsed" title="学习自评：点击累计计数">
+  <span id="cstat-label" class="clab">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk cbtn">✅ 答对</button>
+  <button type="button" id="cstat-fz" class="cfz cbtn">🟡 部分对</button>
+  <button type="button" id="cstat-fg" class="cfg cbtn">❌ 答错</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>(function(){
+  'use strict';
+  if (window.__cstatUI) return; window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CID = CM.id;
+  var CSTAT_KEY = 'cstat:' + CID;
+  var RATE_KEY  = 'crate:' + CID;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function readR(){ try{ return JSON.parse(localStorage.getItem(RATE_KEY))||{}; }catch(e){ return {}; } }
+  function record(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CID, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render();
+    return reset;
+  }
+  window.__recordCourseState = record;
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '✅'+(s.skilled||0)+' · 🟡'+(s.fuzzy||0)+' · ❌'+(s.forgot||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash'); if (!el) return;
+    el.textContent = msg; el.classList.add('show'); clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var b = document.getElementById(id); if (!b) return;
+    b.addEventListener('click', function(e){ e.stopPropagation();
+      var reset = record(state); var n = readS()[state]||0;
+      flash(label+' ×'+n+' 已记录' + (extra && reset ? extra : ''));
+    });
+  }
+  // 评价课件：写入本地 crate:<CID> 并触发云端上报（菜单不显示计数）
+  function rateLocal(id, field, label){
+    var b = document.getElementById(id); if (!b) return;
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      var r = readR(); r[field] = (r[field]||0)+1;
+      try{ localStorage.setItem(RATE_KEY, JSON.stringify(r)); }catch(e){}
+      window.dispatchEvent(new CustomEvent('cstat:change'));
+      flash(label+'（已记下，计入云端）');
+    });
+  }
+  function bindToggle(barId, labelId){
+    var bar = document.getElementById(barId), lab = document.getElementById(labelId);
+    if (!bar || !lab) return;
+    lab.addEventListener('click', function(e){ e.stopPropagation(); bar.classList.toggle('collapsed'); });
+  }
+  function init(){
+    bind('cstat-sk','skilled','✅ 答对','（部分对/答错已清零）');
+    bind('cstat-fz','fuzzy','🟡 部分对');
+    bind('cstat-fg','forgot','❌ 答错');
+    rateLocal('crate-good','good','👍 好');
+    rateLocal('crate-hard','hard','📕 课件不好懂');
+    rateLocal('crate-teach','teach','🗣️ 没老师讲的好');
+    bindToggle('cstat-bar','cstat-label');
+    bindToggle('crate-bar','crate-label');
+    render();
+  }
+  document.addEventListener('click', function(e){
+    if(!(e.target.closest && e.target.closest('#cstat-bar'))) { var a=document.getElementById('cstat-bar'); if(a)a.classList.add('collapsed'); }
+    if(!(e.target.closest && e.target.closest('#crate-bar'))) { var b=document.getElementById('crate-bar'); if(b)b.classList.add('collapsed'); }
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();</script>
+<script>(function(){
+  'use strict';
+  if (window.__cstatReporter) return; window.__cstatReporter = true;
   var CM = null;
   try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
   if (!CM || !CM.id) return;
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
   var CRATE_KEY = 'crate:' + CID;
-  var CREDO_KEY = 'credo:' + CID;
   var CVISIT_KEY = 'cvisit:' + CID;
   var SYNC_KEY  = 'csync:' + CID;
   var AUTO_KEY  = 'course_auto_sync';
   var CFG_KEY   = 'course_cloud_cfg';
-  var DEFAULT_CLOUD = {
-    url: 'https://mixuqjognbdrafrrlivc.supabase.co',
-    key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX'
-  };
+  var DEFAULT_CLOUD = { url: 'https://mixuqjognbdrafrrlivc.supabase.co', key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
   var STATS_TABLE = 'course_stats';
-  var NOTES_TABLE = 'course_notes';
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
   function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
-  function cloudCfg(){
-    var c = readJSON(CFG_KEY, null);
-    if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c;
-    return DEFAULT_CLOUD;
-  }
+  function cloudCfg(){ var c = readJSON(CFG_KEY, null); if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c; return DEFAULT_CLOUD; }
   function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
+  // 仅上报课件页 UI 可改的字段：自评(cstat) + 评价(crate)。redo/notes 由门户/笔记脚本各自维护，避免回写覆盖。
   function compute(){
     var s = readJSON(CSTAT_KEY, {});
     var r = readJSON(CRATE_KEY, {});
-    var d = readJSON(CREDO_KEY, {});
-    return { skilled: s.skilled||0, fuzzy: s.fuzzy||0, forgot: s.forgot||0,
-             rg: r.good||0, rh: r.hard||0, rt: r.teach||0,
-             rd: d.done===1, rts: d.ts||0, rn: d.n||0 };
+    return { skilled:s.skilled||0, fuzzy:s.fuzzy||0, forgot:s.forgot||0,
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
   }
-  // 已同步到云端的本地快照（用于计算 delta，防刷新重复累加）
   var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
   var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
-
-  /* ---------- 浮动数据面板 ---------- */
-  var chip = null;
-  function ensureChip(){
-    if (chip) return chip;
-    chip = document.createElement('div');
-    chip.className = 'cstat-chip';
-    chip.innerHTML = '<span class="cstat-ico">📊</span><span class="cstat-txt">课件数据</span>' +
-      '<div class="cstat-panel" style="display:none"></div>';
-    chip.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:60;max-width:260px;' +
-      'font:13px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;cursor:pointer;user-select:none;';
-    var bar = 'background:linear-gradient(135deg,#1e3a8a,#0ea5e9);color:#fff;padding:7px 12px;' +
-      'border-radius:20px;box-shadow:0 4px 14px rgba(14,165,233,.35);display:flex;align-items:center;gap:6px;';
-    var barEl = document.createElement('span');
-    barEl.style.cssText = bar;
-    barEl.appendChild(chip.querySelector('.cstat-ico'));
-    barEl.appendChild(chip.querySelector('.cstat-txt'));
-    chip.insertBefore(barEl, chip.querySelector('.cstat-panel'));
-    var panel = chip.querySelector('.cstat-panel');
-    panel.style.cssText = 'margin-top:8px;background:rgba(15,23,42,.95);color:#e2e8f0;' +
-      'border-radius:12px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);' +
-      'font-size:12px;line-height:1.7;';
-    chip.addEventListener('click', function(e){
-      if (e.target === chip || e.target === barEl || barEl.contains(e.target)) {
-        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
-      }
-    });
-    document.body.appendChild(chip);
-    return chip;
-  }
-  function renderStats(row, noteCount){
-    var panel = chip && chip.querySelector('.cstat-panel');
-    if (!panel) return;
-    row = row || {};
-    var skilled = row.skilled||0, fuzzy = row.fuzzy||0, forgot = row.forgot||0;
-    var rg = row.rating_good||0, rh = row.rating_hard||0, rt = row.rating_teach||0;
-    var total = skilled + fuzzy + forgot;
-    var h = '';
-    h += '<div style="opacity:.75;margin-bottom:4px">已有 ' + total + ' 人自评</div>';
-    h += '<div>熟练 <b style="color:#4ade80">' + skilled + '</b> · 模糊 <b style="color:#fbbf24">' + fuzzy + '</b> · 忘记 <b style="color:#f87171">' + forgot + '</b></div>';
-    h += '<div style="opacity:.75;margin:4px 0">评价</div>';
-    h += '<div>👍 好 <b>' + rg + '</b> · 🤔 不好懂 <b>' + rh + '</b> · 🧑‍🏫 没老师讲得好 <b>' + rt + '</b></div>';
-    if (noteCount) h += '<div style="margin-top:4px;opacity:.85">💡 记错 ' + noteCount + ' 条（见💡按钮）</div>';
-    panel.innerHTML = h;
-  }
-
-  /* ---------- 读回云端的聚合值 ---------- */
   function fetchCloudRow(cfg, cb){
     try {
-      var ctl = null, timer = null;
-      try { ctl = new AbortController(); } catch(e){}
-      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE +
-              '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE + '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
       var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
       if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
       fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
-        if (timer) clearTimeout(timer);
-        cb(Array.isArray(j) && j.length ? j[0] : null);
+        if (timer) clearTimeout(timer); cb(Array.isArray(j) && j.length ? j[0] : null);
       }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
     } catch(e){ cb(null); }
   }
-  function fetchNotesCount(cfg, cb){
-    try {
-      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + NOTES_TABLE +
-              '?course_id=eq.' + encodeURIComponent(CID) + '&select=course_id';
-      fetch(u, { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
-        .then(function(r){ return r.json(); }).then(function(j){
-          cb(Array.isArray(j) ? j.length : 0);
-        }).catch(function(){ cb(0); });
-    } catch(e){ cb(0); }
-  }
-  function refreshFromCloud(){
-    if (!autoOn()) return;
-    var cfg = cloudCfg();
-    fetchCloudRow(cfg, function(row){
-      fetchNotesCount(cfg, function(nc){ renderStats(row || {}, nc || 0); });
-    });
-  }
-
-  /* ---------- 上报（跨设备累加 delta） ---------- */
+  function refreshFromCloud(){ if (!autoOn()) return; var cfg = cloudCfg(); fetchCloudRow(cfg, function(row){ if(row) saveJSON('ccloud:'+CID, row); }); }
   function report(){
-    var s = compute();
-    var snap = JSON.stringify(s);
-    if (snap !== lastLocal){
-      lastLocal = snap;
-      try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){}
-    }
-    var vt = 0;
-    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    var s = compute(); var snap = JSON.stringify(s);
+    if (snap !== lastLocal){ lastLocal = snap; try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){} }
+    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
     if (!vt){ vt = Date.now(); try{ localStorage.setItem(CVISIT_KEY, JSON.stringify({ts:vt})); }catch(e){} }
-    if (snap !== lastCloud && autoOn()){
-      lastCloud = snap;
-      clearTimeout(cloudTimer);
-      cloudTimer = setTimeout(pushCloud, 3000);
-    }
+    if (snap !== lastCloud && autoOn()){ lastCloud = snap; clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 3000); }
   }
   function pushCloud(){
-    if (inFlight){ setTimeout(pushCloud, 1500); return; }
-    inFlight = true;
-    var s = compute();
-    var cfg = cloudCfg();
-    var vt = 0;
-    try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    if (inFlight){ setTimeout(pushCloud, 1500); return; } inFlight = true;
+    var s = compute(); var cfg = cloudCfg();
+    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
     fetchCloudRow(cfg, function(row){
       var base = row || {};
-      var d = {
-        skilled: s.skilled - syncBase.skilled,
-        fuzzy:   s.fuzzy   - syncBase.fuzzy,
-        forgot:  s.forgot  - syncBase.forgot,
-        rg:      s.rg      - syncBase.rg,
-        rh:      s.rh      - syncBase.rh,
-        rt:      s.rt      - syncBase.rt
-      };
+      var d = { skilled: s.skilled - syncBase.skilled, fuzzy: s.fuzzy - syncBase.fuzzy, forgot: s.forgot - syncBase.forgot,
+                rg: s.rg - syncBase.rg, rh: s.rh - syncBase.rh, rt: s.rt - syncBase.rt };
       var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
       var payload = {
         course_id: CID,
@@ -1348,87 +2334,361 @@ ul.exam-list li{margin:4px 0}
         rating_good:  (base.rating_good||0) + d.rg,
         rating_hard:  (base.rating_hard||0) + d.rh,
         rating_teach: (base.rating_teach||0) + d.rt,
-        redone: s.rd,
-        redo_count: s.rn||0,
-        redo_at: s.rts ? new Date(s.rts).toISOString() : null,
         updated_at: new Date().toISOString(),
         last_visit: vt ? new Date(vt).toISOString() : null
       };
-      var ctl = null, timer = null;
-      try { ctl = new AbortController(); } catch(e){}
-      var opts = {
-        method: 'POST',
-        headers: {
-          'apikey': cfg.key,
-          'Authorization': 'Bearer ' + cfg.key,
-          'Content-Type': 'application/json',
-          'Prefer': 'resolution=merge-duplications,return=minimal'
-        },
-        body: JSON.stringify([payload])
-      };
+      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
+      var opts = { method:'POST', headers:{ apikey:cfg.key, Authorization:'Bearer '+cfg.key, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify([payload]) };
       if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
       fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
         .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
-        .catch(function(){ /* 保留 syncBase，下次变更重试 */ })
+        .catch(function(){})
         .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
     });
   }
-
-  /* ---------- A: Realtime 订阅（掉线自动降级轮询） ---------- */
   function subscribeRealtime(){
     try {
       if (typeof WebSocket === 'undefined') return;
       var cfg = cloudCfg();
-      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' +
-                  encodeURIComponent(cfg.key) + '&vsn=1.0.0';
-      var ws = new WebSocket(wsUrl);
-      var chan = 'cstat-' + CID;
-      var hb = null;
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' + encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl); var chan = 'cstat-' + CID; var hb = null;
       ws.onopen = function(){
         rtAlive = true;
-        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: {
-          config: { postgres_changes: [
-            { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID },
-            { event: 'INSERT', schema: 'public', table: NOTES_TABLE, filter: 'course_id=eq.' + CID }
-          ] }
-        }, ref: '1' }));
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: { config: { postgres_changes: [ { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID } ] } }, ref: '1' }));
         hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
       };
-      ws.onmessage = function(ev){
-        try {
-          var m = JSON.parse(ev.data);
-          if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud();
-        } catch(e){}
-      };
-      ws.onerror = function(){ rtAlive = false; };
-      ws.onclose = function(){
-        rtAlive = false; if (hb) clearInterval(hb);
-        setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); // 自动重连
-      };
-    } catch(e){ /* 降级轮询 */ }
+      ws.onmessage = function(ev){ try{ var m = JSON.parse(ev.data); if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud(); }catch(e){} };
+      ws.onerror = function(){ };
+      ws.onclose = function(){ if (hb) clearInterval(hb); setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); };
+    } catch(e){}
   }
-
-  /* ---------- B: 轮询保底 ---------- */
-  function startPolling(){
-    setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000);
-  }
-
+  function startPolling(){ setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000); }
   function watch(){
     report();
     window.addEventListener('cstat:change', report);
-    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY || e.key === CRATE_KEY || e.key === CREDO_KEY) report(); });
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) report(); });
     window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
     setInterval(function(){ if (!document.hidden) report(); }, 5000);
-    // 实时双保险
-    ensureChip();
-    refreshFromCloud();
-    startPolling();
-    subscribeRealtime();
+    refreshFromCloud(); startPolling(); subscribeRealtime();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
+})();</script>
+
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
 })();
 </script>
-<!--FEAT-JS-REPORTER-END-->
-</body>
-</html>
+
+
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+
+<script>
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var DEFAULT_CLOUD = { url:'https://mixuqjognbdrafrrlivc.supabase.co', key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    if(mu&&mu[0]&&mk&&mk[0]) return {url:mu[0],key:mk[0]};
+    return DEFAULT_CLOUD;
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    h+='<div id="cnoteCloud" class="cp-cloud"><div class="cp-tip">加载其他人记的错…</div></div>';
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  /* ---------- 读回其他人记的错（跨设备实时） ---------- */
+  function cloudNotes(cb){
+    if(!CFG.url||!CFG.key) return cb([]);
+    try{
+      var u=CFG.url.replace(/\/+$/,'')+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+
+           '&select=tags,note,created_at&order=created_at.desc';
+      fetch(u,{headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}})
+        .then(function(r){return r.json();}).then(function(j){cb(Array.isArray(j)?j:[]);})
+        .catch(function(){cb([]);});
+    }catch(e){cb([]);}
+  }
+  function renderCloudNotes(){
+    var box=pop.querySelector('#cnoteCloud'); if(!box) return;
+    cloudNotes(function(list){
+      if(!list.length){ box.innerHTML='<div class="cp-tip">还没有其他人记的错</div>'; return; }
+      var h='<div class="cp-sub">👀 其他人记的错（'+list.length+'）</div>';
+      list.slice(0,12).forEach(function(r){
+        var when=r.created_at?(' · '+r.created_at.slice(5,16).replace('T',' ')):'';
+        h+='<div class="cp-citem">'+ (r.tags&&r.tags.length?('<b>'+esc(r.tags.join('/'))+'</b>'):'') +
+            (r.note?(' '+esc(r.note)):'') + when + '</div>';
+      });
+      box.innerHTML=h;
+    });
+  }
+  var cloudTimer=null;
+  function openPop(){
+    renderPop();pop.classList.add('open');
+    renderCloudNotes();
+    clearInterval(cloudTimer);
+    cloudTimer=setInterval(function(){ if(pop.classList.contains('open')) renderCloudNotes(); }, 8000);
+  }
+  function closePop(){pop.classList.remove('open');clearInterval(cloudTimer);}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=20;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||20));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+
+
+<!--COURSEWARE-FEAT-END-->
+</body>
+
+
+</html>
+
+
