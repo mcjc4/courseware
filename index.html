@@ -213,7 +213,6 @@
 
   <div class="filters">
     <div class="fld">
-      <label>学科</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnSubject">学科 <span class="cnt zero" id="cntSubject">0</span></button>
         <div class="popup" id="popupSubject">
@@ -228,7 +227,22 @@
       </div>
     </div>
     <div class="fld">
-      <label>所属章节</label>
+      <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnVerdict">判定 <span class="cnt zero" id="cntVerdict">0</span></button>
+        <div class="popup" id="popupVerdict">
+          <div class="popup-options">
+            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答对">✅ 答对</label>
+            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="部分对">🟡 部分对</label>
+            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答错">❌ 答错</label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" data-clear="verdict">清除</button>
+            <button type="button" data-close="popupVerdict">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnChapter">章节 <span class="cnt zero" id="cntChapter">0</span></button>
         <div class="popup" id="popupChapter">
@@ -243,7 +257,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>知识点</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnKnowledge">知识点 <span class="cnt zero" id="cntKnowledge">0</span></button>
         <div class="popup" id="popupKnowledge">
@@ -258,7 +271,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>解法</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnMethod">解法 <span class="cnt zero" id="cntMethod">0</span></button>
         <div class="popup" id="popupMethod">
@@ -273,7 +285,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>制作日期</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnDate">日期 <span class="cnt zero" id="cntDate">0</span></button>
         <div class="popup" id="popupDate">
@@ -289,7 +300,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>学习自评</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnStatus">学习自评 <span class="cnt zero" id="cntStatus">0</span></button>
         <div class="popup" id="popupStatus">
@@ -310,7 +320,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>独立重做</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnRedo">独立重做 <span class="cnt zero" id="cntRedo">0</span></button>
         <div class="popup" id="popupRedo">
@@ -326,7 +335,6 @@
       </div>
     </div>
     <div class="fld">
-      <label>错因记录</label>
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnNote">错因 <span class="cnt zero" id="cntNote">0</span></button>
         <div class="popup" id="popupNote">
@@ -342,11 +350,9 @@
       </div>
     </div>
     <div class="fld search">
-      <label>搜索标题/来源</label>
       <input id="fSearch" placeholder="输入关键字…" autocomplete="off">
     </div>
     <div class="fld">
-      <label>排序</label>
       <select id="fSort" class="sort-select">
         <option value="visit-desc" selected>浏览日期 倒序（新→旧）</option>
         <option value="visit-asc">浏览日期 正序（旧→新）</option>
@@ -1473,8 +1479,8 @@
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set()};
-  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',note:'cntNote'};
+  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set(),verdict:new Set()};
+  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',verdict:'cntVerdict',note:'cntNote'};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
   var fSort=document.getElementById('fSort');
@@ -1526,7 +1532,7 @@
   }
 
   var currentQ='';
-  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因'};
+  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因',verdict:'判定'};
   var RLBL={good:'好',hard:'课件不好懂',teach:'没老师讲的好'};
   var SLBL={new:'未训练',forgot:'答错',fuzzy:'部分对',skilled:'答对'};
   function syncChecks(f,v){
@@ -1535,7 +1541,7 @@
   function renderChips(){
     var box=document.getElementById('activeFilters');
     var chips=[];
-    ['subject','chapter','knowledge','method','status','rating','redo','note'].forEach(function(f){
+    ['subject','chapter','knowledge','method','status','rating','redo','note','verdict'].forEach(function(f){
       sets[f].forEach(function(v){
         var shown=(f==='status')?(SLBL[v]||v):((f==='rating')?(RLBL[v]||v):((f==='note'&&v==='__any__')?'有记录':v));
         chips.push({label:FNAME[f]+'：'+shown, del:function(){sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}});
@@ -1576,6 +1582,8 @@
       var okSt=sets.status.size===0||sets.status.has(card.dataset.status);
       var cr=(card.dataset.rating||'').split(',');
       var okRt=sets.rating.size===0||cr.some(function(v){return v&&sets.rating.has(v);});
+      var vd=(card.dataset.status==='skilled')?'答对':(card.dataset.status==='fuzzy')?'部分对':(card.dataset.status==='forgot')?'答错':'';
+      var okVd=sets.verdict.size===0||(vd&&sets.verdict.has(vd));
       var rd=card.dataset.redo==='1';
       var okRd=sets.redo.size===0||(sets.redo.has('done')&&rd)||(sets.redo.has('undone')&&!rd);
       var nts=(card.dataset.noteTags||'').split('||').filter(Boolean);
@@ -1584,7 +1592,7 @@
       var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ&&okVd;
       card.style.display=show?'':'none';
       if(show)n++;
     });
@@ -1600,7 +1608,7 @@
     // 持久化筛选状态：从课件返回导航页时恢复（陈总需求）
     try{
       localStorage.setItem('nav_filters',JSON.stringify({
-        sets:{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo)},
+        sets:{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo),verdict:Array.from(sets.verdict)},
         df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value}));
     }catch(e){}
   }
@@ -1680,7 +1688,7 @@
     forgetMin.value='';apply();
   });
   document.getElementById('fReset').addEventListener('click',function(){
-    ['subject','chapter','knowledge','method','date','status','rating','redo','note'].forEach(function(f){
+    ['subject','chapter','knowledge','method','date','status','rating','redo','note','verdict'].forEach(function(f){
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
       updateCnt(f);
@@ -1694,7 +1702,7 @@
   (function(){
     var sv=null; try{ sv=JSON.parse(localStorage.getItem('nav_filters')); }catch(e){}
     if(sv&&sv.sets){
-      ['subject','chapter','knowledge','method','status','rating','redo'].forEach(function(f){
+      ['subject','chapter','knowledge','method','status','rating','redo','verdict'].forEach(function(f){
         (sv.sets[f]||[]).forEach(function(v){
           sets[f].add(v);
           document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){if(cb.value===v)cb.checked=true;});
