@@ -198,11 +198,6 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="siteChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
-    <a href="https://mcjc4.github.io/memory-card/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📚 记忆卡</a>
-    <a href="https://mcjc4.github.io/memory-card/knowledge/index.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📖 知识页</a>
-    <a href="https://mcjc4.github.io/courseware/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #0C447C;background:#0C447C;color:#fff;font-weight:600">📝 作业报告</a>
-  </div>
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
     <a class="mgmt" href="manage.html">标签管理 →</a>
@@ -217,31 +212,9 @@
   </div>
 
   <div class="filters">
-    <div class="fld"><div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnKind">作业 <span class="cnt zero" id="cntKind">0</span></button>
-        <div class="popup" id="popupKind">
-          <input class="popup-search" placeholder="搜索…" id="searchKind">
-          <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="kind" value="作业">作业</label>
-          </div>
-        </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnVerdict">判定 <span class="cnt zero" id="cntVerdict">0</span></button>
-        <div class="popup" id="popupVerdict">
-          <input class="popup-search" placeholder="搜索…" id="searchVerdict">
-          <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答对">✅ 答对</label>
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="部分对">🟡 部分对</label>
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答错">❌ 答错</label>
-          </div>
-          <div class="popup-actions">
-            <button type="button" data-all="verdict">☑ 全选</button>
-            <button type="button" data-close="popupVerdict">收起</button>
-          </div>
-        </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+    <div class="fld">
+      <label>学科</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnSubject">学科 <span class="cnt zero" id="cntSubject">0</span></button>
         <div class="popup" id="popupSubject">
           <input class="popup-search" placeholder="搜索…" id="searchSubject">
@@ -252,8 +225,11 @@
             <button type="button" data-close="popupSubject">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>所属章节</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnChapter">章节 <span class="cnt zero" id="cntChapter">0</span></button>
         <div class="popup" id="popupChapter">
           <input class="popup-search" placeholder="搜索…" id="searchChapter">
@@ -264,8 +240,11 @@
             <button type="button" data-close="popupChapter">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>知识点</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnKnowledge">知识点 <span class="cnt zero" id="cntKnowledge">0</span></button>
         <div class="popup" id="popupKnowledge">
           <input class="popup-search" placeholder="搜索…" id="searchKnowledge">
@@ -276,8 +255,11 @@
             <button type="button" data-close="popupKnowledge">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>解法</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnMethod">解法 <span class="cnt zero" id="cntMethod">0</span></button>
         <div class="popup" id="popupMethod">
           <input class="popup-search" placeholder="搜索…" id="searchMethod">
@@ -288,8 +270,11 @@
             <button type="button" data-close="popupMethod">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>制作日期</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnDate">日期 <span class="cnt zero" id="cntDate">0</span></button>
         <div class="popup" id="popupDate">
           <div class="popup-options drange">
@@ -301,8 +286,11 @@
             <button type="button" data-close="popupDate">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>学习自评</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnStatus">学习自评 <span class="cnt zero" id="cntStatus">0</span></button>
         <div class="popup" id="popupStatus">
           <div class="popup-options">
@@ -319,8 +307,11 @@
             <button type="button" data-close="popupStatus">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>课件评价</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnRating">课件评价 <span class="cnt zero" id="cntRating">0</span></button>
         <div class="popup" id="popupRating">
           <div class="popup-options">
@@ -333,8 +324,11 @@
             <button type="button" data-close="popupRating">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>独立重做</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnRedo">独立重做 <span class="cnt zero" id="cntRedo">0</span></button>
         <div class="popup" id="popupRedo">
           <div class="popup-options">
@@ -346,8 +340,11 @@
             <button type="button" data-close="popupRedo">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld"><div class="popup-filter">
+      </div>
+    </div>
+    <div class="fld">
+      <label>错因记录</label>
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnNote">错因 <span class="cnt zero" id="cntNote">0</span></button>
         <div class="popup" id="popupNote">
           <div class="popup-options">
@@ -359,9 +356,15 @@
             <button type="button" data-close="popupNote">确定</button>
           </div>
         </div>
-      </div></div>
-    <div class="fld search"><input id="fSearch" placeholder="输入关键字…" autocomplete="off"></div>
-    <div class="fld"><select id="fSort" class="sort-select">
+      </div>
+    </div>
+    <div class="fld search">
+      <label>搜索标题/来源</label>
+      <input id="fSearch" placeholder="输入关键字…" autocomplete="off">
+    </div>
+    <div class="fld">
+      <label>排序</label>
+      <select id="fSort" class="sort-select">
         <option value="visit-desc" selected>浏览日期 倒序（新→旧）</option>
         <option value="visit-asc">浏览日期 正序（旧→新）</option>
         <option value="forgot-desc">忘记数 倒序（重练优先）</option>
@@ -369,14 +372,15 @@
         <option value="date-asc">日期 正序（旧→新）</option>
         <option value="num-desc">编号 倒序（新→旧）</option>
         <option value="num-asc">编号 正序（旧→新）</option>
-      </select></div>
+      </select>
+    </div>
     <button class="reset-btn" id="statRefresh" type="button" title="从云端重新拉取统计">🔄 刷新统计</button>
     <button class="reset-btn" id="fReset" type="button">重置</button>
-  </div><div class="active-filters" id="activeFilters"></div>
+  </div>
+  <div class="active-filters" id="activeFilters"></div>
   <div class="result-info" id="resultInfo">共 <span id="resultCount">74</span> 个课件 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="将当前筛选结果作为一组题，逐张浏览训练">🎯 专题练</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
 
   <div class="grid" id="grid">
-    <a class="card" href="homework/hw-2026-09-19-chem/cards/q01.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="901" data-cid="hw20260919_che_q01" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业1</span> <div class="card-body"> <h3>《厉害了，我的国》展示了我国在探索太空、开发…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q02.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="902" data-cid="hw20260919_che_q02" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业2</span> <div class="card-body"> <h3>化学与生活密切相关，下列说法正确的是（A. …</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q03.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答错" data-date="2026-09-19" data-num="903" data-cid="hw20260919_che_q03" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答错"> <span class="badge">化作业3</span> <div class="card-body"> <h3>下列叙述正确的是（A. 丙烯(CH₂=CHC…</h3> <p class="sub">化学作业 · 答错</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答错</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q04.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答错" data-date="2026-09-19" data-num="904" data-cid="hw20260919_che_q04" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答错"> <span class="badge">化作业4</span> <div class="card-body"> <h3>茶多酚中含量最高的儿茶素A结构简式如图，下列…</h3> <p class="sub">化学作业 · 答错</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答错</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q05.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="905" data-cid="hw20260919_che_q05" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业5</span> <div class="card-body"> <h3>下列由结构不能推测出对应性质的是（A. 乙烯…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q06.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="906" data-cid="hw20260919_che_q06" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业6</span> <div class="card-body"> <h3>下列由结构不能推测出对应性质的是（A. 键能…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q07.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="907" data-cid="hw20260919_che_q07" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业7</span> <div class="card-body"> <h3>甲、乙同学用图示装置验证铁的电化学防腐原理（…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q08.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="908" data-cid="hw20260919_che_q08" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业8</span> <div class="card-body"> <h3>N_A表示阿伏加德罗常数的值。下列说法正确的…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q09.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="909" data-cid="hw20260919_che_q09" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业9</span> <div class="card-body"> <h3>X、Y、Z、M、W是周期表前4周期元素，原子…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q10.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="答对" data-date="2026-09-19" data-num="910" data-cid="hw20260919_che_q10" data-kind="作业" data-tags="作业;化学作业;2026-09-19;答对"> <span class="badge">化作业10</span> <div class="card-body"> <h3>氢氧化锂是合成其他锂产品的基本原料，用如图双…</h3> <p class="sub">化学作业 · 答对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">答对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a><a class="card" href="homework/hw-2026-09-19-chem/cards/q11.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="化学作业" data-knowledge="" data-verdict="部分对" data-date="2026-09-19" data-num="911" data-cid="hw20260919_che_q11" data-kind="作业" data-tags="作业;化学作业;2026-09-19;部分对"> <span class="badge">化作业11</span> <div class="card-body"> <h3>高纯硫酸锰作为合成镍钴锰三元正极材料的原料，…</h3> <p class="sub">化学作业 · 部分对</p> <div class="tags"><span class="tag-chip">作业</span><span class="tag-chip c">化学作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2026-09-19</span><span class="tag-chip" style="background:#f0f0ff;color:#555">部分对</span></div> <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div> </div><span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span></a>
     <a class="card" href="lessons/01-rubber-band-car/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="连接体与比例法" data-method="未标注" data-date="2026-09-16" data-num="1" data-cid="course_01_rubber_band_car" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学">
       <span class="badge">物0001</span>
       <div class="card-body">
@@ -1265,16 +1269,185 @@
       </div>
       <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
-    <a class="card" href="homework/hw-2026-09-19-chem.html" target="_blank" rel="noopener" data-subject="化学" data-chapter="作业报告" data-knowledge="2026-09-19 化学作业整理 · 可入库记忆卡" data-method="未标注" data-date="2026-09-19" data-num="67" data-cid="course_hw_2026_09_19_chem" data-tags="作业报告;化学;记忆卡入库;昕言课件">
-      <span class="badge">报告01</span>
+    <a class="card" href="lessons/67-phys-drone-screen-power/" target="_blank" rel="noopener" data-subject="物理" data-chapter="牛顿运动定律 · 超重失重" data-knowledge="超重失重判据、功的正负、瞬时功率 P=mgv、机械能守恒条件" data-method="分段看加速度 · 支持力始终向上做正功 · P克G=mgv" data-date="2026-09-20" data-num="67" data-cid="course_67_phys-drone-screen-power" data-tags="无人机吊屏;超失重;瞬时功率">
+      <span class="badge">67</span>
       <div class="card-body">
-        <h3>2026-09-19 化学作业报告</h3>
-        <p class="sub">作业整理 · 可入库记忆卡</p>
-        <div class="tags"><span class="tag-chip">化学</span><span class="tag-chip c">作业报告</span><span class="tag-chip k">2026-09-19 化学作业整理</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业报告</span><span class="tag-chip" style="background:#f0f0ff;color:#555">记忆卡入库</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-19</span></div>
-        <div class="cstat-line"><span class="c-badge st-new">📝 作业报告</span></div>
-        <div class="src">作业报告 · 昕言</div>
-        <span class="go">打开报告 →</span>
+        <h3>无人机吊显像屏：超失重 · 功 · 功率</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">牛顿运动定律 · 超重失重</span><span class="tag-chip k">超重失重判据、功的正负、瞬时功率 P=mgv、机械能守恒条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">无人机吊屏</span><span class="tag-chip" style="background:#f0f0ff;color:#555">超失重</span><span class="tag-chip" style="background:#f0f0ff;color:#555">瞬时功率</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
       </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/68-phys-magnetic-go-board/" target="_blank" rel="noopener" data-subject="物理" data-chapter="摩擦力 · 共点力平衡" data-knowledge="平衡力与相互作用力、静摩擦力大小与方向、最大静摩擦" data-method="同体/异体判平衡 · 竖直方向 f=mg · f_max=μN" data-date="2026-09-20" data-num="68" data-cid="course_68_phys-magnetic-go-board" data-tags="磁性棋盘;平衡力;相互作用力">
+      <span class="badge">68</span>
+      <div class="card-body">
+        <h3>磁性围棋棋盘：平衡力 vs 相互作用力</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">摩擦力 · 共点力平衡</span><span class="tag-chip k">平衡力与相互作用力、静摩擦力大小与方向、最大静摩擦</span><span class="tag-chip" style="background:#f0f0ff;color:#555">磁性棋盘</span><span class="tag-chip" style="background:#f0f0ff;color:#555">平衡力</span><span class="tag-chip" style="background:#f0f0ff;color:#555">相互作用力</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/69-phys-szc-cable-deck/" target="_blank" rel="noopener" data-subject="物理" data-chapter="力的分解 · 共点力平衡" data-knowledge="力的均分、对称结构、正交分解、2F·sinθ=合力" data-method="总量→单索→半侧→结点对称分解" data-date="2026-09-20" data-num="69" data-cid="course_69_phys-szc-cable-deck" data-tags="深中通道;力的均分;对称结构">
+      <span class="badge">69</span>
+      <div class="card-body">
+        <h3>深中通道：吊索与主索的分担</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">力的分解 · 共点力平衡</span><span class="tag-chip k">力的均分、对称结构、正交分解、2F·sinθ=合力</span><span class="tag-chip" style="background:#f0f0ff;color:#555">深中通道</span><span class="tag-chip" style="background:#f0f0ff;color:#555">力的均分</span><span class="tag-chip" style="background:#f0f0ff;color:#555">对称结构</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/70-phys-xt2-1t-hsr/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动 · 图像" data-knowledge="x=v₀t+½at² 的变形图像、斜率=v₀、纵截距=a/2" data-method="从公式自主推导函数式 → 对照 kx+b 读斜率截距" data-date="2026-09-20" data-num="70" data-cid="course_70_phys-xt2-1t-hsr" data-tags="高铁图像;x/t²-1/t;截距与斜率">
+      <span class="badge">70</span>
+      <div class="card-body">
+        <h3>高铁 x/t²−1/t 图像：斜率与截距的意义</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动 · 图像</span><span class="tag-chip k">x=v₀t+½at² 的变形图像、斜率=v₀、纵截距=a/2</span><span class="tag-chip" style="background:#f0f0ff;color:#555">高铁图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">x/t²-1/t</span><span class="tag-chip" style="background:#f0f0ff;color:#555">截距与斜率</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/71-phys-ferris-wheel-power/" target="_blank" rel="noopener" data-subject="物理" data-chapter="圆周运动 · 功率" data-knowledge="匀速圆周、P=mgv_y、舱作用力随位置变化、机械能不守恒" data-method="P=mgv_y 找 v_y 最大点 · 径向/竖直分量定舱作用力" data-date="2026-09-20" data-num="71" data-cid="course_71_phys-ferris-wheel-power" data-tags="摩天轮;匀速圆周;瞬时功率">
+      <span class="badge">71</span>
+      <div class="card-body">
+        <h3>摩天轮：重力的瞬时功率在哪里最大</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">圆周运动 · 功率</span><span class="tag-chip k">匀速圆周、P=mgv_y、舱作用力随位置变化、机械能不守恒</span><span class="tag-chip" style="background:#f0f0ff;color:#555">摩天轮</span><span class="tag-chip" style="background:#f0f0ff;color:#555">匀速圆周</span><span class="tag-chip" style="background:#f0f0ff;color:#555">瞬时功率</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/72-phys-lbracket-cylinder/" target="_blank" rel="noopener" data-subject="物理" data-chapter="力的分解 · 动态平衡" data-knowledge="垂直双面夹持模型、重力按效果分解、F_P=mg·sinθ / F_Q=mg·cosθ、F_P²+F_Q²=(mg)²" data-method="认出 P⊥Q → 两支持力互相垂直 → 力三角形斜边恒为 mg" data-date="2026-09-20" data-num="72" data-cid="course_72_phys-lbracket-cylinder" data-tags="L形挡板;动态平衡;力的分解">
+      <span class="badge">72</span>
+      <div class="card-body">
+        <h3>L形挡板夹圆柱：θ 变化中的双支持力</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">力的分解 · 动态平衡</span><span class="tag-chip k">垂直双面夹持模型、重力按效果分解、F_P=mg·sinθ / F_Q=mg·cosθ、F_P²+F_Q²=(mg)²</span><span class="tag-chip" style="background:#f0f0ff;color:#555">L形挡板</span><span class="tag-chip" style="background:#f0f0ff;color:#555">动态平衡</span><span class="tag-chip" style="background:#f0f0ff;color:#555">力的分解</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/73-phys-sprint-receive-ball/" target="_blank" rel="noopener" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="初末速度均为零的&quot;先加速后减速&quot;模型、v_max=2x/t、a&gt;vm/t、v-t 三角形面积=位移" data-method="v-t 图面积定 vm → 时间分配定 a 范围" data-date="2026-09-20" data-num="73" data-cid="course_73_phys-sprint-receive-ball" data-tags="先加速后减速;v_max=2x/t;图像法">
+      <span class="badge">73</span>
+      <div class="card-body">
+        <h3>接球跑动：先加速后减速的速度与加速度</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">匀变速直线运动</span><span class="tag-chip k">初末速度均为零的&quot;先加速后减速&quot;模型、v_max=2x/t、a&gt;vm/t、v-t 三角形面积=位移</span><span class="tag-chip" style="background:#f0f0ff;color:#555">先加速后减速</span><span class="tag-chip" style="background:#f0f0ff;color:#555">v_max=2x/t</span><span class="tag-chip" style="background:#f0f0ff;color:#555">图像法</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/74-phys-two-rope-lower/" target="_blank" rel="noopener" data-subject="物理" data-chapter="共点力平衡 · 动态分析" data-knowledge="光滑环上绳张力相等、对称结构竖直分量各半、整体法与隔离法" data-method="对称性 → 每段绳竖直分量恒为 mg/2 → 支持力增量恒定、摩擦力随角度减小" data-date="2026-09-20" data-num="74" data-cid="course_74_phys-two-rope-lower" data-tags="光滑环;动态分析;整体法">
+      <span class="badge">74</span>
+      <div class="card-body">
+        <h3>双人放绳吊重物：支持力不变、摩擦力变小</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">共点力平衡 · 动态分析</span><span class="tag-chip k">光滑环上绳张力相等、对称结构竖直分量各半、整体法与隔离法</span><span class="tag-chip" style="background:#f0f0ff;color:#555">光滑环</span><span class="tag-chip" style="background:#f0f0ff;color:#555">动态分析</span><span class="tag-chip" style="background:#f0f0ff;color:#555">整体法</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/75-phys-ski-incline-impulse/" target="_blank" rel="noopener" data-subject="物理" data-chapter="动量 · 冲量" data-knowledge="冲量定义 I=Ft（方向=力方向）、各力冲量独立计算、合力冲量=动量变化" data-method="逐力写 I=Ft 对方向 → 合力冲量用沿斜面方向牛顿第二定律" data-date="2026-09-20" data-num="75" data-cid="course_75_phys-ski-incline-impulse" data-tags="冲量;I=Ft;斜面下滑">
+      <span class="badge">75</span>
+      <div class="card-body">
+        <h3>滑雪下滑：各力冲量的方向与大小</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">动量 · 冲量</span><span class="tag-chip k">冲量定义 I=Ft（方向=力方向）、各力冲量独立计算、合力冲量=动量变化</span><span class="tag-chip" style="background:#f0f0ff;color:#555">冲量</span><span class="tag-chip" style="background:#f0f0ff;color:#555">I=Ft</span><span class="tag-chip" style="background:#f0f0ff;color:#555">斜面下滑</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/76-phys-projectile-energy-graphs/" target="_blank" rel="noopener" data-subject="物理" data-chapter="抛体运动 · 机械能" data-knowledge="平抛 x=v₀t、y=gx²/2v₀²、Ek=Ek0+kx²（凹增）、Ep=Ep0−kx²（凸减）" data-method="写出 Ek(x)、Ep(x) 函数式 → 对照图像凹凸与增减" data-date="2026-09-20" data-num="76" data-cid="course_76_phys-projectile-energy-graphs" data-tags="平抛;Ek-Ep图像;抛物线">
+      <span class="badge">76</span>
+      <div class="card-body">
+        <h3>平抛：Ek、Ep 随水平位移 x 的图像形状</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">抛体运动 · 机械能</span><span class="tag-chip k">平抛 x=v₀t、y=gx²/2v₀²、Ek=Ek0+kx²（凹增）、Ep=Ep0−kx²（凸减）</span><span class="tag-chip" style="background:#f0f0ff;color:#555">平抛</span><span class="tag-chip" style="background:#f0f0ff;color:#555">Ek-Ep图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">抛物线</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/77-phys-slow-pull-n-2019/" target="_blank" rel="noopener" data-subject="物理" data-chapter="共点力平衡 · 动态分析" data-knowledge="结点平衡 T=mg/cosθ、F=mg·tanθ、摩擦力 |f|=|Mg·sinα−T| 的双向讨论" data-method="先解 N 结点（T、F 随 θ 单调增）→ 再隔离 M 讨论 f 的初方向" data-date="2026-09-20" data-num="77" data-cid="course_77_phys-slow-pull-n-2019" data-tags="2019全国Ⅰ;动态分析;摩擦力讨论">
+      <span class="badge">77</span>
+      <div class="card-body">
+        <h3>2019全国Ⅰ：缓慢拉动悬挂物 N</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">共点力平衡 · 动态分析</span><span class="tag-chip k">结点平衡 T=mg/cosθ、F=mg·tanθ、摩擦力 |f|=|Mg·sinα−T| 的双向讨论</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2019全国Ⅰ</span><span class="tag-chip" style="background:#f0f0ff;color:#555">动态分析</span><span class="tag-chip" style="background:#f0f0ff;color:#555">摩擦力讨论</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/78-phys-curtain-collision/" target="_blank" rel="noopener" data-subject="物理" data-chapter="动量 · 碰撞" data-knowledge="动量守恒条件（有外力则不守恒）、动量定理 I=Δp、平均作用力 F̄=Δp/Δt" data-method="逐滑块用动量定理算冲量 → 平均力=Δp/Δt → 守恒性看外力" data-date="2026-09-20" data-num="78" data-cid="course_78_phys-curtain-collision" data-tags="2023广东;动量守恒;碰撞">
+      <span class="badge">78</span>
+      <div class="card-body">
+        <h3>2023广东：电动窗帘滑块碰撞（选不正确）</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">动量 · 碰撞</span><span class="tag-chip k">动量守恒条件（有外力则不守恒）、动量定理 I=Δp、平均作用力 F̄=Δp/Δt</span><span class="tag-chip" style="background:#f0f0ff;color:#555">2023广东</span><span class="tag-chip" style="background:#f0f0ff;color:#555">动量守恒</span><span class="tag-chip" style="background:#f0f0ff;color:#555">碰撞</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/79-phys-drone-ekh-graph/" target="_blank" rel="noopener" data-subject="物理" data-chapter="功能关系 · 图像" data-knowledge="Ek-h 图斜率=合外力、牛顿第二定律求拉力、ΔE=W除重力、P=Fv" data-method="斜率定 F合 → 牛二定 F拉 → 功能关系定 ΔE → P_max=F·v_max" data-date="2026-09-20" data-num="79" data-cid="course_79_phys-drone-ekh-graph" data-tags="无人机;Ek-h图像;最大功率">
+      <span class="badge">79</span>
+      <div class="card-body">
+        <h3>无人机 Ek-h 图像：斜率、机械能与最大功率</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">功能关系 · 图像</span><span class="tag-chip k">Ek-h 图斜率=合外力、牛顿第二定律求拉力、ΔE=W除重力、P=Fv</span><span class="tag-chip" style="background:#f0f0ff;color:#555">无人机</span><span class="tag-chip" style="background:#f0f0ff;color:#555">Ek-h图像</span><span class="tag-chip" style="background:#f0f0ff;color:#555">最大功率</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/80-phys-parallelogram-experiment/" target="_blank" rel="noopener" data-subject="物理" data-chapter="力的合成 · 实验" data-knowledge="力的图示 vs 示意图、共点三力平衡合力恒定、旋转一力的图解法（F₁ 先减后增、F₂ 一直减）" data-method="台秤零示数→三力平衡合力=G → 正弦定理 / 图解法分析动态" data-date="2026-09-20" data-num="80" data-cid="course_80_phys-parallelogram-experiment" data-tags="平行四边形定则;实验;图解法">
+      <span class="badge">80</span>
+      <div class="card-body">
+        <h3>平行四边形定则测绳张力：图解与动态</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">力的合成 · 实验</span><span class="tag-chip k">力的图示 vs 示意图、共点三力平衡合力恒定、旋转一力的图解法（F₁ 先减后增、F₂ 一直减）</span><span class="tag-chip" style="background:#f0f0ff;color:#555">平行四边形定则</span><span class="tag-chip" style="background:#f0f0ff;color:#555">实验</span><span class="tag-chip" style="background:#f0f0ff;color:#555">图解法</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
+    </a>
+    <a class="card" href="lessons/81-phys-plane-creator/" target="_blank" rel="noopener" data-subject="物理" data-chapter="摩擦力 · 动量定理" data-knowledge="斜向下推力 N=mg+Fsinθ、f=Fcosθ（匀速）、μN=f 求质量、I合=Δp=M√(2aL)" data-method="匀速列平衡 → 摩擦公式反解 m → 运动学+动量定理求冲量" data-date="2026-09-20" data-num="81" data-cid="course_81_phys-plane-creator" data-tags="刨子;摩擦力;动量定理">
+      <span class="badge">81</span>
+      <div class="card-body">
+        <h3>《天工开物》刨子：摩擦力、质量与合力冲量</h3>
+        <p class="sub">GeoGebra 互动实验室</p>
+        <div class="tags"><span class="tag-chip">物理</span><span class="tag-chip c">摩擦力 · 动量定理</span><span class="tag-chip k">斜向下推力 N=mg+Fsinθ、f=Fcosθ（匀速）、μN=f 求质量、I合=Δp=M√(2aL)</span><span class="tag-chip" style="background:#f0f0ff;color:#555">刨子</span><span class="tag-chip" style="background:#f0f0ff;color:#555">摩擦力</span><span class="tag-chip" style="background:#f0f0ff;color:#555">动量定理</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-20</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        
+        <span class="go">打开课件 →</span>
+      </div>
+      <span class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></span>
     </a>
   </div>
   <!-- 专题练训练面板 -->
@@ -1317,8 +1490,8 @@
   var cards=Array.from(grid.querySelectorAll('.card'));
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),kind:new Set(),verdict:new Set(),note:new Set()};
-  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',kind:'cntKind',verdict:'cntVerdict',note:'cntNote'};
+  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set()};
+  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',note:'cntNote'};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
   var fSort=document.getElementById('fSort');
@@ -1370,7 +1543,7 @@
   }
 
   var currentQ='';
-  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因',kind:'作业',verdict:'判定'};
+  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因'};
   var RLBL={good:'好',hard:'课件不好懂',teach:'没老师讲的好'};
   var SLBL={new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'};
   function syncChecks(f,v){
@@ -1379,7 +1552,7 @@
   function renderChips(){
     var box=document.getElementById('activeFilters');
     var chips=[];
-    ['subject','chapter','knowledge','method','status','rating','redo','kind','verdict','note'].forEach(function(f){
+    ['subject','chapter','knowledge','method','status','rating','redo','note'].forEach(function(f){
       sets[f].forEach(function(v){
         var shown=(f==='status')?(SLBL[v]||v):((f==='rating')?(RLBL[v]||v):((f==='note'&&v==='__any__')?'有记录':v));
         chips.push({label:FNAME[f]+'：'+shown, del:function(){sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}});
@@ -1423,12 +1596,12 @@
       var rd=card.dataset.redo==='1';
       var okRd=sets.redo.size===0||(sets.redo.has('done')&&rd)||(sets.redo.has('undone')&&!rd);
       var nts=(card.dataset.noteTags||'').split('||').filter(Boolean);
-      var okNt=sets.note.size===0||(sets.note.has('__any__')&&nts.length>0)||nts.some(function(t){return sets.note.has(t);}); var okKind=sets.kind.size===0||sets.kind.has(card.dataset.kind); var okV=sets.verdict.size===0||sets.verdict.has(card.dataset.verdict);
+      var okNt=sets.note.size===0||(sets.note.has('__any__')&&nts.length>0)||nts.some(function(t){return sets.note.has(t);});
       var okFm=!fm||(+card.dataset.forgot||0)>=fm;
       var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okKind&&okV&&okFm&&okD&&okQ;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ;
       card.style.display=show?'':'none';
       if(show)n++;
     });
@@ -1444,7 +1617,7 @@
     // 持久化筛选状态：从课件返回导航页时恢复（陈总需求）
     try{
       localStorage.setItem('nav_filters',JSON.stringify({
-        sets:{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo),verdict:Array.from(sets.verdict),kind:Array.from(sets.kind)},
+        sets:{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo)},
         df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value}));
     }catch(e){}
   }
@@ -1524,7 +1697,7 @@
     forgetMin.value='';apply();
   });
   document.getElementById('fReset').addEventListener('click',function(){
-    ['subject','chapter','knowledge','method','date','status','rating','redo','kind','verdict','note'].forEach(function(f){
+    ['subject','chapter','knowledge','method','date','status','rating','redo','note'].forEach(function(f){
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
       updateCnt(f);
@@ -1538,7 +1711,7 @@
   (function(){
     var sv=null; try{ sv=JSON.parse(localStorage.getItem('nav_filters')); }catch(e){}
     if(sv&&sv.sets){
-      ['subject','chapter','knowledge','method','status','rating','redo','verdict','kind'].forEach(function(f){
+      ['subject','chapter','knowledge','method','status','rating','redo'].forEach(function(f){
         (sv.sets[f]||[]).forEach(function(v){
           sets[f].add(v);
           document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){if(cb.value===v)cb.checked=true;});
@@ -1558,7 +1731,7 @@
 
   
 /* ===== 统计联动：本机直读 + 云端 max 合并 + 徽章（SOP §3.2~3.4）===== */
-var COURSES = [{"id":"course_01_rubber_band_car","title":"橡皮筋与玩具车","subject":"物理","chapter":"匀变速直线运动","points":["连接体与比例法"],"date":"2026-09-16"},{"id":"course_02_water_balloons_bullet","title":"四水球挡子弹","subject":"物理","chapter":"匀变速直线运动","points":["匀减速与逆向思维"],"date":"2026-09-16"},{"id":"course_03_math_trig_half_angle","title":"半角公式求值","subject":"数学","chapter":"三角函数","points":["半角公式"],"date":"2026-09-16"},{"id":"course_04_math_trig_sum_diff","title":"两角和差","subject":"数学","chapter":"三角函数","points":["两角和与差的余弦"],"date":"2026-09-16"},{"id":"course_05_math_trig_identities","title":"三角恒等变换判断","subject":"数学","chapter":"三角函数","points":["三角恒等变换"],"date":"2026-09-16"},{"id":"course_06_math_trig_compound","title":"两角和差综合多选","subject":"数学","chapter":"三角函数","points":["两角和与差"],"date":"2026-09-16"},{"id":"course_07_math_trig_double_angle","title":"诱导公式与二倍角","subject":"数学","chapter":"三角函数","points":["诱导公式与二倍角"],"date":"2026-09-16"},{"id":"course_08_math_trig_comprehensive","title":"三角恒等变换综合","subject":"数学","chapter":"三角函数","points":["三角恒等变换综合"],"date":"2026-09-16"},{"id":"course_09_physics_kinematics_chase","title":"追及与相遇问题","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_10_physics_police_chase","title":"警车追货车","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_11_physics_vbar_t_graph","title":"v̄-t 图像分析","subject":"物理","chapter":"匀变速直线运动","points":["平均速度-时间图像"],"date":"2026-09-16"},{"id":"course_12_physics_incline_vt","title":"斜面 A、B 物块 v-t 图像","subject":"物理","chapter":"匀变速直线运动","points":["v-t图像与追及相遇"],"date":"2026-09-16"},{"id":"course_13_physics_braking_x_over_t2","title":"x/t²-1/t 图像刹车问题","subject":"物理","chapter":"匀变速直线运动","points":["非常规运动图像(x/t²-1/t)"],"date":"2026-09-16"},{"id":"course_14_math_trig_period","title":"正弦函数周期与对称轴条件","subject":"数学","chapter":"三角函数","points":["正弦函数周期性与极值点"],"date":"2026-09-16"},{"id":"course_15_math_trig_symmetry","title":"正弦函数对称轴+对称中心综合","subject":"数学","chapter":"三角函数","points":["正弦函数对称性与单调性"],"date":"2026-09-16"},{"id":"course_16_math_trig_center_sym","title":"正弦函数中心对称","subject":"数学","chapter":"三角函数","points":["正弦函数中心对称与单调性/极值/对称轴/切线"],"date":"2026-09-16"},{"id":"course_17_math_trig_comprehensive_2","title":"余弦函数求φ+值域与单调区间","subject":"数学","chapter":"三角函数","points":["余弦函数求值域与单调区间"],"date":"2026-09-16"},{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-16"},{"id":"course_19_physics_thomson_cathode_ray","title":"汤姆孙阴极射线实验","subject":"物理","chapter":"原子物理-电子发现","points":["阴极射线-比荷-汤姆孙实验"],"date":"2026-09-16"},{"id":"course_20_physics_guitar_string_wave","title":"吉他琴弦波速与张力","subject":"物理","chapter":"机械波","points":["弦上横波-波速公式-基频"],"date":"2026-09-16"},{"id":"course_21_physics_four_figures","title":"四幅物理图景综合判断","subject":"物理","chapter":"电磁学综合","points":["交流发电机-变压器-电磁感应-霍尔效应"],"date":"2026-09-16"},{"id":"course_22_physics_kuafu_satellite_orbit","title":"夸父一号卫星","subject":"物理","chapter":"万有引力与航天","points":["圆轨道-椭圆轨道-开普勒定律-机械能"],"date":"2026-09-16"},{"id":"course_23_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"铝及其化合物","points":["实验装置与操作正误判断"],"date":"2026-09-16"},{"id":"course_24_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"金属及其化合物","points":["铝的化合物/实验装置与操作"],"date":"2026-09-16"},{"id":"course_25_math_trig_omega_range_1","title":"正弦函数在[0,π]上恰有两条对称轴","subject":"数学","chapter":"三角函数","points":["正弦函数对称轴条件与 ω 取值"],"date":"2026-09-16"},{"id":"course_26_math_trig_omega_range_2","title":"正弦函数在指定区间单调递增","subject":"数学","chapter":"三角函数","points":["正弦函数单调区间与 ω 约束"],"date":"2026-09-16"},{"id":"course_27_math_trig_omega_range_3","title":"余弦函数在[0,a]上的值域恰为[-2,√3]","subject":"数学","chapter":"三角函数","points":["余弦函数值域与区间长度"],"date":"2026-09-16"},{"id":"course_28_math_trig_omega_range_4","title":"正弦函数在(0,π)上恰有三个极值点与两个零点","subject":"数学","chapter":"三角函数","points":["极值点零点综合条件"],"date":"2026-09-16"},{"id":"course_29_math_trig_omega_range_5","title":"正弦函数在区间内没有零点","subject":"数学","chapter":"三角函数","points":["正弦函数零点分布与 ω"],"date":"2026-09-16"},{"id":"course_30_math_trig_omega_range_6","title":"由零点与对称轴条件求最大 ω","subject":"数学","chapter":"三角函数","points":["零点+对称轴+单调联合条件"],"date":"2026-09-16"},{"id":"course_31_math_trig_omega_range_7","title":"余弦函数恰有两个极小值点且(0,π/4)不单调","subject":"数学","chapter":"三角函数","points":["余弦函数极小值点与不单调联合条件"],"date":"2026-09-16"},{"id":"course_32_math_trig_universal_formula","title":"三角函数万能公式","subject":"数学","chapter":"三角函数","points":["万能公式（万能代换）"],"date":"2026-09-16"},{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-16"},{"id":"course_34_math_trig_omega_1","title":"ω的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-16"},{"id":"course_35_math_trig_omega_2","title":"ω 的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-单调性"],"date":"2026-09-16"},{"id":"course_36_math_trig_omega_3","title":"数0022","subject":"数学","chapter":"三角函数","points":["ω的取值范围-值域"],"date":"2026-09-16"},{"id":"course_37_math_trig_omega_4","title":"数0023","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点与零点"],"date":"2026-09-16"},{"id":"course_38_math_trig_omega_5","title":"数0024","subject":"数学","chapter":"三角函数","points":["ω的取值范围-零点"],"date":"2026-09-16"},{"id":"course_39_math_trig_omega_6","title":"数0025","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-16"},{"id":"course_40_math_trig_omega_7","title":"数0026","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-16"},{"id":"course_41_math_trig_symaxis_two","title":"正弦对称轴数数课","subject":"高中数学","chapter":"三角函数 · 图象与性质","points":["y=Asin(ωx+φ) 的对称轴"],"date":"2026-09-10"},{"id":"course_42_math_trig_shift_t4","title":"余弦图象平移「搬家课」","subject":"高中数学","chapter":"三角函数 · 图象变换","points":["y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式"],"date":"2026-09-10"},{"id":"course_43_math_seq_ap_telescoping","title":"等差数列通项与裂项求和","subject":"数学","chapter":"数列·等差数列与求和","points":["等差数列通项","裂项相消求和"],"date":"2026-09-11"},{"id":"course_44_math_tri_halfangle_shape","title":"半角平方判形状","subject":"数学","chapter":"解三角形·三角形形状判断","points":["升幂公式(半角平方)","余弦定理","勾股定理逆定理"],"date":"2026-09-11"},{"id":"course_45_math_tri_sin_ratio_multi","title":"正弦比234多选逐项体检","subject":"数学","chapter":"解三角形·边角关系综合","points":["正弦定理边角互化","余弦定理判角","海伦公式","外接圆与内切圆"],"date":"2026-09-11"},{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11"},{"id":"course_47_math_tri_quad_two_sol","title":"四边形ABCD求CD双解","subject":"数学","chapter":"解三角形·平面图形中的解三角形","points":["余弦定理解三角形","构造直角三角形","角度和差关系","分类讨论与双解检验"],"date":"2026-09-11"},{"id":"course_48_math_tri_extreme_range","title":"数0027","subject":"数学","chapter":"解三角形","points":["解三角形中的最值与范围问题"],"date":"2026-09-16"},{"id":"course_48_math_tri_max_range","title":"§4.7 解三角形中的最值与范围问题","subject":"数学","chapter":"解三角形","points":["最值与范围"],"date":"2026-09-12"},{"id":"course_49_chem_al2o3_prep","title":"化0002","subject":"化学","chapter":"金属及其化合物","points":[],"date":"2026-09-16"},{"id":"course_49_tri_proj_basic","title":"题型一 投影公式+基本不等式求最值","subject":"数学","chapter":"解三角形","points":["最值与范围","投影公式","基本不等式","角平分线"],"date":"2026-09-13"},{"id":"course_50_tri_to_trig","title":"题型二 转化为三角函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","正弦定理","辅助角公式","锐角三角形约束"],"date":"2026-09-13"},{"id":"course_51_tri_other_func","title":"题型三 转化为其他函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","换元法","函数单调性","二倍角"],"date":"2026-09-13"},{"id":"course_52_quiz_mix_cond_ineq","title":"小题综合","subject":"数学","chapter":"集合与常用逻辑/基本不等式","points":["补集","充分必要条件","基本不等式","乘1法"],"date":"2026-09-13"},{"id":"course_53_phys_cutlery_bucket","title":"餐具桶里的铲子","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_54_phys_balance_stones","title":"海边的堆石平衡术","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_55_phys_lanterns","title":"挂满红灯笼的五绳四灯","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_56_phys_powerline_winter","title":"冬季高压输电线","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_57_phys_stacked_incline","title":"斜面上叠放的物块","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_58_phys_steelpipe_support","title":"钢管一端着地一端吊起","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_59_phys_conveyor_basic","title":"物0028","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_59_phys_drone_pipe","title":"无人机悬停吊钢管","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_ball_on_incline","title":"细线穿球挂斜杆","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_conveyor_slide_on","title":"物0029","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_61_phys_ball_steel_bracket","title":"钢支架里的匀质球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_61_phys_conveyor_incline_up","title":"物0030","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_conveyor_incline_down","title":"物0031","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_two_charged_balls","title":"两带电小球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_63_phys_conveyor_exit_speed","title":"物0032","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_63_phys_hemisphere_bowl","title":"半球绝缘碗里的两带电球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_64_phys_conveyor_trace","title":"物0033","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_64_phys_grain_motor","title":"电动机运粮小车","subject":"物理","chapter":"功和能 · 牛顿运动定律","points":[],"date":"2026-09-13"},{"id":"course_65_phys_conveyor_coal_incline","title":"物0034","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_66_phys_force_composition","title":"力的合成规律","subject":"物理","chapter":"相互作用·力的合成与分解","points":["平行四边形定则","等效替代","弹簧测力计读数","实验误差分析","三力平衡条件"],"date":"2026-09-15"},{"id": "hw20260919_che_q01", "title": "《厉害了，我的国》展示了我国在探索太空、开发…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q02", "title": "化学与生活密切相关，下列说法正确的是（A. …", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q03", "title": "下列叙述正确的是（A. 丙烯(CH₂=CHC…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q04", "title": "茶多酚中含量最高的儿茶素A结构简式如图，下列…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q05", "title": "下列由结构不能推测出对应性质的是（A. 乙烯…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q06", "title": "下列由结构不能推测出对应性质的是（A. 键能…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q07", "title": "甲、乙同学用图示装置验证铁的电化学防腐原理（…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q08", "title": "N_A表示阿伏加德罗常数的值。下列说法正确的…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q09", "title": "X、Y、Z、M、W是周期表前4周期元素，原子…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q10", "title": "氢氧化锂是合成其他锂产品的基本原料，用如图双…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"},{"id": "hw20260919_che_q11", "title": "高纯硫酸锰作为合成镍钴锰三元正极材料的原料，…", "subject": "化学", "chapter": "化学作业", "points": [], "date": "2026-09-19"}];
+var COURSES = [{"id":"course_01_rubber_band_car","title":"橡皮筋与玩具车","subject":"物理","chapter":"匀变速直线运动","points":["连接体与比例法"],"date":"2026-09-16"},{"id":"course_02_water_balloons_bullet","title":"四水球挡子弹","subject":"物理","chapter":"匀变速直线运动","points":["匀减速与逆向思维"],"date":"2026-09-16"},{"id":"course_03_math_trig_half_angle","title":"半角公式求值","subject":"数学","chapter":"三角函数","points":["半角公式"],"date":"2026-09-16"},{"id":"course_04_math_trig_sum_diff","title":"两角和差","subject":"数学","chapter":"三角函数","points":["两角和与差的余弦"],"date":"2026-09-16"},{"id":"course_05_math_trig_identities","title":"三角恒等变换判断","subject":"数学","chapter":"三角函数","points":["三角恒等变换"],"date":"2026-09-16"},{"id":"course_06_math_trig_compound","title":"两角和差综合多选","subject":"数学","chapter":"三角函数","points":["两角和与差"],"date":"2026-09-16"},{"id":"course_07_math_trig_double_angle","title":"诱导公式与二倍角","subject":"数学","chapter":"三角函数","points":["诱导公式与二倍角"],"date":"2026-09-16"},{"id":"course_08_math_trig_comprehensive","title":"三角恒等变换综合","subject":"数学","chapter":"三角函数","points":["三角恒等变换综合"],"date":"2026-09-16"},{"id":"course_09_physics_kinematics_chase","title":"追及与相遇问题","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_10_physics_police_chase","title":"警车追货车","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_11_physics_vbar_t_graph","title":"v̄-t 图像分析","subject":"物理","chapter":"匀变速直线运动","points":["平均速度-时间图像"],"date":"2026-09-16"},{"id":"course_12_physics_incline_vt","title":"斜面 A、B 物块 v-t 图像","subject":"物理","chapter":"匀变速直线运动","points":["v-t图像与追及相遇"],"date":"2026-09-16"},{"id":"course_13_physics_braking_x_over_t2","title":"x/t²-1/t 图像刹车问题","subject":"物理","chapter":"匀变速直线运动","points":["非常规运动图像(x/t²-1/t)"],"date":"2026-09-16"},{"id":"course_14_math_trig_period","title":"正弦函数周期与对称轴条件","subject":"数学","chapter":"三角函数","points":["正弦函数周期性与极值点"],"date":"2026-09-16"},{"id":"course_15_math_trig_symmetry","title":"正弦函数对称轴+对称中心综合","subject":"数学","chapter":"三角函数","points":["正弦函数对称性与单调性"],"date":"2026-09-16"},{"id":"course_16_math_trig_center_sym","title":"正弦函数中心对称","subject":"数学","chapter":"三角函数","points":["正弦函数中心对称与单调性/极值/对称轴/切线"],"date":"2026-09-16"},{"id":"course_17_math_trig_comprehensive_2","title":"余弦函数求φ+值域与单调区间","subject":"数学","chapter":"三角函数","points":["余弦函数求值域与单调区间"],"date":"2026-09-16"},{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-16"},{"id":"course_19_physics_thomson_cathode_ray","title":"汤姆孙阴极射线实验","subject":"物理","chapter":"原子物理-电子发现","points":["阴极射线-比荷-汤姆孙实验"],"date":"2026-09-16"},{"id":"course_20_physics_guitar_string_wave","title":"吉他琴弦波速与张力","subject":"物理","chapter":"机械波","points":["弦上横波-波速公式-基频"],"date":"2026-09-16"},{"id":"course_21_physics_four_figures","title":"四幅物理图景综合判断","subject":"物理","chapter":"电磁学综合","points":["交流发电机-变压器-电磁感应-霍尔效应"],"date":"2026-09-16"},{"id":"course_22_physics_kuafu_satellite_orbit","title":"夸父一号卫星","subject":"物理","chapter":"万有引力与航天","points":["圆轨道-椭圆轨道-开普勒定律-机械能"],"date":"2026-09-16"},{"id":"course_23_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"铝及其化合物","points":["实验装置与操作正误判断"],"date":"2026-09-16"},{"id":"course_24_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"金属及其化合物","points":["铝的化合物/实验装置与操作"],"date":"2026-09-16"},{"id":"course_25_math_trig_omega_range_1","title":"正弦函数在[0,π]上恰有两条对称轴","subject":"数学","chapter":"三角函数","points":["正弦函数对称轴条件与 ω 取值"],"date":"2026-09-16"},{"id":"course_26_math_trig_omega_range_2","title":"正弦函数在指定区间单调递增","subject":"数学","chapter":"三角函数","points":["正弦函数单调区间与 ω 约束"],"date":"2026-09-16"},{"id":"course_27_math_trig_omega_range_3","title":"余弦函数在[0,a]上的值域恰为[-2,√3]","subject":"数学","chapter":"三角函数","points":["余弦函数值域与区间长度"],"date":"2026-09-16"},{"id":"course_28_math_trig_omega_range_4","title":"正弦函数在(0,π)上恰有三个极值点与两个零点","subject":"数学","chapter":"三角函数","points":["极值点零点综合条件"],"date":"2026-09-16"},{"id":"course_29_math_trig_omega_range_5","title":"正弦函数在区间内没有零点","subject":"数学","chapter":"三角函数","points":["正弦函数零点分布与 ω"],"date":"2026-09-16"},{"id":"course_30_math_trig_omega_range_6","title":"由零点与对称轴条件求最大 ω","subject":"数学","chapter":"三角函数","points":["零点+对称轴+单调联合条件"],"date":"2026-09-16"},{"id":"course_31_math_trig_omega_range_7","title":"余弦函数恰有两个极小值点且(0,π/4)不单调","subject":"数学","chapter":"三角函数","points":["余弦函数极小值点与不单调联合条件"],"date":"2026-09-16"},{"id":"course_32_math_trig_universal_formula","title":"三角函数万能公式","subject":"数学","chapter":"三角函数","points":["万能公式（万能代换）"],"date":"2026-09-16"},{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-16"},{"id":"course_34_math_trig_omega_1","title":"ω的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-16"},{"id":"course_35_math_trig_omega_2","title":"ω 的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-单调性"],"date":"2026-09-16"},{"id":"course_36_math_trig_omega_3","title":"数0022","subject":"数学","chapter":"三角函数","points":["ω的取值范围-值域"],"date":"2026-09-16"},{"id":"course_37_math_trig_omega_4","title":"数0023","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点与零点"],"date":"2026-09-16"},{"id":"course_38_math_trig_omega_5","title":"数0024","subject":"数学","chapter":"三角函数","points":["ω的取值范围-零点"],"date":"2026-09-16"},{"id":"course_39_math_trig_omega_6","title":"数0025","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-16"},{"id":"course_40_math_trig_omega_7","title":"数0026","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-16"},{"id":"course_41_math_trig_symaxis_two","title":"正弦对称轴数数课","subject":"高中数学","chapter":"三角函数 · 图象与性质","points":["y=Asin(ωx+φ) 的对称轴"],"date":"2026-09-10"},{"id":"course_42_math_trig_shift_t4","title":"余弦图象平移「搬家课」","subject":"高中数学","chapter":"三角函数 · 图象变换","points":["y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式"],"date":"2026-09-10"},{"id":"course_43_math_seq_ap_telescoping","title":"等差数列通项与裂项求和","subject":"数学","chapter":"数列·等差数列与求和","points":["等差数列通项","裂项相消求和"],"date":"2026-09-11"},{"id":"course_44_math_tri_halfangle_shape","title":"半角平方判形状","subject":"数学","chapter":"解三角形·三角形形状判断","points":["升幂公式(半角平方)","余弦定理","勾股定理逆定理"],"date":"2026-09-11"},{"id":"course_45_math_tri_sin_ratio_multi","title":"正弦比234多选逐项体检","subject":"数学","chapter":"解三角形·边角关系综合","points":["正弦定理边角互化","余弦定理判角","海伦公式","外接圆与内切圆"],"date":"2026-09-11"},{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11"},{"id":"course_47_math_tri_quad_two_sol","title":"四边形ABCD求CD双解","subject":"数学","chapter":"解三角形·平面图形中的解三角形","points":["余弦定理解三角形","构造直角三角形","角度和差关系","分类讨论与双解检验"],"date":"2026-09-11"},{"id":"course_48_math_tri_extreme_range","title":"数0027","subject":"数学","chapter":"解三角形","points":["解三角形中的最值与范围问题"],"date":"2026-09-16"},{"id":"course_48_math_tri_max_range","title":"§4.7 解三角形中的最值与范围问题","subject":"数学","chapter":"解三角形","points":["最值与范围"],"date":"2026-09-12"},{"id":"course_49_chem_al2o3_prep","title":"化0002","subject":"化学","chapter":"金属及其化合物","points":[],"date":"2026-09-16"},{"id":"course_49_tri_proj_basic","title":"题型一 投影公式+基本不等式求最值","subject":"数学","chapter":"解三角形","points":["最值与范围","投影公式","基本不等式","角平分线"],"date":"2026-09-13"},{"id":"course_50_tri_to_trig","title":"题型二 转化为三角函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","正弦定理","辅助角公式","锐角三角形约束"],"date":"2026-09-13"},{"id":"course_51_tri_other_func","title":"题型三 转化为其他函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","换元法","函数单调性","二倍角"],"date":"2026-09-13"},{"id":"course_52_quiz_mix_cond_ineq","title":"小题综合","subject":"数学","chapter":"集合与常用逻辑/基本不等式","points":["补集","充分必要条件","基本不等式","乘1法"],"date":"2026-09-13"},{"id":"course_53_phys_cutlery_bucket","title":"餐具桶里的铲子","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_54_phys_balance_stones","title":"海边的堆石平衡术","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_55_phys_lanterns","title":"挂满红灯笼的五绳四灯","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_56_phys_powerline_winter","title":"冬季高压输电线","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_57_phys_stacked_incline","title":"斜面上叠放的物块","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_58_phys_steelpipe_support","title":"钢管一端着地一端吊起","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_59_phys_conveyor_basic","title":"物0028","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_59_phys_drone_pipe","title":"无人机悬停吊钢管","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_ball_on_incline","title":"细线穿球挂斜杆","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_conveyor_slide_on","title":"物0029","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_61_phys_ball_steel_bracket","title":"钢支架里的匀质球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_61_phys_conveyor_incline_up","title":"物0030","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_conveyor_incline_down","title":"物0031","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_two_charged_balls","title":"两带电小球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_63_phys_conveyor_exit_speed","title":"物0032","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_63_phys_hemisphere_bowl","title":"半球绝缘碗里的两带电球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_64_phys_conveyor_trace","title":"物0033","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_64_phys_grain_motor","title":"电动机运粮小车","subject":"物理","chapter":"功和能 · 牛顿运动定律","points":[],"date":"2026-09-13"},{"id":"course_65_phys_conveyor_coal_incline","title":"物0034","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_66_phys_force_composition","title":"力的合成规律","subject":"物理","chapter":"相互作用·力的合成与分解","points":["平行四边形定则","等效替代","弹簧测力计读数","实验误差分析","三力平衡条件"],"date":"2026-09-15"},{"id": "course_67_phys-drone-screen-power", "title": "无人机吊显像屏：超失重 · 功 · 功率", "subject": "物理", "chapter": "牛顿运动定律 · 超重失重", "points": ["无人机吊屏", "超失重", "瞬时功率"], "date": "2026-09-20"},{"id": "course_68_phys-magnetic-go-board", "title": "磁性围棋棋盘：平衡力 vs 相互作用力", "subject": "物理", "chapter": "摩擦力 · 共点力平衡", "points": ["磁性棋盘", "平衡力", "相互作用力"], "date": "2026-09-20"},{"id": "course_69_phys-szc-cable-deck", "title": "深中通道：吊索与主索的分担", "subject": "物理", "chapter": "力的分解 · 共点力平衡", "points": ["深中通道", "力的均分", "对称结构"], "date": "2026-09-20"},{"id": "course_70_phys-xt2-1t-hsr", "title": "高铁 x/t²−1/t 图像：斜率与截距的意义", "subject": "物理", "chapter": "匀变速直线运动 · 图像", "points": ["高铁图像", "x/t²-1/t", "截距与斜率"], "date": "2026-09-20"},{"id": "course_71_phys-ferris-wheel-power", "title": "摩天轮：重力的瞬时功率在哪里最大", "subject": "物理", "chapter": "圆周运动 · 功率", "points": ["摩天轮", "匀速圆周", "瞬时功率"], "date": "2026-09-20"},{"id": "course_72_phys-lbracket-cylinder", "title": "L形挡板夹圆柱：θ 变化中的双支持力", "subject": "物理", "chapter": "力的分解 · 动态平衡", "points": ["L形挡板", "动态平衡", "力的分解"], "date": "2026-09-20"},{"id": "course_73_phys-sprint-receive-ball", "title": "接球跑动：先加速后减速的速度与加速度", "subject": "物理", "chapter": "匀变速直线运动", "points": ["先加速后减速", "v_max=2x/t", "图像法"], "date": "2026-09-20"},{"id": "course_74_phys-two-rope-lower", "title": "双人放绳吊重物：支持力不变、摩擦力变小", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["光滑环", "动态分析", "整体法"], "date": "2026-09-20"},{"id": "course_75_phys-ski-incline-impulse", "title": "滑雪下滑：各力冲量的方向与大小", "subject": "物理", "chapter": "动量 · 冲量", "points": ["冲量", "I=Ft", "斜面下滑"], "date": "2026-09-20"},{"id": "course_76_phys-projectile-energy-graphs", "title": "平抛：Ek、Ep 随水平位移 x 的图像形状", "subject": "物理", "chapter": "抛体运动 · 机械能", "points": ["平抛", "Ek-Ep图像", "抛物线"], "date": "2026-09-20"},{"id": "course_77_phys-slow-pull-n-2019", "title": "2019全国Ⅰ：缓慢拉动悬挂物 N", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["2019全国Ⅰ", "动态分析", "摩擦力讨论"], "date": "2026-09-20"},{"id": "course_78_phys-curtain-collision", "title": "2023广东：电动窗帘滑块碰撞（选不正确）", "subject": "物理", "chapter": "动量 · 碰撞", "points": ["2023广东", "动量守恒", "碰撞"], "date": "2026-09-20"},{"id": "course_79_phys-drone-ekh-graph", "title": "无人机 Ek-h 图像：斜率、机械能与最大功率", "subject": "物理", "chapter": "功能关系 · 图像", "points": ["无人机", "Ek-h图像", "最大功率"], "date": "2026-09-20"},{"id": "course_80_phys-parallelogram-experiment", "title": "平行四边形定则测绳张力：图解与动态", "subject": "物理", "chapter": "力的合成 · 实验", "points": ["平行四边形定则", "实验", "图解法"], "date": "2026-09-20"},{"id": "course_81_phys-plane-creator", "title": "《天工开物》刨子：摩擦力、质量与合力冲量", "subject": "物理", "chapter": "摩擦力 · 动量定理", "points": ["刨子", "摩擦力", "动量定理"], "date": "2026-09-20"}];
 var cardByCid={};
 cards.forEach(function(card){ var cid=card.dataset.cid; if(cid)cardByCid[cid]=card; });
 var STAT_CACHE='nav_course_stats_cache';
