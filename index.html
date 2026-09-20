@@ -295,9 +295,9 @@
         <div class="popup" id="popupStatus">
           <div class="popup-options">
             <label class="popup-option"><input type="checkbox" data-filter="status" value="new">⚪ 未训练</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ 需重练（有忘记）</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">😐 待巩固（有模糊）</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ 已掌握（全熟练）</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ 答错</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">🟡 部分对</label>
+            <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ 答对</label>
           </div>
           <div class="popup-options drange">
             <label class="popup-option dr-row"><span>忘记≥</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
@@ -305,23 +305,6 @@
           <div class="popup-actions">
             <button type="button" id="forgetMinClear">清除阈值</button>
             <button type="button" data-close="popupStatus">确定</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fld">
-      <label>课件评价</label>
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnRating">课件评价 <span class="cnt zero" id="cntRating">0</span></button>
-        <div class="popup" id="popupRating">
-          <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="rating" value="good">👍 好</label>
-            <label class="popup-option"><input type="checkbox" data-filter="rating" value="hard">📕 课件不好懂</label>
-            <label class="popup-option"><input type="checkbox" data-filter="rating" value="teach">🗣️ 没老师讲的好</label>
-          </div>
-          <div class="popup-actions">
-            <button type="button" data-clear="rating">清除</button>
-            <button type="button" data-close="popupRating">确定</button>
           </div>
         </div>
       </div>
@@ -1545,7 +1528,7 @@
   var currentQ='';
   var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因'};
   var RLBL={good:'好',hard:'课件不好懂',teach:'没老师讲的好'};
-  var SLBL={new:'未训练',forgot:'需重练',fuzzy:'待巩固',skilled:'已掌握'};
+  var SLBL={new:'未训练',forgot:'答错',fuzzy:'部分对',skilled:'答对'};
   function syncChecks(f,v){
     document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){if(cb.value===v)cb.checked=false;});
   }
@@ -1800,11 +1783,11 @@ function renderBadge(cv){
   card.dataset.browse=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'');
   card.dataset.browseTs=String(cv.visitReal||0); // 毫秒级真实浏览时间戳（无浏览=0），排序用
   var when=cv.visitTs?fmtTs(cv.visitTs):(card.dataset.date||'—');
-  var rt=ratingStr(s)+(s.rd?(' · ✍️已重做×'+(s.rn||1)+(s.rat?(' · 上次 '+fmtHM(s.rat)):'')):'');
+  var rt=(s.rd?(' · ✍️已重做×'+(s.rn||1)+(s.rat?(' · 上次 '+fmtHM(s.rat)):'')):'');
   if(st==='new'){ el.textContent='⚪ 未训练 · 🕓 '+when+rt; el.className='c-badge st-new'; }
-  else if(st==='forgot'){ el.textContent='❌ 需重练 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-forgot'; }
-  else if(st==='fuzzy'){ el.textContent='😐 待巩固 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-fuzzy'; }
-  else { el.textContent='✅ 已掌握 · ✅'+s.skilled+' 😐'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-skilled'; }
+  else if(st==='forgot'){ el.textContent='❌ 答错 · ✅'+s.skilled+' 🟡'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-forgot'; }
+  else if(st==='fuzzy'){ el.textContent='🟡 部分对 · ✅'+s.skilled+' 🟡'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-fuzzy'; }
+  else { el.textContent='✅ 答对 · ✅'+s.skilled+' 🟡'+s.fuzzy+' ❌'+s.forgot+' · 🕓 '+when+rt; el.className='c-badge st-skilled'; }
 }
 function applyStats(map){
   statMap=map||{};
