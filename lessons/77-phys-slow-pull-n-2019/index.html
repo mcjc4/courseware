@@ -9,9 +9,11 @@
  *       页面原生云端代码（DEFAULT_CLOUD / CFG / fetchCloudRow / pushCloud /
  *       cloudNotes / delCloud / subscribeRealtime）一律不改，只注入本文件。
  *
- * 课件库独立 WB Cloud 应用（与页面同源 jikaka-courseware，免跨域预检）：wbapp_f4LuoQmu9eHJyGRTG8u60Y
- *   endpoint      = https://jikaka-courseware.app.workbuddy.host
- *   publishableKey= wbpk_f4LuoQmu9eHJyGRTG8u60Y_5tAmlCKh7O10nSCFAXPyCfwOCStWdH7v
+ * 课件库与记忆卡合并到同一 WB Cloud 应用（同源 jikaka-memory，免跨域预检）：
+ *   wbapp_QuSSvKgXD7uP73LA5D5gNT —— 课件页挂载在 jikaka-memory.app.workbuddy.host/courseware/，
+ *   与记忆卡 cards/knowledge 后端同源，课件页可直接写 course_stats/course_notes 与 cards。
+ *   endpoint      = https://jikaka-memory.app.workbuddy.host
+ *   publishableKey= wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP
  *
  * 原理：
  *   1) 动态加载 WB Cloud SDK（jsdelivr 主 / unpkg 备），就绪后建 client.database。
@@ -28,8 +30,8 @@
   'use strict';
 
   var WB_CLOUD_CFG = {
-    endpoint: 'https://jikaka-courseware.app.workbuddy.host',
-    publishableKey: 'wbpk_f4LuoQmu9eHJyGRTG8u60Y_5tAmlCKh7O10nSCFAXPyCfwOCStWdH7v'
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
   };
   window.WB_CLOUD_CFG = WB_CLOUD_CFG;
   window.WB_READY = false;
@@ -1182,5 +1184,53 @@ fit();draw();readout();goStep(0,false);
 
 <!--COURSEWARE-FEAT-END-->
 
+<script data-wbcard-writer="1">
+(function(){
+  'use strict';
+  function toast(msg, ok){
+    var t=document.getElementById('wbcwToast');
+    if(!t){ t=document.createElement('div'); t.id='wbcwToast';
+      t.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;padding:10px 16px;border-radius:10px;font-size:14px;color:#fff;background:#dc2626;box-shadow:0 4px 16px rgba(0,0,0,.25);max-width:84vw;transition:opacity .3s;opacity:0';
+      document.body.appendChild(t);
+    }
+    t.textContent=msg; t.style.background=ok?'#16a34a':'#dc2626'; t.style.opacity='1';
+    clearTimeout(t._tm); t._tm=setTimeout(function(){t.style.opacity='0';},2800);
+  }
+  function fld(nc,label){
+    var els=nc.querySelectorAll('.fld');
+    for(var i=0;i<els.length;i++){ var tx=els[i].textContent||''; var k=label+'：'; var j=tx.indexOf(k); if(j>=0) return tx.slice(j+k.length).trim(); }
+    return '';
+  }
+  function waitDB(cb){ var n=0; (function p(){ if(window.WB_DB&&window.WB_DB.from){ return cb(window.WB_DB); } if(n++>80){ return cb(null); } setTimeout(p,200); })(); }
+  window.__writeCardToLibrary=function(){
+    var nc=document.querySelector('.newcard');
+    if(!nc){ toast('本课无「待写入的新记忆卡」区块'); return; }
+    var hd=(nc.querySelector('.hd')||{}).textContent||'';
+    var m=hd.match(/生成新卡\s*(\S+)/);
+    var cid=m?m[1]:('phy'+Date.now());
+    var card={ card_id:cid, subject:'物理', chapter:fld(nc,'章节'), signal:fld(nc,'信号'), conclusion:fld(nc,'结论'),
+      src:((document.querySelector('footer')||{}).textContent||'').replace(/\s+/g,' ').trim().slice(0,60),
+      tags:['课件生成'], updated_at:new Date().toISOString() };
+    if(!card.signal||!card.conclusion){ toast('信号/结论缺失，无法写入'); return; }
+    waitDB(function(DB){
+      if(!DB){ toast('云端未就绪，请稍候重试'); return; }
+      DB.from('cards').upsert(card).then(function(r){
+        if(r&&r.error){ toast('写入失败：'+(r.error.message||r.error)); }
+        else { toast('✅ 已写入记忆卡库：'+cid, true); }
+      }).catch(function(e){ toast('写入失败：'+(e&&e.message||e)); });
+    });
+  };
+  function addFab(){
+    if(document.getElementById('wbcwFab')) return;
+    if(!document.querySelector('.newcard')) return;
+    var b=document.createElement('button'); b.id='wbcwFab';
+    b.textContent='📤 写入记忆卡库';
+    b.style.cssText='position:fixed;right:16px;bottom:16px;z-index:99998;padding:10px 16px;border:0;border-radius:999px;font-size:14px;font-weight:600;color:#fff;background:linear-gradient(135deg,#0C447C,#1d7fd1);box-shadow:0 4px 14px rgba(12,68,124,.35);cursor:pointer';
+    b.onclick=window.__writeCardToLibrary;
+    document.body.appendChild(b);
+  }
+  if(document.readyState!=='loading'){ addFab(); } else { document.addEventListener('DOMContentLoaded',addFab); }
+})();
+</script>
 </body>
 </html>

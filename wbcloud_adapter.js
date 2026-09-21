@@ -5,9 +5,11 @@
  *       页面原生云端代码（DEFAULT_CLOUD / CFG / fetchCloudRow / pushCloud /
  *       cloudNotes / delCloud / subscribeRealtime）一律不改，只注入本文件。
  *
- * 课件库独立 WB Cloud 应用（与页面同源 jikaka-courseware，免跨域预检）：wbapp_f4LuoQmu9eHJyGRTG8u60Y
- *   endpoint      = https://jikaka-courseware.app.workbuddy.host
- *   publishableKey= wbpk_f4LuoQmu9eHJyGRTG8u60Y_5tAmlCKh7O10nSCFAXPyCfwOCStWdH7v
+ * 课件库与记忆卡合并到同一 WB Cloud 应用（同源 jikaka-memory，免跨域预检）：
+ *   wbapp_QuSSvKgXD7uP73LA5D5gNT —— 课件页挂载在 jikaka-memory.app.workbuddy.host/courseware/，
+ *   与记忆卡 cards/knowledge 后端同源，课件页可直接写 course_stats/course_notes 与 cards。
+ *   endpoint      = https://jikaka-memory.app.workbuddy.host
+ *   publishableKey= wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP
  *
  * 原理：
  *   1) 动态加载 WB Cloud SDK（jsdelivr 主 / unpkg 备），就绪后建 client.database。
@@ -24,8 +26,8 @@
   'use strict';
 
   var WB_CLOUD_CFG = {
-    endpoint: 'https://jikaka-courseware.app.workbuddy.host',
-    publishableKey: 'wbpk_f4LuoQmu9eHJyGRTG8u60Y_5tAmlCKh7O10nSCFAXPyCfwOCStWdH7v'
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
   };
   window.WB_CLOUD_CFG = WB_CLOUD_CFG;
   window.WB_READY = false;
