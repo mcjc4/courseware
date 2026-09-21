@@ -63,6 +63,12 @@
   }
 
   /* ---------- 2) 翻译层 ---------- */
+  // 知识页 Supabase 表名 → WB Cloud 表名 映射（同源 jikaka-memory 后端）
+  //   tape_stats → knowledge  (导航统计：fig_id 主键)
+  //   tape_state → tape_state (胶带遮盖上 layered 状态：fig_id 主键, state jsonb)
+  // 课件库表(course_stats/course_notes)不在此映射，走原 courseware 逻辑
+  var KNOWLEDGE_TABLE_MAP = { tape_stats: 'knowledge', tape_state: 'tape_state' };
+
   function waitWbReady(ms) {
     ms = ms || 12000;
     return new Promise(function (resolve) {
@@ -142,13 +148,15 @@
     var m = u.pathname.match(/\/rest\/v1\/([^?/]+)/);
     if (!m) return makeResp([], 400);
     var table = m[1];
+    var wbTable = KNOWLEDGE_TABLE_MAP[table] || table;
+    var isMapped = (KNOWLEDGE_TABLE_MAP[table] != null);
     var q = parseQuery(u.search);
     var ready = await waitWbReady(12000);
     if (!ready || !window.WB_DB) return makeResp([], 502);
     var db = window.WB_DB;
     try {
       if (method === 'GET') {
-        var qb = db.from(table).select(q.cols);
+        var qb = db.from(wbTable).select(q.cols);
         qb = applyFilters(qb, q.eqs, q.order, q.limit);
         var r1 = await qb;
         if (r1.error) return makeResp([], 500);
@@ -157,14 +165,21 @@
         var rows = JSON.parse(opts.body || '[]');
         if (!Array.isArray(rows)) rows = [rows];
         var prefer = ((opts.headers && (opts.headers.Prefer || opts.headers.prefer)) || '').toString();
+        // 知识页映射表（tape_stats/tape_state）：按 fig_id 主键 upsert
+        // （Block C 的 Prefer 拼写 'merge-duplications' 不含 'merge-duplicates'，这里强制 upsert 兜底）
+        if (isMapped) {
+          var r2 = await db.from(wbTable).upsert(rows, { onConflict: 'fig_id' });
+          if (r2.error) return makeResp([], 500);
+          return makeResp(r2.data || [], 201);
+        }
         if (/merge-duplicates/.test(prefer)) {
           // course_stats：按 course_id 一课一行 → 用 id 去重（WB Cloud upsert 按 id）
           rows.forEach(function (row) {
             if (row && row.course_id != null && row.id == null) row.id = String(row.course_id);
           });
-          var r2 = await db.from(table).upsert(rows);
-          if (r2.error) return makeResp([], 500);
-          return makeResp(r2.data || [], 201);
+          var r2b = await db.from(wbTable).upsert(rows);
+          if (r2b.error) return makeResp([], 500);
+          return makeResp(r2b.data || [], 201);
         } else {
           // course_notes：每条独立，补 id 保证可插入/可删
           rows.forEach(function (row) {
@@ -173,19 +188,19 @@
                 .filter(function (x) { return x != null; }).join('|');
             }
           });
-          var r3 = await db.from(table).insert(rows);
+          var r3 = await db.from(wbTable).insert(rows);
           if (r3.error) return makeResp([], 500);
           return makeResp(r3.data || [], 201);
         }
       } else if (method === 'DELETE') {
-        var qbd = db.from(table).delete();
+        var qbd = db.from(wbTable).delete();
         qbd = applyFilters(qbd, q.eqs, null, null);
         var r4 = await qbd;
         if (r4.error) return makeResp([], 500);
         return makeResp(r4.data || [], 200);
       } else if (method === 'PATCH' || method === 'PUT') {
         var patch = JSON.parse(opts.body || '{}');
-        var qbu = db.from(table).update(patch);
+        var qbu = db.from(wbTable).update(patch);
         qbu = applyFilters(qbu, q.eqs, null, null);
         var r5 = await qbu;
         if (r5.error) return makeResp([], 500);
