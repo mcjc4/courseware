@@ -359,10 +359,10 @@
     </div>
     <div class="fld">
       <select id="fSort" class="sort-select">
-        <option value="visit-desc" selected>浏览日期 倒序（新→旧）</option>
+        <option value="visit-desc">浏览日期 倒序（新→旧）</option>
         <option value="visit-asc">浏览日期 正序（旧→新）</option>
         <option value="forgot-desc">忘记数 倒序（重练优先）</option>
-        <option value="date-desc">日期 倒序（新→旧）</option>
+        <option value="date-desc" selected>日期 倒序（新→旧）</option>
         <option value="date-asc">日期 正序（旧→新）</option>
         <option value="num-desc">编号 倒序（新→旧）</option>
         <option value="num-asc">编号 正序（旧→新）</option>
@@ -1513,7 +1513,7 @@
         <p style="margin-top:8px;font-size:13px;color:#5c7185;text-align:center;">第 1～8 题（单选/多选）· 点击查看大图</p>
       </a>
       <a href="assets/2026-09-22-math-homework-p2.jpg" target="_blank" rel="noopener" style="display:block;background:#fff;border-radius:16px;padding:12px;border:1px solid #e3edf7;box-shadow:0 8px 24px -12px rgba(31,66,135,.16);transition:transform .15s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-        <img src="assets/2026-09-22-math-homework-p2.jpg" alt="数学作业 p2" style="width:100%;border-radius:10px;display:block;">
+        <img src="assets/2026-09-22-math-homework-p2.jpg" alt="数学作业 p2" style="width:100%;border-radius:10px;display:block;" onerror="this.style.display='none'">
         <p style="margin-top:8px;font-size:13px;color:#5c7185;text-align:center;">第 9～14 题（填空/解答/能力拓展）· 点击查看大图</p>
       </a>
     </div>
@@ -1557,6 +1557,23 @@
 (function(){
   var grid=document.getElementById('grid');
   var cards=Array.from(grid.querySelectorAll('.card'));
+
+  // 动态生成筛选选项：subject/chapter/knowledge/method 从卡片 data-* 提取，新增标签自动可筛
+  function buildFilterOptions(){
+    var fmap={subject:'popupSubject',chapter:'popupChapter',knowledge:'popupKnowledge',method:'popupMethod'};
+    Object.keys(fmap).forEach(function(f){
+      var pop=document.getElementById(fmap[f]); if(!pop)return;
+      var box=pop.querySelector('.popup-options'); if(!box)return;
+      var seen={};
+      cards.forEach(function(card){ var v=card.getAttribute('data-'+f); if(v&&!seen[v])seen[v]=1; });
+      var arr=Object.keys(seen).sort(function(a,b){return a.localeCompare(b,'zh');});
+      function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var html='';
+      arr.forEach(function(v){ html+='<label class="popup-option"><input type="checkbox" data-filter="'+f+'" value="'+E(v)+'">'+E(v)+'</label>'; });
+      box.innerHTML=html;
+    });
+  }
+  buildFilterOptions();
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
   var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set(),verdict:new Set()};
@@ -1567,7 +1584,7 @@
   var forgetMin=document.getElementById('forgetMin');
 
   function sortCards(){
-    var mode=fSort.value||'visit-desc';
+    var mode=fSort.value||'date-desc';
     var desc=mode.indexOf('-desc')>0;
     // 浏览日期排序：主键=毫秒级真实浏览时间戳（刚浏览的必排最前），无浏览记录的按制作日期兜底、再按编号
     function visitKey(card){
