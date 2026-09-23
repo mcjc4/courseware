@@ -199,7 +199,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="portal-ver" content="20260924b">
+<meta name="portal-ver" content="20260924c">
 </head>
 <body>
   <div class="wrap">
@@ -2121,6 +2121,7 @@ function togglePick(card){
 }
 // 勾选圆圈：改为事件委托，避免嵌套在 <a> 内时点击被卡片导航吞掉（2026-09-24 修复）
 (function(){
+  var grid=document.getElementById('grid');
   function onPick(e){
     var pk=e.target.closest?e.target.closest('.pick'):null;
     if(!pk)return;
