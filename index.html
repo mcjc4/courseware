@@ -1649,6 +1649,7 @@
   function updateCnt(f){
     var n=sets[f].size;
     var el=document.getElementById(cntIds[f]);
+    if(!el)return; // 防护：cntRating 等缺失的计数元素直接跳过，避免 TypeError 中断整个初始化（否则勾选事件委托注册不上，卡片圆圈无法勾选）
     el.textContent=n;
     el.className=n===0?'cnt zero':'cnt';
   }
