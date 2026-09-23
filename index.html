@@ -195,6 +195,10 @@
   .foot { text-align:center; margin-top:34px; font-size:12px; color:#93a7ba; }
   .foot a { color:#4f8ef7; text-decoration:none; }
 </style>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="portal-ver" content="20260923b">
 </head>
 <body>
   <div class="wrap">
@@ -1583,6 +1587,7 @@
   var fSort=document.getElementById('fSort');
   var forgetMin=document.getElementById('forgetMin');
 
+  var PORTAL_VER='20260923b'; // 部署版本戳：回读含此值即代表拿到最新门户(默认日期倒序+9-22置顶)
   function sortCards(){
     var mode=fSort.value||'date-desc';
     var desc=mode.indexOf('-desc')>0;
@@ -1813,7 +1818,7 @@
       updateDateCnt();
       if(sv.fm)forgetMin.value=sv.fm;
       if(sv.q)fQ.value=sv.q;
-      if(sv.sort)fSort.value=sv.sort;
+      if(sv.sort && sv.sort!=='visit-desc')fSort.value=sv.sort; // 旧版默认 visit-desc 不恢复，强制用新版 date-desc(9-22置顶)
     }
   })();
 
