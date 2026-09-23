@@ -200,7 +200,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="portal-ver" content="20260924e">
+<meta name="portal-ver" content="20260924f">
 </head>
 <body>
   <div class="wrap">
@@ -2020,7 +2020,8 @@ function trainRender(){
   be.textContent=badge?badge.textContent:'';
   be.className='t-badge '+(badge&&badge.className.split(' ')[1]||'');
   document.getElementById('trainDate').textContent='制作 '+(card.dataset.date||'—');
-  document.getElementById('trainOpen').setAttribute('href',card.getAttribute('href')+'?tr='+trainIdx); // 带序号，课件页显示串联导航
+  var trainHref=card.dataset.href||'';
+  document.getElementById('trainOpen').setAttribute('href', trainHref ? (trainHref+'?tr='+trainIdx) : '#'); // 带序号，课件页显示串联导航
   var rd=document.getElementById('trainRedo');
   var d={}; try{ d=JSON.parse(localStorage.getItem('credo:'+cid))||{}; }catch(e){}
   rd.checked=d.done===1;
@@ -2042,7 +2043,7 @@ function trainOpenPanel(){
     if(p&&p.n===trainList.length&&p.i>=0&&p.i<trainList.length)trainIdx=p.i;
   }catch(e){}
   trainOv.classList.add('open');
-  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.dataset.href||'';}),ts:Date.now()})); }catch(e){}
   trainRender();
 }
 function trainClosePanel(){ trainOv.classList.remove('open'); }
@@ -2093,7 +2094,7 @@ orderSel.addEventListener('change',function(){
   trainList=(orderSel.value==='random')?shuffleArr(base):base.slice();
   trainIdx=0;
   if(cur){ var k=trainList.indexOf(cur); if(k>=0)trainIdx=k; }
-  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.getAttribute('href');}),ts:Date.now()})); }catch(e){}
+  try{ localStorage.setItem('train_group',JSON.stringify({urls:trainList.map(function(c){return c.dataset.href||'';}),ts:Date.now()})); }catch(e){}
   trainRender();
 });
 document.getElementById('trainRedo').addEventListener('change',function(){
