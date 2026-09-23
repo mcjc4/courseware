@@ -198,7 +198,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="portal-ver" content="20260923b">
+<meta name="portal-ver" content="20260923c">
 </head>
 <body>
   <div class="wrap">
@@ -363,10 +363,10 @@
     </div>
     <div class="fld">
       <select id="fSort" class="sort-select">
-        <option value="visit-desc">浏览日期 倒序（新→旧）</option>
+        <option value="visit-desc" selected>浏览日期 倒序（新→旧）</option>
         <option value="visit-asc">浏览日期 正序（旧→新）</option>
         <option value="forgot-desc">忘记数 倒序（重练优先）</option>
-        <option value="date-desc" selected>日期 倒序（新→旧）</option>
+        <option value="date-desc">日期 倒序（新→旧）</option>
         <option value="date-asc">日期 正序（旧→新）</option>
         <option value="num-desc">编号 倒序（新→旧）</option>
         <option value="num-asc">编号 正序（旧→新）</option>
@@ -1587,9 +1587,9 @@
   var fSort=document.getElementById('fSort');
   var forgetMin=document.getElementById('forgetMin');
 
-  var PORTAL_VER='20260923b'; // 部署版本戳：回读含此值即代表拿到最新门户(默认日期倒序+9-22置顶)
+  var PORTAL_VER='20260923c'; // 部署版本戳：回读含此值即代表拿到最新门户(默认浏览日期倒序+最近训练置顶)
   function sortCards(){
-    var mode=fSort.value||'date-desc';
+    var mode=fSort.value||'visit-desc';
     var desc=mode.indexOf('-desc')>0;
     // 浏览日期排序：主键=毫秒级真实浏览时间戳（刚浏览的必排最前），无浏览记录的按制作日期兜底、再按编号
     function visitKey(card){
@@ -1818,7 +1818,7 @@
       updateDateCnt();
       if(sv.fm)forgetMin.value=sv.fm;
       if(sv.q)fQ.value=sv.q;
-      if(sv.sort && sv.sort!=='visit-desc')fSort.value=sv.sort; // 旧版默认 visit-desc 不恢复，强制用新版 date-desc(9-22置顶)
+      if(sv.sort)fSort.value=sv.sort;
     }
   })();
 
