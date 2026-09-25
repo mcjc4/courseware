@@ -2006,9 +2006,11 @@
     var fm=parseInt(forgetMin.value,10)||0;
     var n=0;
     cards.forEach(function(card){
-      var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject);
-      var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter);
-      var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge);
+      var _ct=card.__ctag;
+      function _hit(set,map){var f=false;if(set.size===0)return true;if(!map)return false;set.forEach(function(v){if(map[v])f=true;});return f;}
+      var okS=sets.subject.size===0||sets.subject.has(card.dataset.subject)||_hit(sets.subject,_ct&&_ct.S);
+      var okC=sets.chapter.size===0||sets.chapter.has(card.dataset.chapter)||_hit(sets.chapter,_ct&&_ct.C);
+      var okK=sets.knowledge.size===0||sets.knowledge.has(card.dataset.knowledge)||_hit(sets.knowledge,_ct&&_ct.K);
       var okM=sets.method.size===0||sets.method.has(card.dataset.method);
       var okSt=sets.status.size===0||sets.status.has(card.dataset.status);
       var cr=(card.dataset.rating||'').split(',');
@@ -2943,7 +2945,7 @@ dbReady(12000).then(function(ok){
     db.from('course_tags').select('course_id,tags'),
     db.from('cw_quiz_state').select('id,data')
   ]).then(function(rs){
-    var vocab=rs[0]||[], ct=rs[1]||[], qs=rs[2]||[];
+    var vocab=(rs[0]&&rs[0].data)||[], ct=(rs[1]&&rs[1].data)||[], qs=(rs[2]&&rs[2].data)||[];
     var portal=window.__portal||{};
     if(!portal.apply)return;
     /* 做题状态 → dataset.qstatus（课件页提交答案弹窗写入 cw_quiz_state） */
@@ -2954,6 +2956,28 @@ dbReady(12000).then(function(ok){
     var catBy={};(vocab||[]).forEach(function(r){catBy[r.name]=r.category;});
     var byCat={};
     (ct||[]).forEach(function(r){(r.tags||'').split(';').forEach(function(t){if(!t)return;var c=catBy[t]||'知识点';(byCat[c]=byCat[c]||{})[t]=1;});});
+    /* 每卡云标签集：course_tags + 词表分类 → __ctag（筛选真源），并同步可见 chips */
+    var ctMap={};
+    (ct||[]).forEach(function(r){
+      var o={S:{},C:{},K:{}};
+      (r.tags||'').split(';').forEach(function(t){
+        if(!t)return; var c=catBy[t]||'知识点';
+        if(c==='学科')o.S[t]=1; else if(c==='章节')o.C[t]=1; else if(c!=='题型')o.K[t]=1;
+      });
+      ctMap[r.course_id]=o;
+    });
+    (portal.cards||[]).forEach(function(card){
+      var o=ctMap[card.dataset.cid]; if(!o)return;
+      card.__ctag=o;
+      var tg=card.querySelector('.tags');
+      if(tg&&!tg.dataset.ct){
+        var h='';
+        Object.keys(o.S).forEach(function(t){h+='<span class="tag-chip">'+t+'</span>';});
+        Object.keys(o.C).forEach(function(t){h+='<span class="tag-chip c">'+t+'</span>';});
+        Object.keys(o.K).forEach(function(t){h+='<span class="tag-chip k">'+t+'</span>';});
+        if(h){tg.innerHTML+=h; tg.dataset.ct='1';}
+      }
+    });
     function addOpt(f,val){
       var map={subject:'popupSubject',chapter:'popupChapter',knowledge:'popupKnowledge'};
       var pop=document.getElementById(map[f]);if(!pop)return;
