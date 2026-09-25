@@ -488,7 +488,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 <button class="btn" id="qsubmit">提交答案（多选）</button><button class="btn ghost" id="qreveal">查看解析</button></div>
 <div id="qfeedback"></div>
 <!-- 打标签（提交答案/查看解析后弹出，参考 2019 版式） -->
-<div class="tag-box" id="tagBox" style="display:none"><div class="tb-head">🏷 给本题打个标签：</div><div class="tb-row"><span class="tb-lab">掌握度</span><button type="button" class="tb-btn" data-tag="已熟练">✅ 已熟练</button><button type="button" class="tb-btn" data-tag="要回看">🔁 要回看</button><input id="tbCustom" type="text" placeholder="自定义标签…" maxlength="12"><button type="button" class="tb-btn add" id="tbAdd">＋ 添加</button></div><div class="tb-row"><span class="tb-lab">做题状态</span><span id="tbStatusRow" class="tb-inline"></span></div><div class="tb-row"><span class="tb-lab">错因</span><span id="tbErrRow" class="tb-inline"></span><input id="tbErrCustom" type="text" placeholder="自定义错因…" maxlength="12" style="max-width:110px"><button type="button" class="tb-mini" id="tbErrAdd">＋ 添加</button></div><div class="tb-chips" id="tbChips"></div><div class="tb-state" id="tbState"></div></div>
+<div class="tag-box" id="tagBox" style="display:none"><div class="tb-head">🏷 给本题打个标签：</div><div class="tb-row"><span class="tb-lab">做题状态</span><span id="tbStatusRow" class="tb-inline"></span><input id="tbStCustom" type="text" placeholder="自定义状态…" maxlength="12" style="max-width:110px"><button type="button" class="tb-mini" id="tbStAdd">＋ 添加</button></div><div class="tb-row"><span id="tbErrRow" class="tb-inline"></span><input id="tbErrCustom" type="text" placeholder="自定义错因…" maxlength="12" style="max-width:110px"><button type="button" class="tb-mini" id="tbErrAdd">＋ 添加</button></div><div class="tb-row"><span class="tb-lab">题目属性</span><span id="tbAttrRow" class="tb-inline"></span></div><div class="tb-chips" id="tbChips"></div><div class="tb-state" id="tbState"></div></div>
 </section>
 
 <section class="card">
@@ -1844,7 +1844,7 @@ setClearLabel();
 /* ===== 打标签（提交答案/查看解析后弹出；本地先写 + 云端 cw_quiz_state 集中行同步，ts 仲裁） ===== */
 (function(){
 'use strict';
-var QUIZ_ID='cw77phys', ALLKEY='cw_quiz_state';
+var QUIZ_ID='course_77_phys-slow-pull-n-2019', ALLKEY='cw_quiz_state';
 var box=document.getElementById('tagBox'); if(!box)return;
 var chipsEl=document.getElementById('tbChips'), stateEl=document.getElementById('tbState'), custom=document.getElementById('tbCustom');
 var state={revealed:false,tags:[],status:'',errs:[],ts:0};
@@ -1878,8 +1878,8 @@ function addCustom(){
   if(state.tags.indexOf(v)<0)state.tags.push(v);
   custom.value='';save();
 }
-document.getElementById('tbAdd').addEventListener('click',addCustom);
-custom.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();addCustom();}});
+var _tbAdd=document.getElementById('tbAdd');if(_tbAdd)_tbAdd.addEventListener('click',addCustom);
+if(custom)custom.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();addCustom();}});
 function setStatus(ok){stateEl.textContent=ok?'☁️ 已同步云端，跨设备可见':'⚠️ 云端暂不可达，已存本地';stateEl.className='tb-state '+(ok?'ok':'warn');}
 var pushing=false,queued=false;
 function pushCloud(){
@@ -1899,7 +1899,7 @@ function pullCloud(){
   restGet('cw_quiz_state?id=eq.'+QUIZ_ID+'&select=id,data').then(function(a){
     var row=(a&&a[0])||null, c=row&&row.data&&row.data[QUIZ_ID];
     if(!c)return;
-    if((c.ts||0)>state.ts){state={revealed:!!c.revealed,tags:c.tags||[],status:c.status||'',errs:c.errs||[],ts:c.ts||0};saveLocal();render();renderSE();if(state.revealed)show(false);}
+    if((c.ts||0)>state.ts){state={revealed:!!c.revealed,tags:c.tags||[],status:c.status||'',errs:c.errs||[],attrs:c.attrs||state.attrs||[],attrsInit:true,ts:c.ts||0};saveLocal();render();renderSE();if(state.revealed)show(false);}
     else if((c.ts||0)<state.ts){pushCloud();}
   }).catch(function(){});
 }
@@ -1913,17 +1913,21 @@ function show(scroll){
 var fb=document.getElementById('qfeedback');
 if(fb&&'MutationObserver' in window){new MutationObserver(function(){state.revealed=true;saveLocal();show(true);}).observe(fb,{childList:true});}
 /* 恢复上次状态 */
-(function(){var l=localAll()[QUIZ_ID];if(l){state={revealed:!!l.revealed,tags:l.tags||[],status:l.status||'',errs:l.errs||[],ts:l.ts||0};render();if(state.revealed)show(false);}})();
+(function(){var l=localAll()[QUIZ_ID];if(l){state={revealed:!!l.revealed,tags:l.tags||[],status:l.status||'',errs:l.errs||[],attrs:l.attrs||[],attrsInit:true,ts:l.ts||0};render();renderSE();if(state.revealed)show(false);}})();
 /* ===== 做题状态 / 错因（词表来自云端 tags，选择写回 cw_quiz_state + 词表并入） ===== */
-var ST_DEF=['未做','做对','做错','模糊','待复习'];
+var ST_DEF=['未做','做对','做错','模糊','待复习','已熟练','要回看'];
 var ERR_DEF=['审题不清','概念不清','公式记错','计算失误','临界条件遗漏','讨论不全','方向判断错'];
 var stRow=document.getElementById('tbStatusRow'), errRow=document.getElementById('tbErrRow');
 var errCustom=document.getElementById('tbErrCustom');
-var VOCAB={st:ST_DEF.slice(),err:ERR_DEF.slice()};
+var VOCAB={st:ST_DEF.slice(),err:ERR_DEF.slice(),attr:['错题','精品题']};
+var CATG={'错题':'题目属性','精品题':'题目属性','已熟练':'做题状态','要回看':'做题状态','未做':'做题状态','做对':'做题状态','做错':'做题状态','模糊':'做题状态','待复习':'做题状态'};
+state.attrs=state.attrs||[];state.attrsInit=false;
 function escE(x){return String(x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function renderSE(){
   if(stRow)stRow.innerHTML=VOCAB.st.map(function(v){return '<button type="button" class="tb-st'+(state.status===v?' on':'')+'" data-st="'+escE(v)+'">'+escE(v)+'</button>';}).join('');
   if(errRow)errRow.innerHTML=VOCAB.err.map(function(v){var on=state.errs.indexOf(v)>=0;return '<button type="button" class="tb-err'+(on?' on':'')+'" data-err="'+escE(v)+'">'+escE(v)+'</button>';}).join('');
+  var atRow=document.getElementById('tbAttrRow');
+  if(atRow)atRow.innerHTML=VOCAB.attr.map(function(v){var on=state.attrs.indexOf(v)>=0;return '<button type="button" class="tb-st'+(on?' on':'')+'" data-attr="'+escE(v)+'" style="'+(on?'background:#F59E0B;border-color:#F59E0B;':'')+'color:'+(on?'#fff':'#B45309')+'">'+escE(v)+'</button>';}).join('');
 }
 if(stRow)stRow.addEventListener('click',function(ev){
   var b=ev.target.closest?ev.target.closest('[data-st]'):null;if(!b)return;
@@ -1938,6 +1942,36 @@ if(errRow)errRow.addEventListener('click',function(ev){
   if(i>=0)state.errs.splice(i,1);else state.errs.push(v);
   save();
 });
+if(atRowBind!==1){var _ar=document.getElementById('tbAttrRow');if(_ar)_ar.addEventListener('click',function(ev){
+  window.__attrHits=(window.__attrHits||0)+1;
+  try{
+  var b=ev.target.closest?ev.target.closest('[data-attr]'):null;if(!b)return;
+  var v=b.getAttribute('data-attr'),i=state.attrs.indexOf(v);
+  if(i>=0)state.attrs.splice(i,1);else state.attrs.push(v);
+  renderSE();pushAttr();window.__attrDone=(window.__attrDone||0)+1;
+  }catch(e){window.__attrErr=String(e&&e.message||e);}
+});var atRowBind=1;}
+function renderHeroTokens(toks){
+  renderHero((HERO_DEF.map(function(p){return p[1];}).filter(function(n){return toks.indexOf(n)<0;})).concat(toks).map(function(n){return [CATG[n]||'知识点',n];}));
+}
+function pushAttr(){
+  if(!base())return;
+  restGet('course_tags?id=eq.'+CID+'&select=id,course_id,tags').then(function(a){
+    var row=(a&&a[0])||null;
+    var toks=((row&&row.tags)||'').split(';').filter(Boolean);
+    var kept=toks.filter(function(t){return CATG[t]!=='题目属性';});
+    state.attrs.forEach(function(t){if(kept.indexOf(t)<0)kept.push(t);});
+    return restUpsertRows('course_tags',[{id:CID,course_id:CID,tags:kept.join(';'),updated_at:new Date().toISOString()}],'id').then(function(){renderHeroTokens(kept);});
+  }).catch(function(){});
+}
+var stCustom=document.getElementById('tbStCustom');
+var stAddBtn=document.getElementById('tbStAdd');
+if(stAddBtn)stAddBtn.addEventListener('click',function(){
+  var v=(stCustom.value||'').replace(/[;；,，]/g,' ').trim();if(!v)return;
+  state.status=v;if(VOCAB.st.indexOf(v)<0)VOCAB.st.push(v);
+  stCustom.value='';renderSE();save();upsertTag(v,'做题状态','#059669');
+});
+if(stCustom)stCustom.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();stAddBtn.click();}});
 function upsertTag(name,category,color){
   if(!base())return Promise.resolve(false);
   return fetch(base()+'tags?on_conflict=id',{method:'POST',headers:H({'Prefer':'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify([{id:'t_'+name,name:name,color:color,category:category,kind:'controlled',updated_at:new Date().toISOString()}])}).then(function(r){return r.ok;}).catch(function(){return false;});
@@ -1956,14 +1990,17 @@ function loadVocab(){
     (rows||[]).forEach(function(r){
       if(r.category==='做题状态'&&VOCAB.st.indexOf(r.name)<0)VOCAB.st.push(r.name);
       if(r.category==='错因'&&VOCAB.err.indexOf(r.name)<0)VOCAB.err.push(r.name);
+      if(r.category==='题目属性'&&VOCAB.attr.indexOf(r.name)<0)VOCAB.attr.push(r.name);
+      CATG[r.name]=r.category;
     });
+    window.__vocabDone=1;
     renderSE();
   }).catch(function(){});
 }
 /* ===== hero 三层标签（学科/章节/知识点/题型；云端 course_tags 为真源，首访播种词表） ===== */
 var CID='course_77_phys-slow-pull-n-2019';
 var HERO_DEF=[['学科','物理'],['章节','共点力平衡'],['知识点','三力平衡'],['知识点','动态平衡'],['知识点','静摩擦力'],['题型','多选题']];
-var CAT_COLOR={'学科':'#0C447C','章节':'#2563EB','知识点':'#0891B2','题型':'#16A34A'};
+var CAT_COLOR={'学科':'#0C447C','章节':'#2563EB','知识点':'#0891B2','题型':'#16A34A','题目属性':'#F59E0B'};
 var heroBox=document.getElementById('cwTags');
 function renderHero(list){
   if(!heroBox)return;
@@ -1977,7 +2014,7 @@ function restUpsertRows(table,rows,conf){
 function seedHero(){
   if(!base()||!heroBox)return;
   restGet('tags?select=name,category').then(function(vocab){
-    var have={};(vocab||[]).forEach(function(r){have[r.name]=1;});
+    var have={};(vocab||[]).forEach(function(r){have[r.name]=1;CATG[r.name]=r.category;});
     var miss=HERO_DEF.filter(function(p){return !have[p[1]];});
     var upRows=miss.map(function(p){return {id:'t_'+p[1],name:p[1],color:CAT_COLOR[p[0]]||'#0891B2',category:p[0],kind:'controlled',updated_at:new Date().toISOString()};});
     var names=HERO_DEF.map(function(p){return p[1];}).join(';');
@@ -1988,7 +2025,10 @@ function seedHero(){
         var row=(a&&a[0])||null;
         if(row&&row.tags){
           var catOf={};HERO_DEF.forEach(function(p){catOf[p[1]]=p[0];});
-          renderHero(row.tags.split(';').filter(Boolean).map(function(n){return [catOf[n]||'知识点',n];}));
+          var toks=row.tags.split(';').filter(Boolean);
+          renderHero(toks.map(function(n){return [CATG[n]||catOf[n]||'知识点',n];}));
+          if(!state.attrsInit){state.attrs=toks.filter(function(t){return CATG[t]==='题目属性';});state.attrsInit=true;renderSE();}
+          window.__seedDone=1;
         }
       });
     });
@@ -1996,6 +2036,7 @@ function seedHero(){
 }
 loadVocab();
 seedHero();
+(function(){['已熟练:做题状态:#059669','要回看:做题状态:#059669','错题:题目属性:#DC2626','精品题:题目属性:#F59E0B'].forEach(function(s){var p=s.split(':');upsertTag(p[0],p[1],p[2]);});})();
 renderSE();
 setTimeout(pullCloud,1200);
 })();
