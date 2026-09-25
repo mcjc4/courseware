@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+
+.tb-lab{font-size:12px;color:#5b7186;font-weight:700;min-width:58px;display:inline-block;flex:none}
+.tb-inline{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tb-st{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid #c9d8ea;background:#fff;color:#42607e;cursor:pointer;font-family:inherit;transition:all .15s}
+.tb-st.on{background:#2563eb;color:#fff;border-color:#2563eb}
+.tb-err{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid #f3c8c8;background:#fff;color:#b91c1c;cursor:pointer;font-family:inherit;transition:all .15s}
+.tb-err.on{background:#dc2626;color:#fff;border-color:#dc2626}
+.tb-mini{font-size:12px;border:1px dashed #c9d8ea;background:#fff;border-radius:999px;padding:4px 10px;font-family:inherit;color:#42607e;cursor:pointer}
+.cw-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:2}
+.cw-tag{font-size:12.5px;font-weight:700;padding:3px 11px;border-radius:8px;background:rgba(255,255,255,.93);border:1px solid rgba(255,255,255,.55)}
+.cw-tag i{font-style:normal;font-weight:400;opacity:.6;margin-right:5px;font-size:11px}<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -312,7 +322,9 @@ body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background
 .hero-num{display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 14px;font-size:13px;margin-bottom:10px}
 .hero h1{font-size:clamp(20px,4vw,30px);margin:2px 0 8px}
 .hero-sub{font-size:14px;opacity:.92}
-.container{width:min(920px,92vw);margin:-26px auto 60px}
+.container{width:min(1200px,94vw);margin:-26px auto 60px}
+@media(min-width:1400px){.container{width:min(1400px,95vw)}}
+@media(min-width:1800px){.container{width:min(1600px,96vw)}}
 .card{background:var(--card);border-radius:20px;box-shadow:0 8px 28px rgba(31,77,216,.08);padding:22px 24px;margin-bottom:20px}
 .card h2{font-size:18px;margin-bottom:12px;color:var(--ink)}
 .card h2 .tag{font-size:12px;color:var(--sub);font-weight:400;margin-left:8px}
@@ -462,6 +474,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 <div class="hero-num">晓社物理晨练 · 第 11 题</div>
 <h1>2019全国Ⅰ：缓慢拉动悬挂物 N</h1>
 <p class="hero-sub">共点力平衡 · 动态分析 ｜ 结点平衡 T=mg/cosθ、F=mg·tanθ、摩擦力 |f|=|Mg·sinα−T| 的双向讨论<br>解题主线：先解 N 结点（T、F 随 θ 单调增）→ 再隔离 M 讨论 f 的初方向</p>
+<div class="cw-tags" id="cwTags"></div>
 </header>
 <main class="container">
 
@@ -475,11 +488,10 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 <button class="btn" id="qsubmit">提交答案（多选）</button><button class="btn ghost" id="qreveal">查看解析</button></div>
 <div id="qfeedback"></div>
 <!-- 打标签（提交答案/查看解析后弹出，参考 2019 版式） -->
-<div class="tag-box" id="tagBox" style="display:none"><div class="tb-head">🏷 给本题打个标签：</div><div class="tb-row"><button type="button" class="tb-btn" data-tag="已熟练">✅ 已熟练</button><button type="button" class="tb-btn" data-tag="要回看">🔁 要回看</button><input id="tbCustom" type="text" placeholder="自定义标签…" maxlength="12"><button type="button" class="tb-btn add" id="tbAdd">＋ 添加</button></div><div class="tb-chips" id="tbChips"></div><div class="tb-state" id="tbState"></div></div>
+<div class="tag-box" id="tagBox" style="display:none"><div class="tb-head">🏷 给本题打个标签：</div><div class="tb-row"><span class="tb-lab">掌握度</span><button type="button" class="tb-btn" data-tag="已熟练">✅ 已熟练</button><button type="button" class="tb-btn" data-tag="要回看">🔁 要回看</button><input id="tbCustom" type="text" placeholder="自定义标签…" maxlength="12"><button type="button" class="tb-btn add" id="tbAdd">＋ 添加</button></div><div class="tb-row"><span class="tb-lab">做题状态</span><span id="tbStatusRow" class="tb-inline"></span></div><div class="tb-row"><span class="tb-lab">错因</span><span id="tbErrRow" class="tb-inline"></span><input id="tbErrCustom" type="text" placeholder="自定义错因…" maxlength="12" style="max-width:110px"><button type="button" class="tb-mini" id="tbErrAdd">＋ 添加</button></div><div class="tb-chips" id="tbChips"></div><div class="tb-state" id="tbState"></div></div>
 </section>
 
 <section class="card">
-<h2>📷 原题图 <span class="tag">拍照原文</span></h2>
 <h2>📷 原题图 <span class="tag">拍照原文 · 可换图</span></h2>
 <div class="prob-img" id="probImg" tabindex="0" style="margin-top:8px"><div class="prob-img-head"><div class="prob-tabs" id="probTabs"><button type="button" class="prob-tab active" data-tab="clean">去手写版</button><button type="button" class="prob-tab" data-tab="orig">原版</button></div><button type="button" class="prob-img-btn" data-action="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-action="clear" id="probClearBtn">清除图片</button></div><div class="prob-img-body" data-body="clean"></div><div class="prob-img-body" data-body="orig" style="display:none"></div></div>
 <p class="note" id="probImgNote" style="margin-top:6px">🖼️ 「去手写版」与「原版」两个 tab 各自贴图，均自动上传云端仓库、跨设备可见；默认显示去手写版。</p>
@@ -1835,7 +1847,7 @@ setClearLabel();
 var QUIZ_ID='cw77phys', ALLKEY='cw_quiz_state';
 var box=document.getElementById('tagBox'); if(!box)return;
 var chipsEl=document.getElementById('tbChips'), stateEl=document.getElementById('tbState'), custom=document.getElementById('tbCustom');
-var state={revealed:false,tags:[],ts:0};
+var state={revealed:false,tags:[],status:'',errs:[],ts:0};
 var D=null;try{D=JSON.parse(document.getElementById('cw-train-data').textContent);}catch(e){}
 function base(){return (D&&D.sbUrl)?D.sbUrl.replace(/\/+$/,'')+'/rest/v1/':null;}
 function H(ex){var h={'apikey':D.sbKey,'Authorization':'Bearer '+D.sbKey,'Content-Type':'application/json'};if(ex)for(var k in ex)h[k]=ex[k];return h;}
@@ -1848,7 +1860,7 @@ function render(){
   chipsEl.innerHTML=state.tags.map(function(t){return '<span class="tb-chip">'+esc(t)+'<i data-rm="'+esc(t)+'" title="移除">✕</i></span>';}).join('');
   document.querySelectorAll('.tb-btn[data-tag]').forEach(function(b){b.classList.toggle('on',state.tags.indexOf(b.getAttribute('data-tag'))>=0);});
 }
-function save(){saveLocal();render();pushCloud();}
+function save(){saveLocal();render();if(renderSE)renderSE();pushCloud();}
 document.querySelectorAll('.tb-btn[data-tag]').forEach(function(b){
   b.addEventListener('click',function(){
     var t=b.getAttribute('data-tag'),i=state.tags.indexOf(t);
@@ -1887,7 +1899,7 @@ function pullCloud(){
   restGet('cw_quiz_state?id=eq.'+QUIZ_ID+'&select=id,data').then(function(a){
     var row=(a&&a[0])||null, c=row&&row.data&&row.data[QUIZ_ID];
     if(!c)return;
-    if((c.ts||0)>state.ts){state={revealed:!!c.revealed,tags:c.tags||[],ts:c.ts||0};saveLocal();render();if(state.revealed)show(false);}
+    if((c.ts||0)>state.ts){state={revealed:!!c.revealed,tags:c.tags||[],status:c.status||'',errs:c.errs||[],ts:c.ts||0};saveLocal();render();renderSE();if(state.revealed)show(false);}
     else if((c.ts||0)<state.ts){pushCloud();}
   }).catch(function(){});
 }
@@ -1901,7 +1913,90 @@ function show(scroll){
 var fb=document.getElementById('qfeedback');
 if(fb&&'MutationObserver' in window){new MutationObserver(function(){state.revealed=true;saveLocal();show(true);}).observe(fb,{childList:true});}
 /* 恢复上次状态 */
-(function(){var l=localAll()[QUIZ_ID];if(l){state={revealed:!!l.revealed,tags:l.tags||[],ts:l.ts||0};render();if(state.revealed)show(false);}})();
+(function(){var l=localAll()[QUIZ_ID];if(l){state={revealed:!!l.revealed,tags:l.tags||[],status:l.status||'',errs:l.errs||[],ts:l.ts||0};render();if(state.revealed)show(false);}})();
+/* ===== 做题状态 / 错因（词表来自云端 tags，选择写回 cw_quiz_state + 词表并入） ===== */
+var ST_DEF=['未做','做对','做错','模糊','待复习'];
+var ERR_DEF=['审题不清','概念不清','公式记错','计算失误','临界条件遗漏','讨论不全','方向判断错'];
+var stRow=document.getElementById('tbStatusRow'), errRow=document.getElementById('tbErrRow');
+var errCustom=document.getElementById('tbErrCustom');
+var VOCAB={st:ST_DEF.slice(),err:ERR_DEF.slice()};
+function escE(x){return String(x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function renderSE(){
+  if(stRow)stRow.innerHTML=VOCAB.st.map(function(v){return '<button type="button" class="tb-st'+(state.status===v?' on':'')+'" data-st="'+escE(v)+'">'+escE(v)+'</button>';}).join('');
+  if(errRow)errRow.innerHTML=VOCAB.err.map(function(v){var on=state.errs.indexOf(v)>=0;return '<button type="button" class="tb-err'+(on?' on':'')+'" data-err="'+escE(v)+'">'+escE(v)+'</button>';}).join('');
+}
+if(stRow)stRow.addEventListener('click',function(ev){
+  var b=ev.target.closest?ev.target.closest('[data-st]'):null;if(!b)return;
+  var v=b.getAttribute('data-st');
+  state.status=(state.status===v)?'':v;
+  if(v&&VOCAB.st.indexOf(v)<0)VOCAB.st.push(v);
+  save();
+});
+if(errRow)errRow.addEventListener('click',function(ev){
+  var b=ev.target.closest?ev.target.closest('[data-err]'):null;if(!b)return;
+  var v=b.getAttribute('data-err'),i=state.errs.indexOf(v);
+  if(i>=0)state.errs.splice(i,1);else state.errs.push(v);
+  save();
+});
+function upsertTag(name,category,color){
+  if(!base())return Promise.resolve(false);
+  return fetch(base()+'tags?on_conflict=id',{method:'POST',headers:H({'Prefer':'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify([{id:'t_'+name,name:name,color:color,category:category,kind:'controlled',updated_at:new Date().toISOString()}])}).then(function(r){return r.ok;}).catch(function(){return false;});
+}
+var errAddBtn=document.getElementById('tbErrAdd');
+if(errAddBtn)errAddBtn.addEventListener('click',function(){
+  var v=(errCustom.value||'').replace(/[;；,，]/g,' ').trim();if(!v)return;
+  if(state.errs.indexOf(v)<0)state.errs.push(v);
+  if(VOCAB.err.indexOf(v)<0)VOCAB.err.push(v);
+  errCustom.value='';save();upsertTag(v,'错因','#DC2626');
+});
+if(errCustom)errCustom.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();errAddBtn.click();}});
+function loadVocab(){
+  if(!base())return;
+  restGet('tags?select=name,category').then(function(rows){
+    (rows||[]).forEach(function(r){
+      if(r.category==='做题状态'&&VOCAB.st.indexOf(r.name)<0)VOCAB.st.push(r.name);
+      if(r.category==='错因'&&VOCAB.err.indexOf(r.name)<0)VOCAB.err.push(r.name);
+    });
+    renderSE();
+  }).catch(function(){});
+}
+/* ===== hero 三层标签（学科/章节/知识点/题型；云端 course_tags 为真源，首访播种词表） ===== */
+var CID='course_77_phys-slow-pull-n-2019';
+var HERO_DEF=[['学科','物理'],['章节','共点力平衡'],['知识点','三力平衡'],['知识点','动态平衡'],['知识点','静摩擦力'],['题型','多选题']];
+var CAT_COLOR={'学科':'#0C447C','章节':'#2563EB','知识点':'#0891B2','题型':'#16A34A'};
+var heroBox=document.getElementById('cwTags');
+function renderHero(list){
+  if(!heroBox)return;
+  heroBox.innerHTML=list.map(function(p){return '<span class="cw-tag" style="color:'+(CAT_COLOR[p[0]]||'#1f4fd8')+'"><i>'+escE(p[0])+'</i>'+escE(p[1])+'</span>';}).join('');
+}
+renderHero(HERO_DEF);
+function restUpsertRows(table,rows,conf){
+  if(!base())return Promise.reject(new Error('no-rest'));
+  return fetch(base()+table+'?on_conflict='+conf,{method:'POST',headers:H({'Prefer':'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify(rows)}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return true;});
+}
+function seedHero(){
+  if(!base()||!heroBox)return;
+  restGet('tags?select=name,category').then(function(vocab){
+    var have={};(vocab||[]).forEach(function(r){have[r.name]=1;});
+    var miss=HERO_DEF.filter(function(p){return !have[p[1]];});
+    var upRows=miss.map(function(p){return {id:'t_'+p[1],name:p[1],color:CAT_COLOR[p[0]]||'#0891B2',category:p[0],kind:'controlled',updated_at:new Date().toISOString()};});
+    var names=HERO_DEF.map(function(p){return p[1];}).join(';');
+    var q1=upRows.length?restUpsertRows('tags',upRows,'id'):Promise.resolve(true);
+    var q2=restUpsertRows('course_tags',[{id:CID,course_id:CID,tags:names,updated_at:new Date().toISOString()}],'id');
+    return Promise.all([q1,q2]).then(function(){
+      return restGet('course_tags?id=eq.'+CID+'&select=tags').then(function(a){
+        var row=(a&&a[0])||null;
+        if(row&&row.tags){
+          var catOf={};HERO_DEF.forEach(function(p){catOf[p[1]]=p[0];});
+          renderHero(row.tags.split(';').filter(Boolean).map(function(n){return [catOf[n]||'知识点',n];}));
+        }
+      });
+    });
+  }).catch(function(){});
+}
+loadVocab();
+seedHero();
+renderSE();
 setTimeout(pullCloud,1200);
 })();
 </script>
