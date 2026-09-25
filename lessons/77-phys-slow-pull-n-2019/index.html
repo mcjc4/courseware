@@ -365,6 +365,10 @@ body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background
 .chip.done{border-color:var(--teal);color:var(--teal)}
 .desc{background:#f6f9fe;border-radius:14px;padding:14px 16px;font-size:15px;min-height:64px}
 .desc .stepno{font-size:12px;color:var(--sub);margin-bottom:6px}
+.sim-wrap{position:relative}
+.desc-float{position:absolute;left:14px;top:14px;width:57%;max-width:600px;max-height:52%;overflow:hidden;background:rgba(246,249,254,.93);border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 12px rgba(31,45,61,.07);z-index:3;pointer-events:none;font-size:13.5px;padding:11px 14px;min-height:0}
+.desc-float .stepno{margin-bottom:4px}
+@media (max-width:720px){.desc-float{position:static;width:auto;max-height:none;pointer-events:auto;margin-bottom:8px}}
 details.deriv summary{cursor:pointer;font-weight:600}
 details.deriv[open] summary{margin-bottom:10px}
 .derivbody{font-size:15px}
@@ -565,8 +569,8 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 </div>
 </div>
 <div class="chips" id="chips"></div>
-<div class="desc" id="desc"></div>
-<canvas id="sim" class="sim" width="960" height="640"></canvas>
+<div class="sim-wrap"><div class="desc desc-float" id="desc"></div>
+<canvas id="sim" class="sim" width="960" height="640"></canvas></div>
 <div class="sim-note">💡 除拖滑块外，可直接<b>用鼠标/手指拖动画布上的物块 N</b> 改变 θ；「▶ 动画演示」只扫 θ，「▶ 播放讲解」按 8 步联动高亮并慢扫角度；右下 f–θ 曲线含临界角 θc 标记与当前红点。</div>
 </section>
 
