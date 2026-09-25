@@ -1582,6 +1582,7 @@ fit();draw();goStep(0,false);
       f.subject.value = D.subject || '物理';
       f.zhang.value = n0.zhang || '';
       f.src.value = n0.src || '';
+      f.orig.value = n0.orig || '';
       f.link.value = n0.link || location.href;
       function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
       function stamp() {
@@ -1618,7 +1619,7 @@ fit();draw();goStep(0,false);
               host.insertBefore(div, btn.parentNode);
               try { if (window.renderMathInElement) renderMathInElement(div, { delimiters: [{ left: '$', right: '$', display: false }, { left: '\\(', right: '\\)', display: false }], throwOnError: false }); } catch (e) {}
               toast(cid + ' 已写入云端记忆卡库并进入「待训练」队列，训练一次后即永久入本地卡库');
-              f.sig.value = ''; f.con.value = ''; f.orig.value = '';
+              f.sig.value = ''; f.con.value = ''; f.orig.value = n0.orig || '';
               panel.style.display = 'none';
               sv.disabled = false; sv.textContent = '💾 保存写入数据库';
             });
