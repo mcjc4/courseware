@@ -293,8 +293,9 @@ body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background
 .imgv img{width:100%;border-radius:12px;border:1px solid var(--line)}
 .imgv{max-height:70vh;overflow:auto}
 .concept{background:#f2fbf6;border-radius:14px;padding:14px 16px;font-size:15px;border:1px solid #d8efe2}
-.sim-toolbar{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:flex-start;margin-bottom:12px}
-.sim-sliders{flex:1 1 360px;min-width:280px}
+.sim-toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-start;margin-bottom:10px}
+.sim-sliders{flex:0 0 340px;max-width:44%;min-width:260px}
+.sim-btns{flex:1 1 340px}
 .sim-sliders .sl{margin:6px 0}
 .sim-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:4px}
 .sim{width:100%;display:block;background:#fbfdff;border:1px solid var(--line);border-radius:14px;touch-action:none;cursor:grab}
@@ -429,35 +430,28 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 </section>
 
 <section class="card">
-<h2>🎛 互动仿真 <span class="tag">GeoGebra 风格 · 滑块 + 画布拖拽 N</span></h2>
+<h2>🎛 互动仿真 + 分步动画 <span class="tag">滑块 / 画布拖拽 N / 8 步讲解联动</span></h2>
 <div class="sim-toolbar">
 <div class="sim-sliders" id="sliders"></div>
-<div class="sim-btns"><button class="btn" id="playbtn">▶ 动画演示</button><button class="btn ghost" id="resetbtn">↺ 复位</button></div>
-</div>
-<canvas id="sim" class="sim" width="960" height="640"></canvas>
-<div class="sim-note">💡 除拖滑块外，可直接<b>用鼠标/手指拖动画布上的物块 N</b> 改变 θ；图上力箭头的长短与数值随 θ 实时变化，右侧面板给出 T、F、f 实时值与 f–θ 曲线（含临界角 θc 标记、当前点红点）。</div>
-<div class="readout" id="readout"></div>
-</section>
-
-<section class="card">
-<h2>🎬 动画分步解题</h2>
-<div class="pctrl">
-<button class="btn" id="stepplay">▶ 播放</button>
+<div class="sim-btns">
+<button class="btn" id="playbtn">▶ 动画演示</button>
+<button class="btn ghost" id="resetbtn">↺ 复位</button>
+<button class="btn" id="stepplay">▶ 播放讲解</button>
 <button class="btn ghost" id="prev">◀ 上一步</button>
 <button class="btn ghost" id="next">下一步 ▶</button>
 <label style="font-size:13px;color:var(--sub)">速度 <input type="range" id="speed" min="0.5" max="2" step="0.25" value="1" style="vertical-align:middle;accent-color:var(--blue)"> <span id="spdv">1×</span></label>
 </div>
+</div>
 <div class="chips" id="chips"></div>
 <div class="desc" id="desc"></div>
+<div class="readout" id="readout" style="margin-top:10px"></div>
+<canvas id="sim" class="sim" width="960" height="640"></canvas>
+<div class="sim-note">💡 除拖滑块外，可直接<b>用鼠标/手指拖动画布上的物块 N</b> 改变 θ；「▶ 动画演示」只扫 θ，「▶ 播放讲解」按 8 步联动高亮并慢扫角度；右下 f–θ 曲线含临界角 θc 标记与当前红点。</div>
 </section>
 
-<details class="card deriv">
-<summary>🧮 完整推导（点开查看）</summary>
-<div class="derivbody"><p>对 N：$T=\dfrac{mg}{\cos\theta}\uparrow$，$F=mg\tan\theta\uparrow$（θ: $0°\to45°$）→ A 错、B 对。</p>
-<p>对 M：$f=|Mg\sin\alpha-T|$。</p>
-<p>· $T_0>Mg\sin\alpha$：$f$ 一直增大；</p>
-<p>· $T_0<Mg\sin\alpha$：$f$ 先减小到 $0$ 后增大 → C 错、D 对。<b>选 BD。</b></p></div>
-</details>
+
+
+
 
 <section class="card">
 <h2>🎯 记忆卡对碰 <span class="tag">解题思路 × 记忆卡库命中分析</span></h2>
@@ -535,118 +529,98 @@ function drawScene(g,W,H,S){
   var hl=S.hl||null;
   var aN=(hl==='M')?0.26:1, aM=(hl==='N')?0.26:1;
 
-  // ===== 左：斜面装置 =====
-  var ax=80, gy=545, Lsl=300;
+  // ===== 装置大图（左侧） =====
+  var ax=110, gy=565, Lsl=370;
   var bx=ax+Lsl*Math.cos(al), by=gy-Lsl*Math.sin(al);
   g.strokeStyle='#7d93a8';g.lineWidth=2.5;
-  g.beginPath();g.moveTo(ax-50,gy);g.lineTo(bx+230,gy);g.stroke();
+  g.beginPath();g.moveTo(ax-55,gy);g.lineTo(bx+260,gy);g.stroke();
   g.strokeStyle='#b9c9d8';g.lineWidth=1;
-  for(var hx=ax-46;hx<bx+222;hx+=15){g.beginPath();g.moveTo(hx,gy);g.lineTo(hx-7,gy+7);g.stroke();}
+  for(var hx=ax-50;hx<bx+252;hx+=16){g.beginPath();g.moveTo(hx,gy);g.lineTo(hx-8,gy+8);g.stroke();}
   g.fillStyle='#f0e7d3';g.strokeStyle='#c9b892';g.lineWidth=2;
   g.beginPath();g.moveTo(ax,gy);g.lineTo(bx,by);g.lineTo(bx,gy);g.closePath();g.fill();g.stroke();
-  g.fillStyle='#8a7a55';g.font='13px sans-serif';g.fillText('粗糙斜面',ax+120,gy-16);
+  g.fillStyle='#8a7a55';g.font='14px sans-serif';g.fillText('粗糙斜面',ax+150,gy-18);
   g.strokeStyle='#5c7185';g.lineWidth=1.5;
-  g.beginPath();g.arc(ax,gy,52,-al,0);g.stroke();
-  g.fillStyle='#5c7185';g.font='italic 16px Georgia,serif';g.fillText('α',ax+58,gy-16);
+  g.beginPath();g.arc(ax,gy,58,-al,0);g.stroke();
+  g.fillStyle='#5c7185';g.font='italic 18px Georgia,serif';g.fillText('α',ax+66,gy-18);
 
-  // 滑轮
-  var plx=bx+14, ply=by-4, pr=11;
+  var plx=bx+16, ply=by-4, pr=12;
   g.save();g.globalAlpha=aM;
-  g.strokeStyle='#64788c';g.lineWidth=3.5;
-  g.beginPath();g.moveTo(plx,ply-30);g.lineTo(plx,ply);g.stroke();
+  g.strokeStyle='#64788c';g.lineWidth=4;
+  g.beginPath();g.moveTo(plx,ply-34);g.lineTo(plx,ply);g.stroke();
   g.fillStyle='#fff';g.beginPath();g.arc(plx,ply,pr,0,7);g.fill();g.stroke();
-  g.fillStyle='#64788c';g.beginPath();g.arc(plx,ply,3,0,7);g.fill();
-  g.fillStyle='#41546e';g.font='12px sans-serif';g.fillText('光滑定滑轮',plx-34,ply-40);
+  g.fillStyle='#64788c';g.beginPath();g.arc(plx,ply,3.5,0,7);g.fill();
+  g.fillStyle='#41546e';g.font='13px sans-serif';g.fillText('光滑定滑轮',plx-38,ply-46);
   g.restore();
   GEO.plx=plx;GEO.ply=ply;
 
-  var Ln=140, nx=plx+Ln*Math.sin(th), ny=ply+Ln*Math.cos(th);
+  var Ln=175, nx=plx+Ln*Math.sin(th), ny=ply+Ln*Math.cos(th);
   GEO.nx=nx;GEO.ny=ny;
-  var k2=0.52;
+  var k2=0.5;
   var mcx=ax+(bx-ax)*k2, mcy=gy+(by-gy)*k2;
   var pcx=mcx-16*Math.sin(al), pcy=mcy-16*Math.cos(al);
 
   // ===== N 侧 =====
   g.save();g.globalAlpha=aN;
-  g.strokeStyle='#5c7185';g.lineWidth=2;
+  g.strokeStyle='#5c7185';g.lineWidth=2.2;
   g.beginPath();g.moveTo(plx,ply);g.lineTo(nx,ny);g.stroke();
-  dashed(g,plx,ply,plx,ply+150);
-  g.strokeStyle='#e8604c';g.lineWidth=1.6;
-  g.beginPath();g.arc(plx,ply,42,Math.PI/2,Math.PI/2-th,true);g.stroke();
-  g.fillStyle='#e8604c';g.font='italic bold 14px Georgia,serif';
-  g.fillText('θ='+fmt(S.th,0)+'°',plx+12+34*Math.sin(th/2),ply+56*Math.cos(th/2)+5);
-  g.fillStyle='#1f4fd8';g.beginPath();g.arc(nx,ny,9,0,7);g.fill();
-  g.strokeStyle='#fff';g.lineWidth=1.5;g.beginPath();g.arc(nx,ny,9,0,7);g.stroke();
-  g.fillStyle='#fff';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText('N',nx,ny+4);g.textAlign='left';
-  var sc=64;
-  arrow(g,nx,ny,nx,ny+sc,'#e8604c','mg',8,14);
+  dashed(g,plx,ply,plx,ply+170);
+  g.strokeStyle='#e8604c';g.lineWidth=1.8;
+  g.beginPath();g.arc(plx,ply,46,Math.PI/2,Math.PI/2-th,true);g.stroke();
+  g.fillStyle='#e8604c';g.font='italic bold 16px Georgia,serif';
+  g.fillText('θ='+fmt(S.th,0)+'°',plx+14+42*Math.sin(th/2),ply+62*Math.cos(th/2)+5);
+  g.fillStyle='#1f4fd8';g.beginPath();g.arc(nx,ny,10,0,7);g.fill();
+  g.strokeStyle='#fff';g.lineWidth=1.5;g.beginPath();g.arc(nx,ny,10,0,7);g.stroke();
+  g.fillStyle='#fff';g.font='bold 12px sans-serif';g.textAlign='center';g.fillText('N',nx,ny+4);g.textAlign='left';
+  var sc=76;
+  arrow(g,nx,ny,nx,ny+sc,'#e8604c','mg',8,16);
   arrow(g,nx,ny,nx+(plx-nx)/Ln*T*sc,ny+(ply-ny)/Ln*T*sc,'#1f4fd8','T='+fmt(T)+'mg',10,-8);
-  if(F*sc>6)arrow(g,nx,ny,nx-F*sc,ny,'#34a853','F='+fmt(F)+'mg',-64,-8);
+  if(F*sc>6)arrow(g,nx,ny,nx-F*sc,ny,'#34a853','F='+fmt(F)+'mg',-70,-8);
   if(hl==='N'){g.strokeStyle='#1f4fd8';g.lineWidth=2.5;g.setLineDash([6,4]);
-    g.beginPath();g.arc(nx,ny,30,0,7);g.stroke();g.setLineDash([]);
-    g.fillStyle='#1f4fd8';g.font='bold 12px sans-serif';g.fillText('当前分析：N 结点',nx+22,ny-34);}
+    g.beginPath();g.arc(nx,ny,34,0,7);g.stroke();g.setLineDash([]);
+    g.fillStyle='#1f4fd8';g.font='bold 13px sans-serif';g.fillText('当前分析：N 结点',nx+26,ny-40);}
   g.restore();
 
   // ===== M 侧 =====
   g.save();g.globalAlpha=aM;
-  g.strokeStyle='#5c7185';g.lineWidth=2;
+  g.strokeStyle='#5c7185';g.lineWidth=2.2;
   g.beginPath();g.moveTo(pcx,pcy);g.lineTo(plx,ply);g.stroke();
   g.save();g.translate(mcx,mcy);g.rotate(-al);
   g.fillStyle='#a855f7';g.strokeStyle='#7c3fd0';g.lineWidth=1.5;
-  g.fillRect(-26,-32,52,30);g.strokeRect(-26,-32,52,30);
-  g.fillStyle='#fff';g.font='bold 14px sans-serif';g.textAlign='center';g.fillText('M',0,-12);g.textAlign='left';
+  g.fillRect(-28,-36,56,33);g.strokeRect(-28,-36,56,33);
+  g.fillStyle='#fff';g.font='bold 15px sans-serif';g.textAlign='center';g.fillText('M',0,-13);g.textAlign='left';
   g.restore();
-  var uM=34;
-  arrow(g,pcx,pcy,pcx,pcy+R/Math.sin(al)*uM,'#2f855a','Mg',8,14);
-  arrow(g,pcx,pcy,pcx-Math.sin(al)*R/Math.tan(al)*uM,pcy-Math.cos(al)*R/Math.tan(al)*uM,'#9333ea','N′',-34,-8);
+  var uM=38;
+  arrow(g,pcx,pcy,pcx,pcy+R/Math.sin(al)*uM,'#2f855a','Mg',8,16);
+  arrow(g,pcx,pcy,pcx-Math.sin(al)*R/Math.tan(al)*uM,pcy-Math.cos(al)*R/Math.tan(al)*uM,'#9333ea','N′',-36,-8);
   arrow(g,pcx,pcy,pcx+Math.cos(al)*T*uM,pcy-Math.sin(al)*T*uM,'#1f4fd8','T='+fmt(T)+'mg',6,-8);
   if(Math.abs(fs)>0.012){
     var dfx=fs>0?Math.cos(al):-Math.cos(al), dfy=fs>0?-Math.sin(al):Math.sin(al);
-    var lf=Math.min(120,Math.max(14,Math.abs(fs)*uM*2));
+    var lf=Math.min(130,Math.max(15,Math.abs(fs)*uM*2));
     arrow(g,pcx,pcy,pcx+dfx*lf,pcy+dfy*lf,'#f59e0b','f='+fmt(Math.abs(fs))+'mg',8,-8);
   }
-  g.fillStyle='#6b4fa0';g.font='12.5px sans-serif';g.fillText('始终静止',mcx-24,mcy+36);
+  g.fillStyle='#6b4fa0';g.font='13px sans-serif';g.fillText('始终静止',mcx-26,mcy+42);
   if(hl==='M'){g.strokeStyle='#7c3fd0';g.lineWidth=2.5;g.setLineDash([6,4]);
-    g.beginPath();g.arc(mcx,mcy-16,44,0,7);g.stroke();g.setLineDash([]);
-    g.fillStyle='#7c3fd0';g.font='bold 12px sans-serif';g.fillText('当前分析：M',mcx+50,mcy-52);}
+    g.beginPath();g.arc(mcx,mcy-18,50,0,7);g.stroke();g.setLineDash([]);
+    g.fillStyle='#7c3fd0';g.font='bold 13px sans-serif';g.fillText('当前分析：M',mcx+56,mcy-58);}
   g.restore();
 
-  // ===== 右：数据面板 =====
-  var rx=600;
-  g.strokeStyle='#dbe7f1';g.lineWidth=1;g.beginPath();g.moveTo(566,26);g.lineTo(566,H-28);g.stroke();
-  g.fillStyle='#1f2d3d';g.font='bold 16px sans-serif';g.fillText('实时数据（单位：mg）',rx,42);
-  var y=74, lh=24;
-  function line(txt,c){g.fillStyle=c||'#1f2d3d';g.font='14px sans-serif';g.fillText(txt,rx,y);y+=lh;}
-  line('θ = '+fmt(S.th,1)+'°');
-  line('N 侧　T = mg/cosθ = '+fmt(T)+' mg（单调↑）','#1f4fd8');
-  line('N 侧　F = mg·tanθ = '+fmt(F)+' mg（单调↑）','#34a853');
-  line('M 侧　Mg·sinα = '+fmt(R)+' mg（ratio 设定）','#7a3fd0');
-  var fdir=Math.abs(fs)<0.005?'恰为 0（临界！）':(fs>0?'方向沿斜面向上':'方向沿斜面向下');
-  line('M 侧　f = |'+fmt(R)+' − '+fmt(T)+'| = '+fmt(Math.abs(fs))+' mg，'+fdir,Math.abs(fs)<0.005?'#e8604c':'#f59e0b');
-  if(R>1){var thc=Math.acos(1/R)*180/Math.PI;
-    line('临界角 θc = arccos(1/'+fmt(R)+') = '+fmt(thc,1)+'°','#e8604c');
-    line(S.th<thc-0.4?'现在 T 未追上 Mg·sinα → f 正被压小':'T 已越过 Mg·sinα → f 已反向增大','#5c7185');
-  }else{
-    line('本情形 Mg·sinα ≤ 初始 T=mg：f 不过零、一直增大','#5c7185');
-  }
-
-  // f–θ 曲线小图
-  var gx=rx-8, gyy=270, gw=330, gh=230;
+  // ===== 右下：f–θ 曲线 =====
+  var gx=620, gyy=150, gw=320, gh=300;
   g.fillStyle='#fbfdff';g.strokeStyle='#dbe7f1';g.lineWidth=1;
   g.fillRect(gx,gyy,gw,gh);g.strokeRect(gx,gyy,gw,gh);
-  g.fillStyle='#1f2d3d';g.font='bold 13.5px sans-serif';
-  g.fillText('f – θ 曲线（f>0 = 沿斜面向上）',gx+12,gyy+22);
-  var pxl=gx+46, pxr=gx+gw-16, pyt=gyy+38, pyb=gyy+gh-30;
+  g.fillStyle='#1f2d3d';g.font='bold 14px sans-serif';
+  g.fillText('f – θ 曲线（f>0 = 沿斜面向上）',gx+14,gyy+26);
+  var pxl=gx+50, pxr=gx+gw-18, pyt=gyy+44, pyb=gyy+gh-34;
   var fmax=1.25, fmin=-0.75;
   function X(t){return pxl+(pxr-pxl)*t/45;}
   function Y(v){return pyb-(pyb-pyt)*(v-fmin)/(fmax-fmin);}
   dashed(g,pxl,Y(0),pxr,Y(0));
-  g.fillStyle='#5c7185';g.font='11px sans-serif';g.fillText('0',pxl-13,Y(0)+4);
+  g.fillStyle='#5c7185';g.font='12px sans-serif';g.fillText('0',pxl-14,Y(0)+4);
   g.strokeStyle='#8aa2b8';g.lineWidth=1.2;
   g.beginPath();g.moveTo(pxl,pyt-6);g.lineTo(pxl,pyb);g.lineTo(pxr,pyb);g.stroke();
-  g.fillText('f/mg',pxl-36,pyt+2);
-  g.fillText('0',pxl-6,pyb+16);g.fillText('θ/°  45°',pxr-58,pyb+16);
-  g.strokeStyle='#1f4fd8';g.lineWidth=2.4;g.beginPath();
+  g.fillText('f/mg',pxl-40,pyt+4);
+  g.fillText('0',pxl-6,pyb+18);g.fillText('θ/°  45°',pxr-62,pyb+18);
+  g.strokeStyle='#1f4fd8';g.lineWidth=2.6;g.beginPath();
   for(var t2=0;t2<=45;t2+=0.5){
     var vv=R-1/Math.cos(t2*Math.PI/180);
     var yy=Y(Math.max(fmin,Math.min(fmax,vv)));
@@ -654,14 +628,14 @@ function drawScene(g,W,H,S){
   }
   g.stroke();
   if(R>1){var thc2=Math.acos(1/R)*180/Math.PI;
-    if(thc2<=45){g.fillStyle='#e8604c';g.beginPath();g.arc(X(thc2),Y(0),4.5,0,7);g.fill();
-      g.font='bold 11px sans-serif';g.fillText('θc',X(thc2)-5,Y(0)-10);}}
+    if(thc2<=45){g.fillStyle='#e8604c';g.beginPath();g.arc(X(thc2),Y(0),5,0,7);g.fill();
+      g.font='bold 12px sans-serif';g.fillText('θc',X(thc2)-5,Y(0)-12);}}
   var cur=Math.max(fmin,Math.min(fmax,fs));
-  g.fillStyle='#e8604c';g.beginPath();g.arc(X(S.th),Y(cur),5.5,0,7);g.fill();
-  g.strokeStyle='#fff';g.lineWidth=1.5;g.beginPath();g.arc(X(S.th),Y(cur),5.5,0,7);g.stroke();
+  g.fillStyle='#e8604c';g.beginPath();g.arc(X(S.th),Y(cur),6,0,7);g.fill();
+  g.strokeStyle='#fff';g.lineWidth=1.5;g.beginPath();g.arc(X(S.th),Y(cur),6,0,7);g.stroke();
 
-  g.fillStyle='#5c7185';g.font='12px sans-serif';
-  g.fillText('图例：T 绳拉力(蓝)　F 水平拉力(绿)　mg 重力(红)　f 静摩擦(橙)　N′ 斜面支持力(紫)',60,H-10);
+  g.fillStyle='#5c7185';g.font='12.5px sans-serif';
+  g.fillText('图例：T 绳拉力(蓝)　F 水平拉力(绿)　mg 重力(红)　f 静摩擦(橙)　N′ 支持力(紫)',70,H-12);
 }
 
 function readout(){
@@ -797,7 +771,7 @@ if(HAS_OPTS){
       var k=el.getAttribute('data-k');
       el.classList.add('revealed','locked');
       var an=ANALYSIS.find(function(a){return a.k===k;});
-      if(an){el.querySelector('.why').innerHTML=(an.ok?'✔ ':'✘ ')+an.why;
+      if(an){var wy=el.querySelector('.why');wy.innerHTML=(an.ok?'✔ ':'✘ ')+an.why;renderMath(wy);
         el.classList.add(an.ok?'right':'wrong');}
     });
   }
@@ -808,7 +782,7 @@ if(HAS_OPTS){
     opts.forEach(function(el){
       var k=el.getAttribute('data-k');el.classList.add('locked');
       var an=ANALYSIS.find(function(a){return a.k===k;});
-      if(an){el.querySelector('.why').innerHTML=(an.ok?'✔ ':'✘ ')+an.why;el.classList.add('revealed');}
+      if(an){var wy=el.querySelector('.why');wy.innerHTML=(an.ok?'✔ ':'✘ ')+an.why;renderMath(wy);el.classList.add('revealed');}
       if(picked[k])el.classList.add(ansSet[k]?'right':'wrong');
       else if(ansSet[k])el.classList.add('right');
     });
@@ -823,7 +797,7 @@ document.querySelectorAll('.cha').forEach(function(el){
     o.addEventListener('click',function(){
       var j=+o.getAttribute('data-j');
       el.querySelectorAll('.opt').forEach(function(x,k){x.classList.add('locked');if(k===c.a)x.classList.add('right');else if(k===j)x.classList.add('wrong');});
-      el.querySelector('.res').innerHTML=(j===c.a?'✅ 答对了！':'❌ ')+c.why;
+      var rs=el.querySelector('.res');rs.innerHTML=(j===c.a?'✅ 答对了！':'❌ ')+c.why;renderMath(rs);
     });
   });
 });
