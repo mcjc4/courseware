@@ -304,7 +304,20 @@ body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background
 .sl{margin:10px 0;font-size:13.5px}
 .sl label{display:flex;justify-content:space-between;color:var(--sub)}
 .sl input[type=range]{width:100%;accent-color:var(--blue)}
-.readout{background:#f2f7fd;border-radius:10px;padding:8px 12px;font-size:13px;color:var(--sub);margin-top:8px;white-space:pre-line}
+.kprow{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.kp{flex:1 1 320px;background:#f8fbff;border:1px solid #dbe7f5;border-radius:12px;padding:10px 12px}
+.kptt{font-weight:700;font-size:14px;color:#1d5c7c;margin-bottom:4px}
+.kp svg{width:100%;height:auto;display:block}
+.kpcap{font-size:13px;color:#33475b;margin-top:4px;line-height:1.7}
+.kpmeta{margin-top:10px;font-size:13px;color:#3a7d5c;background:#f0f7f2;border:1px dashed #bcd9c6;border-radius:8px;padding:6px 10px}
+#manPanel{margin-top:10px;background:#f8fbff;border:1px solid #cfe0f3;border-radius:12px;padding:12px 14px}
+#manPanel .mrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+#manPanel label.mlb{flex:none;width:80px;font:600 13px system-ui,-apple-system,sans-serif;color:#1d5c7c}
+#manPanel input[type=text],#manPanel textarea{flex:1 1 240px;box-sizing:border-box;border:1px solid #c8d8ea;border-radius:8px;padding:6px 9px;font:13px/1.6 system-ui,-apple-system,sans-serif;color:#1f2d3d;background:#fff}
+#manPanel textarea{resize:vertical}
+#manPanel .msub{flex:none;font:600 13px system-ui,-apple-system,sans-serif;padding:7px 18px;border-radius:999px;border:0;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;cursor:pointer}
+#manPanel .mcancel{flex:none;font:600 13px system-ui,-apple-system,sans-serif;padding:7px 16px;border-radius:999px;border:1px solid #bcd0e8;background:#fff;color:#1d5c7c;cursor:pointer}
+#manPanel .mtip{font-size:12px;color:var(--sub);margin-top:2px}
 .pctrl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
 .chip{border:1.5px solid var(--line);border-radius:999px;padding:4px 13px;font-size:13px;cursor:pointer;color:var(--sub)}
@@ -425,8 +438,73 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 </section>
 
 <section class="card">
-<h2>💡 概念小课堂</h2>
-<div class="concept"><b>缓慢拉动悬挂物的标准流程</b>：<br>① 隔离被拉物 N：$T=\dfrac{mg}{\cos\theta}$（一直增）、$F=mg\tan\theta$（一直增）——两个都是单调增，"可能不变"必错；<br>② 隔离另一侧物 M：绳拉力 $T$ 传过去，静摩擦 $f=|Mg\sin\alpha-T|$——<b>绝对值函数</b>，变化方向取决于初始 $T$ 与 $Mg\sin\alpha$ 谁大：<br>· $T$ 初始较大 → $f$ 一直增（C 的"一定"错在以偏概全）；<br>· $T$ 初始较小 → $f$ 先减小（到 0）后增大（D 对）。<br><b>方法论</b>：含绝对值的动态平衡，必须"分初始方向讨论"。</div>
+<h2>💡 概念小课堂 <span class="tag">只图解本题用到的知识点</span></h2>
+<div class="kprow">
+<div class="kp">
+<div class="kptt">知识点 ①｜正交分解（N 结点动态平衡）</div>
+<svg viewBox="0 0 470 290" role="img" aria-label="正交分解图解">
+<line x1="60" y1="30" x2="200" y2="30" stroke="#64748b" stroke-width="2"/>
+<line x1="70" y1="30" x2="62" y2="18" stroke="#94a3b8" stroke-width="1.4"/>
+<line x1="100" y1="30" x2="92" y2="18" stroke="#94a3b8" stroke-width="1.4"/>
+<line x1="130" y1="30" x2="122" y2="18" stroke="#94a3b8" stroke-width="1.4"/>
+<line x1="160" y1="30" x2="152" y2="18" stroke="#94a3b8" stroke-width="1.4"/>
+<line x1="190" y1="30" x2="182" y2="18" stroke="#94a3b8" stroke-width="1.4"/>
+<circle cx="130" cy="30" r="3" fill="#334155"/>
+<line x1="130" y1="30" x2="240" y2="200" stroke="#2563eb" stroke-width="2.5"/>
+<line x1="240" y1="200" x2="240" y2="52" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="5 4"/>
+<path d="M 240 148 A 52 52 0 0 0 212 156" fill="none" stroke="#b45309" stroke-width="1.6"/>
+<text x="224" y="136" font-size="14" fill="#b45309" font-weight="700">θ</text>
+<defs>
+<marker id="arB" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="arR" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#dc2626"/></marker>
+<marker id="arG" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="arO" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#ea580c"/></marker>
+</defs>
+<line x1="234" y1="192" x2="172" y2="90" stroke="#2563eb" stroke-width="2.6" marker-end="url(#arB)"/>
+<text x="160" y="84" font-size="15" fill="#2563eb" font-weight="700" font-style="italic">T</text>
+<line x1="240" y1="200" x2="240" y2="262" stroke="#dc2626" stroke-width="2.6" marker-end="url(#arR)"/>
+<text x="250" y="256" font-size="15" fill="#dc2626" font-weight="700" font-style="italic">mg</text>
+<line x1="264" y1="200" x2="344" y2="200" stroke="#059669" stroke-width="2.6" marker-end="url(#arG)"/>
+<text x="352" y="206" font-size="15" fill="#059669" font-weight="700" font-style="italic">F</text>
+<line x1="240" y1="196" x2="240" y2="104" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arO)"/>
+<text x="250" y="112" font-size="13.5" fill="#ea580c" font-weight="600" font-style="italic">T·cosθ</text>
+<line x1="244" y1="200" x2="152" y2="200" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arO)"/>
+<text x="148" y="218" font-size="13.5" fill="#ea580c" font-weight="600" font-style="italic" text-anchor="end">T·sinθ</text>
+<rect x="218" y="178" width="44" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+<text x="240" y="204" font-size="15" fill="#1e3a8a" font-weight="800" text-anchor="middle">N</text>
+<text x="356" y="252" font-size="12.5" fill="#64748b">θ 越大 → cosθ 越小、tanθ 越大</text>
+</svg>
+<div class="kpcap">水平/竖直建系分解 $T$：竖直 $T\cos\theta=mg \Rightarrow T=\dfrac{mg}{\cos\theta}$；水平 $T\sin\theta=F \Rightarrow F=mg\tan\theta$。θ 增大时两个都单调增。</div>
+</div>
+<div class="kp">
+<div class="kptt">知识点 ②｜绝对值函数（M 侧静摩擦）</div>
+<svg viewBox="0 0 430 290" role="img" aria-label="f-T绝对值函数图解">
+<defs>
+<marker id="arAx" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#475569"/></marker>
+<marker id="arV" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7 Z" fill="#7c3aed"/></marker>
+</defs>
+<line x1="50" y1="240" x2="400" y2="240" stroke="#475569" stroke-width="2" marker-end="url(#arAx)"/>
+<line x1="50" y1="240" x2="50" y2="42" stroke="#475569" stroke-width="2" marker-end="url(#arAx)"/>
+<text x="400" y="262" font-size="14" fill="#475569" font-style="italic" text-anchor="end">T（绳拉力）</text>
+<text x="42" y="40" font-size="14" fill="#475569" font-style="italic" text-anchor="end">f</text>
+<line x1="110" y1="80" x2="230" y2="240" stroke="#7c3aed" stroke-width="2.6"/>
+<line x1="230" y1="240" x2="350" y2="80" stroke="#7c3aed" stroke-width="2.6" marker-end="url(#arV)"/>
+<line x1="230" y1="240" x2="230" y2="92" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="230" y="78" font-size="13" fill="#475569" text-anchor="middle" font-style="italic">T₀ = Mg·sinα</text>
+<circle cx="230" cy="240" r="5" fill="#ea580c"/>
+<text x="240" y="258" font-size="12" fill="#ea580c">f = 0（临界）</text>
+<circle cx="280" cy="173" r="5" fill="#059669"/>
+<line x1="284" y1="168" x2="330" y2="110" stroke="#059669" stroke-width="1.8" marker-end="url(#arV)"/>
+<text x="338" y="100" font-size="12.5" fill="#059669" text-anchor="end" font-weight="600">T 初偏大 → f 一直增</text>
+<circle cx="140" cy="120" r="5" fill="#2563eb"/>
+<line x1="145" y1="126" x2="222" y2="230" stroke="#2563eb" stroke-width="1.8"/>
+<line x1="236" y1="232" x2="302" y2="146" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arV)"/>
+<text x="112" y="104" font-size="12.5" fill="#2563eb" font-weight="600">T 初偏小 → 先减到 0 再反向增</text>
+</svg>
+<div class="kpcap">$f=|Mg\sin\alpha-T|$ 以 $T_0=Mg\sin\alpha$ 为折点：初始 $T$ 偏大则一直增（"一定增"以偏概全）；初始 $T$ 偏小则先减到 0 再反向增。</div>
+</div>
+</div>
+<div class="kpmeta">🎯 方法论：动态平衡遇含绝对值的 $f$，必须「分初始方向讨论」——逐帧演示见下方「互动仿真 + 分步动画」。</div>
 </section>
 
 <section class="card">
@@ -444,7 +522,6 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 </div>
 <div class="chips" id="chips"></div>
 <div class="desc" id="desc"></div>
-<div class="readout" id="readout" style="margin-top:10px"></div>
 <canvas id="sim" class="sim" width="960" height="640"></canvas>
 <div class="sim-note">💡 除拖滑块外，可直接<b>用鼠标/手指拖动画布上的物块 N</b> 改变 θ；「▶ 动画演示」只扫 θ，「▶ 播放讲解」按 8 步联动高亮并慢扫角度；右下 f–θ 曲线含临界角 θc 标记与当前红点。</div>
 </section>
@@ -461,6 +538,17 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 0 40px}
 <section class="card">
 <h2>🆕 生成的新记忆卡 <span class="tag">信号/结论通用化，已回写 Excel</span></h2>
 <div class="newcard"><div class="hd">🆕 未命中 → 生成新卡 phy2022（已回写 Excel）</div><div class="fld"><b>章节</b>：共点力平衡·动态分析</div><div class="fld"><b>信号</b>：看到【缓慢拉/转动悬挂物 + 另一侧连着"始终保持静止"的物体，问绳拉力与静摩擦变化】</div><div class="fld"><b>结论</b>：想到【先解被拉结点：$T=\dfrac{mg}{\cos\theta}$、$F=mg\tan\theta$ 随 θ 都单调增（"可能不变"必错）；另一侧静摩擦 $f=|Mg\sin\alpha-T|$ 是<b>绝对值函数</b>：初始 $T$ 大→一直增，初始 $T$ 小→先减到 0 再反向增】；警惕【含绝对值的 f 必须分初始方向讨论，"一定"类选项常以偏概全；"可能先减后增"只需存在一种初始条件即可】</div></div>
+<div style="margin-top:12px;display:flex;justify-content:flex-end"><button type="button" class="cwbtn" id="manAddBtn">✎ 手动新增记忆卡</button></div>
+<div id="manPanel" style="display:none">
+<div class="mrow"><label class="mlb">科目</label><input type="text" id="manSubject" readonly style="background:#eef4fb;color:#5b7186"></div>
+<div class="mrow"><label class="mlb">章节知识点</label><input type="text" id="manZhang" placeholder="如：共点力平衡·动态分析"></div>
+<div class="mrow"><label class="mlb">信号</label><textarea id="manSignal" rows="2" placeholder="看到【…】（必填）"></textarea></div>
+<div class="mrow"><label class="mlb">结论</label><textarea id="manConcl" rows="3" placeholder="想到【…】；警惕【…】（必填，支持 $…$ 公式）"></textarea></div>
+<div class="mrow"><label class="mlb">原题简述</label><input type="text" id="manOrig" placeholder="可选"></div>
+<div class="mrow"><label class="mlb">出处</label><input type="text" id="manSrc" placeholder="可选"></div>
+<div class="mrow"><label class="mlb">题目链接</label><input type="text" id="manLink" placeholder="自动带入本课件链接"></div>
+<div class="mrow"><button type="button" class="msub" id="manSave">💾 保存写入数据库</button><button type="button" class="mcancel" id="manCancel">取消</button><span class="mtip" id="manTip">保存后写入云端记忆卡库，打标「待训练/man-train」，训练一次即入本地卡库</span></div>
+</div>
 </section>
 
 <section class="card">
@@ -520,7 +608,7 @@ var SLIDERS=[
 var MULTI=true, HAS_OPTS=true, ANS_K="BD",
 ANALYSIS=[{"k": "A", "ok": false, "why": "N 结点竖直平衡：$T\\cos\\theta=mg$；水平：$F=T\\sin\\theta$ → $F=mg\\tan\\theta$。$\\theta$ 从 $0°$ 增到 $45°$，$\\tan\\theta$ 单调增 → $F$ <b>一定一直增大</b>。"}, {"k": "B", "ok": true, "why": "$T=\\dfrac{mg}{\\cos\\theta}$：$\\theta$ 增大 → $\\cos\\theta$ 减小 → $T$ 一直增大（$mg\\to\\sqrt2mg$）。"}, {"k": "C", "ok": false, "why": "$M$ 静止：$f=|Mg\\sin\\alpha-T|$。若初始 $T>Mg\\sin\\alpha$（$f$ 沿斜面向下），$T$ 增大则 $f$ <b>一直增大</b>；但若初始 $T<Mg\\sin\\alpha$，则 $f$ 先减小到 0 再反向增大——不是\"一定一直增加\"。"}, {"k": "D", "ok": true, "why": "初始 $T<Mg\\sin\\alpha$ 时（$f$ 沿斜面向上），$T$ 增大先抵消 $f$，过零后反向增大 → $f$ <b>先减小后增大</b>，可能成立。"}];
 
-function draw(){ctx.clearRect(0,0,CW,CH);try{drawScene(ctx,CW,CH,S);}catch(e){}readout();}
+function draw(){ctx.clearRect(0,0,CW,CH);try{drawScene(ctx,CW,CH,S);}catch(e){}}
 
 function drawScene(g,W,H,S){
   var th=S.th*Math.PI/180, R=S.ratio;
@@ -636,18 +724,6 @@ function drawScene(g,W,H,S){
 
   g.fillStyle='#5c7185';g.font='12.5px sans-serif';
   g.fillText('图例：T 绳拉力(蓝)　F 水平拉力(绿)　mg 重力(红)　f 静摩擦(橙)　N′ 支持力(紫)',70,H-12);
-}
-
-function readout(){
-  var th=S.th*Math.PI/180, R=S.ratio;
-  var T=1/Math.cos(th), F=Math.tan(th), fs=R-T;
-  var L=[];
-  L.push('θ = '+fmt(S.th,1)+'°　T = '+fmt(T)+' mg　F = '+fmt(F)+' mg　Mg·sinα = '+fmt(R)+' mg');
-  L.push('f = '+fmt(Math.abs(fs))+' mg（'+(Math.abs(fs)<0.005?'恰为 0，临界状态':(fs>0?'方向沿斜面向上':'方向沿斜面向下'))+'）');
-  if(R>1){L.push('临界角 θc = arccos(1/'+fmt(R)+') = '+fmt(Math.acos(1/R)*180/Math.PI,1)+'° —— T 增大到该值时 f 第一次变 0');}
-  else{L.push('本情形 Mg·sinα ≤ 初始 T=mg，f 从一开始就一直增大，无过零临界角');}
-  var el=document.getElementById('readout');
-  if(el)el.textContent=L.join('\n');
 }
 
 // 滑块
@@ -803,7 +879,7 @@ document.querySelectorAll('.cha').forEach(function(el){
 });
 renderMath(document.getElementById('stem'));
 renderMath(document.body);
-fit();draw();readout();goStep(0,false);
+fit();draw();goStep(0,false);
 })();
 </script>
 <!--COURSEWARE-FEAT-BEGIN-->
@@ -1487,6 +1563,71 @@ fit();draw();readout();goStep(0,false);
         hd.appendChild(b);
       });
     });
+
+    /* 手动新增记忆卡：表单预填本课科目/章节/链接 → 保存写入云端 cards 库 */
+    (function () {
+      var btn = document.getElementById('manAddBtn');
+      var panel = document.getElementById('manPanel');
+      if (!btn || !panel) return;
+      var n0 = (D.news && D.news[0]) || {};
+      var f = {
+        subject: document.getElementById('manSubject'),
+        zhang: document.getElementById('manZhang'),
+        sig: document.getElementById('manSignal'),
+        con: document.getElementById('manConcl'),
+        orig: document.getElementById('manOrig'),
+        src: document.getElementById('manSrc'),
+        link: document.getElementById('manLink')
+      };
+      f.subject.value = D.subject || '物理';
+      f.zhang.value = n0.zhang || '';
+      f.src.value = n0.src || '';
+      f.link.value = n0.link || location.href;
+      function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      function stamp() {
+        var d = new Date();
+        function p(n) { return (n < 10 ? '0' : '') + n; }
+        return '' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds());
+      }
+      btn.addEventListener('click', function () {
+        panel.style.display = panel.style.display === 'none' ? '' : 'none';
+        if (panel.style.display !== 'none') f.sig.focus();
+      });
+      document.getElementById('manCancel').addEventListener('click', function () { panel.style.display = 'none'; });
+      document.getElementById('manSave').addEventListener('click', function () {
+        var sv = this;
+        var sig = f.sig.value.trim(), con = f.con.value.trim();
+        if (!sig || !con) { toast('信号和结论都必填，才能入库'); return; }
+        sv.disabled = true; sv.textContent = '⏳ 入库中…';
+        findRowBySignal(sig).then(function (row) {
+          if (row) { toast('云端已有同信号卡 ' + row.card_id + '，未重复入库'); sv.disabled = false; sv.textContent = '💾 保存写入数据库'; return null; }
+          var cid = 'cw:' + D.no + ':man-' + stamp();
+          var rowVals = cardRow(cid, sig, con, f.zhang.value.trim(), f.src.value.trim(), f.orig.value.trim(), f.link.value.trim(), '手动新增');
+          return restUpsert('cards', rowVals, 'card_id')
+            .then(function () { return mergeTags(cid, ['待训练', 'man-train']); })
+            .then(function () {
+              var sec = document.querySelector('.newcard');
+              var host = sec ? sec.parentNode : panel.parentNode;
+              var div = document.createElement('div');
+              div.className = 'newcard';
+              div.innerHTML = '<div class="hd">🆕 手动新卡 ' + esc(cid) + '（已写入云端）</div>'
+                + '<div class="fld"><b>章节</b>：' + esc(f.zhang.value.trim() || '—') + '</div>'
+                + '<div class="fld"><b>信号</b>：' + esc(sig) + '</div>'
+                + '<div class="fld"><b>结论</b>：' + esc(con) + '</div>'
+                + (f.link.value.trim() ? '<div class="fld"><b>链接</b>：<a href="' + esc(f.link.value.trim()) + '" target="_blank" rel="noopener">打开原题</a></div>' : '');
+              host.insertBefore(div, btn.parentNode);
+              try { if (window.renderMathInElement) renderMathInElement(div, { delimiters: [{ left: '$', right: '$', display: false }, { left: '\\(', right: '\\)', display: false }], throwOnError: false }); } catch (e) {}
+              toast(cid + ' 已写入云端记忆卡库并进入「待训练」队列，训练一次后即永久入本地卡库');
+              f.sig.value = ''; f.con.value = ''; f.orig.value = '';
+              panel.style.display = 'none';
+              sv.disabled = false; sv.textContent = '💾 保存写入数据库';
+            });
+        }).catch(function (e) {
+          toast('入库失败：' + (e.message || e));
+          sv.disabled = false; sv.textContent = '💾 保存写入数据库';
+        });
+      });
+    })();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
