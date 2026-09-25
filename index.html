@@ -201,6 +201,261 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="portal-ver" content="20260924f">
+<script data-wbcloud-adapter="1">
+/* =========================================================================
+ * WorkBuddy Cloud 适配器（解题库 / 课件页共用）
+ * -------------------------------------------------------------------------
+ * 目标：把课件页对 Supabase REST 的裸 fetch 透明翻译成 WB Cloud SDK 调用，
+ *       页面原生云端代码（DEFAULT_CLOUD / CFG / fetchCloudRow / pushCloud /
+ *       cloudNotes / delCloud / subscribeRealtime）一律不改，只注入本文件。
+ *
+ * 课件库与记忆卡合并到同一 WB Cloud 应用（同源 jikaka-memory，免跨域预检）：
+ *   wbapp_QuSSvKgXD7uP73LA5D5gNT —— 课件页挂载在 jikaka-memory.app.workbuddy.host/courseware/，
+ *   与记忆卡 cards/knowledge 后端同源，课件页可直接写 course_stats/course_notes 与 cards。
+ *   endpoint      = https://jikaka-memory.app.workbuddy.host
+ *   publishableKey= wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP
+ *
+ * 原理：
+ *   1) 动态加载 WB Cloud SDK（jsdelivr 主 / unpkg 备），就绪后建 client.database。
+ *   2) 覆盖 window.fetch：凡命中 *.supabase.co/rest/v1/ 的请求 → 走 wbFetchRest，
+ *      翻译成 WB Cloud 的 from().select()/insert()/upsert()/update()/delete()，
+ *      返回与 fetch 兼容的 { ok, status, json() }，页面无感。
+ *   3) 屏蔽 Supabase Realtime WebSocket（WB Cloud 无此通道，靠页面自带 5s 轮询刷新）。
+ *
+ * 表映射（与 Supabase 同名，WB Cloud 首写自动建集合）：
+ *   course_stats  —— 每课自评/评分统计（一课一行，按 course_id 去重）
+ *   course_notes  —— 错误原因 + 标签笔记
+ * ========================================================================= */
+(function () {
+  'use strict';
+
+  var WB_CLOUD_CFG = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
+  };
+  window.WB_CLOUD_CFG = WB_CLOUD_CFG;
+  window.WB_READY = false;
+  window.WB_DB = null;
+
+  /* ---------- 1) SDK 载入 ---------- */
+  (function loadSdk() {
+    var srcs = [
+      'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+      'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'
+    ];
+    var i = 0;
+    (function next() {
+      if (typeof WorkBuddyCloud !== 'undefined') { initClient(); return; }
+      if (i >= srcs.length) { window.__WB_SDK_FAIL = true; return; }
+      var s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = function () { if (typeof WorkBuddyCloud === 'undefined') { next(); } else { initClient(); } };
+      s.onerror = function () { next(); };
+      (document.head || document.documentElement).appendChild(s);
+    })();
+  })();
+
+  function initClient() {
+    try {
+      var client = WorkBuddyCloud.createWorkBuddyCloud({
+        endpoint: WB_CLOUD_CFG.endpoint,
+        publishableKey: WB_CLOUD_CFG.publishableKey
+      });
+      window.WB_DB = client.database;
+      window.WB_READY = true;
+    } catch (e) { window.__WB_SDK_FAIL = true; }
+  }
+
+  /* ---------- 2) 翻译层 ---------- */
+  // 知识页 Supabase 表名 → WB Cloud 表名 映射（同源 jikaka-memory 后端）
+  //   tape_stats → knowledge  (导航统计：fig_id 主键)
+  //   tape_state → tape_state (胶带遮盖上 layered 状态：fig_id 主键, state jsonb)
+  // 课件库表(course_stats/course_notes)不在此映射，走原 courseware 逻辑
+  var KNOWLEDGE_TABLE_MAP = { tape_stats: 'knowledge', tape_state: 'tape_state' };
+
+  function waitWbReady(ms) {
+    ms = ms || 12000;
+    return new Promise(function (resolve) {
+      if (window.WB_DB) return resolve(true);
+      var n = 0, step = 200, max = Math.ceil(ms / step);
+      var t = setInterval(function () {
+        if (window.WB_DB) { clearInterval(t); return resolve(true); }
+        if (window.__WB_SDK_FAIL || ++n >= max) { clearInterval(t); return resolve(false); }
+      }, step);
+    });
+  }
+
+  function makeResp(data, status) {
+    wbBadge(status);
+    return {
+      ok: (status >= 200 && status < 300),
+      status: status || 200,
+      json: function () { return Promise.resolve(data); }
+    };
+  }
+
+  /* 右下角云状态角标：让用户即时看到写库是否成功（跨域拦截会立刻显现） */
+  function showCloudBadge(state, detail) {
+    try {
+      var el = document.getElementById('wbCloudBadge');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'wbCloudBadge';
+        el.style.cssText = 'position:fixed;right:10px;bottom:10px;z-index:99999;font:12px/1.5 system-ui,-apple-system,sans-serif;padding:6px 11px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.18);max-width:260px;pointer-events:none;transition:opacity .3s';
+        (document.body || document.documentElement).appendChild(el);
+      }
+      if (state === 'ok') { el.style.background = '#E6F4EA'; el.style.color = '#137333'; el.textContent = '☁ 已连接 WB Cloud（写库正常）'; }
+      else if (state === 'wait') { el.style.background = '#FEF7E0'; el.style.color = '#B06000'; el.textContent = '☁ 连接云端中…'; }
+      else { el.style.background = '#FCE8E8'; el.style.color = '#C5221F'; el.textContent = '⚠️ 云端写入失败：' + (detail || '可能被跨域拦截，请用 CloudStudio 链接打开本页'); }
+    } catch (e) {}
+  }
+  function wbBadge(status) {
+    if (status >= 200 && status < 300) showCloudBadge('ok');
+    else if (status === 502) showCloudBadge('wait');
+    else showCloudBadge('err', status === 500 ? 'WB Cloud 拒绝写入' : 'WB Cloud 未就绪');
+  }
+
+  // 解析 supabase REST 查询串 → WB Cloud 构造器参数
+  // 2026-09-24：新增 on_conflict 参数识别（如 ?on_conflict=card_id），
+  //   该参数不是过滤条件，必须从 eqs 中剔除，否则 upsert 语义错误。
+  function parseQuery(search) {
+    var cols = '*', eqs = [], order = null, limit = null, onConflict = null;
+    var params = new URLSearchParams(search);
+    params.forEach(function (val, key) {
+      if (key === 'select') { cols = val; }
+      else if (key === 'on_conflict') { onConflict = val; }
+      else if (key === 'order') { var a = val.split('.'); order = { col: a[0], asc: a[1] !== 'desc' }; }
+      else if (key === 'limit') { limit = parseInt(val, 10) || null; }
+      else {
+        var m = val.match(/^(eq|ne|gt|gte|lt|lte|like|ilike|is|in|cs|cd|ov|fts|plfts|phfts|wfts)\.(.*)$/);
+        if (m) { eqs.push({ col: key, op: m[1], val: m[2] }); }
+        else { eqs.push({ col: key, op: 'eq', val: val }); }
+      }
+    });
+    return { cols: cols, eqs: eqs, order: order, limit: limit, onConflict: onConflict };
+  }
+
+  function applyFilters(qb, eqs, order, limit) {
+    eqs.forEach(function (f) {
+      if (f.op === 'eq') qb = qb.eq(f.col, f.val);
+      else if (f.op === 'in') { var v = f.val.replace(/^\(|\)$/g, '').split(','); qb = qb.in(f.col, v); }
+      else if (f.op === 'cs' || f.op === 'cd' || f.op === 'ov') {
+        try { qb = qb.contains(f.col, JSON.parse(f.val)); } catch (e) { qb = qb.contains(f.col, f.val); }
+      } else qb = qb.filter(f.col, f.op, f.val);
+    });
+    if (order) qb = qb.order(order.col, { ascending: order.asc });
+    if (limit) qb = qb.limit(limit);
+    return qb;
+  }
+
+  async function wbFetchRest(url, opts) {
+    opts = opts || {};
+    var method = (opts.method || 'GET').toUpperCase();
+    var u; try { u = new URL(url); } catch (e) { return makeResp([], 400); }
+    var m = u.pathname.match(/\/rest\/v1\/([^?/]+)/);
+    if (!m) return makeResp([], 400);
+    var table = m[1];
+    var wbTable = KNOWLEDGE_TABLE_MAP[table] || table;
+    var isMapped = (KNOWLEDGE_TABLE_MAP[table] != null);
+    var q = parseQuery(u.search);
+    var ready = await waitWbReady(12000);
+    if (!ready || !window.WB_DB) return makeResp([], 502);
+    var db = window.WB_DB;
+    try {
+      if (method === 'GET') {
+        var qb = db.from(wbTable).select(q.cols);
+        qb = applyFilters(qb, q.eqs, q.order, q.limit);
+        var r1 = await qb;
+        if (r1.error) return makeResp([], 500);
+        return makeResp(r1.data || [], 200);
+      } else if (method === 'POST') {
+        var rows = JSON.parse(opts.body || '[]');
+        if (!Array.isArray(rows)) rows = [rows];
+        var prefer = ((opts.headers && (opts.headers.Prefer || opts.headers.prefer)) || '').toString();
+        // 知识页映射表（tape_stats/tape_state）：按 fig_id 主键 upsert
+        // （Block C 的 Prefer 拼写 'merge-duplications' 不含 'merge-duplicates'，这里强制 upsert 兜底）
+        if (isMapped) {
+          var r2 = await db.from(wbTable).upsert(rows, { onConflict: 'fig_id' });
+          if (r2.error) return makeResp([], 500);
+          return makeResp(r2.data || [], 201);
+        }
+        if (/merge-duplicates/.test(prefer)) {
+          // 2026-09-24：优先用查询串里的 on_conflict 列做 upsert 冲突键。
+          //   cards 表主键是 card_id（课件「加入训练」写 ?on_conflict=card_id），
+          //   course_stats 无 on_conflict 参数，保持旧行为按 id 去重。
+          if (q.onConflict) {
+            var r2c = await db.from(wbTable).upsert(rows, { onConflict: q.onConflict });
+            if (r2c.error) return makeResp([], 500);
+            return makeResp(r2c.data || [], 201);
+          }
+          rows.forEach(function (row) {
+            if (row && row.course_id != null && row.id == null) row.id = String(row.course_id);
+          });
+          var r2b = await db.from(wbTable).upsert(rows);
+          if (r2b.error) return makeResp([], 500);
+          return makeResp(r2b.data || [], 201);
+        } else {
+          // course_notes：每条独立，补 id 保证可插入/可删
+          rows.forEach(function (row) {
+            if (row && row.id == null) {
+              row.id = [row.course_id, row.created_at, row.note, Date.now(), Math.random()]
+                .filter(function (x) { return x != null; }).join('|');
+            }
+          });
+          var r3 = await db.from(wbTable).insert(rows);
+          if (r3.error) return makeResp([], 500);
+          return makeResp(r3.data || [], 201);
+        }
+      } else if (method === 'DELETE') {
+        var qbd = db.from(wbTable).delete();
+        qbd = applyFilters(qbd, q.eqs, null, null);
+        var r4 = await qbd;
+        if (r4.error) return makeResp([], 500);
+        return makeResp(r4.data || [], 200);
+      } else if (method === 'PATCH' || method === 'PUT') {
+        var patch = JSON.parse(opts.body || '{}');
+        var qbu = db.from(wbTable).update(patch);
+        qbu = applyFilters(qbu, q.eqs, null, null);
+        var r5 = await qbu;
+        if (r5.error) return makeResp([], 500);
+        return makeResp(r5.data || [], 200);
+      }
+      return makeResp([], 405);
+    } catch (e) {
+      return makeResp([], 500);
+    }
+  }
+
+  /* ---------- 3) 拦截 Supabase REST fetch → WB Cloud ---------- */
+  if (typeof window.fetch === 'function') {
+    var REAL_FETCH = window.fetch.bind(window);
+    window.fetch = function (url, opts) {
+      if (typeof url === 'string' && /supabase\.co\/rest\/v1\//.test(url)) {
+        return wbFetchRest(url, opts);
+      }
+      return REAL_FETCH(url, opts);
+    };
+  }
+
+  /* ---------- 4) 屏蔽 Supabase Realtime（WB Cloud 无此通道） ---------- */
+  if (typeof window.WebSocket !== 'undefined') {
+    var RealWS = window.WebSocket;
+    window.WebSocket = function (url, proto) {
+      if (typeof url === 'string' && /supabase\.co\/realtime/.test(url)) {
+        // 返回永不连接的假 socket，避免无谓重试；数据刷新靠页面自带 5s 轮询
+        return {
+          close: function () {}, send: function () {},
+          onopen: null, onmessage: null, onerror: null, onclose: null,
+          readyState: 3, CONNECTING: 0, OPEN: 1, CLOSING: 2, CLOSED: 3
+        };
+      }
+      return new RealWS(url, proto);
+    };
+    window.WebSocket.prototype = RealWS.prototype;
+  }
+})();
+
+</script>
 </head>
 <body>
   <div class="wrap">
@@ -208,12 +463,13 @@
     <a href="https://jikaka-memory.app.workbuddy.host/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📚 记忆卡</a>
     <a href="https://jikaka-memory.app.workbuddy.host/knowledge/index.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📖 知识页</a>
     <a href="https://jikaka-memory.app.workbuddy.host/courseware/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #0C447C;background:#0C447C;color:#fff;font-weight:600">📝 作业报告</a>
+    <a href="solution_library.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">🧮 作业讲评</a>
   </div>
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
     <a class="mgmt" href="manage.html">标签管理 →</a>
     <h1>昕言解题课件库</h1>
-    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式编译，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 解法 / 日期</b>弹窗多选筛选。</p>
+    <p>Fresh Gradient 教育风互动课件：逐步推导、即时反馈、KaTeX 公式编译，全部内嵌单文件，可离线打开。支持按<b>学科 / 章节 / 知识点 / 错因 / 做题状态 / 日期</b>弹窗多选筛选。</p>
     <div class="stat">
       <div><b>74</b><span>个课件</span></div>
       <div><b>4</b><span>个学科</span></div>
@@ -237,22 +493,7 @@
         </div>
       </div>
     </div>
-    <div class="fld">
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnVerdict">判定 <span class="cnt zero" id="cntVerdict">0</span></button>
-        <div class="popup" id="popupVerdict">
-          <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答对">✅ 答对</label>
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="部分对">🟡 部分对</label>
-            <label class="popup-option"><input type="checkbox" data-filter="verdict" value="答错">❌ 答错</label>
-          </div>
-          <div class="popup-actions">
-            <button type="button" data-clear="verdict">清除</button>
-            <button type="button" data-close="popupVerdict">确定</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="fld">
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnChapter">章节 <span class="cnt zero" id="cntChapter">0</span></button>
@@ -281,20 +522,7 @@
         </div>
       </div>
     </div>
-    <div class="fld">
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnMethod">解法 <span class="cnt zero" id="cntMethod">0</span></button>
-        <div class="popup" id="popupMethod">
-          <input class="popup-search" placeholder="搜索…" id="searchMethod">
-          <div class="popup-options"><label class="popup-option"><input type="checkbox" data-filter="method" value="判别式·乘1法·换元">判别式·乘1法·换元</label><label class="popup-option"><input type="checkbox" data-filter="method" value="力矩平衡 + 受力平衡">力矩平衡 + 受力平衡</label><label class="popup-option"><input type="checkbox" data-filter="method" value="升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理">升幂化简 · 角化边 · 余弦定理统一 · 勾股逆定理</label><label class="popup-option"><input type="checkbox" data-filter="method" value="受力分析 + 几何关系">受力分析 + 几何关系</label><label class="popup-option"><input type="checkbox" data-filter="method" value="受力分析 + 牛顿第二定律">受力分析 + 牛顿第二定律</label><label class="popup-option"><input type="checkbox" data-filter="method" value="可拖拽矢量作图 · 平行四边形(三角形)定则 · 三角不等式判定">可拖拽矢量作图 · 平行四边形(三角形)定则 · 三角不等式判定</label><label class="popup-option"><input type="checkbox" data-filter="method" value="基本量方程组 · 裂项相消 · 分组求和">基本量方程组 · 裂项相消 · 分组求和</label><label class="popup-option"><input type="checkbox" data-filter="method" value="对称受力 + 几何法求等效摆长">对称受力 + 几何法求等效摆长</label><label class="popup-option"><input type="checkbox" data-filter="method" value="左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法">左加右减整体代换 · 周期换算 · 诱导公式变形 · 排除法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="投影公式·基本不等式">投影公式·基本不等式</label><label class="popup-option"><input type="checkbox" data-filter="method" value="拆三角形 · 追问位置关系 · 双解检验">拆三角形 · 追问位置关系 · 双解检验</label><label class="popup-option"><input type="checkbox" data-filter="method" value="按性质顺序逐个数力">按性质顺序逐个数力</label><label class="popup-option"><input type="checkbox" data-filter="method" value="换元·函数单调性">换元·函数单调性</label><label class="popup-option"><input type="checkbox" data-filter="method" value="整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法">整体代换 · 轴落区间建模 · 端点开闭检验 · 排除法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="整体法 + 假设法">整体法 + 假设法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="整体法求缆绳拉力 + 结点正交分解">整体法求缆绳拉力 + 结点正交分解</label><label class="popup-option"><input type="checkbox" data-filter="method" value="未标注">未标注</label><label class="popup-option"><input type="checkbox" data-filter="method" value="极限/趋势分析法">极限/趋势分析法</label><label class="popup-option"><input type="checkbox" data-filter="method" value="正交分解 + 临界条件">正交分解 + 临界条件</label><label class="popup-option"><input type="checkbox" data-filter="method" value="正余弦定理·基本不等式">正余弦定理·基本不等式</label><label class="popup-option"><input type="checkbox" data-filter="method" value="正弦定理 + 电场叠加">正弦定理 + 电场叠加</label><label class="popup-option"><input type="checkbox" data-filter="method" value="正弦定理·辅助角公式">正弦定理·辅助角公式</label><label class="popup-option"><input type="checkbox" data-filter="method" value="特殊角降维 · 统一化边 · 配方整体代换">特殊角降维 · 统一化边 · 配方整体代换</label><label class="popup-option"><input type="checkbox" data-filter="method" value="能量守恒 + 两状态平衡联立 + 匀减速运动学">能量守恒 + 两状态平衡联立 + 匀减速运动学</label><label class="popup-option"><input type="checkbox" data-filter="method" value="边角互化 · 逐项定量验证 · 多选排除">边角互化 · 逐项定量验证 · 多选排除</label><label class="popup-option"><input type="checkbox" data-filter="method" value="隔离法 + 正交分解">隔离法 + 正交分解</label></div>
-          <div class="popup-actions">
-            <button type="button" data-all="method">☑ 全选</button>
-            <button type="button" data-clear="method">清除</button>
-            <button type="button" data-close="popupMethod">确定</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="fld">
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnDate">日期 <span class="cnt zero" id="cntDate">0</span></button>
@@ -310,42 +538,28 @@
         </div>
       </div>
     </div>
+    
+    
+    <div style="display:none"><input type="hidden" id="forgetMin"><button type="button" id="forgetMinClear"></button></div>
     <div class="fld">
       <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnStatus">学习自评 <span class="cnt zero" id="cntStatus">0</span></button>
-        <div class="popup" id="popupStatus">
+        <button class="filter-btn" type="button" id="btnQStatus">做题状态 <span class="cnt zero" id="cntQStatus">0</span></button>
+        <div class="popup" id="popupQStatus">
           <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="new">⚪ 未训练</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="forgot">❌ 答错</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="fuzzy">🟡 部分对</label>
-            <label class="popup-option"><input type="checkbox" data-filter="status" value="skilled">✅ 答对</label>
-          </div>
-          <div class="popup-options drange">
-            <label class="popup-option dr-row"><span>忘记≥</span><input type="number" id="forgetMin" class="forget-min" min="1" placeholder="N"></label>
+            <label class="popup-option"><input type="checkbox" data-filter="qstatus" value="未做">⚪ 未做</label>
+            <label class="popup-option"><input type="checkbox" data-filter="qstatus" value="做对">✅ 做对</label>
+            <label class="popup-option"><input type="checkbox" data-filter="qstatus" value="做错">❌ 做错</label>
+            <label class="popup-option"><input type="checkbox" data-filter="qstatus" value="模糊">🟡 模糊</label>
+            <label class="popup-option"><input type="checkbox" data-filter="qstatus" value="待复习">🔁 待复习</label>
           </div>
           <div class="popup-actions">
-            <button type="button" id="forgetMinClear">清除阈值</button>
-            <button type="button" data-close="popupStatus">确定</button>
+            <button type="button" data-clear="qstatus">清除</button>
+            <button type="button" data-close="popupQStatus">确定</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="fld">
-      <div class="popup-filter">
-        <button class="filter-btn" type="button" id="btnRedo">独立重做 <span class="cnt zero" id="cntRedo">0</span></button>
-        <div class="popup" id="popupRedo">
-          <div class="popup-options">
-            <label class="popup-option"><input type="checkbox" data-filter="redo" value="done">✍️ 已独立重做</label>
-            <label class="popup-option"><input type="checkbox" data-filter="redo" value="undone">尚未重做</label>
-          </div>
-          <div class="popup-actions">
-            <button type="button" data-clear="redo">清除</button>
-            <button type="button" data-close="popupRedo">确定</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fld">
+<div class="fld">
       <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnNote">错因 <span class="cnt zero" id="cntNote">0</span></button>
         <div class="popup" id="popupNote">
@@ -381,6 +595,174 @@
   <div class="result-info" id="resultInfo">共 <span id="resultCount">74</span> 个课件 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="将当前筛选结果作为一组题，逐张浏览训练">🎯 专题练</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
 
   <div class="grid" id="grid">
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·图象与象限分布" data-method="作业讲评" data-date="2026-09-22" data-num="75" data-cid="hw20260922_math_q01" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m1_幂函数图象与象限.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-1</span>
+      <div class="card-body">
+        <h3>题1 · 幂函数图象与象限</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·图象与象限分布</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·利用单调性比较大小" data-method="作业讲评" data-date="2026-09-22" data-num="76" data-cid="hw20260922_math_q02" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m2_指数幂比较大小.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-2</span>
+      <div class="card-body">
+        <h3>题2 · 指数幂比较大小</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·利用单调性比较大小</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·单调性与充要条件" data-method="作业讲评" data-date="2026-09-22" data-num="77" data-cid="hw20260922_math_q03" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m3_幂函数单调性条件.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-3</span>
+      <div class="card-body">
+        <h3>题3 · 幂函数单调性条件</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·单调性与充要条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数·区间上恒成立" data-method="作业讲评" data-date="2026-09-22" data-num="78" data-cid="hw20260922_math_q04" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m4_二次函数恒小于4.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-4</span>
+      <div class="card-body">
+        <h3>题4 · 二次函数恒小于4</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数·区间上恒成立</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·由图象选解析式" data-method="作业讲评" data-date="2026-09-22" data-num="79" data-cid="hw20260922_math_q05" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m5_识图定解析式.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-5</span>
+      <div class="card-body">
+        <h3>题5 · 识图定解析式</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·由图象选解析式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数·值域与基本不等式" data-method="作业讲评" data-date="2026-09-22" data-num="80" data-cid="hw20260922_math_q06" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m6_值域求最值.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-6</span>
+      <div class="card-body">
+        <h3>题6 · 值域求最值</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数·值域与基本不等式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数与幂函数·图象共存问题" data-method="作业讲评" data-date="2026-09-22" data-num="81" data-cid="hw20260922_math_q07" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m7_同坐标系不可能图象.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-7</span>
+      <div class="card-body">
+        <h3>题7 · 同坐标系不可能图象</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数与幂函数·图象共存问题</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·性质综合判断" data-method="作业讲评" data-date="2026-09-22" data-num="82" data-cid="hw20260922_math_q08" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m8_幂函数性质判断.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-8</span>
+      <div class="card-body">
+        <h3>题8 · 幂函数性质判断</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·性质综合判断</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·定义+偶函数+单调性" data-method="作业讲评" data-date="2026-09-22" data-num="83" data-cid="hw20260922_math_q09" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m9_偶函数递减求范围.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-9</span>
+      <div class="card-body">
+        <h3>题9 · 偶函数递减求范围</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·定义+偶函数+单调性</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数·值域与区间长度最值" data-method="作业讲评" data-date="2026-09-22" data-num="84" data-cid="hw20260922_math_q10" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m10_值域定区间长度.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-10</span>
+      <div class="card-body">
+        <h3>题10 · 值域定区间长度</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数·值域与区间长度最值</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数·区间最值+不单调条件" data-method="作业讲评" data-date="2026-09-22" data-num="85" data-cid="hw20260922_math_q11" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m11_二次函数最值与单调.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-11</span>
+      <div class="card-body">
+        <h3>题11 · 二次函数最值与单调</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数·区间最值+不单调条件</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="幂函数·定义+偶函数+单调性+解不等式" data-method="作业讲评" data-date="2026-09-22" data-num="86" data-cid="hw20260922_math_q12" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m12_幂函数偶减与不等式.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-12</span>
+      <div class="card-body">
+        <h3>题12 · 幂函数偶减与不等式</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">幂函数·定义+偶函数+单调性+解不等式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="二次函数·倒数函数图象求系数" data-method="作业讲评" data-date="2026-09-22" data-num="87" data-cid="hw20260922_math_q13" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m13_有理函数渐近线.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-13</span>
+      <div class="card-body">
+        <h3>题13 · 有理函数渐近线</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">二次函数·倒数函数图象求系数</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+    <div class="card" data-subject="数学" data-chapter="二次函数与幂函数" data-knowledge="函数综合·构造单调函数解高次不等式" data-method="作业讲评" data-date="2026-09-22" data-num="88" data-cid="hw20260922_math_q14" data-tags="作业讲评;二次函数与幂函数;昕言课件;数学;0922作业" data-href="hw0922/0922_m14_高次不等式解集.html" data-target="_blank" data-rel="noopener">
+      <span class="badge">数0922-14</span>
+      <div class="card-body">
+        <h3>题14 · 高次不等式解集</h3>
+        <p class="sub">作业讲评 · 逐题精讲</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">二次函数与幂函数</span><span class="tag-chip k">函数综合·构造单调函数解高次不等式</span><span class="tag-chip" style="background:#f0f0ff;color:#555">作业讲评</span><span class="tag-chip" style="background:#f0f0ff;color:#555">0922作业</span><span class="tag-chip" style="background:#f0f0ff;color:#555">昕言课件</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-22</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <div class="src">0922 数学作业 · 讲评</div>
+        <span class="go">打开讲评 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
     <div class="card" data-subject="物理" data-chapter="匀变速直线运动" data-knowledge="连接体与比例法" data-method="未标注" data-date="2026-09-16" data-num="1" data-cid="course_01_rubber_band_car" data-tags="KaTeX公式;互动图像;匀变速直线运动;昕言课件;物理;解答题;运动学" data-href="lessons/01-rubber-band-car/" data-target="_blank" data-rel="noopener">
       <span class="badge">物0001</span>
       <div class="card-body">
@@ -1526,8 +1908,8 @@
   buildFilterOptions();
   var fQ=document.getElementById('fSearch');
   var info=document.getElementById('resultInfo');
-  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set(),verdict:new Set()};
-  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',verdict:'cntVerdict',note:'cntNote'};
+  var sets={subject:new Set(),chapter:new Set(),knowledge:new Set(),method:new Set(),date:new Set(),status:new Set(),rating:new Set(),redo:new Set(),note:new Set(),verdict:new Set(),qstatus:new Set()};
+  var cntIds={subject:'cntSubject',chapter:'cntChapter',knowledge:'cntKnowledge',method:'cntMethod',date:'cntDate',status:'cntStatus',rating:'cntRating',redo:'cntRedo',verdict:'cntVerdict',note:'cntNote',qstatus:'cntQStatus'};
   var dateFrom=document.getElementById('dateFrom');
   var dateTo=document.getElementById('dateTo');
   var fSort=document.getElementById('fSort');
@@ -1581,7 +1963,7 @@
   }
 
   var currentQ='';
-  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因',verdict:'判定'};
+  var FNAME={subject:'学科',chapter:'章节',knowledge:'知识点',method:'解法',status:'学习自评',rating:'课件评价',redo:'独立重做',note:'错因',verdict:'判定',qstatus:'做题状态'};
   var RLBL={good:'好',hard:'课件不好懂',teach:'没老师讲的好'};
   var SLBL={new:'未训练',forgot:'答错',fuzzy:'部分对',skilled:'答对'};
   function syncChecks(f,v){
@@ -1590,7 +1972,7 @@
   function renderChips(){
     var box=document.getElementById('activeFilters');
     var chips=[];
-    ['subject','chapter','knowledge','method','status','rating','redo','note','verdict'].forEach(function(f){
+    ['subject','chapter','knowledge','note','qstatus'].forEach(function(f){
       sets[f].forEach(function(v){
         var shown=(f==='status')?(SLBL[v]||v):((f==='rating')?(RLBL[v]||v):((f==='note'&&v==='__any__')?'有记录':v));
         chips.push({label:FNAME[f]+'：'+shown, del:function(){sets[f].delete(v);syncChecks(f,v);updateCnt(f);apply();}});
@@ -1635,13 +2017,14 @@
       var okVd=sets.verdict.size===0||(vd&&sets.verdict.has(vd));
       var rd=card.dataset.redo==='1';
       var okRd=sets.redo.size===0||(sets.redo.has('done')&&rd)||(sets.redo.has('undone')&&!rd);
+      var okQs=sets.qstatus.size===0||sets.qstatus.has(card.dataset.qstatus||'未做');
       var nts=(card.dataset.noteTags||'').split('||').filter(Boolean);
       var okNt=sets.note.size===0||(sets.note.has('__any__')&&nts.length>0)||nts.some(function(t){return sets.note.has(t);});
       var okFm=!fm||(+card.dataset.forgot||0)>=fm;
       var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ&&okVd;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ&&okVd&&okQs;
       card.style.display=show?'':'none';
       if(show)n++;
     });
@@ -1737,7 +2120,7 @@
     forgetMin.value='';apply();
   });
   document.getElementById('fReset').addEventListener('click',function(){
-    ['subject','chapter','knowledge','method','date','status','rating','redo','note','verdict'].forEach(function(f){
+    ['subject','chapter','knowledge','date','note','qstatus'].forEach(function(f){
       sets[f].clear();
       document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){cb.checked=false;});
       updateCnt(f);
@@ -1771,9 +2154,10 @@
 
   
 /* ===== 统计联动：本机直读 + 云端 max 合并 + 徽章（SOP §3.2~3.4）===== */
-var COURSES = [{"id":"course_01_rubber_band_car","title":"橡皮筋与玩具车","subject":"物理","chapter":"匀变速直线运动","points":["连接体与比例法"],"date":"2026-09-16"},{"id":"course_02_water_balloons_bullet","title":"四水球挡子弹","subject":"物理","chapter":"匀变速直线运动","points":["匀减速与逆向思维"],"date":"2026-09-16"},{"id":"course_03_math_trig_half_angle","title":"半角公式求值","subject":"数学","chapter":"三角函数","points":["半角公式"],"date":"2026-09-16"},{"id":"course_04_math_trig_sum_diff","title":"两角和差","subject":"数学","chapter":"三角函数","points":["两角和与差的余弦"],"date":"2026-09-16"},{"id":"course_05_math_trig_identities","title":"三角恒等变换判断","subject":"数学","chapter":"三角函数","points":["三角恒等变换"],"date":"2026-09-16"},{"id":"course_06_math_trig_compound","title":"两角和差综合多选","subject":"数学","chapter":"三角函数","points":["两角和与差"],"date":"2026-09-16"},{"id":"course_07_math_trig_double_angle","title":"诱导公式与二倍角","subject":"数学","chapter":"三角函数","points":["诱导公式与二倍角"],"date":"2026-09-16"},{"id":"course_08_math_trig_comprehensive","title":"三角恒等变换综合","subject":"数学","chapter":"三角函数","points":["三角恒等变换综合"],"date":"2026-09-16"},{"id":"course_09_physics_kinematics_chase","title":"追及与相遇问题","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_10_physics_police_chase","title":"警车追货车","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_11_physics_vbar_t_graph","title":"v̄-t 图像分析","subject":"物理","chapter":"匀变速直线运动","points":["平均速度-时间图像"],"date":"2026-09-16"},{"id":"course_12_physics_incline_vt","title":"斜面 A、B 物块 v-t 图像","subject":"物理","chapter":"匀变速直线运动","points":["v-t图像与追及相遇"],"date":"2026-09-16"},{"id":"course_13_physics_braking_x_over_t2","title":"x/t²-1/t 图像刹车问题","subject":"物理","chapter":"匀变速直线运动","points":["非常规运动图像(x/t²-1/t)"],"date":"2026-09-16"},{"id":"course_14_math_trig_period","title":"正弦函数周期与对称轴条件","subject":"数学","chapter":"三角函数","points":["正弦函数周期性与极值点"],"date":"2026-09-16"},{"id":"course_15_math_trig_symmetry","title":"正弦函数对称轴+对称中心综合","subject":"数学","chapter":"三角函数","points":["正弦函数对称性与单调性"],"date":"2026-09-16"},{"id":"course_16_math_trig_center_sym","title":"正弦函数中心对称","subject":"数学","chapter":"三角函数","points":["正弦函数中心对称与单调性/极值/对称轴/切线"],"date":"2026-09-16"},{"id":"course_17_math_trig_comprehensive_2","title":"余弦函数求φ+值域与单调区间","subject":"数学","chapter":"三角函数","points":["余弦函数求值域与单调区间"],"date":"2026-09-16"},{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-16"},{"id":"course_19_physics_thomson_cathode_ray","title":"汤姆孙阴极射线实验","subject":"物理","chapter":"原子物理-电子发现","points":["阴极射线-比荷-汤姆孙实验"],"date":"2026-09-16"},{"id":"course_20_physics_guitar_string_wave","title":"吉他琴弦波速与张力","subject":"物理","chapter":"机械波","points":["弦上横波-波速公式-基频"],"date":"2026-09-16"},{"id":"course_21_physics_four_figures","title":"四幅物理图景综合判断","subject":"物理","chapter":"电磁学综合","points":["交流发电机-变压器-电磁感应-霍尔效应"],"date":"2026-09-16"},{"id":"course_22_physics_kuafu_satellite_orbit","title":"夸父一号卫星","subject":"物理","chapter":"万有引力与航天","points":["圆轨道-椭圆轨道-开普勒定律-机械能"],"date":"2026-09-16"},{"id":"course_23_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"铝及其化合物","points":["实验装置与操作正误判断"],"date":"2026-09-16"},{"id":"course_24_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"金属及其化合物","points":["铝的化合物/实验装置与操作"],"date":"2026-09-16"},{"id":"course_25_math_trig_omega_range_1","title":"正弦函数在[0,π]上恰有两条对称轴","subject":"数学","chapter":"三角函数","points":["正弦函数对称轴条件与 ω 取值"],"date":"2026-09-16"},{"id":"course_26_math_trig_omega_range_2","title":"正弦函数在指定区间单调递增","subject":"数学","chapter":"三角函数","points":["正弦函数单调区间与 ω 约束"],"date":"2026-09-16"},{"id":"course_27_math_trig_omega_range_3","title":"余弦函数在[0,a]上的值域恰为[-2,√3]","subject":"数学","chapter":"三角函数","points":["余弦函数值域与区间长度"],"date":"2026-09-16"},{"id":"course_28_math_trig_omega_range_4","title":"正弦函数在(0,π)上恰有三个极值点与两个零点","subject":"数学","chapter":"三角函数","points":["极值点零点综合条件"],"date":"2026-09-16"},{"id":"course_29_math_trig_omega_range_5","title":"正弦函数在区间内没有零点","subject":"数学","chapter":"三角函数","points":["正弦函数零点分布与 ω"],"date":"2026-09-16"},{"id":"course_30_math_trig_omega_range_6","title":"由零点与对称轴条件求最大 ω","subject":"数学","chapter":"三角函数","points":["零点+对称轴+单调联合条件"],"date":"2026-09-16"},{"id":"course_31_math_trig_omega_range_7","title":"余弦函数恰有两个极小值点且(0,π/4)不单调","subject":"数学","chapter":"三角函数","points":["余弦函数极小值点与不单调联合条件"],"date":"2026-09-16"},{"id":"course_32_math_trig_universal_formula","title":"三角函数万能公式","subject":"数学","chapter":"三角函数","points":["万能公式（万能代换）"],"date":"2026-09-16"},{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-16"},{"id":"course_34_math_trig_omega_1","title":"ω的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-16"},{"id":"course_35_math_trig_omega_2","title":"ω 的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-单调性"],"date":"2026-09-16"},{"id":"course_36_math_trig_omega_3","title":"数0022","subject":"数学","chapter":"三角函数","points":["ω的取值范围-值域"],"date":"2026-09-16"},{"id":"course_37_math_trig_omega_4","title":"数0023","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点与零点"],"date":"2026-09-16"},{"id":"course_38_math_trig_omega_5","title":"数0024","subject":"数学","chapter":"三角函数","points":["ω的取值范围-零点"],"date":"2026-09-16"},{"id":"course_39_math_trig_omega_6","title":"数0025","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-16"},{"id":"course_40_math_trig_omega_7","title":"数0026","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-16"},{"id":"course_41_math_trig_symaxis_two","title":"正弦对称轴数数课","subject":"高中数学","chapter":"三角函数 · 图象与性质","points":["y=Asin(ωx+φ) 的对称轴"],"date":"2026-09-10"},{"id":"course_42_math_trig_shift_t4","title":"余弦图象平移「搬家课」","subject":"高中数学","chapter":"三角函数 · 图象变换","points":["y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式"],"date":"2026-09-10"},{"id":"course_43_math_seq_ap_telescoping","title":"等差数列通项与裂项求和","subject":"数学","chapter":"数列·等差数列与求和","points":["等差数列通项","裂项相消求和"],"date":"2026-09-11"},{"id":"course_44_math_tri_halfangle_shape","title":"半角平方判形状","subject":"数学","chapter":"解三角形·三角形形状判断","points":["升幂公式(半角平方)","余弦定理","勾股定理逆定理"],"date":"2026-09-11"},{"id":"course_45_math_tri_sin_ratio_multi","title":"正弦比234多选逐项体检","subject":"数学","chapter":"解三角形·边角关系综合","points":["正弦定理边角互化","余弦定理判角","海伦公式","外接圆与内切圆"],"date":"2026-09-11"},{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11"},{"id":"course_47_math_tri_quad_two_sol","title":"四边形ABCD求CD双解","subject":"数学","chapter":"解三角形·平面图形中的解三角形","points":["余弦定理解三角形","构造直角三角形","角度和差关系","分类讨论与双解检验"],"date":"2026-09-11"},{"id":"course_48_math_tri_extreme_range","title":"数0027","subject":"数学","chapter":"解三角形","points":["解三角形中的最值与范围问题"],"date":"2026-09-16"},{"id":"course_48_math_tri_max_range","title":"§4.7 解三角形中的最值与范围问题","subject":"数学","chapter":"解三角形","points":["最值与范围"],"date":"2026-09-12"},{"id":"course_49_chem_al2o3_prep","title":"化0002","subject":"化学","chapter":"金属及其化合物","points":[],"date":"2026-09-16"},{"id":"course_49_tri_proj_basic","title":"题型一 投影公式+基本不等式求最值","subject":"数学","chapter":"解三角形","points":["最值与范围","投影公式","基本不等式","角平分线"],"date":"2026-09-13"},{"id":"course_50_tri_to_trig","title":"题型二 转化为三角函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","正弦定理","辅助角公式","锐角三角形约束"],"date":"2026-09-13"},{"id":"course_51_tri_other_func","title":"题型三 转化为其他函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","换元法","函数单调性","二倍角"],"date":"2026-09-13"},{"id":"course_52_quiz_mix_cond_ineq","title":"小题综合","subject":"数学","chapter":"集合与常用逻辑/基本不等式","points":["补集","充分必要条件","基本不等式","乘1法"],"date":"2026-09-13"},{"id":"course_53_phys_cutlery_bucket","title":"餐具桶里的铲子","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_54_phys_balance_stones","title":"海边的堆石平衡术","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_55_phys_lanterns","title":"挂满红灯笼的五绳四灯","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_56_phys_powerline_winter","title":"冬季高压输电线","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_57_phys_stacked_incline","title":"斜面上叠放的物块","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_58_phys_steelpipe_support","title":"钢管一端着地一端吊起","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_59_phys_conveyor_basic","title":"物0028","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_59_phys_drone_pipe","title":"无人机悬停吊钢管","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_ball_on_incline","title":"细线穿球挂斜杆","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_conveyor_slide_on","title":"物0029","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_61_phys_ball_steel_bracket","title":"钢支架里的匀质球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_61_phys_conveyor_incline_up","title":"物0030","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_conveyor_incline_down","title":"物0031","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_two_charged_balls","title":"两带电小球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_63_phys_conveyor_exit_speed","title":"物0032","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_63_phys_hemisphere_bowl","title":"半球绝缘碗里的两带电球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_64_phys_conveyor_trace","title":"物0033","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_64_phys_grain_motor","title":"电动机运粮小车","subject":"物理","chapter":"功和能 · 牛顿运动定律","points":[],"date":"2026-09-13"},{"id":"course_65_phys_conveyor_coal_incline","title":"物0034","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_66_phys_force_composition","title":"力的合成规律","subject":"物理","chapter":"相互作用·力的合成与分解","points":["平行四边形定则","等效替代","弹簧测力计读数","实验误差分析","三力平衡条件"],"date":"2026-09-15"},{"id": "course_67_phys-drone-screen-power", "title": "无人机吊显像屏：超失重 · 功 · 功率", "subject": "物理", "chapter": "牛顿运动定律 · 超重失重", "points": ["无人机吊屏", "超失重", "瞬时功率"], "date": "2026-09-20"},{"id": "course_68_phys-magnetic-go-board", "title": "磁性围棋棋盘：平衡力 vs 相互作用力", "subject": "物理", "chapter": "摩擦力 · 共点力平衡", "points": ["磁性棋盘", "平衡力", "相互作用力"], "date": "2026-09-20"},{"id": "course_69_phys-szc-cable-deck", "title": "深中通道：吊索与主索的分担", "subject": "物理", "chapter": "力的分解 · 共点力平衡", "points": ["深中通道", "力的均分", "对称结构"], "date": "2026-09-20"},{"id": "course_70_phys-xt2-1t-hsr", "title": "高铁 x/t²−1/t 图像：斜率与截距的意义", "subject": "物理", "chapter": "匀变速直线运动 · 图像", "points": ["高铁图像", "x/t²-1/t", "截距与斜率"], "date": "2026-09-20"},{"id": "course_71_phys-ferris-wheel-power", "title": "摩天轮：重力的瞬时功率在哪里最大", "subject": "物理", "chapter": "圆周运动 · 功率", "points": ["摩天轮", "匀速圆周", "瞬时功率"], "date": "2026-09-20"},{"id": "course_72_phys-lbracket-cylinder", "title": "L形挡板夹圆柱：θ 变化中的双支持力", "subject": "物理", "chapter": "力的分解 · 动态平衡", "points": ["L形挡板", "动态平衡", "力的分解"], "date": "2026-09-20"},{"id": "course_73_phys-sprint-receive-ball", "title": "接球跑动：先加速后减速的速度与加速度", "subject": "物理", "chapter": "匀变速直线运动", "points": ["先加速后减速", "v_max=2x/t", "图像法"], "date": "2026-09-20"},{"id": "course_74_phys-two-rope-lower", "title": "双人放绳吊重物：支持力不变、摩擦力变小", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["光滑环", "动态分析", "整体法"], "date": "2026-09-20"},{"id": "course_75_phys-ski-incline-impulse", "title": "滑雪下滑：各力冲量的方向与大小", "subject": "物理", "chapter": "动量 · 冲量", "points": ["冲量", "I=Ft", "斜面下滑"], "date": "2026-09-20"},{"id": "course_76_phys-projectile-energy-graphs", "title": "平抛：Ek、Ep 随水平位移 x 的图像形状", "subject": "物理", "chapter": "抛体运动 · 机械能", "points": ["平抛", "Ek-Ep图像", "抛物线"], "date": "2026-09-20"},{"id": "course_77_phys-slow-pull-n-2019", "title": "2019全国Ⅰ：缓慢拉动悬挂物 N", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["2019全国Ⅰ", "动态分析", "摩擦力讨论"], "date": "2026-09-20"},{"id": "course_78_phys-curtain-collision", "title": "2023广东：电动窗帘滑块碰撞（选不正确）", "subject": "物理", "chapter": "动量 · 碰撞", "points": ["2023广东", "动量守恒", "碰撞"], "date": "2026-09-20"},{"id": "course_79_phys-drone-ekh-graph", "title": "无人机 Ek-h 图像：斜率、机械能与最大功率", "subject": "物理", "chapter": "功能关系 · 图像", "points": ["无人机", "Ek-h图像", "最大功率"], "date": "2026-09-20"},{"id": "course_80_phys-parallelogram-experiment", "title": "平行四边形定则测绳张力：图解与动态", "subject": "物理", "chapter": "力的合成 · 实验", "points": ["平行四边形定则", "实验", "图解法"], "date": "2026-09-20"},{"id": "course_81_phys-plane-creator", "title": "《天工开物》刨子：摩擦力、质量与合力冲量", "subject": "物理", "chapter": "摩擦力 · 动量定理", "points": ["刨子", "摩擦力", "动量定理"], "date": "2026-09-20"}];
+var COURSES = [{"id":"course_01_rubber_band_car","title":"橡皮筋与玩具车","subject":"物理","chapter":"匀变速直线运动","points":["连接体与比例法"],"date":"2026-09-16"},{"id":"course_02_water_balloons_bullet","title":"四水球挡子弹","subject":"物理","chapter":"匀变速直线运动","points":["匀减速与逆向思维"],"date":"2026-09-16"},{"id":"course_03_math_trig_half_angle","title":"半角公式求值","subject":"数学","chapter":"三角函数","points":["半角公式"],"date":"2026-09-16"},{"id":"course_04_math_trig_sum_diff","title":"两角和差","subject":"数学","chapter":"三角函数","points":["两角和与差的余弦"],"date":"2026-09-16"},{"id":"course_05_math_trig_identities","title":"三角恒等变换判断","subject":"数学","chapter":"三角函数","points":["三角恒等变换"],"date":"2026-09-16"},{"id":"course_06_math_trig_compound","title":"两角和差综合多选","subject":"数学","chapter":"三角函数","points":["两角和与差"],"date":"2026-09-16"},{"id":"course_07_math_trig_double_angle","title":"诱导公式与二倍角","subject":"数学","chapter":"三角函数","points":["诱导公式与二倍角"],"date":"2026-09-16"},{"id":"course_08_math_trig_comprehensive","title":"三角恒等变换综合","subject":"数学","chapter":"三角函数","points":["三角恒等变换综合"],"date":"2026-09-16"},{"id":"course_09_physics_kinematics_chase","title":"追及与相遇问题","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_10_physics_police_chase","title":"警车追货车","subject":"物理","chapter":"匀变速直线运动","points":["追及与相遇问题"],"date":"2026-09-16"},{"id":"course_11_physics_vbar_t_graph","title":"v̄-t 图像分析","subject":"物理","chapter":"匀变速直线运动","points":["平均速度-时间图像"],"date":"2026-09-16"},{"id":"course_12_physics_incline_vt","title":"斜面 A、B 物块 v-t 图像","subject":"物理","chapter":"匀变速直线运动","points":["v-t图像与追及相遇"],"date":"2026-09-16"},{"id":"course_13_physics_braking_x_over_t2","title":"x/t²-1/t 图像刹车问题","subject":"物理","chapter":"匀变速直线运动","points":["非常规运动图像(x/t²-1/t)"],"date":"2026-09-16"},{"id":"course_14_math_trig_period","title":"正弦函数周期与对称轴条件","subject":"数学","chapter":"三角函数","points":["正弦函数周期性与极值点"],"date":"2026-09-16"},{"id":"course_15_math_trig_symmetry","title":"正弦函数对称轴+对称中心综合","subject":"数学","chapter":"三角函数","points":["正弦函数对称性与单调性"],"date":"2026-09-16"},{"id":"course_16_math_trig_center_sym","title":"正弦函数中心对称","subject":"数学","chapter":"三角函数","points":["正弦函数中心对称与单调性/极值/对称轴/切线"],"date":"2026-09-16"},{"id":"course_17_math_trig_comprehensive_2","title":"余弦函数求φ+值域与单调区间","subject":"数学","chapter":"三角函数","points":["余弦函数求值域与单调区间"],"date":"2026-09-16"},{"id":"course_18_physics_nuclear_reactions","title":"核反应方程四大类型判断","subject":"物理","chapter":"原子核物理","points":["核反应方程-衰变-聚变-裂变"],"date":"2026-09-16"},{"id":"course_19_physics_thomson_cathode_ray","title":"汤姆孙阴极射线实验","subject":"物理","chapter":"原子物理-电子发现","points":["阴极射线-比荷-汤姆孙实验"],"date":"2026-09-16"},{"id":"course_20_physics_guitar_string_wave","title":"吉他琴弦波速与张力","subject":"物理","chapter":"机械波","points":["弦上横波-波速公式-基频"],"date":"2026-09-16"},{"id":"course_21_physics_four_figures","title":"四幅物理图景综合判断","subject":"物理","chapter":"电磁学综合","points":["交流发电机-变压器-电磁感应-霍尔效应"],"date":"2026-09-16"},{"id":"course_22_physics_kuafu_satellite_orbit","title":"夸父一号卫星","subject":"物理","chapter":"万有引力与航天","points":["圆轨道-椭圆轨道-开普勒定律-机械能"],"date":"2026-09-16"},{"id":"course_23_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"铝及其化合物","points":["实验装置与操作正误判断"],"date":"2026-09-16"},{"id":"course_24_chem_al_alloy_alumina","title":"铝合金制备 Al₂O₃","subject":"化学","chapter":"金属及其化合物","points":["铝的化合物/实验装置与操作"],"date":"2026-09-16"},{"id":"course_25_math_trig_omega_range_1","title":"正弦函数在[0,π]上恰有两条对称轴","subject":"数学","chapter":"三角函数","points":["正弦函数对称轴条件与 ω 取值"],"date":"2026-09-16"},{"id":"course_26_math_trig_omega_range_2","title":"正弦函数在指定区间单调递增","subject":"数学","chapter":"三角函数","points":["正弦函数单调区间与 ω 约束"],"date":"2026-09-16"},{"id":"course_27_math_trig_omega_range_3","title":"余弦函数在[0,a]上的值域恰为[-2,√3]","subject":"数学","chapter":"三角函数","points":["余弦函数值域与区间长度"],"date":"2026-09-16"},{"id":"course_28_math_trig_omega_range_4","title":"正弦函数在(0,π)上恰有三个极值点与两个零点","subject":"数学","chapter":"三角函数","points":["极值点零点综合条件"],"date":"2026-09-16"},{"id":"course_29_math_trig_omega_range_5","title":"正弦函数在区间内没有零点","subject":"数学","chapter":"三角函数","points":["正弦函数零点分布与 ω"],"date":"2026-09-16"},{"id":"course_30_math_trig_omega_range_6","title":"由零点与对称轴条件求最大 ω","subject":"数学","chapter":"三角函数","points":["零点+对称轴+单调联合条件"],"date":"2026-09-16"},{"id":"course_31_math_trig_omega_range_7","title":"余弦函数恰有两个极小值点且(0,π/4)不单调","subject":"数学","chapter":"三角函数","points":["余弦函数极小值点与不单调联合条件"],"date":"2026-09-16"},{"id":"course_32_math_trig_universal_formula","title":"三角函数万能公式","subject":"数学","chapter":"三角函数","points":["万能公式（万能代换）"],"date":"2026-09-16"},{"id":"course_33_math_trig_asinwxpb","title":"三角函数一般式 y = A sin(ωx + φ) + b","subject":"数学","chapter":"三角函数","points":["三角函数图像与性质"],"date":"2026-09-16"},{"id":"course_34_math_trig_omega_1","title":"ω的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性"],"date":"2026-09-16"},{"id":"course_35_math_trig_omega_2","title":"ω 的取值范围","subject":"数学","chapter":"三角函数","points":["ω的取值范围-单调性"],"date":"2026-09-16"},{"id":"course_36_math_trig_omega_3","title":"数0022","subject":"数学","chapter":"三角函数","points":["ω的取值范围-值域"],"date":"2026-09-16"},{"id":"course_37_math_trig_omega_4","title":"数0023","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点与零点"],"date":"2026-09-16"},{"id":"course_38_math_trig_omega_5","title":"数0024","subject":"数学","chapter":"三角函数","points":["ω的取值范围-零点"],"date":"2026-09-16"},{"id":"course_39_math_trig_omega_6","title":"数0025","subject":"数学","chapter":"三角函数","points":["ω的取值范围-对称性与单调性"],"date":"2026-09-16"},{"id":"course_40_math_trig_omega_7","title":"数0026","subject":"数学","chapter":"三角函数","points":["ω的取值范围-极值点"],"date":"2026-09-16"},{"id":"course_41_math_trig_symaxis_two","title":"正弦对称轴数数课","subject":"高中数学","chapter":"三角函数 · 图象与性质","points":["y=Asin(ωx+φ) 的对称轴"],"date":"2026-09-10"},{"id":"course_42_math_trig_shift_t4","title":"余弦图象平移「搬家课」","subject":"高中数学","chapter":"三角函数 · 图象变换","points":["y=Acos(ωx+φ) 图象平移 · 最小正周期 · 诱导公式"],"date":"2026-09-10"},{"id":"course_43_math_seq_ap_telescoping","title":"等差数列通项与裂项求和","subject":"数学","chapter":"数列·等差数列与求和","points":["等差数列通项","裂项相消求和"],"date":"2026-09-11"},{"id":"course_44_math_tri_halfangle_shape","title":"半角平方判形状","subject":"数学","chapter":"解三角形·三角形形状判断","points":["升幂公式(半角平方)","余弦定理","勾股定理逆定理"],"date":"2026-09-11"},{"id":"course_45_math_tri_sin_ratio_multi","title":"正弦比234多选逐项体检","subject":"数学","chapter":"解三角形·边角关系综合","points":["正弦定理边角互化","余弦定理判角","海伦公式","外接圆与内切圆"],"date":"2026-09-11"},{"id":"course_46_math_tri_2024_jiaban","title":"2024全国甲卷sinA加sinC","subject":"数学","chapter":"解三角形·边角综合求值","points":["余弦定理","正弦定理","齐次式","完全平方配方"],"date":"2026-09-11"},{"id":"course_47_math_tri_quad_two_sol","title":"四边形ABCD求CD双解","subject":"数学","chapter":"解三角形·平面图形中的解三角形","points":["余弦定理解三角形","构造直角三角形","角度和差关系","分类讨论与双解检验"],"date":"2026-09-11"},{"id":"course_48_math_tri_extreme_range","title":"数0027","subject":"数学","chapter":"解三角形","points":["解三角形中的最值与范围问题"],"date":"2026-09-16"},{"id":"course_48_math_tri_max_range","title":"§4.7 解三角形中的最值与范围问题","subject":"数学","chapter":"解三角形","points":["最值与范围"],"date":"2026-09-12"},{"id":"course_49_chem_al2o3_prep","title":"化0002","subject":"化学","chapter":"金属及其化合物","points":[],"date":"2026-09-16"},{"id":"course_49_tri_proj_basic","title":"题型一 投影公式+基本不等式求最值","subject":"数学","chapter":"解三角形","points":["最值与范围","投影公式","基本不等式","角平分线"],"date":"2026-09-13"},{"id":"course_50_tri_to_trig","title":"题型二 转化为三角函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","正弦定理","辅助角公式","锐角三角形约束"],"date":"2026-09-13"},{"id":"course_51_tri_other_func","title":"题型三 转化为其他函数求最值(范围)","subject":"数学","chapter":"解三角形","points":["最值与范围","换元法","函数单调性","二倍角"],"date":"2026-09-13"},{"id":"course_52_quiz_mix_cond_ineq","title":"小题综合","subject":"数学","chapter":"集合与常用逻辑/基本不等式","points":["补集","充分必要条件","基本不等式","乘1法"],"date":"2026-09-13"},{"id":"course_53_phys_cutlery_bucket","title":"餐具桶里的铲子","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_54_phys_balance_stones","title":"海边的堆石平衡术","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_55_phys_lanterns","title":"挂满红灯笼的五绳四灯","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_56_phys_powerline_winter","title":"冬季高压输电线","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_57_phys_stacked_incline","title":"斜面上叠放的物块","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_58_phys_steelpipe_support","title":"钢管一端着地一端吊起","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_59_phys_conveyor_basic","title":"物0028","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_59_phys_drone_pipe","title":"无人机悬停吊钢管","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_ball_on_incline","title":"细线穿球挂斜杆","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_60_phys_conveyor_slide_on","title":"物0029","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_61_phys_ball_steel_bracket","title":"钢支架里的匀质球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_61_phys_conveyor_incline_up","title":"物0030","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_conveyor_incline_down","title":"物0031","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_62_phys_two_charged_balls","title":"两带电小球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_63_phys_conveyor_exit_speed","title":"物0032","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_63_phys_hemisphere_bowl","title":"半球绝缘碗里的两带电球","subject":"物理","chapter":"受力分析 · 共点力的平衡","points":[],"date":"2026-09-13"},{"id":"course_64_phys_conveyor_trace","title":"物0033","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_64_phys_grain_motor","title":"电动机运粮小车","subject":"物理","chapter":"功和能 · 牛顿运动定律","points":[],"date":"2026-09-13"},{"id":"course_65_phys_conveyor_coal_incline","title":"物0034","subject":"物理","chapter":"传送带专题","points":[],"date":"2026-09-17"},{"id":"course_66_phys_force_composition","title":"力的合成规律","subject":"物理","chapter":"相互作用·力的合成与分解","points":["平行四边形定则","等效替代","弹簧测力计读数","实验误差分析","三力平衡条件"],"date":"2026-09-15"},{"id": "course_67_phys-drone-screen-power", "title": "无人机吊显像屏：超失重 · 功 · 功率", "subject": "物理", "chapter": "牛顿运动定律 · 超重失重", "points": ["无人机吊屏", "超失重", "瞬时功率"], "date": "2026-09-20"},{"id": "course_68_phys-magnetic-go-board", "title": "磁性围棋棋盘：平衡力 vs 相互作用力", "subject": "物理", "chapter": "摩擦力 · 共点力平衡", "points": ["磁性棋盘", "平衡力", "相互作用力"], "date": "2026-09-20"},{"id": "course_69_phys-szc-cable-deck", "title": "深中通道：吊索与主索的分担", "subject": "物理", "chapter": "力的分解 · 共点力平衡", "points": ["深中通道", "力的均分", "对称结构"], "date": "2026-09-20"},{"id": "course_70_phys-xt2-1t-hsr", "title": "高铁 x/t²−1/t 图像：斜率与截距的意义", "subject": "物理", "chapter": "匀变速直线运动 · 图像", "points": ["高铁图像", "x/t²-1/t", "截距与斜率"], "date": "2026-09-20"},{"id": "course_71_phys-ferris-wheel-power", "title": "摩天轮：重力的瞬时功率在哪里最大", "subject": "物理", "chapter": "圆周运动 · 功率", "points": ["摩天轮", "匀速圆周", "瞬时功率"], "date": "2026-09-20"},{"id": "course_72_phys-lbracket-cylinder", "title": "L形挡板夹圆柱：θ 变化中的双支持力", "subject": "物理", "chapter": "力的分解 · 动态平衡", "points": ["L形挡板", "动态平衡", "力的分解"], "date": "2026-09-20"},{"id": "course_73_phys-sprint-receive-ball", "title": "接球跑动：先加速后减速的速度与加速度", "subject": "物理", "chapter": "匀变速直线运动", "points": ["先加速后减速", "v_max=2x/t", "图像法"], "date": "2026-09-20"},{"id": "course_74_phys-two-rope-lower", "title": "双人放绳吊重物：支持力不变、摩擦力变小", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["光滑环", "动态分析", "整体法"], "date": "2026-09-20"},{"id": "course_75_phys-ski-incline-impulse", "title": "滑雪下滑：各力冲量的方向与大小", "subject": "物理", "chapter": "动量 · 冲量", "points": ["冲量", "I=Ft", "斜面下滑"], "date": "2026-09-20"},{"id": "course_76_phys-projectile-energy-graphs", "title": "平抛：Ek、Ep 随水平位移 x 的图像形状", "subject": "物理", "chapter": "抛体运动 · 机械能", "points": ["平抛", "Ek-Ep图像", "抛物线"], "date": "2026-09-20"},{"id": "course_77_phys-slow-pull-n-2019", "title": "2019全国Ⅰ：缓慢拉动悬挂物 N", "subject": "物理", "chapter": "共点力平衡 · 动态分析", "points": ["2019全国Ⅰ", "动态分析", "摩擦力讨论"], "date": "2026-09-20"},{"id": "course_78_phys-curtain-collision", "title": "2023广东：电动窗帘滑块碰撞（选不正确）", "subject": "物理", "chapter": "动量 · 碰撞", "points": ["2023广东", "动量守恒", "碰撞"], "date": "2026-09-20"},{"id": "course_79_phys-drone-ekh-graph", "title": "无人机 Ek-h 图像：斜率、机械能与最大功率", "subject": "物理", "chapter": "功能关系 · 图像", "points": ["无人机", "Ek-h图像", "最大功率"], "date": "2026-09-20"},{"id": "course_80_phys-parallelogram-experiment", "title": "平行四边形定则测绳张力：图解与动态", "subject": "物理", "chapter": "力的合成 · 实验", "points": ["平行四边形定则", "实验", "图解法"], "date": "2026-09-20"},{"id": "course_81_phys-plane-creator", "title": "《天工开物》刨子：摩擦力、质量与合力冲量", "subject": "物理", "chapter": "摩擦力 · 动量定理", "points": ["刨子", "摩擦力", "动量定理"], "date": "2026-09-20"},{"id":"hw20260922_math_q01","title":"题1 · 幂函数图象与象限","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·图象与象限分布"],"date":"2026-09-22"},{"id":"hw20260922_math_q02","title":"题2 · 指数幂比较大小","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·利用单调性比较大小"],"date":"2026-09-22"},{"id":"hw20260922_math_q03","title":"题3 · 幂函数单调性条件","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·单调性与充要条件"],"date":"2026-09-22"},{"id":"hw20260922_math_q04","title":"题4 · 二次函数恒小于4","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数·区间上恒成立"],"date":"2026-09-22"},{"id":"hw20260922_math_q05","title":"题5 · 识图定解析式","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·由图象选解析式"],"date":"2026-09-22"},{"id":"hw20260922_math_q06","title":"题6 · 值域求最值","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数·值域与基本不等式"],"date":"2026-09-22"},{"id":"hw20260922_math_q07","title":"题7 · 同坐标系不可能图象","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数与幂函数·图象共存问题"],"date":"2026-09-22"},{"id":"hw20260922_math_q08","title":"题8 · 幂函数性质判断","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·性质综合判断"],"date":"2026-09-22"},{"id":"hw20260922_math_q09","title":"题9 · 偶函数递减求范围","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·定义+偶函数+单调性"],"date":"2026-09-22"},{"id":"hw20260922_math_q10","title":"题10 · 值域定区间长度","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数·值域与区间长度最值"],"date":"2026-09-22"},{"id":"hw20260922_math_q11","title":"题11 · 二次函数最值与单调","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数·区间最值+不单调条件"],"date":"2026-09-22"},{"id":"hw20260922_math_q12","title":"题12 · 幂函数偶减与不等式","subject":"数学","chapter":"二次函数与幂函数","points":["幂函数·定义+偶函数+单调性+解不等式"],"date":"2026-09-22"},{"id":"hw20260922_math_q13","title":"题13 · 有理函数渐近线","subject":"数学","chapter":"二次函数与幂函数","points":["二次函数·倒数函数图象求系数"],"date":"2026-09-22"},{"id":"hw20260922_math_q14","title":"题14 · 高次不等式解集","subject":"数学","chapter":"二次函数与幂函数","points":["函数综合·构造单调函数解高次不等式"],"date":"2026-09-22"}];
 var cardByCid={};
 cards.forEach(function(card){ var cid=card.dataset.cid; if(cid)cardByCid[cid]=card; });
+window.__portal={apply:apply,sets:sets,updateCnt:updateCnt,cards:cards,cardByCid:cardByCid};
 var STAT_CACHE='nav_course_stats_cache';
 var statMap={};
 function statusOf(s){
@@ -2536,5 +2920,63 @@ body{padding-left:220px;padding-top:52px}
 })();
 </script>
 
+<script>
+/* ===== 云端标签库/做题状态接入（WB Cloud：tags 词表 + course_tags + cw_quiz_state） ===== */
+(function(){
+'use strict';
+function dbReady(ms){return new Promise(function(res){
+  if(window.WB_DB)return res(true);
+  var max=Math.ceil((ms||12000)/200),n=0;
+  var t=setInterval(function(){
+    if(window.WB_DB){clearInterval(t);res(true);}
+    else if(window.__WB_SDK_FAIL||++n>=max){clearInterval(t);res(false);}
+  },200);
+});}
+var portal0=window.__portal||{};
+(portal0.cards||[]).forEach(function(card){if(!card.dataset.qstatus)card.dataset.qstatus='未做';});
+if(portal0.apply)portal0.apply();
+dbReady(12000).then(function(ok){
+  if(!ok||!window.WB_DB)return;
+  var db=window.WB_DB;
+  Promise.all([
+    db.from('tags').select('name,category'),
+    db.from('course_tags').select('course_id,tags'),
+    db.from('cw_quiz_state').select('id,data')
+  ]).then(function(rs){
+    var vocab=rs[0]||[], ct=rs[1]||[], qs=rs[2]||[];
+    var portal=window.__portal||{};
+    if(!portal.apply)return;
+    /* 做题状态 → dataset.qstatus（课件页提交答案弹窗写入 cw_quiz_state） */
+    var qmap={};
+    (qs||[]).forEach(function(row){var d=row.data||{};for(var k in d){var st=d[k]&&d[k].status;if(st)qmap[k]=st;}});
+    (portal.cards||[]).forEach(function(card){card.dataset.qstatus=qmap[card.dataset.cid]||'未做';});
+    /* 云端词表并入筛选选项（学科/章节/知识点） */
+    var catBy={};(vocab||[]).forEach(function(r){catBy[r.name]=r.category;});
+    var byCat={};
+    (ct||[]).forEach(function(r){(r.tags||'').split(';').forEach(function(t){if(!t)return;var c=catBy[t]||'知识点';(byCat[c]=byCat[c]||{})[t]=1;});});
+    function addOpt(f,val){
+      var map={subject:'popupSubject',chapter:'popupChapter',knowledge:'popupKnowledge'};
+      var pop=document.getElementById(map[f]);if(!pop)return;
+      var box=pop.querySelector('.popup-options');if(!box)return;
+      var exists=false;
+      box.querySelectorAll('input[data-filter]').forEach(function(cb){if(cb.value===val)exists=true;});
+      if(exists)return;
+      var lb=document.createElement('label');lb.className='popup-option';
+      var cb=document.createElement('input');cb.type='checkbox';cb.setAttribute('data-filter',f);cb.value=val;
+      lb.appendChild(cb);lb.appendChild(document.createTextNode(val));box.appendChild(lb);
+      cb.addEventListener('change',function(){
+        var s=portal.sets[f];
+        if(cb.checked)s.add(val);else s.delete(val);
+        portal.updateCnt(f);portal.apply();
+      });
+    }
+    Object.keys(byCat['学科']||{}).forEach(function(v){addOpt('subject',v);});
+    Object.keys(byCat['章节']||{}).forEach(function(v){addOpt('chapter',v);});
+    Object.keys(byCat['知识点']||{}).forEach(function(v){addOpt('knowledge',v);});
+    portal.apply();
+  }).catch(function(){});
+});
+})();
+</script>
 </body>
 </html>
