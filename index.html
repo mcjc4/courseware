@@ -575,6 +575,30 @@
     </div>
     <div class="fld">
       <div class="popup-filter">
+        <button class="filter-btn" type="button" id="btnVDate">最近浏览 <span class="cnt zero" id="cntVDate">0</span></button>
+        <div class="popup" id="popupVDate">
+          <div class="popup-options">
+            <label class="popup-option"><input type="radio" name="vdateP" value="today">今天</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="d3">近 3 天</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="d7">近 7 天</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="d30">近 30 天</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="older">更早（30 天前）</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="never">从未浏览</label>
+            <label class="popup-option"><input type="radio" name="vdateP" value="custom">自定义范围</label>
+          </div>
+          <div class="popup-options drange" id="vdateCustom" style="display:none">
+            <label class="popup-option dr-row"><span>从</span><input type="date" id="vFrom" min="2026-09-10"></label>
+            <label class="popup-option dr-row"><span>至</span><input type="date" id="vTo" min="2026-09-10"></label>
+          </div>
+          <div class="popup-actions">
+            <button type="button" id="vdateClear">清除</button>
+            <button type="button" data-close="popupVDate">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <div class="popup-filter">
         <button class="filter-btn" type="button" id="btnNote">错因 <span class="cnt zero" id="cntNote">0</span></button>
         <div class="popup" id="popupNote">
           <div class="popup-options">
@@ -1983,6 +2007,37 @@
   function syncChecks(f,v){
     document.querySelectorAll('.popup-option input[data-filter="'+f+'"]').forEach(function(cb){if(cb.value===v)cb.checked=false;});
   }
+  /* ── 最近浏览日期筛选（2026-09-26）：数据真源 course_stats.last_visit → dataset.browseTs/browse ── */
+  var vSel={mode:'all',from:'',to:''};
+  var VLBL={today:'今天',d3:'近3天',d7:'近7天',d30:'近30天',older:'更早',never:'从未浏览',custom:'自定义'};
+  function _vToday(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  function _vAdd(ds,n){var p=ds.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]+n);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  function vdateMatch(bv){
+    if(vSel.mode==='all')return true;
+    var t=_vToday();
+    if(vSel.mode==='never')return bv==='';
+    if(vSel.mode==='today')return bv===t;
+    if(vSel.mode==='d3')return bv!==''&&bv>=_vAdd(t,-2)&&bv<=t;
+    if(vSel.mode==='d7')return bv!==''&&bv>=_vAdd(t,-6)&&bv<=t;
+    if(vSel.mode==='d30')return bv!==''&&bv>=_vAdd(t,-29)&&bv<=t;
+    if(vSel.mode==='older')return bv!==''&&bv<_vAdd(t,-29);
+    return bv!==''&&(!vSel.from||bv>=vSel.from)&&(!vSel.to||bv<=vSel.to);
+  }
+  function updateVDateCnt(){
+    var el=document.getElementById('cntVDate');if(!el)return;
+    if(vSel.mode==='all'){el.textContent='0';el.className='cnt zero';}
+    else{var lb=VLBL[vSel.mode]||vSel.mode;
+      if(vSel.mode==='custom')lb=(vSel.from||'早期')+'~'+(vSel.to||'今天');
+      el.textContent=lb;el.className='cnt';}
+  }
+  function vdateReset(){vSel.mode='all';vSel.from='';vSel.to='';
+    document.querySelectorAll('input[name="vdateP"]').forEach(function(r){r.checked=false;});
+    var vf=document.getElementById('vFrom'),vt=document.getElementById('vTo');
+    if(vf)vf.value='';if(vt)vt.value='';
+    var vc=document.getElementById('vdateCustom');if(vc)vc.style.display='none';
+    updateVDateCnt();
+  }
+
   function renderChips(){
     var box=document.getElementById('activeFilters');
     var chips=[];
@@ -1998,6 +2053,11 @@
     }
     if(dateFrom.value||dateTo.value){
       chips.push({label:'浏览：'+(dateFrom.value||'早期')+' ~ '+(dateTo.value||'今天'), del:function(){dateFrom.value='';dateTo.value='';updateDateCnt();apply();}});
+    }
+    if(vSel.mode!=='all'){
+      var vlb=VLBL[vSel.mode]||vSel.mode;
+      if(vSel.mode==='custom')vlb=(vSel.from||'早期')+' ~ '+(vSel.to||'今天');
+      chips.push({label:'最近浏览：'+vlb, del:function(){vdateReset();apply();}});
     }
     if(currentQ){
       chips.push({label:'搜索：'+currentQ, del:function(){fQ.value='';currentQ='';apply();}});
@@ -2035,13 +2095,15 @@
       var okRd=sets.redo.size===0||(sets.redo.has('done')&&rd)||(sets.redo.has('undone')&&!rd);
       var okQs=sets.qstatus.size===0||sets.qstatus.has(card.dataset.qstatus||'未做')||_hit(sets.qstatus,card.__qsM);
       var okAttr=sets.attr.size===0||sets.attr.has(card.dataset.attr)||_hit(sets.attr,_ct&&_ct.A);
+      var _bts=+card.dataset.browseTs||0;
+      var okVdt=vdateMatch(_bts>0?(card.dataset.browse||''):'');
       var nts=(card.dataset.noteTags||'').split('||').filter(Boolean);
       var okNt=sets.note.size===0||(sets.note.has('__any__')&&nts.length>0)||nts.some(function(t){return sets.note.has(t);});
       var okFm=!fm||(+card.dataset.forgot||0)>=fm;
       var dv=card.dataset.browse||card.dataset.date||'';
       var okD=(!dateFrom.value||dv>=dateFrom.value)&&(!dateTo.value||dv<=dateTo.value);
       var okQ=!q||(card.textContent||'').toLowerCase().indexOf(q)>=0;
-      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ&&okVd&&okQs&&okAttr;
+      var show=okS&&okC&&okK&&okM&&okSt&&okRt&&okRd&&okNt&&okFm&&okD&&okQ&&okVd&&okQs&&okAttr&&okVdt;
       card.style.display=show?'':'none';
       if(show)n++;
     });
@@ -2058,7 +2120,7 @@
     try{
       localStorage.setItem('nav_filters',JSON.stringify({
         sets:{subject:Array.from(sets.subject),chapter:Array.from(sets.chapter),knowledge:Array.from(sets.knowledge),method:Array.from(sets.method),status:Array.from(sets.status),rating:Array.from(sets.rating),redo:Array.from(sets.redo),verdict:Array.from(sets.verdict)},
-        df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value}));
+        df:dateFrom.value,dt:dateTo.value,fm:forgetMin.value,q:currentQ,sort:fSort.value,vd:{mode:vSel.mode,from:vSel.from,to:vSel.to}}));
     }catch(e){}
   }
 
@@ -2130,6 +2192,20 @@
     dateFrom.value='';dateTo.value='';updateDateCnt();apply();
   });
 
+  document.querySelectorAll('input[name="vdateP"]').forEach(function(r){
+    r.addEventListener('change',function(){
+      if(!r.checked)return;
+      vSel.mode=r.value;
+      var vc=document.getElementById('vdateCustom');
+      if(vc)vc.style.display=(r.value==='custom')?'':'none';
+      updateVDateCnt();apply();
+    });
+  });
+  var vFromEl=document.getElementById('vFrom'),vToEl=document.getElementById('vTo');
+  if(vFromEl)vFromEl.addEventListener('change',function(){if(vSel.mode==='custom'){vSel.from=this.value;updateVDateCnt();apply();}});
+  if(vToEl)vToEl.addEventListener('change',function(){if(vSel.mode==='custom'){vSel.to=this.value;updateVDateCnt();apply();}});
+  document.getElementById('vdateClear').addEventListener('click',function(){vdateReset();apply();});
+
   fQ.addEventListener('input',apply);
   fSort.addEventListener('change',apply);
   forgetMin.addEventListener('input',apply);
@@ -2143,6 +2219,7 @@
       updateCnt(f);
     });
     dateFrom.value='';dateTo.value='';updateDateCnt();
+    vdateReset();
     forgetMin.value='';
     fQ.value='';apply();
   });
@@ -2166,6 +2243,14 @@
       if(sv.fm)forgetMin.value=sv.fm;
       if(sv.q)fQ.value=sv.q;
       if(sv.sort)fSort.value=sv.sort;
+      if(sv.vd&&sv.vd.mode&&sv.vd.mode!=='all'){
+        vSel.mode=sv.vd.mode;vSel.from=sv.vd.from||'';vSel.to=sv.vd.to||'';
+        var vr=document.querySelector('input[name="vdateP"][value="'+sv.vd.mode+'"]');
+        if(vr)vr.checked=true;
+        if(sv.vd.mode==='custom'){var vc2=document.getElementById('vdateCustom');if(vc2)vc2.style.display='';
+          if(vFromEl)vFromEl.value=sv.vd.from||'';if(vToEl)vToEl.value=sv.vd.to||'';}
+        updateVDateCnt();
+      }
     }
   })();
 
