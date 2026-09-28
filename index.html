@@ -240,6 +240,7 @@
   /* ---------- 1) SDK 载入 ---------- */
   (function loadSdk() {
     var srcs = [
+      '../vendor/wbcloud-sdk.js',
       'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
       'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'
     ];
@@ -630,10 +631,10 @@
     <button class="reset-btn" id="fReset" type="button">重置</button>
   </div>
   <div class="active-filters" id="activeFilters"></div>
-  <div class="result-info" id="resultInfo">共 <span id="resultCount">74</span> 个课件 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="将当前筛选结果作为一组题，逐张浏览训练">🎯 专题练</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
+  <div class="result-info" id="resultInfo">共 <span id="resultCount">74</span> 个课件 <span class="stat-meta" id="statMeta"></span><span class="pick-bar"><span class="pk-info">已选 <b id="pickCount">0</b> 题</span><button class="pk-btn" id="pkAll" type="button" title="勾选当前筛选出的全部">全选本页</button><button class="pk-btn" id="pkInv" type="button" title="反选当前筛选出的">反选</button><button class="pk-btn pk-clear" id="pkClear" type="button" title="清空全部勾选">清空</button></span><button class="train-btn" id="trainBtn" type="button" title="把当前筛选/勾选结果形成队列，加入记忆卡训练库（可统计完成度）">➕ 加入训练库</button><button class="train-btn" id="noteAnBtn" type="button" title="汇总全部课件的「没想到」卡点记录" style="margin-left:10px;background:linear-gradient(120deg,#8b5cf6,#4f8ef7)">📊 错因分析</button><button class="train-btn" id="cfgBtn" type="button" title="课件页显示设定（原题区开合/闪烁间隔）" style="margin-left:10px;background:linear-gradient(120deg,#64748b,#475569)">⚙️ 课件设定</button></div>
 
   <div class="grid" id="grid">
-<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·单调性与充要条件" data-method="充要条件双向推导" data-date="2026-09-26" data-num="87" data-cid="course_87_math-pow-suff-necessary" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/87-math-pow-suff-necessary/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·单调性与充要条件" data-method="充要条件双向推导" data-date="2026-09-26" data-num="87" data-cid="course_87_math-pow-suff-necessary" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/87-math-pow-suff-necessary/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">87</span>
       <div class="card-body">
         <h3>题1 幂函数·单调性与充要条件</h3>
@@ -644,7 +645,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·由图象选解析式" data-method="图象特征排除法" data-date="2026-09-26" data-num="88" data-cid="course_88_math-pow-graph-identify" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/88-math-pow-graph-identify/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·由图象选解析式" data-method="图象特征排除法" data-date="2026-09-26" data-num="88" data-cid="course_88_math-pow-graph-identify" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/88-math-pow-graph-identify/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">88</span>
       <div class="card-body">
         <h3>题2 幂函数·图象识别</h3>
@@ -655,7 +656,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="二次函数" data-knowledge="二次函数·定区间最值与不单调区间" data-method="对称轴与区间位置讨论" data-date="2026-09-26" data-num="89" data-cid="course_89_math-quad-fixed-interval" data-tags="错题;二次函数;昕言课件;数学;0926错题" data-href="lessons/89-math-quad-fixed-interval/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="二次函数" data-knowledge="二次函数·定区间最值与不单调区间" data-method="对称轴与区间位置讨论" data-date="2026-09-26" data-num="89" data-cid="course_89_math-quad-fixed-interval" data-tags="错题;二次函数;昕言课件;数学;0926错题" data-href="lessons/89-math-quad-fixed-interval/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">89</span>
       <div class="card-body">
         <h3>题3 二次函数·定区间最值</h3>
@@ -666,7 +667,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·偶函数单调与不等式" data-method="系数为1·偶指数·穿根" data-date="2026-09-26" data-num="90" data-cid="course_90_math-pow-even-decrease" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/90-math-pow-even-decrease/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="幂函数" data-knowledge="幂函数·偶函数单调与不等式" data-method="系数为1·偶指数·穿根" data-date="2026-09-26" data-num="90" data-cid="course_90_math-pow-even-decrease" data-tags="错题;幂函数;昕言课件;数学;0926错题" data-href="lessons/90-math-pow-even-decrease/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">90</span>
       <div class="card-body">
         <h3>题4 幂函数·偶函数单调与不等式</h3>
@@ -677,7 +678,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·换元最值与分离参数" data-method="换元t=2^x·分离参数" data-date="2026-09-26" data-num="91" data-cid="course_91_math-exp-sub-max" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/91-math-exp-sub-max/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·换元最值与分离参数" data-method="换元t=2^x·分离参数" data-date="2026-09-26" data-num="91" data-cid="course_91_math-exp-sub-max" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/91-math-exp-sub-max/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">91</span>
       <div class="card-body">
         <h3>题5 指数函数·换元最值与有解</h3>
@@ -688,7 +689,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数型复合函数·同增异减" data-method="同增异减·复合最值" data-date="2026-09-26" data-num="92" data-cid="course_92_math-exp-comp-mono" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/92-math-exp-comp-mono/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数型复合函数·同增异减" data-method="同增异减·复合最值" data-date="2026-09-26" data-num="92" data-cid="course_92_math-exp-comp-mono" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/92-math-exp-comp-mono/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">92</span>
       <div class="card-body">
         <h3>题6 指数型复合函数·单调与最值</h3>
@@ -699,7 +700,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="指数与幂运算" data-knowledge="指数幂·根式与负指数运算" data-method="运算法则·偶次根取正" data-date="2026-09-26" data-num="93" data-cid="course_93_math-exp-power-calc" data-tags="错题;指数与幂运算;昕言课件;数学;0926错题" data-href="lessons/93-math-exp-power-calc/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="指数与幂运算" data-knowledge="指数幂·根式与负指数运算" data-method="运算法则·偶次根取正" data-date="2026-09-26" data-num="93" data-cid="course_93_math-exp-power-calc" data-tags="错题;指数与幂运算;昕言课件;数学;0926错题" data-href="lessons/93-math-exp-power-calc/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">93</span>
       <div class="card-body">
         <h3>题7 指数幂运算</h3>
@@ -710,7 +711,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·定点/值域/奇偶/存在性" data-method="逐项判断真假" data-date="2026-09-26" data-num="94" data-cid="course_94_math-exp-propositions" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/94-math-exp-propositions/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·定点/值域/奇偶/存在性" data-method="逐项判断真假" data-date="2026-09-26" data-num="94" data-cid="course_94_math-exp-propositions" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/94-math-exp-propositions/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">94</span>
       <div class="card-body">
         <h3>题8 指数函数·真命题判断</h3>
@@ -721,7 +722,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·渐近线与定点" data-method="渐近线与定点联立" data-date="2026-09-26" data-num="95" data-cid="course_95_math-exp-asymptote" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/95-math-exp-asymptote/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="指数函数" data-knowledge="指数函数·渐近线与定点" data-method="渐近线与定点联立" data-date="2026-09-26" data-num="95" data-cid="course_95_math-exp-asymptote" data-tags="错题;指数函数;昕言课件;数学;0926错题" data-href="lessons/95-math-exp-asymptote/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">95</span>
       <div class="card-body">
         <h3>题9 指数函数·图象与渐近线</h3>
@@ -732,7 +733,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="解三角形" data-knowledge="解三角形·角平分线与存在性" data-method="等面积角平分线·建系" data-date="2026-09-26" data-num="96" data-cid="course_96_math-tri-angle-bisector" data-tags="错题;解三角形;昕言课件;数学;0926错题" data-href="lessons/96-math-tri-angle-bisector/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="解三角形" data-knowledge="解三角形·角平分线与存在性" data-method="等面积角平分线·建系" data-date="2026-09-26" data-num="96" data-cid="course_96_math-tri-angle-bisector" data-tags="错题;解三角形;昕言课件;数学;0926错题" data-href="lessons/96-math-tri-angle-bisector/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">96</span>
       <div class="card-body">
         <h3>题10 解三角形·角平分线</h3>
@@ -743,7 +744,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="函数的奇偶性" data-knowledge="奇偶函数·方程组构造与最值" data-method="-x替换联立·峰值回代" data-date="2026-09-26" data-num="97" data-cid="course_97_math-odd-even-construct" data-tags="错题;函数的奇偶性;昕言课件;数学;0926错题" data-href="lessons/97-math-odd-even-construct/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="函数的奇偶性" data-knowledge="奇偶函数·方程组构造与最值" data-method="-x替换联立·峰值回代" data-date="2026-09-26" data-num="97" data-cid="course_97_math-odd-even-construct" data-tags="错题;函数的奇偶性;昕言课件;数学;0926错题" data-href="lessons/97-math-odd-even-construct/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">97</span>
       <div class="card-body">
         <h3>题11 奇偶函数·方程组构造</h3>
@@ -754,7 +755,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="分段函数" data-knowledge="分段函数·单调衔接" data-method="各段增+衔接不降" data-date="2026-09-26" data-num="98" data-cid="course_98_math-piecewise-monotone" data-tags="错题;分段函数;昕言课件;数学;0926错题" data-href="lessons/98-math-piecewise-monotone/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="分段函数" data-knowledge="分段函数·单调衔接" data-method="各段增+衔接不降" data-date="2026-09-26" data-num="98" data-cid="course_98_math-piecewise-monotone" data-tags="错题;分段函数;昕言课件;数学;0926错题" data-href="lessons/98-math-piecewise-monotone/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">98</span>
       <div class="card-body">
         <h3>题12 分段函数·单调性</h3>
@@ -765,7 +766,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="对数函数" data-knowledge="对数函数·实际应用" data-method="对数不等式同解变形" data-date="2026-09-26" data-num="99" data-cid="course_99_math-log-application" data-tags="错题;对数函数;昕言课件;数学;0926错题" data-href="lessons/99-math-log-application/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="对数函数" data-knowledge="对数函数·实际应用" data-method="对数不等式同解变形" data-date="2026-09-26" data-num="99" data-cid="course_99_math-log-application" data-tags="错题;对数函数;昕言课件;数学;0926错题" data-href="lessons/99-math-log-application/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">99</span>
       <div class="card-body">
         <h3>题13 对数函数·实际应用</h3>
@@ -776,7 +777,7 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="函数性质综合" data-knowledge="函数性质·对称周期与零点" data-method="反周期T=4·零点计数" data-date="2026-09-26" data-num="100" data-cid="course_100_math-func-prop-zeros" data-tags="错题;函数性质综合;昕言课件;数学;0926错题" data-href="lessons/100-math-func-prop-zeros/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="函数性质综合" data-knowledge="函数性质·对称周期与零点" data-method="反周期T=4·零点计数" data-date="2026-09-26" data-num="100" data-cid="course_100_math-func-prop-zeros" data-tags="错题;函数性质综合;昕言课件;数学;0926错题" data-href="lessons/100-math-func-prop-zeros/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">100</span>
       <div class="card-body">
         <h3>题14 函数性质·对称周期零点</h3>
@@ -787,12 +788,24 @@
       </div>
       <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
     </div>
-<div class="card" data-subject="数学" data-chapter="三角函数图象变换" data-knowledge="三角函数·平移与x轴对称" data-method="平移法则·和差化积" data-date="2026-09-26" data-num="101" data-cid="course_101_math-trig-shift-symmetry" data-tags="错题;三角函数图象变换;昕言课件;数学;0926错题" data-href="lessons/101-math-trig-shift-symmetry/" data-target="_blank" data-rel="noopener">
+<div class="card" data-subject="数学" data-chapter="三角函数图象变换" data-knowledge="三角函数·平移与x轴对称" data-method="平移法则·和差化积" data-date="2026-09-26" data-num="101" data-cid="course_101_math-trig-shift-symmetry" data-tags="错题;三角函数图象变换;昕言课件;数学;0926错题" data-href="lessons/101-math-trig-shift-symmetry/" data-target="_blank" data-rel="noopener" data-attr="错题">
       <span class="badge">101</span>
       <div class="card-body">
         <h3>题15 三角函数·平移对称</h3>
         <p class="sub">单选 · 错题精讲 ｜ 自推导+数值扫描</p>
         <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">三角函数图象变换</span><span class="tag-chip k">三角函数·平移与x轴对称</span><span class="tag-chip" style="background:#f0f0ff;color:#555">三角函数图象变换</span><span class="tag-chip" style="background:#fcebea;color:#c0392b;font-weight:600">错题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-26</span></div>
+        <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
+        <span class="go">打开课件 →</span>
+      </div>
+      <button type="button" class="pick" role="button" tabindex="0" title="勾选本题" aria-label="勾选本题"></button>
+    </div>
+
+    <div class="card" data-subject="数学" data-chapter="数列" data-knowledge="数列·Sn求通项与裂项放缩" data-method="构造辅助数列·差分成项·裂项放缩" data-date="2026-09-28" data-num="102" data-cid="course_102_math-seq-sn-ap-telescoping" data-tags="错题;数列;昕言课件;数学;0928作业" data-href="lessons/102-math-seq-sn-ap-telescoping/" data-target="_blank" data-rel="noopener" data-attr="错题">
+      <span class="badge">102</span>
+      <div class="card-body">
+        <h3>题1 数列·Sₙ构造与裂项放缩</h3>
+        <p class="sub">解答 · 错题精讲 ｜ 自推导+数值扫描</p>
+        <div class="tags"><span class="tag-chip">数学</span><span class="tag-chip c">数列</span><span class="tag-chip k">数列·Sn求通项与裂项放缩</span><span class="tag-chip" style="background:#f0f0ff;color:#555">数列</span><span class="tag-chip" style="background:#fcebea;color:#c0392b;font-weight:600">错题</span><span class="tag-chip" style="background:#fff7e6;color:#b45309">📅 2026-09-28</span></div>
         <div class="cstat-line"><span class="c-badge st-new">⚪ 未训练</span></div>
         <span class="go">打开课件 →</span>
       </div>
@@ -2282,6 +2295,16 @@
       if(!empty){empty=document.createElement('div');empty.className='empty';empty.id='emptyHint';empty.textContent='没有符合条件的课件，试试换个筛选条件。';grid.appendChild(empty);}
     }else{if(empty)empty.remove();}
     renderChips();
+    /* 2026-09-27：筛选条件一变就清空卡片勾选集
+       （勾选只对"当前这一批"有意义，否则会出现「已选 4 题」与当页 1 张卡对不上） */
+    try{
+      var _fsig=currentFilterSig();
+      if(window.__lastPickSig===undefined){ window.__lastPickSig=_fsig; }
+      else if(window.__lastPickSig!==_fsig){
+        window.__lastPickSig=_fsig;
+        if(typeof picked!=='undefined' && picked && picked.size){ picked.clear(); savePicked(); syncPickUI(); }
+      }
+    }catch(e){}
     // 持久化筛选状态：从课件返回导航页时恢复（陈总需求）
     try{
       localStorage.setItem('nav_filters',JSON.stringify({
@@ -2655,7 +2678,8 @@ function syncRedo(cid,done){
       body:JSON.stringify(body)});
   }).catch(function(){ /* 云端不可达不阻塞，本机已记账 */ });
 }
-trainBtn.addEventListener('click',trainOpenPanel);
+/* 2026-09-27：原「🎯 专题练」就地浏览已完全替换为「➕ 加入训练库」（见文件末尾 addToTrainLib 段）；
+   trainOpenPanel / trainOverlay 代码保留但不再挂载入口。 */
 document.getElementById('trainClose').addEventListener('click',trainClosePanel);
 document.getElementById('trainPrev').addEventListener('click',function(){trainStep(-1);});
 document.getElementById('trainNext').addEventListener('click',function(){trainStep(1);});
@@ -2690,9 +2714,33 @@ document.addEventListener('keydown',function(e){
 
 /* ===== 卡片勾选选集 -> 专题练（2026-09-13）===== */
 var PICK_KEY='nav_picked';
+/* 当前筛选条件签名（单一真源，apply() 与勾选恢复共用）
+   2026-09-27 修复「已选 4 题」幽灵计数：勾选集原先只按 cid 持久化，
+   刷新/换筛选后仍残留 → 显示的勾选数与实际所见对不上。
+   现与筛选签名绑定存储：签名不符一律丢弃，且不留陈年勾选。 */
+function currentFilterSig(){
+  try{
+    function srt(s){ return Array.from(s||[]).sort(); }
+    return JSON.stringify([srt(sets.subject),srt(sets.chapter),srt(sets.knowledge),srt(sets.method),
+      srt(sets.status),srt(sets.rating),srt(sets.redo),srt(sets.verdict),srt(sets.note),srt(sets.qstatus),srt(sets.attr),
+      dateFrom.value,dateTo.value,forgetMin.value,(fQ.value||'').trim(),fSort.value,vSel.mode,vSel.from,vSel.to]);
+  }catch(e){ return 'na'; }
+}
 var picked=new Set();
-try{ var _pj=JSON.parse(localStorage.getItem(PICK_KEY)); if(_pj&&_pj.length)picked=new Set(_pj); }catch(e){}
-function savePicked(){ try{ localStorage.setItem(PICK_KEY,JSON.stringify(Array.from(picked))); }catch(e){} }
+try{
+  var _pj=JSON.parse(localStorage.getItem(PICK_KEY)||'null');
+  /* 新格式 {sig, ids}：签名一致才恢复；旧格式（纯数组）无签名 → 一律当陈年勾选丢弃 */
+  if(_pj && _pj.ids && _pj.ids.length && _pj.sig && _pj.sig===currentFilterSig()) picked=new Set(_pj.ids);
+}catch(e){}
+function savePicked(){ try{ localStorage.setItem(PICK_KEY,JSON.stringify({sig:currentFilterSig(),ids:Array.from(picked)})); }catch(e){} }
+/* 幽灵剔除：勾选里若留有已下线/改名的 cid（点「专题练」会 404 白页），直接清掉 */
+(function(){
+  try{
+    var all={}; cards.forEach(function(c){ if(c.dataset.cid)all[c.dataset.cid]=1; });
+    var bad=[]; picked.forEach(function(id){ if(!all[id])bad.push(id); });
+    if(bad.length){ bad.forEach(function(id){ picked.delete(id); }); savePicked(); }
+  }catch(e){}
+})();
 function syncTrainBtn(){
   window.__pickedCount=picked.size;
   var pc=document.getElementById('pickCount'); if(pc)pc.textContent=picked.size;
@@ -2700,8 +2748,8 @@ function syncTrainBtn(){
   if(tb){
     var anyVis=cards.some(function(c){ return c.style.display!=='none'; });
     tb.style.display=(anyVis||picked.size>0)?'':'none';
-    tb.textContent = picked.size>0 ? ('\uD83C\uDFAF 专题练 ('+picked.size+')') : '\uD83C\uDFAF 专题练';
-    tb.title = picked.size>0 ? ('练已勾选的 '+picked.size+' 题') : '将当前筛选结果作为一组题，逐张浏览训练';
+    tb.textContent = picked.size>0 ? ('\u2795 加入训练库 ('+picked.size+')') : '\u2795 加入训练库';
+    tb.title = picked.size>0 ? ('把勾选的 '+picked.size+' 个课件加入记忆卡训练库') : '把当前筛选结果形成队列，加入记忆卡训练库';
   }
 }
 function syncPickUI(){
@@ -3287,5 +3335,219 @@ dbReady(12000).then(function(ok){
 });
 })();
 </script>
+<script>
+/* ===== 2026-09-27：门户「➕ 加入训练库」（替代原「🎯 专题练」就地浏览）=====
+   把当前筛选（或勾选）结果形成一条队列，写入记忆卡训练库 practice_sessions：
+     source='courseware-portal'，card_ids = 课件 cid 列表，hit_map = cid → 课件路径 映射
+   健壮性（2026-09-27）：SDK 本地优先（vendor/，境外 CDN 偶发不可达）；等 WB_DB 就绪最多 12s；
+   仍失败则落本机 pending，下次打开本页自动补传。完全自包含，不依赖门户内部作用域。 */
+(function(){
+  'use strict';
+  if (window.__addToTrainLib) return;
+  var LS_PICK = 'nav_picked';
+  var LS_GROUP = 'train_group';
+  var LS_PENDING = 'cw_pending_sessions';
+  var EP = 'https://jikaka-memory.app.workbuddy.host';
+  var KEY = 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP';
+  var SDK_SRCS = ['../vendor/wbcloud-sdk.js',
+                  'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+                  'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'];
+
+  function toast(msg, tone){
+    var el = document.getElementById('cwToast');
+    if (!el){
+      el = document.createElement('div');
+      el.id = 'cwToast';
+      el.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:26px;z-index:100000;' +
+        'background:#1f2d3d;color:#fff;padding:11px 20px;border-radius:999px;font-size:13.5px;font-weight:600;' +
+        'box-shadow:0 12px 30px -10px rgba(0,0,0,.45);font-family:"PingFang SC","Microsoft YaHei",sans-serif;' +
+        'opacity:0;transition:opacity .25s,bottom .25s;pointer-events:none;max-width:88vw;text-align:center';
+      document.body.appendChild(el);
+    }
+    el.style.background = (tone === 'err') ? '#b91c1c' : (tone === 'ok' ? '#15803d' : '#1f2d3d');
+    el.textContent = msg;
+    el.style.opacity = '1'; el.style.bottom = '34px';
+    clearTimeout(el._t);
+    el._t = setTimeout(function(){ el.style.opacity = '0'; el.style.bottom = '26px'; }, 3000);
+  }
+
+  var _sdkLoading = false;
+  function ensureDb(cb){
+    if (window.WB_DB) return cb(window.WB_DB);
+    function build(){
+      if (typeof WorkBuddyCloud === 'undefined') return cb(null);
+      try{
+        window.WB_DB = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: EP, publishableKey: KEY }).database;
+        window.WB_READY = true;
+      }catch(e){ window.WB_DB = null; }
+      cb(window.WB_DB || null);
+    }
+    if (typeof WorkBuddyCloud !== 'undefined') return build();
+    if (_sdkLoading) return setTimeout(function(){ ensureDb(cb); }, 400);
+    _sdkLoading = true;
+    var i = 0;
+    (function next(){
+      if (typeof WorkBuddyCloud !== 'undefined') return build();
+      if (i >= SDK_SRCS.length){ _sdkLoading = false; return cb(null); }
+      var s = document.createElement('script');
+      s.src = SDK_SRCS[i++];
+      s.onload = function(){ if (typeof WorkBuddyCloud === 'undefined') next(); else { _sdkLoading = false; build(); } };
+      s.onerror = function(){ next(); };
+      (document.head || document.documentElement).appendChild(s);
+    })();
+  }
+  function whenDb(cb, ms){
+    var t0 = Date.now();
+    (function loop(){
+      if (window.WB_DB) return cb(window.WB_DB);
+      if (Date.now() - t0 >= ms) return ensureDb(cb);
+      setTimeout(loop, 400);
+    })();
+  }
+  function pending(){ try{ return JSON.parse(localStorage.getItem(LS_PENDING)) || []; }catch(e){ return []; } }
+  function savePending(a){ try{ localStorage.setItem(LS_PENDING, JSON.stringify(a.slice(-20))); }catch(e){} }
+  function writeRow(d, row, onDone){
+    try{
+      Promise.resolve(d.from('practice_sessions').upsert(row)).then(function(res){
+        var err = res && res.error;
+        onDone(err ? (err.message || err.code || String(err)) : null);
+      }).catch(function(e){ onDone((e && e.message) || String(e)); });
+    }catch(e){ onDone((e && e.message) || String(e)); }
+  }
+  /* 页面打开时补传上次没传成功的队列 */
+  function flushPending(){
+    var list = pending(); if (!list.length) return;
+    whenDb(function(d){
+      if (!d) return;
+      var rest = [];
+      (function step(i){
+        if (i >= list.length){ savePending(rest); if (list.length - rest.length) toast('已补传 ' + (list.length - rest.length) + ' 条训练队列', 'ok'); return; }
+        writeRow(d, list[i], function(err){ if (err) rest.push(list[i]); step(i + 1); });
+      })(0);
+    }, 12000);
+  }
+
+  function pickedIds(){
+    try{
+      var v = JSON.parse(localStorage.getItem(LS_PICK));
+      if (v && v.ids && v.ids.length) return v.ids.slice();
+      if (Array.isArray(v) && v.length) return v.slice();
+    }catch(e){}
+    return [];
+  }
+  function visibleCards(){
+    return [].slice.call(document.querySelectorAll('#grid .card')).filter(function(c){ return c.style.display !== 'none'; });
+  }
+  function pathOf(card){
+    var h = card.getAttribute('data-href') || '';
+    if (!h){
+      var cid = card.getAttribute('data-cid') || '';
+      var m = /^course_(\d+)_(.+)$/.exec(cid);
+      if (m) h = 'lessons/' + m[1] + '-' + m[2] + '/';
+    }
+    /* hw0922/xxx.html 这类直接指向 html 文件的课件，不能再拼 index.html */
+    if (h && !/\.html(\?|$)/.test(h)) h += (h.slice(-1) === '/' ? '' : '/') + 'index.html';
+    return h;
+  }
+  /* 队列名称编辑弹窗（按钮 → 弹窗模式）：默认值 = 日期 + 张数；确定后入队并跳训练库 */
+  function askTitle(defTitle, onOk){
+    var old = document.getElementById('cwTitleMask');
+    if (old) old.remove();
+    var mask = document.createElement('div');
+    mask.id = 'cwTitleMask';
+    mask.style.cssText = 'position:fixed;inset:0;z-index:100001;background:rgba(15,32,54,.42);display:flex;align-items:center;justify-content:center;font-family:"PingFang SC","Microsoft YaHei",sans-serif';
+    mask.innerHTML =
+      '<div style="background:#fff;border-radius:18px;box-shadow:0 24px 60px -16px rgba(31,66,135,.5);padding:20px 22px;width:340px;max-width:92vw">' +
+        '<div style="font-size:15px;font-weight:700;color:#1f2d3d;margin-bottom:4px">➕ 加入训练库</div>' +
+        '<div style="font-size:12px;color:#5c7185;margin-bottom:12px">给这条课件队列起个名字（可修改默认名）</div>' +
+        '<input id="cwTitleInput" type="text" maxlength="40" style="box-sizing:border-box;width:100%;padding:9px 12px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13.5px;font-family:inherit;outline:none" />' +
+        '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">' +
+          '<button id="cwTitleCancel" style="padding:8px 16px;border-radius:999px;border:1px solid #d6e4f2;background:#fff;color:#5c7185;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">取消</button>' +
+          '<button id="cwTitleOk" style="padding:8px 20px;border-radius:999px;border:none;background:linear-gradient(120deg,#3b82f6,#06b6d4);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">确定</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(mask);
+    var input = mask.querySelector('#cwTitleInput');
+    input.value = defTitle;
+    function close(){ mask.remove(); }
+    function ok(){
+      var v = String(input.value || '').trim() || defTitle;
+      close(); onOk(v);
+    }
+    mask.querySelector('#cwTitleCancel').addEventListener('click', close);
+    mask.querySelector('#cwTitleOk').addEventListener('click', ok);
+    input.addEventListener('keydown', function(e){ if (e.key === 'Enter') ok(); if (e.key === 'Escape') close(); });
+    mask.addEventListener('click', function(e){ if (e.target === mask) close(); });
+    setTimeout(function(){ input.focus(); input.select(); }, 60);
+  }
+
+  function add(){
+    var byId = {};
+    visibleCards().forEach(function(c){ byId[c.getAttribute('data-cid')] = c; });
+    var ids = pickedIds().filter(function(id){ return !!byId[id]; });
+    var list = ids.length ? ids.map(function(id){ return byId[id]; }) : visibleCards();
+    if (!list.length){ toast('当前筛选没有可入队的课件', 'err'); return; }
+    var idsU = [], pathMap = {};
+    list.forEach(function(c){
+      var cid = c.getAttribute('data-cid');
+      if (!cid || pathMap[cid]) return;
+      idsU.push(cid); pathMap[cid] = pathOf(c);
+    });
+    var d = new Date();
+    var ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    var defTitle = ds + ' 课件队列 ' + idsU.length + ' 张';
+    askTitle(defTitle, function(title){
+      var rid = 'cw-' + ds + '-' + Date.now().toString(36).slice(-4);
+      var row = {
+        rid: rid,
+        title: title,
+        subject: '跨科',
+        source: 'courseware-portal',
+        card_ids: idsU,
+        new_card_ids: [],
+        hit_map: pathMap,
+        browsed_at: new Date().toISOString()
+      };
+      /* 本地队列：课件页「上一课/下一课」立即可用（同源 localStorage 共享，含队列名称） */
+      try { localStorage.setItem(LS_GROUP, JSON.stringify({ urls: idsU.map(function(i){ return pathMap[i]; }), rid: rid, title: title, ts: Date.now() })); } catch(e){}
+      toast('⏳ 正在加入训练库…');
+      whenDb(function(db){
+        if (!db){
+          var l = pending(); l.push(row); savePending(l);
+          toast('云端暂未就绪，已记在本机队列（下次打开本页自动补传）', 'err');
+          goTrainLib();
+          return;
+        }
+        writeRow(db, row, function(err){
+          if (err){
+            var l2 = pending(); l2.push(row); savePending(l2);
+            toast('入队失败：' + err, 'err');
+            goTrainLib();
+            return;
+          }
+          toast('✅ 已加入训练库：' + title, 'ok');
+          goTrainLib();
+        });
+      }, 12000);
+    });
+  }
+  /* 入队完成后跳去记忆卡训练库页（?open=practice 会自动展开「专题练习库」） */
+  function goTrainLib(){
+    setTimeout(function(){ location.href = '../index.html?open=practice'; }, 900);
+  }
+  window.__addToTrainLib = add;
+  function bind(){
+    var btn = document.getElementById('trainBtn');
+    if (!btn || btn.__addlib) return;
+    btn.__addlib = true;
+    btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); add(); }, true);
+  }
+  function boot(){ bind(); setTimeout(flushPending, 1500); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  setTimeout(bind, 1200);
+})();
+</script>
+
+
 </body>
 </html>
