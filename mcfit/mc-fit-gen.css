@@ -1,0 +1,160 @@
+/* =========================================================================
+ * mc-fit-gen.css —— 「记忆卡命中分析与生成」模块样式
+ * -------------------------------------------------------------------------
+ * 参照 0922_m1 页原 fit-card 风格（汇总条 + 可折叠卡 + 命中率色块），
+ * 另加「待生成新卡」区（编号 + 章节 + 入库按钮）与入库状态条。
+ * 类名统一 mg- 前缀，与页面原有 fit-* 样式互不干扰；颜色自带兜底值，
+ * 不依赖页面是否定义了 --primary 等变量。浅色主题。
+ * ========================================================================= */
+
+#mcFitCard {
+  --mg-primary: #2563eb;
+  --mg-primary-dark: #1e3a8a;
+  --mg-primary-light: #eff6ff;
+  --mg-border: #e2e8f0;
+  --mg-text: #1e293b;
+  --mg-text-light: #64748b;
+  --mg-bg: #f8fafc;
+  --mg-ok: #15803d;
+  --mg-warn: #b45309;
+  --mg-danger: #b91c1c;
+  --mg-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------------- 汇总条 ---------------- */
+#mcFitCard .mg-sum {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  background: var(--mg-primary-light, #eff6ff);
+  border: 1px solid #dbeafe; border-radius: 12px;
+  padding: 13px 16px; margin-bottom: 14px;
+}
+#mcFitCard .mg-stat { display: flex; flex-direction: column; min-width: 84px; }
+#mcFitCard .mg-stat b { font-size: 22px; line-height: 1.1; color: var(--mg-primary-dark); }
+#mcFitCard .mg-stat b.mg-hi { color: #15803d; }
+#mcFitCard .mg-stat span { font-size: 12px; color: var(--mg-text-light); }
+#mcFitCard .mg-src {
+  margin-left: auto; font-size: 11.5px; color: var(--mg-text-light);
+  border: 1px dashed var(--mg-border); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+}
+
+/* ---------------- 分区标题 ---------------- */
+#mcFitCard .mg-sec { margin: 16px 0 9px; display: flex; align-items: center; gap: 8px; }
+#mcFitCard .mg-sec .mg-t { font-size: 13.5px; font-weight: 800; color: var(--mg-text); }
+#mcFitCard .mg-sec .mg-n {
+  font-size: 11px; font-weight: 700; color: #fff; background: var(--mg-text-light);
+  border-radius: 999px; padding: 1px 8px;
+}
+#mcFitCard .mg-sec .mg-n.blue { background: var(--mg-primary); }
+#mcFitCard .mg-sec .mg-n.green { background: #16a34a; }
+#mcFitCard .mg-sec .mg-sub { font-size: 11.5px; color: var(--mg-text-light); }
+#mcFitCard .mg-empty {
+  font-size: 12.5px; color: var(--mg-text-light); background: var(--mg-bg);
+  border: 1px dashed var(--mg-border); border-radius: 10px; padding: 12px 14px;
+}
+
+/* ---------------- 卡片通用（命中卡 / 新卡共用） ---------------- */
+#mcFitCard .mg-list { display: flex; flex-direction: column; gap: 10px; }
+#mcFitCard .mg-card {
+  border: 1px solid var(--mg-border); border-radius: 12px; background: #fff;
+  overflow: hidden; transition: border-color .15s, box-shadow .15s;
+}
+#mcFitCard .mg-card.new { border-left: 4px solid var(--mg-primary); }
+#mcFitCard .mg-card.open { box-shadow: 0 4px 14px rgba(30, 41, 59, .1); }
+#mcFitCard .mg-card.approved { border-left-color: #16a34a; background: #f7fef9; }
+#mcFitCard .mg-head {
+  display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+  cursor: pointer; user-select: none;
+}
+#mcFitCard .mg-head:hover { background: var(--mg-bg); }
+#mcFitCard .mg-id {
+  font-size: 12.5px; font-weight: 800; color: var(--mg-primary-dark);
+  white-space: nowrap; font-family: var(--mg-mono);
+}
+#mcFitCard .mg-ch {
+  font-size: 13px; color: var(--mg-text); flex: 1;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#mcFitCard .mg-score {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 54px; height: 38px; border-radius: 8px; font-weight: 800; line-height: 1; flex-shrink: 0;
+}
+#mcFitCard .mg-score b { font-size: 15px; }
+#mcFitCard .mg-score span { font-size: 9px; font-weight: 600; margin-top: 2px; opacity: .85; }
+#mcFitCard .mg-score.hi { background: #dcfce7; color: #166534; }
+#mcFitCard .mg-score.mid { background: #fdf3de; color: #b45309; }
+#mcFitCard .mg-score.lo { background: #fee2e2; color: #b91c1c; }
+#mcFitCard .mg-flag {
+  font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px;
+  background: #fff7ed; color: #c2410c; white-space: nowrap; flex-shrink: 0;
+}
+#mcFitCard .mg-flag.done { background: #dcfce7; color: #15803d; }
+#mcFitCard .mg-chev {
+  font-size: 14px; color: var(--mg-text-light); transition: transform .2s; flex-shrink: 0;
+}
+#mcFitCard .mg-card.open .mg-chev { transform: rotate(90deg); }
+#mcFitCard .mg-body {
+  display: none; padding: 0 14px 14px; border-top: 1px dashed var(--mg-border);
+}
+#mcFitCard .mg-card.open .mg-body { display: block; }
+
+/* ---------------- 字段 ---------------- */
+#mcFitCard .mg-rel {
+  margin-top: 12px; background: var(--mg-bg); border-left: 3px solid var(--mg-primary);
+  border-radius: 8px; padding: 9px 12px; font-size: 12.5px; line-height: 1.75;
+  color: var(--mg-text);
+}
+#mcFitCard .mg-rel b { color: var(--mg-primary-dark); }
+#mcFitCard .mg-f { font-size: 13px; line-height: 1.8; margin-top: 9px; }
+#mcFitCard .mg-f .lbl {
+  display: inline-block; background: var(--mg-bg); border-radius: 5px; padding: 1px 7px;
+  font-size: 11px; font-weight: 700; color: var(--mg-text-light); margin-right: 6px;
+}
+#mcFitCard .mg-f textarea {
+  width: 100%; min-height: 62px; font-size: 13px; line-height: 1.7;
+  border: 1px solid var(--mg-border); border-radius: 8px; padding: 8px 10px;
+  font-family: inherit; resize: vertical; background: #fff; color: var(--mg-text);
+}
+#mcFitCard .mg-f textarea:focus { outline: none; border-color: var(--mg-primary); }
+
+/* ---------------- 操作条 ---------------- */
+#mcFitCard .mg-bar {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  padding-top: 10px; border-top: 1px dashed var(--mg-border);
+}
+#mcFitCard .mg-btn {
+  font-size: 11.5px; border-radius: 7px; padding: 4px 11px; cursor: pointer;
+  border: 1px solid var(--mg-border); background: #fff; color: var(--mg-text-light);
+  transition: all .15s; white-space: nowrap;
+}
+#mcFitCard .mg-btn:hover { border-color: var(--mg-primary); color: var(--mg-primary-dark); }
+#mcFitCard .mg-btn.pri {
+  background: var(--mg-primary); border-color: var(--mg-primary); color: #fff; font-weight: 700;
+}
+#mcFitCard .mg-btn.pri:hover { filter: brightness(1.08); color: #fff; }
+#mcFitCard .mg-btn.ok { background: #16a34a; border-color: #16a34a; color: #fff; font-weight: 700; }
+#mcFitCard .mg-btn.gray { background: var(--mg-bg); }
+#mcFitCard .mg-btn:disabled { opacity: .5; cursor: default; }
+#mcFitCard .mg-saved { font-size: 11px; color: var(--mg-ok); }
+#mcFitCard .mg-saved.warn { color: var(--mg-warn); }
+#mcFitCard .mg-taglive {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  background: #fff3cd; color: #7a5c00;
+}
+
+/* ---------------- 底部总控 ---------------- */
+#mcFitCard .mg-foot {
+  margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--mg-border);
+  display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+}
+#mcFitCard .mg-status { font-size: 11.5px; color: var(--mg-text-light); }
+#mcFitCard .mg-status.ok { color: var(--mg-ok); }
+#mcFitCard .mg-status.warn { color: var(--mg-warn); }
+#mcFitCard .mg-hint {
+  font-size: 12px; line-height: 1.7; color: var(--mg-text-light);
+  background: var(--mg-bg); border-radius: 8px; padding: 9px 12px; margin-top: 12px;
+}
+#mcFitCard .mg-hint b { color: var(--mg-text); }
+@media (max-width: 640px) {
+  #mcFitCard .mg-src { margin-left: 0; }
+  #mcFitCard .mg-ch { white-space: normal; }
+}
