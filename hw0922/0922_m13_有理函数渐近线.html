@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>题13 · 有理函数渐近线</title>
+<link rel="stylesheet" href="shared/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+
+<style>
+  .axis-l{stroke:#cbd5e1;stroke-width:1.4}
+  .grid-l{stroke:#eef2f7;stroke-width:1}
+  .lineC{stroke:#6366f1;stroke-width:3;fill:none;stroke-linecap:round}
+  .lineB{stroke:#dc2626;stroke-width:3;fill:none;stroke-linecap:round}
+  .asy{stroke:#94a3b8;stroke-width:1.8;stroke-dasharray:6 5}
+
+  /* 🎯 记忆卡命中分析 */
+  .fit-summary{display:flex;flex-wrap:wrap;gap:14px;align-items:center;background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+  .fit-stat{display:flex;flex-direction:column;min-width:92px}
+  .fit-stat b{font-size:22px;color:var(--primary-dark);line-height:1.1}
+  .fit-stat span{font-size:12px;color:var(--text-light)}
+  .fit-src{margin-left:auto;font-size:12px;color:var(--text-light);border:1px dashed var(--border);border-radius:999px;padding:3px 10px;white-space:nowrap}
+  .fit-hits{display:flex;flex-direction:column;gap:10px}
+  .fcard{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+  .fcard.open{box-shadow:0 4px 14px rgba(30,41,59,.1)}
+  .fcard .fc-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none}
+  .fcard .fc-head:hover{background:var(--bg)}
+  .fc-id{font-size:13px;font-weight:800;color:var(--primary-dark);white-space:nowrap;font-family:var(--mono)}
+  .fc-ch{font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fc-score{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:56px;height:40px;border-radius:8px;font-weight:800;line-height:1}
+  .fc-score b{font-size:16px}
+  .fc-score span{font-size:9px;font-weight:600;margin-top:2px;opacity:.85}
+  .fc-score.hi{background:#dcfce7;color:#166534}
+  .fc-score.mid{background:#fdf3de;color:#b45309}
+  .fc-score.lo{background:#fee2e2;color:#b91c1c}
+  .fc-chev{font-size:14px;color:var(--text-light);transition:transform .2s;flex-shrink:0}
+  .fcard.open .fc-chev{transform:rotate(90deg)}
+  .fc-body{display:none;padding:0 14px 14px;border-top:1px dashed var(--border)}
+  .fcard.open .fc-body{display:block}
+  .fc-fit{margin-top:12px;background:var(--bg);border-left:3px solid var(--accent);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.7}
+  .fc-fit b{color:var(--primary-dark)}
+  .fc-field{font-size:13px;line-height:1.8;margin-top:10px}
+  .fc-field .lbl{display:inline-block;background:var(--bg);border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;color:var(--text-light);margin-right:6px}
+  .fit-hint{font-size:13px;color:var(--danger);background:var(--danger-light);border-radius:8px;padding:8px 12px}
+  /* 🏋️ 命中卡训练操作区（hw_report/记忆卡库风格，云端+本地降级） */
+  .train-ctrl{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;padding-top:10px;border-top:1px dashed var(--border)}
+  .mc-tag-live{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;color:#333}
+  .mc-tag-live.t1{background:#fff3cd;color:#7a5c00}
+  .mc-tag-live.t2{background:#d1ecf9;color:#0c5460}
+  .mc-tag-live.t3{background:#d4edda;color:#155724}
+  .mc-nd{font-size:10px;color:#b45309;background:#fff3cd;padding:2px 8px;border-radius:999px;font-weight:700}
+  .mc-train{border:1.5px solid var(--primary);background:#fff;color:var(--primary-dark);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s,color .15s}
+  .mc-train:hover{background:var(--primary);color:#fff}
+  .mc-train.retry{border-color:#e11d48;color:#be123c}
+  .mc-train.retry:hover{background:#e11d48;color:#fff}
+  .mc-train:disabled{opacity:.6;cursor:default}
+  /* 🔍 契合分析关键词着色（v2） */
+  .fc-fit b{color:#7c3aed}
+  .fc-fit b.hl-a{color:#7c3aed;background:rgba(124,58,237,.09);padding:0 3px;border-radius:4px}
+  .fc-fit b.hl-b{color:#1d4ed8;background:rgba(29,78,216,.07);padding:0 3px;border-radius:4px}
+  .fc-fit b.hl-c{color:#dc2626;background:rgba(220,38,38,.08);padding:0 3px;border-radius:4px}
+  /* ✏️ 卡片编辑保存（v2） */
+  .fc-edit-bar{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .fc-edit-btn{font-size:11px;color:var(--text-light);border:1px solid var(--border);background:#fff;border-radius:6px;padding:2px 10px;cursor:pointer;margin-left:auto;flex-shrink:0;transition:all .15s}
+  .fc-edit-btn:hover{border-color:var(--primary);color:var(--primary-dark)}
+  .fc-edit-btn:disabled{opacity:.5;cursor:default}
+  .fc-field.edit textarea{width:100%;min-height:56px;font-size:13px;line-height:1.7;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;resize:vertical;background:#fff}
+  .fc-field.edit textarea:focus{outline:none;border-color:var(--primary)}
+  .fc-save{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer}
+  .fc-save:hover{filter:brightness(1.08)}
+  .fc-cancel{background:#fff;color:var(--text-light);border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:12px;cursor:pointer}
+  .fc-saved{font-size:11px;color:var(--success)}
+
+/* 🏷️ 全局标签库：标题区标签展示 / 编辑 / 查询 */
+  .cw-tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 2px}
+  .cw-tags-head{font-size:12px;font-weight:800;color:var(--primary-dark);margin-right:2px}
+  .cw-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--primary-dark);background:var(--primary-light);border:1px solid var(--primary);border-radius:999px;padding:3px 10px;cursor:pointer;transition:all .15s}
+  .cw-tag:hover{border-color:var(--primary-dark)}
+  .cw-tag i{font-style:normal;color:var(--text-light);font-size:10px;padding:0 1px}
+  .cw-tag i:hover{color:var(--danger)}
+  .cw-tag.in-edit{border-color:var(--primary);background:#fff;cursor:default}
+  .cw-tag-input{font-size:12px;border:1px solid var(--border);border-radius:8px;padding:4px 8px;width:150px;font-family:inherit}
+  .cw-tag-input:focus{outline:none;border-color:var(--primary)}
+  .cw-tag-save{font-size:11px;background:var(--primary);color:#fff;border:none;border-radius:6px;padding:3px 10px;font-weight:700;cursor:pointer}
+  .cw-tag-save:hover{filter:brightness(1.08)}
+  .cw-tag-add,.cw-tag-q{font-size:11px;color:var(--text-light);border:1px dashed var(--border);background:#fff;border-radius:999px;padding:3px 10px;cursor:pointer}
+  .cw-tag-add:hover,.cw-tag-q:hover{border-color:var(--primary);color:var(--primary-dark)}
+  .cw-tag-add-inline{display:inline-flex}
+  .cw-tag-q-panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:10px 0 2px;box-shadow:0 6px 24px rgba(30,41,59,.08)}
+  .cw-tag-q-panel:not(.open){display:none}
+  .cq-head{font-size:13px;font-weight:800;color:var(--primary-dark);margin-bottom:10px}
+  .cq-select{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--border)}
+  .cq-tag{font-size:12px;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:999px;padding:3px 12px;cursor:pointer}
+  .cq-tag:hover{border-color:var(--primary);color:var(--primary-dark)}
+  .cq-tag.on{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:700}
+  .cq-result{display:flex;flex-direction:column;gap:6px}
+  .cq-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+  .cq-item:hover{border-color:var(--primary);background:var(--bg)}
+  .cq-ic{font-size:15px}
+  .cq-t{font-weight:700;flex:1}
+  .cq-meta{font-size:11px;color:var(--text-light)}
+  .cq-empty{font-size:12px;color:var(--text-light);padding:8px 2px}
+/* 🔎 标签搜索（查询面板 + 添加提示） */
+  .cq-search{width:100%;font-size:12px;border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:10px;font-family:inherit;box-sizing:border-box}
+  .cq-search:focus{outline:none;border-color:var(--primary)}
+  .cw-tag-add-inline{display:inline-flex;position:relative}
+  .cw-tag-suggest-list{position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--border);border-radius:8px;margin-top:3px;box-shadow:0 6px 20px rgba(30,41,59,.12);z-index:30;max-height:200px;overflow:auto;min-width:200px}
+  .cw-tag-suggest-item{display:block;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;color:var(--text)}
+  .cw-tag-suggest-item:hover{background:var(--primary-light);color:var(--primary-dark)}
+  .cw-tag-suggest-empty{font-size:11px;color:var(--text-light);padding:6px 12px}
+</style>
+<script type="application/json" id="c-meta">{"id": "hw20260922_math_q13", "title": "题13 · 有理函数渐近线", "subject": "数学", "chapter": "二次函数与幂函数", "points": ["二次函数·倒数函数图象求系数"], "date": "2026-09-22", "method": "作业讲评"}</script>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+</head>
+<body>
+<div class="cw">
+
+  <header>
+    <div class="crumb">互动课件 · 数学 · 二次函数与幂函数</div>
+    <h1>题13 · 由图象反求参数 a+b+c</h1>
+    <p class="sub">§2.5 二次函数与幂函数 · 课后精练 · 第 13 题 · 渐近线 → 因式分解 → 待定系数</p>
+    <div class="cw-tags" id="cwTagsBox"></div>
+    <a class="back" href="../solution_library.html#courseware">← 返回互动课件</a>
+  </header>
+
+  <section class="card">
+    <h2><span class="dot"></span>原题</h2>
+    <div class="problem">
+      <div>已知函数 <b>f(x) = 1/(ax²+bx+c)</b> 的部分图象如图所示（垂直渐近线 <b>x=2、x=4</b>，对称轴 x=3，过点 (1, 1)，且在 (2, 4) 内为负），则 <b>a+b+c</b> 等于（　）</div>
+      <div style="margin-top:6px">A. −3&emsp;B. −6&emsp;C. 13&emsp;D. 1</div>
+    </div>
+    <div class="note">分母零点在 2、4 ⇒ ax²+bx+c = a(x−2)(x−4)。代入过点 (1,1) 定出 a，再求系数和。将分母写成 a(x−2)(x−4) 即可由一根滑块同时控制全部参数。</div>
+
+    
+    <div class="prob-orig">
+      <div class="prob-orig-head"><b>原题原卷</b><span>点击放大 · 自动定位第 13 题</span></div>
+      <a class="prob-orig-view" href="原卷_题9-14.png" target="_blank"><img src="原卷_题9-14.png" alt="原题原卷" loading="lazy"></a>
+    </div>
+<!-- 原题截图：点选 / 粘贴 / 拖入，自动上传云端仓库 -->
+    <div class="prob-img" data-key="cwM13_probimg" tabindex="0">
+      <div class="prob-img-head">
+        <b>原题图</b>
+        <button type="button" class="prob-img-btn" data-action="pick">选择图片</button>
+        <button type="button" class="prob-img-btn danger" data-action="clear">清除</button>
+      </div>
+      <div class="prob-img-body">
+        <div class="prob-img-empty">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg>
+          <p>此处放入原题截图<br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴，也可将图片拖入本框</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="wrk">
+    <div class="sim-panel">
+      <section class="card">
+        <h2><span class="dot"></span>函数图像实时绘图</h2>
+        <div class="stage">
+          <span class="tip">拖 a → 分母抛物线与对应有理函数同步更新</span>
+          <svg id="plot" viewBox="0 0 620 460"></svg>
+        </div>
+        <div class="legend">
+          <span><i style="background:#6366f1"></i> 分母 a(x−2)(x−4)</span>
+          <span><i style="background:#dc2626"></i> f(x)=1/(a(x−2)(x−4))</span>
+          <span><i style="background:#94a3b8"></i> 垂直渐近线 x=2, x=4</span>
+        </div>
+        <div class="readouts" style="margin-top:12px">
+          <div class="ro"><div class="k">a+b+c = 3a</div><div class="v" id="ro-abc">–</div></div>
+          <div class="ro r1"><div class="k">是否 a=⅓ → 答案</div><div class="v" id="ro-ans">–</div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="param-panel">
+      <section class="card">
+        <h2><span class="dot"></span>参数控制台</h2>
+        <div class="ctrl">
+          <label>系数 a <b id="lbl-a">–</b></label>
+          <input type="range" id="sa" min="0.1" max="1.2" step="0.005" value="0.333">
+        </div>
+        <div class="btns" style="margin-top:6px">
+          <button class="btn" onclick="snap(0.5)">a=½</button>
+          <button class="btn go" onclick="snap(1/3)">a=⅓（答案）</button>
+          <button class="btn warn" onclick="snap(0.9)">a=0.9</button>
+        </div>
+        <div class="note" style="margin-top:10px">因 b=−6a、c=8a，故 <b>a+b+c = 3a</b>。当 a=⅓ 时 a+b+c=1。拖动验证过点 (1,1) 是否成立、图象形状是否吻合。</div>
+      </section>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2><span class="dot"></span>选项判定</h2>
+    <p class="note" style="margin-bottom:10px">对比四个选项与当前的 a+b+c 读数。</p>
+    <div class="opts"><div id="opts"></div></div>
+  </section>
+
+  
+  <section class="card">
+    <h2><span class="dot"></span>分步讲解</h2>
+    <div class="step"><div class="hd"><i>①</i>由零点点读出因式</div><div class="bd">分母的零点正是垂直渐近线出台的位置：<b>x=2、x=4</b> 是 ax²+bx+c 的两根 ⇒ 可设 <b>ax²+bx+c = a(x−2)(x−4)</b>。</div></div>
+    <div class="step"><div class="hd"><i>②</i>代入过点</div><div class="bd">图象过 (1, 1)，即 f(1)=1：<b>1 / [a(1−2)(1−4)] = 1</b> ⇒ 1/(3a) = 1 ⇒ <b>a = ⅓</b>。</div></div>
+    <div class="step"><div class="hd"><i>③</i>展开定 b、c</div><div class="bd">a(x−2)(x−4) = a(x²−6x+8) = ax² − 6a·x + 8a。<br>对比 ax²+bx+c ⇒ <b>b = −6a = −2</b>，<b>c = 8a = 8/3</b>。</div></div>
+    <div class="step"><div class="hd"><i>④</i>求和</div><div class="bd">a+b+c = ⅓ − 2 + 8/3 = <b>1</b>（亦直接由 a+b+c = a−6a+8a = 3a = 3·⅓ 得 1）。</div></div>
+    <div class="step"><div class="hd"><i>⑤</i>结论</div><div class="bd">a+b+c = <b>1</b>，故选 <b>D</b>。</div></div>
+  </section>
+
+  <div class="footer">昕言记忆卡系统 · 数学互动课件 · 题13 有理函数渐近线</div>
+</div>
+
+<script>
+var W=620,H=460,XLO=-1,XHI=6,YLO=-4,YHI=12,PL=46,PR=16,PT=16,PB=42;
+function WX(x){return PL+(x-XLO)/(XHI-XLO)*(W-PL-PR);}
+function WY(y){return H-PB-(y-YLO)/(YHI-YLO)*(H-PT-PB);}
+var NS=2200;
+var svg, sa;
+function den(x,a){return a*(x-2)*(x-4);}
+
+function plot(a){
+  var s='',k,x,y,px,py,i,d1='',p1=false,d2='',p2=false;
+  // 网格与刻度
+  s+='<line x1="'+WX(2)+'" y1="'+WY(YLO)+'" x2="'+WX(2)+'" y2="'+WY(YHI)+'" class="asy"/>';
+  s+='<line x1="'+WX(4)+'" y1="'+WY(YLO)+'" x2="'+WX(4)+'" y2="'+WY(YHI)+'" class="asy"/>';
+  s+='<text x="'+(WX(2)-6)+'" y="'+(WY(YLO)+16)+'" font-size="11" fill="#94a3b8" text-anchor="end">x=2</text>';
+  s+='<text x="'+(WX(4)+6)+'" y="'+(WY(YLO)+16)+'" font-size="11" fill="#94a3b8">x=4</text>';
+  s+='<text x="'+(WX(3)+5)+'" y="'+(WY(0)+30)+'" font-size="11" fill="#94a3b8">对称轴 x=3</text>';
+
+  // 曲线
+  for(i=0;i<=NS;i++){
+    x=XLO+(XHI-XLO)*i/NS;
+    var dy=den(x,a);
+    // 分母抛物线（限制到可视范围）
+    var vy=Math.max(YLO,Math.min(dy,YHI));
+    var f1=dy>YLO&&dy<YHI;
+    px=WX(x);
+    if(f1){ py=WY(vy); if(p1)d1+=' L'+px.toFixed(1)+','+py.toFixed(1); else d1+='M'+px.toFixed(1)+','+py.toFixed(1);} p1=f1;
+    // f=1/分母
+    if(dy!==0){
+      var fy=1/dy;
+      var f2=isFinite(fy)&&Math.abs(fy)<90;
+      if(f2){ py=WY(Math.max(YLO,Math.min(fy,YHI))); if(p2)d2+=' L'+px.toFixed(1)+','+py.toFixed(1); else d2+='M'+px.toFixed(1)+','+py.toFixed(1);} else p2=false;
+    } else p2=false;
+  }
+  if(d1)s+='<path class="lineC" d="'+d1+'"/>';
+  if(d2)s+='<path class="lineB" d="'+d2+'"/>';
+
+  // 坐标轴
+  s+='<line class="axis-l" x1="'+WX(XLO)+'" y1="'+WY(0)+'" x2="'+WX(XHI)+'" y2="'+WY(0)+'"/>';
+  s+='<line class="axis-l" x1="'+WX(0)+'" y1="'+WY(YLO)+'" x2="'+WX(0)+'" y2="'+WY(YHI)+'"/>';
+  for(k=0;k<=5;k++){
+    s+='<text x="'+(WX(k)-7)+'" y="'+(WY(0)+16)+'" font-size="11" fill="#94a3b8" text-anchor="end">'+k+'</text>';
+    s+='<line class="grid-l" x1="'+WX(k)+'" y1="'+WY(YLO)+'" x2="'+WX(k)+'" y2="'+WY(YHI)+'"/>';
+  }
+  s+='<text x="'+(WX(XHI)+2)+'" y="'+(WY(0)+18)+'" font-size="13" fill="#64748b" font-weight="700">x</text>';
+  s+='<text x="'+(WX(0)+8)+'" y="'+(WY(YHI)+8)+'" font-size="13" fill="#64748b" font-weight="700">y</text>';
+
+  // 过点 (1,1)
+  s+='<circle cx="'+WX(1)+'" cy="'+WY(1)+'" r="5" fill="#16a34a" stroke="#fff" stroke-width="2"/>';
+  s+='<text x="'+(WX(1)+8)+'" y="'+(WY(1)-8)+'" font-size="11" fill="#16a34a" font-weight="700">(1,1)</text>';
+
+  svg.innerHTML=s;
+}
+function snap(v){ sa.value=v; update(); }
+
+function update(){
+  var a=parseFloat(sa.value);
+  document.getElementById('lbl-a').textContent=a.toFixed(3);
+  var abc=3*a;
+  document.getElementById('ro-abc').textContent=abc.toFixed(3);
+  var an=document.getElementById('ro-ans');
+  var hit=Math.abs(a-1/3)<0.02;
+  an.textContent=hit?'是（a+b+c=1 → D）':'否（当前 3a='+abc.toFixed(2)+'）';
+  an.style.color=hit?'var(--success)':'var(--danger)';
+  // f(1) 是否≈1
+  var at1=1/den(1,a);
+  renderOpts(abc,a,at1);
+  plot(a);
+}
+
+var OPTS=[
+  {v:-3, ans:false, why:'a+b+c = −3 时，a = −1，但 a&gt;0（开口向上且过点需正系数），矛盾'},
+  {v:-6, ans:false, why:'a+b+c = −6 时，a = −2 &lt; 0，与 a&gt;0 矛盾'},
+  {v:13, ans:false, why:'a+b+c = 13 时，a = 13/3 = 4.33，远超与渐近线 x=2、x=4 匹配的曲线'},
+  {v:1,  ans:true,  why:'a+b+c = 1 ⇒ a = ⅓、b=−2、c=8/3，全部吻合，为正确答案'}
+];
+function renderOpts(abc,a,at1){
+  var c=document.getElementById('opts'); c.innerHTML='';
+  OPTS.forEach(function(o){
+    var matched=Math.abs(abc-o.v)<0.01;
+    var html='<div class="opt'+(o.ans?' match':'')+'" onclick="this.classList.toggle(\'open\')">'
+      +'<div class="row"><span class="k">'+o.v+'</span><span class="t">a+b+c = '+o.v+'</span>'
+      +'<span class="badge">'+(o.ans?'答案':'干扰项')+'</span></div>'
+      +'<div class="reveal">'+o.why+(o.ans?('  （可点击 a=⅓ 快速定位）'):'')+'</div></div>';
+    c.insertAdjacentHTML('beforeend', html);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  svg=document.getElementById('plot'); sa=document.getElementById('sa');
+  sa.addEventListener('input', update);
+  update();
+});
+  // 分步讲解逐条显示（需加 show 类，见 shared/style.css .step）
+  var sts=document.querySelectorAll('.step'); sts.forEach(function(s,i){ setTimeout(function(){ s.classList.add('show'); }, i*160); });
+</script>
+<script src="shared/engine.js"></script>
+<script>
+// ==================== 🏷️ 全局标签库（标题区展示/编辑 + 按标签查询全局要素） ====================
+const CW_ENTITY = { type:'courseware', id:'m13', title:'题13 · 有理函数渐近线', subject:'数学', chapter:'二次函数与幂函数', url:'0922_m13_有理函数渐近线.html' };
+const CW_TAGS = ["\u51fd\u6570\u56fe\u8c61", "\u6e10\u8fd1\u7ebf", "\u5f85\u5b9a\u7cfb\u6570", "\u56e0\u5f0f\u5206\u89e3"];
+
+// ==================== 🏷️ 全局标签库（标题区展示/编辑 + 按标签查询全局要素） ====================
+// 云表 tag_entity 存 tag ↔ 实体映射，支持按标签反查记忆卡/课件/错题等全局要素
+const TAG_MOD_KEY = 'gtag_entity_mod';
+// 归一表：与 solution_library / card_library 保持一致
+const TAG_MOD_NORM = {
+  '图像':'图象','幂函数图像':'幂函数图象','函数图像':'函数图象','幂函数的图象':'幂函数图象',
+  '二次函数图像':'二次函数图象','奇偶性判断':'奇偶性','单调性判断':'单调性',
+  '定义域限制':'定义域','函数定义域':'定义域','求定义域':'定义域'
+};
+function tagNorm2(t){
+  const s = String(t||'').trim().replace(/[\u3000\s]+/g,'');
+  return s ? (TAG_MOD_NORM[s] || s) : '';
+}
+function tagFetch2(url, opt, ms){
+  const c = new AbortController(); const t = setTimeout(()=>c.abort(), ms||5000);
+  return fetch(url, Object.assign({}, opt||{}, {signal:c.signal})).finally(()=>clearTimeout(t));
+}
+async function tagCandidates2(){
+  const out = [];
+  try{ const h = location.hostname; if(h && h!=='localhost' && h!=='127.0.0.1'){ const b = (location.protocol||'http:')+'//'+h+':8000'; if(!out.includes(b)) out.push(b); } }catch(e){}
+  ['http://100.84.111.99:8000','http://192.168.31.12:8000'].forEach(u=>{ if(!out.includes(u)) out.push(u); });
+  return out;
+}
+let tagSupa2 = tagCandidates2()[0];
+const tagKey2 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzg5OTY4NjE5LCJleHAiOjE5NDc2NDg2MTl9.eOwmYVFJEfyHd8xrKtuns2nVcXdC08SejgBrGjm5Zrw';
+const tagTbl2 = 'gaokao_state';
+const tagEntTbl = 'tag_entity';
+async function tagResolve2(){
+  if(window.__tagSupaReady) return tagSupa2;
+  for(const b of await tagCandidates2()){
+    try{
+      const r = await tagFetch2(`${b}/rest/v1/${tagEntTbl}?select=tag&limit=1`, {headers:{apikey:tagKey2, Authorization:'Bearer '+tagKey2}});
+      if(r.status < 500){ tagSupa2 = b; window.__tagSupaReady = true; return b; }
+    }catch(e){}
+  }
+  return tagSupa2;
+}
+function tagHdr2(){
+  return {'apikey':tagKey2,'Authorization':'Bearer '+tagKey2,'Content-Type':'application/json'};
+}
+// 读取本地标题区修改表（id -> {tags 或 singleTag}），覆盖云 tag_entity
+function tagReadMod2(){
+  try{ return JSON.parse(localStorage.getItem(TAG_MOD_KEY)||'{}'); }catch(e){ return {}; }
+}
+function tagWriteMod2(m){ try{ localStorage.setItem(TAG_MOD_KEY, JSON.stringify(m)); }catch(e){} }
+async function tagUpsert2(rows){
+  try{
+    const payload = rows.map(r => Object.assign({ ts: Date.now() }, r));
+    await tagFetch2(`${tagSupa2}/rest/v1/${tagEntTbl}`, {
+      method:'POST', headers:Object.assign(tagHdr2(), {'Prefer':'resolution=merge-duplicates'}),
+      body:JSON.stringify(payload)
+    });
+  }catch(e){ console.warn('tagUpsert2 error:', e); }
+}
+async function tagDelete2(id){
+  try{ await tagFetch2(`${tagSupa2}/rest/v1/${tagEntTbl}?id=eq.${encodeURIComponent(id)}`, { method:'DELETE', headers:tagHdr2() }); }catch(e){}
+}
+// 当前课件的固有标签（标题区展示 + 登记）
+function cwTags2(){
+  const tags = CW_TAGS;
+  const m = tagReadMod2()[CW_ENTITY.id];
+  if(m && Array.isArray(m.tags) && m.tags.length) return m.tags;
+  return tags;
+}
+async function ensureCwTagRows2(){
+  const list = cwTags2();
+  // 重命名处理：id 与 tag 绑定，若本地改了名用新名
+  const m = tagReadMod2()[CW_ENTITY.id];
+  const usedTags = (m && Array.isArray(m.tags) && m.tags.length) ? m.tags : list;
+  const rows = usedTags.map((t,i) => ({
+    id: CW_ENTITY.id+'-'+i, tag: tagNorm2(t), entity_type:'courseware', entity_id:'cwM1',
+    title:CW_ENTITY.title, subject:CW_ENTITY.subject, chapter:CW_ENTITY.chapter,
+    url: location.pathname.split('/').pop()
+  }));
+  await tagUpsert2(rows);
+  // 移除超出的旧行
+  const mod = tagReadMod2();
+  const want = (mod['cwM1'] ? mod['cwM1'].tags : list).length;
+  for(let i=want;i<10;i++){ await tagDelete2(CW_ENTITY.id+'-'+i); }
+}
+async function renderCwTags2(){
+  const box = document.getElementById('cwTagsBox'); if(!box) return;
+  const list = cwTags2();
+  box.innerHTML = '<div class="cw-tags-head">🏷️ 标签</div>'
+    + list.map((t,i) => `<span class="cw-tag" data-idx="${i}" data-tag="${tagNorm2(t)}" onclick="clickCwTag2(this)">${t}<i data-kill onclick="event.stopPropagation();removeCwTag2(this)">✕</i></span>`).join('')
+    + '<button class="cw-tag-add" onclick="startAddCwTag2(this)">＋ 添加</button>'
+    + '<button class="cw-tag-q" onclick="toggleTagQuery2(this)">🔍 按标签查询</button>';
+  window.__cwAutoRender && window.__cwAutoRender(box);
+}
+function clickCwTag2(el){
+  if(document.querySelector('.cw-tag.in-edit')){
+    document.querySelectorAll('.cw-tag.in-edit').forEach(x => flushCwTagEdit2(x));
+  }
+  el.classList.add('in-edit');
+  const cur = el.dataset.tag;
+  el.innerHTML = `<input class="cw-tag-input" value="${cur}" onkeydown="cwTagInputKey(event,this)"><button class="cw-tag-save" onclick="event.stopPropagation();flushCwTagEdit2(this.parentElement)">存</button>`;
+  const inp = el.querySelector('input'); inp.focus();
+}
+function cwTagInputKey(e){
+  if(e.key==='Enter'){ e.stopPropagation(); flushCwTagEdit2(e.target.closest('.cw-tag')); }
+  if(e.key==='Escape'){ e.stopPropagation(); document.querySelector('.cw-tag.in-edit').classList.remove('in-edit'); renderCwTags2(); }
+}
+async function flushCwTagEdit2(el){
+  if(!el || !el.classList.contains('in-edit')) return;
+  const inp = el.querySelector('input'); const newTag = tagNorm2(inp ? inp.value : '');
+  el.classList.remove('in-edit');
+  const idx = +el.dataset.idx; const m = tagReadMod2(); const mod = m[CW_ENTITY.id] || {};
+  const src = Array.isArray(mod.tags) && mod.tags.length ? mod.tags : CW_TAGS;
+  if(newTag){ src[idx] = newTag; } else { src.splice(idx,1); }
+  m['cwM1'] = Object.assign({}, mod, { tags: src, edited_at: new Date().toISOString() });
+  tagWriteMod2(m);
+  await ensureCwTagRows2();
+  renderCwTags2();
+}
+function removeCwTag2(iconEl){
+  const el = iconEl.closest('.cw-tag'); const idx = +el.dataset.idx;
+  const m = tagReadMod2(); const mod = m[CW_ENTITY.id] || {};
+  const src = Array.isArray(mod.tags) && mod.tags.length ? mod.tags : CW_TAGS;
+  src.splice(idx,1);
+  m['cwM1'] = Object.assign({}, mod, { tags: src, edited_at: new Date().toISOString() });
+  tagWriteMod2(m);
+  ensureCwTagRows2();
+  renderCwTags2();
+}
+function startAddCwTag2(btn){
+  btn.hidden = true;
+  const inp = document.createElement('input');
+  inp.className = 'cw-tag-input'; inp.placeholder = '输入标签，下方给出相近标签';
+  inp.onkeydown = e => {
+    if(e.key==='Enter'){ e.stopPropagation(); hideAddTagSuggest(); const v = tagNorm2(inp.value); if(v){ const m = tagReadMod2(); const mod = m[CW_ENTITY.id]||{}; const src = Array.isArray(mod.tags)&&mod.tags.length?mod.tags:CW_TAGS; src.push(v); m[CW_ENTITY.id]=Object.assign({},mod,{tags:src,edited_at:new Date().toISOString()}); tagWriteMod2(m); ensureCwTagRows2(); } renderCwTags2(); }
+    if(e.key==='Escape'){ e.stopPropagation(); hideAddTagSuggest(); renderCwTags2(); }
+  };
+  // 中文组合期间不触发，避免拼音首字母触发误提示
+  inp.addEventListener('compositionstart', ()=>{ window.__cwTagComposing = true; });
+  inp.addEventListener('compositionend', ()=>{ window.__cwTagComposing = false; onAddTagInput(inp); });
+  inp.addEventListener('input', ()=>{ if(window.__cwTagComposing !== true) onAddTagInput(inp); });
+  const addBox = document.createElement('span'); addBox.className='cw-tag-add-inline'; addBox.appendChild(inp);
+  btn.parentElement.insertBefore(addBox, btn.nextSibling);
+  inp.focus();
+}
+function hideAddTagSuggest(){
+  const el = document.getElementById('cwTagSuggest');
+  if(el) el.remove();
+}
+function onAddTagInput(inp){
+  hideAddTagSuggest();
+  const k = tagNorm2(inp.value);
+  if(!k) return;
+  tagAll2().then(all => {
+    if(tagNorm2(inp.value) !== k) return;   // 已变化
+    const hits = all.filter(t => t && (t.indexOf(k) >= 0 || k.indexOf(t) >= 0)).slice(0, 8);
+    const listEl = document.createElement('div');
+    listEl.id = 'cwTagSuggest'; listEl.className = 'cw-tag-suggest-list';
+    if(!hits.length){
+      listEl.innerHTML = '<div class="cw-tag-suggest-empty">没有相近标签，回车直接新增</div>';
+    } else {
+      listEl.innerHTML = hits.map(t => `<span class="cw-tag-suggest-item" data-tag="${t}">${t}</span>`).join('');
+      listEl.querySelectorAll('.cw-tag-suggest-item').forEach(item => {
+        item.onclick = ()=>{ inp.value = item.getAttribute('data-tag'); hideAddTagSuggest(); inp.focus(); };
+      });
+    }
+    const wrap = inp.closest('.cw-tag-add-inline');
+    if(wrap) wrap.appendChild(listEl);
+  });
+}
+// 🔍 全局标签查询面板：选标签 → 反查记忆卡 / 课件 / 错题
+let TAG_QRY = null, TAG_Q_ACTIVE = new Set(), TAG_Q_ALL = [];
+window.__cwTagComposing = false;
+async function toggleTagQuery2(btn){
+  if(TAG_QRY){
+    TAG_QRY.classList.toggle('open');
+    if(TAG_QRY.classList.contains('open')) queryTagResults2([...TAG_Q_ACTIVE]);
+    return;
+  }
+  const box = document.getElementById('cwTagsBox');
+  const p = document.createElement('div'); p.className='cw-tag-q-panel'; p.innerHTML = `
+    <div class="cq-head">🔍 全局标签查询</div>
+    <input class="cq-search" id="cqSearch" placeholder="搜索标签（如：幂函数、奇偶性、单调性…）"
+      oninput="onCqSearchInput(this)" oncompositionstart="window.__cwTagComposing=true" oncompositionend="window.__cwTagComposing=false;onCqSearchInput(this)">
+    <div class="cq-select" id="cqSelect"></div>
+    <div class="cq-result" id="cqResult"><div class="cq-empty">正在载入标签…</div></div>`;
+  box.insertAdjacentElement('afterend', p);
+  TAG_QRY = p; TAG_QRY.classList.add('open');
+  loadTagOptions2();
+  queryTagResults2([...TAG_Q_ACTIVE]);
+}
+// 全量标签缓存：查询面板与添加提示共用一个源，避免重复拉取
+async function tagAll2(){
+  if(TAG_Q_ALL.length) return TAG_Q_ALL;
+  const base = await tagResolve2();
+  try{
+    const r = await tagFetch2(`${base}/rest/v1/${tagEntTbl}?select=tag`, {headers:tagHdr2()});
+    const rows = await r.json();
+    TAG_Q_ALL = [...new Set((rows||[]).map(x=>x.tag).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh'));
+  }catch(e){}
+  return TAG_Q_ALL;
+}
+async function loadTagOptions2(){
+  const sel = document.getElementById('cqSelect'); if(!sel) return;
+  await tagAll2();
+  renderTagsForSearch('');
+}
+// 按关键字过滤渲染标签按钮（保留 TAG_Q_ACTIVE 高亮；中文组合未结束不刷新）
+function renderTagsForSearch(kw){
+  const sel = document.getElementById('cqSelect'); if(!sel) return;
+  const k = (kw||'').trim();
+  const list = TAG_Q_ALL.filter(t => !k || t.indexOf(k) >= 0);
+  sel.innerHTML = '';
+  list.forEach(t => {
+    const b = document.createElement('button'); b.className='cq-tag';
+    b.textContent = t; b.onclick = ()=>{ toggleTagQ2(t,b); };
+    sel.appendChild(b);
+  });
+  refreshTagOptions2();
+}
+function onCqSearchInput(inp){
+  if(window.__cwTagComposing === true) return;
+  renderTagsForSearch(inp.value);
+}
+function refreshTagOptions2(){
+  document.querySelectorAll('#cqSelect .cq-tag').forEach(b => {
+    b.classList.toggle('on', TAG_Q_ACTIVE.has(b.textContent));
+  });
+}
+function toggleTagQ2(t, btn){
+  if(TAG_Q_ACTIVE.has(t)) TAG_Q_ACTIVE.delete(t); else TAG_Q_ACTIVE.add(t);
+  btn.classList.toggle('on', TAG_Q_ACTIVE.has(t));
+  queryTagResults2([...TAG_Q_ACTIVE]);
+}
+async function queryTagResults2(tags){
+  const res = document.getElementById('cqResult'); if(!res) return;
+  if(!tags.length){ res.innerHTML = '<div class="cq-empty">请选择上方标签 → 反查关联要素</div>'; return; }
+  res.innerHTML = '<div class="cq-empty">查询中…</div>';
+  const base = await tagResolve2();
+  let rows = [];
+  try{
+    // tag=in.(...) 一次拉回候选行，前端按实体聚合实现「同时含所选标签」的 AND 语义
+    const q = `tag=in.(${tags.map(encodeURIComponent).join(',')})`;
+    const r = await tagFetch2(`${base}/rest/v1/${tagEntTbl}?${q}&select=entity_type,entity_id,title,subject,chapter,url,tag`, {headers:tagHdr2()});
+    rows = await r.json();
+  }catch(e){}
+  // 按实体聚合：entity_type + entity_id 为键，收集其标签
+  const groups = new Map();
+  (rows||[]).forEach(x => {
+    const key = (x.entity_type||'') + '::' + (x.entity_id||'');
+    if(!groups.has(key)) groups.set(key, Object.assign({}, x, {tags:[]}));
+    groups.get(key).tags.push(x.tag);
+  });
+  const want = new Set(tags);
+  const hits = [...groups.values()].filter(g => want.size && tags.every(t => g.tags.includes(t)));
+  res.innerHTML = '';
+  if(!hits.length){ res.innerHTML = `<div class="cq-empty">没有同时含「${tags.join(' + ')}」的要素</div>`; return; }
+  hits.forEach(x => {
+    const has = document.createElement('a'); has.className='cq-item';
+    has.href = '#'; has.onclick = e => { e.preventDefault(); gotoTagEntity2(x); };
+    has.innerHTML = `<span class="cq-ic">${x.entity_type==='courseware'?'📄':(x.entity_type==='card'?'🃏':'📋')}</span>
+      <span class="cq-t">${x.title||x.entity_id||'（无标题）'}</span>
+      <span class="cq-meta">${x.entity_type} · ${x.subject||''} · ${x.tags.join('/')}</span>`;
+    res.appendChild(has);
+  });
+}
+function gotoTagEntity2(x){
+  if(x.entity_type==='courseware'){
+    const base = location.href.substring(0, location.href.lastIndexOf('/')) + '/';
+    window.open(base + (x.url || x.entity_id + '.html'), '_blank');
+  } else if(x.entity_type==='card'){
+    window.open('../card_library.html' + (x.entity_id ? '#'+x.entity_id : ''), '_blank');
+  } else {
+    window.open('../solution_library.html', '_blank');
+  }
+}
+// 静态正文 $...$ 自动渲染（KaTeX 加载后执行）
+function cwAutoRender(root){
+  if(!root) root = document;
+  if(window.renderMathInElement){
+    try{
+      renderMathInElement(root, { delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError:false, ignoredTags:['textarea','script','noscript','style','pre'] });
+    }catch(e){}
+  }
+}
+window.__cwAutoRender = cwAutoRender;
+async function initCwTags2(){
+  await tagResolve2();
+  await ensureCwTagRows2();
+  renderCwTags2();
+}
+window.addEventListener('DOMContentLoaded', initCwTags2);
+// 等静态正文渲染后再渲染公式（body 重构前挂载）
+window.addEventListener('load', function(){ cwAutoRender(document.body); });
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<!--COURSEWARE-FEAT-BEGIN-->
+
+<div id="crate-bar" class="cbar collapsed" title="课件评价：这套课件质量如何">
+  <span id="crate-label" class="clab">⭐ 评价课件</span>
+  <button type="button" id="crate-good" class="crg cbtn">👍 好</button>
+  <button type="button" id="crate-hard" class="crh cbtn">📕 课件不好懂</button>
+  <button type="button" id="crate-teach" class="crt cbtn">🗣️ 没老师讲的好</button>
+  <span id="crate-flash"></span>
+</div>
+<div id="cstat-bar" class="cbar collapsed" title="学习自评：点击累计计数">
+  <span id="cstat-label" class="clab">📋 自评</span>
+  <button type="button" id="cstat-sk" class="csk cbtn">✅ 答对</button>
+  <button type="button" id="cstat-fz" class="cfz cbtn">🟡 部分对</button>
+  <button type="button" id="cstat-fg" class="cfg cbtn">❌ 答错</button>
+  <span id="cstat-counts"></span>
+  <span id="cstat-flash"></span>
+</div>
+<script>(function(){
+  'use strict';
+  if (window.__cstatUI) return; window.__cstatUI = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CID = CM.id;
+  var CSTAT_KEY = 'cstat:' + CID;
+  var RATE_KEY  = 'crate:' + CID;
+  function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
+  function readR(){ try{ return JSON.parse(localStorage.getItem(RATE_KEY))||{}; }catch(e){ return {}; } }
+  function record(state){
+    var s = readS();
+    s[state] = (s[state]||0)+1;
+    var reset = false;
+    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    s.ts = Date.now();
+    try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
+    try{ localStorage.setItem('cvisit:' + CID, JSON.stringify({ ts: Date.now() })); }catch(e){}
+    window.dispatchEvent(new CustomEvent('cstat:change'));
+    render();
+    return reset;
+  }
+  window.__recordCourseState = record;
+  function render(){
+    var s = readS();
+    var el = document.getElementById('cstat-counts');
+    if (el) el.textContent = '✅'+(s.skilled||0)+' · 🟡'+(s.fuzzy||0)+' · ❌'+(s.forgot||0);
+  }
+  function flash(msg){
+    var el = document.getElementById('cstat-flash'); if (!el) return;
+    el.textContent = msg; el.classList.add('show'); clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+  function bind(id, state, label, extra){
+    var b = document.getElementById(id); if (!b) return;
+    b.addEventListener('click', function(e){ e.stopPropagation();
+      var reset = record(state); var n = readS()[state]||0;
+      flash(label+' ×'+n+' 已记录' + (extra && reset ? extra : ''));
+    });
+  }
+  // 评价课件：写入本地 crate:<CID> 并触发云端上报（菜单不显示计数）
+  function rateLocal(id, field, label){
+    var b = document.getElementById(id); if (!b) return;
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      var r = readR(); r[field] = (r[field]||0)+1;
+      try{ localStorage.setItem(RATE_KEY, JSON.stringify(r)); }catch(e){}
+      window.dispatchEvent(new CustomEvent('cstat:change'));
+      flash(label+'（已记下，计入云端）');
+    });
+  }
+  function bindToggle(barId, labelId){
+    var bar = document.getElementById(barId), lab = document.getElementById(labelId);
+    if (!bar || !lab) return;
+    lab.addEventListener('click', function(e){ e.stopPropagation(); bar.classList.toggle('collapsed'); });
+  }
+  function init(){
+    bind('cstat-sk','skilled','✅ 答对','（部分对/答错已清零）');
+    bind('cstat-fz','fuzzy','🟡 部分对');
+    bind('cstat-fg','forgot','❌ 答错');
+    rateLocal('crate-good','good','👍 好');
+    rateLocal('crate-hard','hard','📕 课件不好懂');
+    rateLocal('crate-teach','teach','🗣️ 没老师讲的好');
+    bindToggle('cstat-bar','cstat-label');
+    bindToggle('crate-bar','crate-label');
+    render();
+  }
+  document.addEventListener('click', function(e){
+    if(!(e.target.closest && e.target.closest('#cstat-bar'))) { var a=document.getElementById('cstat-bar'); if(a)a.classList.add('collapsed'); }
+    if(!(e.target.closest && e.target.closest('#crate-bar'))) { var b=document.getElementById('crate-bar'); if(b)b.classList.add('collapsed'); }
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();</script>
+<script>(function(){
+  'use strict';
+  if (window.__cstatReporter) return; window.__cstatReporter = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  if (!CM || !CM.id) return;
+  var CID = CM.id;
+  var CSTAT_KEY = 'cstat:' + CID;
+  var CRATE_KEY = 'crate:' + CID;
+  var CVISIT_KEY = 'cvisit:' + CID;
+  var SYNC_KEY  = 'csync:' + CID;
+  var AUTO_KEY  = 'course_auto_sync';
+  var CFG_KEY   = 'course_cloud_cfg';
+  var DEFAULT_CLOUD = { url: 'https://mixuqjognbdrafrrlivc.supabase.co', key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
+  var STATS_TABLE = 'course_stats';
+  function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
+  function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function cloudCfg(){ var c = readJSON(CFG_KEY, null); if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c; return DEFAULT_CLOUD; }
+  function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
+  // 仅上报课件页 UI 可改的字段：自评(cstat) + 评价(crate)。redo/notes 由门户/笔记脚本各自维护，避免回写覆盖。
+  function compute(){
+    var s = readJSON(CSTAT_KEY, {});
+    var r = readJSON(CRATE_KEY, {});
+    return { skilled:s.skilled||0, fuzzy:s.fuzzy||0, forgot:s.forgot||0,
+             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
+  }
+  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
+  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
+  function fetchCloudRow(cfg, cb){
+    try {
+      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
+      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE + '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
+      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
+      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
+      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
+        if (timer) clearTimeout(timer); cb(Array.isArray(j) && j.length ? j[0] : null);
+      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
+    } catch(e){ cb(null); }
+  }
+  function refreshFromCloud(){ if (!autoOn()) return; var cfg = cloudCfg(); fetchCloudRow(cfg, function(row){ if(row) saveJSON('ccloud:'+CID, row); }); }
+  function report(){
+    var s = compute(); var snap = JSON.stringify(s);
+    if (snap !== lastLocal){ lastLocal = snap; try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){} }
+    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    if (!vt){ vt = Date.now(); try{ localStorage.setItem(CVISIT_KEY, JSON.stringify({ts:vt})); }catch(e){} }
+    if (snap !== lastCloud && autoOn()){ lastCloud = snap; clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 3000); }
+  }
+  function pushCloud(){
+    if (inFlight){ setTimeout(pushCloud, 1500); return; } inFlight = true;
+    var s = compute(); var cfg = cloudCfg();
+    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
+    fetchCloudRow(cfg, function(row){
+      var base = row || {};
+      var d = { skilled: s.skilled - syncBase.skilled, fuzzy: s.fuzzy - syncBase.fuzzy, forgot: s.forgot - syncBase.forgot,
+                rg: s.rg - syncBase.rg, rh: s.rh - syncBase.rh, rt: s.rt - syncBase.rt };
+      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
+      var payload = {
+        course_id: CID,
+        skilled: (base.skilled||0) + d.skilled,
+        fuzzy:   (base.fuzzy||0) + d.fuzzy,
+        forgot:  (base.forgot||0) + d.forgot,
+        rating_good:  (base.rating_good||0) + d.rg,
+        rating_hard:  (base.rating_hard||0) + d.rh,
+        rating_teach: (base.rating_teach||0) + d.rt,
+        updated_at: new Date().toISOString(),
+        last_visit: vt ? new Date(vt).toISOString() : null
+      };
+      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
+      var opts = { method:'POST', headers:{ apikey:cfg.key, Authorization:'Bearer '+cfg.key, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify([payload]) };
+      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
+      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
+        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
+        .catch(function(){})
+        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+    });
+  }
+  function subscribeRealtime(){
+    try {
+      if (typeof WebSocket === 'undefined') return;
+      var cfg = cloudCfg();
+      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' + encodeURIComponent(cfg.key) + '&vsn=1.0.0';
+      var ws = new WebSocket(wsUrl); var chan = 'cstat-' + CID; var hb = null;
+      ws.onopen = function(){
+        rtAlive = true;
+        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: { config: { postgres_changes: [ { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID } ] } }, ref: '1' }));
+        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
+      };
+      ws.onmessage = function(ev){ try{ var m = JSON.parse(ev.data); if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud(); }catch(e){} };
+      ws.onerror = function(){ };
+      ws.onclose = function(){ if (hb) clearInterval(hb); setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); };
+    } catch(e){}
+  }
+  function startPolling(){ setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000); }
+  function watch(){
+    report();
+    window.addEventListener('cstat:change', report);
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) report(); });
+    window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
+    setInterval(function(){ if (!document.hidden) report(); }, 5000);
+    refreshFromCloud(); startPolling(); subscribeRealtime();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
+  else watch();
+})();</script>
+
+<script>
+/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+(function(){
+  'use strict';
+  if (window.__tnav) return;
+  window.__tnav = true;
+  var ti = NaN;
+  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var urls = g.urls;
+  function toUrl(u, idx){
+    var sep = u.indexOf('?') >= 0 ? '&' : '?';
+    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  }
+  function build(){
+    var bar = document.createElement('div');
+    bar.id = 'tnav-bar';
+    var prev = ti > 0
+      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+    var next = ti < urls.length - 1
+      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
+      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
+    document.body.appendChild(bar);
+    document.getElementById('tnav-exit').addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.removeItem('train_group'); } catch(e){}
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('tnav-bar')) return;
+    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>
+
+
+<script>
+/* ===== 浮动工具栏长按拖动：自评/评价/专题练串联条，位置记忆 ===== */
+(function(){
+  'use strict';
+  if (window.__bardrag) return;
+  window.__bardrag = true;
+  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var LONG = 400, MOVE = 6;
+  function key(id){ return 'bar_pos:' + id; }
+  function place(el, l, t){
+    var w = el.offsetWidth || 0, h = el.offsetHeight || 0;
+    l = Math.min(Math.max(l, 4), window.innerWidth - w - 4);
+    t = Math.min(Math.max(t, 4), window.innerHeight - h - 4);
+    el.style.left = l + 'px';
+    el.style.top = t + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.transform = 'none'; // 覆盖 tnav-bar 的 translateX(-50%)
+  }
+  function restore(el){
+    try{
+      var p = JSON.parse(localStorage.getItem(key(el.id)));
+      if (p && typeof p.left === 'number') place(el, p.left, p.top);
+    }catch(e){}
+  }
+  function makeDraggable(el){
+    if (!el || el.__drag) return;
+    el.__drag = true;
+    var timer = null, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, pid = null;
+    el.style.touchAction = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if (e.button) return;
+      sx = e.clientX; sy = e.clientY;
+      var r = el.getBoundingClientRect(); ox = r.left; oy = r.top;
+      dragging = false; pid = e.pointerId;
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        dragging = true;
+        el.classList.add('bar-dragging');
+        try { el.setPointerCapture(pid); } catch(e2){}
+        try { navigator.vibrate && navigator.vibrate(30); } catch(e2){}
+      }, LONG);
+    });
+    el.addEventListener('pointermove', function(e){
+      if (!dragging){
+        if (Math.abs(e.clientX - sx) > MOVE || Math.abs(e.clientY - sy) > MOVE) clearTimeout(timer);
+        return;
+      }
+      e.preventDefault();
+      place(el, ox + e.clientX - sx, oy + e.clientY - sy);
+    });
+    function up(){
+      clearTimeout(timer);
+      if (dragging){
+        el.classList.remove('bar-dragging');
+        try{
+          localStorage.setItem(key(el.id), JSON.stringify({
+            left: parseFloat(el.style.left), top: parseFloat(el.style.top) }));
+        }catch(e2){}
+      }
+      dragging = false;
+    }
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+    window.addEventListener('resize', function(){ restore(el); });
+  }
+  function init(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el){ makeDraggable(el); restore(el); }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+
+<script>
+(function(){
+  var CID=(function(){
+    try{
+      var m=document.querySelector('script[type="application/json"]#c-meta');
+      if(m){var j=JSON.parse(m.textContent);if(j&&j.id)return j.id;}
+    }catch(e){}
+    return 'course_'+(location.pathname.replace(/[^a-z0-9]+/gi,'_').slice(-40));
+  })();
+  var DEF=['知道套路但忘了','套路记得，没想到在这用','完全不知道有套路','计算出错','看错题干','其他'];
+  function vocab(){try{var v=JSON.parse(localStorage.getItem('note_tags'));if(Array.isArray(v)&&v.length)return v;}catch(e){}return DEF.slice();}
+  function localNotes(){try{var v=JSON.parse(localStorage.getItem('cnote:'+CID));return Array.isArray(v)?v:[];}catch(e){return[];}}
+  function saveLocal(a){try{localStorage.setItem('cnote:'+CID,JSON.stringify(a));}catch(e){}}
+  var DEFAULT_CLOUD = { url:'https://mixuqjognbdrafrrlivc.supabase.co', key:'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
+  var CFG=(function(){
+    var src=document.documentElement.innerHTML;
+    var mu=src.match(/https:\/\/[a-z0-9]+\.supabase\.co/);
+    var mk=src.match(/eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+/);
+    if(mu&&mu[0]&&mk&&mk[0]) return {url:mu[0],key:mk[0]};
+    return DEFAULT_CLOUD;
+  })();
+  function pushCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      fetch(CFG.url+'/rest/v1/course_notes',{method:'POST',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify([{course_id:CID,tags:rec.tags,note:rec.note,created_at:new Date(rec.ts).toISOString()}])
+      }).catch(function(e){console.warn('[cnote] push fail',e);});
+    }catch(e){}
+  }
+  var pill=document.createElement('button');pill.id='cnotePill';pill.type='button';pill.textContent='💡 记一下错误原因';
+  document.body.appendChild(pill);
+  var pop=document.createElement('div');pop.id='cnotePop';
+  document.body.appendChild(pop);
+  var sel={};
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function saveRec(tags,txt){
+    var rec={tags:tags,note:txt,ts:Date.now()};
+    var arr=localNotes();arr.push(rec);saveLocal(arr);
+    pushCloud(rec);
+    return rec;
+  }
+  function delCloud(rec){
+    if(!CFG.url||!CFG.key)return;
+    try{
+      var iso=new Date(rec.ts).toISOString();
+      fetch(CFG.url+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+'&created_at=eq.'+encodeURIComponent(iso),{method:'DELETE',
+        headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}}).catch(function(e){console.warn('[cnote] del fail',e);});
+    }catch(e){}
+  }
+  function cancelRec(tag,rec){
+    var arr=localNotes();
+    for(var i=arr.length-1;i>=0;i--){
+      if(arr[i].ts===rec.ts&&(arr[i].tags||[]).length===1&&arr[i].tags[0]===tag){
+        arr.splice(i,1);saveLocal(arr);delCloud(rec);return true;
+      }
+    }
+    return false;
+  }
+  function renderPop(){
+    var vs=vocab(),n=localNotes();
+    sel={};
+    var h='<div class="cp-head">这题哪里没想到？<span class="cp-x" id="cnoteX">×</span></div>';
+    h+='<div class="cp-tip">点标签即记一条 · 再点同一标签取消</div>';
+    h+='<div class="cp-tags">';
+    vs.forEach(function(t){h+='<span class="cp-tag" data-t="'+esc(t)+'">'+esc(t)+'</span>';});
+    h+='</div>';
+    h+='<input id="cnoteTxt" placeholder="补充一句话（可不填）">';
+    h+='<div class="cp-foot"><span class="cp-cnt">本课已有 '+n.length+' 条记录</span><button id="cnoteSave" type="button">只记备注</button></div>';
+    if(n.length){
+      var last=n[n.length-1];
+      var d=new Date(last.ts||0),p=function(x){return ('0'+x).slice(-2);};
+      h+='<div class="cp-hist">上次：'+(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())
+        +((last.tags&&last.tags.length)?(' · '+last.tags.join('/')):'')+(last.note?(' · '+last.note):'')+'</div>';
+    }
+    h+='<div id="cnoteCloud" class="cp-cloud"><div class="cp-tip">加载其他人记的错…</div></div>';
+    pop.innerHTML=h;
+    pop.querySelectorAll('.cp-tag').forEach(function(el){
+      el.addEventListener('click',function(){
+        var t=el.getAttribute('data-t');
+        var cnt=pop.querySelector('.cp-cnt');
+        if(sel[t]){
+          if(cancelRec(t,sel[t])){
+            delete sel[t];el.classList.remove('done');
+            if(cnt)cnt.textContent='✗ 已取消「'+t+'」· 本课共 '+localNotes().length+' 条';
+            updBlink();
+          }
+          return;
+        }
+        var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+        var rec=saveRec([t],txt);
+        sel[t]=rec;
+        pop.querySelector('#cnoteTxt').value='';
+        el.classList.add('done');
+        if(cnt)cnt.textContent='✓ 已记「'+t+'」· 本课共 '+localNotes().length+' 条';
+        updBlink();
+      });
+    });
+    var xv=pop.querySelector('#cnoteX');if(xv)xv.addEventListener('click',closePop);
+    var sv=pop.querySelector('#cnoteSave');
+    sv.addEventListener('click',function(){
+      var txt=(pop.querySelector('#cnoteTxt').value||'').trim();
+      if(!txt){pop.querySelector('#cnoteTxt').focus();return;}
+      saveRec([],txt);
+      pop.querySelector('#cnoteTxt').value='';
+      var cnt=pop.querySelector('.cp-cnt');
+      if(cnt)cnt.textContent='✓ 已记备注 · 本课共 '+localNotes().length+' 条';
+      updBlink();
+    });
+  }
+  /* ---------- 读回其他人记的错（跨设备实时） ---------- */
+  function cloudNotes(cb){
+    if(!CFG.url||!CFG.key) return cb([]);
+    try{
+      var u=CFG.url.replace(/\/+$/,'')+'/rest/v1/course_notes?course_id=eq.'+encodeURIComponent(CID)+
+           '&select=tags,note,created_at&order=created_at.desc';
+      fetch(u,{headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key}})
+        .then(function(r){return r.json();}).then(function(j){cb(Array.isArray(j)?j:[]);})
+        .catch(function(){cb([]);});
+    }catch(e){cb([]);}
+  }
+  function renderCloudNotes(){
+    var box=pop.querySelector('#cnoteCloud'); if(!box) return;
+    cloudNotes(function(list){
+      if(!list.length){ box.innerHTML='<div class="cp-tip">还没有其他人记的错</div>'; return; }
+      var h='<div class="cp-sub">👀 其他人记的错（'+list.length+'）</div>';
+      list.slice(0,12).forEach(function(r){
+        var when=r.created_at?(' · '+r.created_at.slice(5,16).replace('T',' ')):'';
+        h+='<div class="cp-citem">'+ (r.tags&&r.tags.length?('<b>'+esc(r.tags.join('/'))+'</b>'):'') +
+            (r.note?(' '+esc(r.note)):'') + when + '</div>';
+      });
+      box.innerHTML=h;
+    });
+  }
+  var cloudTimer=null;
+  function openPop(){
+    renderPop();pop.classList.add('open');
+    renderCloudNotes();
+    clearInterval(cloudTimer);
+    cloudTimer=setInterval(function(){ if(pop.classList.contains('open')) renderCloudNotes(); }, 8000);
+  }
+  function closePop(){pop.classList.remove('open');clearInterval(cloudTimer);}
+  function closePop(){pop.classList.remove('open');}
+  var key='bar_pos:cnote';
+  var blinkSec=20;
+  try{blinkSec=Math.max(1,Math.min(60,Math.round(+localStorage.getItem('cnote_blink_sec'))||20));}catch(e){}
+  pill.style.setProperty('--blink-int',blinkSec+'s');
+  function updBlink(){if(localNotes().length)pill.classList.remove('blink');else pill.classList.add('blink');}
+  updBlink();
+  try{
+    var p=JSON.parse(localStorage.getItem(key)||'null');
+    if(p&&p.left!=null){pill.style.left=p.left+'px';pill.style.top=p.top+'px';pill.style.right='auto';pill.style.bottom='auto';}
+  }catch(e){}
+  var timer=null,dragging=false,moved=false,arm=false,sx=0,sy=0,ox=0,oy=0;
+  pill.addEventListener('pointerdown',function(e){
+    arm=true;dragging=false;moved=false;sx=e.clientX;sy=e.clientY;
+    var r=pill.getBoundingClientRect();ox=r.left;oy=r.top;
+    timer=setTimeout(function(){dragging=true;pill.classList.add('drag');},400);
+    e.preventDefault();
+  });
+  window.addEventListener('pointermove',function(e){
+    if(!dragging)return;moved=true;
+    var nl=ox+(e.clientX-sx),nt=oy+(e.clientY-sy);
+    nl=Math.max(4,Math.min(window.innerWidth-(pill.offsetWidth||170),nl));
+    nt=Math.max(4,Math.min(window.innerHeight-60,nt));
+    pill.style.left=nl+'px';pill.style.top=nt+'px';pill.style.right='auto';pill.style.bottom='auto';
+  });
+  window.addEventListener('pointerup',function(e){
+    if(arm){
+      arm=false;clearTimeout(timer);
+      if(dragging&&moved){
+        dragging=false;pill.classList.remove('drag');
+        try{localStorage.setItem(key,JSON.stringify({left:pill.offsetLeft,top:pill.offsetTop}));}catch(err){}
+      }else{
+        dragging=false;pill.classList.remove('drag');
+        if(pop.classList.contains('open'))closePop();else openPop();
+      }
+      return;
+    }
+    if(dragging)return;
+    if(pop.classList.contains('open')&&!pop.contains(e.target)&&!pill.contains(e.target))closePop();
+  });
+})();
+</script>
+
+<!--COURSEWARE-FEAT-END-->
+
+</body>
+</html>
