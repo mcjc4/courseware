@@ -1,0 +1,43 @@
+/* ===== 0926 批单题课件 · 互动探究段（墨牌简洁风） ===== */
+#mcInter{--it-line:#e8eaed;--it-ink:#1f2430;--it-ink2:#5c6470;--it-ink3:#9aa1ab;--it-accent:#2563eb}
+#mcInter h2{font-size:16px;font-weight:600;color:var(--it-ink);display:flex;align-items:center;gap:8px;margin:0 0 10px}
+#mcInter h2 .dot{width:4px;height:16px;border-radius:2px;background:var(--it-accent);display:inline-block}
+#mcInter .it-sum{font-size:13px;color:var(--it-ink2);line-height:1.7;margin-bottom:12px}
+#mcInter .it-stage{display:flex;flex-direction:column;gap:12px}
+@media (min-width:820px){#mcInter .it-stage{flex-direction:row;align-items:flex-start}
+  #mcInter .it-cvwrap{flex:1 1 auto;min-width:0}
+  #mcInter .it-side{flex:0 0 232px}}
+#mcInter .it-cvwrap{border:1px solid var(--it-line);border-radius:10px;background:#fff;overflow:hidden}
+#mcInter canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+#mcInter .it-side{display:flex;flex-direction:column;gap:10px}
+#mcInter .it-sl{background:#fafbfc;border:1px solid var(--it-line);border-radius:10px;padding:9px 11px}
+#mcInter .it-sl .lb{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--it-ink2);margin-bottom:6px}
+#mcInter .it-sl .lb b{font-size:14px;color:var(--it-ink);font-family:'JetBrains Mono',Consolas,monospace}
+#mcInter .it-sl input[type=range]{width:100%;accent-color:var(--it-accent)}
+#mcInter .it-read{border:1px solid var(--it-line);border-radius:10px;padding:9px 11px;display:flex;flex-direction:column;gap:6px}
+#mcInter .it-read .rw{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--it-ink2)}
+#mcInter .it-read .rw b{color:var(--it-ink);font-weight:600;font-family:'JetBrains Mono',Consolas,monospace}
+#mcInter .it-judge{border-radius:10px;padding:9px 11px;font-size:13px;font-weight:600;line-height:1.6}
+#mcInter .it-judge.ok{background:#eafaf1;color:#047857}
+#mcInter .it-judge.warn{background:#fdf3e3;color:#92400e}
+#mcInter .it-judge.bad{background:#fcebea;color:#c0392b}
+#mcInter .it-hint{font-size:12px;color:var(--it-ink3);line-height:1.65;margin-top:10px}
+#mcInter .it-badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:#eef3ff;color:#1d4ed8;margin-left:6px;vertical-align:1px}
+/* 分步动画 */
+#mcInter .it-chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
+#mcInter .it-chips button{border:1px solid var(--it-line);background:#fff;color:var(--it-ink2);font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;cursor:pointer;font-family:inherit}
+#mcInter .it-chips button.done{border-color:#a7d8bf;background:#f2fbf6;color:#047857}
+#mcInter .it-chips button.on{background:var(--it-accent);border-color:var(--it-accent);color:#fff}
+#mcInter .it-ctrl{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#mcInter .it-ctrl button{width:32px;height:32px;border-radius:9px;border:1px solid var(--it-line);background:#fff;color:#1d4ed8;font-weight:900;cursor:pointer;font-family:inherit;line-height:1}
+#mcInter .it-ctrl button:hover{border-color:var(--it-accent);background:#eef4ff}
+#mcInter .it-ctrl .sp{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--it-ink2);margin-left:6px}
+#mcInter .it-ctrl input[type=range]{width:88px;accent-color:var(--it-accent)}
+#mcInter .it-bars{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+#mcInter .it-bar{border:1px solid var(--it-line);border-radius:10px;padding:8px 10px;background:#fafbfc}
+#mcInter .it-bar .t{display:flex;justify-content:space-between;font-size:11.5px;color:var(--it-ink2);margin-bottom:5px}
+#mcInter .it-bar .t b{color:var(--it-ink);font-family:'JetBrains Mono',Consolas,monospace}
+#mcInter .it-bar .tr{height:6px;border-radius:3px;background:#eef1f4;overflow:hidden}
+#mcInter .it-bar .fl{height:100%;background:var(--it-accent);width:0;border-radius:3px;transition:width .06s linear}
+#mcInter .it-desc{background:#fafbfc;border:1px solid var(--it-line);border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.85;color:var(--it-ink)}
+#mcInter .it-desc .stepno{display:inline-block;background:var(--it-ink);color:#fff;border-radius:6px;padding:1px 8px;font-size:11.5px;margin-right:7px}
