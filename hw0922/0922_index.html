@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>0922 数学作业 · 记忆卡总览</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f6fb;color:#16283f;font:15px/1.6 -apple-system,"Microsoft YaHei",sans-serif;padding:26px 20px}
+.wrap{max-width:980px;margin:0 auto}
+.hero{background:linear-gradient(120deg,#2f6df6,#22b3c9 55%,#37d6a8);color:#fff;border-radius:20px;
+padding:24px 28px;box-shadow:0 10px 26px rgba(47,109,246,.22)}
+.hero h1{margin:0 0 6px;font-size:21px}
+.hero .sub{margin:0;opacity:.94;font-size:13px}
+.chips{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;
+padding:3px 12px;font-size:12px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+.f{background:#fff;border:1px solid #dfe9f7;border-radius:999px;padding:6px 16px;font-size:13px;
+color:#42618a;cursor:pointer;transition:.15s}
+.f.on{background:#2f6df6;border-color:#2f6df6;color:#fff}
+.f .n{opacity:.75;font-size:12px;margin-left:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:14px}
+.card{background:#fff;border-radius:20px;padding:18px 20px;border:1px solid #e6eefb;
+box-shadow:0 4px 16px rgba(22,40,63,.07);display:flex;flex-direction:column;transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(47,109,246,.14);border-color:#b9d2fb}
+.hd{display:flex;align-items:flex-start;gap:12px}
+.badge{flex:0 0 44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#2f6df6,#22b3c9);
+color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600}
+.hd .tt{font-weight:600;font-size:15px;line-height:1.35}
+.hd .vd{font-size:12px;color:#7d92ad;margin-top:2px}
+.ch{margin:10px 0 0;font-size:12.5px;color:#0f6e56;background:#e1f5ee;border-radius:8px;
+padding:3px 10px;display:inline-block;width:fit-content}
+.stats{display:flex;gap:8px;margin-top:12px}
+.st{flex:1;background:#f5f8fd;border-radius:10px;padding:8px 6px;text-align:center}
+.st b{display:block;font-size:17px;color:#2f6df6}
+.st span{font-size:11.5px;color:#7d92ad}
+.st.warn b{color:#d85a30}
+.ids{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.id{font-size:11.5px;font-family:Consolas,monospace;background:#eef4fd;color:#185fa5;
+border-radius:6px;padding:2px 8px}
+.go{margin-top:12px;padding-top:10px;border-top:1px dashed #e3ecf8;font-size:13px;color:#2f6df6;
+text-decoration:none;font-weight:500}
+.go:hover{text-decoration:underline}
+.foot{margin-top:20px;font-size:12.5px;color:#5b7a99;line-height:1.8}
+.empty{padding:40px;text-align:center;color:#7d92ad}
+.views{margin-top:22px;background:#fff;border-radius:20px;border:1px solid #e6eefb;
+box-shadow:0 4px 16px rgba(22,40,63,.07);padding:18px 22px}
+.views h2{margin:0 0 4px;font-size:15.5px;color:#16283f}
+.views .vsub{font-size:12.5px;color:#7d92ad;margin:0 0 10px}
+.views .vday{font-size:13px;font-weight:600;color:#2f6df6;margin:12px 0 6px}
+.views .vrow{display:flex;align-items:baseline;gap:10px;padding:5px 0;border-bottom:1px dashed #edf3fb;font-size:13.5px}
+.views .vrow:last-child{border-bottom:none}
+.views .vtime{flex:0 0 88px;color:#7d92ad;font-size:12.5px;font-variant-numeric:tabular-nums}
+.views .vrow a{color:#16283f;text-decoration:none;font-weight:500}
+.views .vrow a:hover{color:#2f6df6;text-decoration:underline}
+.views .vcnt{margin-left:auto;flex:0 0 auto;font-size:11.5px;color:#0f6e56;background:#e1f5ee;border-radius:6px;padding:1px 8px}
+.views .vviewer{flex:0 0 auto;font-size:11.5px;color:#8a5cc7;background:#f3ecfb;border-radius:6px;padding:1px 8px}
+.views .verr{font-size:13px;color:#d85a30}
+.views .vrefresh{float:right;background:#eef4fd;color:#185fa5;border:1px solid #cfe0fa;border-radius:999px;
+padding:3px 14px;font-size:12px;cursor:pointer}
+.views .vrefresh:hover{background:#2f6df6;color:#fff;border-color:#2f6df6}
+</style></head><body>
+<div class="wrap">
+  <div class="hero">
+    <h1 id="h1">记忆卡作业总览</h1>
+    <p class="sub" id="sub">数据加载中…</p>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+  <div class="views" id="views" hidden>
+    <h2>🕘 最近浏览 <button class="vrefresh" id="vrefresh">刷新</button></h2>
+    <p class="vsub" id="vsub">云端浏览记录加载中…</p>
+    <div id="vlist"></div>
+  </div>
+  <div class="foot" id="foot"></div>
+</div>
+<script>
+(function () {
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c];
+    });
+  };
+  var state = {data: null, filter: 'all'};
+
+  fetch('shared/mc-fit-0922.json').then(function (r) { return r.json(); }).then(function (d) {
+    state.data = d;
+    renderHero(d);
+    renderFilters(d);
+    renderGrid(d);
+    renderFoot(d);
+  }).catch(function (e) {
+    document.getElementById('sub').textContent = '✗ 读不到 shared/mc-fit-0922.json：' + e;
+  });
+
+  function newIds(p) { return (p.newCards || []).map(function (c) { return c.id; }); }
+  function bestFit(p) {
+    var m = 0; (p.hits || []).forEach(function (h) { if (h.fit > m) m = h.fit; }); return m;
+  }
+
+  function renderHero(d) {
+    var m = d.meta || {}, s = m.libraryStats || {};
+    var ids = [];
+    (d.pages || []).forEach(function (p) { ids = ids.concat(newIds(p)); });
+    document.getElementById('h1').textContent = m.homework || m.title || '记忆卡作业总览';
+    document.getElementById('sub').innerHTML =
+      esc(m.date || '') + ' · ' + (d.pages || []).length + ' 题 · 本批生成 <b>' + ids.length +
+      '</b> 张原子卡（' + esc(ids[0] || '') + '~' + esc(ids[ids.length - 1] || '') + '）· 库：原有 ' +
+      esc(s.cards) + ' → +' + esc(s.added) + ' → ' + esc(s.cardsAfter) + ' 张，自第 ' +
+      esc(s.nextRow) + ' 行续';
+    var seen = {}, chips = [];
+    (d.pages || []).forEach(function (p) {
+      var l2 = String(p.chapter || '').split('·')[0];
+      if (l2 && !seen[l2]) { seen[l2] = 1; chips.push(l2); }
+    });
+    if (m.homework) chips.unshift(m.homework.split('·')[1] || m.homework);
+    document.getElementById('chips').innerHTML = chips.map(function (c) {
+      return '<span class="chip">' + esc(c) + '</span>';
+    }).join('');
+  }
+
+  function renderFilters(d) {
+    var defs = [
+      ['all', '全部', function () { return true; }],
+      ['new', '有待生成', function (p) { return (p.newCards || []).length > 0; }],
+      ['high', '有高度命中', function (p) { return (p.hits || []).some(function (h) { return h.fit >= 75; }); }],
+      ['low', '库内基本未命中', function (p) { return bestFit(p) < 50; }]
+    ];
+    var box = document.getElementById('filters');
+    box.innerHTML = defs.map(function (f, i) {
+      var n = (d.pages || []).filter(f[2]).length;
+      return '<button class="f' + (i === 0 ? ' on' : '') + '" data-k="' + f[0] + '">' +
+             f[1] + '<span class="n">' + n + '</span></button>';
+    }).join('');
+    box.querySelectorAll('.f').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        box.querySelectorAll('.f').forEach(function (b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+        state.filter = btn.getAttribute('data-k');
+        renderGrid(state.data);
+      });
+    });
+    state.defs = defs;
+  }
+
+  function renderGrid(d) {
+    var def = state.defs.filter(function (f) { return f[0] === state.filter; })[0] || state.defs[0];
+    var pages = (d.pages || []).filter(def[2]);
+    var grid = document.getElementById('grid');
+    if (!pages.length) { grid.innerHTML = '<div class="empty">该筛选下没有题目</div>'; return; }
+    grid.innerHTML = pages.map(function (p) {
+      var nh = (p.hits || []).length, nn = (p.newCards || []).length, bf = bestFit(p);
+      return '<div class="card">' +
+        '<div class="hd"><div class="badge">' + esc(p.q) + '</div>' +
+        '<div><div class="tt">' + esc(p.title) + '</div>' +
+        '<div class="vd">' + esc(p.verdict) + '</div></div></div>' +
+        '<span class="ch">' + esc(p.chapter) + '</span>' +
+        '<div class="stats">' +
+          '<div class="st"><b>' + nh + '</b><span>命中记忆卡</span></div>' +
+          '<div class="st warn"><b>' + nn + '</b><span>待生成新卡</span></div>' +
+          '<div class="st"><b>' + (nh ? bf : '–') + '</b><span>最高契合度</span></div>' +
+        '</div>' +
+        (nn ? '<div class="ids">' + newIds(p).map(function (i) {
+              return '<span class="id">' + esc(i) + '</span>';
+            }).join('') + '</div>' : '') +
+        '<a class="go" href="' + esc(p.page) + '">进入讲解页 →</a>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* ---------------- 最近浏览（云端 page_views） ---------------- */
+  var CLOUD = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP',
+    hw: 'hw-2026-09-22-math',
+    table: 'page_views',
+    sdkSrc: [
+      'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+      'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'
+    ]
+  };
+  function loadSdk() {
+    return new Promise(function (res) {
+      if (typeof window.WorkBuddyCloud !== 'undefined') return res(true);
+      var i = 0;
+      (function next() {
+        if (typeof window.WorkBuddyCloud !== 'undefined') return res(true);
+        if (i >= CLOUD.sdkSrc.length) return res(false);
+        var s = document.createElement('script');
+        s.src = CLOUD.sdkSrc[i++];
+        s.onload = function () { typeof window.WorkBuddyCloud !== 'undefined' ? res(true) : next(); };
+        s.onerror = next;
+        (document.head || document.documentElement).appendChild(s);
+      })();
+    });
+  }
+  function fetchViews() {
+    return loadSdk().then(function (ok) {
+      if (!ok) throw new Error('云端 SDK 加载失败');
+      var db = window.WorkBuddyCloud.createWorkBuddyCloud({
+        endpoint: CLOUD.endpoint, publishableKey: CLOUD.publishableKey
+      }).database;
+      return db.from(CLOUD.table).select('page,title,viewer,viewed_at')
+        .eq('hw', CLOUD.hw).order('viewed_at', { ascending: false }).limit(500);
+    }).then(function (r) {
+      if (r && r.error) throw new Error(r.error.message || String(r.error));
+      return r.data || [];
+    });
+  }
+  function dayLabel(iso) {
+    var d = new Date(iso), now = new Date();
+    var one = function (x) { return x.toISOString().slice(0, 10); };
+    var yd = new Date(now.getTime() - 864e5);
+    var lbl = (d.getMonth() + 1) + '月' + d.getDate() + '日';
+    if (one(d) === one(now)) return '今天';
+    if (one(d) === one(yd)) return '昨天';
+    return lbl;
+  }
+  function hm(iso) {
+    var d = new Date(iso);
+    return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  function renderViews(rows) {
+    var box = document.getElementById('views');
+    box.hidden = false;
+    document.getElementById('vsub').innerHTML =
+      '共 <b>' + rows.length + '</b> 次浏览 · 覆盖 <b>' +
+      Object.keys(rows.reduce(function (m, r) { m[r.page] = 1; return m; }, {})).length +
+      '</b>/' + ((state.data && state.data.pages || []).length) + ' 页 · 按天分组，最新在前';
+    if (!rows.length) {
+      document.getElementById('vlist').innerHTML =
+        '<div class="verr">还没有浏览记录——打开任一讲解页即会自动记录。</div>';
+      return;
+    }
+    var days = {}, order = [];
+    rows.forEach(function (r) {
+      var k = dayLabel(r.viewed_at);
+      if (!days[k]) { days[k] = []; order.push(k); }
+      days[k].push(r);
+    });
+    // 同一天同一页多次浏览 → 只留最新一行 + ×N 次数角标
+    document.getElementById('vlist').innerHTML = order.map(function (k) {
+      var seen = {}, uniq = [];
+      days[k].forEach(function (r) {
+        if (seen[r.page]) { seen[r.page].n++; return; }
+        seen[r.page] = { r: r, n: 1 };
+        uniq.push(seen[r.page]);
+      });
+      return '<div class="vday">' + esc(k) + '</div>' + uniq.map(function (u) {
+        var r = u.r;
+        return '<div class="vrow">' +
+          '<span class="vtime">' + esc(hm(r.viewed_at)) + '</span>' +
+          '<a href="' + esc(r.page) + '">' + esc(r.title || r.page) + '</a>' +
+          (r.viewer ? '<span class="vviewer">' + esc(r.viewer) + '</span>' : '') +
+          (u.n > 1 ? '<span class="vcnt">×' + u.n + '</span>' : '') +
+          '</div>';
+      }).join('');
+    }).join('');
+  }
+  function loadViews() {
+    fetchViews().then(renderViews).catch(function (e) {
+      var box = document.getElementById('views');
+      box.hidden = false;
+      document.getElementById('vsub').textContent = '';
+      document.getElementById('vlist').innerHTML =
+        '<div class="verr">浏览记录读取失败：' + esc(e.message || e) + '（不影响总览功能）</div>';
+    });
+  }
+  document.getElementById('vrefresh').addEventListener('click', loadViews);
+  loadViews();
+
+  function renderFoot(d) {
+    var m = d.meta || {}, s = m.libraryStats || {};
+    document.getElementById('foot').innerHTML =
+      '库：' + esc(m.library || '') + '（原有 ' + esc(s.cards) + ' 张 → 本批 +' + esc(s.added) +
+      ' → ' + esc(s.cardsAfter) + ' 张 · 自第 ' + esc(s.nextRow) + ' 行续 · 编号 ' +
+      esc(s.nextId) + '~' + esc(s.lastId) + '）<br>' +
+      '数据文件 shared/mc-fit-0922.json · 生成于 ' + esc(m.generatedAt || '') +
+      ' · 卡的编辑 / 通过入库 / 加入训练都在各讲解页内操作';
+  }
+})();
+</script>
+</body></html>
