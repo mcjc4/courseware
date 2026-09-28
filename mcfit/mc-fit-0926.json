@@ -1,0 +1,984 @@
+{
+ "meta": {
+  "title": "记忆卡命中分析与生成",
+  "homework": "0926数学错题·指数与幂函数综合",
+  "date": "2026-09-26",
+  "library": "记忆库（数一轮记忆卡-latex版_GLM-5.3-Flash.xlsx）",
+  "libraryStats": {
+   "file": "数一轮记忆卡-latex版_GLM-5.3-Flash.xlsx",
+   "cards": 957,
+   "nextRow": 959,
+   "nextId": "mat0958",
+   "priorAppended": 0,
+   "latexMaxId": "mat0957",
+   "textMaxId": "mat0957",
+   "added": 24,
+   "cardsAfter": 981,
+   "lastId": "mat0981"
+  },
+  "generatedAt": "2026-09-26 13:38",
+  "total": 24
+ },
+ "pages": [
+  {
+   "q": 1,
+   "page": "87-math-pow-suff-necessary/index.html",
+   "title": "题1 · 幂函数单调性与充要条件",
+   "chapter": "幂函数·单调性与充要条件",
+   "src": "0926数学错题·指数与幂函数综合 · 第1题",
+   "verdict": "部分命中（1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 54,
+     "level": "部分命中",
+     "chapter": "逻辑·充要条件的定义",
+     "signal": "看到【问「A 是 B 的什么条件」】",
+     "conclusion": "想到【按口诀判断两个方向的推出关系，双向都通是充要，只通一向是充分不必要或必要不充分，都不通是既不充分也不必要】；警惕【「谁推谁」方向弄反】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 51,
+     "level": "部分命中",
+     "chapter": "逻辑·含参的充分不必要条件求参",
+     "signal": "看到【「A 成立的充分不必要条件是 B」，其中含参数】",
+     "conclusion": "想到【转化为 B 对应集合是 A 对应集合的真子集，建立端点不等式组求参】；警惕【端点能否取等需按区间开闭单独验证；两等号不能同时成立否则变充要】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 48,
+     "level": "低度命中",
+     "chapter": "平面向量·模等式化简与充要判断",
+     "signal": "看到【条件形如 |a+b|=|a-b| 的等式需化简后判断命题关系】",
+     "conclusion": "想到【两边平方展开得 4a·b=0，该条件等价于垂直；再与另一条件比较双向推理判充分必要性】；警惕【先化简再判断，勿凭直觉直接下结论】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 46,
+     "level": "低度命中",
+     "chapter": "逻辑·集合关系法判断充要",
+     "signal": "看到【条件可写成 x 的范围（区间），判断充要关系】",
+     "conclusion": "想到【转化为集合包含关系：小$\\Rightarrow$大，小集合充分、大集合必要】；警惕【忘记判断集合间是否真有包含关系】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0958",
+     "chapter": "充要条件·幂函数递减与指数符号的互推口径",
+     "signal": "看到【判断“$\\alpha<0$”与“幂函数 $f(x)=x^{\\alpha}$ 单调递减”之间的充分必要性】",
+     "conclusion": "想到【幂函数单调性在 $(0,+\\infty)$ 上的结论：$\\alpha>0$ 递增、$\\alpha<0$ 递减、$\\alpha=0$ 恒为 $1$——因此“递减”与“$\\alpha<0$”在 $(0,+\\infty)$ 口径下互推成立，按教材默认口径选充要】；警惕【若严格按“整个定义域上单调递减”口径，负偶分母指数（如 $x^{-\\frac12}$ 定义域 $(0,+\\infty)$ 没问题）但负整数指数（如 $x^{-2}$）定义域含两支，两支分别递减而整体不单调——两种口径差别就是本题最易翻车处，做题前先确认题目口径】",
+     "orig": "题1：若幂函数 $f(x)=x^{\\alpha}$，则“$\\alpha<0$”是“$f(x)$ 在定义域内单调递减”的（　）A. 充分不必要条件　B. 必要不充分条件　C. 充要条件　D. 既不充分也不必要条件",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第1题｜源页 87-math-pow-suff-necessary/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/87-math-pow-suff-necessary/index.html"
+    }
+   ]
+  },
+  {
+   "q": 2,
+   "page": "88-math-pow-graph-identify/index.html",
+   "title": "题2 · 幂函数图象识别",
+   "chapter": "幂函数·由图象选解析式",
+   "src": "0926数学错题·指数与幂函数综合 · 第2题",
+   "verdict": "库内基本未命中（仅 4 张旁证卡，1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 45,
+     "level": "低度命中",
+     "chapter": "三角函数·根据图象求解析式（求A与ω）",
+     "signal": "看到【已知 f(x)=A sin($\\omega$x+$\\varphi$) 部分图像求解析式】",
+     "conclusion": "想到【三步求参：由最值求 A（f(x)max=|A|）；由图像上点的横坐标差求周期，相邻最高点与零点距离常为 T/4，再由 $\\omega$=2$\\pi$/T 求 $\\omega$；代点坐标求 $\\varphi$】；警惕【求 $\\varphi$ 时优先代最高/最低点，代零点可能解出平移半个周期的多解，需额外排除】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 42,
+     "level": "低度命中",
+     "chapter": "三角函数·图象平移变换",
+     "signal": "看到【平移求解析式的书写过程】",
+     "conclusion": "想到【标准四步：$T=\\dfrac{2\\pi}{\\omega}$ → 换算平移量 → $x-d$ 整体代入（先给 $x-d$ 加括号再乘 $\\omega$）→ 展开合并相位 → 诱导公式匹配选项】；警惕【代入忘加括号：$2\\left(x-\\dfrac{\\pi}{4}\\right)\\neq 2x-\\dfrac{\\pi}{4}$】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": "https://mcjc4.github.io/courseware/lessons/42-math-trig-shift-t4/"
+    },
+    {
+     "fit": 41,
+     "level": "低度命中",
+     "chapter": "图象变换·连续变换求解析式",
+     "signal": "看到【按步骤连续平移+伸缩求最终解析式】",
+     "conclusion": "想到【每步只做一个操作：平移换x（左加右减，且$\\omega$先提出再平移）、纵伸缩乘整体、横伸缩换x（注意倒数），替换时加括号整体代入】；警惕【平移量要除以$\\omega$：sin3x右移$\\pi$/4是x替换为x−$\\pi$/4，相位变化3$\\pi$/4】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 40,
+     "level": "低度命中",
+     "chapter": "函数图象·对称变换",
+     "signal": "看到【求关于y轴、x轴或原点对称的函数】",
+     "conclusion": "想到【关于y轴y=f(-x)，关于x轴y=-f(x)，关于原点y=-f(-x)；本质是改变横纵坐标的正负】；警惕【原点对称是横纵坐标都变号，两个变换缺一不可】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0959",
+     "chapter": "幂函数·图象特征三件套定指数（过原点/对称/切线）",
+     "signal": "看到【幂函数图象同时给出“过原点”“关于 $y$ 轴对称”“$0<x<1$ 时与 $y=x$ 的上下位置”三件套】",
+     "conclusion": "想到【逐条翻译成指数条件：过原点 $\\Rightarrow\\alpha>0$；关于 $y$ 轴对称 $\\Rightarrow$ 指数化最简分数 $\\frac pq$ 后 $q$ 为奇数且 $p$ 为偶数；$0<x<1$ 时图象在 $y=x$ 上方 $\\Rightarrow 0<\\alpha<1$；三者交集唯一确定 $\\alpha=\\frac23$】；警惕【“$0<x<1$ 时在 $y=x$ 上方”对应 $\\alpha<1$ 而不是 $\\alpha>1$（$0<x<1$ 时指数越小值越大，与 $x>1$ 时正好相反）；指数非整数也能是偶函数，别默认“偶函数 $\\Rightarrow$ 整数指数”】",
+     "orig": "题2：函数 $f(x)$ 的部分图象如图所示（过原点、关于 $y$ 轴对称、在 $x=0$ 处有竖直切线、在 $(0,1)$ 上位于直线 $y=x$ 上方），则 $f(x)$ 的解析式可能是（　）A. $x^{\\frac32}$　B. $x^{\\frac23}$　C. $x^{-\\frac23}$　D. $2^{-\\frac{x}{2}}$",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第2题｜源页 88-math-pow-graph-identify/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/88-math-pow-graph-identify/index.html"
+    }
+   ]
+  },
+  {
+   "q": 3,
+   "page": "89-math-quad-fixed-interval/index.html",
+   "title": "题3 · 二次函数定区间最值",
+   "chapter": "二次函数·定区间最值与不单调条件",
+   "src": "0926数学错题·指数与幂函数综合 · 第3题",
+   "verdict": "库内基本未命中（仅 4 张旁证卡，2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 47,
+     "level": "低度命中",
+     "chapter": "等差数列性质·求Sn最值",
+     "signal": "看到【求等差数列前n项和Sn取最大（小）值时的n】",
+     "conclusion": "想到【方法一：写出Sn的二次函数看对称轴；方法二：$a_n$正负法，最后一个正项处取最值】；警惕【对称轴不是整数时，最大值在最近的两个整数处取得，需比较大小】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 45,
+     "level": "低度命中",
+     "chapter": "函数·二次函数给定区间求值域",
+     "signal": "看到【二次函数在闭区间上求值域】",
+     "conclusion": "想到【画草图（开口方向＋对称轴即可，无需精确）：区间含对称轴则最值在顶点与远端点取得】；警惕【不画图直接代端点，漏掉顶点处最值】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 44,
+     "level": "低度命中",
+     "chapter": "二次不等式·换元+恒成立求参数",
+     "signal": "看到【二次型函数f(t)$\\geq$0（或$\\leq$0）对闭区间上所有t恒成立】",
+     "conclusion": "想到【转化为区间最值问题：求最大值只需两端点函数值同时满足$\\leq$0，无需讨论对称轴；求最小值则须按对称轴位置分三类讨论】；警惕【顶点不一定在区间内，不能把端点和顶点的条件全部并列】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 38,
+     "level": "低度命中",
+     "chapter": "函数·常见函数单调性速判",
+     "signal": "看到【判断一次、二次、幂、指数、对数函数的单调性】",
+     "conclusion": "想到【按函数类型套速判口诀：一次看 k、二次看开口对称轴、指数对数看底数与 1 的大小】；警惕【对数函数忘看定义域 $(0,+\\infty)$；二次函数不看对称轴直接下结论】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0960",
+     "chapter": "二次函数·定区间最值定位（对称轴在区间内的两处等值）",
+     "signal": "看到【开口方向确定的二次函数在闭区间上给出最大值与最小值两个数，求参数】",
+     "conclusion": "想到【先定对称轴 $x=-\\frac b{2a}=2$，判断它与区间的位置：对称轴落在 $[1,3]$ 内部时，最小值 $=$ 顶点值 $g(2)$，最大值在两端点取得且需比较 $g(1)$ 与 $g(3)$（本题对称轴居中，$g(1)=g(3)$ 自然相等），两个方程解两个参数】；警惕【对称轴位置没判清就乱列方程是最常见错误；“对称轴在区间内 $\\Rightarrow$ 顶点值必是最值之一、两端点中较大者为另一最值”是定位模板】",
+     "orig": "题3：已知函数 $g(x)=ax^{2}-4ax+1+b$（$a>0$）在区间 $[1,3]$ 上有最大值 $4$ 和最小值 $1$。(1) 求 $a$、$b$ 的值；(2) 若 $g(x)$ 在区间 $(m-1,2m)$ 上不单调，求实数 $m$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第3题｜源页 89-math-quad-fixed-interval/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/89-math-quad-fixed-interval/index.html"
+    },
+    {
+     "id": "mat0961",
+     "chapter": "二次函数·“开区间上不单调”的严格不等号与区间前提",
+     "signal": "看到【二次函数在开区间 $(m-1,2m)$ 上“不单调”，求参数范围】",
+     "conclusion": "想到【不单调 $\\Leftrightarrow$ 对称轴落在区间内部：$m-1<2<2m$（严格不等号），再补上开区间自身成立的前提 $m-1<2m$ 即 $m>1$，取交集得 $1<m<3$】；警惕【“不单调”用严格不等号、闭区间“单调”可取等号，两者方向别混；漏掉“区间左端 $<$ 右端”这个前提会多出不合法的解】",
+     "orig": "题3：已知函数 $g(x)=ax^{2}-4ax+1+b$（$a>0$）在区间 $[1,3]$ 上有最大值 $4$ 和最小值 $1$。(1) 求 $a$、$b$ 的值；(2) 若 $g(x)$ 在区间 $(m-1,2m)$ 上不单调，求实数 $m$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第3题｜源页 89-math-quad-fixed-interval/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/89-math-quad-fixed-interval/index.html"
+    }
+   ]
+  },
+  {
+   "q": 4,
+   "page": "90-math-pow-even-decrease/index.html",
+   "title": "题4 · 幂函数偶函数单调与不等式",
+   "chapter": "幂函数·定义+偶函数+单调性+解不等式",
+   "src": "0926数学错题·指数与幂函数综合 · 第4题",
+   "verdict": "库内基本未命中（仅 4 张旁证卡，2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 41,
+     "level": "低度命中",
+     "chapter": "导数·奇函数+单调性解不等式",
+     "signal": "看到【f(x)+f(y)$\\leq$0这类「f+f」型抽象不等式】",
+     "conclusion": "想到【优先判断奇偶性+单调性：奇函数化f(y)为-f(-y)，再由增函数去掉f得x$\\leq$-y；偶函数则需讨论绝对值】；警惕【去f前必须先严格论证奇偶性与单调性，如用均值不等式证f^{'}(x)$\\geq$0】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 40,
+     "level": "低度命中",
+     "chapter": "函数·偶函数+单调性",
+     "signal": "看到【偶函数+单调性，解 f(a)<f(b) 型不等式】",
+     "conclusion": "想到【比较函数值大小等价于比较自变量绝对值：开口向上（$[0,+\\infty)$增）f(a)>f(b)$\\Leftrightarrow$|a|>|b|，开口向下则不等号反向】；警惕【自变量必须加绝对值，方向记不清就画偶函数草图】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 39,
+     "level": "低度命中",
+     "chapter": "函数·对称性+单调性解不等式",
+     "signal": "看到【f(a)<f(b) 型不等式但函数有增有减】",
+     "conclusion": "想到【有增有减通常是偶函数或轴对称函数：先找对称轴，再化为比较自变量到对称轴的距离 |x-对称轴| 的大小，绝对值不等式可两边平方】；警惕【各部分对称轴相同相加后对称轴不变，先判断对称轴两侧的单调性再定距离对应关系】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 32,
+     "level": "低度命中",
+     "chapter": "函数·周期+偶函数",
+     "signal": "看到【周期函数+偶函数，只给半个周期的解析式】",
+     "conclusion": "想到【半个周期+奇偶性=一个完整周期：先用周期性转化自变量，再用偶函数把自变量翻到已知区间代入】；警惕【转化次序一般是先周期后奇偶】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0962",
+     "chapter": "幂函数·三条件联立求参的筛选顺序（系数1/递减/偶函数）",
+     "signal": "看到【形如 $f(x)=(2k-1)x^{m^{2}-2m-3}$ 同时被要求“是幂函数”“为偶函数”“在 $(0,+\\infty)$ 递减”，求参数】",
+     "conclusion": "想到【按“先缩范围、再筛候选”的固定顺序：① 幂函数系数恒为 $1\\Rightarrow 2k-1=1$；② 递减 $\\Rightarrow$ 指数 $m^{2}-2m-3<0\\Rightarrow 0<m<4$，配 $m\\in\\mathbb{N}^{*}$ 得 $m\\in\\{1,2,3\\}$；③ 偶函数 $\\Rightarrow$ 指数为偶数，逐一验证得 $m=1$（指数 $-4$），排除 $m=2,3$（指数 $-3$ 为奇数）】；警惕【候选不止一个时必须逐个用后续条件检验，不许只取第一个；“偶函数”筛的是指数的奇偶性（最简分数分母为奇、分子为偶也算），不只是整数偶数】",
+     "orig": "题4：已知幂函数 $f(x)=(2k-1)x^{m^{2}-2m-3}$（$m\\in\\mathbb{N}^{*}$）为偶函数，且在 $(0,+\\infty)$ 上单调递减。(1) 求 $m$、$k$ 的值；(2) 求满足 $(2a+1)^{-m}<(3-2a)^{-m}$ 的实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第4题｜源页 90-math-pow-even-decrease/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/90-math-pow-even-decrease/index.html"
+    },
+    {
+     "id": "mat0963",
+     "chapter": "负指数幂不等式·通分穿根（底数大小关系不成立）",
+     "signal": "看到【$(2a+1)^{-m}<(3-2a)^{-m}$ 这类“负指数、底数含参”的不等式】",
+     "conclusion": "想到【负指数先化分式：$\\dfrac{1}{2a+1}<\\dfrac{1}{3-2a}$，移项通分成一边为 $0$ 的分式不等式，再用数轴穿根定号（奇次因式穿、偶次不穿），分母零点一律取空——与“底数越大值越小”的直觉无关，通分是唯一可靠路径】；警惕【负指数下“底数大则值大”恰好不成立，直接比底数必错；穿根区间端点是分母零点时要挖空，是分子零点时按不等号决定是否取到】",
+     "orig": "题4：已知幂函数 $f(x)=(2k-1)x^{m^{2}-2m-3}$（$m\\in\\mathbb{N}^{*}$）为偶函数，且在 $(0,+\\infty)$ 上单调递减。(1) 求 $m$、$k$ 的值；(2) 求满足 $(2a+1)^{-m}<(3-2a)^{-m}$ 的实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第4题｜源页 90-math-pow-even-decrease/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/90-math-pow-even-decrease/index.html"
+    }
+   ]
+  },
+  {
+   "q": 5,
+   "page": "91-math-exp-sub-max/index.html",
+   "title": "题5 · 指数函数换元最值与有解",
+   "chapter": "指数函数·换元求最值与分离参数",
+   "src": "0926数学错题·指数与幂函数综合 · 第5题",
+   "verdict": "库内基本未命中（仅 4 张旁证卡，2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 40,
+     "level": "低度命中",
+     "chapter": "二次不等式·换元+恒成立求参数",
+     "signal": "看到【二次型函数f(t)$\\geq$0（或$\\leq$0）对闭区间上所有t恒成立】",
+     "conclusion": "想到【转化为区间最值问题：求最大值只需两端点函数值同时满足$\\leq$0，无需讨论对称轴；求最小值则须按对称轴位置分三类讨论】；警惕【顶点不一定在区间内，不能把端点和顶点的条件全部并列】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 34,
+     "level": "低度命中",
+     "chapter": "函数·单根号换元求值域",
+     "signal": "看到【函数含一个根号且单调性不明，求值域】",
+     "conclusion": "想到【设根式整体为新变量 t，反解 x 后转化为二次函数求值域；先写定义域，换元后必须标注 t 的范围】；警惕【换元后忘写新变量范围导致最值算错】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 32,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·换元化二次",
+     "signal": "看到【函数中出现4ˣ与2ˣ（平方关系）或lgx^{2}与lgx（倍数关系）】",
+     "conclusion": "想到【换元t=aˣ（则$a^2$ˣ=t^{2}）或t=log_a x统一变量，化为二次函数求最值】；警惕【换元后必须写出新变量的取值范围，即使x$\\in$R，t=aˣ也有t>0】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 31,
+     "level": "低度命中",
+     "chapter": "三角函数含参·整体换元求值域",
+     "signal": "看到【研究 A sin($\\omega$x+$\\varphi$)（或化简后的三角函数）在给定区间上的值域、单调性】",
+     "conclusion": "想到【先化简为单一三角函数，再整体换元：由 x 的范围算出 $\\omega$x+$\\varphi$ 的范围，转化为 y=$\\sin x$ 在对应区间上的性质，用熟悉的基本图像直接分析】；警惕【对应区间是 $\\omega$x+$\\varphi$ 整体的范围，不是 x 的范围】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0964",
+     "chapter": "指数函数·换元 $t=2^{x}$ 化二次型求最值",
+     "signal": "看到【$f(x)=2^{2x}+2k\\cdot 2^{x}+1$ 这类“$4^{x}$、$2^{x}$、常数”组合的函数求最值（或解不等式）】",
+     "conclusion": "想到【令 $t=2^{x}>0$，函数化为 $g(t)=t^{2}+2kt+1$（$t>0$）：最小值要对“对称轴是否落在 $t>0$ 内”分情况——轴在定义域内取顶点值，轴在外则取端点极限 $g(0)$；本题顶点值 $1-k^{2}=-3$ 得 $k=\\pm2$，再由轴 $t=-k>0$ 筛出 $k=-2$】；警惕【换元后定义域变成 $t>0$，直接套闭区间二次最值公式会漏掉“对称轴不在定义域内”的情况；解出的参数必须回代检验取最值的 $t$ 是否为正】",
+     "orig": "题5：已知函数 $f(x)=2^{2x}+2k\\cdot 2^{x}+1$ 的最小值为 $-3$。(1) 求实数 $k$ 的值；(2) 若关于 $x$ 的不等式 $f(x)\\leq\\dfrac{2^{x}}{a}-8$ 有实数解，求实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第5题｜源页 91-math-exp-sub-max/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/91-math-exp-sub-max/index.html"
+    },
+    {
+     "id": "mat0965",
+     "chapter": "分离参数·“有实数解”对应目标函数的最值（AM-GM）",
+     "signal": "看到【含参不等式 $f(x)\\leq\\dfrac{2^{x}}{a}-8$ “有实数解”（而不是恒成立），求参数范围】",
+     "conclusion": "想到【分离参数：换元 $t=2^{x}>0$ 后整理成 $\\dfrac1a\\geq\\dfrac{t^{2}-4t+9}{t}=t-4+\\dfrac9t$，右边配方成对勾函数，AM-GM 得最小值 $-4+2\\sqrt9=2$（$t=3$ 取到）；“有实数解”只需 $\\dfrac1a\\geq$ 最小值 $2$，即 $0<a\\leq\\dfrac12$】；警惕【“恒成立”取最值方向与“有解”不同：有解是“$\\geq$ 下确界”，恒成立是“$\\geq$ 上确界”，方向反了全盘错；AM-GM 取等点必须在定义域（$t>0$）内才算数】",
+     "orig": "题5：已知函数 $f(x)=2^{2x}+2k\\cdot 2^{x}+1$ 的最小值为 $-3$。(1) 求实数 $k$ 的值；(2) 若关于 $x$ 的不等式 $f(x)\\leq\\dfrac{2^{x}}{a}-8$ 有实数解，求实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第5题｜源页 91-math-exp-sub-max/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/91-math-exp-sub-max/index.html"
+    }
+   ]
+  },
+  {
+   "q": 6,
+   "page": "92-math-exp-comp-mono/index.html",
+   "title": "题6 · 指数型复合函数单调与最值",
+   "chapter": "指数型复合函数·同增异减",
+   "src": "0926数学错题·指数与幂函数综合 · 第6题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 79,
+     "level": "高度命中",
+     "chapter": "函数·复合函数同增异减",
+     "signal": "看到【复合函数（指数、对数套二次或一次等）求单调区间】",
+     "conclusion": "想到【三步法：先求定义域$\\to$拆成内外层简单函数$\\to$分别判断增减后按「同增异减」合成】；警惕【不先求定义域；单调区间要用 x 的范围表示而非中间变量 t】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 53,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·复合函数性质研究",
+     "signal": "看到【含绝对值的对数函数研究奇偶性与单调性】",
+     "conclusion": "想到【先求定义域并验证关于原点对称，用|a|=|-a|算f(-x)；单调性可先去绝对值，用运算法则合并或复合同增异减，失效时求导】；警惕【先看定义域是否对称再判奇偶；不同区间单调性需分别去绝对值讨论】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 49,
+     "level": "低度命中",
+     "chapter": "图象性质·复合函数单调区间",
+     "signal": "看到【求Asin($\\omega$x+$\\varphi$)或Acos($\\omega$x+$\\varphi$)的整体单调区间】",
+     "conclusion": "想到【复合函数「同增异减」：令$\\omega$x+$\\varphi$整体属于$\\sin x$/$\\cos x$/$\\tan x$对应单调区间，解不等式（注意k$\\in$Z）得x范围】；警惕【内层函数的单调性会影响复合后的增减性，解不等式时每步变形要同步】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 42,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·复合函数值域",
+     "signal": "看到【指/对数在外的复合函数求值域】",
+     "conclusion": "想到【拆为t=g(x)与y=aᵗ（或y=log_a t），先求t的范围再代外层】；警惕【外层单调方向决定最值位置，还要考虑渐近线对值域的限制】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0966",
+     "chapter": "指数型复合函数·同增异减定单调区间",
+     "signal": "看到【$f(x)=a^{u(x)}$（$0<a<1$）型复合函数求单调区间】",
+     "conclusion": "想到【同增异减：外层 $a^{u}$（$0<a<1$）递减，故 $f$ 的单调性与内层 $u(x)$ 相反——$u$ 减则 $f$ 增、$u$ 增则 $f$ 减；先把内层按开口方向与对称轴拆成增/减两段，再对调】；警惕【别忘写单调区间端点的开闭规范（外层连续时内层区间可闭）；$a$ 的范围没定时先按 $a>1$、$0<a<1$ 两类讨论】",
+     "orig": "题6：已知函数 $f(x)=\\left(\\dfrac13\\right)^{ax^{2}-4x+3}$。(1) 当 $a=-2$ 时，求 $f(x)$ 的单调区间；(2) 若 $f(x)$ 有最大值 $3$，求实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第6题｜源页 92-math-exp-comp-mono/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/92-math-exp-comp-mono/index.html"
+    },
+    {
+     "id": "mat0967",
+     "chapter": "指数型复合函数·有最值 $\\Leftrightarrow$ 内层顶点值 $=\\log_{a}N$",
+     "signal": "看到【$f(x)=a^{u(x)}$ 有最大值 $N$（$0<a<1$），求内层二次函数参数】",
+     "conclusion": "想到【$a^{u}$ 有最大值 $\\Leftrightarrow$ 内层 $u$ 有最小值：$3=\\left(\\dfrac13\\right)^{-1}$，故内层最小值须等于 $-1$，即 $u$ 开口向上（$a>0$）且顶点值 $\\dfrac{4ac-b^{2}}{4a}=3-\\dfrac4a=-1$，解得 $a=1$】；警惕【先化 $N=a^{m}$ 找准指数 $m$，再令内层最值 $=m$；“有最大值”自动要求开口方向，别只列顶点方程忘检验开口】",
+     "orig": "题6：已知函数 $f(x)=\\left(\\dfrac13\\right)^{ax^{2}-4x+3}$。(1) 当 $a=-2$ 时，求 $f(x)$ 的单调区间；(2) 若 $f(x)$ 有最大值 $3$，求实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第6题｜源页 92-math-exp-comp-mono/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/92-math-exp-comp-mono/index.html"
+    }
+   ]
+  },
+  {
+   "q": 7,
+   "page": "93-math-exp-power-calc/index.html",
+   "title": "题7 · 指数幂运算",
+   "chapter": "指数幂·根式与负指数运算",
+   "src": "0926数学错题·指数与幂函数综合 · 第7题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 58,
+     "level": "部分命中",
+     "chapter": "函数·指对运算·混合化简",
+     "signal": "看到【根号与指数混合的复杂化简求值】",
+     "conclusion": "想到【根号统一转化为分数指数幂，分子分母分别按同底幂合并，再用指数相减化简】；警惕【每步保持底数统一，负指数即取倒数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 43,
+     "level": "低度命中",
+     "chapter": "函数·指对运算·指数性质",
+     "signal": "看到【分数指数幂运算，如 125^(2/3)】",
+     "conclusion": "想到【优先把底数写成幂的形式（125=5^{3}），再用幂的乘方 (aʳ)ˢ=aʳˢ 化简；同底相乘指数相加、相除指数相减、积的乘方可拆开】；警惕【指数套指数（套娃式）时指数相乘】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 39,
+     "level": "低度命中",
+     "chapter": "二项式定理·有理项判断",
+     "signal": "看到【求展开式中的有理项（x指数为整数的项）个数】",
+     "conclusion": "想到【把根式写成分数指数幂，通项指数通分后令其为整数，在0$\\leq$r$\\leq$n内枚举r】；警惕【r的取值范围是0到n，枚举时不要漏边界；只需判指数整数性，无需算完整系数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 38,
+     "level": "低度命中",
+     "chapter": "集合·根式不等式与并集",
+     "signal": "看到【集合由根式不等式或函数值域给出，再求并集】",
+     "conclusion": "想到【根式不等式先保证根号内非负再平方；两个数集运算与代表元素字母无关，画数轴取范围】；警惕【漏掉根号内非负的定义域限制】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0968",
+     "chapter": "指数幂运算·带分数/负指数/根式三化一（分数指数）",
+     "signal": "看到【带分数指数、负分数指数、根式混合的指数幂运算题】",
+     "conclusion": "想到【三化一：带分数化假分数 $\\left(2\\dfrac79\\right)^{\\frac12}=\\left(\\dfrac{25}9\\right)^{\\frac12}=\\dfrac53$；负指数化倒数 $\\left(\\dfrac{64}{27}\\right)^{-\\frac23}=\\left(\\dfrac{27}{64}\\right)^{\\frac23}=\\left(\\dfrac34\\right)^{2}=\\dfrac9{16}$；根式化分数指数再约分；$\\pi^{0}=1$ 与底数无关】；警惕【负分数指数先取倒数再算分子分母的 $n$ 次方根，顺序反了容易把 $\\frac9{16}$ 算成 $\\frac{16}9$；带分数的整数部分与小数部分不能分开乘方】",
+     "orig": "题7：计算：$3^{\\pi^{0}}+\\left(2\\dfrac79\\right)^{0.5}\\times\\left(\\dfrac{64}{27}\\right)^{-\\frac23}-\\sqrt[6]{(-3)^{6}}=\\underline{\\qquad}$",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第7题｜源页 93-math-exp-power-calc/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/93-math-exp-power-calc/index.html"
+    },
+    {
+     "id": "mat0969",
+     "chapter": "偶次方根·$\\sqrt[n]{a^{n}}$ 化简先加绝对值",
+     "signal": "看到【$\\sqrt[6]{(-3)^{6}}$（甚至次根号下负数的偶次幂）】",
+     "conclusion": "想到【$n$ 为偶数时 $\\sqrt[n]{a^{n}}=|a|$：先开出绝对值 $\\sqrt[6]{(-3)^{6}}=|-3|=3$，再按前面符号相减】；警惕【直接写 $=-3$ 是经典丢分点；奇次根号才可以不加绝对值直接开出】",
+     "orig": "题7：计算：$3^{\\pi^{0}}+\\left(2\\dfrac79\\right)^{0.5}\\times\\left(\\dfrac{64}{27}\\right)^{-\\frac23}-\\sqrt[6]{(-3)^{6}}=\\underline{\\qquad}$",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第7题｜源页 93-math-exp-power-calc/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/93-math-exp-power-calc/index.html"
+    }
+   ]
+  },
+  {
+   "q": 8,
+   "page": "94-math-exp-propositions/index.html",
+   "title": "题8 · 指数函数真命题判断",
+   "chapter": "指数函数·定点/值域/奇偶/存在性",
+   "src": "0926数学错题·指数与幂函数综合 · 第8题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 52,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·图象与性质",
+     "signal": "看到【判断指数函数的图象或性质】",
+     "conclusion": "想到【抓三要素：定点(0,1)、由底数定增减、以x轴为渐近线】；警惕【渐近线是「隐形杀手」，不画会导致值域判断错误】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 51,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·对数函数性质",
+     "signal": "看到【判断对数函数的图象或性质】",
+     "conclusion": "想到【真数>0定定义域，抓定点(1,0)与y轴渐近线】；警惕【真数必须大于0，与指数函数的定义域值域正好互换】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 32,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·过定点",
+     "signal": "看到【指数型函数求过定点】",
+     "conclusion": "想到【令指数部分等于0消去底数a，代回求纵坐标】；警惕【原理是只有a^{0}=1才能消去a，别令成其他值】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 30,
+     "level": "低度命中",
+     "chapter": "函数·奇偶性求参数",
+     "signal": "看到【已知多项式函数为偶（奇）函数，求参数值】",
+     "conclusion": "想到【偶函数不能含奇次项，奇函数不能含偶次项和常数项，令对应系数为 0 解方程】；警惕【该规则仅适用多项式函数，不适用于含指数、对数、分段函数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0970",
+     "chapter": "指数函数·$a^{f(x)}+c$ 型恒过定点（令指数为零）",
+     "signal": "看到【判断 $f(x)=a^{f_{0}(x)}+c$ 的图象恒过哪个定点】",
+     "conclusion": "想到【令指数 $f_{0}(x)=0$（与底数 $a$ 无关），此时 $a^{0}=1$，定点即 $\\left(x_{0},\\,1+c\\right)$——本题 $x-1=0$ 得 $x=1$、$y=a^{0}+1=2$，恒过 $(1,2)$】；警惕【定点只与“指数归零”和常数项有关，跟底数 $a$ 的取值范围无关；多选判断题逐项独立验证，别因为前一项对就默认后面的也对】",
+     "orig": "题8：在下列命题中：A. $f(x)=a^{x-1}+1$ 的图象恒过定点 $(1,2)$；B. $y=\\left(\\dfrac12\\right)^{x^{2}-1}$ 的值域为 $(0,2]$；C. $f(x)=\\dfrac{1}{2^{x}+1}$ 是奇函数；D. 若存在 $x<0$ 使 $x^{2}-3x+a<0$，则 $a\\in(-\\infty,1)$。真命题是______。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第8题｜源页 94-math-exp-propositions/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/94-math-exp-propositions/index.html"
+    },
+    {
+     "id": "mat0971",
+     "chapter": "复合指数值域·内层范围配外层单调（与存在性命题参数）",
+     "signal": "看到【$y=a^{u(x)}$（$0<a<1$）的值域判断，或“存在 $x$ 使二次不等式成立”的参数命题】",
+     "conclusion": "想到【两步：① 先求内层 $u(x)$ 的范围——$x^{2}-1\\geq-1$；② 外层按单调性对调：$(\\frac12)^{t}$ 递减，故 $y\\leq(\\frac12)^{-1}=2$ 且恒正，值域 $(0,2]$；存在性命题：$x<0$ 时 $x^{2}-3x$ 取值 $(0,+\\infty)$，能小于 $-a$ 有解 $\\Leftrightarrow -a>0\\Leftrightarrow a<0$，据此判 D 假】；警惕【外层递减时“内层最小”对应“整体最大”，方向别反；$\\dfrac{1}{2^{x}+1}$ 的奇偶性算 $f(-x)+f(x)=1\\neq0$，它只是“和为 1”的对称型，不是奇函数】",
+     "orig": "题8：在下列命题中：A. $f(x)=a^{x-1}+1$ 的图象恒过定点 $(1,2)$；B. $y=\\left(\\dfrac12\\right)^{x^{2}-1}$ 的值域为 $(0,2]$；C. $f(x)=\\dfrac{1}{2^{x}+1}$ 是奇函数；D. 若存在 $x<0$ 使 $x^{2}-3x+a<0$，则 $a\\in(-\\infty,1)$。真命题是______。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第8题｜源页 94-math-exp-propositions/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/94-math-exp-propositions/index.html"
+    }
+   ]
+  },
+  {
+   "q": 9,
+   "page": "95-math-exp-asymptote/index.html",
+   "title": "题9 · 指数函数图象与渐近线",
+   "chapter": "指数函数·渐近线与定点定参",
+   "src": "0926数学错题·指数与幂函数综合 · 第9题",
+   "verdict": "部分命中（1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 54,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·图象与性质",
+     "signal": "看到【判断指数函数的图象或性质】",
+     "conclusion": "想到【抓三要素：定点(0,1)、由底数定增减、以x轴为渐近线】；警惕【渐近线是「隐形杀手」，不画会导致值域判断错误】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 51,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·对数函数性质",
+     "signal": "看到【判断对数函数的图象或性质】",
+     "conclusion": "想到【真数>0定定义域，抓定点(1,0)与y轴渐近线】；警惕【真数必须大于0，与指数函数的定义域值域正好互换】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 41,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·比大小",
+     "signal": "看到【多个指数函数图象比较底数大小】",
+     "conclusion": "想到【画竖线x=1，比较交点纵坐标】；警惕【原理是x=1时y=a^{1}=a，纵坐标就是底数本身】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 36,
+     "level": "低度命中",
+     "chapter": "函数零点·偶函数复合方程零点",
+     "signal": "看到【f(x)的二次式=0型方程（如f^{2}与f的线性组合）求根个数或参数】",
+     "conclusion": "想到【先因式分解为f(x)=c_{1}与f(x)=c_{2}，画完整f(x)图像，用水平线平移数交点；偶函数只需画x$\\geq$0半边再对称】；警惕【画图必须标清单调性、各区间端点值（含空心/实心）、渐近线，这些细节直接决定交点个数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0972",
+     "chapter": "指数型图象·渐近线定 $b$、定点定 $a$",
+     "signal": "看到【$y=a\\cdot k^{f(x)}+b$ 型图象“无限接近某水平直线但不相交”，要求参数乘积】",
+     "conclusion": "想到【两条件两方程：水平渐近线 $y=b$（$|x|\\to\\infty$ 时 $k^{|x|}\\to0$）给 $b=2$；图象过原点给 $0=a\\cdot(\\frac12)^{0}+b=a+b$，得 $a=-2$，故 $ab=-4$】；警惕【含 $|x|$ 的指数在 $x=0$ 处取值仍是 $k^{0}=1$（左右导数不同但函数连续），代点时别被绝对值吓住；渐近线方向“从上方逼近还是下方逼近”由 $a$ 的符号决定，可用来自检】",
+     "orig": "题9：函数 $y=a\\left(\\dfrac12\\right)^{|x|}+b$ 的图象经过原点，且无限接近直线 $y=2$ 但不相交，则 $ab=$（　）A. $-1$　B. $-2$　C. $-4$　D. $-9$",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第9题｜源页 95-math-exp-asymptote/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/95-math-exp-asymptote/index.html"
+    }
+   ]
+  },
+  {
+   "q": 10,
+   "page": "96-math-tri-angle-bisector/index.html",
+   "title": "题10 · 解三角形角平分线",
+   "chapter": "解三角形·角平分线与存在性",
+   "src": "0926数学错题·指数与幂函数综合 · 第10题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 72,
+     "level": "部分命中",
+     "chapter": "解三角形综合·角平分线定理求分线段",
+     "signal": "看到【角平分线条件，求它分对边所得线段的长】",
+     "conclusion": "想到【先用余弦定理求第三边，再用角平分线定理 AB/AC=BD/CD（角的两边之比等于分对边两段之比，可用面积法证明）按比例分配线段】；警惕【比例顺序勿写反：左边比左边、右边比右边；解答题使用需注明依据】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 62,
+     "level": "部分命中",
+     "chapter": "解三角形·角平分线定理+函数法",
+     "signal": "看到【给出角平分线及被分两段的长度】",
+     "conclusion": "想到【角平分线定理得两边之比，设未知数后用余弦定理求cosA，面积化为边的函数，根号内是关于边平方的二次函数，取对称轴处最值】；警惕【先用三边关系确定未知数定义域，最值必须落在定义域内】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 53,
+     "level": "部分命中",
+     "chapter": "解三角形综合·向量平行条件转化",
+     "signal": "看到【解三角形题目以向量平行（共线）条件给出】",
+     "conclusion": "想到【先写坐标平行公式 x_{1}y_{2}=x_{2}y_{1} 建立边角等式；含正弦二次式（sin^{2}A、sinA sinB）优先角化边化为边的二次式，再用余弦定理求角】；警惕【若先边化角得到正弦二次式还得变回边，多走一步；方向选择看最终要用的定理】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 48,
+     "level": "低度命中",
+     "chapter": "解三角形综合·面积和法求角平分线长",
+     "signal": "看到【求角平分线本身的长度】",
+     "conclusion": "想到【首选面积和法：S$\\triangle$ABD+S$\\triangle$DBC=S$\\triangle$ABC，两边用 ½·边·边·sin夹角 展开，约分并配二倍角公式，得 BD=2ac·cos$\\alpha$/(a+c)】；警惕【推导出的公式在解答题中不能直接使用，必须先用面积和法推导；求分线段长用定理、求平分线长用面积和，策略要分清】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0973",
+     "chapter": "解三角形·角平分线长的等面积法（通用公式）",
+     "signal": "看到【三角形中被要求处理“角的平分线 $AD$”的长度或相关线段】",
+     "conclusion": "想到【等面积法是万能钥匙：$S_{\\triangle ABD}+S_{\\triangle ACD}=S_{\\triangle ABC}$，即 $\\dfrac12 c\\cdot AD\\sin\\dfrac A2+\\dfrac12 b\\cdot AD\\sin\\dfrac A2=\\dfrac12 bc\\sin A$，解出 $AD=\\dfrac{2bc\\cos\\frac A2}{b+c}$；配合余弦定理求 $a$、正弦定理求角】；警惕【$\\cos A<0$ 说明 $A$ 是钝角，$\\sin A$ 取正没问题但半角公式 $\\cos\\frac A2=\\sqrt{\\frac{1+\\cos A}2}$ 要算对；角平分线分对边成比例 $BD:DC=c:b$ 是另一条备用路径，两法互验】",
+     "orig": "题10：在 $\\triangle ABC$ 中，$AD$ 为角 $A$ 的平分线，$c=3$，$AD=1$，$\\cos A=-\\dfrac79$。(1) 求 $\\cos B$；(2) $E$ 在 $AD$ 延长线上，$\\angle DCE=\\dfrac{\\pi}{6}$，直线 $AC$ 上是否存在点 $H$ 使 $BH\\parallel EC$？若存在，求 $AH$。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第10题｜源页 96-math-tri-angle-bisector/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/96-math-tri-angle-bisector/index.html"
+    },
+    {
+     "id": "mat0974",
+     "chapter": "线段存在性·平行条件建系或相似（向量共线）",
+     "signal": "看到【“直线上是否存在点 $H$ 使某两条线平行”的存在性问题】",
+     "conclusion": "想到【建系最稳：以对称轴/特殊线为坐标轴设出各点坐标，把“平行”翻译成向量共线 $\\overrightarrow{BH}=\\lambda\\overrightarrow{EC}$，再设 $H$ 在直线上用参数表达，解方程组即可；无直角坐标系时用相似三角形对应边成比例同样奏效】；警惕【“是否存在”多数答案是存在但要按题意先设后证；建系时点 $E$ 的位置（延长线上、由 $\\angle DCE$ 定出 $CE$ 长）必须先用条件算准，否则后面全错】",
+     "orig": "题10：在 $\\triangle ABC$ 中，$AD$ 为角 $A$ 的平分线，$c=3$，$AD=1$，$\\cos A=-\\dfrac79$。(1) 求 $\\cos B$；(2) $E$ 在 $AD$ 延长线上，$\\angle DCE=\\dfrac{\\pi}{6}$，直线 $AC$ 上是否存在点 $H$ 使 $BH\\parallel EC$？若存在，求 $AH$。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第10题｜源页 96-math-tri-angle-bisector/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/96-math-tri-angle-bisector/index.html"
+    }
+   ]
+  },
+  {
+   "q": 11,
+   "page": "97-math-odd-even-construct/index.html",
+   "title": "题11 · 奇偶函数方程组构造",
+   "chapter": "函数奇偶性·方程组构造与最值",
+   "src": "0926数学错题·指数与幂函数综合 · 第11题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 62,
+     "level": "部分命中",
+     "chapter": "函数·奇偶性应用·构造方程组",
+     "signal": "看到【f 奇 g 偶，给出 f(x)±g(x)=…型等式，求 f、g 的值或解析式】",
+     "conclusion": "想到【将式中 x 全部替换为 -x 得第二个方程，用奇偶性转化后联立解方程组】；警惕【偶函数 g(-x)=g(x)、奇函数 f(-x)=-f(x) 的符号方向】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 45,
+     "level": "低度命中",
+     "chapter": "导数·奇函数+单调性解不等式",
+     "signal": "看到【f(x)+f(y)$\\leq$0这类「f+f」型抽象不等式】",
+     "conclusion": "想到【优先判断奇偶性+单调性：奇函数化f(y)为-f(-y)，再由增函数去掉f得x$\\leq$-y；偶函数则需讨论绝对值】；警惕【去f前必须先严格论证奇偶性与单调性，如用均值不等式证f^{'}(x)$\\geq$0】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 42,
+     "level": "低度命中",
+     "chapter": "函数·对称性应用·最值求和",
+     "signal": "看到【最大值与最小值难分别求出，求 M+m（最大值+最小值）】",
+     "conclusion": "想到【能直接求和的只有中心对称：最大值与最小值是关于对称中心的一对点，M+m=2$\\times$对称中心纵坐标 b；先化简拆出「奇函数+常数」识别中心】；警惕【轴对称函数不具备此性质】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 41,
+     "level": "低度命中",
+     "chapter": "函数·奇偶性求参数",
+     "signal": "看到【已知多项式函数为偶（奇）函数，求参数值】",
+     "conclusion": "想到【偶函数不能含奇次项，奇函数不能含偶次项和常数项，令对应系数为 0 解方程】；警惕【该规则仅适用多项式函数，不适用于含指数、对数、分段函数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0975",
+     "chapter": "奇偶构造·$f+g$ 已知时 $-x$ 替换联立方程组",
+     "signal": "看到【已知“奇函数 $f$ + 偶函数 $g$”的和式（如 $f(x)+g(x)=e^{x}$），求 $f$、$g$】",
+     "conclusion": "想到【$-x$ 替换联立：原式与 $-f(x)+g(x)=e^{-x}$（用奇偶性翻译 $f(-x)=-f(x)$、$g(-x)=g(x)$）组成方程组，相加减即得 $f(x)=\\dfrac{e^{x}-e^{-x}}2$、$g(x)=\\dfrac{e^{x}+e^{-x}}2$】；警惕【替换后的式子里 $f(-x)$、$g(-x)$ 必须先用奇偶性换号，再当未知数联立；这套“和式拆奇偶”对任意已知函数 $e^x$、$x^2+x$ 等都通用】",
+     "orig": "题11：已知奇函数 $f(x)$ 与偶函数 $g(x)$ 满足 $f(x)+g(x)=e^{x}$。(1) 求 $f(x)$、$g(x)$ 的解析式；(2) 若 $h(x)=kf(x)+g(x)$ 在 $\\mathbb{R}$ 上单调递增，求 $k$ 的取值范围；(3) 若 $F(x)=2mf(x)-g(2x)$ 在 $[0,+\\infty)$ 上的最大值为 $3$，求 $m$。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第11题｜源页 97-math-odd-even-construct/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/97-math-odd-even-construct/index.html"
+    },
+    {
+     "id": "mat0976",
+     "chapter": "单调与最值·$kf(x)+g(x)$ 型的系数条件与峰值回代",
+     "signal": "看到【$h(x)=kf(x)+g(x)=\\dfrac{(k+1)e^{x}+(k-1)e^{-x}}2$ 讨论单调性 / 最值】",
+     "conclusion": "想到【合并成 $Ae^{x}+Be^{-x}$ 后按系数判：递增 $\\Leftrightarrow A\\geq0$ 且 $B\\geq0$（至少一个严格正），即 $k+1>0$ 且 $k-1\\geq0\\Rightarrow k\\geq1$；最值定位：$F(x)=m(e^{x}-e^{-x})-\\dfrac{e^{2x}+e^{-2x}}2$ 在 $[0,+\\infty)$ 上的峰值用换元 $u=e^{x}\\geq1$ 化成二次型，顶点值 $=3$ 回代解 $m=2\\sqrt2$】；警惕【$e^{-x}$ 项系数为负时函数有峰值而非单调，先判形状再求最值；换元 $u=e^x$ 后定义域是 $[1,+\\infty)$，闭区间端点 $u=1$ 处的函数值也要参与比较】",
+     "orig": "题11：已知奇函数 $f(x)$ 与偶函数 $g(x)$ 满足 $f(x)+g(x)=e^{x}$。(1) 求 $f(x)$、$g(x)$ 的解析式；(2) 若 $h(x)=kf(x)+g(x)$ 在 $\\mathbb{R}$ 上单调递增，求 $k$ 的取值范围；(3) 若 $F(x)=2mf(x)-g(2x)$ 在 $[0,+\\infty)$ 上的最大值为 $3$，求 $m$。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第11题｜源页 97-math-odd-even-construct/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/97-math-odd-even-construct/index.html"
+    }
+   ]
+  },
+  {
+   "q": 12,
+   "page": "98-math-piecewise-monotone/index.html",
+   "title": "题12 · 分段函数单调性",
+   "chapter": "分段函数·单调衔接",
+   "src": "0926数学错题·指数与幂函数综合 · 第12题",
+   "verdict": "库内基本未命中（仅 4 张旁证卡，1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 43,
+     "level": "低度命中",
+     "chapter": "函数·常见函数单调性速判",
+     "signal": "看到【判断一次、二次、幂、指数、对数函数的单调性】",
+     "conclusion": "想到【按函数类型套速判口诀：一次看 k、二次看开口对称轴、指数对数看底数与 1 的大小】；警惕【对数函数忘看定义域 $(0,+\\infty)$；二次函数不看对称轴直接下结论】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 42,
+     "level": "低度命中",
+     "chapter": "函数·两个函数同时单调求参",
+     "signal": "看到【多个函数在给定区间上同时单调（同为增或减），求参数】",
+     "conclusion": "想到【逐个函数按单调条件列不等式（二次看对称轴与区间的位置，反比例看分子符号），再取交集】；警惕【端点能否取等需代入验证；反比例递减漏掉分子大于 0 的前提】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 36,
+     "level": "低度命中",
+     "chapter": "函数·分段函数的单调性",
+     "signal": "看到【分段函数在定义域上整体单调，求参数】",
+     "conclusion": "想到【两个条件：每一段各自单调＋分段点处左侧纵坐标$\\leq$右侧纵坐标（递增时），联立取交集】；警惕【只检查每段单调，漏掉分段点处的高低关系】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 36,
+     "level": "低度命中",
+     "chapter": "函数·三次函数对称中心",
+     "signal": "看到【求任意三次函数 ax^{3}+bx^{2}+cx+d 的对称中心】",
+     "conclusion": "想到【任意三次函数都是中心对称图形，对称中心横坐标 x=-b/(3a)，纵坐标代入解析式求 f(-b/(3a))；类比二次函数对称轴 x=-b/(2a) 记忆】；警惕【纵坐标没有纯系数公式，必须代入函数值】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0977",
+     "chapter": "分段函数·在 $\\mathbb{R}$ 上单调的三条件（各段增 + 衔接不降 + 范围）",
+     "signal": "看到【分段函数“在 $\\mathbb{R}$ 上单调递增”，两段分别是二次式与指一次式】",
+     "conclusion": "想到【三个条件缺一不可：① 左段 $ax^{2}+x+a$ 在 $(-\\infty,0)$ 递增——$a<0$ 时开口向下、对称轴 $x=-\\frac1{2a}>0$ 落在定义域外，段内递增成立；$a=0$ 时左段 $=x$ 递增；$a>0$ 时对称轴 $-\\frac1{2a}<0$ 落进段内必先减后增，舍去；② 右段 $e^{x}+a(x+1)$ 恒增 $\\Leftrightarrow$ 导数 $e^{x}+a\\geq0$ 对 $x\\geq0$ 成立 $\\Rightarrow a\\geq-1$（$e^{x}$ 在 $[0,+\\infty)$ 的最小值为 $1$）；③ 衔接不降：$\\lim_{x\\to0^{-}}f(x)=a\\leq f(0)=1+a$ 恒成立；三者取交集得 $a\\in[-1,0]$】；警惕【最易漏的是“衔接处左极限 $\\leq$ 右端函数值”，只查各段单调不查接缝是本题第一陷阱；二次段开口方向决定对称轴是否落进定义域，要按 $a$ 的符号分类讨论而不是一刀切】",
+     "orig": "题12：已知函数 $f(x)=\\begin{cases}ax^{2}+x+a, & x<0\\\\ e^{x}+a(x+1), & x\\geq0\\end{cases}$ 在 $\\mathbb{R}$ 上单调递增，求实数 $a$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第12题｜源页 98-math-piecewise-monotone/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/98-math-piecewise-monotone/index.html"
+    }
+   ]
+  },
+  {
+   "q": 13,
+   "page": "99-math-log-application/index.html",
+   "title": "题13 · 对数函数实际应用",
+   "chapter": "对数函数·实际应用",
+   "src": "0926数学错题·指数与幂函数综合 · 第13题",
+   "verdict": "部分命中（1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 53,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·对数函数性质",
+     "signal": "看到【判断对数函数的图象或性质】",
+     "conclusion": "想到【真数>0定定义域，抓定点(1,0)与y轴渐近线】；警惕【真数必须大于0，与指数函数的定义域值域正好互换】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 53,
+     "level": "部分命中",
+     "chapter": "指数与对数函数·分段函数值域",
+     "signal": "看到【分段函数值域为R（或某集合），求参数范围】",
+     "conclusion": "想到【各段值域取并集，参数影响单调性时按系数符号分三类讨论，列不等式取交集再合并】；警惕【区间端点取不到时对应值域是开区间；并集与已有段重叠处的等号可以取到】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 44,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·过定点",
+     "signal": "看到【对数型函数求过定点】",
+     "conclusion": "想到【令真数部分等于1消去底数a，代回求纵坐标】；警惕【原理是log_a1=0，与指数型令指数为0区分】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 42,
+     "level": "低度命中",
+     "chapter": "指数与对数函数·图象与性质",
+     "signal": "看到【判断指数函数的图象或性质】",
+     "conclusion": "想到【抓三要素：定点(0,1)、由底数定增减、以x轴为渐近线】；警惕【渐近线是「隐形杀手」，不画会导致值域判断错误】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0978",
+     "chapter": "对数实际应用·真数范围反解自变量区间",
+     "signal": "看到【实际情境里 $F(f)=k\\lg\\left(1+\\dfrac{f}{700}\\right)$ 给出值域（形如 $[k\\lg m,\\,k\\lg M]$），反求自变量范围】",
+     "conclusion": "想到【剥三层：$k$ 约掉 $\\Rightarrow \\lg\\left(1+\\frac f{700}\\right)\\in[\\lg2,\\lg8]$；$\\lg$ 单调 $\\Rightarrow 1+\\frac f{700}\\in[2,8]$；移项解出 $f\\in[700,4900]$】；警惕【真数 $1+\\frac f{700}$ 必须 $>1$（$f>0$）的隐含定义域先写上，再与解出的区间取交；$3k\\lg2=k\\lg8$（指数搬进真数）这步换底别写成 $3\\lg2$ 直接丢进真数】",
+     "orig": "题13：某设备感知模型满足 $F(f)=k\\lg\\left(1+\\dfrac{f}{700}\\right)$（$k>0$ 为常数）。若 $F(f)$ 的值域为 $[k\\lg 2,\\,3k\\lg 2]$，求频率 $f$ 的取值范围。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第13题｜源页 99-math-log-application/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/99-math-log-application/index.html"
+    }
+   ]
+  },
+  {
+   "q": 14,
+   "page": "100-math-func-prop-zeros/index.html",
+   "title": "题14 · 函数性质对称周期零点",
+   "chapter": "函数性质·对称周期与零点",
+   "src": "0926数学错题·指数与幂函数综合 · 第14题",
+   "verdict": "部分命中（2 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 56,
+     "level": "部分命中",
+     "chapter": "三角函数·对称性",
+     "signal": "看到【求正弦、余弦函数的对称轴或对称中心】",
+     "conclusion": "想到【对称轴过最值点、对称中心是零点，对照图像写表达式；对称轴与对称中心的周期都是$\\pi$（半个图象周期）】；警惕【对称轴周期是$\\pi$不是2$\\pi$】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 51,
+     "level": "部分命中",
+     "chapter": "三角函数含参·对称轴与对称中心距离求ω",
+     "signal": "看到【给出对称轴与对称中心（或两个最值点/零点）的距离求 $\\omega$，且未说明「相邻」】",
+     "conclusion": "想到【距离=最小距离+整数个半周期：对称轴与对称中心相距 (2k+1)T/4（k$\\in$N）；对称轴与对称轴、对称中心与对称中心相距 kT/2；求出 $\\omega$ 的通解后再用单调性约束（单调区间长度$\\leq$T/2）筛选】；警惕【不能默认相邻直接取 T/4 得唯一解；区间长度$\\leq$T/2 只是单调的必要条件，需验证区间起点是否为最值点】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 49,
+     "level": "低度命中",
+     "chapter": "函数·双重对称与周期",
+     "signal": "看到【函数图像有两条不同的对称轴 x=a、x=b】",
+     "conclusion": "想到【函数必为周期函数，周期 T=2|b-a|（两个对称中心结论相同，也是 2 倍距离）】；警惕【求出的只是一个周期，不一定是最小正周期】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 48,
+     "level": "低度命中",
+     "chapter": "函数零点·偶函数复合方程零点",
+     "signal": "看到【f(x)的二次式=0型方程（如f^{2}与f的线性组合）求根个数或参数】",
+     "conclusion": "想到【先因式分解为f(x)=c_{1}与f(x)=c_{2}，画完整f(x)图像，用水平线平移数交点；偶函数只需画x$\\geq$0半边再对称】；警惕【画图必须标清单调性、各区间端点值（含空心/实心）、渐近线，这些细节直接决定交点个数】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0979",
+     "chapter": "函数性质·偶函数 + 点对称 $\\Rightarrow$ 反周期 $T=4$",
+     "signal": "看到【同时给出“偶函数”与“$f(1-x)=-f(1+x)$（关于点 $(1,0)$ 对称）”，要推周期或求远端函数值】",
+     "conclusion": "想到【两条对称信息叠加出周期：点对称给 $f(2-x)=-f(x)$，偶函数给 $f(2-x)=f(x-2)$，故 $f(x-2)=-f(x)$，再迭代一次 $f(x-4)=f(x)$，即 $T=4$；远端值全部折回 $[0,1]$ 基本区间算：$f(2019)=f(3)=f(-1)=f(1)=3-a$】；警惕【“两个对称 $\\Rightarrow$ 一个周期”结论里，一轴一点的周期是 $4\\times$（轴点到点距离）；求某点值先取模回基本区间，别直接往解析式里代大数】",
+     "orig": "题14：已知偶函数 $f(x)$ 满足 $f(1-x)=-f(1+x)$，当 $x\\in[0,1]$ 时 $f(x)=x^{2}+2x-a$（$a=2$）。则：A. $a=2$；B. $f(-1)+f(2019)+f(2025)=0$；C. $x\\in[5,6]$ 时 $f(x)=-x^{2}+14x-45$；D. $y=f(x)-\\log_{3}|5x-3|$ 恰有 $7$ 个零点。正确的是______（多选）。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第14题｜源页 100-math-func-prop-zeros/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/100-math-func-prop-zeros/index.html"
+    },
+    {
+     "id": "mat0980",
+     "chapter": "零点计数·分段函数与对数曲线逐段相交（含切点）",
+     "signal": "看到【“$y=f(x)-\\log_{3}|5x-3|$ 的零点个数”这类两曲线交点计数问题】",
+     "conclusion": "想到【拆成 $f(x)$ 与 $\\log_{3}|5x-3|$ 逐周期数交点：对数曲线每半边单调、每周期与 $f$ 的“拱形”交 $2$ 点；另有一个边界切点（曲线恰在整数点相切、不穿过，变号扫描漏掉它）——变号交点 $6$ 个 $+$ 切点 $1$ 个 $=7$ 个】；警惕【数零点时“相切不算变号但仍是零点”最易漏——先用 $f$ 与对数曲线在整数点处的差是否恰为 $0$ 主动找切点；$|5x-3|$ 在 $x=\\frac35$ 处有竖直渐近线，附近别误判成交点】",
+     "orig": "题14：已知偶函数 $f(x)$ 满足 $f(1-x)=-f(1+x)$，当 $x\\in[0,1]$ 时 $f(x)=x^{2}+2x-a$（$a=2$）。则：A. $a=2$；B. $f(-1)+f(2019)+f(2025)=0$；C. $x\\in[5,6]$ 时 $f(x)=-x^{2}+14x-45$；D. $y=f(x)-\\log_{3}|5x-3|$ 恰有 $7$ 个零点。正确的是______（多选）。",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第14题｜源页 100-math-func-prop-zeros/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/100-math-func-prop-zeros/index.html"
+    }
+   ]
+  },
+  {
+   "q": 15,
+   "page": "101-math-trig-shift-symmetry/index.html",
+   "title": "题15 · 三角函数平移对称",
+   "chapter": "三角函数·平移与x轴对称",
+   "src": "0926数学错题·指数与幂函数综合 · 第15题",
+   "verdict": "部分命中（1 个新知识点待生成）",
+   "hits": [
+    {
+     "fit": 66,
+     "level": "部分命中",
+     "chapter": "三角函数·对称轴与对称中心（整体替换）",
+     "signal": "看到【求正弦型函数的对称轴或对称中心】",
+     "conclusion": "想到【整体替换法：令$\\omega$x+$\\varphi$等于基本函数的对称轴方程或对称中心横坐标，解出x】；警惕【对称轴必须写成x=…形式，对称中心必须写成坐标形式；若函数含上下平移y=Asin($\\omega$x+$\\varphi$)+h，对称中心纵坐标是h不是0】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    },
+    {
+     "fit": 60,
+     "level": "部分命中",
+     "chapter": "三角函数·图象平移变换",
+     "signal": "看到【平移化简结果在选项里找不到】",
+     "conclusion": "想到【第二关是诱导公式变形：$\\cos(\\alpha\\pm\\pi)=-\\cos\\alpha$、$\\cos(-\\alpha)=\\cos\\alpha$、$\\sin\\leftrightarrow\\cos$ 互化，凑出选项形式】；警惕【$\\cos$ 挪 $\\pi$ 必反号，漏负号就掉进只差一个符号的选项（本题 C 与 D 只差负号）】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": "https://mcjc4.github.io/courseware/lessons/42-math-trig-shift-t4/"
+    },
+    {
+     "fit": 59,
+     "level": "部分命中",
+     "chapter": "三角函数·对称轴个数求参",
+     "signal": "看到【$y=A\\sin(\\omega x+\\varphi)$ 求对称轴】",
+     "conclusion": "想到【对称轴只在波峰波谷正上方：令 相位$=\\dfrac{\\pi}{2}+k\\pi$，解出 $x_k$ 通式，$k$ 取使 $x_k\\geq 0$ 的整数】；警惕【别令相位$=k\\pi$，那是对称中心（零点）不是对称轴】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": "https://mcjc4.github.io/courseware/lessons/41-math-trig-symaxis-two/"
+    },
+    {
+     "fit": 52,
+     "level": "部分命中",
+     "chapter": "三角函数·对称性",
+     "signal": "看到【求正弦、余弦函数的对称轴或对称中心】",
+     "conclusion": "想到【对称轴过最值点、对称中心是零点，对照图像写表达式；对称轴与对称中心的周期都是$\\pi$（半个图象周期）】；警惕【对称轴周期是$\\pi$不是2$\\pi$】",
+     "file": "数一轮记忆卡-latex版_GLM-5.3-Flash",
+     "link": ""
+    }
+   ],
+   "newCards": [
+    {
+     "id": "mat0981",
+     "chapter": "三角变换·平移后关于 $x$ 轴对称 $\\Rightarrow$ 和差化积恒为零",
+     "signal": "看到【“图象平移若干单位后与原函数关于 $x$ 轴对称”，求相位参数的个数】",
+     "conclusion": "想到【翻译成恒等式：平移得 $g(x)=\\sin(x+4\\varphi)$；关于 $x$ 轴对称即 $g(x)=-f(x)$ 对一切 $x$ 成立，故 $\\sin(x+4\\varphi)+\\sin(x+\\varphi)\\equiv0$，和差化积 $2\\sin\\left(x+\\dfrac{5\\varphi}2\\right)\\cos\\dfrac{3\\varphi}2\\equiv0\\Rightarrow\\cos\\dfrac{3\\varphi}2=0\\Rightarrow\\varphi=\\dfrac{\\pi}3+\\dfrac{2k\\pi}3$；在 $(0,2\\pi)$ 内数出 $3$ 个】；警惕【“恒成立”是对每个 $x$ 成立，所以只能是 $\\cos$ 因子为零（$\\sin$ 因子含 $x$ 不可能恒为零）；平移方向“沿 $x$ 轴正向 $3\\varphi$”是加 $3\\varphi$ 不是减，最后别忘在给定区间里数个数并核对端点取不到】",
+     "orig": "题15：已知 $f(x)=\\sin(x+\\varphi)$（$0<\\varphi<2\\pi$），将 $f(x)$ 的图象沿 $x$ 轴正方向平移 $3\\varphi$ 个单位后得到 $g(x)$ 的图象，若 $g(x)$ 与 $y=f(x)$ 的图象关于 $x$ 轴对称，则满足条件的 $\\varphi$ 的个数为（　）A. $1$　B. $2$　C. $3$　D. $4$",
+     "src": "0926数学错题·指数与幂函数综合",
+     "remark": "第15题｜源页 101-math-trig-shift-symmetry/index.html",
+     "link": "https://jikaka-courseware.app.workbuddy.host/lessons/101-math-trig-shift-symmetry/index.html"
+    }
+   ]
+  }
+ ]
+}
