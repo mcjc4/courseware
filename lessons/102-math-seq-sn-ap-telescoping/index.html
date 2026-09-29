@@ -128,9 +128,16 @@ table.tb{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
 
 /* ===== 页脚 ===== */
 footer{margin-top:28px;background:var(--c-deep);color:rgba(255,255,255,.88);border-radius:14px;
-        padding:16px 26px;text-align:center;font-size:13.5px;border:none}
+        padding:16px 26px;font-size:13.5px;border:none;
+        display:flex;align-items:flex-end;justify-content:space-between;gap:20px;text-align:left}
 footer a{color:var(--c-accent);text-decoration:none;border-bottom:1px dashed rgba(255,216,107,.5)}
 footer a:hover{color:#fff;border-bottom-color:#fff}
+.ft-main{flex:1 1 auto;line-height:1.75}
+.ft-llm{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px;
+        padding-left:18px;border-left:1px solid rgba(255,255,255,.16);white-space:nowrap}
+.ft-llm-lab{font-size:10.5px;letter-spacing:.02em;color:rgba(255,255,255,.46)}
+.ft-llm b{font-size:13.5px;font-weight:800;color:var(--c-accent);
+          font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 
 /* ===== 窄屏 ===== */
 @media (max-width:900px){
@@ -141,6 +148,9 @@ footer a:hover{color:#fff;border-bottom-color:#fff}
   .qcard,.sec,#mcInter,#mcFitCard{padding:18px 16px 20px}
   .kv,.kv3{grid-template-columns:1fr}
   .sec-note{margin-left:0}
+  footer{flex-direction:column;align-items:stretch;text-align:center;padding:16px 18px}
+  .ft-llm{align-items:center;margin-top:12px;padding:12px 0 0;
+          border-left:none;border-top:1px solid rgba(255,255,255,.16)}
 }
 @media print{
   @page{size:A4 portrait;margin:9mm 8mm}
@@ -498,7 +508,7 @@ footer a:hover{color:#fff;border-bottom-color:#fff}
       </tr>
       <tr>
         <td><b>同类题识别</b></td>
-        <td>凡形如 $\left\{\frac{S_n}{f(n)}\right\}$ 等差 → 令 $b_n=\frac{S_n}{f(n)}$；凡证 $\sum\frac{1}{\text{二次式}}<C$ → 裂项放缩</td>
+        <td>凡形如 $\left\{\frac{S_n}{f(n)}\right\}$ 等差 → 令 $b_n=\frac{S_n}{f(n)}$；凡证 $\sum\frac{1}{\text{二次式}}&lt;C$ → 裂项放缩</td>
         <td>$\frac{1}{n(n+2)}=\frac12\left(\frac1n-\frac{1}{n+2}\right)$ 等等都是同类</td>
       </tr>
     </tbody>
@@ -551,15 +561,21 @@ footer a:hover{color:#fff;border-bottom-color:#fff}
   </div>
 
   <div class="memo" style="margin-top:14px">
-    <b>心法：</b>看到 $\left\{\dfrac{S_n}{\text{某个 }n\text{ 的多项式}}\right\}$ 等差 → 整体设为新数列；看到 $\sum\dfrac{1}{\text{二次式}}<C$ → 把二次式<b>拆成两个一次式之积</b>再裂项，并且检查起点那一项分母是否为 $0$。
+    <b>心法：</b>看到 $\left\{\dfrac{S_n}{\text{某个 }n\text{ 的多项式}}\right\}$ 等差 → 整体设为新数列；看到 $\sum\dfrac{1}{\text{二次式}}&lt;C$ → 把二次式<b>拆成两个一次式之积</b>再裂项，并且检查起点那一项分母是否为 $0$。
   </div>
 </section>
 
 </div>
 
 <footer>
-  102 · 题1 数列 Sₙ 构造与裂项放缩 ｜ 昕言解题课件库 · 数学<br>
-  自推导答案 · 数值扫描验证 ｜ <a href="../../index.html">返回课件库</a>
+  <div class="ft-main">
+    102 · 题1 数列 Sₙ 构造与裂项放缩 ｜ 昕言解题课件库 · 数学<br>
+    自推导答案 · 数值扫描验证 ｜ <a href="../../index.html">返回课件库</a>
+  </div>
+  <div class="ft-llm">
+    <span class="ft-llm-lab">制作智能体：小宇（WorkBuddy）· 当前 LLM</span>
+    <b>DeepSeek-V4.1-Flash</b>
+  </div>
 </footer>
 
 </div>
