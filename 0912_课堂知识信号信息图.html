@@ -244,6 +244,14 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
 .polLbtn.on,.polLbtn.sel{background:var(--pol);border-color:var(--pol);color:#fff;font-weight:700}
 #polLout>div{border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin-bottom:6px;font-size:12.5px;line-height:1.62;background:#fff}
 #polLout>div b{color:var(--pol)}
+/* ===== v5：逻辑关系图 × 互动图例 并排合并（同知识点两视图放一起） ===== */
+.figlab{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:12px;align-items:start;margin-top:14px}
+.figlab>.fig{margin-top:0;height:100%}
+.figlab .labcol{min-width:0}
+.figlab .labcol .dg.lab:first-of-type{margin-top:0}
+.figlab .labcol .subsec{margin:0 0 4px}
+.figlab .labcol .lab-note{margin:0 0 8px}
+@media(max-width:1150px){.figlab{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -297,10 +305,14 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 8 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>力的合成实验作图</span></div><table class="knt"><tr><td class="lb">要点</td><td>只有 0 分与满分：定标度 → 按标度量长度 → 补箭头·标度格·标注，缺一即 0 分</td></tr><tr><td class="lb">依据</td><td>一格 = 题给标度值；长度 = 力的大小 × 标度比例</td></tr><tr class="er"><td class="lb">易错</td><td>缺标度格/箭头/标注，实线画虚线，徒手不用尺</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>只给点作图定长度</span></div><table class="knt"><tr><td class="lb">要点</td><td>只给点不给方向时，长度即力的大小 → 实验值与理论值分别作图，合力也要画格</td></tr><tr><td class="lb">依据</td><td>13 画三格；3.4 就画 3.4 格</td></tr><tr class="er"><td class="lb">易错</td><td>把箭头画到点所在位置，忽略长度代表大小</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>夯杆提升分段动力学</span></div><table class="knt"><tr><td class="lb">要点</td><td>加速段 $2f-mg=ma$ 求末速 → 静摩擦后转匀速 → 松夹后竖直上抛，必须分三段算</td></tr><tr><td class="lb">依据</td><td>$2f-mg=ma$；$v^2=2ah$；上抛 $t=v/g$</td></tr><tr class="er"><td class="lb">易错</td><td>全程当加速算，末速比题给速度还大</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>规范符号即解题思路</span></div><table class="knt"><tr><td class="lb">要点</td><td>计算只用题目指定符号；下标用错等于过程没懂，公式形式对也不给分</td></tr><tr><td class="lb">依据</td><td>$t=\dfrac{v}{a}$ 中的 $v$ 必须是题给的那个速度</td></tr><tr class="er"><td class="lb">易错</td><td>拿一直加速的末速度 $V_1$ 代入求时间</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>能量法求多耗电能</span></div><table class="knt"><tr><td class="lb">要点</td><td>多耗能 = 势能增 + 动能增 + 摩擦生热，也可算电机力做功，位移取力作用点</td></tr><tr><td class="lb">依据</td><td>$W=mgH+\frac12mv^2+f\Delta s$</td></tr><tr class="er"><td class="lb">易错</td><td>$\Delta s$ 取杆位移，而不是轮与杆的相对位移</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>加速度变化率与舒适度</span></div><table class="knt"><tr><td class="lb">要点</td><td>图象讲加速度变化的快慢；判最舒适不看斜率，直接看纵坐标是否等于 0</td></tr><tr><td class="lb">依据</td><td>$j=\Delta a/\Delta t$；纵坐标 0 则 $a$ 不变</td></tr><tr class="er"><td class="lb">易错</td><td>把急动度不变当成匀加速，其实 $a$ 仍在变</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>非轻绳的张力分布</span></div><table class="knt"><tr><td class="lb">要点</td><td>张力处处相等只对轻绳成立；铁链输电线越靠上拉得越多张力越大，求最低点取半段</td></tr><tr><td class="lb">依据</td><td>$R=2F\cos(\theta/2)$；$120°$ 时 $R=F$</td></tr><tr class="er"><td class="lb">易错</td><td>直接套张力处处相等；热胀冷缩时判反方向</td></tr></table></div><div class="kn"><div class="kn-h"><i>8</i><span>滑动摩擦与速度无关</span></div><table class="knt"><tr><td class="lb">要点</td><td>滑动摩擦只由 $\mu$ 与 $N$ 决定，与速度无关；斜向上拉时压力变小要重算</td></tr><tr><td class="lb">依据</td><td>$f=\mu N$；斜向上拉 $N=mg-F\sin\theta$</td></tr><tr class="er"><td class="lb">易错</td><td>有斜向上拉力时仍写 $f=\mu mg$</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox='0 0 680 292' xmlns='http://www.w3.org/2000/svg' font-family='inherit'> <rect x='14' y='14' width='320' height='150' rx='12' style='fill:var(--phy);opacity:.06'/> <rect x='14' y='14' width='320' height='150' rx='12' fill='none' style='stroke:var(--phy)' stroke-width='1.6'/> <text x='30' y='38' font-size='13' font-weight='700' style='fill:var(--phy)'>① 夯杆上升三段（v–t 图）</text> <text x='30' y='58' font-size='11.5' fill='#334155'>加速 T₁ → 匀速 T₂ → 松手竖直上抛 T₃</text> <path d='M40 140 H306' stroke='#94a3b8' stroke-width='1.4'/> <path d='M40 140 V82' stroke='#94a3b8' stroke-width='1.4'/> <text x='296' y='154' font-size='10.5' fill='#94a3b8'>t</text> <text x='27' y='88' font-size='10.5' fill='#94a3b8'>v</text> <path d='M96 92 L206 92 L252 140 Z' style='fill:var(--phy);opacity:.12'/> <path d='M40 140 L96 92 L206 92 L252 140' fill='none' stroke='#2563eb' stroke-width='2.4' stroke-linejoin='round'/> <path d='M96 92 V140' stroke='#cbd5e1' stroke-width='1' stroke-dasharray='4 3'/> <path d='M206 92 V140' stroke='#cbd5e1' stroke-width='1' stroke-dasharray='4 3'/> <text x='52' y='154' font-size='10.5' fill='#334155'>T₁</text> <text x='136' y='154' font-size='10.5' fill='#334155'>T₂</text> <text x='214' y='154' font-size='10.5' fill='#334155'>T₃</text> <text x='130' y='120' font-size='10.5' fill='#b91c1c'>Δs 取此三角形</text> <rect x='346' y='14' width='320' height='150' rx='12' style='fill:var(--phy);opacity:.06'/> <rect x='346' y='14' width='320' height='150' rx='12' fill='none' style='stroke:var(--phy)' stroke-width='1.6'/> <text x='362' y='38' font-size='13' font-weight='700' style='fill:var(--phy)'>② 多消耗的能量（能量法）</text> <text x='362' y='64' font-size='11.5' fill='#334155'>重力势能增加　mgH</text> <text x='362' y='86' font-size='11.5' fill='#334155'>动能增加　　　½mv²</text> <text x='362' y='108' font-size='11.5' fill='#334155'>摩擦生热　　　Q = f·Δs</text> <text x='362' y='134' font-size='12.5' font-weight='700' fill='#b91c1c'>⇒ W = mgH + ½mv² + f·Δs</text> <text x='362' y='154' font-size='10.5' fill='#94a3b8'>Δs 是轮与杆的相对位移，不是杆的位移</text> <rect x='14' y='180' width='652' height='102' rx='12' fill='#f8fafc' stroke='#e2e8f0'/> <text x='30' y='204' font-size='12.5' font-weight='700' style='fill:var(--phy)'>⚠ 三条铁律（本课反复强调）</text> <text x='30' y='228' font-size='11.5' fill='#334155'>① 受力分析先定研究对象（整体 / 局部），再按选定方向列平衡式或牛顿第二定律</text> <text x='30' y='248' font-size='11.5' fill='#334155'>② 非轻绳（铁链、输电线）张力处处不等，越靠上要拉的越多、张力越大</text> <text x='30' y='268' font-size='11.5' fill='#334155'>③ 滑动摩擦只由 μ 与 N 决定，与速度无关；有斜向上拉力时 N ≠ mg</text> </svg></div>
-    <div class="subsec">② 思维链互动图例：夹持提升夯杆：受力 → 加速度 → 临界</div>
-    <div class="lab-note">拖动单侧夹持力 F、动摩擦因数 μ、夯杆质量 m：两侧摩擦合力 2f 与重力 mg 谁大谁小，中间量加速度 a 就跟着变，结论区同步给出能否提起与临界条件 μ ≥ mg/(2F)。</div>
-    <div class='labx'> <div class='viz'><canvas id='physL_canvas' width='620' height='300'></canvas></div> <div> <div class='ctl'> <label>单侧夹持力 F <input type='range' id='physL_F' min='2000' max='20000' step='200' value='15000'><b id='physL_Fv'>15000</b> N</label> <label>动摩擦因数 μ <input type='range' id='physL_mu' min='0.10' max='0.80' step='0.01' value='0.40'><b id='physL_muv'>0.40</b></label> <label>夯杆质量 m <input type='range' id='physL_m' min='200' max='1200' step='20' value='600'><b id='physL_mv'>600</b> kg</label> </div> <div class='btns'> <button id='physL_b1'>✅ 加速提升</button> <button id='physL_b2'>⚖️ 刚好临界</button> <button id='physL_b3'>❌ 提不起来</button> </div> <div class='out' id='physL_out'></div> </div> </div>
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox='0 0 680 292' xmlns='http://www.w3.org/2000/svg' font-family='inherit'> <rect x='14' y='14' width='320' height='150' rx='12' style='fill:var(--phy);opacity:.06'/> <rect x='14' y='14' width='320' height='150' rx='12' fill='none' style='stroke:var(--phy)' stroke-width='1.6'/> <text x='30' y='38' font-size='13' font-weight='700' style='fill:var(--phy)'>① 夯杆上升三段（v–t 图）</text> <text x='30' y='58' font-size='11.5' fill='#334155'>加速 T₁ → 匀速 T₂ → 松手竖直上抛 T₃</text> <path d='M40 140 H306' stroke='#94a3b8' stroke-width='1.4'/> <path d='M40 140 V82' stroke='#94a3b8' stroke-width='1.4'/> <text x='296' y='154' font-size='10.5' fill='#94a3b8'>t</text> <text x='27' y='88' font-size='10.5' fill='#94a3b8'>v</text> <path d='M96 92 L206 92 L252 140 Z' style='fill:var(--phy);opacity:.12'/> <path d='M40 140 L96 92 L206 92 L252 140' fill='none' stroke='#2563eb' stroke-width='2.4' stroke-linejoin='round'/> <path d='M96 92 V140' stroke='#cbd5e1' stroke-width='1' stroke-dasharray='4 3'/> <path d='M206 92 V140' stroke='#cbd5e1' stroke-width='1' stroke-dasharray='4 3'/> <text x='52' y='154' font-size='10.5' fill='#334155'>T₁</text> <text x='136' y='154' font-size='10.5' fill='#334155'>T₂</text> <text x='214' y='154' font-size='10.5' fill='#334155'>T₃</text> <text x='130' y='120' font-size='10.5' fill='#b91c1c'>Δs 取此三角形</text> <rect x='346' y='14' width='320' height='150' rx='12' style='fill:var(--phy);opacity:.06'/> <rect x='346' y='14' width='320' height='150' rx='12' fill='none' style='stroke:var(--phy)' stroke-width='1.6'/> <text x='362' y='38' font-size='13' font-weight='700' style='fill:var(--phy)'>② 多消耗的能量（能量法）</text> <text x='362' y='64' font-size='11.5' fill='#334155'>重力势能增加　mgH</text> <text x='362' y='86' font-size='11.5' fill='#334155'>动能增加　　　½mv²</text> <text x='362' y='108' font-size='11.5' fill='#334155'>摩擦生热　　　Q = f·Δs</text> <text x='362' y='134' font-size='12.5' font-weight='700' fill='#b91c1c'>⇒ W = mgH + ½mv² + f·Δs</text> <text x='362' y='154' font-size='10.5' fill='#94a3b8'>Δs 是轮与杆的相对位移，不是杆的位移</text> <rect x='14' y='180' width='652' height='102' rx='12' fill='#f8fafc' stroke='#e2e8f0'/> <text x='30' y='204' font-size='12.5' font-weight='700' style='fill:var(--phy)'>⚠ 三条铁律（本课反复强调）</text> <text x='30' y='228' font-size='11.5' fill='#334155'>① 受力分析先定研究对象（整体 / 局部），再按选定方向列平衡式或牛顿第二定律</text> <text x='30' y='248' font-size='11.5' fill='#334155'>② 非轻绳（铁链、输电线）张力处处不等，越靠上要拉的越多、张力越大</text> <text x='30' y='268' font-size='11.5' fill='#334155'>③ 滑动摩擦只由 μ 与 N 决定，与速度无关；有斜向上拉力时 N ≠ mg</text> </svg></div>
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：夹持提升夯杆：受力 → 加速度 → 临界</div>
+        <div class="lab-note">拖动单侧夹持力 F、动摩擦因数 μ、夯杆质量 m：两侧摩擦合力 2f 与重力 mg 谁大谁小，中间量加速度 a 就跟着变，结论区同步给出能否提起与临界条件 μ ≥ mg/(2F)。</div>
+        <div class='labx'> <div class='viz'><canvas id='physL_canvas' width='620' height='300'></canvas></div> <div> <div class='ctl'> <label>单侧夹持力 F <input type='range' id='physL_F' min='2000' max='20000' step='200' value='15000'><b id='physL_Fv'>15000</b> N</label> <label>动摩擦因数 μ <input type='range' id='physL_mu' min='0.10' max='0.80' step='0.01' value='0.40'><b id='physL_muv'>0.40</b></label> <label>夯杆质量 m <input type='range' id='physL_m' min='200' max='1200' step='20' value='600'><b id='physL_mv'>600</b> kg</label> </div> <div class='btns'> <button id='physL_b1'>✅ 加速提升</button> <button id='physL_b2'>⚖️ 刚好临界</button> <button id='physL_b3'>❌ 提不起来</button> </div> <div class='out' id='physL_out'></div> </div> </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -313,7 +325,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 9 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>结构决定还原性</span></div><table class="knt"><tr><td class="lb">要点</td><td>钠价电子 $3s^1$ → 极易失电子 → 强还原性；失电子成 Na⁺ 达 8 电子稳定结构</td></tr><tr><td class="lb">依据</td><td>$1s^22s^22p^63s^1$；第 3 周期 ⅠA 族，s 区</td></tr><tr class="er"><td class="lb">易错</td><td>把 Na⁺ 当成还能得电子的强氧化剂</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>钠的保存与灭火</span></div><table class="knt"><tr><td class="lb">要点</td><td>银白色、熔点低、密度介于煤油与水之间 → 保存于煤油或石蜡油；钠失火用干燥沙土，不能用水</td></tr><tr><td class="lb">依据</td><td>$\rho_{煤油}&lt;\rho_{Na}&lt;\rho_{水}$</td></tr><tr class="er"><td class="lb">易错</td><td>用水或湿物灭钠火</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>钠与单质反应看条件</span></div><table class="knt"><tr><td class="lb">要点</td><td>常温与 O₂ 生 Na₂O，加热生 Na₂O₂（先熔化黄焰）；与 Cl₂ 加热生 NaCl 白烟</td></tr><tr><td class="lb">依据</td><td>$4\mathrm{Na}+\mathrm{O_2}\rightarrow 2\mathrm{Na_2O}$；$2\mathrm{Na}+\mathrm{Cl_2}\xrightarrow{\Delta}2\mathrm{NaCl}$</td></tr><tr class="er"><td class="lb">易错</td><td>不分条件一律写 Na₂O₂</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>钠置换羟基上的氢</span></div><table class="knt"><tr><td class="lb">要点</td><td>本质断 O—H 上的氢：与水剧烈生 NaOH 与 H₂；乙醇更慢，乙基推电子使 O—H 极性变弱</td></tr><tr><td class="lb">依据</td><td>$2\mathrm{Na}+2\mathrm{H_2O}\rightarrow 2\mathrm{NaOH}+\mathrm{H_2}\uparrow$；$2\mathrm{Na}+2\mathrm{C_2H_5OH}\rightarrow 2\mathrm{C_2H_5ONa}+\mathrm{H_2}\uparrow$</td></tr><tr class="er"><td class="lb">易错</td><td>认为乙醇比水活泼、钠与乙醇不反应</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>钠与盐溶液先水后沉淀</span></div><table class="knt"><tr><td class="lb">要点</td><td>钠先与水生成 NaOH，NaOH 再与 Cu²⁺ 生成 Cu(OH)₂ 沉淀，不会置换出铜</td></tr><tr><td class="lb">依据</td><td>$2\mathrm{Na}+2\mathrm{H_2O}+\mathrm{CuSO_4}\rightarrow \mathrm{Cu(OH)_2}\downarrow+\mathrm{Na_2SO_4}+\mathrm{H_2}\uparrow$</td></tr><tr class="er"><td class="lb">易错</td><td>写钠从 CuSO₄ 中置换出红色的铜</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>转移电子数只看钠</span></div><table class="knt"><tr><td class="lb">要点</td><td>钠价态只有 +1 一条出口，1 mol Na 恒失 1 mol 电子，与产物和另一反应物多少无关</td></tr><tr><td class="lb">依据</td><td>$n(e^-)=n(\mathrm{Na})$；4.6 g Na 失 0.2 mol e⁻</td></tr><tr class="er"><td class="lb">易错</td><td>按 CuSO₄ 的量算成 0.4 mol</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>碱金属通性递变</span></div><table class="knt"><tr><td class="lb">要点</td><td>ⅠA 族熔沸点低、活泼性递增；氧化物渐复杂：Li 只 Li₂O，Na 得 Na₂O₂，K 有 KO₂</td></tr><tr><td class="lb">依据</td><td>活泼性 Li&lt;Na&lt;K&lt;Rb&lt;Cs，Cs 最强；保存需煤油</td></tr><tr class="er"><td class="lb">易错</td><td>认为碱金属都能生成过氧化物</td></tr></table></div><div class="kn"><div class="kn-h"><i>8</i><span>钠的制取与置换钾</span></div><table class="knt"><tr><td class="lb">要点</td><td>熔融电解得钠，溶液电解得 NaOH、H₂、Cl₂；Na+KCl 靠 K 沸点低置换出 K</td></tr><tr><td class="lb">依据</td><td>$2\mathrm{NaCl(熔融)}\xrightarrow{电解}2\mathrm{Na}+\mathrm{Cl_2}\uparrow$；溶液电解得 NaOH、H₂、Cl₂</td></tr><tr class="er"><td class="lb">易错</td><td>电解 NaCl 溶液阴极写成 Na⁺ 得电子</td></tr></table></div><div class="kn"><div class="kn-h"><i>9</i><span>过氧化钠歧化</span></div><table class="knt"><tr><td class="lb">要点</td><td>Na₂O₂ 中每个氧 −1 价；遇水或 CO₂ 歧化，氧一路升 0 价、一路降 −2 价</td></tr><tr><td class="lb">依据</td><td>$2\mathrm{Na_2O_2}+2\mathrm{H_2O}\rightarrow 4\mathrm{NaOH}+\mathrm{O_2}\uparrow$；$2\mathrm{Na_2O_2}+2\mathrm{CO_2}\rightarrow 2\mathrm{Na_2CO_3}+\mathrm{O_2}$</td></tr><tr class="er"><td class="lb">易错</td><td>把 Na₂O₂ 中氧当作 −2 价</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
   <rect x="14" y="14" width="652" height="56" rx="12" style="fill:var(--chem);opacity:.06" stroke="var(--chem)" stroke-width="1.6"/>
   <text x="30" y="36" font-size="13" font-weight="700" style="fill:var(--chem)">① 结构（起点）：价电子 3s¹</text>
   <text x="30" y="58" font-size="11.5" fill="#334155">最外层只有 1 个电子 → 极易失去 → 强还原性；失电子后 Na⁺ 达 8 电子稳定结构，几乎不再参与氧化还原</text>
@@ -336,9 +349,10 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
 
   <text x="14" y="268" font-size="11" fill="#b91c1c">⚠ 一条主线走到底：先由结构定还原性，再由价态定产物——钠的产物里 Na 永远是 +1 价</text>
 </svg></div>
-    <div class="subsec">② 思维链互动图例：选反应物 → 看产物与电子转移</div>
-    <div class="lab-note">先选钠遇上的对象，立刻给出方程式、现象与电子转移方向；再拖 n(Na) 实时算转移电子数与氢气体积。</div>
-    
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：选反应物 → 看产物与电子转移</div>
+        <div class="lab-note">先选钠遇上的对象，立刻给出方程式、现象与电子转移方向；再拖 n(Na) 实时算转移电子数与氢气体积。</div>
+        
 
 
 <div class='dg lab' style='margin-top:10px'>
@@ -383,6 +397,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
     <div class='viz'><div id='chemLbars' style='padding:2px'></div></div>
   </div>
 </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -395,7 +411,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 9 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>时态＝时间乘状态</span></div><table class="knt"><tr><td class="lb">要点</td><td>时态不是九个孤立名字：时间（过去/现在/将来）×状态（一般/进行/完成）＝3×3 九种时态</td></tr><tr><td class="lb">依据</td><td>先定时后定态；过去＋完成＝过去完成时</td></tr><tr class="er"><td class="lb">易错</td><td>只背九个名称，不判时间与状态</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>完成时标志词</span></div><table class="knt"><tr><td class="lb">要点</td><td>完成时不止 recently：lately、since/for、over、ever since</td></tr><tr><td class="lb">依据</td><td>by＋过去时间点 ⇒ 过去完成时</td></tr><tr class="er"><td class="lb">易错</td><td>只认 recently 不认 lately，漏掉 over</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>首见句式时态</span></div><table class="knt"><tr><td class="lb">要点</td><td>首见句式从句用 have done；主句 is 换 was 时从句改 had done</td></tr><tr><td class="lb">依据</td><td>It's the first time sb have done</td></tr><tr class="er"><td class="lb">易错</td><td>主句已过去，从句仍写 have done</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>隐藏时间标志词</span></div><table class="knt"><tr><td class="lb">要点</td><td>previously（先前）、then（那时的人）藏得远，都提示一般过去时</td></tr><tr><td class="lb">依据</td><td>The people then found it hard</td></tr><tr class="er"><td class="lb">易错</td><td>找不到标志词就凭语感填</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>主谓一致</span></div><table class="knt"><tr><td class="lb">要点</td><td>of 短语看 of 前的名词；as well as 只看前面那个名词，不看后面</td></tr><tr><td class="lb">依据</td><td>Some of the things … also shape</td></tr><tr class="er"><td class="lb">易错</td><td>只盯紧挨着谓语的名词</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>系动词主动表被动</span></div><table class="knt"><tr><td class="lb">要点</td><td>系动词表状态、无被动，用主动形式：smells、writes、feels</td></tr><tr><td class="lb">依据</td><td>the bread smells good</td></tr><tr class="er"><td class="lb">易错</td><td>写成 is smelled、is felt</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>非谓语被动重点</span></div><table class="knt"><tr><td class="lb">要点</td><td>非谓语＝不是谓语的动词；近年重点偏移到被动，to do 也能带被动与时态</td></tr><tr><td class="lb">依据</td><td>to be done；小笼包 to be lifted</td></tr><tr class="er"><td class="lb">易错</td><td>只写 to lift，忽略被动关系</td></tr></table></div><div class="kn"><div class="kn-h"><i>8</i><span>不定式作状语</span></div><table class="knt"><tr><td class="lb">要点</td><td>不定式作状语分目的、结果、原因；表原因常与情感形容词连用，doing 可表时间</td></tr><tr><td class="lb">依据</td><td>to rent（目的）；Recalling …（时间）</td></tr><tr class="er"><td class="lb">易错</td><td>先判主被动，忽略先判作什么成分</td></tr></table></div><div class="kn"><div class="kn-h"><i>9</i><span>读后续写升华倒装</span></div><table class="knt"><tr><td class="lb">要点</td><td>升华结尾两套路：完全倒装＋否定前置倒装，再配前后对比</td></tr><tr><td class="lb">依据</td><td>Gone are the days when…</td></tr><tr class="er"><td class="lb">易错</td><td>so strong 应作副词 so strongly</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 336" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 336" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
   <text x="16" y="24" font-size="13.5" font-weight="700" style="fill:var(--eng)">先判「时间 × 状态」定时态，再判「空里缺谓语吗」定非谓语</text>
 
   <rect x="16" y="36" width="396" height="216" rx="12" style="fill:var(--eng);opacity:.06"/>
@@ -469,9 +486,10 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <rect x="16" y="296" width="648" height="28" rx="9" fill="#fef2f2" stroke="#fecaca" stroke-width="1.3"/>
   <text x="32" y="314" font-size="11.5" fill="#b91c1c">⚠ 系动词无被动：the bread smells good、the pen writes well（主动表被动）</text>
 </svg></div>
-    <div class="subsec">② 思维链互动图例：3 × 3 时态矩阵 · 选时间 × 选状态 → 自动定位时态</div>
-    <div class="lab-note">先点「时间」（过去 / 现在 / 将来），再点「状态」（一般 / 进行 / 完成），右上角自动给出该时态的结构 · 标志词 · ⚠ 易错提醒——九种时态是一格格推出来的，不是背出来的。</div>
-    
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：3 × 3 时态矩阵 · 选时间 × 选状态 → 自动定位时态</div>
+        <div class="lab-note">先点「时间」（过去 / 现在 / 将来），再点「状态」（一般 / 进行 / 完成），右上角自动给出该时态的结构 · 标志词 · ⚠ 易错提醒——九种时态是一格格推出来的，不是背出来的。</div>
+        
 
 
 <div class="dg lab" style="margin-top:10px">
@@ -501,6 +519,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
     </div>
   </div>
 </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -513,7 +533,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 7 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>认识论知识体系</span></div><table class="knt"><tr><td class="lb">要点</td><td>第四课＝认识论：4.1实践观＋4.2真理观；主线为认识、实践、二者关系三块</td></tr><tr><td class="lb">依据</td><td>认识 → 实践 → 二者关系</td></tr><tr class="er"><td class="lb">易错</td><td>把实践观与真理观混为一谈</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>认识的含义</span></div><table class="knt"><tr><td class="lb">要点</td><td>认识＝主体对客体的能动反映，有正确也有错误；主体立场、知识结构不同 → 主体差异性</td></tr><tr><td class="lb">依据</td><td>能动反映 ＋ 主体差异性</td></tr><tr class="er"><td class="lb">易错</td><td>把认识与唯物论的意识相等同</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>认识的反复性无限性</span></div><table class="knt"><tr><td class="lb">要点</td><td>主体＋客体＋基础三维：世代延续与条件制约 → 本质暴露需过程 → 实践不断发展</td></tr><tr><td class="lb">依据</td><td>主体·客体·基础三维一起答</td></tr><tr class="er"><td class="lb">易错</td><td>只答一维，漏掉实践基础在发展</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>感性认识与理性认识</span></div><table class="knt"><tr><td class="lb">要点</td><td>感性借感官看现象与外部联系；理性借抽象思维抓本质与规律；二者相互渗透，感性有待深化</td></tr><tr><td class="lb">依据</td><td>感性 ↔ 理性；根本任务 ≠ 根本目的</td></tr><tr class="er"><td class="lb">易错</td><td>把根本任务与根本目的混答</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>实践的含义</span></div><table class="knt"><tr><td class="lb">要点</td><td>主体必须是人（AI、机器人活动都不是）→ 改造客观世界 → 直接现实性＝观念变现实</td></tr><tr><td class="lb">依据</td><td>主体是人 ＋ 改造客观世界 ＋ 直接现实性</td></tr><tr class="er"><td class="lb">易错</td><td>把听课学习、机器活动当成实践</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>实践的三个特点</span></div><table class="knt"><tr><td class="lb">要点</td><td>客观物质性＝要素客观·受条件规律制约；主观能动性＝有目的有计划；社会历史性＝社会关系＋历史条件</td></tr><tr><td class="lb">依据</td><td>客观物质性·主观能动性·社会历史性</td></tr><tr class="er"><td class="lb">易错</td><td>把受客观条件制约误判为主观能动性</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>实践是认识的基础</span></div><table class="knt"><tr><td class="lb">要点</td><td>四表现：来源 → 动力 → 唯一标准 → 目的；认识对实践有双重反作用（正确促进／错误阻碍）</td></tr><tr><td class="lb">依据</td><td>来源·动力·唯一标准·目的</td></tr><tr class="er"><td class="lb">易错</td><td>把来源写成动力，把认识当成目的</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 276" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 276" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
 <text x="14" y="24" font-size="13" font-weight="700" style="fill:var(--pol)">认识论（第四课 探索认识的奥秘）知识体系</text>
 <rect x="14" y="36" width="210" height="94" rx="12" style="fill:var(--pol);opacity:.06"/>
 <rect x="14" y="36" width="210" height="94" rx="12" fill="none" style="stroke:var(--pol)" stroke-width="1.5"/>
@@ -542,9 +563,10 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
 <text x="30" y="226" font-size="11.5" fill="#334155">③ 唯一标准：检验认识真理性的唯一标准　④ 目的：实践是认识的目的</text>
 <text x="30" y="248" font-size="11" fill="#b91c1c">⚠ 来源 ≠ 途径　｜　动力 ≠ 根本动力　｜　认识 ≠ 意识　｜　认识本身不能当目的</text>
 </svg></div>
-    <div class="subsec">② 思维链互动图例：材料情境 → 原理归属 → 答题骨架</div>
-    <div class="lab-note">点材料情境 → 判原理归属 → 自动拼出「原理 + 方法论 + 结合材料」答题骨架</div>
-    <div class="dg lab" style="margin-top:0">
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：材料情境 → 原理归属 → 答题骨架</div>
+        <div class="lab-note">点材料情境 → 判原理归属 → 自动拼出「原理 + 方法论 + 结合材料」答题骨架</div>
+        <div class="dg lab" style="margin-top:0">
 <h4>🧭 互动图例 · 材料情境 → 原理归属 → 答题骨架</h4>
 
 <div class="labx" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
@@ -568,6 +590,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
 <div style="font-weight:700;margin:12px 0 6px">③ 答题骨架（原理 + 方法论 + 结合材料）</div>
 <div id="polLout"></div>
 </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -580,7 +604,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 7 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>人物形象定性</span></div><table class="knt"><tr><td class="lb">要点</td><td>先定性再分点：扁形＝性格单一类型化，圆形＝复杂多面有变化；术语要与原文证据一一对应</td></tr><tr><td class="lb">依据</td><td>读到人物先判圆形或扁形再作答</td></tr><tr class="er"><td class="lb">易错</td><td>只堆性格形容词不定性</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>情节留白三层</span></div><table class="knt"><tr><td class="lb">要点</td><td>三层：结构节奏（叙事跳跃、张弛有度）→ 效果（留悬念、聚焦核心）→ 主旨（突出形象、深化母爱）</td></tr><tr><td class="lb">依据</td><td>用「弱化…聚焦…」「留白」「主次分明」收口</td></tr><tr class="er"><td class="lb">易错</td><td>只答「简洁、省略」一层</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>心理行动四层</span></div><table class="knt"><tr><td class="lb">要点</td><td>看到母亲（触发）→ 恐惧羞愧 → 急中生智掩盖 → 迅速摘章佩戴、身份调转</td></tr><tr><td class="lb">依据</td><td>给分点：心理3分＋举动3分＋表述流畅2分</td></tr><tr class="er"><td class="lb">易错</td><td>漏写「看到母亲」，动作写成「轻轻取下」</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>语段压缩形式对比</span></div><table class="knt"><tr><td class="lb">要点</td><td>问答文段比原文：化繁为简、简洁明了；一问一答针对性强，使结构脉络更清晰</td></tr><tr><td class="lb">依据</td><td>答案里必须出现比较词（相比原文、更简洁）</td></tr><tr class="er"><td class="lb">易错</td><td>答「更有科学性」「通俗性」「激发兴趣」</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>观点合理性筛选</span></div><table class="knt"><tr><td class="lb">要点</td><td>先接受题干观点，再回原文找「不涉及、没体现」的点把证明补全，不判断对错</td></tr><tr><td class="lb">依据</td><td>观点一漏装饰特点，观点二漏装置艺术、服饰图案、工艺设计</td></tr><tr class="er"><td class="lb">易错</td><td>答「不合理」或凭印象写不回原文</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>选项逐项原文核</span></div><table class="knt"><tr><td class="lb">要点</td><td>逐项回原文核句子关系，圈关联词（更、不只…还）与时间词，别把递进读成并列</td></tr><tr><td class="lb">依据</td><td>第2题A项错在时间，D项「更」表递进</td></tr><tr class="er"><td class="lb">易错</td><td>凭印象选、忽略关联词，题没读完就动笔</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>间接比对辨词</span></div><table class="knt"><tr><td class="lb">要点</td><td>间接比对题要认出选项换了词：原文说的是「孤立」而非「矢量」</td></tr><tr><td class="lb">依据</td><td>圈出原文原词与选项用词逐一对照</td></tr><tr class="er"><td class="lb">易错</td><td>不回原文、凭语感判定</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 276" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 276" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
   <text x="18" y="24" font-size="13.5" font-weight="700" style="fill:var(--chn)">先判题干类型，再沿同一条答题链走到底</text>
   <g font-size="12.5">
     <rect x="18" y="38" width="152" height="54" rx="10" style="fill:var(--chn);opacity:.06" stroke="var(--chn)" stroke-width="1.5"/>
@@ -634,9 +659,10 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
     <text x="34" y="248" fill="#b91c1c">⚠ 第9题必须写到「看到母亲」；摘下徽章的动作要快，写「犹豫片刻」即被扣分</text>
   </g>
 </svg></div>
-    <div class="subsec">② 思维链互动图例：题型 → 答题链 → 作答骨架</div>
-    <div class="lab-note">点选题干类型 → 逐节点亮答题思维链 → 给出规范作答骨架</div>
-    <div class='labx' id='chnLwrap'>
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：题型 → 答题链 → 作答骨架</div>
+        <div class="lab-note">点选题干类型 → 逐节点亮答题思维链 → 给出规范作答骨架</div>
+        <div class='labx' id='chnLwrap'>
   <div class='btns' id='chnLbtns'><button data-q='0'>概括人物形象</button><button data-q='1'>分析情节作用</button><button data-q='2'>压缩语段对比</button></div>
   <div class='chain' id='chnLch'>
     <div class='st' data-k='0'><span class='n'>1</span><div class='t'><b>回原文定位</b><span id='chnLs1'></span></div></div>
@@ -645,6 +671,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   </div>
   <div class='out' id='chnLout'>点选题干类型 → 逐节点亮答题思维链 → 给出规范作答骨架</div>
 </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -657,7 +685,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <div class="subj-body">
     <div class="subsec">① 核心知识结构 · 逐知识点纪要（共 7 个知识点）</div>
     <div class="kngrid"><div class="kn"><div class="kn-h"><i>1</i><span>最值方法选择</span></div><table class="knt"><tr><td class="lb">要点</td><td>面积周长最值优先「余弦定理 + 基本不等式」一次到位；锐角最小值取不到等号 → 改一角一函数</td></tr><tr><td class="lb">依据</td><td>$a^2=b^2+c^2-2bc\cos A$；基本不等式</td></tr><tr class="er"><td class="lb">易错</td><td>锐角下硬套基本不等式，取不到等号</td></tr></table></div><div class="kn"><div class="kn-h"><i>2</i><span>角分线张角定理</span></div><table class="knt"><tr><td class="lb">要点</td><td>见角平分线走张角定理拆面积，消 $\sin$ 后一次基本不等式得 $AC\ge 4$</td></tr><tr><td class="lb">依据</td><td>$S_{ABC}=S_{ABD}+S_{ACD}$；1 的代换</td></tr><tr class="er"><td class="lb">易错</td><td>不知张角定理无从下手，忘「1 的代换」</td></tr></table></div><div class="kn"><div class="kn-h"><i>3</i><span>走边与走角</span></div><table class="knt"><tr><td class="lb">要点</td><td>条件与目标都是边就走边，角换边必开根号变繁；三步：消元 → 单变量 → 定范围</td></tr><tr><td class="lb">依据</td><td>$\frac{a}{\sin A}=\frac{b}{\sin B}=2R$</td></tr><tr class="er"><td class="lb">易错</td><td>路线选反，该走边却硬走角</td></tr></table></div><div class="kn"><div class="kn-h"><i>4</i><span>消元与定范围</span></div><table class="knt"><tr><td class="lb">要点</td><td>消成单变量 $t=C/B$，用两边之和、之差夹范围，由 $A&gt;0$ 方可去绝对值</td></tr><tr><td class="lb">依据</td><td>$C-B&lt;A&lt;C+B$ ⇒ $t\in(1,2)$</td></tr><tr class="er"><td class="lb">易错</td><td>只写两边之和，漏两边之差</td></tr></table></div><div class="kn"><div class="kn-h"><i>5</i><span>三倍角降角</span></div><table class="knt"><tr><td class="lb">要点</td><td>遇 $3A$ 不背公式，拆成 $\sin(2A+A)$，再用二倍角把角与名都降下来</td></tr><tr><td class="lb">依据</td><td>$\sin2A=2\sin A\cos A$；$\cos2A=1-2\sin^2A$</td></tr><tr class="er"><td class="lb">易错</td><td>死背三倍角公式，角范围只写 $A\in(0,\pi)$</td></tr></table></div><div class="kn"><div class="kn-h"><i>6</i><span>换元转二次函数</span></div><table class="knt"><tr><td class="lb">要点</td><td>剩一个角的二次式就换元 $t=\sin A$ 转二次函数，按 $t$ 范围取最值</td></tr><tr><td class="lb">依据</td><td>由角范围定 $t=\sin A$ 的值域</td></tr><tr class="er"><td class="lb">易错</td><td>忽略 $t=\sin A$ 的范围直接代顶点</td></tr></table></div><div class="kn"><div class="kn-h"><i>7</i><span>中线长定理</span></div><table class="knt"><tr><td class="lb">要点</td><td>见中点与边平方和 → 中线长定理；两条分向量平方相加即证，交叉项相消</td></tr><tr><td class="lb">依据</td><td>$AB^2+AC^2=2(AD^2+BD^2)$</td></tr><tr class="er"><td class="lb">易错</td><td>只会套用不会证，与极化恒等式混淆</td></tr></table></div></div>
-    <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+    <div class="figlab">
+      <div class="fig"><h4>逻辑关系图</h4><svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
   <text x="18" y="24" font-size="13.5" font-weight="700" style="fill:var(--math)">解三角形最值：先选路线，再动公式</text>
 
   <rect x="210" y="34" width="260" height="30" rx="9" fill="#f1f5f9"/>
@@ -685,9 +714,10 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <text x="32" y="256" font-size="12.5" font-weight="700" fill="#b91c1c">中线长定理（18 面）：AB² + AC² = 2(AD² + BD²)　（D 为 BC 中点）</text>
   <text x="32" y="277" font-size="12" fill="#334155">证法：把 AB、AC 用 AD 与半中线表示后平方相加，反向向量的交叉项正负相消</text>
 </svg></div>
-    <div class="subsec">② 思维链互动图例：两边 + 夹角 → 第三边 → 中线长 → 最值</div>
-    <div class="lab-note">拖滑块改两边与夹角 θ → 右侧实时算出 a、中线长、面积、周长并校验中线长定理，同时提示「走边 / 走角」哪条路更短。</div>
-    <div class="labx">
+      <div class="labcol">
+        <div class="subsec">② 思维链互动图例：两边 + 夹角 → 第三边 → 中线长 → 最值</div>
+        <div class="lab-note">拖滑块改两边与夹角 θ → 右侧实时算出 a、中线长、面积、周长并校验中线长定理，同时提示「走边 / 走角」哪条路更短。</div>
+        <div class="labx">
   <div class="viz"><canvas id="mathLcv" width="620" height="320"></canvas></div>
   <div>
     <div class="ctl">
@@ -707,6 +737,8 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
     </div>
   </div>
 </div>
+      </div>
+    </div>
   </div>
 </div>
 
