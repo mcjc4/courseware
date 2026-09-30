@@ -212,6 +212,13 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
 .hero .diff b{color:#fde68a}
 /* ===== v4：核心知识结构 → 一知识点一张独立小表（纪要式归纳） ===== */
 .subj-head{flex-wrap:wrap;row-gap:4px}
+/* 内容宽度改为 75% 屏宽（窄屏不受影响） */
+@media(min-width:901px){body>*{max-width:75%;margin-left:auto;margin-right:auto}}
+/* 信号卡「原题题干」行（替代原 tag｜时段 pos 行） */
+.sig .pos{display:flex;align-items:flex-start;gap:8px;width:auto;font-size:12px;line-height:1.55;color:#334155;background:color-mix(in srgb,var(--c,#333) 9%,#fff);border-left:3px solid var(--c,#333);border-radius:4px;padding:4px 9px;margin-bottom:9px;white-space:normal;text-align:left}
+.sig .pos .srclab{flex-shrink:0;font-weight:700;color:var(--c,#333);letter-spacing:1px}
+.sig .pos .srctxt{min-width:0}
+.sig .pos .pt{margin-left:auto;flex-shrink:0;font-size:10.5px;color:#94a3b8;white-space:nowrap;padding-top:1px}
 .kngrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 2px}
 @media(max-width:900px){.kngrid{grid-template-columns:minmax(0,1fr)}}
 .kn{border:1px solid var(--line);border-radius:11px;background:#fff;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.045);transition:.15s}
@@ -714,7 +721,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 力学实验</span>
   <div class="body">
     <div class="topic">力的合成作图只有 0 分和满分</div>
-    <div class="pos">物理 · 力学实验｜15:54–15:57</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">验证平行四边形定则的作图题：按题给标度作出两个分力与合力</span><span class="pt">⏱ 15:54–15:57</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【验证平行四边形定则的作图题，题里给了标度】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【先用标度定一格的数值，再用直尺按标度量长度；箭头、标度格、标注、实线一个都不能少】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【缺格子 / 缺箭头 / 缺标注 / 实线画成虚线 / 不用尺子，任一条即 0 分】</b></div></div>
@@ -724,7 +731,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 力学实验</span>
   <div class="body">
     <div class="topic">只给几个点的作图题</div>
-    <div class="pos">物理 · 力学实验｜15:57–15:59</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">40页实验作图题：只给 O、P₁、P₂、P₃ 各点不给方向，求作合力与实验值</span><span class="pt">⏱ 15:57–15:59</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【只给 O、P₁、P₂、P₃ 等点，不给力的方向】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【用长度表示大小：13 就画三个格、3.4 就画 3.4 格；实验值与理论值分别作图，合力必须画格子】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把箭头直接画到点所在的位置，忽略“长度代表大小”，错一个点整题全错】</b></div></div>
@@ -734,7 +741,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 动力学</span>
   <div class="body">
     <div class="topic">夯杆先加速后匀速</div>
-    <div class="pos">物理 · 动力学｜16:01–16:03</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">夯杆被两侧夹持装置从静止往上提升，题述「一直加速」，求上升各段时间</span><span class="pt">⏱ 16:01–16:03</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【夹持着把杆往上提，题说“一直加速”】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【先列 2f − mg = ma，用 v² = 2ah 求末速；若算出的速度比题给的还大，说明后面还有匀速段，必须分段】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【全程按加速算，得到 v 大于题给速度 → 与题目自相矛盾】</b></div></div>
@@ -744,7 +751,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 解题规范</span>
   <div class="body">
     <div class="topic">符号用错就不给分</div>
-    <div class="pos">物理 · 解题规范｜16:03–16:05</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">夯杆提升题：题干给速度指定符号 V₁ 与 v，求时间时代入哪个须按题干来</span><span class="pt">⏱ 16:03–16:05</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【题干为某段速度规定了特定符号】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【代入计算只允许用题目指定的那个 v；下标选错说明过程理解错，公式形式对也不给分】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【拿“一直加速的末速度 V₁”去算时间 t = v/a，答案蒙对也不算对】</b></div></div>
@@ -754,7 +761,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 能量</span>
   <div class="body">
     <div class="topic">电机多耗能 = 势能 + 动能 + 生热</div>
-    <div class="pos">物理 · 能量｜16:06–16:10</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">夯杆提升题第三问：电动机因提升夯杆多消耗的能量应如何计算</span><span class="pt">⏱ 16:06–16:10</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【问电动机提升夯杆多消耗了多少能量】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【W = 增加的 mgH + 增加的 ½mv² + 摩擦生热 Q = f·Δs；也可直接算电机力做功 W = F·s】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【Q 里必须用轮与杆的相对位移（v-t 图上的三角形），用杆的位移就错】</b></div></div>
@@ -764,7 +771,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 运动学</span>
   <div class="body">
     <div class="topic">加速度变化率与舒适度</div>
-    <div class="pos">物理 · 运动学｜16:11–16:13</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">给出「加速度变化率」随时间变化的图象，问何时乘坐感觉最舒适</span><span class="pt">⏱ 16:11–16:13</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【图象描述的是“加速度变化的快慢”，问何时最舒适】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【不看斜率，直接看纵坐标：纵坐标等于 0 → 加速度不变 → 最舒适】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【急动度不变 ≠ 匀加速：加速度还在变，仍不是匀加速直线运动】</b></div></div>
@@ -774,7 +781,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 受力分析</span>
   <div class="body">
     <div class="topic">非轻绳张力处处不等</div>
-    <div class="pos">物理 · 受力分析｜16:13–16:19</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">输电线（铁链）两端悬挂有质量，比较各点张力并分析热胀冷缩后水平张力</span><span class="pt">⏱ 16:13–16:19</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【铁链、输电线这类有质量的绳，问各处张力】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【整体法 / 局部法：越靠上要拉的越多、张力越大；求最低点张力取半段为研究对象画共点力】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【套“同一根绳张力处处相等”——那只对轻绳成立】</b></div></div>
@@ -784,7 +791,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 受力分析</span>
   <div class="body">
     <div class="topic">滑动摩擦与速度无关</div>
-    <div class="pos">物理 · 受力分析｜16:21–16:22</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第13题选择题：物块受斜向上拉力，判断摩擦力与速度、支持力的关系</span><span class="pt">⏱ 16:21–16:22</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【“速度增大，所以摩擦力增大”这种选项】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【滑动摩擦 f = μN 只由 μ 与 N 决定，与速度无关；压力不变则 f 不变】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【有斜向上拉力时 N = mg − F sinθ ≠ mg，别再写 f = μmg】</b></div></div>
@@ -794,7 +801,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">物理 · 受力分析</span>
   <div class="body">
     <div class="topic">挂物增多夹角不变</div>
-    <div class="pos">物理 · 平衡｜16:26–16:27</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第14题：绳挂物体受风力，再挂一个、两个、三个物体后绳夹角是否变化</span><span class="pt">⏱ 16:26–16:27</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【同一根绳上挂一个、两个、三个同样的物体，问绳的夹角】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【重力变 2G、风力也变 2F，比例相同 ⇒ 合力方向不变 ⇒ 夹角不变，挂几个都一样】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【凭感觉认为“挂得越多夹角越大”】</b></div></div>
@@ -804,7 +811,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">结构决定还原性</div>
-    <div class="pos">化学 · 钠｜08:54–08:56</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">老师由钠的价电子3s¹讲起，分析易失电子显强还原性、Na⁺达八电子稳定结构</span><span class="pt">⏱ 08:54–08:56</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【钠的价电子 3s¹，最外层只有 1 个电子】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【易失这 1 个电子 → 强还原性；失电子后 Na⁺ 是 8 电子稳定结构，几乎不再参与氧化还原与离子反应。周期表第 3 周期 ⅠA 族】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把 Na⁺ 当成还能继续得电子的强氧化剂；把「结构决定性质」的主线丢掉】</b></div></div>
@@ -814,7 +821,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">钠与氧气：条件分叉</div>
-    <div class="pos">化学 · 钠｜08:57–08:59</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">钠分别在常温与加热条件下与氧气反应，比较产物Na₂O与Na₂O₂及现象</span><span class="pt">⏱ 08:57–08:59</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【钠在常温空气中 / 加热燃烧】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【常温 → $4\mathrm{Na}+\mathrm{O_2}\rightarrow 2\mathrm{Na_2O}$（银白色固体变暗）；加热 → $2\mathrm{Na}+\mathrm{O_2}\xrightarrow{\Delta}\mathrm{Na_2O_2}$（淡黄色固体，先熔化、再燃烧、黄色火焰）。条件不同，产物不同】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【不分条件一律写 Na₂O₂；只写化学式不写现象（黄色火焰、淡黄色固体）】</b></div></div>
@@ -824,7 +831,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">钠与水（本质是置换 H⁺）</div>
-    <div class="pos">化学 · 钠｜08:59–09:01</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">钠投入水中反应生成NaOH和H₂，追问本质是否置换水中氢离子</span><span class="pt">⏱ 08:59–09:01</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【钠投入水中，或与乙醇反应】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【本质是与 O—H 上的 H⁺ 置换：$2\mathrm{Na}+2\mathrm{H_2O}\rightarrow 2\mathrm{NaOH}+\mathrm{H_2}\uparrow$；现象浮、熔、游、响、红。铁要高温水蒸气才能反应，钠常温即可 → 看金属活动性】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把钠与水的反应当成「复分解」；忘了钠熔点低才「熔成小球」】</b></div></div>
@@ -834,7 +841,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">钠与乙醇：O—H 键极性</div>
-    <div class="pos">化学 · 钠｜09:05–09:10</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">钠与乙醇反应时六个氢中置换哪个氢，用键的极性解释反应比与水慢</span><span class="pt">⏱ 09:05–09:10</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【钠与乙醇（或其他含羟基有机物）反应】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【只断 O—H 键：$2\mathrm{Na}+2\mathrm{C_2H_5OH}\rightarrow 2\mathrm{C_2H_5ONa}+\mathrm{H_2}\uparrow$。为什么是 O—H 而不是 C—H：O 电负性大，键的极性更强。反应比水慢：乙基是推电子基，使 O—H 极性变弱，羟基氢更难断】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【认为乙醇比水活泼、反应更剧烈；只数「氢的个数」而不看键的极性】</b></div></div>
@@ -844,7 +851,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">钠与盐溶液：先水后沉淀</div>
-    <div class="pos">化学 · 钠｜09:01–09:02</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">把钠投入硫酸铜溶液，判断能否置换出铜并写出反应产物</span><span class="pt">⏱ 09:01–09:02</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【钠投入 CuSO₄ 等盐溶液】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【钠先与水反应生成 NaOH，NaOH 再与 Cu²⁺ 生成沉淀：$2\mathrm{Na}+2\mathrm{H_2O}+\mathrm{CuSO_4}\rightarrow \mathrm{Cu(OH)_2}\downarrow+\mathrm{Na_2SO_4}+\mathrm{H_2}\uparrow$】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【写钠从盐溶液中置换出金属（红色的铜）；忽略中间还生成了 H₂】</b></div></div>
@@ -854,7 +861,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">转移电子数只看钠</div>
-    <div class="pos">化学 · 钠｜09:02–09:05</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">4.6 g钠与硫酸铜溶液反应，问转移电子数是0.2 mol还是0.4 mol</span><span class="pt">⏱ 09:02–09:05</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【给一定量 Na 与足量某溶液反应，问转移电子数】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【Na 的价态只有 +1 一条出口，$n(e^-)=n(\mathrm{Na})$，与产物种类、与另一反应物的量都无关（4.6 g Na = 0.2 mol → 0.2 mol e⁻ = 0.2N_A）】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【按 CuSO₄ 的量算成 0.4 mol；按「中间比例」估算或纠结产物是 NaOH 还是 Na₂O】</b></div></div>
@@ -864,7 +871,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 碱金属</span>
   <div class="body">
     <div class="topic">碱金属通性与氧化物递变</div>
-    <div class="pos">化学 · 碱金属｜09:16–09:19</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">老师讲解碱金属ⅠA族通性：活泼性递增，与氧气的产物越来越复杂</span><span class="pt">⏱ 09:16–09:19</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【Li、Na、K、Rb、Cs 同属 ⅠA 族】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【熔沸点都低、金属性强且随原子序数增大而增强（Cs 最强），保存需煤油一类的介质；越活泼氧化物越复杂：Li 只有 Li₂O，Na 加热得 Na₂O₂，K 还有 KO₂（超氧化钾）】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【认为碱金属都能生成过氧化物／超氧化物；用钠的产物去套锂和钾】</b></div></div>
@@ -874,7 +881,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 钠</span>
   <div class="body">
     <div class="topic">钠置换钾靠沸点差</div>
-    <div class="pos">化学 · 钠｜09:19–09:21</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">熔融状态下钠与氯化钾反应生成钾，追问为何能弱置换强</span><span class="pt">⏱ 09:19–09:21</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【熔融状态下 $\mathrm{Na}+\mathrm{KCl}\rightarrow \mathrm{NaCl}+\mathrm{K}\uparrow$】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【跟金属活泼性无关，利用的是熔沸点差异：K 的沸点比 Na 低，高温下 K 变成蒸气逸出，促使反应向右进行】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【用「活泼性弱的置换出强的」这条规律去解释，方向完全反了】</b></div></div>
@@ -884,7 +891,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">化学 · 过氧化钠</span>
   <div class="body">
     <div class="topic">过氧化钠：−1 价氧与歧化</div>
-    <div class="pos">化学 · 过氧化钠｜09:25–09:29</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">由过氧化钠电子式出发，分析其与水、二氧化碳反应的电子转移数</span><span class="pt">⏱ 09:25–09:29</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【Na₂O₂ 的电子式，或问它遇水、遇 CO₂ 的电子转移数】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【O—O 之间有共价键、每个氧为 −1 价，既有氧化性又有还原性（以强氧化性为主）；$2\mathrm{Na_2O_2}+2\mathrm{H_2O}\rightarrow 4\mathrm{NaOH}+\mathrm{O_2}\uparrow$、$2\mathrm{Na_2O_2}+2\mathrm{CO_2}\rightarrow 2\mathrm{Na_2CO_3}+\mathrm{O_2}$ 都是歧化：−1 价氧一路升到 0 价、一路降到 −2 价，每 1 mol 反应转移 2 mol e⁻】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把 Na₂O₂ 中氧当作 −2 价；把转移电子算成 4 mol；说水中的氧也变价】</b></div></div>
@@ -894,7 +901,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 时态</span>
   <div class="body">
     <div class="topic">时态 = 时间 × 状态</div>
-    <div class="pos">英语 · 时态｜15:20–15:21</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">「什么叫做时、什么叫做态」课堂提问：时间×状态，三三得九种时态</span><span class="pt">⏱ 15:20–15:21</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【突然问「什么叫时、什么叫态」的分类框架】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【时间（过去/现在/将来）× 状态（一般/进行/完成）= 3 × 3 = 9 种时态】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只背九个时态名称，不判时间和状态】</b></div></div>
@@ -904,7 +911,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 时态</span>
   <div class="body">
     <div class="topic">现在完成时标志词</div>
-    <div class="pos">英语 · 时态｜15:22–15:23</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">时态练习圈标志词：lately 也是现完标准词，over＋一段时间、since/for＋时间段都算</span><span class="pt">⏱ 15:22–15:23</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【lately / recently / since、for + 时间段 / over + 一段时间 / ever since】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【现在完成时 have / has done；Over + 一段时间也是标准标志词】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只认 recently 不认 lately，漏掉 over】</b></div></div>
@@ -914,7 +921,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 时态</span>
   <div class="body">
     <div class="topic">It is the first time that …</div>
-    <div class="pos">英语 · 时态｜15:22–15:23</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">It is the first time that sb ___ (do)；was 则改用 had done</span><span class="pt">⏱ 15:22–15:23</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【It is the first time that somebody ___ something】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【从句用 have done；is 换成 was，have done 相应改成 had done】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【主句已过去，从句仍写 have done】</b></div></div>
@@ -924,7 +931,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 时态</span>
   <div class="body">
     <div class="topic">隐藏的时间标志词</div>
-    <div class="pos">英语 · 时态｜15:37–15:40</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第9/12题：Previously、for the people then（那时的人）藏得远，填 were</span><span class="pt">⏱ 15:37–15:40</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【previously、then 藏在句子里】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【previously = 先前、then = 那时的人 ⇒ 一般过去时（were / 过去式）】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【找不到标志词就凭语感填；这类题几乎全军覆没】</b></div></div>
@@ -934,7 +941,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 主谓一致</span>
   <div class="body">
     <div class="topic">of 短语与 as well as</div>
-    <div class="pos">英语 · 主谓一致｜15:31–15:33</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">真题验证：of 短语核心词看 of 前名词填 is；as well as 看前面 musician</span><span class="pt">⏱ 15:31–15:33</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【Some of the things …；A as well as B + 谓语】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【of 短语看 of 前面的名词；as well as 看前面的 musician，不看 students】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只盯紧挨着谓语的那个名词】</b></div></div>
@@ -944,7 +951,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 语态</span>
   <div class="body">
     <div class="topic">主动表被动（系动词）</div>
-    <div class="pos">英语 · 语态｜15:29–15:30</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">The bread ___ good 考系动词主动表被动：用 smells 而非 is smelled</span><span class="pt">⏱ 15:29–15:30</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【the bread ___ good / the pen ___ well / it ___ good】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【系动词表状态、没有被动，用主动形式：smells / writes / feels】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【写成 is smelled、is felt】</b></div></div>
@@ -954,7 +961,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 非谓语</span>
   <div class="body">
     <div class="topic">to do 也能带被动与时态</div>
-    <div class="pos">英语 · 非谓语｜15:41–15:43</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">语法填空「小笼包」题：小笼包可被轻松夹起，用 to be lifted，不能只写 to lift</span><span class="pt">⏱ 15:41–15:43</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【小笼包 ___（可以被轻松夹起）】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【to be lifted；to do 还可带时态：to have done / to be doing】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只写 to lift，忽略被动关系；以为 to do 无时态】</b></div></div>
@@ -964,7 +971,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 非谓语</span>
   <div class="body">
     <div class="topic">不定式作状语的三类</div>
-    <div class="pos">英语 · 非谓语｜15:43–15:46</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">不定式：To give plants sunlight 目的、Recalling 时间、to find 原因</span><span class="pt">⏱ 15:43–15:46</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【句首/句尾的 to do，或 Recalling …, I …】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【不定式作状语＝目的 / 结果 / 原因（表原因常与情感形容词连用）；doing 可表时间】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【一上来就判主被动，不先判作什么成分】</b></div></div>
@@ -974,7 +981,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">英语 · 写作</span>
   <div class="body">
     <div class="topic">读后续写升华倒装句</div>
-    <div class="pos">英语 · 写作｜15:09–15:16</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">作文升华句 Gone are the days when…（完全倒装）课堂讲解</span><span class="pt">⏱ 15:09–15:16</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【人际关系类续写的结尾升华处】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【Gone are the days when …；Never / Hardly / Seldom / Little had I done …；对比「不是宏大意外，而是平常经历重塑了我看世界的方式」】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【never had I felt so strong —— 应作副词 so strongly；倒装后谓语语序写错】</b></div></div>
@@ -984,7 +991,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 认识论</span>
   <div class="body">
     <div class="topic">认识论知识体系</div>
-    <div class="pos">政治 · 认识论｜11:28–11:30</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">老师带背认识论知识体系：认识→实践→实践与认识的关系三大块</span><span class="pt">⏱ 11:28–11:30</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【第四课《探索认识的奥秘》/ 4.1 人的认识从何而来】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【认识论三块：认识（含义＋两阶段）→ 实践（含义＋特征＋形式）→ 实践与认识的关系】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把 4.1 实践观与 4.2 真理观混为一谈】</b></div></div>
@@ -994,7 +1001,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 认识论</span>
   <div class="body">
     <div class="topic">认识的含义与三性</div>
-    <div class="pos">政治 · 认识论｜11:30–11:33</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">问答：为什么认识有主体差异性与无限性？仁者见仁智者见智</span><span class="pt">⏱ 11:30–11:33</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【认识是主体对客体的能动反映 / 同一事物不同人有不同看法】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【能动反映→有正确也有错误；主体差异性；反复性无限性从主体·客体·基础三维分析】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把认识与唯物论的意识等同】</b></div></div>
@@ -1004,7 +1011,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 认识论</span>
   <div class="body">
     <div class="topic">感性认识与理性认识</div>
-    <div class="pos">政治 · 认识论｜11:33–11:34</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">问答：认识的两个阶段如何区分？根本任务与根本目的各是什么</span><span class="pt">⏱ 11:33–11:34</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【感官体验 / 内涵价值 / 透过现象抓本质】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【感性（现象·外部联系·感官）↔ 理性（本质·规律·抽象思维）；相互渗透；根本任务 ≠ 根本目的】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【割裂二者；把根本任务与根本目的混答】</b></div></div>
@@ -1014,7 +1021,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 评析题</span>
   <div class="body">
     <div class="topic">评析题的答法</div>
-    <div class="pos">政治 · 评析题｜11:37–11:39</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">评析：丰富市民感官体验与展示文物背后故事两个观点是否正确</span><span class="pt">⏱ 11:37–11:39</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【评析两个观点 / 一个强调感性、一个强调理性】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【先肯定双方各自的合理性（分说感性／理性认识的内涵）→ 指出都片面 → 正确观点＝二者结合并立足实践】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只说片面、不说合理性；直接下对错判断】</b></div></div>
@@ -1024,7 +1031,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 实践观</span>
   <div class="body">
     <div class="topic">实践的含义</div>
-    <div class="pos">政治 · 实践观｜11:40–11:43</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">判断：AI机器人活动、听课学习是不是实践？何为直接现实性</span><span class="pt">⏱ 11:40–11:43</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【AI 机器人、具身智能、人形机器人、大模型的活动 / 听课学习】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【实践主体一定是人；改造世界而非认识世界；对象是客观世界；直接现实性＝观念存在变现实存在】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把机器活动、听课学习当成实践】</b></div></div>
@@ -1034,7 +1041,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 实践观</span>
   <div class="body">
     <div class="topic">实践的三个特点</div>
-    <div class="pos">政治 · 实践观｜11:45–11:47</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">问答：临危受命研制抗疟新药的材料，匹配实践的哪个特点？</span><span class="pt">⏱ 11:45–11:47</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【材料需要匹配客观物质性 / 主观能动性 / 社会历史性】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【客观物质性＝要素客观＋受条件规律制约；主观能动性＝有目的有计划；社会历史性＝社会关系＋历史条件制约】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把「受客观条件制约」误判为主观能动性】</b></div></div>
@@ -1044,7 +1051,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 认识论</span>
   <div class="body">
     <div class="topic">实践是认识的基础</div>
-    <div class="pos">政治 · 认识论｜11:50–11:57</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">老师带背实践是认识的基础四表现：来源·动力·唯一标准·目的</span><span class="pt">⏱ 11:50–11:57</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【大模型是认识的来源 / 认识工具 / 学以致用 / 日久见人心】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【四表现：来源（无到有）、动力（浅到深）、唯一标准、目的；来源 ≠ 途径，动力 ≠ 根本动力】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【来源写成动力；把认识当成目的】</b></div></div>
@@ -1054,7 +1061,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">政治 · 辨析题</span>
   <div class="body">
     <div class="topic">辨析题的建模</div>
-    <div class="pos">政治 · 辨析题｜11:59–12:00</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">辨析：大模型提高了人的认识能力，因此成为认识的来源</span><span class="pt">⏱ 11:59–12:00</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【辨析：大模型能提高人的认识能力，大模型是认识的来源】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【先判断（错误／不科学）→ 合理处用「动力＋认识工具」分析 → 不合理处用「实践是认识的来源」＋大模型是实践产物】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【判成「正确」；只答合理或只答不合理一边】</b></div></div>
@@ -1064,7 +1071,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 小说</span>
   <div class="body">
     <div class="topic">人物形象（圆形/扁形）</div>
-    <div class="pos">语文 · 小说阅读｜10:56–10:57</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第6题：积累扁形人物与圆形人物概念，作答先定性再分点。</span><span class="pt">⏱ 10:56–10:57</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【题干问人物形象特点，或讲到原型人物与人物塑造的关系】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【扁形（扁平）人物＝性格单一、类型化、模块化；圆形人物＝复杂多面、有发展变化的人物。答题先定性再分点，术语与原文证据一一对应】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只堆性格形容词不定性；把有发展变化的圆形人物写成「扁平、单一」】</b></div></div>
@@ -1074,7 +1081,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 小说</span>
   <div class="body">
     <div class="topic">欧亨利式结尾</div>
-    <div class="pos">语文 · 小说阅读｜10:55–10:56</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">小说讲评：欧亨利式结尾——出人意料又在情理之中，需补前文铺垫。</span><span class="pt">⏱ 10:55–10:56</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【小说结尾突然反转、出人意料，语言幽默夸张】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【欧亨利式结尾＝意料之外，又在情理之中。分析要两头都说：意外带来的效果 + 前文铺垫使反转合理；行文思路仍是开端 → 发展 → 高潮 → 结局】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只答「出人意料」漏掉「情理之中」，不回原文找伏笔呼应】</b></div></div>
@@ -1084,7 +1091,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 小说</span>
   <div class="body">
     <div class="topic">情节留白（第8题）</div>
-    <div class="pos">语文 · 小说阅读｜10:59–11:01</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第8题：分析小说省去战斗与苏醒过程有什么好处（情节留白）。</span><span class="pt">⏱ 10:59–11:01</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【问「省去××情节有什么好处」「这样写有何效果」】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【三层分答：结构节奏（实现叙事跳跃、加快行文节奏、张弛有度）→ 悬念效果（留下悬念、弱化次要情节、聚焦核心情节、为后文反转高潮铺垫）→ 主旨人物（突出人物形象、深化母爱感化与善的复苏）】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只答「简洁、省略」一层；不给分点、不结合文本分析】</b></div></div>
@@ -1094,7 +1101,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 小说</span>
   <div class="body">
     <div class="topic">心理与行动分析（第9题）</div>
-    <div class="pos">语文 · 小说阅读｜11:02–11:05</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第9题：分析卡利奥佩的心理与行动（心理3分＋举动3分＋流畅2分）。</span><span class="pt">⏱ 11:02–11:05</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【要求分析人物此刻的心理活动与具体举动】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【四层写全：看到母亲（触发点）→ 恐惧羞愧（怕母亲知道自己是全城通缉的坏人）→ 急中生智、必须掩盖事实 → 具体行动（迅速摘下巴克徽章并佩戴，身份调转成为警察）。给分：心理 3 分 + 举动 3 分 + 表述流畅 2 分】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【漏写「看到母亲」；动作写成「轻轻取下」「犹豫片刻」——情境紧急，动作必是迅疾，以动作之快压制内心的恐惧】</b></div></div>
@@ -1104,7 +1111,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 小说</span>
   <div class="body">
     <div class="topic">选项信息比对（第7题）</div>
-    <div class="pos">语文 · 小说阅读｜10:57–10:59</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第7题：巴克冲进站房是否因察觉卡利奥佩想借火车逃走（间接比对）。</span><span class="pt">⏱ 10:57–10:59</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【选项里出现「察觉到」「推测」「因为」这类因果表述】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【回原文分层核：人物的主观意愿文中写了没有（卡利奥佩想借火车逃走，原文并未呈现，他只是被迫躲进站房）／是谁在推测（巴克察觉到并作出判断）。后缀隐含的是对「确实想逃」与「确实察觉」两个信息的肯定】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把警长的推测当成人物的心理事实；不回原文凭语感选（本题全年级仅 18.74% 答对，本班 12 人做对）】</b></div></div>
@@ -1114,7 +1121,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 语用</span>
   <div class="body">
     <div class="topic">压缩语段·形式对比（第4题）</div>
-    <div class="pos">语文 · 科普文｜10:50–10:52</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第4题：相比原文，问答形式有什么优势；须紧扣普及维度作比较。</span><span class="pt">⏱ 10:50–10:52</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【问「与原文相比，问答（设问）文段有什么效果／优势」】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【两条得分线：化繁为简、简洁明了，让读者迅速抓住关键信息；设问形式一问一答，针对性强、线索清晰、行文结构与脉络更清晰。答案必须出现比较词】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【受前一篇科普文影响答「更有科学性」；答「通俗性」「激发阅读兴趣」——只是换了形式、语言内容没变，兴趣难以比较，都不是得分点（兴趣最多作第三点补充）】</b></div></div>
@@ -1124,7 +1131,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 语用</span>
   <div class="body">
     <div class="topic">观点合理性·信息筛选（第5题）</div>
-    <div class="pos">语文 · 科普文｜10:52–10:54</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第5题：请根据原文内容说明这两个观点的合理性（信息筛选）。</span><span class="pt">⏱ 10:52–10:54</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【题干说「请根据原文内容说明这两个观点的合理性」】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【题干已定调「合理性」，任务是证明而不是判断。方法：把观点拿去原文比对，筛出观点未涉及、未体现的信息——观点一未体现装饰方面的特点（原文第8段：花卉纹样、大量贴金，第3文段回答并未涉及，即「不提」）；观点二只聚焦建筑领域，遗漏装置艺术、服饰图案、工艺设计】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【答「不合理」，没读懂题干必然零分；不回原文找「未涉及的点」而凭印象写】</b></div></div>
@@ -1134,7 +1141,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 语用</span>
   <div class="body">
     <div class="topic">粘连</div>
-    <div class="pos">语文 · 语言文字运用｜11:07–11:08</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">第19题：判断并赏析粘连修辞——同一动词顺势用到抽象事物上。</span><span class="pt">⏱ 11:07–11:08</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【同一个动词被顺势用到另一个抽象事物上，如「蜜蜂在酿蜜，又在酿造生活」】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【粘连＝甲事物本来的正常搭配又顺势粘到乙事物上：同一个动词、一实一虚，一个是顺的，一个放在抽象事物上单看不合理，依靠上下文才成立】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【把粘连当比喻——比喻重在相似，粘连重在顺势借用同一动词；只看单句判断而丢掉上下文】</b></div></div>
@@ -1144,7 +1151,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">语文 · 答题规范</span>
   <div class="body">
     <div class="topic">答题痕迹与错别字</div>
-    <div class="pos">语文 · 答题规范｜10:36–10:38 / 14:17</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">练习课要求：圈画原文做对比切片、标注每处扣分、错别字当场订正、仿写进积累本。</span><span class="pt">⏱ 10:36–10:38 / 14:17</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【做练习卷、默写与句子仿写】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【按答题卡顺序作答（选择题在前、主观题在后，学科网题号有误不要跟）；先圈画原文做对比切片；每次标出每处扣分；错别字当场订正（如「清晰」的「晰」）；仿写写进积累本并保留做题痕迹】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【不圈画原文、不标扣分点，做再多题思维也不提升；默写错别字不订正；不看题目问什么就动笔，以及漏掉老师提醒的「简单的题改得严、难题适当给分」这一改卷尺度】</b></div></div>
@@ -1154,7 +1161,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 解三角形</span>
   <div class="body">
     <div class="topic">最值：余弦定理 + 基本不等式</div>
-    <div class="pos">数学 · 解三角形｜16:45–16:47</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">定弦定角求面积最大值，优先余弦定理加基本不等式一次到位</span><span class="pt">⏱ 16:45–16:47</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【求三角形面积 / 周长的最大值或最小值】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【优先「余弦定理 + 基本不等式」，一次到位；用角函数虽对但太耗时】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【锐角条件下等号取不到，基本不等式失效，得改走一角一函数】</b></div></div>
@@ -1164,7 +1171,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 解三角形</span>
   <div class="body">
     <div class="topic">角分线：张角定理（等面积）</div>
-    <div class="pos">数学 · 解三角形｜16:48–16:49</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">角平分线张角定理等面积消 $\sin$ 得 $AC\ge4$，再用「1 的代换」求 $A+3C$ 最小值</span><span class="pt">⏱ 16:48–16:49</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【角平分线 / 大三角形面积可拆成两块】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【张角定理：$S_{\triangle ABC}=S_{\triangle ABD}+S_{\triangle ACD}$，消去 $\sin$ 公因子后一次基本不等式】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【漏掉「1 的代换」这一步，凑不出 $A+3C$ 的最小值】</b></div></div>
@@ -1174,7 +1181,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 解三角形</span>
   <div class="body">
     <div class="topic">走边 vs 走角</div>
-    <div class="pos">数学 · 解三角形｜16:55–16:57</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">已知两边夹角表面积，角换边要开根号太繁，改走角合一公式求最值</span><span class="pt">⏱ 16:55–16:57</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【题目里既给边又给角，要求一个几何量的最值】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【先比较哪条路更短：条件目标都是边就走边；角换边要开根号 $\sqrt{1-\cos^2}$ 就走角】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【路线选反，越算越繁，时间全耗在硬算上】</b></div></div>
@@ -1184,7 +1191,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 解三角形</span>
   <div class="body">
     <div class="topic">单变量化 + 三边关系定范围</div>
-    <div class="pos">数学 · 解三角形｜16:58–17:02</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">由 $A=\frac{C^2-B^2}{B}$ 走边消元，令 $t=\frac{C}{B}$，用三边关系夹出 $t\in(1,2)$</span><span class="pt">⏱ 16:58–17:02</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【给的是边的关系式，求的也是边的最值】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【消元成单变量 $t=\frac{C}{B}$，再用「两边之和 > 第三边、两边之差 < 第三边」夹出 $t\in(1,2)$】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只写「两边之和」漏掉「两边之差」；由 $A&gt;0$ 得 $C&gt;B$ 才可去绝对值】</b></div></div>
@@ -1194,7 +1201,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 三角恒等变换</span>
   <div class="body">
     <div class="topic">三倍角拆成 2A + A</div>
-    <div class="pos">数学 · 三角恒等变换｜17:04–17:06</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">$C=2A$ 化出 $\sin3A$：不背公式，拆成 $\sin(2A+A)$ 降角又降名</span><span class="pt">⏱ 17:04–17:06</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【化简后冒出 $\sin3A$ 这类三倍角】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【拆成 $\sin(2A+A)$，再用二倍角 $\cos2A=1-2\sin^2A$ 把角与名都降下来，不背公式】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【死背三倍角公式；角范围只写 $A\in(0,\pi)$，不严谨】</b></div></div>
@@ -1204,7 +1211,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 三角最值</span>
   <div class="body">
     <div class="topic">换元求导（二次函数）</div>
-    <div class="pos">数学 · 三角最值｜17:06–17:07</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">化得 $4t-4t^2$ 后换元 $t=\sin A$，转二次函数用求导取最大值</span><span class="pt">⏱ 17:06–17:07</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【化到最后剩一个角的二次式，如 $4t-4t^2$】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【换元 $t=\sin A$，转成二次函数，用对称轴或求导取最值】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【忽略 $t=\sin A$ 的取值范围就直接代顶点】</b></div></div>
@@ -1214,7 +1221,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 中线长定理</span>
   <div class="body">
     <div class="topic">$AB^2+AC^2=2(AD^2+BD^2)$</div>
-    <div class="pos">数学 · 中线长定理｜17:20–17:24</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">中线长定理 $AB^2+AC^2=2(AD^2+BD^2)$：向量平方相加自证，交叉项反向相消</span><span class="pt">⏱ 17:20–17:24</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【中点、中线、边的平方和】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【中线长定理；并用向量把 $\vec{AB}=\vec{AD}+\vec{DB}$、$\vec{AC}=\vec{AD}+\vec{DC}$ 平方相加自证一遍】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【只会套用不会证；把中线长定理与极化恒等式、基本不等式搞混】</b></div></div>
@@ -1224,7 +1231,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 试卷讲评</span>
   <div class="body">
     <div class="topic">单选每个选项都要验</div>
-    <div class="pos">数学 · 试卷讲评｜17:09–17:11</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">周四测卷单选第一题：多个选项看似都对，逐项验证并注意顺时针旋转是负角</span><span class="pt">⏱ 17:09–17:11</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【单选题里三个选项看起来都对】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【逐个选项验证，别只信 A；扇形弧长 $l=\alpha r$ 要先算圆心角】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【凭「A 肯定对」跳选项；忽略顺时针旋转形成负角】</b></div></div>
@@ -1234,7 +1241,7 @@ table.err td.ok::before{content:"✓ ";font-weight:700;color:#059669}
   <span class="sig-tag">数学 · 解三角形</span>
   <div class="body">
     <div class="topic">方位角 + 外角定理</div>
-    <div class="pos">数学 · 解三角形｜17:13–17:16</div>
+    <div class="pos"><span class="srclab">原题</span><span class="srctxt">方位角应用题：南偏西 20°、南偏东 40°，由外角定理 $\alpha=\theta-60^\circ$ 展开求路程</span><span class="pt">⏱ 17:13–17:16</span></div>
     <div class="row see"><div class="ic">信号</div><div class="txt"><b>看到【南偏东 / 南偏西的方位角应用题】</b></div></div>
     <div class="row think"><div class="ic">结论</div><div class="txt"><b>想到【补成可解的三角形：有角有边再求一角即全等；$\alpha=\theta-60^\circ$ 用外角定理拆】</b></div></div>
     <div class="row watch"><div class="ic">易错</div><div class="txt"><b>警惕【一上来就列一堆公式，不做图形分析；大角对大边还要判锐钝角】</b></div></div>
