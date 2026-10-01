@@ -303,6 +303,25 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .prob-img-note{margin-top:4px;font-size:12px;color:#93a7ba}
 
 </style>
+<style>
+.mcard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:18px}
+.mcard{position:relative;background:var(--card,#fff);border:1px solid var(--line,#e5e7eb);border-radius:16px;box-shadow:var(--shadow,0 2px 10px rgba(15,23,42,.06));padding:26px 16px 14px;display:flex;flex-direction:column;gap:9px}
+.mcard-subj{position:absolute;top:-11px;left:14px;background:#0C447C;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:.5px}
+.mcard-head{display:flex;gap:8px;align-items:center}
+.mcard-new{background:#CCFBF1;color:#0F766E;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
+.mcard-no{background:#F1F5F9;color:#64748B;font-size:12px;padding:2px 9px;border-radius:999px}
+.mcard-title{font-size:15.5px;font-weight:700;color:#0f172a;line-height:1.4}
+.mcard-pos{background:#FEE2E2;color:#B91C1C;font-size:12px;padding:3px 10px;border-radius:6px;display:inline-block;align-self:flex-start}
+.mcard-row{display:flex;gap:8px;align-items:flex-start}
+.mcard-ic{flex:0 0 auto;font-size:12px;font-weight:600;color:#fff;padding:3px 9px;border-radius:6px;margin-top:1px}
+.ic-see{background:#378ADD}.ic-think{background:#16A34A}.ic-warn{background:#E24B4A}
+.mcard-txt{font-size:13.5px;line-height:1.75;color:#1e293b}
+.mcard-foot{margin-top:auto;padding-top:10px;border-top:1px dashed #e2e8f0;display:flex;align-items:center;gap:12px}
+.mcard-btn{border:1px solid #99e6d5;background:#f0fdfa;color:#0F766E;font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer}
+.mcard-btn.on{background:#DCFCE7;border-color:#86efac;color:#166534}
+.mcard-link{font-size:12.5px;color:#64748b;text-decoration:none;margin-left:auto}
+@media print{.mcard-foot{display:none}}
+</style>
 </head>
 
 
@@ -675,13 +694,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
     <div data-page-node-id="hVA2nK8m1oEtVWsPvAOqBr" class="sec-head"><span data-page-node-id="dyuCz7Mm6FyVCoN673P18X" class="sec-no"><!--pnid:CQi7uG3r1XtBAINuF0cuIU-->05</span><span data-page-node-id="YOKaITW15qUGcdQYF1kWuE" class="sec-title"><!--pnid:8lYWJsiYUsDWd1J7iulcAN-->终点站 · 一张记忆卡带走全部</span></div>
     <div data-page-node-id="NIxKLYBZ5kgPxH2CLq8lY2" class="card">
       <div data-page-node-id="dlEGgcPnuoOxFwsOFkbiCm" class="sig-wrap">
-        <table data-page-node-id="pF0Oj973OuM2DskAtmO5SQ" class="sig-table">
-          <tr data-page-node-id="vswH65M63j0DNaT33yd1ZZ"><th data-page-node-id="aLpqXlD5jhMq7U1yPo5ZUL" style="width:38%"><!--pnid:qzAaBF0I9XYmKb53JXJua0-->看到这个信号</th><th data-page-node-id="XkonVj3I2BTFTqK40PEAcA"><!--pnid:6EaiekTgMWFFnrJbt6nOIM-->就该这么干</th></tr>
-          <tr data-page-node-id="kK2F2dif6OVwyNkEuE0wSk"><td data-page-node-id="iqwtFzzrUbFpj4fSVeeBDc"><!--pnid:eTLkLSBeIAE9tqcqgGYbAf-->见到 \(\left\{\dfrac{S_n}{f(n)}\right\}\) 是等差（或等比）</td><td data-page-node-id="kbXT0MYB8RVHLVCrS1bvRO"><!--pnid:hoknCH3GtGmjVenoqFsNS6-->① 起名 \(b_n\) ② 求 \(b_1=\dfrac{S_1}{f(1)}\)（牢记 \(S_1=a_1\)）③ 套 \(b_n=b_1+(n-1)d\) ④ 反解出 \(S_n\)</td></tr>
-          <tr data-page-node-id="0iJQYOUl4NsAY2a3bs8Z0A"><td data-page-node-id="apLosy305CjUoApCIUCGVF"><!--pnid:JtUghDVHimh7JhCsHP2YCE-->已知 \(S_n\) 求 \(a_n\)</td><td data-page-node-id="1dbQuSPT2isitbwP60eXP1"><!--pnid:jh05GW0JgwYj05JHcL3D07-->\(n\ge 2\)：\(a_n=S_n-S_{n-1}\)；<b data-page-node-id="XFMEZcdNScSMlHXGPPkpeq"><!--pnid:N98Ev74Yp6oDGnfT6xX2DB-->最后必验 \(n=1\)</b><!--pnid:7hFZUx0tHLL7HRsHM8dQ2P-->（值 1 分！）</td></tr>
-          <tr data-page-node-id="8ecwx7FsBc0dV9QTDmRb2z"><td data-page-node-id="jV9JjL6CntPeLkAYZ7oRiQ"><!--pnid:HbhgkAhiSRXHYUuoAz76JC-->要证 \(\sum\dfrac{1}{a_n}&lt;C\)，且 \(a_n\) 是 \(n^2\) 型</td><td data-page-node-id="aYwdogagwqJ1K1BroMthhs"><!--pnid:unaHg5BwmQzmKnhy4vTQYs-->放缩 \(\dfrac{1}{k^2}&lt;\dfrac{1}{k(k-1)}\)（\(k\ge2\)）→ 裂项 \(\dfrac{1}{k-1}-\dfrac1k\) → 相消 → 得到 \(C-\dfrac1n&lt;C\)</td></tr>
-          <tr data-page-node-id="shoXH2Hc9u5qpWHSmj0KH0"><td data-page-node-id="x9J4jM5IVKchQuOf94M3it" style="color:var(--bad)"><b data-page-node-id="e4uuzsCIuyfnkMW6gZgOxf"><!--pnid:F4PRhcqgRUgoNTo3N69jtS-->三个易错点</b></td><td data-page-node-id="UN2Wvb6oh3K2yTS1PevqGv"><!--pnid:0zvS2JLfWXfEhMrpYQf2qr-->① \(k=1\) 时 \(k(k-1)=0\)，放缩必须从 \(k=2\) 起；<br data-page-node-id="9Ejj7zxWNTiHIXmq06nMwb"><!--pnid:GG6mAVAHsToUp6aU2OO4xV-->② 忘验 \(n=1\)，白丢 1 分；<br data-page-node-id="6dnM69D9qcX7yABMsdMIaP"><!--pnid:MGxoH7CjgdxpousFgbIWhO-->③ 放缩方向搞反（证「小于」要向上放）</td></tr>
-        </table>
+        <div class="mcard-grid"><div class="mcard" data-cid="hw:数学:mat0988"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0988</span></div><div class="mcard-title">Sn/f(n) 是等差 → 起名求通项</div><div class="mcard-pos">数学-数列·Sn构造通项的完整套路</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【\(\left\{\dfrac{S_n}{f(n)}\right\}\)（\(S_n\) 与 \(n\) 的商式）是等差数列】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【起名 \(b_n=\dfrac{S_n}{f(n)}\) → 先求 \(b_1\)（用 \(S_1=a_1\)）→ 套 \(b_n=b_1+(n-1)d\) → 反解 \(S_n\)】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">b₁ 必须用 S₁=a₁ 单独算，别直接代通项公式</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0988">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat0989"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0989</span></div><div class="mcard-title">已知 Sn 求 an：作差必验 n=1</div><div class="mcard-pos">数学-数列·Sn求an的通法与验根</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【已知 \(S_n\) 求 \(a_n\)】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【\(n\ge2\) 时 \(a_n=S_n-S_{n-1}\)，最后必验 \(n=1\) 是否并入同式】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">不验 n=1 白丢 1 分</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0989">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat0990"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0990</span></div><div class="mcard-title">n² 型放缩：1/k²＜1/(k(k−1))</div><div class="mcard-pos">数学-数列·平方型放缩与裂项</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【证明 \(\dfrac{1}{a_1}+\cdots+\dfrac{1}{a_n}<C\)，且 \(a_n\) 是 \(n^2\) 型】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【放缩 \(\dfrac{1}{k^2}<\dfrac{1}{k(k-1)}\) → 裂项相消得 \(1-\dfrac{1}{n}<C\)】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">放缩必须从 k=2 起，k=1 时 k(k−1)=0 无意义</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0990">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat0991"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0991</span></div><div class="mcard-title">裂项相消：中间对消剩头尾</div><div class="mcard-pos">数学-数列·裂项相消求和</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【\(\dfrac{1}{k(k+1)}\)（或 \(\dfrac{1}{k(k-1)}\)）型求和】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【\(\dfrac{1}{k(k+1)}=\dfrac1k-\dfrac{1}{k+1}\)，中间项两两对消只剩头尾】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">首尾项别漏写、别多写</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0991">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat0992"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0992</span></div><div class="mcard-title">放缩方向：证小向上、证大向下</div><div class="mcard-pos">数学-数列·放缩证不等式的方向</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【放缩证明数列和不等式】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【证「小于」向上放大、证「大于」向下缩小，放成可裂项/可求和的形式】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">方向放反 = 拿小数证大结论，直接零分</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0992">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat0993"><span class="mcard-subj">数学·数列</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat0993</span></div><div class="mcard-title">等差通项：共 n−1 步</div><div class="mcard-pos">数学-数列·等差数列通项公式</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【等差数列通项】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【\(b_n=b_1+(n-1)d\)，从 \(b_1\) 到 \(b_n\) 共 \(n-1\) 步】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">n−1 别写成 n</span></div><div class="mcard-foot"><button type="button" class="mcard-btn" data-cid="hw:数学:mat0993">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div></div>
       </div>
 
       <div data-page-node-id="gIFrpxyVotBhskBl9qgBJ2" class="note" style="margin-top:16px"><!--pnid:c4nUX30EBQxW52XSgkjDg5-->🏛️ <b data-page-node-id="buF9S1xx1Z6Jg7JskunCPj"><!--pnid:RbY5ZYhAx52Tfuc359Hm9c-->彩蛋 · 欧拉的巴塞尔问题</b><!--pnid:clGbszLRxsW74HbJeBMU9v-->：1735 年，28 岁的欧拉证明了 \(1+\dfrac14+\dfrac19+\cdots=\dfrac{\pi^2}{6}\approx1.6449\)，一战成名。也就是说，就算你加到天荒地老，这堆数字也<b data-page-node-id="2kIE1fUVIsxTPzfXlGcTYF"><!--pnid:Eb9PJkOYcrruudOvOhsw8z-->永远追不到 2</b><!--pnid:ysCKz3YsyjoJr5bfdjtcSj-->。高考只让你证「追不到」，没让你算极限——命运关上了求和公式的门，还顺手给你打开了放缩的窗。</div>
@@ -2384,5 +2397,62 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 </script>
 <!--MC-TRAIN-END-->
+<!--MC-CARDTRAIN-BEGIN-->
+<script>
+/* 卡片级「加入训练 / 取消训练」：切换单张卡的「待训练」标签（幂等、可撤销） */
+(function () {
+  'use strict';
+  function dbReady() { return !!(window.WB_DB && window.WB_DB.from); }
+  function hasTag(tags) { return Array.isArray(tags) && tags.indexOf('待训练') >= 0; }
+  function rowPayload(row, tags) {
+    return { card_id: row.card_id, subject: row.subject, chapter: row.chapter,
+             signal: row.signal, conclusion: row.conclusion, orig: row.orig || '',
+             src: row.src || '', link: row.link || '', note: row.note || '',
+             tags: tags, updated_at: new Date().toISOString() };
+  }
+  function paint(btn, on) {
+    btn.classList.toggle('on', on);
+    btn.textContent = on ? '✓ 已在训练队列 · 点击取消' : '🏋️ 加入训练';
+  }
+  function bind() {
+    document.querySelectorAll('.mcard-btn[data-cid]').forEach(function (btn) {
+      if (btn.__bound) return; btn.__bound = true;
+      var cidAttr = btn.getAttribute('data-cid');
+      btn.addEventListener('click', function () {
+        if (btn.__busy) return; btn.__busy = true;
+        var old = btn.textContent; btn.textContent = '⏳ …';
+        window.WB_DB.from('cards').select('*').eq('card_id', cidAttr)
+          .then(function (r) {
+            var row = r && r.data && r.data[0];
+            if (!row) { btn.textContent = '卡片不在库'; btn.__busy = false; return; }
+            var tags = Array.isArray(row.tags) ? row.tags.slice() : [];
+            var on = hasTag(tags);
+            if (on) tags.splice(tags.indexOf('待训练'), 1); else tags.push('待训练');
+            return window.WB_DB.from('cards').upsert([rowPayload(row, tags)], { onConflict: 'card_id' })
+              .then(function (r2) {
+                if (r2 && r2.error) { btn.textContent = old; btn.__busy = false; return; }
+                paint(btn, !on);
+                try { if (typeof toast === 'function') toast(!on ? '✅ 已加入训练队列' : '已取消训练'); } catch (e) {}
+                btn.__busy = false;
+              });
+          })
+          .catch(function () { btn.textContent = old; btn.__busy = false; });
+      });
+    });
+    // 初始状态
+    var ids = Array.prototype.map.call(document.querySelectorAll('.mcard-btn[data-cid]'), function (b) { return b.getAttribute('data-cid'); });
+    if (!ids.length) return;
+    window.WB_DB.from('cards').select('card_id,tags').in('card_id', ids)
+      .then(function (r) {
+        var map = {};
+        ((r && r.data) || []).forEach(function (row) { map[row.card_id] = hasTag(row.tags); });
+        document.querySelectorAll('.mcard-btn[data-cid]').forEach(function (b) { paint(b, !!map[b.getAttribute('data-cid')]); });
+      }).catch(function () {});
+  }
+  if (dbReady()) bind();
+  else { var t = 0, iv = setInterval(function () { if (dbReady() || ++t > 40) { clearInterval(iv); if (dbReady()) bind(); } }, 250); }
+})();
+</script>
+<!--MC-CARDTRAIN-END-->
 </body>
 </html>
