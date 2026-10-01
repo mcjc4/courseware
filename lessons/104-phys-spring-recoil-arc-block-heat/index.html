@@ -529,7 +529,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
        每步配比：这一步要干嘛（一句话）+ 公式 + 一句吐槽或避坑提醒。 -->
   <!--pnid:kHTwGlNtmrsXcs1SAshvor--><!-- 第一问 -->
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
-    <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title"><!--pnid:2k7x7YeDQYMk1I1cwxomOZ-->第(1)问 · 把 \(a_n\) 揪出来</span></div>
+    <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title"><!--pnid:2k7x7YeDQYMk1I1cwxomOZ-->第(1)问 · 把 \(v_A\) 与 \(E_p\) 揪出来</span></div>
     <div data-page-node-id="uAgE8z7zue0pUVyggy6vaG" class="card">
 
       <div class="step on"><div class="step-inner">
@@ -575,7 +575,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
   <!--pnid:sF2zeNovSdeFxSijVkZ4sv--><!-- 第二问 -->
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
-    <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title"><!--pnid:GZ4okbLBJuRMOgd38IQcKj-->第(2)问 · 证明这堆数永远 &lt; 2</span></div>
+    <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title"><!--pnid:GZ4okbLBJuRMOgd38IQcKj-->第(2)问 · 最高点能蹿多高</span></div>
     <div data-page-node-id="xIkZCZmaG2iHu37hYO2KSP" class="card">
 
       <div class="step on"><div class="step-inner">
@@ -2593,6 +2593,7 @@ document.addEventListener('DOMContentLoaded',function(){
       : (typeof DEFAULT_PIMG !== 'undefined'
         ? '<img class="prob-img-img" loading="lazy" alt="原题图" src="' + DEFAULT_PIMG + '">'
         : EMPTY_HTML);
+    pimgCloudPush(dataUrl);
   }
   function shrink(file, cb){
     var r = new FileReader();
@@ -2620,6 +2621,59 @@ document.addEventListener('DOMContentLoaded',function(){
     fileInput.value = '';
   });
   document.body.appendChild(fileInput);
+  /* ---- 云存储：原题图跨设备同步（云端为唯一真源，本机只做缓存） ---- */
+  var MEDIA_TABLE = 'courseware_media';
+  function pimgWaitDb(cb, tries){
+    var n = 0;
+    (function poll(){
+      if (dbReady()) return cb(true);
+      if (++n > (tries || 45)) return cb(false);
+      setTimeout(poll, 200);
+    })();
+  }
+  function pimgShrinkCloud(dataUrl, cb){
+    var im = new Image();
+    im.onload = function(){
+      var W = im.naturalWidth, H = im.naturalHeight, MAX = 1200;
+      var c = document.createElement('canvas');
+      if (W > MAX){ c.width = MAX; c.height = Math.round(H * MAX / W); }
+      else { c.width = W; c.height = H; }
+      var cx = c.getContext('2d');
+      cx.fillStyle = '#fff'; cx.fillRect(0, 0, c.width, c.height);
+      cx.drawImage(im, 0, 0, c.width, c.height);
+      var fmt = (c.toDataURL('image/webp', 0.82).indexOf('data:image/webp') === 0) ? 'image/webp' : 'image/jpeg';
+      var q = 0.82, out = c.toDataURL(fmt, q), raw = out.slice(out.indexOf(',') + 1);
+      while (raw.length > 340000 && q > 0.5){ q -= 0.1; out = c.toDataURL(fmt, q); raw = out.slice(out.indexOf(',') + 1); }
+      cb(fmt, raw, c.width, c.height);
+    };
+    im.onerror = function(){
+      var comma = dataUrl.indexOf(',');
+      cb(dataUrl.slice(5, dataUrl.indexOf(';')), comma >= 0 ? dataUrl.slice(comma + 1) : '', 0, 0);
+    };
+    im.src = dataUrl;
+  }
+  function pimgCloudPush(dataUrl){
+    if (!pane) return;
+    var stat = pane.querySelector('.pimg-stat');
+    var done = function(ok){ if (stat) stat.textContent = ok ? '\u2601 已同步到云端' : '\uD83D\uDCBE 仅本机（同步失败）'; };
+    if (!dbReady()){ if (stat) stat.textContent = '\uD83D\uDCBE 仅本机（云端未就绪）'; return; }
+    if (stat) stat.textContent = '\u23F3 同步中…';
+    if (!dataUrl){
+      pimgWaitDb(function(ok){
+        if (!ok) return done(false);
+        WB_DB.from(MEDIA_TABLE).upsert([{ id: CID, kind: 'course', mime: null, data_b64: '', bytes: 0 }], { onConflict: 'id' })
+          .then(function(r){ done(!(r && r.error)); }).catch(function(){ done(false); });
+      });
+      return;
+    }
+    pimgShrinkCloud(dataUrl, function(mime, raw, w, h){
+      pimgWaitDb(function(ok){
+        if (!ok) return done(false);
+        WB_DB.from(MEDIA_TABLE).upsert([{ id: CID, kind: 'course', mime: mime, data_b64: raw, w: w, h: h, bytes: raw.length }], { onConflict: 'id' })
+          .then(function(r){ done(!(r && r.error)); }).catch(function(){ done(false); });
+      });
+    });
+  }
   if (pane){
     var empty = pane.querySelector('.prob-img-empty');
     if (empty) EMPTY_HTML = empty.outerHTML;
@@ -2627,6 +2681,26 @@ document.addEventListener('DOMContentLoaded',function(){
     try { saved = localStorage.getItem(keyOf()); } catch(e){}
     if (saved || typeof DEFAULT_PIMG !== 'undefined') pane.querySelector('.prob-img-body').innerHTML =
       '<img class="prob-img-img" loading="lazy" alt="原题图" src="' + (saved || DEFAULT_PIMG) + '">';
+    var stat = document.createElement('span');
+    stat.className = 'pimg-stat';
+    stat.style.cssText = 'font-size:12px;color:#8f8877;margin-left:auto;white-space:nowrap;';
+    stat.textContent = '\u2601 云端…';
+    pane.querySelector('.prob-img-head').appendChild(stat);
+    (function pimgCloudPull(){
+      pimgWaitDb(function(ok){
+        if (!ok){ stat.textContent = '\uD83D\uDCBE 仅本机（云端不可用）'; return; }
+        WB_DB.from(MEDIA_TABLE).select('*').eq('id', CID).then(function(r){
+          if (!r || r.error){ stat.textContent = '\uD83D\uDCBE 仅本机'; return; }
+          var rows = Array.isArray(r.data) ? r.data : [];
+          if (!rows.length || !rows[0].data_b64){ stat.textContent = '\u2601 已同步（默认图）'; return; }
+          var row = rows[0];
+          var url = 'data:' + (row.mime || 'image/jpeg') + ';base64,' + row.data_b64;
+          pane.querySelector('.prob-img-body').innerHTML =
+            '<img class="prob-img-img" loading="lazy" alt="原题图" src="' + url + '">';
+          stat.textContent = '\u2601 已同步到云端';
+        }).catch(function(){ stat.textContent = '\uD83D\uDCBE 仅本机'; });
+      });
+    })();
     pane.querySelector('.prob-img-head').addEventListener('click', function(e){
       var btn = e.target.closest && e.target.closest('.prob-img-btn');
       if (!btn) return;
