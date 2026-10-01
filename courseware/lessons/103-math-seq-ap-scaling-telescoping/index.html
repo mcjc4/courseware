@@ -2537,7 +2537,7 @@ document.addEventListener('DOMContentLoaded',function(){
     var row = { course_id: courseKey, level: level, title: title, subject: '数学',
                 updated_at: new Date().toISOString() };
     function go(db){
-      try { db.from('course_train').upsert(row); } catch(e){}
+      try { db.from('course_train').upsert(row).then(function(){}).catch(function(){}); } catch(e){}
     }
     if (dbReady()) go(window.WB_DB); else pushQueue.push(go);
   }
