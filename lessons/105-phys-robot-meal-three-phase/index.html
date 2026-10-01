@@ -2814,8 +2814,26 @@ document.addEventListener('DOMContentLoaded',function(){
     + '<label>想到（结论）</label><textarea id="edThink"></textarea>'
     + '<label>警惕（易错点）</label><textarea id="edWarn"></textarea>'
     + '<label>原题（题干，可用公式）</label><textarea id="edOrig"></textarea>'
+    + '<label>出处（来源说明，如：课件105）</label><input id="edSrc" type="text">'
     + '<div class="ed-foot"><button type="button" class="ed-cancel">取消</button><button type="button" class="ed-save">💾 保存并同步</button></div></div>';
   document.body.appendChild(mask);
+  /* ========== C2. mcard 内单 $ 公式渲染（scoped，幂等） ========== */
+  (function(){
+    var MC_DELIMS = [{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false},{left:'$',right:'$',display:false}];
+    window.__renderMcards = function(scope){
+      var list = scope ? [scope] : document.querySelectorAll('.mcard');
+      for (var i = 0; i < list.length; i++){
+        var c = list[i];
+        if (c.dataset.mcr) continue;
+        c.dataset.mcr = '1';
+        try { if (window.renderMathInElement) renderMathInElement(c, { delimiters: MC_DELIMS, throwOnError: false }); } catch(e){}
+      }
+    };
+    (function wait(){
+      if (!window.renderMathInElement) return setTimeout(wait, 250);
+      window.__renderMcards();
+    })();
+  })();
   var cur = null, curRow = null;
   function unwrap(tag, s){
     var m = s.match(new RegExp('^' + tag + '【([\\s\\S]*)】$'));
@@ -2823,6 +2841,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   function openPop(card){
     cur = card; curRow = null;
+    var cid = card.getAttribute('data-cid') || '';
     var no = card.querySelector('.mcard-no').textContent.trim();
     mask.querySelector('#edNo').textContent = no;
     mask.querySelector('#edTitle').value = card.querySelector('.mcard-title').textContent.trim();
@@ -2830,8 +2849,9 @@ document.addEventListener('DOMContentLoaded',function(){
     mask.querySelector('#edThink').value = '';
     mask.querySelector('#edWarn').value = '';
     mask.querySelector('#edOrig').value = '';
+    mask.querySelector('#edSrc').value = '';
     if (dbReady()){
-      window.WB_DB.from('cards').select('*').eq('card_id', 'hw:数学:' + no)
+      window.WB_DB.from('cards').select('*').eq('card_id', cid)
         .then(function(r){
           var row = r && r.data && r.data[0];
           if (!row) return;
@@ -2849,6 +2869,7 @@ document.addEventListener('DOMContentLoaded',function(){
           mask.querySelector('#edThink').value = unwrap('想到', think);
           mask.querySelector('#edWarn').value = warn;
           mask.querySelector('#edOrig').value = row.orig || '';
+          mask.querySelector('#edSrc').value = row.src || '';
         }).catch(function(){});
     }
     mask.classList.add('open');
@@ -2858,13 +2879,14 @@ document.addEventListener('DOMContentLoaded',function(){
   mask.addEventListener('click', function(e){ if (e.target === mask) closePop(); });
   mask.querySelector('.ed-save').addEventListener('click', function(){
     if (!cur) return closePop();
+    var cid = cur.getAttribute('data-cid') || '';
     var no = cur.querySelector('.mcard-no').textContent.trim();
-    var cid = 'hw:数学:' + no;
     var title = mask.querySelector('#edTitle').value.trim();
     var see = mask.querySelector('#edSee').value.trim();
     var think = mask.querySelector('#edThink').value.trim();
     var warn = mask.querySelector('#edWarn').value.trim();
     var orig = mask.querySelector('#edOrig').value.trim();
+    var srcv = mask.querySelector('#edSrc').value.trim();
     if (!title || !see || !think){ alert('标题、看到、想到不能为空'); return; }
     var btn = mask.querySelector('.ed-save');
     var old = btn.textContent; btn.textContent = '⏳ 同步中…'; btn.disabled = true;
@@ -2876,10 +2898,13 @@ document.addEventListener('DOMContentLoaded',function(){
       if (rows[2]) rows[2].querySelector('.mcard-txt').textContent = warn;
       if (window.renderMathInElement){
         try {
+          cur.dataset.mcr = '';
           renderMathInElement(cur, { delimiters: [
             {left:'$$',right:'$$',display:true},
-            {left:'\\(',right:'\\)',display:false}
+            {left:'\\(',right:'\\)',display:false},
+            {left:'$',right:'$',display:false}
           ], throwOnError:false });
+          cur.dataset.mcr = '1';
         } catch(e){}
       }
       btn.textContent = old; btn.disabled = false;
@@ -2892,10 +2917,10 @@ document.addEventListener('DOMContentLoaded',function(){
         .catch(function(){ btn.textContent = old; btn.disabled = false; alert('云端同步失败，请重试'); });
     }
     function buildRow(base){
-      return { card_id: cid, subject: (base && base.subject) || '数学',
+      return { card_id: cid, subject: (base && base.subject) || (cid.indexOf(':物理:') >= 0 ? '物理' : '数学'),
                chapter: title, signal: '看到【' + see + '】',
                conclusion: '想到【' + think + '】' + (warn ? '；警惕【' + warn + '】' : ''),
-               orig: orig, src: (base && base.src) || '', link: (base && base.link) || '',
+               orig: orig, src: srcv || (base && base.src) || '', link: (base && base.link) || '',
                note: (base && base.note) || '', tags: (base && base.tags) || [],
                updated_at: new Date().toISOString() };
     }
