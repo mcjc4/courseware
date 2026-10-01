@@ -980,6 +980,43 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 </script>
+<!--WB-ADAPTER-BEGIN-->
+<script data-wbcloud-adapter="1">
+/* WB Cloud 适配器：本地优先加载 SDK（境外CDN兜底），创建 window.WB_DB 供头部标签模块使用 */
+(function () {
+  'use strict';
+  var WB_CLOUD_CFG = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
+  };
+  window.WB_CLOUD_CFG = WB_CLOUD_CFG;
+  window.WB_READY = false;
+  window.WB_DB = null;
+  (function loadSdk() {
+    var srcs = ['../../../vendor/wbcloud-sdk.js',
+      'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+      'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'];
+    var i = 0;
+    (function next() {
+      if (typeof WorkBuddyCloud !== 'undefined') { initClient(); return; }
+      if (i >= srcs.length) { window.__WB_SDK_FAIL = true; return; }
+      var s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = function () { if (typeof WorkBuddyCloud === 'undefined') { next(); } else { initClient(); } };
+      s.onerror = function () { next(); };
+      (document.head || document.documentElement).appendChild(s);
+    })();
+  })();
+  function initClient() {
+    try {
+      var client = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: WB_CLOUD_CFG.endpoint, publishableKey: WB_CLOUD_CFG.publishableKey });
+      window.WB_DB = client.database;
+      window.WB_READY = true;
+    } catch (e) { window.__WB_SDK_FAIL = true; }
+  }
+})();
+</script>
+<!--WB-ADAPTER-END-->
 <!--HERO-ORIG-TAGS-BEGIN-->
 <script data-ver="20260924b">
 /* ===========================================================================
