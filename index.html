@@ -3136,7 +3136,7 @@ body.ps-collapsed #psFab{display:flex}
 #psToast.psShow{opacity:1}
 body{padding-left:220px;padding-top:52px}
 .siteChips{display:none!important}
-@media(max-width:720px){#psTop{padding-right:8px}}
+@media(max-width:720px){#psTop{padding-right:8px}#psSide{width:184px}body{padding-left:184px}}
 </style>
 <aside id="psSide">
   <div class="brand"><span class="bname">🧠 昕言的知识体系</span><button id="psToggle" class="psToggle" title="收起/展开侧边栏">‹</button></div>
@@ -3182,21 +3182,11 @@ body{padding-left:220px;padding-top:52px}
   };
   window.psAddTag=function(t){ window.__psActiveTags.add(t); window.psRenderTags(); };
   window.psRenderTags();
-  // 侧边栏收缩：默认展开，失焦（点击/触摸侧边栏以外区域）才收为汉堡；不再3秒定时收起
+  // 侧边栏：默认常驻展开；收起/展开完全由用户手动点 ‹ / 汉堡 控制，点击内容区不再自动收起
   var COLL='ps-collapsed';
-  var side=document.getElementById('psSide');
-  function psExpand(){ document.body.classList.remove(COLL); }
-  function psColl(){ document.body.classList.add(COLL); try{ localStorage.setItem('ps_collapsed','1'); }catch(e){} }
-  function psIsInside(t){ return !!(side && side.contains(t)); }
-  psExpand();
-  document.addEventListener('click',function(e){ // 失焦收起：点击侧边栏以外区域（fab/汉堡除外）
-    // 用捕获阶段：目标元素已在派发时确定，收起导致的布局左移不会带走点击目标；同时不受内容区 stopPropagation 影响
-    if(document.body.classList.contains(COLL)) return;
-    if(psIsInside(e.target)) return;
-    var fab=document.getElementById('psFab');
-    if(fab && fab.contains(e.target)) return;
-    psColl();
-  },true);
+  var savedColl=null; try{ savedColl=localStorage.getItem('ps_collapsed'); }catch(e){}
+  if(savedColl==='1') document.body.classList.add(COLL);
+  else document.body.classList.remove(COLL);
   function psSetColl(c){ document.body.classList.toggle(COLL,c); try{ localStorage.setItem('ps_collapsed', c?'1':'0'); }catch(e){} }
   var tg=document.getElementById('psToggle'); if(tg) tg.addEventListener('click',function(){ psSetColl(!document.body.classList.contains(COLL)); });
   var fab=document.getElementById('psFab'); if(fab) fab.addEventListener('click',function(){ psSetColl(false); });
