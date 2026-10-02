@@ -205,6 +205,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 #cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
 #cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
 #cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+
+/* 2026-10-03 模具规范：自评条不再右下悬浮收起 → 常展开、常驻题目下方（data-inl 由 relocateBar() 打上） */
+#cstat-bar[data-inl]{position:static;right:auto;bottom:auto;z-index:auto;max-width:100%;width:100%;
+  background:#fff;border:1px solid #e3edf7;border-radius:16px;padding:13px 16px;
+  box-shadow:none;transform:none!important}
+#cstat-bar[data-inl] .cbtn{display:inline-block}
+#cstat-bar[data-inl] #cstat-counts{display:inline}
+#cstat-bar[data-inl] .clab{cursor:default}
 #cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
 /* 参看答案时内联弹出的五级自评条 */
 /* 注意：buildInline() 生成的是 class="cstat-inline"（非 ID），选择器必须用 .cstat-inline，
@@ -367,7 +375,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 <div class="wrap">
 
 
-  <a class="back-link" href="../../index.html">← 返回课件库</a>
+  <a class="back-link" href="https://jikaka-memory.app.workbuddy.host/library.html#secCw">← 返回训练库课件队列</a>
 
 
 
@@ -1880,6 +1888,21 @@ document.addEventListener('DOMContentLoaded',function(){
     if (!bar || !lab) return;
     lab.addEventListener('click', function(e){ e.stopPropagation(); bar.classList.toggle('collapsed'); });
   }
+  /* 2026-10-03 模具规范：自评条常展开、搬到题目下方（原题图 .prob-img 之前），只搬一次 */
+  function relocateBar(){
+    var bar = document.getElementById('cstat-bar');
+    if(!bar || bar.getAttribute('data-inl') === '1') return;
+    var host = document.querySelector('.prob-img');
+    if(host && host.parentNode){ host.parentNode.insertBefore(bar, host); }
+    else{
+      var cc = document.getElementById('courseCstat');
+      if(cc && cc.parentNode){ cc.parentNode.insertBefore(bar, cc); }
+      else return;
+    }
+    bar.setAttribute('data-inl','1');
+    bar.setAttribute('title','学习自评（记忆卡五级）：点击即记录，同步到训练库');
+  }
+  relocateBar();
   function init(){
     bind('cstat-l1',1,LV_LABEL[1]);
     bind('cstat-l2',2,LV_LABEL[2]);
@@ -2115,7 +2138,7 @@ document.addEventListener('DOMContentLoaded',function(){
   'use strict';
   if (window.__bardrag) return;
   window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar']; /* tnav-bar 是固定的底部导航菜单（上一课/下一课），不参与拖拽 */
+  var IDS = ['crate-bar']; /* cstat-bar 自评条 2026-10-03 起常驻题目下方文档流，不参与拖拽 */ /* tnav-bar 是固定的底部导航菜单（上一课/下一课），不参与拖拽 */
   var LONG = 400, MOVE = 6;
   function key(id){ return 'bar_pos:' + id; }
   function place(el, l, t){
