@@ -2220,7 +2220,7 @@
   var fSort=document.getElementById('fSort');
   var forgetMin=document.getElementById('forgetMin');
 
-  var PORTAL_VER='20261002b'; // 部署版本戳：回读含此值即代表拿到最新门户(单一时间线浏览排序+打开即记浏览)
+  var PORTAL_VER = '20261002b+attrchip'; // 部署版本戳：回读含此值即代表拿到最新门户(单一时间线浏览排序+打开即记浏览)
   // 'YYYY-MM-DD' → 本地 00:00 的毫秒时间戳（new Date('YYYY-MM-DD') 会按 UTC 解析，排序混排时差 8 小时）
   function dayMs(ds){
     var p=(ds||'').split('-'); if(p.length!==3)return 0;
@@ -3406,6 +3406,12 @@ dbReady(12000).then(function(ok){
     var catBy={};(vocab||[]).forEach(function(r){catBy[r.name]=r.category;});
     var byCat={};
     (ct||[]).forEach(function(r){(r.tags||'').split(';').forEach(function(t){if(!t)return;var c=catBy[t]||'知识点';(byCat[c]=byCat[c]||{})[t]=1;});});
+    /* 题目属性 chip 配色（2026-10-02 补：精品题/错题等属性标签此前只参与筛选、不显示） */
+    var ATTR_CHIP_STYLE={
+      '精品题':'background:#fffbeb;color:#b45309;font-weight:600;border:1px solid #fcd34d',
+      '错题':'background:#fcebea;color:#c0392b;font-weight:600',
+      __def:'background:#f5f3ff;color:#6d28d9;font-weight:600'
+    };
     /* 每卡云标签集：course_tags + 词表分类 → __ctag（筛选真源），并同步可见 chips */
     var ctMap={};
     (ct||[]).forEach(function(r){
@@ -3422,10 +3428,16 @@ dbReady(12000).then(function(ok){
       var ak=Object.keys(o.A); if(ak.length)card.dataset.attr=ak.join(';');
       var tg=card.querySelector('.tags');
       if(tg&&!tg.dataset.ct){
+        /* 先收集卡上已有 chip 文本 → 同名标签不重复渲染（静态卡 + 云端标签常重叠） */
+        var have={};
+        tg.querySelectorAll('.tag-chip').forEach(function(sp){have[(sp.textContent||'').trim()]=1;});
         var h='';
-        Object.keys(o.S).forEach(function(t){h+='<span class="tag-chip">'+t+'</span>';});
-        Object.keys(o.C).forEach(function(t){h+='<span class="tag-chip c">'+t+'</span>';});
-        Object.keys(o.K).forEach(function(t){h+='<span class="tag-chip k">'+t+'</span>';});
+        function addChip(t,cls,style){ if(!t||have[t])return; have[t]=1; h+='<span class="tag-chip'+cls+'"'+(style?' style="'+style+'"':'')+'>'+t+'</span>'; }
+        Object.keys(o.S).forEach(function(t){addChip(t,'','');});
+        Object.keys(o.C).forEach(function(t){addChip(t,' c','');});
+        Object.keys(o.K).forEach(function(t){addChip(t,' k','');});
+        /* 题目属性（⭐精品题 / ❌错题）——此前只写 dataset.attr 用于筛选，卡片上看不到 */
+        Object.keys(o.A).forEach(function(t){addChip(t,' attr',ATTR_CHIP_STYLE[t]||ATTR_CHIP_STYLE.__def);});
         if(h){tg.innerHTML+=h; tg.dataset.ct='1';}
       }
     });
