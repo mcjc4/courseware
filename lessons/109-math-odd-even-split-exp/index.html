@@ -307,7 +307,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .mcard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:18px}
 .mcard{position:relative;background:var(--card,#fff);border:1px solid var(--line,#e5e7eb);border-radius:16px;box-shadow:var(--shadow,0 2px 10px rgba(15,23,42,.06));padding:26px 16px 14px;display:flex;flex-direction:column;gap:9px}
 .mcard-subj{position:absolute;top:-11px;left:14px;background:#0C447C;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:.5px}
-.mcard-head{display:flex;gap:8px;align-items:center}
+.mcard-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.mcard-st{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:#F1F5F9;color:#64748B}.mcard-st[data-st="pending"]{background:#FEF3C7;color:#B45309}.mcard-st[data-st="queued"]{background:#DCFCE7;color:#166534}.mcard-st[data-st="trained"]{background:#E0F2FE;color:#0369A1}.mcard-cloud{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:#F0FDFA;color:#0F766E;border:1px solid #99e6d5}.mcard-cloud.off{background:#FEF2F2;color:#B91C1C;border-color:#fecaca}
 .mcard-new{background:#CCFBF1;color:#0F766E;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
 .mcard-no{background:#F1F5F9;color:#64748B;font-size:12px;padding:2px 9px;border-radius:999px}
 .mcard-title{font-size:15.5px;font-weight:700;color:#0f172a;line-height:1.4}
@@ -746,7 +746,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
     <div data-page-node-id="hVA2nK8m1oEtVWsPvAOqBr" class="sec-head"><span data-page-node-id="dyuCz7Mm6FyVCoN673P18X" class="sec-no"><!--pnid:CQi7uG3r1XtBAINuF0cuIU-->06</span><span data-page-node-id="YOKaITW15qUGcdQYF1kWuE" class="sec-title"><!--pnid:8lYWJsiYUsDWd1J7iulcAN-->终点站 · 一张记忆卡带走全部</span></div>
     <div data-page-node-id="NIxKLYBZ5kgPxH2CLq8lY2" class="card">
       <div data-page-node-id="dlEGgcPnuoOxFwsOFkbiCm" class="sig-wrap">
-        <div class="mcard-grid"><div class="mcard" data-cid="hw:数学:mat1006"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1006</span></div><div class="mcard-title">奇+偶=h → 换元联立拆解</div><div class="mcard-pos">数学-函数·奇偶拆解术</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【奇函数 $f$ + 偶函数 $g$ = 已知函数 $h(x)$，求解析式】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【$x$ 换 $-x$ 得第二方程（奇变号偶不变），联立消元；或背：$f=\frac{h(x)-h(-x)}{2}$，$g=\frac{h(x)+h(-x)}{2}$】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【奇偶变号搞反则 $f$、$g$ 整个对调；求完代回验证】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1006" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1006">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1007"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1007</span></div><div class="mcard-title">e^x 拆解 → 双曲正弦余弦</div><div class="mcard-pos">数学-函数·双曲函数对</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【$f(x)+g(x)=e^{x}$ 的奇偶拆解】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【$f=\frac{e^{x}-e^{-x}}{2}$（双曲正弦，奇）、$g=\frac{e^{x}+e^{-x}}{2}$（双曲余弦，偶）】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【加法对负号免疫是偶、减法对负号敏感是奇】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1007" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1007">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1008"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1008</span></div><div class="mcard-title">单调递增 → 导数恒成立定 k</div><div class="mcard-pos">数学-方法·导数恒成立</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【含参函数在 $\mathbf{R}$ 上单调递增，求参数】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【导数 $\geqslant0$ 恒成立；整理成「恒正因子 × 含参式」按参数分类；临界值单独验收保留等号】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【$k=1$ 时 $h=e^{x}$ 本尊，等号必须保留；分类要封口（$k\leqslant-1$ 支别漏）】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1008" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1008">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1009"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1009</span></div><div class="mcard-title">eˣ−e⁻ˣ 同台 → 整体换元</div><div class="mcard-pos">数学-方法·整体换元降维</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【$e^{x}-e^{-x}$ 与 $e^{2x}+e^{-2x}$ 同台】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【整体换元 $t=e^{x}-e^{-x}$（单调，范围可平移），$e^{2x}+e^{-2x}=t^{2}+2$】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【平方展开中间项是 $-2$（$2e^{x}\cdot e^{-x}$ 带负号），写成 $+2$ 全盘皆输】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1009" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1009">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1010"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1010</span></div><div class="mcard-title">半区间最值 → 轴位置分类</div><div class="mcard-pos">数学-函数·区间最值讨论</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【开口向下的二次式在半区间 $[0,+\infty)$ 求最大值】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【对称轴在区间内→顶点值；轴在区间外→端点值；两支都要讨论，解出的根核对所属情形】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【$m=-2\sqrt2$ 满足顶点值=3 但轴不在区间内，此时最大值实为 $F(0)=-1$——解方程前先核对前提】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1010" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1010">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1011"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1011</span></div><div class="mcard-title">三问接力 → 结论当原料</div><div class="mcard-pos">数学-方法·大题接力策略</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【大题三问接力（拆函数→定k→求m）】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【第(1)问结论是后面两问的原料；(1) 卡壳可先背结论继续往下拿分】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【层层给分，问到哪写到哪，别在一问上恋战】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1011" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1011">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div></div>
+        <div class="mcard-grid"><div class="mcard" data-cid="hw:数学:mat1006"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1006</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">奇+偶=h → 换元联立拆解</div><div class="mcard-pos">数学-函数·奇偶拆解术</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【奇函数 $f$ + 偶函数 $g$ = 已知函数 $h(x)$，求解析式】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【$x$ 换 $-x$ 得第二方程（奇变号偶不变），联立消元；或背：$f=\frac{h(x)-h(-x)}{2}$，$g=\frac{h(x)+h(-x)}{2}$】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【奇偶变号搞反则 $f$、$g$ 整个对调；求完代回验证】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1006" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1006">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1007"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1007</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">e^x 拆解 → 双曲正弦余弦</div><div class="mcard-pos">数学-函数·双曲函数对</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【$f(x)+g(x)=e^{x}$ 的奇偶拆解】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【$f=\frac{e^{x}-e^{-x}}{2}$（双曲正弦，奇）、$g=\frac{e^{x}+e^{-x}}{2}$（双曲余弦，偶）】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【加法对负号免疫是偶、减法对负号敏感是奇】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1007" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1007">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1008"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1008</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">单调递增 → 导数恒成立定 k</div><div class="mcard-pos">数学-方法·导数恒成立</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【含参函数在 $\mathbf{R}$ 上单调递增，求参数】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【导数 $\geqslant0$ 恒成立；整理成「恒正因子 × 含参式」按参数分类；临界值单独验收保留等号】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【$k=1$ 时 $h=e^{x}$ 本尊，等号必须保留；分类要封口（$k\leqslant-1$ 支别漏）】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1008" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1008">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1009"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1009</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">eˣ−e⁻ˣ 同台 → 整体换元</div><div class="mcard-pos">数学-方法·整体换元降维</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【$e^{x}-e^{-x}$ 与 $e^{2x}+e^{-2x}$ 同台】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【整体换元 $t=e^{x}-e^{-x}$（单调，范围可平移），$e^{2x}+e^{-2x}=t^{2}+2$】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【平方展开中间项是 $-2$（$2e^{x}\cdot e^{-x}$ 带负号），写成 $+2$ 全盘皆输】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1009" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1009">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1010"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1010</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">半区间最值 → 轴位置分类</div><div class="mcard-pos">数学-函数·区间最值讨论</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【开口向下的二次式在半区间 $[0,+\infty)$ 求最大值】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【对称轴在区间内→顶点值；轴在区间外→端点值；两支都要讨论，解出的根核对所属情形】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【$m=-2\sqrt2$ 满足顶点值=3 但轴不在区间内，此时最大值实为 $F(0)=-1$——解方程前先核对前提】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1010" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1010">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div><div class="mcard" data-cid="hw:数学:mat1011"><span class="mcard-subj">数学·函数</span><div class="mcard-head"><span class="mcard-new">🟢 新卡</span><span class="mcard-no">mat1011</span><span class="mcard-st" data-st="none">⚪ 未加入训练</span><span class="mcard-cloud">☁️ 云端可同步</span></div><div class="mcard-title">三问接力 → 结论当原料</div><div class="mcard-pos">数学-方法·大题接力策略</div><div class="mcard-row"><span class="mcard-ic ic-see">看到</span><span class="mcard-txt">看到【大题三问接力（拆函数→定k→求m）】</span></div><div class="mcard-row"><span class="mcard-ic ic-think">想到</span><span class="mcard-txt">想到【第(1)问结论是后面两问的原料；(1) 卡壳可先背结论继续往下拿分】</span></div><div class="mcard-row"><span class="mcard-ic ic-warn">警惕</span><span class="mcard-txt">警惕【层层给分，问到哪写到哪，别在一问上恋战】</span></div><div class="mcard-foot"><button type="button" class="mcard-edit" data-cid="hw:数学:mat1011" title="编辑这张卡的内容，保存后同步云端">✎ 编辑</button><button type="button" class="mcard-btn" data-cid="hw:数学:mat1011">🏋️ 加入训练</button><a class="mcard-link" href="https://memory-card-amber-three.vercel.app/" target="_blank" rel="noopener">去记忆卡训练 →</a></div></div></div>
       </div>
 
       <div class="note" style="margin-top:16px">🏛️ <b>彩蛋 · 1748 年欧拉的「上帝公式」</b>：本题三问轮番登场的 \(e^{x}\)，是 1748 年瑞士数学家<b>欧拉</b>在《无穷分析引论》里正式定名的——他用 \(e\) 这个字母（一说取 exponential 的首字母，一说取他名字的首字母）定义了这个底数约为 2.718 的常数。更神的是你在这道题里拆出来的那对函数：\(\frac{e^{x}-e^{-x}}{2}\) 和 \(\frac{e^{x}+e^{-x}}{2}\)（双曲正弦与双曲余弦），加上虚数 \(i\)，能拼出数学史上最著名的恒等式之一——\(\cosh(ix)=\cos x\)：双曲函数走直线，三角函数画圆圈，两者居然是同一枚硬币的两面，而硬币的材质就是 \(e^{x}\)。难怪物理学家说：谁掌握了 \(e^{x}\) 的奇偶拆解，谁就同时握住了直线与圆。</div>
@@ -2519,19 +2519,28 @@ document.addEventListener('DOMContentLoaded',function(){
 <!--MC-TRAIN-BEGIN-->
 <script>
 /* 「🏋️ 加入训练」：把本课原子卡打入「待训练」标签 → 记忆卡训练库聚合可见。
-   幂等：已在队列的卡跳过；依赖 window.WB_DB（WB 适配器创建）。 */
+   幂等：已在队列的卡跳过；依赖 window.WB_DB（WB 适配器创建）。
+   三态对齐记忆卡端生命周期：待训练（已打标待存入）→ 已入训练队列 → 已训练。
+   状态以云端 cards.tags 为准，卡片上显示「☁️ 云端可同步」。 */
 (function () {
   'use strict';
   var CID = 'course_109_math-odd-even-split-exp';
   var IDS = ['hw:数学:mat1006','hw:数学:mat1007','hw:数学:mat1008','hw:数学:mat1009','hw:数学:mat1010','hw:数学:mat1011'];
   function getBtn() { return document.getElementById('htTrainBtn'); }
-  function say(msg, ok) {
+  function say(msg) {
     try { if (typeof toast === 'function') { toast(msg); return; } } catch (e) {}
     var b = getBtn(); if (b) b.textContent = msg;
   }
-  function markDone() {
+  function st(tags) {
+    var t = Array.isArray(tags) ? tags : [];
+    if (t.indexOf('已训练') >= 0) return 'trained';
+    if (t.indexOf('已入训练队列') >= 0) return 'queued';
+    if (t.indexOf('待训练') >= 0) return 'pending';
+    return 'none';
+  }
+  function markDone(n) {
     var b = getBtn(); if (!b) return;
-    b.textContent = '✓ 已在训练队列';
+    b.textContent = (n >= IDS.length ? '✓ 已加入训练' : '✓ 已加入训练（' + n + '/' + IDS.length + '）');
     b.style.color = '#166534'; b.style.background = '#DCFCE7'; b.style.borderColor = '#86efac';
   }
   function dbReady() { return !!(window.WB_DB && window.WB_DB.from); }
@@ -2546,32 +2555,31 @@ document.addEventListener('DOMContentLoaded',function(){
         .then(function (r) {
           var rows = (r && r.data) || [];
           if (!rows.length) { say('本课暂无原子卡'); b.textContent = old; busy = false; return; }
-          var payload = rows.filter(function (row) {
-            return !(Array.isArray(row.tags) && row.tags.indexOf('待训练') >= 0);
-          }).map(function (row) {
-            var tags = Array.isArray(row.tags) ? row.tags.slice() : [];
-            tags.push('待训练');
-            return { card_id: row.card_id, subject: row.subject, chapter: row.chapter,
-                     signal: row.signal, conclusion: row.conclusion, orig: row.orig || '',
-                     src: row.src || '', link: row.link || '', note: row.note || '',
-                     tags: tags, updated_at: new Date().toISOString() };
-          });
-          if (!payload.length) { markDone(); say('本课卡片已在训练队列'); busy = false; return; }
+          var payload = rows.filter(function (row) { return st(row.tags) === 'none'; })
+            .map(function (row) {
+              var tags = Array.isArray(row.tags) ? row.tags.slice() : [];
+              tags.push('待训练');
+              return { card_id: row.card_id, subject: row.subject, chapter: row.chapter,
+                       signal: row.signal, conclusion: row.conclusion, orig: row.orig || '',
+                       src: row.src || '', link: row.link || '', note: row.note || '',
+                       tags: tags, updated_at: new Date().toISOString() };
+            });
+          if (!payload.length) { markDone(IDS.length); say('本课卡片已在训练队列'); busy = false; return; }
           return window.WB_DB.from('cards').upsert(payload, { onConflict: 'card_id' })
             .then(function (r2) {
               if (r2 && r2.error) { say('入库失败，请重试'); b.textContent = old; busy = false; return; }
-              markDone(); say('✅ ' + payload.length + ' 张卡已加入训练库队列');
+              markDone(IDS.length); say('✅ ' + payload.length + ' 张卡已加入训练库队列');
               busy = false;
             });
         })
         .catch(function () { say('网络异常，请重试'); b.textContent = old; busy = false; });
     });
-    // 初始状态探测
+    // 初始状态探测（云端读取）
     window.WB_DB.from('cards').select('card_id,tags').in('card_id', IDS)
       .then(function (r) {
         var rows = (r && r.data) || [];
-        if (rows.length && rows.every(function (row) {
-              return Array.isArray(row.tags) && row.tags.indexOf('待训练') >= 0; })) markDone();
+        var n = rows.filter(function (row) { return st(row.tags) !== 'none'; }).length;
+        if (n) markDone(n);
       }).catch(function () {});
   }
   if (dbReady()) run(); else {
@@ -2935,23 +2943,55 @@ document.addEventListener('DOMContentLoaded',function(){
 <!--MC-CARDIMG-END-->
 <!--MC-CARDTRAIN-BEGIN-->
 <script>
-/* 卡片级「加入训练 / 取消训练」：切换单张卡的「待训练」标签（幂等、可撤销） */
+/* 卡片级「加入训练 / 取消训练」：切换单张卡的训练标签（幂等、可撤销）
+   三态对齐记忆卡端生命周期：待训练 → 已入训练队列 → 已训练
+   状态来源 = 云端 cards.tags，卡片头部显示状态徽章 + 「☁️ 云端可同步」 */
 (function () {
   'use strict';
   function dbReady() { return !!(window.WB_DB && window.WB_DB.from); }
-  function hasTag(tags) { return Array.isArray(tags) && tags.indexOf('待训练') >= 0; }
+  function st(tags) {
+    var t = Array.isArray(tags) ? tags : [];
+    if (t.indexOf('已训练') >= 0) return 'trained';
+    if (t.indexOf('已入训练队列') >= 0) return 'queued';
+    if (t.indexOf('待训练') >= 0) return 'pending';
+    return 'none';
+  }
+  var TXT = { none: '🏋️ 加入训练', pending: '⏳ 待存入训练库 · 点击取消',
+              queued: '✓ 已加入训练 · 点击取消', trained: '✅ 已训练 · 点击重置' };
+  var STXT = { none: '⚪ 未加入训练', pending: '⏳ 待存入训练库',
+               queued: '✓ 已加入训练', trained: '✅ 已训练' };
   function rowPayload(row, tags) {
     return { card_id: row.card_id, subject: row.subject, chapter: row.chapter,
              signal: row.signal, conclusion: row.conclusion, orig: row.orig || '',
              src: row.src || '', link: row.link || '', note: row.note || '',
              tags: tags, updated_at: new Date().toISOString() };
   }
-  function paint(btn, on) {
-    btn.classList.toggle('on', on);
-    btn.textContent = on ? '✓ 已在训练队列 · 点击取消' : '🏋️ 加入训练';
+  function cardOf(btn) {
+    if (btn.closest) { var c = btn.closest('.mcard'); if (c) return c; }
+    var p = btn.parentNode;
+    while (p && (!p.className || String(p.className).indexOf('mcard') < 0)) p = p.parentNode;
+    return p;
+  }
+  function paint(btn, s) {
+    btn.classList.toggle('on', s !== 'none');
+    btn.textContent = TXT[s] || TXT.none;
+    var card = cardOf(btn);
+    if (card) {
+      var el = card.querySelector('.mcard-st');
+      if (el) { el.setAttribute('data-st', s); el.textContent = STXT[s] || STXT.none; }
+    }
+  }
+  function markCloud(ok) {
+    var arr = document.querySelectorAll('.mcard-cloud');
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].className = 'mcard-cloud' + (ok ? '' : ' off');
+      arr[i].textContent = ok ? '☁️ 云端可同步' : '⚠️ 云端未连接';
+    }
   }
   function bind() {
-    document.querySelectorAll('.mcard-btn[data-cid]').forEach(function (btn) {
+    markCloud(true);
+    var btns = document.querySelectorAll('.mcard-btn[data-cid]');
+    for (var i = 0; i < btns.length; i++) (function (btn) {
       if (btn.__bound) return; btn.__bound = true;
       var cidAttr = btn.getAttribute('data-cid');
       btn.addEventListener('click', function () {
@@ -2962,31 +3002,41 @@ document.addEventListener('DOMContentLoaded',function(){
             var row = r && r.data && r.data[0];
             if (!row) { btn.textContent = '卡片不在库'; btn.__busy = false; return; }
             var tags = Array.isArray(row.tags) ? row.tags.slice() : [];
-            var on = hasTag(tags);
-            if (on) tags.splice(tags.indexOf('待训练'), 1); else tags.push('待训练');
+            var s = st(tags);
+            if (s === 'none') { tags.push('待训练'); }
+            else { tags.splice(tags.indexOf(s === 'queued' ? '已入训练队列'
+                                          : (s === 'trained' ? '已训练' : '待训练')), 1); }
             return window.WB_DB.from('cards').upsert([rowPayload(row, tags)], { onConflict: 'card_id' })
               .then(function (r2) {
                 if (r2 && r2.error) { btn.textContent = old; btn.__busy = false; return; }
-                paint(btn, !on);
-                try { if (typeof toast === 'function') toast(!on ? '✅ 已加入训练队列' : '已取消训练'); } catch (e) {}
+                var ns = (s === 'none') ? 'pending' : 'none';
+                paint(btn, ns);
+                try { if (typeof toast === 'function') toast(ns === 'none' ? '已取消训练' : '✅ 已加入训练队列'); } catch (e) {}
                 btn.__busy = false;
               });
           })
           .catch(function () { btn.textContent = old; btn.__busy = false; });
       });
-    });
-    // 初始状态
-    var ids = Array.prototype.map.call(document.querySelectorAll('.mcard-btn[data-cid]'), function (b) { return b.getAttribute('data-cid'); });
+    })(btns[i]);
+    // 初始状态：云端读取
+    var ids = [];
+    for (var k = 0; k < btns.length; k++) ids.push(btns[k].getAttribute('data-cid'));
     if (!ids.length) return;
     window.WB_DB.from('cards').select('card_id,tags').in('card_id', ids)
       .then(function (r) {
         var map = {};
-        ((r && r.data) || []).forEach(function (row) { map[row.card_id] = hasTag(row.tags); });
-        document.querySelectorAll('.mcard-btn[data-cid]').forEach(function (b) { paint(b, !!map[b.getAttribute('data-cid')]); });
-      }).catch(function () {});
+        ((r && r.data) || []).forEach(function (row) { map[row.card_id] = st(row.tags); });
+        document.querySelectorAll('.mcard-btn[data-cid]').forEach(function (b) {
+          paint(b, map[b.getAttribute('data-cid')] || 'none');
+        });
+      }).catch(function () { markCloud(false); });
   }
   if (dbReady()) bind();
-  else { var t = 0, iv = setInterval(function () { if (dbReady() || ++t > 40) { clearInterval(iv); if (dbReady()) bind(); } }, 250); }
+  else {
+    var t = 0, iv = setInterval(function () {
+      if (dbReady() || ++t > 40) { clearInterval(iv); if (dbReady()) bind(); else markCloud(false); }
+    }, 250);
+  }
 })();
 </script>
 <!--MC-CARDTRAIN-END-->
