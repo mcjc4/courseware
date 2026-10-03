@@ -73,6 +73,12 @@
   }
 
   /* ---------- 2) 翻译层 ---------- */
+  // 知识页 Supabase 表名 → WB Cloud 表名 映射（同源 jikaka-memory 后端）
+  //   tape_stats → knowledge  (导航统计：fig_id 主键)
+  //   tape_state → tape_state (胶带遮盖上 layered 状态：fig_id 主键, state jsonb)
+  // 课件库表(course_stats/course_notes)不在此映射，走原 courseware 逻辑
+  var KNOWLEDGE_TABLE_MAP = { tape_stats: 'knowledge', tape_state: 'tape_state' };
+
   function waitWbReady(ms) {
     ms = ms || 12000;
     return new Promise(function (resolve) {
@@ -115,12 +121,15 @@
     else showCloudBadge('err', status === 500 ? 'WB Cloud 拒绝写入' : 'WB Cloud 未就绪');
   }
 
-  // 把 supabase REST 查询串解析成 WB Cloud 构造器参数
+  // 解析 supabase REST 查询串 → WB Cloud 构造器参数
+  // 2026-09-24：新增 on_conflict 参数识别（如 ?on_conflict=card_id），
+  //   该参数不是过滤条件，必须从 eqs 中剔除，否则 upsert 语义错误。
   function parseQuery(search) {
-    var cols = '*', eqs = [], order = null, limit = null;
+    var cols = '*', eqs = [], order = null, limit = null, onConflict = null;
     var params = new URLSearchParams(search);
     params.forEach(function (val, key) {
       if (key === 'select') { cols = val; }
+      else if (key === 'on_conflict') { onConflict = val; }
       else if (key === 'order') { var a = val.split('.'); order = { col: a[0], asc: a[1] !== 'desc' }; }
       else if (key === 'limit') { limit = parseInt(val, 10) || null; }
       else {
@@ -129,7 +138,7 @@
         else { eqs.push({ col: key, op: 'eq', val: val }); }
       }
     });
-    return { cols: cols, eqs: eqs, order: order, limit: limit };
+    return { cols: cols, eqs: eqs, order: order, limit: limit, onConflict: onConflict };
   }
 
   function applyFilters(qb, eqs, order, limit) {
@@ -152,13 +161,15 @@
     var m = u.pathname.match(/\/rest\/v1\/([^?/]+)/);
     if (!m) return makeResp([], 400);
     var table = m[1];
+    var wbTable = KNOWLEDGE_TABLE_MAP[table] || table;
+    var isMapped = (KNOWLEDGE_TABLE_MAP[table] != null);
     var q = parseQuery(u.search);
     var ready = await waitWbReady(12000);
     if (!ready || !window.WB_DB) return makeResp([], 502);
     var db = window.WB_DB;
     try {
       if (method === 'GET') {
-        var qb = db.from(table).select(q.cols);
+        var qb = db.from(wbTable).select(q.cols);
         qb = applyFilters(qb, q.eqs, q.order, q.limit);
         var r1 = await qb;
         if (r1.error) return makeResp([], 500);
@@ -167,14 +178,28 @@
         var rows = JSON.parse(opts.body || '[]');
         if (!Array.isArray(rows)) rows = [rows];
         var prefer = ((opts.headers && (opts.headers.Prefer || opts.headers.prefer)) || '').toString();
+        // 知识页映射表（tape_stats/tape_state）：按 fig_id 主键 upsert
+        // （Block C 的 Prefer 拼写 'merge-duplications' 不含 'merge-duplicates'，这里强制 upsert 兜底）
+        if (isMapped) {
+          var r2 = await db.from(wbTable).upsert(rows, { onConflict: 'fig_id' });
+          if (r2.error) return makeResp([], 500);
+          return makeResp(r2.data || [], 201);
+        }
         if (/merge-duplicates/.test(prefer)) {
-          // course_stats：按 course_id 一课一行 → 用 id 去重（WB Cloud upsert 按 id）
+          // 2026-09-24：优先用查询串里的 on_conflict 列做 upsert 冲突键。
+          //   cards 表主键是 card_id（课件「加入训练」写 ?on_conflict=card_id），
+          //   course_stats 无 on_conflict 参数，保持旧行为按 id 去重。
+          if (q.onConflict) {
+            var r2c = await db.from(wbTable).upsert(rows, { onConflict: q.onConflict });
+            if (r2c.error) return makeResp([], 500);
+            return makeResp(r2c.data || [], 201);
+          }
           rows.forEach(function (row) {
             if (row && row.course_id != null && row.id == null) row.id = String(row.course_id);
           });
-          var r2 = await db.from(table).upsert(rows);
-          if (r2.error) return makeResp([], 500);
-          return makeResp(r2.data || [], 201);
+          var r2b = await db.from(wbTable).upsert(rows);
+          if (r2b.error) return makeResp([], 500);
+          return makeResp(r2b.data || [], 201);
         } else {
           // course_notes：每条独立，补 id 保证可插入/可删
           rows.forEach(function (row) {
@@ -183,19 +208,19 @@
                 .filter(function (x) { return x != null; }).join('|');
             }
           });
-          var r3 = await db.from(table).insert(rows);
+          var r3 = await db.from(wbTable).insert(rows);
           if (r3.error) return makeResp([], 500);
           return makeResp(r3.data || [], 201);
         }
       } else if (method === 'DELETE') {
-        var qbd = db.from(table).delete();
+        var qbd = db.from(wbTable).delete();
         qbd = applyFilters(qbd, q.eqs, null, null);
         var r4 = await qbd;
         if (r4.error) return makeResp([], 500);
         return makeResp(r4.data || [], 200);
       } else if (method === 'PATCH' || method === 'PUT') {
         var patch = JSON.parse(opts.body || '{}');
-        var qbu = db.from(table).update(patch);
+        var qbu = db.from(wbTable).update(patch);
         qbu = applyFilters(qbu, q.eqs, null, null);
         var r5 = await qbu;
         if (r5.error) return makeResp([], 500);
@@ -4138,6 +4163,61 @@ function imgsw(btn,v){var f=btn.closest('.problem-figure');if(!f)return;
   }
   if(document.readyState!=='loading'){ addFab(); } else { document.addEventListener('DOMContentLoaded',addFab); }
 })();
+</script>
+<script data-cw-progress="1">
+/* ===== 📌 课件训练进度断点（2026-10-03 方案C：本地实时 + 云端备份） =====
+ * 与 tnav 串联导航配合：URL 带 ?tr=<序号> 且 train_group.rid 存在时，
+ * 每次打开/切课记录「该队列练到第几课」——本地 localStorage（wulun_tp_cw）
+ * + 云端 practice_sessions.progress（经 WB Cloud 适配器写入，跨设备）。
+ * app 端 startPracticeSession 课件分支读断点 → 直接跳上次练到的课。 */
+(function(){
+  'use strict';
+  if (window.__cwTp) return;
+  window.__cwTp = true;
+  var SUPA = 'https://mixuqjognbdrafrrlivc.supabase.co/rest/v1/';   /* 由 WB Cloud 适配器透明翻译 */
+  function getQ(k){
+    try{ var v = new URLSearchParams(location.search).get(k); if(v != null) return v; }catch(e){}
+    var m = location.search.match(new RegExp('[?&]' + k + '=([^&]+)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  var ti = parseInt(getQ('tr'), 10);
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var rid = getQ('q') || g.rid || null;
+  if (!rid) return;   /* 非队列串联（如门户自选课件组）不记断点 */
+  var total = g.urls.length;
+  var LS = 'wulun_tp_cw';
+
+  function localSave(rec){
+    var all = {};
+    try{ all = JSON.parse(localStorage.getItem(LS) || '{}'); }catch(e){}
+    if(rec) all[rid] = rec; else delete all[rid];
+    try{ localStorage.setItem(LS, JSON.stringify(all)); }catch(e){}
+  }
+  function cloudSave(rec){
+    /* 读-合-写：先取整行再 upsert，避免部分列被覆盖 */
+    fetch(SUPA + 'practice_sessions?rid=eq.' + encodeURIComponent(rid) + '&select=rid,title,subject,source,card_ids,new_card_ids,hit_map,browsed_at&limit=1', { headers: {'Content-Type':'application/json'} })
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(a){
+        var s = (a && a[0]) || null;
+        var row = s ? JSON.parse(JSON.stringify(s)) : { rid: rid, title: '', subject: '跨科', source: 'courseware-portal', card_ids: [], new_card_ids: [], hit_map: {} };
+        row.progress = rec;
+        row.browsed_at = new Date().toISOString();
+        return fetch(SUPA + 'practice_sessions?on_conflict=rid', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+          body: JSON.stringify([row])
+        });
+      })
+      .catch(function(){ /* 断点备份失败不影响训练 */ });
+  }
+  var rec = { kind: 'cw', idx: ti, total: total, ts: Date.now() };
+  localSave(rec);
+  cloudSave(rec);
+})();
+
 </script>
 </body>
 
