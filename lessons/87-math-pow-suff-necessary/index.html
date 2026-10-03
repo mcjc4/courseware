@@ -137,6 +137,880 @@ footer{margin-top:28px;border-top:1px solid var(--line);padding-top:14px;font-si
 @keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
 
 </style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar,#tnav-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging,#tnav-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+/* 注意：buildInline() 生成的是 class="cstat-inline"（非 ID），选择器必须用 .cstat-inline，
+   否则整块样式不生效、按钮退化成浏览器默认白底黑边（2026-09-27 事故根因） */
+.cstat-inline{margin:14px 0 6px;padding:13px 16px;border:1px solid #e3edf7;border-radius:16px;
+  background:linear-gradient(135deg,#f8fbff 0%,#eef6fd 100%);box-shadow:0 8px 22px -12px rgba(31,66,135,.35);
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+.cstat-inline .ci-t{font-size:12.5px;color:#5c7185;font-weight:700;margin-bottom:9px}
+.cstat-inline .ci-b{display:flex;gap:8px;flex-wrap:wrap}
+.cstat-inline .ci-b button{border:none;border-radius:999px;padding:7px 15px;cursor:pointer;font-size:12.5px;font-weight:700;
+  color:#fff;font-family:inherit;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px -5px rgba(31,66,135,.45)}
+.cstat-inline .ci-b button:hover{transform:translateY(-2px);box-shadow:0 8px 18px -7px rgba(31,66,135,.55)}
+.cstat-inline .ci-b button:active{transform:scale(.95)}
+.cstat-inline .ci-b button.on{outline:2.5px solid #1f2d3d;outline-offset:2px;transform:translateY(-1px)}
+.cstat-inline .ci-l1{background:linear-gradient(120deg,#f87171,#ef4444)}
+.cstat-inline .ci-l2{background:linear-gradient(120deg,#fb923c,#f97316)}
+.cstat-inline .ci-l3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+.cstat-inline .ci-l4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+.cstat-inline .ci-l5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+.cstat-inline .ci-f{font-size:11.5px;color:#7c93a9;margin-top:8px}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+/* 参看答案时内联弹出的五级自评条 */
+/* 注意：buildInline() 生成的是 class="cstat-inline"（非 ID），选择器必须用 .cstat-inline，
+   否则整块样式不生效、按钮退化成浏览器默认白底黑边（2026-09-27 事故根因） */
+.cstat-inline{margin:14px 0 6px;padding:13px 16px;border:1px solid #e3edf7;border-radius:16px;
+  background:linear-gradient(135deg,#f8fbff 0%,#eef6fd 100%);box-shadow:0 8px 22px -12px rgba(31,66,135,.35);
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+.cstat-inline .ci-t{font-size:12.5px;color:#5c7185;font-weight:700;margin-bottom:9px}
+.cstat-inline .ci-b{display:flex;gap:8px;flex-wrap:wrap}
+.cstat-inline .ci-b button{border:none;border-radius:999px;padding:7px 15px;cursor:pointer;font-size:12.5px;font-weight:700;
+  color:#fff;font-family:inherit;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px -5px rgba(31,66,135,.45)}
+.cstat-inline .ci-b button:hover{transform:translateY(-2px);box-shadow:0 8px 18px -7px rgba(31,66,135,.55)}
+.cstat-inline .ci-b button:active{transform:scale(.95)}
+.cstat-inline .ci-b button.on{outline:2.5px solid #1f2d3d;outline-offset:2px;transform:translateY(-1px)}
+.cstat-inline .ci-l1{background:linear-gradient(120deg,#f87171,#ef4444)}
+.cstat-inline .ci-l2{background:linear-gradient(120deg,#fb923c,#f97316)}
+.cstat-inline .ci-l3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+.cstat-inline .ci-l4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+.cstat-inline .ci-l5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+.cstat-inline .ci-f{font-size:11.5px;color:#7c93a9;margin-top:8px}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+/* ===== 页面加宽（参考 0926 互动课件模板 .cw=1200/1400/1600） ===== */
+.container{max-width:1200px !important}
+@media(min-width:1400px){ .container{max-width:1400px !important} }
+@media(min-width:1800px){ .container{max-width:1600px !important} }
+
+/* ===== 原题图双版本 tab（原题图 / 去手写版） ===== */
+.prob-img-tabs{display:flex;gap:8px;margin:6px 0 2px}
+.prob-tab{border:1px solid #dbe4ee;background:#fff;color:#5c7185;padding:5px 16px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;font-family:inherit}
+.prob-tab:hover{border-color:#3b82f6;color:#3b82f6}
+.prob-tab.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.prob-img{border:1.5px dashed #dbe4ee;border-radius:14px;background:#fafbff;overflow:hidden;position:relative;outline:none;margin:10px 0 2px}
+.prob-img:focus{border-color:#3b82f6}
+.prob-img.dragover{border-color:#3b82f6;background:#eff6ff}
+.prob-img-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px dashed #dbe4ee;font-size:12px;color:#5c7185}
+.prob-img-head b{color:#1f2d3d}
+.prob-img-btn{margin-left:auto;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid #3b82f6;background:#fff;color:#3b82f6;cursor:pointer;font-family:inherit;transition:all .15s}
+.prob-img-btn:hover{background:#eff6ff}
+.prob-img-btn.danger{border-color:#ef4444;color:#ef4444;background:#fff}
+.prob-img-btn.danger:hover{background:#fef2f2}
+.prob-img-body{min-height:120px;position:relative;display:flex;align-items:center;justify-content:center}
+.prob-img-empty{color:#93a7ba;text-align:center;font-size:13px;line-height:1.7;padding:22px}
+.prob-img-empty svg{margin:0 auto 8px;display:block;opacity:.5}
+.prob-img-img{max-width:100%;max-height:520px;display:block;margin:0 auto;padding:10px;box-sizing:border-box}
+.prob-img-note{margin-top:4px;font-size:12px;color:#93a7ba}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+/* 参看答案时内联弹出的五级自评条 */
+/* 注意：buildInline() 生成的是 class="cstat-inline"（非 ID），选择器必须用 .cstat-inline，
+   否则整块样式不生效、按钮退化成浏览器默认白底黑边（2026-09-27 事故根因） */
+.cstat-inline{margin:14px 0 6px;padding:13px 16px;border:1px solid #e3edf7;border-radius:16px;
+  background:linear-gradient(135deg,#f8fbff 0%,#eef6fd 100%);box-shadow:0 8px 22px -12px rgba(31,66,135,.35);
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+.cstat-inline .ci-t{font-size:12.5px;color:#5c7185;font-weight:700;margin-bottom:9px}
+.cstat-inline .ci-b{display:flex;gap:8px;flex-wrap:wrap}
+.cstat-inline .ci-b button{border:none;border-radius:999px;padding:7px 15px;cursor:pointer;font-size:12.5px;font-weight:700;
+  color:#fff;font-family:inherit;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px -5px rgba(31,66,135,.45)}
+.cstat-inline .ci-b button:hover{transform:translateY(-2px);box-shadow:0 8px 18px -7px rgba(31,66,135,.55)}
+.cstat-inline .ci-b button:active{transform:scale(.95)}
+.cstat-inline .ci-b button.on{outline:2.5px solid #1f2d3d;outline-offset:2px;transform:translateY(-1px)}
+.cstat-inline .ci-l1{background:linear-gradient(120deg,#f87171,#ef4444)}
+.cstat-inline .ci-l2{background:linear-gradient(120deg,#fb923c,#f97316)}
+.cstat-inline .ci-l3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+.cstat-inline .ci-l4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+.cstat-inline .ci-l5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+.cstat-inline .ci-f{font-size:11.5px;color:#7c93a9;margin-top:8px}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+/* ===== 页面加宽（参考 0926 互动课件模板 .cw=1200/1400/1600） ===== */
+.container{max-width:1200px !important}
+@media(min-width:1400px){ .container{max-width:1400px !important} }
+@media(min-width:1800px){ .container{max-width:1600px !important} }
+/* 页头标题块与下方卡片左缘对齐：容器 max-width 减去自身 32px 内边距 */
+.header-inner{max-width:1168px !important}
+@media(min-width:1400px){ .header-inner{max-width:1368px !important} }
+@media(min-width:1800px){ .header-inner{max-width:1568px !important} }
+
+/* ===== 原题图双版本 tab（原题图 / 去手写版） ===== */
+.prob-img-tabs{display:flex;gap:8px;margin:6px 0 2px}
+.prob-tab{border:1px solid #dbe4ee;background:#fff;color:#5c7185;padding:5px 16px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;font-family:inherit}
+.prob-tab:hover{border-color:#3b82f6;color:#3b82f6}
+.prob-tab.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.prob-img{border:1.5px dashed #dbe4ee;border-radius:14px;background:#fafbff;overflow:hidden;position:relative;outline:none;margin:10px 0 2px}
+.prob-img:focus{border-color:#3b82f6}
+.prob-img.dragover{border-color:#3b82f6;background:#eff6ff}
+.prob-img-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px dashed #dbe4ee;font-size:12px;color:#5c7185}
+.prob-img-head b{color:#1f2d3d}
+.prob-img-btn{margin-left:auto;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid #3b82f6;background:#fff;color:#3b82f6;cursor:pointer;font-family:inherit;transition:all .15s}
+.prob-img-btn:hover{background:#eff6ff}
+.prob-img-btn.danger{border-color:#ef4444;color:#ef4444;background:#fff}
+.prob-img-btn.danger:hover{background:#fef2f2}
+.prob-img-body{min-height:120px;position:relative;display:flex;align-items:center;justify-content:center}
+.prob-img-empty{color:#93a7ba;text-align:center;font-size:13px;line-height:1.7;padding:22px}
+.prob-img-empty svg{margin:0 auto 8px;display:block;opacity:.5}
+.prob-img-img{max-width:100%;max-height:520px;display:block;margin:0 auto;padding:10px;box-sizing:border-box}
+.prob-img-note{margin-top:4px;font-size:12px;color:#93a7ba}
+
+</style>
+<style>
+
+#cstat-bar{position:fixed;right:14px;bottom:14px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+.cbar .clab{color:#5c7185;font-weight:700;cursor:pointer;user-select:none}
+.cbar .cbtn{display:inline-block}
+.cbar.collapsed .cbtn{display:none}
+#cstat-bar.collapsed #cstat-counts{display:none}
+#cstat-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#cstat-bar button:hover{transform:translateY(-1px);opacity:.92}
+#cstat-bar button:active{transform:scale(.95)}
+#cstat-bar .csk{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar .cfz{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cfg{background:linear-gradient(120deg,#f87171,#ef4444)}
+/* 五级自评（2026-09-27）：对齐记忆卡「完全不记得→完全记住」 */
+#cstat-bar .cl1{background:linear-gradient(120deg,#f87171,#ef4444)}
+#cstat-bar .cl2{background:linear-gradient(120deg,#fb923c,#f97316)}
+#cstat-bar .cl3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+#cstat-bar .cl4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+#cstat-bar .cl5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+#cstat-bar button.on{outline:2px solid #1f2d3d;outline-offset:1px}
+#cstat-counts{color:#5c7185;font-size:11px;white-space:nowrap}
+/* 参看答案时内联弹出的五级自评条 */
+/* 注意：buildInline() 生成的是 class="cstat-inline"（非 ID），选择器必须用 .cstat-inline，
+   否则整块样式不生效、按钮退化成浏览器默认白底黑边（2026-09-27 事故根因） */
+.cstat-inline{margin:14px 0 6px;padding:13px 16px;border:1px solid #e3edf7;border-radius:16px;
+  background:linear-gradient(135deg,#f8fbff 0%,#eef6fd 100%);box-shadow:0 8px 22px -12px rgba(31,66,135,.35);
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+.cstat-inline .ci-t{font-size:12.5px;color:#5c7185;font-weight:700;margin-bottom:9px}
+.cstat-inline .ci-b{display:flex;gap:8px;flex-wrap:wrap}
+.cstat-inline .ci-b button{border:none;border-radius:999px;padding:7px 15px;cursor:pointer;font-size:12.5px;font-weight:700;
+  color:#fff;font-family:inherit;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px -5px rgba(31,66,135,.45)}
+.cstat-inline .ci-b button:hover{transform:translateY(-2px);box-shadow:0 8px 18px -7px rgba(31,66,135,.55)}
+.cstat-inline .ci-b button:active{transform:scale(.95)}
+.cstat-inline .ci-b button.on{outline:2.5px solid #1f2d3d;outline-offset:2px;transform:translateY(-1px)}
+.cstat-inline .ci-l1{background:linear-gradient(120deg,#f87171,#ef4444)}
+.cstat-inline .ci-l2{background:linear-gradient(120deg,#fb923c,#f97316)}
+.cstat-inline .ci-l3{background:linear-gradient(120deg,#f7b84f,#f59e0b)}
+.cstat-inline .ci-l4{background:linear-gradient(120deg,#38bdf8,#0ea5e9)}
+.cstat-inline .ci-l5{background:linear-gradient(120deg,#22c3a6,#57d98d)}
+.cstat-inline .ci-f{font-size:11.5px;color:#7c93a9;margin-top:8px}
+#cstat-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-flash.show,#crate-flash.show{opacity:1}
+#crate-bar{position:fixed;right:14px;bottom:64px;z-index:99990;display:flex;gap:7px;align-items:center;
+  background:rgba(255,255,255,.96);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;flex-wrap:wrap;max-width:calc(100vw - 28px)}
+#crate-bar button{border:none;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:inherit;transition:transform .12s}
+#crate-bar button:hover{transform:translateY(-1px);opacity:.92}
+#crate-bar button:active{transform:scale(.95)}
+#crate-bar .crg{background:linear-gradient(120deg,#34a853,#57d98d)}
+#crate-bar .crh{background:linear-gradient(120deg,#a78bfa,#7c6cf0)}
+#crate-bar .crt{background:linear-gradient(120deg,#f0846c,#e8604c)}
+#crate-flash{position:absolute;right:10px;bottom:calc(100% + 8px);background:#1f2d3d;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#cstat-bar,#crate-bar{cursor:grab;user-select:none;-webkit-user-select:none}
+#cstat-bar.bar-dragging,#crate-bar.bar-dragging{cursor:grabbing;opacity:.88;box-shadow:0 18px 44px -12px rgba(31,66,135,.65);transition:none}
+#tnav-bar{cursor:default;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){ #cstat-bar.collapsed .clab,#crate-bar.collapsed .clab{font-size:13px} }
+#tnav-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:99990;display:flex;gap:8px;align-items:center;
+  background:rgba(255,255,255,.97);border:1px solid #d6e4f2;border-radius:999px;padding:6px 12px;
+  box-shadow:0 10px 28px -10px rgba(31,66,135,.4);font-family:'PingFang SC','Microsoft YaHei',sans-serif;font-size:12px;max-width:calc(100vw - 200px)}
+#tnav-tag{color:#3b6cb4;font-weight:700;white-space:nowrap}
+#tnav-bar a,#tnav-bar .tnav-off{text-decoration:none;color:#1f2d3d;font-weight:600;padding:4px 12px;border-radius:999px;white-space:nowrap}
+#tnav-bar a{background:#f0f6ff;cursor:pointer}
+#tnav-bar a:hover{background:#dbeafe}
+#tnav-bar .tnav-off{opacity:.35;cursor:not-allowed}
+#tnav-pos{color:#5c7185;font-weight:700;white-space:nowrap}
+#tnav-exit{color:#9db0c4;cursor:pointer;padding:2px 6px}
+#tnav-exit:hover{color:#ef4444}
+@media (max-width:900px){ #tnav-bar{bottom:64px;max-width:calc(100vw - 24px);flex-wrap:wrap;border-radius:16px;justify-content:center} }
+#cnotePill{position:fixed;right:14px;bottom:150px;z-index:900;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#8b5cf6,#4f8ef7);padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(90,70,220,.55);font-family:inherit;touch-action:none;user-select:none;}
+#cnotePill.drag{opacity:.85;transform:scale(1.04);}
+#cnotePop{display:none;position:fixed;right:14px;bottom:200px;z-index:901;width:300px;max-width:92vw;background:#fff;border:1px solid #e3edf7;border-radius:16px;box-shadow:0 18px 44px -12px rgba(31,66,135,.3);padding:14px;font-family:inherit;}
+#cnotePop.open{display:block;}
+.cp-head{font-size:13px;font-weight:600;color:#1f2d3d;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.cp-x{cursor:pointer;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;background:#eef4fb;color:#41546e;}
+.cp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.cp-tag{padding:5px 11px;border:1.5px solid #d6e4f2;border-radius:999px;font-size:12.5px;color:#1f2d3d;background:#f8fbff;cursor:pointer;user-select:none;}
+.cp-tag.on{border-color:#4f8ef7;background:#e8f1ff;color:#1d4ed8;}
+.cp-tag.done{opacity:.45;border-color:#22c3a6;background:#ecfdf6;color:#1a9e7a;}
+.cp-tip{font-size:11px;color:#93a7ba;margin:-4px 0 8px;}
+#cnoteTxt{width:100%;box-sizing:border-box;padding:8px 10px;border:1.5px solid #d6e4f2;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:10px;}
+.cp-foot{display:flex;justify-content:space-between;align-items:center;}
+.cp-cnt{font-size:11.5px;color:#93a7ba;}
+#cnoteSave{border:none;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(120deg,#4f8ef7,#22c3a6);padding:7px 16px;border-radius:999px;font-family:inherit;}
+#cnoteSave:disabled{opacity:.6;}
+.cp-hist{margin-top:8px;font-size:11.5px;color:#93a7ba;}
+#cnotePill.blink{animation-name:cpulse;animation-duration:var(--blink-int,20s);animation-iteration-count:infinite;}
+@keyframes cpulse{0%{box-shadow:0 0 0 5px rgba(239,68,68,.45),0 0 18px rgba(239,68,68,.75),0 8px 20px -8px rgba(220,38,38,.6);}16%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}100%{box-shadow:0 8px 20px -8px rgba(90,70,220,.55);}}
+
+/* ===== 页面加宽（参考 0926 互动课件模板 .cw=1200/1400/1600） ===== */
+.container{max-width:1200px !important}
+@media(min-width:1400px){ .container{max-width:1400px !important} }
+@media(min-width:1800px){ .container{max-width:1600px !important} }
+/* 页头标题块与下方卡片左缘对齐：容器实际宽 = min(85vw, max-width)，页头 padding 16px×2 补偿 → 减 32px */
+.header-inner{width:calc(85vw - 32px) !important;max-width:1168px !important;margin:0 auto}
+@media(min-width:1400px){ .header-inner{max-width:1368px !important} }
+@media(min-width:1800px){ .header-inner{max-width:1568px !important} }
+
+/* ===== 原题图双版本 tab（原题图 / 去手写版） ===== */
+.prob-img-tabs{display:flex;gap:8px;margin:6px 0 2px}
+.prob-tab{border:1px solid #dbe4ee;background:#fff;color:#5c7185;padding:5px 16px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;font-family:inherit}
+.prob-tab:hover{border-color:#3b82f6;color:#3b82f6}
+.prob-tab.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.prob-img{border:1.5px dashed #dbe4ee;border-radius:14px;background:#fafbff;overflow:hidden;position:relative;outline:none;margin:10px 0 2px}
+.prob-img:focus{border-color:#3b82f6}
+.prob-img.dragover{border-color:#3b82f6;background:#eff6ff}
+.prob-img-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px dashed #dbe4ee;font-size:12px;color:#5c7185}
+.prob-img-head b{color:#1f2d3d}
+.prob-img-btn{margin-left:auto;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid #3b82f6;background:#fff;color:#3b82f6;cursor:pointer;font-family:inherit;transition:all .15s}
+.prob-img-btn:hover{background:#eff6ff}
+.prob-img-btn.danger{border-color:#ef4444;color:#ef4444;background:#fff}
+.prob-img-btn.danger:hover{background:#fef2f2}
+.prob-img-body{min-height:120px;position:relative;display:flex;align-items:center;justify-content:center}
+.prob-img-empty{color:#93a7ba;text-align:center;font-size:13px;line-height:1.7;padding:22px}
+.prob-img-empty svg{margin:0 auto 8px;display:block;opacity:.5}
+.prob-img-img{max-width:100%;max-height:520px;display:block;margin:0 auto;padding:10px;box-sizing:border-box}
+.prob-img-note{margin-top:4px;font-size:12px;color:#93a7ba}
+
+</style>
 </head>
 <body>
 <nav class="header">
@@ -170,13 +1044,13 @@ footer{margin-top:28px;border-top:1px solid var(--line);padding-top:14px;font-si
 <div class="opt" data-k="D"><span class="optk">D</span><span class="optt">既不充分也不必要条件</span></div>
 </div>
 <div class="verdict" id="v-q01"></div>
-<details class="ana"><summary>📖 查看分步解析</summary><ol class="steps">
+<details class="orig" open><summary>📎 原题图</summary><img loading="lazy" src="data:image/jpeg;base64,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" alt="题1原题图"></details>
+<details class="ana"><summary>📖 查看答案以及解析</summary><ol class="steps">
 <li>幂函数 $x^{\alpha}$：$\alpha>0$ 时在 $(0,+\infty)$ 上递增；$\alpha<0$ 时定义域为 $(0,+\infty)$ 且单调递减；$\alpha=0$ 为常函数。</li>
 <li>正向（充分性）：$\alpha<0 \Rightarrow f(x)$ 在定义域内单调递减 ✓</li>
 <li>反向（必要性）：在定义域内单调递减的幂函数指数必为负 $\Rightarrow \alpha<0$ ✓</li>
 <li>前后互推都成立，是充要条件。</li>
 </ol><div class="ansbox"><span class="anslabel">答案</span>选 C</div>
-<details class="orig"><summary>📎 原题图</summary><img loading="lazy" src="data:image/jpeg;base64,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" alt="题1原题图"></details>
 </details>
 </section>
 <footer>
@@ -233,6 +1107,31 @@ window.addEventListener('DOMContentLoaded',function(){
   try{renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}catch(e){console.warn('katex',e);}
 });
 </script>
+
+
+<!-- mc-fit 0926 boot -->
+<script src="../../mcfit/boot-0926.js"></script>
+
+<script src="../../inter/cfg-0926.js?v=0926d"></script>
+<script src="../../inter/inter.js?v=0926d"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--COURSEWARE-FEAT-BEGIN-->
 
 <div id="crate-bar" class="cbar collapsed" title="课件评价：这套课件质量如何">
@@ -242,11 +1141,13 @@ window.addEventListener('DOMContentLoaded',function(){
   <button type="button" id="crate-teach" class="crt cbtn">🗣️ 没老师讲的好</button>
   <span id="crate-flash"></span>
 </div>
-<div id="cstat-bar" class="cbar collapsed" title="学习自评：点击累计计数">
+<div id="cstat-bar" class="cbar collapsed" title="学习自评（记忆卡五级）：展开「参看答案」时会自动弹出">
   <span id="cstat-label" class="clab">📋 自评</span>
-  <button type="button" id="cstat-sk" class="csk cbtn">✅ 答对</button>
-  <button type="button" id="cstat-fz" class="cfz cbtn">🟡 部分对</button>
-  <button type="button" id="cstat-fg" class="cfg cbtn">❌ 答错</button>
+  <button type="button" id="cstat-l1" class="cl1 cbtn">😶 完全不记得</button>
+  <button type="button" id="cstat-l2" class="cl2 cbtn">😯 勉强记得一点</button>
+  <button type="button" id="cstat-l3" class="cl3 cbtn">🤔 记得一半左右</button>
+  <button type="button" id="cstat-l4" class="cl4 cbtn">😊 记得大部分</button>
+  <button type="button" id="cstat-l5" class="cl5 cbtn">🎯 完全记住</button>
   <span id="cstat-counts"></span>
   <span id="cstat-flash"></span>
 </div>
@@ -259,36 +1160,93 @@ window.addEventListener('DOMContentLoaded',function(){
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
   var RATE_KEY  = 'crate:' + CID;
+  var LV_LABEL = {1:'😶 完全不记得', 2:'😯 勉强记得一点', 3:'🤔 记得一半左右', 4:'😊 记得大部分', 5:'🎯 完全记住'};
   function readS(){ try{ return JSON.parse(localStorage.getItem(CSTAT_KEY))||{}; }catch(e){ return {}; } }
   function readR(){ try{ return JSON.parse(localStorage.getItem(RATE_KEY))||{}; }catch(e){ return {}; } }
-  function record(state){
+  /* 当前五级状态。兼容 2026-09-27 之前的三态旧数据（skilled/fuzzy/forgot） */
+  function curLevel(){
     var s = readS();
-    s[state] = (s[state]||0)+1;
-    var reset = false;
-    if(state === 'skilled'){ if(s.fuzzy||s.forgot){ s.fuzzy = 0; s.forgot = 0; reset = true; } }
+    if (s.level) return +s.level;
+    if (s.skilled) return 5;
+    if (s.fuzzy) return 3;
+    if (s.forgot) return 1;
+    return 0;
+  }
+  function record(level){
+    var s = readS();
+    if (!s.lv) s.lv = {};
+    s.lv[level] = (s.lv[level]||0)+1;
+    s.level = +level;
     s.ts = Date.now();
     try{ localStorage.setItem(CSTAT_KEY, JSON.stringify(s)); }catch(e){}
     try{ localStorage.setItem('cvisit:' + CID, JSON.stringify({ ts: Date.now() })); }catch(e){}
     window.dispatchEvent(new CustomEvent('cstat:change'));
     render();
-    return reset;
+    return s.lv[level];
   }
   window.__recordCourseState = record;
+  window.__courseLevel = curLevel;
   function render(){
-    var s = readS();
+    var lv = curLevel();
     var el = document.getElementById('cstat-counts');
-    if (el) el.textContent = '✅'+(s.skilled||0)+' · 🟡'+(s.fuzzy||0)+' · ❌'+(s.forgot||0);
+    if (el) el.textContent = lv ? ('当前 ' + LV_LABEL[lv]) : '未自评';
+    var bar = document.getElementById('cstat-bar');
+    if (bar) for (var i=1;i<=5;i++){
+      var b = document.getElementById('cstat-l'+i);
+      if (b) b.classList.toggle('on', i === lv);
+    }
+    var inls = document.querySelectorAll('.cstat-inline');
+    for (var k=0;k<inls.length;k++){
+      for (var j=1;j<=5;j++){
+        var ib = inls[k].querySelector('.ci-l'+j);
+        if (ib) ib.classList.toggle('on', j === lv);
+      }
+    }
   }
+  /* 看答案时内联弹出的五级自评条：挂在每道题的答案框之后，details.ana 展开才出现 */
+  function buildInline(){
+    var qs = document.querySelectorAll('section.qcard');
+    [].forEach.call(qs, function(qc){
+      if (qc.querySelector('.cstat-inline')) return;
+      var box = document.createElement('div');
+      box.className = 'cstat-inline';
+      box.style.display = 'none';
+      var h = '<div class="ci-t">这题记住了吗？给个五级自评（同步到记忆卡训练库）</div><div class="ci-b">';
+      for (var i=1;i<=5;i++) h += '<button type="button" class="ci-l'+i+'" data-lv="'+i+'">'+LV_LABEL[i]+'</button>';
+      h += '</div><div class="ci-f"></div>';
+      box.innerHTML = h;
+      var ans = qc.querySelector('.ansbox');
+      if (ans && ans.parentNode) ans.parentNode.insertBefore(box, ans.nextSibling);
+      else qc.appendChild(box);
+      [].forEach.call(box.querySelectorAll('button'), function(b){
+        b.addEventListener('click', function(e){
+          e.stopPropagation();
+          var lv = +b.getAttribute('data-lv');
+          var n = record(lv);
+          var f = box.querySelector('.ci-f');
+          if (f) f.textContent = '已记录 ' + LV_LABEL[lv] + '（第 ' + n + ' 次）· 训练库完成度已更新';
+          flash('📋 已自评：' + LV_LABEL[lv]);
+          openBar();
+        });
+      });
+      var d = qc.querySelector('details.ana');
+      if (d) d.addEventListener('toggle', function(){
+        if (d.open){ box.style.display = ''; openBar(); flash('📋 看答案了，顺手打个五级自评'); }
+        else box.style.display = 'none';
+      });
+    });
+  }
+  function openBar(){ var b = document.getElementById('cstat-bar'); if (b) b.classList.remove('collapsed'); }
   function flash(msg){
     var el = document.getElementById('cstat-flash'); if (!el) return;
     el.textContent = msg; el.classList.add('show'); clearTimeout(flash._t);
     flash._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
   }
-  function bind(id, state, label, extra){
+  function bind(id, level, label){
     var b = document.getElementById(id); if (!b) return;
     b.addEventListener('click', function(e){ e.stopPropagation();
-      var reset = record(state); var n = readS()[state]||0;
-      flash(label+' ×'+n+' 已记录' + (extra && reset ? extra : ''));
+      var n = record(level);
+      flash(label+' ×'+n+' 已记录');
     });
   }
   // 评价课件：写入本地 crate:<CID> 并触发云端上报（菜单不显示计数）
@@ -308,14 +1266,17 @@ window.addEventListener('DOMContentLoaded',function(){
     lab.addEventListener('click', function(e){ e.stopPropagation(); bar.classList.toggle('collapsed'); });
   }
   function init(){
-    bind('cstat-sk','skilled','✅ 答对','（部分对/答错已清零）');
-    bind('cstat-fz','fuzzy','🟡 部分对');
-    bind('cstat-fg','forgot','❌ 答错');
+    bind('cstat-l1',1,LV_LABEL[1]);
+    bind('cstat-l2',2,LV_LABEL[2]);
+    bind('cstat-l3',3,LV_LABEL[3]);
+    bind('cstat-l4',4,LV_LABEL[4]);
+    bind('cstat-l5',5,LV_LABEL[5]);
     rateLocal('crate-good','good','👍 好');
     rateLocal('crate-hard','hard','📕 课件不好懂');
     rateLocal('crate-teach','teach','🗣️ 没老师讲的好');
     bindToggle('cstat-bar','cstat-label');
     bindToggle('crate-bar','crate-label');
+    buildInline();
     render();
   }
   document.addEventListener('click', function(e){
@@ -333,145 +1294,202 @@ window.addEventListener('DOMContentLoaded',function(){
   if (!CM || !CM.id) return;
   var CID = CM.id;
   var CSTAT_KEY = 'cstat:' + CID;
-  var CRATE_KEY = 'crate:' + CID;
-  var CVISIT_KEY = 'cvisit:' + CID;
-  var SYNC_KEY  = 'csync:' + CID;
-  var AUTO_KEY  = 'course_auto_sync';
-  var CFG_KEY   = 'course_cloud_cfg';
-  var DEFAULT_CLOUD = { url: 'https://mixuqjognbdrafrrlivc.supabase.co', key: 'sb_publishable_D0ha7g4X4LutG-3hxCguSA_pwyQLrVX' };
-  var STATS_TABLE = 'course_stats';
+  var SYNC_KEY  = 'ctsync:' + CID;
+  /* 2026-09-27：自评由「三态 · 旧 Supabase course_stats」升级为「记忆卡五级 · WB Cloud course_train」。
+     旧 Supabase(mixuqjognbdrafrrlivc) 实测已不可达，其 course_stats / course_notes 上报全部停用，
+     避免每 5s 轮询 + WebSocket 重连拖慢页面。 */
+  var WB_CFG = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
+  };
+  var db = null, sdkTried = false;
   function readJSON(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return (v==null)?def:v; }catch(e){ return def; } }
   function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
-  function cloudCfg(){ var c = readJSON(CFG_KEY, null); if (c && c.url && c.key && c.url.indexOf('vajgltnfpdjpnsoknoma') < 0) return c; return DEFAULT_CLOUD; }
-  function autoOn(){ try{ return localStorage.getItem(AUTO_KEY) !== '0'; }catch(e){ return true; } }
-  // 仅上报课件页 UI 可改的字段：自评(cstat) + 评价(crate)。redo/notes 由门户/笔记脚本各自维护，避免回写覆盖。
-  function compute(){
-    var s = readJSON(CSTAT_KEY, {});
-    var r = readJSON(CRATE_KEY, {});
-    return { skilled:s.skilled||0, fuzzy:s.fuzzy||0, forgot:s.forgot||0,
-             rg: r.good||0, rh: r.hard||0, rt: r.teach||0 };
+  function loadSdk(cb){
+    if (db) return cb(db);
+    if (typeof WorkBuddyCloud !== 'undefined'){
+      try { db = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: WB_CFG.endpoint, publishableKey: WB_CFG.publishableKey }).database; } catch(e){ db = null; }
+      return cb(db);
+    }
+    if (sdkTried) return cb(null);
+    sdkTried = true;
+    /* 2026-09-27：SDK 本地化优先（境外 CDN 偶发不可达），CDN 兜底 */
+    var srcs = ['../../../vendor/wbcloud-sdk.js',
+                'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+                'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'];
+    var i = 0;
+    (function next(){
+      if (typeof WorkBuddyCloud !== 'undefined'){
+        try { db = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: WB_CFG.endpoint, publishableKey: WB_CFG.publishableKey }).database; } catch(e){ db = null; }
+        return cb(db);
+      }
+      if (i >= srcs.length) return cb(null);
+      var s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = next; s.onerror = next;
+      (document.head || document.documentElement).appendChild(s);
+    })();
   }
-  var syncBase = readJSON(SYNC_KEY, {skilled:0,fuzzy:0,forgot:0,rg:0,rh:0,rt:0});
-  var lastLocal = '', lastCloud = '', cloudTimer = null, inFlight = false, rtAlive = false;
-  function fetchCloudRow(cfg, cb){
-    try {
-      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
-      var u = cfg.url.replace(/\/+$/,'') + '/rest/v1/' + STATS_TABLE + '?course_id=eq.' + encodeURIComponent(CID) + '&select=*';
-      var req = { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } };
-      if (ctl) { req.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 5000); }
-      fetch(u, req).then(function(r){ return r.json(); }).then(function(j){
-        if (timer) clearTimeout(timer); cb(Array.isArray(j) && j.length ? j[0] : null);
-      }).catch(function(){ if (timer) clearTimeout(timer); cb(null); });
-    } catch(e){ cb(null); }
-  }
-  function refreshFromCloud(){ if (!autoOn()) return; var cfg = cloudCfg(); fetchCloudRow(cfg, function(row){ if(row) saveJSON('ccloud:'+CID, row); }); }
-  function report(){
-    var s = compute(); var snap = JSON.stringify(s);
-    if (snap !== lastLocal){ lastLocal = snap; try{ localStorage.setItem(CSTAT_KEY, JSON.stringify({ skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, ts:Date.now() })); }catch(e){} }
-    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    if (!vt){ vt = Date.now(); try{ localStorage.setItem(CVISIT_KEY, JSON.stringify({ts:vt})); }catch(e){} }
-    if (snap !== lastCloud && autoOn()){ lastCloud = snap; clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 3000); }
-  }
-  function pushCloud(){
-    if (inFlight){ setTimeout(pushCloud, 1500); return; } inFlight = true;
-    var s = compute(); var cfg = cloudCfg();
-    var vt = 0; try{ var v = readJSON(CVISIT_KEY, null); if (v && v.ts) vt = v.ts; }catch(e){}
-    fetchCloudRow(cfg, function(row){
-      var base = row || {};
-      var d = { skilled: s.skilled - syncBase.skilled, fuzzy: s.fuzzy - syncBase.fuzzy, forgot: s.forgot - syncBase.forgot,
-                rg: s.rg - syncBase.rg, rh: s.rh - syncBase.rh, rt: s.rt - syncBase.rt };
-      var newSync = { skilled:s.skilled, fuzzy:s.fuzzy, forgot:s.forgot, rg:s.rg, rh:s.rh, rt:s.rt };
-      var payload = {
-        course_id: CID,
-        skilled: (base.skilled||0) + d.skilled,
-        fuzzy:   (base.fuzzy||0) + d.fuzzy,
-        forgot:  (base.forgot||0) + d.forgot,
-        rating_good:  (base.rating_good||0) + d.rg,
-        rating_hard:  (base.rating_hard||0) + d.rh,
-        rating_teach: (base.rating_teach||0) + d.rt,
-        updated_at: new Date().toISOString(),
-        last_visit: vt ? new Date(vt).toISOString() : null
-      };
-      var ctl = null, timer = null; try { ctl = new AbortController(); } catch(e){}
-      var opts = { method:'POST', headers:{ apikey:cfg.key, Authorization:'Bearer '+cfg.key, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify([payload]) };
-      if (ctl){ opts.signal = ctl.signal; timer = setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, 8000); }
-      fetch(cfg.url.replace(/\/+$/, '') + '/rest/v1/' + STATS_TABLE, opts)
-        .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); saveJSON(SYNC_KEY, newSync); syncBase = newSync; })
-        .catch(function(){})
-        .then(function(){ if (timer) clearTimeout(timer); inFlight = false; });
+  function title(){ var h = document.querySelector('.header h1'); return h ? h.textContent.trim() : CID; }
+  function subject(){ var t = document.querySelector('.tag.t-sub'); return t ? t.textContent.trim() : ''; }
+  function level(){ try { return window.__courseLevel ? window.__courseLevel() : (readJSON(CSTAT_KEY,{}).level || 0); } catch(e){ return 0; } }
+  var lastPushed = null, timer = null;
+  function push(){
+    var lv = level(); if (!lv) return;
+    var snap = String(lv);
+    if (snap === lastPushed) return;
+    loadSdk(function(d){
+      if (!d){ saveJSON(SYNC_KEY, {level: lv, state: 'offline', ts: Date.now()}); return; }
+      try {
+        d.from('course_train').upsert({ course_id: CID, level: lv, title: title(), subject: subject(), updated_at: new Date().toISOString() })
+          .then(function(res){
+            var err = res && res.error;
+            if (err){ saveJSON(SYNC_KEY, {level: lv, state: 'fail', msg: String(err.message||err.code||err), ts: Date.now()}); return; }
+            lastPushed = snap;
+            saveJSON(SYNC_KEY, {level: lv, state: 'ok', ts: Date.now()});
+          })
+          .catch(function(e){ saveJSON(SYNC_KEY, {level: lv, state: 'fail', msg: String((e&&e.message)||e), ts: Date.now()}); });
+      } catch(e){ saveJSON(SYNC_KEY, {level: lv, state: 'fail', msg: String((e&&e.message)||e), ts: Date.now()}); }
     });
   }
-  function subscribeRealtime(){
-    try {
-      if (typeof WebSocket === 'undefined') return;
-      var cfg = cloudCfg();
-      var wsUrl = cfg.url.replace(/^https/, 'wss').replace(/\/+$/, '') + '/realtime/v1?apikey=' + encodeURIComponent(cfg.key) + '&vsn=1.0.0';
-      var ws = new WebSocket(wsUrl); var chan = 'cstat-' + CID; var hb = null;
-      ws.onopen = function(){
-        rtAlive = true;
-        ws.send(JSON.stringify({ topic: chan, event: 'phx_join', payload: { config: { postgres_changes: [ { event: 'UPDATE', schema: 'public', table: STATS_TABLE, filter: 'course_id=eq.' + CID } ] } }, ref: '1' }));
-        hb = setInterval(function(){ try{ ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(Date.now()) })); }catch(e){} }, 25000);
-      };
-      ws.onmessage = function(ev){ try{ var m = JSON.parse(ev.data); if (m && m.topic === chan && m.event === 'postgres_changes') refreshFromCloud(); }catch(e){} };
-      ws.onerror = function(){ };
-      ws.onclose = function(){ if (hb) clearInterval(hb); setTimeout(function(){ if (autoOn()) subscribeRealtime(); }, 6000); };
-    } catch(e){}
-  }
-  function startPolling(){ setInterval(function(){ if (autoOn() && !document.hidden) refreshFromCloud(); }, 5000); }
+  function schedule(){ clearTimeout(timer); timer = setTimeout(push, 800); }
   function watch(){
-    report();
-    window.addEventListener('cstat:change', report);
-    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) report(); });
-    window.addEventListener('visibilitychange', function(){ if (!document.hidden) report(); });
-    setInterval(function(){ if (!document.hidden) report(); }, 5000);
-    refreshFromCloud(); startPolling(); subscribeRealtime();
+    push();
+    window.addEventListener('cstat:change', schedule);
+    window.addEventListener('storage', function(e){ if (e.key === CSTAT_KEY) schedule(); });
+    window.addEventListener('visibilitychange', function(){ if (!document.hidden) push(); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch);
   else watch();
 })();</script>
 
 <script>
-/* ===== 专题练串联导航：URL 带 ?tr=<序号> 且本地有 train_group 时显示 ===== */
+/* ===== 训练队列串联导航 =====
+   URL 带 ?tr=<序号> 时显示。队列来源优先级：
+   1) ?q=<rid> → 云端 practice_sessions（跨设备可续练，缓存 6h）
+   2) 本地 train_group（门户「加入训练库」时写入，同源共享）
+*/
 (function(){
   'use strict';
   if (window.__tnav) return;
   window.__tnav = true;
-  var ti = NaN;
-  try { ti = parseInt(new URLSearchParams(location.search).get('tr'), 10); } catch(e){ if(location.search.indexOf('tr=')>=0){ var m=location.search.match(/tr=(\d+)/); if(m)ti=parseInt(m[1],10); } }
-  if (isNaN(ti) || ti < 0) return;
-  var g = null;
-  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
-  if (!g || !g.urls || !g.urls.length) return;
-  var urls = g.urls;
-  function toUrl(u, idx){
-    var sep = u.indexOf('?') >= 0 ? '&' : '?';
-    return u.replace(/^lessons\//, '../') + sep + 'tr=' + idx;
+  var qs;
+  try { qs = new URLSearchParams(location.search); } catch(e){
+    qs = { get: function(k){ var m = location.search.match(new RegExp('[?&]' + k + '=([^&]+)')); return m ? decodeURIComponent(m[1]) : null; } };
   }
-  function build(){
-    var bar = document.createElement('div');
-    bar.id = 'tnav-bar';
-    var prev = ti > 0
-      ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
-      : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
-    var next = ti < urls.length - 1
-      ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
-      : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
-    bar.innerHTML = '<span id="tnav-tag">🎯 \u4e13\u9898\u7ec3</span>' + prev
-      + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
-      + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">✕</span>';
-    document.body.appendChild(bar);
-    document.getElementById('tnav-exit').addEventListener('click', function(){
-      bar.remove();
-      try { localStorage.removeItem('train_group'); } catch(e){}
+  var ti = parseInt(qs.get('tr'), 10);
+  if (isNaN(ti) || ti < 0) return;
+  var rid = qs.get('q') || '';
+  var WB_CFG = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
+  };
+  var db = null, sdkTried = false;
+  function loadSdk(cb){
+    if (db) return cb(db);
+    if (typeof WorkBuddyCloud !== 'undefined'){
+      try { db = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: WB_CFG.endpoint, publishableKey: WB_CFG.publishableKey }).database; } catch(e){ db = null; }
+      return cb(db);
+    }
+    if (sdkTried) return cb(null);
+    sdkTried = true;
+    /* 2026-09-27：SDK 本地化优先（境外 CDN 偶发不可达），CDN 兜底 */
+    var srcs = ['../../../vendor/wbcloud-sdk.js',
+                'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+                'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'];
+    var i = 0;
+    (function next(){
+      if (typeof WorkBuddyCloud !== 'undefined'){
+        try { db = WorkBuddyCloud.createWorkBuddyCloud({ endpoint: WB_CFG.endpoint, publishableKey: WB_CFG.publishableKey }).database; } catch(e){ db = null; }
+        return cb(db);
+      }
+      if (i >= srcs.length) return cb(null);
+      var s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = next; s.onerror = next;
+      (document.head || document.documentElement).appendChild(s);
+    })();
+  }
+  function cidToPath(cid){
+    var m = /^course_(\d+)_(.+)$/.exec(String(cid || ''));
+    return m ? ('lessons/' + m[1] + '-' + m[2] + '/index.html') : '';
+  }
+  function fromLocal(){
+    try {
+      var g = JSON.parse(localStorage.getItem('train_group'));
+      if (g && g.urls && g.urls.length) return { urls: g.urls, title: g.title || '' };
+    } catch(e){}
+    return null;
+  }
+  function fromCloud(cb){
+    if (!rid) return cb(null);
+    var CK = 'tnav_q:' + rid;
+    try {
+      var c = JSON.parse(localStorage.getItem(CK));
+      if (c && c.urls && c.urls.length && (Date.now() - c.ts) < 6 * 3600 * 1000) return cb(c);
+    } catch(e){}
+    loadSdk(function(d){
+      if (!d) return cb(null);
+      var q;
+      try { q = d.from('practice_sessions').select('title,card_ids,hit_map').eq('rid', rid).limit(1); } catch(e){ return cb(null); }
+      Promise.resolve(q).then(function(res){
+        var row = (res && res.data && res.data[0]) || null;
+        if (!row) return cb(null);
+        var ids = Array.isArray(row.card_ids) ? row.card_ids : [];
+        var map = row.hit_map || {};
+        var urls = [];
+        ids.forEach(function(cid){
+          var p = map[cid] || cidToPath(cid);
+          if (p) urls.push(p);
+        });
+        var out = urls.length ? { urls: urls, title: row.title || '' } : null;
+        if (out){ try { localStorage.setItem(CK, JSON.stringify({ urls: out.urls, title: out.title, ts: Date.now() })); } catch(e){} }
+        cb(out);
+      }).catch(function(){ cb(null); });
     });
   }
-  document.addEventListener('keydown', function(e){
-    if (!document.getElementById('tnav-bar')) return;
-    if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
-    else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
-  });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
+  function run(q){
+    var urls = q.urls, title = String(q.title || '').trim();
+    function toUrl(u, idx){
+      var sep = u.indexOf('?') >= 0 ? '&' : '?';
+      var path = u.replace(/^lessons\//, '../').replace(/\/$/, '/index.html');
+      return path + sep + 'tr=' + idx + (rid ? ('&q=' + encodeURIComponent(rid)) : '');
+    }
+    function build(){
+      var bar = document.createElement('div');
+      bar.id = 'tnav-bar';
+      var prev = ti > 0
+        ? '<a id="tnav-prev" href="' + toUrl(urls[ti-1], ti-1) + '" title="快捷键 ←">\u2190 \u4e0a\u4e00\u8bfe</a>'
+        : '<span class="tnav-off">\u2190 \u4e0a\u4e00\u8bfe</span>';
+      var next = ti < urls.length - 1
+        ? '<a id="tnav-next" href="' + toUrl(urls[ti+1], ti+1) + '" title="快捷键 \u2192">\u4e0b\u4e00\u8bfe \u2192</a>'
+        : '<span class="tnav-off">\u4e0b\u4e00\u8bfe \u2192</span>';
+      /* 左侧标签 = 队列名称（过长截断，悬停看全文）；无名称回退「🎯 专题练」 */
+      var tag = title ? title.slice(0, 18) + (title.length > 18 ? '…' : '') : '\ud83c\udfaf \u4e13\u9898\u7ec3';
+      bar.innerHTML = '<span id="tnav-tag"' + (title ? ' title="' + title.replace(/"/g, '&quot;') + '"' : '') + '>' + tag + '</span>' + prev
+        + '<span id="tnav-pos">' + (ti+1) + ' / ' + urls.length + '</span>' + next
+        + '<span id="tnav-exit" title="\u9000\u51fa\u4e13\u9898\u7ec3\u4e32\u8054">\u2715</span>';
+      document.body.appendChild(bar);
+      document.getElementById('tnav-exit').addEventListener('click', function(){
+        bar.remove();
+        try { localStorage.removeItem('train_group'); } catch(e){}
+        if (rid){ try { localStorage.removeItem('tnav_q:' + rid); } catch(e){} }
+      });
+    }
+    document.addEventListener('keydown', function(e){
+      if (!document.getElementById('tnav-bar')) return;
+      if (e.key === 'ArrowRight' && ti < urls.length - 1) location.href = toUrl(urls[ti+1], ti+1);
+      else if (e.key === 'ArrowLeft' && ti > 0) location.href = toUrl(urls[ti-1], ti-1);
+    });
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+    else build();
+  }
+  var started = false;
+  function start(q){ if (started || !q || !q.urls || !q.urls.length) return; started = true; run(q); }
+  /* 本地队列立即可用（门户入队时写入，同源 localStorage 共享，含队列名称）；
+     本地没有时才等云端（跨设备续练）。绝不因为云端慢而让导航消失。 */
+  start(fromLocal());
+  fromCloud(function(q){ if (q) start(q); });
 })();
 </script>
 
@@ -482,7 +1500,7 @@ window.addEventListener('DOMContentLoaded',function(){
   'use strict';
   if (window.__bardrag) return;
   window.__bardrag = true;
-  var IDS = ['cstat-bar', 'crate-bar', 'tnav-bar'];
+  var IDS = ['cstat-bar', 'crate-bar']; /* tnav-bar 是固定的底部导航菜单（上一课/下一课），不参与拖拽 */
   var LONG = 400, MOVE = 6;
   function key(id){ return 'bar_pos:' + id; }
   function place(el, l, t){
@@ -739,12 +1757,204 @@ window.addEventListener('DOMContentLoaded',function(){
 })();
 </script>
 
+<script>(function(){
+  'use strict';
+  /* ===== 原题区：原题图 / 去手写版 双 Tab（参考 0926 互动课件模板） =====
+     运行时把页面内置的 <details class="orig">…<img></details> 变换为双面板组件：
+     · 原题图面板默认显示生成时的截图，可替换/清除（本机保存，优先于内置图）
+     · 去手写版面板默认空，可点选 / Ctrl+V 粘贴 / 拖入图片
+     · 自动默认 tab：去手写版有图显示去手写版，否则显示原题图 */
+  if (window.__probImg) return; window.__probImg = true;
+  var CM = null;
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent); } catch(e){}
+  var CID = (CM && CM.id) || (location.pathname.match(/lessons\/([^\/]+)/) || [,'x'])[1];
+  var LS = 'pimg:' + CID + ':';
+  var d = document.querySelector('details.orig');
+  if (!d) return;
+
+  var SVG = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg>';
+  var EMPTY = {
+    orig:  '此处放入<b>原题截图（含手写痕迹）</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴，也可将图片拖入本框',
+    clean: '此处放入<b>已去手写的干净原题图</b>（可选）<br>与「原题图」分别保存、互不影响，点击 tab 切换查看'
+  };
+  var orig0 = null;
+  var img0 = d.querySelector('img');
+  if (img0) orig0 = img0.getAttribute('src');
+
+  function savedSrc(kind){ try { return localStorage.getItem(LS + kind); } catch(e){ return null; } }
+  var panes = [
+    { kind:'orig',  label:'原题图',   icon:'🖼 ' },
+    { kind:'clean', label:'去手写版', icon:'✏️ ' }
+  ];
+  panes.forEach(function(p){
+    p.saved = savedSrc(p.kind);
+    p.src = p.saved || (p.kind === 'orig' ? orig0 : null);
+  });
+
+  function bodyHtml(p){
+    if (p.src) return '<img class="prob-img-img" loading="lazy" alt="' + p.label + '" src="' + p.src + '">';
+    return '<div class="prob-img-empty">' + SVG + '<p>' + EMPTY[p.kind] + '</p></div>';
+  }
+
+  var wrap = document.createElement('div');
+  var tabsHtml = '';
+  panes.forEach(function(p){ tabsHtml += '<button type="button" class="prob-tab" data-k="' + p.kind + '">' + p.icon + p.label + '</button>'; });
+  wrap.innerHTML = '<div class="prob-img-tabs" role="tablist">' + tabsHtml + '</div>';
+  var paneEls = {};
+  panes.forEach(function(p){
+    var el = document.createElement('div');
+    el.className = 'prob-img'; el.setAttribute('data-k', p.kind); el.tabIndex = 0;
+    el.innerHTML = '<div class="prob-img-head"><b>' + p.label + '</b>'
+      + '<button type="button" class="prob-img-btn" data-act="pick">选择图片</button>'
+      + '<button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div>'
+      + '<div class="prob-img-body">' + bodyHtml(p) + '</div>';
+    wrap.appendChild(el);
+    paneEls[p.kind] = el;
+  });
+  var note = document.createElement('p');
+  note.className = 'prob-img-note';
+  note.textContent = '📤 替换 / 新增的截图保存在本机浏览器（当前设备）；点「选择图片」、Ctrl+V 粘贴或拖入图片即可设置。';
+  wrap.appendChild(note);
+  d.parentNode.insertBefore(wrap, d);
+  d.parentNode.removeChild(d);
+
+  /* Tab 切换 + 自动默认 */
+  function show(kind){
+    panes.forEach(function(p){ paneEls[p.kind].style.display = (p.kind === kind) ? 'block' : 'none'; });
+    wrap.querySelectorAll('.prob-tab').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-k') === kind); });
+  }
+  wrap.querySelectorAll('.prob-tab').forEach(function(t){
+    t.addEventListener('click', function(){ show(this.getAttribute('data-k')); });
+  });
+  show(!panes[1].src && panes[0].src ? 'orig' : 'clean');
+
+  /* 大图等比压缩到 ≤1600px 宽，避免撑爆 localStorage */
+  function shrink(file, cb){
+    var r = new FileReader();
+    r.onload = function(){
+      var im = new Image();
+      im.onload = function(){
+        var W = im.naturalWidth, H = im.naturalHeight, MAX = 1600;
+        if (!W || W <= MAX) return cb(r.result);
+        var c = document.createElement('canvas');
+        c.width = MAX; c.height = Math.round(H * MAX / W);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        cb(c.toDataURL('image/jpeg', 0.85));
+      };
+      im.onerror = function(){ cb(r.result); };
+      im.src = r.result;
+    };
+    r.readAsDataURL(file);
+  }
+  function setImg(kind, dataUrl){
+    try {
+      if (dataUrl) localStorage.setItem(LS + kind, dataUrl);
+      else localStorage.removeItem(LS + kind);
+    } catch(e){ alert('图片过大，本机保存失败'); return; }
+    var p = panes.filter(function(x){ return x.kind === kind; })[0];
+    p.saved = dataUrl || null;
+    p.src = dataUrl || (kind === 'orig' ? orig0 : null);
+    paneEls[kind].querySelector('.prob-img-body').innerHTML = bodyHtml(p);
+  }
+  var fileInput = document.createElement('input');
+  fileInput.type = 'file'; fileInput.accept = 'image/*'; fileInput.style.display = 'none';
+  var pickKind = null;
+  fileInput.addEventListener('change', function(){
+    var f = fileInput.files && fileInput.files[0];
+    if (f && pickKind) shrink(f, function(u){ setImg(pickKind, u); });
+    fileInput.value = ''; pickKind = null;
+  });
+  document.body.appendChild(fileInput);
+
+  wrap.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('.prob-img-btn');
+    if (!btn) return;
+    var kind = btn.closest('.prob-img').getAttribute('data-k');
+    if (btn.getAttribute('data-act') === 'pick'){ pickKind = kind; fileInput.click(); }
+    else setImg(kind, null);
+  });
+  /* Ctrl+V 粘贴 → 当前可见面板 */
+  document.addEventListener('paste', function(e){
+    var vis = panes.filter(function(p){ return paneEls[p.kind].style.display !== 'none'; })[0];
+    if (!vis) return;
+    var items = (e.clipboardData || {}).items || [];
+    for (var i = 0; i < items.length; i++){
+      if (items[i].type && items[i].type.indexOf('image') === 0){
+        e.preventDefault();
+        shrink(items[i].getAsFile(), function(u){ setImg(vis.kind, u); });
+        return;
+      }
+    }
+  });
+  /* 拖入 */
+  panes.forEach(function(p){
+    var el = paneEls[p.kind];
+    el.addEventListener('dragover', function(e){ e.preventDefault(); el.classList.add('dragover'); });
+    el.addEventListener('dragleave', function(){ el.classList.remove('dragover'); });
+    el.addEventListener('drop', function(e){
+      e.preventDefault(); el.classList.remove('dragover');
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f && f.type.indexOf('image') === 0) shrink(f, function(u){ setImg(p.kind, u); });
+    });
+  });
+})();</script>
+
 <!--COURSEWARE-FEAT-END-->
 
-<!-- mc-fit 0926 boot -->
-<script src="../../mcfit/boot-0926.js"></script>
+<script data-cw-progress="1">
+/* ===== 📌 课件训练进度断点（2026-10-03 方案C：本地实时 + 云端备份） =====
+ * 与 tnav 串联导航配合：URL 带 ?tr=<序号> 且 train_group.rid 存在时，
+ * 每次打开/切课记录「该队列练到第几课」——本地 localStorage（wulun_tp_cw）
+ * + 云端 practice_sessions.progress（经 WB Cloud 适配器写入，跨设备）。
+ * app 端 startPracticeSession 课件分支读断点 → 直接跳上次练到的课。 */
+(function(){
+  'use strict';
+  if (window.__cwTp) return;
+  window.__cwTp = true;
+  var SUPA = 'https://mixuqjognbdrafrrlivc.supabase.co/rest/v1/';   /* 由 WB Cloud 适配器透明翻译 */
+  function getQ(k){
+    try{ var v = new URLSearchParams(location.search).get(k); if(v != null) return v; }catch(e){}
+    var m = location.search.match(new RegExp('[?&]' + k + '=([^&]+)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  var ti = parseInt(getQ('tr'), 10);
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var rid = getQ('q') || g.rid || null;
+  if (!rid) return;   /* 非队列串联（如门户自选课件组）不记断点 */
+  var total = g.urls.length;
+  var LS = 'wulun_tp_cw';
 
-<script src="../../inter/cfg-0926.js?v=0926d"></script>
-<script src="../../inter/inter.js?v=0926d"></script>
+  function localSave(rec){
+    var all = {};
+    try{ all = JSON.parse(localStorage.getItem(LS) || '{}'); }catch(e){}
+    if(rec) all[rid] = rec; else delete all[rid];
+    try{ localStorage.setItem(LS, JSON.stringify(all)); }catch(e){}
+  }
+  function cloudSave(rec){
+    /* 读-合-写：先取整行再 upsert，避免部分列被覆盖 */
+    fetch(SUPA + 'practice_sessions?rid=eq.' + encodeURIComponent(rid) + '&select=rid,title,subject,source,card_ids,new_card_ids,hit_map,browsed_at&limit=1', { headers: {'Content-Type':'application/json'} })
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(a){
+        var s = (a && a[0]) || null;
+        var row = s ? JSON.parse(JSON.stringify(s)) : { rid: rid, title: '', subject: '跨科', source: 'courseware-portal', card_ids: [], new_card_ids: [], hit_map: {} };
+        row.progress = rec;
+        row.browsed_at = new Date().toISOString();
+        return fetch(SUPA + 'practice_sessions?on_conflict=rid', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+          body: JSON.stringify([row])
+        });
+      })
+      .catch(function(){ /* 断点备份失败不影响训练 */ });
+  }
+  var rec = { kind: 'cw', idx: ti, total: total, ts: Date.now() };
+  localSave(rec);
+  cloudSave(rec);
+})();
+
+</script>
 </body>
 </html>
