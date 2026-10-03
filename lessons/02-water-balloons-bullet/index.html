@@ -2,6 +2,261 @@
 
 
 <html lang="zh-CN" data-trae-theme="light"><head>
+<script data-wbcloud-adapter="1">
+/* =========================================================================
+ * WorkBuddy Cloud 适配器（解题库 / 课件页共用）
+ * -------------------------------------------------------------------------
+ * 目标：把课件页对 Supabase REST 的裸 fetch 透明翻译成 WB Cloud SDK 调用，
+ *       页面原生云端代码（DEFAULT_CLOUD / CFG / fetchCloudRow / pushCloud /
+ *       cloudNotes / delCloud / subscribeRealtime）一律不改，只注入本文件。
+ *
+ * 课件库与记忆卡合并到同一 WB Cloud 应用（同源 jikaka-memory，免跨域预检）：
+ *   wbapp_QuSSvKgXD7uP73LA5D5gNT —— 课件页挂载在 jikaka-memory.app.workbuddy.host/courseware/，
+ *   与记忆卡 cards/knowledge 后端同源，课件页可直接写 course_stats/course_notes 与 cards。
+ *   endpoint      = https://jikaka-memory.app.workbuddy.host
+ *   publishableKey= wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP
+ *
+ * 原理：
+ *   1) 动态加载 WB Cloud SDK（jsdelivr 主 / unpkg 备），就绪后建 client.database。
+ *   2) 覆盖 window.fetch：凡命中 *.supabase.co/rest/v1/ 的请求 → 走 wbFetchRest，
+ *      翻译成 WB Cloud 的 from().select()/insert()/upsert()/update()/delete()，
+ *      返回与 fetch 兼容的 { ok, status, json() }，页面无感。
+ *   3) 屏蔽 Supabase Realtime WebSocket（WB Cloud 无此通道，靠页面自带 5s 轮询刷新）。
+ *
+ * 表映射（与 Supabase 同名，WB Cloud 首写自动建集合）：
+ *   course_stats  —— 每课自评/评分统计（一课一行，按 course_id 去重）
+ *   course_notes  —— 错误原因 + 标签笔记
+ * ========================================================================= */
+(function () {
+  'use strict';
+
+  var WB_CLOUD_CFG = {
+    endpoint: 'https://jikaka-memory.app.workbuddy.host',
+    publishableKey: 'wbpk_QuSSvKgXD7uP73LA5D5gNT_W0t84UkhE7UB0e9poO19fS9ZgJR6WlOP'
+  };
+  window.WB_CLOUD_CFG = WB_CLOUD_CFG;
+  window.WB_READY = false;
+  window.WB_DB = null;
+
+  /* ---------- 1) SDK 载入 ---------- */
+  (function loadSdk() {
+    var srcs = [
+      'https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js',
+      'https://unpkg.com/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js'
+    ];
+    var i = 0;
+    (function next() {
+      if (typeof WorkBuddyCloud !== 'undefined') { initClient(); return; }
+      if (i >= srcs.length) { window.__WB_SDK_FAIL = true; return; }
+      var s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = function () { if (typeof WorkBuddyCloud === 'undefined') { next(); } else { initClient(); } };
+      s.onerror = function () { next(); };
+      (document.head || document.documentElement).appendChild(s);
+    })();
+  })();
+
+  function initClient() {
+    try {
+      var client = WorkBuddyCloud.createWorkBuddyCloud({
+        endpoint: WB_CLOUD_CFG.endpoint,
+        publishableKey: WB_CLOUD_CFG.publishableKey
+      });
+      window.WB_DB = client.database;
+      window.WB_READY = true;
+    } catch (e) { window.__WB_SDK_FAIL = true; }
+  }
+
+  /* ---------- 2) 翻译层 ---------- */
+  // 知识页 Supabase 表名 → WB Cloud 表名 映射（同源 jikaka-memory 后端）
+  //   tape_stats → knowledge  (导航统计：fig_id 主键)
+  //   tape_state → tape_state (胶带遮盖上 layered 状态：fig_id 主键, state jsonb)
+  // 课件库表(course_stats/course_notes)不在此映射，走原 courseware 逻辑
+  var KNOWLEDGE_TABLE_MAP = { tape_stats: 'knowledge', tape_state: 'tape_state' };
+
+  function waitWbReady(ms) {
+    ms = ms || 12000;
+    return new Promise(function (resolve) {
+      if (window.WB_DB) return resolve(true);
+      var n = 0, step = 200, max = Math.ceil(ms / step);
+      var t = setInterval(function () {
+        if (window.WB_DB) { clearInterval(t); return resolve(true); }
+        if (window.__WB_SDK_FAIL || ++n >= max) { clearInterval(t); return resolve(false); }
+      }, step);
+    });
+  }
+
+  function makeResp(data, status) {
+    wbBadge(status);
+    return {
+      ok: (status >= 200 && status < 300),
+      status: status || 200,
+      json: function () { return Promise.resolve(data); }
+    };
+  }
+
+  /* 右下角云状态角标：让用户即时看到写库是否成功（跨域拦截会立刻显现） */
+  function showCloudBadge(state, detail) {
+    try {
+      var el = document.getElementById('wbCloudBadge');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'wbCloudBadge';
+        el.style.cssText = 'position:fixed;right:10px;bottom:10px;z-index:99999;font:12px/1.5 system-ui,-apple-system,sans-serif;padding:6px 11px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.18);max-width:260px;pointer-events:none;transition:opacity .3s';
+        (document.body || document.documentElement).appendChild(el);
+      }
+      if (state === 'ok') { el.style.background = '#E6F4EA'; el.style.color = '#137333'; el.textContent = '☁ 已连接 WB Cloud（写库正常）'; }
+      else if (state === 'wait') { el.style.background = '#FEF7E0'; el.style.color = '#B06000'; el.textContent = '☁ 连接云端中…'; }
+      else { el.style.background = '#FCE8E8'; el.style.color = '#C5221F'; el.textContent = '⚠️ 云端写入失败：' + (detail || '可能被跨域拦截，请用 CloudStudio 链接打开本页'); }
+    } catch (e) {}
+  }
+  function wbBadge(status) {
+    if (status >= 200 && status < 300) showCloudBadge('ok');
+    else if (status === 502) showCloudBadge('wait');
+    else showCloudBadge('err', status === 500 ? 'WB Cloud 拒绝写入' : 'WB Cloud 未就绪');
+  }
+
+  // 解析 supabase REST 查询串 → WB Cloud 构造器参数
+  // 2026-09-24：新增 on_conflict 参数识别（如 ?on_conflict=card_id），
+  //   该参数不是过滤条件，必须从 eqs 中剔除，否则 upsert 语义错误。
+  function parseQuery(search) {
+    var cols = '*', eqs = [], order = null, limit = null, onConflict = null;
+    var params = new URLSearchParams(search);
+    params.forEach(function (val, key) {
+      if (key === 'select') { cols = val; }
+      else if (key === 'on_conflict') { onConflict = val; }
+      else if (key === 'order') { var a = val.split('.'); order = { col: a[0], asc: a[1] !== 'desc' }; }
+      else if (key === 'limit') { limit = parseInt(val, 10) || null; }
+      else {
+        var m = val.match(/^(eq|ne|gt|gte|lt|lte|like|ilike|is|in|cs|cd|ov|fts|plfts|phfts|wfts)\.(.*)$/);
+        if (m) { eqs.push({ col: key, op: m[1], val: m[2] }); }
+        else { eqs.push({ col: key, op: 'eq', val: val }); }
+      }
+    });
+    return { cols: cols, eqs: eqs, order: order, limit: limit, onConflict: onConflict };
+  }
+
+  function applyFilters(qb, eqs, order, limit) {
+    eqs.forEach(function (f) {
+      if (f.op === 'eq') qb = qb.eq(f.col, f.val);
+      else if (f.op === 'in') { var v = f.val.replace(/^\(|\)$/g, '').split(','); qb = qb.in(f.col, v); }
+      else if (f.op === 'cs' || f.op === 'cd' || f.op === 'ov') {
+        try { qb = qb.contains(f.col, JSON.parse(f.val)); } catch (e) { qb = qb.contains(f.col, f.val); }
+      } else qb = qb.filter(f.col, f.op, f.val);
+    });
+    if (order) qb = qb.order(order.col, { ascending: order.asc });
+    if (limit) qb = qb.limit(limit);
+    return qb;
+  }
+
+  async function wbFetchRest(url, opts) {
+    opts = opts || {};
+    var method = (opts.method || 'GET').toUpperCase();
+    var u; try { u = new URL(url); } catch (e) { return makeResp([], 400); }
+    var m = u.pathname.match(/\/rest\/v1\/([^?/]+)/);
+    if (!m) return makeResp([], 400);
+    var table = m[1];
+    var wbTable = KNOWLEDGE_TABLE_MAP[table] || table;
+    var isMapped = (KNOWLEDGE_TABLE_MAP[table] != null);
+    var q = parseQuery(u.search);
+    var ready = await waitWbReady(12000);
+    if (!ready || !window.WB_DB) return makeResp([], 502);
+    var db = window.WB_DB;
+    try {
+      if (method === 'GET') {
+        var qb = db.from(wbTable).select(q.cols);
+        qb = applyFilters(qb, q.eqs, q.order, q.limit);
+        var r1 = await qb;
+        if (r1.error) return makeResp([], 500);
+        return makeResp(r1.data || [], 200);
+      } else if (method === 'POST') {
+        var rows = JSON.parse(opts.body || '[]');
+        if (!Array.isArray(rows)) rows = [rows];
+        var prefer = ((opts.headers && (opts.headers.Prefer || opts.headers.prefer)) || '').toString();
+        // 知识页映射表（tape_stats/tape_state）：按 fig_id 主键 upsert
+        // （Block C 的 Prefer 拼写 'merge-duplications' 不含 'merge-duplicates'，这里强制 upsert 兜底）
+        if (isMapped) {
+          var r2 = await db.from(wbTable).upsert(rows, { onConflict: 'fig_id' });
+          if (r2.error) return makeResp([], 500);
+          return makeResp(r2.data || [], 201);
+        }
+        if (/merge-duplicates/.test(prefer)) {
+          // 2026-09-24：优先用查询串里的 on_conflict 列做 upsert 冲突键。
+          //   cards 表主键是 card_id（课件「加入训练」写 ?on_conflict=card_id），
+          //   course_stats 无 on_conflict 参数，保持旧行为按 id 去重。
+          if (q.onConflict) {
+            var r2c = await db.from(wbTable).upsert(rows, { onConflict: q.onConflict });
+            if (r2c.error) return makeResp([], 500);
+            return makeResp(r2c.data || [], 201);
+          }
+          rows.forEach(function (row) {
+            if (row && row.course_id != null && row.id == null) row.id = String(row.course_id);
+          });
+          var r2b = await db.from(wbTable).upsert(rows);
+          if (r2b.error) return makeResp([], 500);
+          return makeResp(r2b.data || [], 201);
+        } else {
+          // course_notes：每条独立，补 id 保证可插入/可删
+          rows.forEach(function (row) {
+            if (row && row.id == null) {
+              row.id = [row.course_id, row.created_at, row.note, Date.now(), Math.random()]
+                .filter(function (x) { return x != null; }).join('|');
+            }
+          });
+          var r3 = await db.from(wbTable).insert(rows);
+          if (r3.error) return makeResp([], 500);
+          return makeResp(r3.data || [], 201);
+        }
+      } else if (method === 'DELETE') {
+        var qbd = db.from(wbTable).delete();
+        qbd = applyFilters(qbd, q.eqs, null, null);
+        var r4 = await qbd;
+        if (r4.error) return makeResp([], 500);
+        return makeResp(r4.data || [], 200);
+      } else if (method === 'PATCH' || method === 'PUT') {
+        var patch = JSON.parse(opts.body || '{}');
+        var qbu = db.from(wbTable).update(patch);
+        qbu = applyFilters(qbu, q.eqs, null, null);
+        var r5 = await qbu;
+        if (r5.error) return makeResp([], 500);
+        return makeResp(r5.data || [], 200);
+      }
+      return makeResp([], 405);
+    } catch (e) {
+      return makeResp([], 500);
+    }
+  }
+
+  /* ---------- 3) 拦截 Supabase REST fetch → WB Cloud ---------- */
+  if (typeof window.fetch === 'function') {
+    var REAL_FETCH = window.fetch.bind(window);
+    window.fetch = function (url, opts) {
+      if (typeof url === 'string' && /supabase\.co\/rest\/v1\//.test(url)) {
+        return wbFetchRest(url, opts);
+      }
+      return REAL_FETCH(url, opts);
+    };
+  }
+
+  /* ---------- 4) 屏蔽 Supabase Realtime（WB Cloud 无此通道） ---------- */
+  if (typeof window.WebSocket !== 'undefined') {
+    var RealWS = window.WebSocket;
+    window.WebSocket = function (url, proto) {
+      if (typeof url === 'string' && /supabase\.co\/realtime/.test(url)) {
+        // 返回永不连接的假 socket，避免无谓重试；数据刷新靠页面自带 5s 轮询
+        return {
+          close: function () {}, send: function () {},
+          onopen: null, onmessage: null, onerror: null, onclose: null,
+          readyState: 3, CONNECTING: 0, OPEN: 1, CLOSING: 2, CLOSED: 3
+        };
+      }
+      return new RealWS(url, proto);
+    };
+    window.WebSocket.prototype = RealWS.prototype;
+  }
+})();
+
+</script>
 
 
 <meta charset="UTF-8">
@@ -3817,6 +4072,69 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
 </style>
 
 
+<!--HERO-ORIG-TAGS-CSS-BEGIN-->
+<style>
+/* ===== 头部「原题区」+ hero 标签区 + 全局标签库弹窗（v20260924a） ===== */
+.hero-orig{margin:24px auto 0;max-width:780px;text-align:left;background:var(--bg2);border:1px solid var(--rule);border-radius:18px;box-shadow:var(--shadow);padding:14px 16px 14px;}
+.ho-stage{position:relative;border-radius:14px;background:#f1f2f7;border:1px solid #e6e6ef;min-height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px;}
+.ho-stage img{display:none;max-width:100%;max-height:360px;border-radius:10px;box-shadow:0 4px 14px rgba(30,25,70,.12);}
+.ho-stage img.on{display:block;}
+.ho-empty{color:#98a0b3;font-size:.86rem;text-align:center;line-height:2;padding:18px 8px;}
+.ho-empty b{font-size:1.7rem;display:block;margin-bottom:2px;font-weight:400;}
+.ho-figcap{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--muted);margin:10px 2px 8px;letter-spacing:.04em;}
+.ho-mini{font-family:var(--heading);font-size:.73rem;font-weight:700;cursor:pointer;border:1px solid var(--rule);background:none;color:var(--muted);padding:4px 11px;border-radius:999px;transition:.15s;}
+.ho-mini:hover{border-color:var(--accent);color:var(--accent);}
+.ho-src{font-size:.72rem;color:#a3a9bd;letter-spacing:0;white-space:nowrap;}
+.ho-src.ok{color:#137333;}
+.ho-src.warn{color:#b06000;}
+.ho-drop{border:2px dashed #c9c6e6;border-radius:12px;background:#fbfaff;color:#7b7f95;font-size:.85rem;text-align:center;padding:15px 12px;cursor:pointer;transition:.15s;line-height:1.8;}
+.ho-drop:hover,.ho-drop.arm{border-color:var(--accent);background:rgba(108,92,231,.06);color:var(--accent);}
+.ho-drop b{color:var(--accent);font-weight:700;}
+/* hero 标签区 */
+.hero-tags{margin:14px auto 0;max-width:780px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--shadow);padding:11px 15px;}
+.ht-lbl{font-family:var(--heading);font-weight:700;font-size:.76rem;letter-spacing:.08em;color:var(--muted);white-space:nowrap;}
+.ht-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;justify-content:flex-start;min-width:60px;}
+.ht-chip{background:rgba(108,92,231,.10);color:var(--accent);border-radius:999px;padding:3px 11px;font-size:.78rem;font-weight:600;white-space:nowrap;}
+.ht-chip.soft{background:#f0f6ff;color:#8494ab;font-weight:400;}
+.ht-btn{font-family:var(--heading);font-weight:700;font-size:.78rem;cursor:pointer;border:1px solid var(--accent);background:none;color:var(--accent);padding:5px 13px;border-radius:999px;transition:.15s;white-space:nowrap;}
+.ht-btn:hover{background:rgba(108,92,231,.08);}
+.ht-src{flex:1 0 100%;text-align:right;font-size:.7rem;color:#a3a9bd;}
+/* 标签编辑弹窗 */
+.tg-mask{position:fixed;inset:0;background:rgba(24,20,50,.45);z-index:120000;display:none;align-items:center;justify-content:center;padding:18px;}
+.tg-mask.open{display:flex;}
+.tg-pop{background:#fff;border-radius:18px;width:min(580px,100%);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 70px -20px rgba(30,20,80,.5);overflow:hidden;}
+.tg-head{padding:15px 18px 11px;font-family:var(--heading);font-weight:700;font-size:1rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #f0eefb;}
+.tg-head small{font-weight:600;font-size:.74rem;color:var(--accent);}
+.tg-bar{display:flex;gap:8px;padding:11px 18px;flex-wrap:wrap;align-items:center;background:#fafaff;border-bottom:1px solid #f0eefb;}
+.tg-bar button{font-size:.76rem;font-family:var(--heading);font-weight:700;cursor:pointer;border:1px solid var(--rule);background:#fff;color:#5c6274;padding:5px 11px;border-radius:999px;transition:.15s;}
+.tg-bar button:hover{border-color:var(--accent);color:var(--accent);}
+.tg-bar input{flex:1 1 130px;min-width:110px;padding:6px 11px;border:1px solid var(--rule);border-radius:9px;font-size:.8rem;font-family:inherit;background:#fff;color:var(--ink);}
+.tg-bar input:focus{outline:none;border-color:var(--accent);}
+.tg-list{padding:12px 18px;overflow:auto;flex:1 1 auto;display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start;min-height:120px;}
+.tg-item{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--rule);border-radius:999px;padding:4px 11px;font-size:.79rem;cursor:pointer;background:#fff;color:var(--ink);user-select:none;transition:.12s;}
+.tg-item input[type="checkbox"]{width:14px;height:14px;margin:0;padding:0;accent-color:var(--accent);cursor:pointer;flex:0 0 auto;}
+.tg-item.on{background:rgba(108,92,231,.10);border-color:var(--accent);color:var(--accent);font-weight:600;}
+.tg-item.isnew::after{content:"新";font-size:.6rem;background:#d97706;color:#fff;border-radius:4px;padding:0 4px;line-height:1.5;}
+.tg-add{display:flex;gap:8px;padding:0 18px 12px;}
+.tg-add input{flex:1;min-width:0;padding:7px 11px;border:1px solid var(--rule);border-radius:9px;font-size:.82rem;font-family:inherit;background:#fff;color:var(--ink);}
+.tg-add input:focus{outline:none;border-color:var(--accent);}
+.tg-add button{font-family:var(--heading);font-weight:700;font-size:.78rem;cursor:pointer;border:1px solid var(--accent);background:none;color:var(--accent);padding:6px 14px;border-radius:999px;white-space:nowrap;}
+.tg-foot{padding:11px 18px 15px;border-top:1px solid #f0eefb;display:flex;gap:9px;align-items:center;justify-content:flex-end;}
+.tg-foot .st{flex:1;font-size:.73rem;color:var(--muted);line-height:1.5;}
+.tg-foot button{font-family:var(--heading);font-weight:700;font-size:.82rem;cursor:pointer;padding:7px 18px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:#5c6274;transition:.15s;}
+.tg-foot button:hover{border-color:var(--accent);color:var(--accent);}
+.tg-foot button.primary{background:linear-gradient(120deg,var(--accent),#22c3a6);border:1px solid transparent;color:#fff;}
+.tg-foot button.primary:hover{color:#fff;filter:brightness(1.05);}
+.tg-foot button:disabled{opacity:.55;cursor:not-allowed;}
+/* 轻提示 */
+.ho-toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(14px);background:rgba(38,43,64,.94);color:#fff;font-size:.82rem;padding:9px 17px;border-radius:999px;z-index:130000;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 10px 26px -10px rgba(20,15,60,.6);}
+.ho-toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.tg-item .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.06) inset;}
+.tg-item .cat{font-size:.62rem;color:#98a0b3;background:#f4f5f9;border-radius:4px;padding:0 4px;line-height:1.6;}
+.tg-item.on .cat{background:rgba(108,92,231,.14);color:var(--accent);}
+@media print{.ho-drop,.ho-mini,.tg-mask,.hero-tags .ht-btn,.ht-src{display:none!important;}}
+</style>
+<!--HERO-ORIG-TAGS-CSS-END-->
 </head>
 
 
@@ -3850,18 +4168,39 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
     <p class="sub">《国家地理》经典实验：一颗子弹要喝掉四个装满水的气球。它做<b>匀减速直线运动</b>、恰好穿出第 4 个便停下。用"逆向思维"把它变成<b>从静止开始的匀加速</b>，四个选项的真相豁然开朗。</p>
 
 
-    <div class="answer">
+    <div class="hero-orig" id="hoBox">
+      <div class="ho-stage" id="hoStage"><img id="hoImg" alt="原题截图"><div class="ho-empty" id="hoEmpty"><b>📷</b>暂无原题截图<br>在下方虚线框内 Ctrl+V 粘贴，或点击选择图片</div></div>
+      <div class="ho-figcap"><span>原题截图 · 题目 1</span><span class="ho-src" id="hoSrc"></span><button class="ho-mini" id="hoReset" type="button">恢复为空</button></div>
+      <div class="ho-drop" id="hoDrop" tabindex="0" role="button" title="点击选择图片，或直接 Ctrl+V 粘贴">或在此 <b>Ctrl+V</b> 粘贴截图 / <b>插入图片</b>替换上图</div>
+      <input type="file" id="hoFile" accept="image/*" hidden>
+    </div>
 
+    <div class="hero-tags" id="htBar">
+      <span class="ht-lbl">🏷 标签</span>
+      <span class="ht-chips" id="htChips"><span class="ht-chip soft">加载中…</span></span>
+      <button class="ht-btn" id="htEditBtn" type="button">✎ 修改标签</button>
+      <div class="ht-src" id="htSrc"></div>
+    </div>
 
-      <span class="lbl">多选答案（右键课堂用，先藏好）</span>
-
-
-      <span id="ansShow">B · C · D</span>
-
-
-      <button id="ansBtn">🔍 显示 / 隐藏答案</button>
-
-
+    <div class="tg-mask" id="tgMask">
+      <div class="tg-pop" role="dialog" aria-label="修改本页标签">
+        <div class="tg-head"><span>🏷 修改本页标签</span><small id="tgCount">已选 0 个</small></div>
+        <div class="tg-bar">
+          <button type="button" id="tgAll">☑ 全选</button>
+          <button type="button" id="tgNone">☐ 重置为空</button>
+          <input id="tgSearch" type="search" placeholder="搜索标签…">
+        </div>
+        <div class="tg-list" id="tgList"></div>
+        <div class="tg-add">
+          <input id="tgNew" type="text" placeholder="新增标签（回车或点「＋ 添加」，会并入全局标签库）">
+          <button type="button" id="tgAddBtn">＋ 添加</button>
+        </div>
+        <div class="tg-foot">
+          <span class="st" id="tgStatus"></span>
+          <button type="button" id="tgCancel">取消</button>
+          <button type="button" class="primary" id="tgSave">保存</button>
+        </div>
+      </div>
     </div>
 
 
@@ -5650,16 +5989,7 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
 
 
 
-  // Hero 答案开关
-
-
-  $('ansBtn').addEventListener('click',function(){
-
-
-    $('ansShow').classList.toggle('on');
-
-
-  });
+  // Hero 答案开关已移除：原「多选答案」卡片改为「原题图区」（见 HERO-ORIG-TAGS 模块）
 
 
 })();
@@ -6259,4 +6589,584 @@ th { background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(6, 182, 1
 
 
 <!--COURSEWARE-FEAT-END-->
+<!--HERO-ORIG-TAGS-BEGIN-->
+<script data-ver="20260924b">
+/* ===========================================================================
+ * 头部「原题区」+ hero 标签区 + 全局统一标签库
+ * ---------------------------------------------------------------------------
+ * 数据落点（WB Cloud，与「记忆卡」共用同一套表）：
+ *   tags         —— 全局统一标签库（词表）：一个标签一行
+ *                   {id:'t_<名>', name, color, category, kind:'controlled'}
+ *                   记忆卡用 window.TagLib 读写同一张表，两边标签天然统一。
+ *   course_tags  —— 课件↔标签 关联：一课一行 {id:course_id, course_id, tags:'a;b'}
+ *   course_media —— 课件媒体（原题图）：一课一行 {id:course_id, mime, data_b64, ...}
+ * ---------------------------------------------------------------------------
+ * 1) 原题区：替换原 hero「多选答案」卡片。Ctrl+V 粘贴截图 / 点击选图 / 拖拽替换；
+ *    「恢复为空」清空。图片压缩后（≤1200px / base64 ≤340KB）以 **course_media 表为唯一真源**，
+ *    localStorage 降级为缓存（ho_img_v2:<courseId>）—— 换设备 / 换浏览器打开同样能看到。
+ *    空图用「有行但 data_b64 为空」的墓碑行表示，避免某台设备的旧缓存把已删的图推回来。
+ * 2) 标签区：hero 卡片区展示本页标签，点「✎ 修改标签」打开勾选弹窗
+ *    （全选 / 重置为空 / 搜索 / 新增）。
+ * 3) 获取：词表读 tags 表；本页标签读 course_tags 表。
+ *    修改：本页标签写 course_tags；新增的标签同时写回 tags 全局词表。
+ *    云端不可用时整体回退 localStorage，状态栏标注「本地缓存」。
+ * =========================================================================== */
+(function () {
+  'use strict';
+
+  /* ---------- 0. 元信息与常量 ---------- */
+  var CM = {};
+  try { CM = JSON.parse(document.getElementById('c-meta').textContent) || {}; } catch (e) {}
+  var CID = CM.id || 'course_unknown';
+  var LIB_TABLE = 'tags';            // 全局统一标签库（词表）
+  var ASSIGN_TABLE = 'course_tags';  // 课件↔标签 关联
+  var MEDIA_TABLE = 'course_media';  // 课件媒体（原题图）：跨设备唯一真源
+  var LS_IMG2 = 'ho_img_v2:' + CID;  // 图片本地缓存（云端为准，本地仅加速）
+  var LS_IMG = 'ho_img_v1:' + CID, LS_LIB = 'ctags_lib_v1', LS_ROW = 'ctags_row_v1:' + CID, LS_META = 'ctags_meta_v1';
+  var SEED_TAGS = ['互动图像', '匀变速直线运动', '多选题', '昕言课件', '物理', '运动学'];
+  var SEED_LIB = ['KaTeX公式',
+    '互动图像',
+    '匀变速直线运动',
+    '昕言课件',
+    '物理',
+    '解答题',
+    '运动学',
+    '多选题',
+    '三角函数',
+    '公式渲染',
+    '单选题',
+    '数学',
+    '机械波',
+    '综合题',
+    '填空题',
+    '函数性质',
+    '自制课件',
+    '原子核物理',
+    '原子物理-电子发现',
+    '粒子物理',
+    '电磁学综合',
+    '万有引力与航天',
+    '天体物理',
+    '化学',
+    '实验化学',
+    '铝及其化合物',
+    '金属及其化合物',
+    '万能公式',
+    '讲课课件',
+    '图像变换',
+    'ω范围',
+    '对称轴',
+    '单调性',
+    '值域',
+    '余弦',
+    '极值点',
+    '零点',
+    '对称性',
+    '等差数列',
+    '裂项相消',
+    '分组求和',
+    '升幂公式',
+    '余弦定理',
+    '勾股定理逆定理',
+    '判断形状',
+    '正弦定理',
+    '海伦公式',
+    '内切圆外接圆',
+    '齐次式',
+    '配方',
+    '双解',
+    '分类讨论',
+    '四边形',
+    '基本不等式',
+    '最值与范围问题',
+    '周长范围',
+    '面积范围',
+    '角度范围',
+    '铝',
+    '氧化铝',
+    '实验装置',
+    '过滤',
+    '灼烧',
+    '传送带',
+    '水平',
+    '轻放',
+    '匀加速',
+    '匀速',
+    'v-t图',
+    '滑上',
+    '减速',
+    '反向加速',
+    '倾斜',
+    'μ>tanθ',
+    '轻放上端',
+    '加速下滑',
+    '离开速度',
+    '函数图像',
+    '痕迹',
+    '相对位移',
+    '黑炭',
+    '煤块',
+    '综合',
+    '力的合成',
+    '平行四边形定则',
+    '弹簧测力计',
+    '三力平衡',
+    'GeoGebra'];
+  var CAT_COLOR = { '学科': '#0C447C', '形态': '#6C5CE7', '题型': '#16A34A', '来源': '#D97706', '知识点': '#0891B2' };
+
+  var state = { lib: SEED_LIB.slice(), libBase: SEED_LIB.slice(), tags: SEED_TAGS.slice(), src: 'local' };
+  var libMeta = {};   // name -> {color, category}
+
+  function $(id) { return document.getElementById(id); }
+  function uniq(a) { var o = {}, r = []; a.forEach(function (x) { x = String(x == null ? '' : x).trim(); if (x && !o[x]) { o[x] = 1; r.push(x); } }); return r; }
+  function splitTags(s) { return uniq(String(s || '').split(';')); }
+  function lsGet(k) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function meta(n) { return libMeta[n] || { color: CAT_COLOR['知识点'], category: '知识点' }; }
+
+  var toastT = null;
+  function toast(msg) {
+    var el = $('hoToast');
+    if (!el) { el = document.createElement('div'); el.id = 'hoToast'; el.className = 'ho-toast'; document.body.appendChild(el); }
+    el.textContent = msg; el.classList.add('on');
+    clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('on'); }, 2000);
+  }
+
+  /* ---------- 1. 云表读写（WB Cloud；失败即回退本地） ---------- */
+  function dbReady(ms) {
+    return new Promise(function (res) {
+      if (window.WB_DB) return res(true);
+      var max = Math.ceil((ms || 8000) / 200), n = 0;
+      var t = setInterval(function () {
+        if (window.WB_DB) { clearInterval(t); res(true); }
+        else if (window.__WB_SDK_FAIL || ++n >= max) { clearInterval(t); res(false); }
+      }, 200);
+    });
+  }
+  function cloudLoad() {
+    return dbReady(9000).then(function (ok) {
+      if (!ok) return null;
+      var db = window.WB_DB;
+      return Promise.all([
+        db.from(LIB_TABLE).select('id,name,color,category,kind'),
+        db.from(ASSIGN_TABLE).select('*')
+      ]).then(function (rs) {
+        var libRes = rs[0], asgRes = rs[1];
+        if (!libRes || libRes.error) return null;
+        return {
+          lib: Array.isArray(libRes.data) ? libRes.data : [],
+          assign: (asgRes && !asgRes.error && Array.isArray(asgRes.data)) ? asgRes.data : []
+        };
+      }).catch(function () { return null; });
+    });
+  }
+  function libUpsert(names) {
+    if (!names || !names.length) return Promise.resolve(true);
+    var rows = names.map(function (n) {
+      return { id: 't_' + n, name: n, color: CAT_COLOR['知识点'], category: '知识点', kind: 'controlled' };
+    });
+    return dbReady(9000).then(function (ok) {
+      if (!ok) return false;
+      return window.WB_DB.from(LIB_TABLE).upsert(rows).then(function (r) { return !(r && r.error); }).catch(function () { return false; });
+    });
+  }
+  function assignSave(tags) {
+    var row = { id: CID, course_id: CID, tags: tags.join(';'), updated_at: new Date().toISOString() };
+    return dbReady(9000).then(function (ok) {
+      if (!ok) return false;
+      return window.WB_DB.from(ASSIGN_TABLE).upsert([row]).then(function (r) { return !(r && r.error); }).catch(function () { return false; });
+    });
+  }
+
+  /* ---------- 1.5 原题图云端同步（course_media 表） ---------- */
+  function mediaRow(dataUrl) {
+    var mime = 'image/jpeg', b64 = '';
+    var m = /^data:([^;,]+);base64,([\s\S]*)$/.exec(String(dataUrl || ''));
+    if (m) { mime = m[1]; b64 = m[2]; }
+    return { id: CID, kind: 'orig', mime: mime, data_b64: b64, bytes: b64.length, updated_at: new Date().toISOString() };
+  }
+  // 返回：null=云端不可用；{__none:true}=云端确认无此课行；其它=云端行（data_b64 为空即墓碑=已清空）
+  function mediaLoad() {
+    return dbReady(9000).then(function (ok) {
+      if (!ok) return null;
+      return window.WB_DB.from(MEDIA_TABLE).select('*').eq('id', CID).then(function (r) {
+        if (!r || r.error) return null;
+        var rows = Array.isArray(r.data) ? r.data : [];
+        return rows.length ? rows[0] : { __none: true };
+      }).catch(function () { return null; });
+    });
+  }
+  function mediaPush(row) {
+    return dbReady(9000).then(function (ok) {
+      if (!ok) return false;
+      return window.WB_DB.from(MEDIA_TABLE).upsert([row], { onConflict: 'id' })
+        .then(function (r) { return !(r && r.error); }).catch(function () { return false; });
+    });
+  }
+
+  /* ---------- 2. 标签展示 ---------- */
+  function renderChips() {
+    var box = $('htChips');
+    if (box) {
+      box.innerHTML = '';
+      if (!state.tags.length) {
+        var e = document.createElement('span'); e.className = 'ht-chip soft'; e.textContent = '未设置标签'; box.appendChild(e);
+      } else {
+        state.tags.forEach(function (t) {
+          var m = meta(t), s = document.createElement('span');
+          s.className = 'ht-chip'; s.textContent = t;
+          s.style.background = m.color + '1A'; s.style.color = m.color;
+          box.appendChild(s);
+        });
+      }
+    }
+    var src = $('htSrc');
+    if (src) src.textContent = state.src === 'cloud'
+      ? '☁ 已接入全局标签库 tags · 本课标签存 course_tags'
+      : '💾 本地缓存（云端暂不可用）';
+  }
+
+  /* ---------- 3. 标签编辑弹窗 ---------- */
+  var picked = [];
+  function openEditor() {
+    picked = state.tags.slice();
+    renderList('');
+    var m = $('tgMask'); if (m) m.classList.add('open');
+    var st = $('tgStatus');
+    if (st) st.textContent = state.src === 'cloud'
+      ? '词表：全局标签库 tags（' + state.libBase.length + ' 个）'
+      : '数据源：本地缓存';
+    setTimeout(function () { var s = $('tgSearch'); if (s) s.focus(); }, 60);
+  }
+  function closeEditor() { var m = $('tgMask'); if (m) m.classList.remove('open'); }
+
+  function renderList(q) {
+    var box = $('tgList'); if (!box) return;
+    q = String(q || '').trim().toLowerCase();
+    var pool = uniq(state.lib.concat(picked));
+    pool.sort(function (a, b) {
+      var pa = picked.indexOf(a) >= 0 ? 0 : 1, pb = picked.indexOf(b) >= 0 ? 0 : 1;
+      return pa === pb ? 0 : pa - pb;
+    });
+    box.innerHTML = '';
+    var shown = 0;
+    pool.forEach(function (t) {
+      if (q && t.toLowerCase().indexOf(q) < 0) return;
+      shown++;
+      var m = meta(t);
+      var lab = document.createElement('label');
+      lab.className = 'tg-item' + (picked.indexOf(t) >= 0 ? ' on' : '') + (state.libBase.indexOf(t) < 0 ? ' isnew' : '');
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.value = t; cb.checked = picked.indexOf(t) >= 0;
+      cb.addEventListener('change', function () {
+        if (cb.checked) { if (picked.indexOf(t) < 0) picked.push(t); }
+        else { picked = picked.filter(function (x) { return x !== t; }); }
+        lab.classList.toggle('on', cb.checked);
+        updateCount();
+      });
+      var dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = m.color;
+      var sp = document.createElement('span'); sp.textContent = t;
+      var cat = document.createElement('span'); cat.className = 'cat'; cat.textContent = m.category;
+      lab.appendChild(cb); lab.appendChild(dot); lab.appendChild(sp); lab.appendChild(cat);
+      box.appendChild(lab);
+    });
+    if (!shown) {
+      box.innerHTML = '<span style="font-size:.8rem;color:#98a0b3">没有匹配的标签，可在下方「新增标签」里添加</span>';
+    }
+    updateCount();
+  }
+  function updateCount() { var el = $('tgCount'); if (el) el.textContent = '已选 ' + picked.length + ' 个'; }
+
+  function addNewTag() {
+    var inp = $('tgNew'); if (!inp) return;
+    var v = String(inp.value || '').replace(/[;；,，]/g, ' ').trim();
+    if (!v) { toast('请输入标签名'); return; }
+    if (picked.indexOf(v) < 0) picked.push(v);
+    if (state.lib.indexOf(v) < 0) state.lib.push(v);
+    inp.value = '';
+    renderList($('tgSearch') ? $('tgSearch').value : '');
+    toast('已添加「' + v + '」，保存后将写入全局标签库');
+  }
+
+  function save() {
+    var tags = uniq(picked);
+    var added = tags.filter(function (t) { return state.libBase.indexOf(t) < 0; });
+    var st = $('tgStatus'), btn = $('tgSave');
+    if (st) st.textContent = '保存中…';
+    if (btn) btn.disabled = true;
+    Promise.all([assignSave(tags), libUpsert(added)]).then(function (res) {
+      var ok = res[0];
+      state.tags = tags;
+      state.libBase = uniq(state.libBase.concat(tags));
+      state.lib = uniq(state.lib.concat(tags));
+      state.src = ok ? 'cloud' : 'local';
+      added.forEach(function (n) { if (!libMeta[n]) libMeta[n] = { color: CAT_COLOR['知识点'], category: '知识点' }; });
+      lsSet(LS_ROW, tags); lsSet(LS_LIB, state.lib); lsSet(LS_META, libMeta);
+      renderChips();
+      if (btn) btn.disabled = false;
+      closeEditor();
+      toast(ok
+        ? ('已保存到全局标签库' + (added.length ? '（新增 ' + added.length + ' 个标签）' : ''))
+        : '云端不可用，已存本地缓存');
+    });
+  }
+
+  /* ---------- 4. 原题图区（云端 course_media 为准 + 本地缓存加速） ---------- */
+  function setMediaState(kind, detail) {
+    var el = $('hoSrc'); if (!el) return;
+    el.className = 'ho-src';
+    if (kind === 'cloud') { el.classList.add('ok'); el.textContent = '☁ 已同步到云端（各设备可见）'; }
+    else if (kind === 'saving') { el.textContent = '⏳ 同步中…'; }
+    else if (kind === 'local') { el.classList.add('warn'); el.textContent = '💾 仅本机（云端暂不可用，稍后自动重试）'; }
+    else { el.textContent = detail || ''; }
+  }
+  function paintImg(dataUrl) {
+    var img = $('hoImg'), empty = $('hoEmpty');
+    if (!img) return;
+    if (dataUrl) { img.src = dataUrl; img.classList.add('on'); if (empty) empty.style.display = 'none'; }
+    else { img.classList.remove('on'); img.removeAttribute('src'); if (empty) empty.style.display = ''; }
+  }
+  function localImg() {
+    var c = lsGet(LS_IMG2);
+    if (c && typeof c.d === 'string' && c.d.indexOf('data:') === 0) return c.d;
+    var o = lsGet(LS_IMG);   // 兼容旧版本地数据
+    return (typeof o === 'string' && o.indexOf('data:') === 0) ? o : '';
+  }
+  function setImg(dataUrl, opt) {
+    opt = opt || {};
+    paintImg(dataUrl);
+    lsSet(LS_IMG2, { d: dataUrl, t: Date.now() });
+    try { localStorage.removeItem(LS_IMG); } catch (e) {}
+    if (opt.fromCloud) return;
+    if (!opt.silent) toast('已替换原题截图');
+    setMediaState('saving');
+    mediaPush(mediaRow(dataUrl)).then(function (ok) {
+      setMediaState(ok ? 'cloud' : 'local');
+      if (!ok) toast('云端暂不可用，图片先存在本机，刷新后会自动补传');
+      else if (!opt.silent) toast('已替换原题截图 · 已同步云端');
+    });
+  }
+  function clearImg(opt) {
+    opt = opt || {};
+    paintImg('');
+    try { localStorage.removeItem(LS_IMG2); localStorage.removeItem(LS_IMG); } catch (e) {}
+    if (opt.fromCloud) return;
+    if (!opt.silent) toast('已恢复为空');
+    setMediaState('saving');
+    // 墓碑行（data_b64 置空）：让别的设备把本地旧缓存也清掉，而不是把旧图推回来
+    var row = mediaRow('');
+    mediaPush(row).then(function (ok) {
+      setMediaState(ok ? 'cloud' : 'local');
+      if (!ok) toast('云端清空失败，请稍后再试');
+    });
+  }
+  function compress(dataUrl) {
+    return new Promise(function (res) {
+      var im = new Image();
+      im.onload = function () {
+        try {
+          var w = im.naturalWidth || 1200, h = im.naturalHeight || 1200;
+          var maxW = 1200, maxH = 1200;              // 云端每课一张，压到这个尺寸看题足够
+          var sc = Math.min(1, maxW / w, maxH / h);
+          w = Math.max(1, Math.round(w * sc)); h = Math.max(1, Math.round(h * sc));
+          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+          var cx = cv.getContext('2d');
+          cx.fillStyle = '#fff'; cx.fillRect(0, 0, w, h);   // 透明底转 JPEG 会发黑，先铺白
+          cx.drawImage(im, 0, 0, w, h);
+          var out = cv.toDataURL('image/webp', 0.82);
+          var fmt = out.indexOf('data:image/webp') === 0 ? 'image/webp' : 'image/jpeg';
+          var q = 0.82;
+          while (out.length > 340000 && q > 0.42) {    // base64 控制在 ~340KB 内（≈250KB 图）
+            q -= 0.08;
+            out = cv.toDataURL(fmt, q);
+          }
+          cv.width = cv.height = 0;
+          res(out);
+        } catch (e) { res(dataUrl); }
+      };
+      im.onerror = function () { res(dataUrl); };
+      im.src = dataUrl;
+    });
+  }
+  function readFile(file) {
+    if (!file || String(file.type || '').indexOf('image/') !== 0) { toast('只支持图片文件'); return; }
+    if (file.size > 12 * 1024 * 1024) { toast('图片过大（超过 12MB），请先裁剪再上传'); return; }
+    var fr = new FileReader();
+    fr.onload = function () { compress(String(fr.result)).then(function (d) { setImg(d); }); };
+    fr.readAsDataURL(file);
+  }
+
+  /* ---------- 5. 事件装配 ---------- */
+  function wireImage() {
+    var drop = $('hoDrop'), file = $('hoFile'), rst = $('hoReset');
+    if (drop && file) {
+      drop.addEventListener('click', function () { file.click(); });
+      drop.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); file.click(); }
+      });
+      drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('arm'); });
+      drop.addEventListener('dragleave', function () { drop.classList.remove('arm'); });
+      drop.addEventListener('drop', function (e) {
+        e.preventDefault(); drop.classList.remove('arm');
+        var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f) readFile(f);
+      });
+    }
+    if (file) file.addEventListener('change', function () {
+      if (file.files && file.files[0]) readFile(file.files[0]);
+      file.value = '';
+    });
+    if (rst) rst.addEventListener('click', function () { clearImg(); });
+
+    // 全局 Ctrl+V：剪贴板里有图片就替换（输入框内粘贴不受影响）
+    document.addEventListener('paste', function (e) {
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      if (!e.clipboardData) return;
+      var items = e.clipboardData.items || [], got = null;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.indexOf('image') === 0) { got = items[i].getAsFile(); break; }
+      }
+      if (!got) return;
+      e.preventDefault();
+      readFile(got);
+    });
+
+    // ① 本地缓存秒开（换设备时为空）② 再以云端 course_media 为准校正
+    var cur = localImg();
+    paintImg(cur);
+    if (cur) lsSet(LS_IMG2, { d: cur, t: Date.now() });
+    setMediaState('saving');
+    mediaLoad().then(function (row) {
+      if (row === null) { setMediaState('local'); return; }          // 云端不可用：保持本地
+      if (row.__none) {                                              // 云端确认无此行
+        if (cur) {                                                   // 本机有图 → 补传（上次可能没同步成功）
+          mediaPush(mediaRow(cur)).then(function (ok) { setMediaState(ok ? 'cloud' : 'local'); });
+        } else setMediaState('cloud');
+        return;
+      }
+      if (row.data_b64) {                                            // 云端有图 → 覆盖本地缓存
+        var d = 'data:' + (row.mime || 'image/jpeg') + ';base64,' + row.data_b64;
+        if (d !== cur) { paintImg(d); lsSet(LS_IMG2, { d: d, t: Date.now() }); }
+        setMediaState('cloud');
+      } else {                                                       // 云端墓碑：已被清空
+        if (cur) { paintImg(''); try { localStorage.removeItem(LS_IMG2); } catch (e) {} }
+        setMediaState('cloud');
+      }
+    });
+  }
+
+  function wireTags() {
+    var b = $('htEditBtn'); if (b) b.addEventListener('click', openEditor);
+    var c = $('tgCancel'); if (c) c.addEventListener('click', closeEditor);
+    var s = $('tgSave'); if (s) s.addEventListener('click', save);
+    var all = $('tgAll'); if (all) all.addEventListener('click', function () {
+      picked = uniq(state.lib.concat(picked));
+      renderList($('tgSearch') ? $('tgSearch').value : '');
+    });
+    var none = $('tgNone'); if (none) none.addEventListener('click', function () {
+      picked = []; renderList($('tgSearch') ? $('tgSearch').value : '');
+    });
+    var srch = $('tgSearch'); if (srch) srch.addEventListener('input', function () { renderList(srch.value); });
+    var nb = $('tgAddBtn'); if (nb) nb.addEventListener('click', addNewTag);
+    var ni = $('tgNew'); if (ni) ni.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); addNewTag(); }
+    });
+    var mask = $('tgMask'); if (mask) mask.addEventListener('click', function (e) { if (e.target === mask) closeEditor(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeEditor(); });
+  }
+
+  /* ---------- 6. 启动：本地先渲染，再拉云端覆盖 ---------- */
+  function init() {
+    var lr = lsGet(LS_ROW), ll = lsGet(LS_LIB), lm = lsGet(LS_META);
+    if (Array.isArray(lr) && lr.length) state.tags = uniq(lr);
+    if (Array.isArray(ll) && ll.length) state.lib = uniq(ll.concat(SEED_LIB));
+    if (lm && typeof lm === 'object') libMeta = lm;
+    state.libBase = uniq(state.lib.concat(SEED_LIB));
+    renderChips();
+
+    cloudLoad().then(function (res) {
+      if (!res) { state.src = 'local'; renderChips(); return; }
+      var libNames = [], metaMap = {};
+      (res.lib || []).forEach(function (r) {
+        if (!r || !r.name) return;
+        if (r.kind && r.kind !== 'controlled') return;   // 只取词表行
+        libNames.push(r.name);
+        metaMap[r.name] = { color: r.color || CAT_COLOR['知识点'], category: r.category || '知识点' };
+      });
+      libNames = uniq(libNames);
+      var row = null;
+      (res.assign || []).forEach(function (r) { if (r && (r.id === CID || r.course_id === CID)) row = r; });
+      var tagsNext = row ? splitTags(row.tags) : SEED_TAGS.slice();
+      state.libBase = libNames.length ? libNames : SEED_LIB.slice();
+      state.lib = uniq(state.libBase.concat(state.tags));
+      state.tags = tagsNext;
+      state.src = 'cloud';
+      libMeta = metaMap;
+      lsSet(LS_LIB, state.lib); lsSet(LS_ROW, tagsNext); lsSet(LS_META, metaMap);
+      renderChips();
+      if (!row) assignSave(tagsNext);   // 首次接入：补建本课关联行
+    });
+  }
+
+  function boot() { wireImage(); wireTags(); init(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+<!--HERO-ORIG-TAGS-END-->
+<script data-cw-progress="1">
+/* ===== 📌 课件训练进度断点（2026-10-03 方案C：本地实时 + 云端备份） =====
+ * 与 tnav 串联导航配合：URL 带 ?tr=<序号> 且 train_group.rid 存在时，
+ * 每次打开/切课记录「该队列练到第几课」——本地 localStorage（wulun_tp_cw）
+ * + 云端 practice_sessions.progress（经 WB Cloud 适配器写入，跨设备）。
+ * app 端 startPracticeSession 课件分支读断点 → 直接跳上次练到的课。 */
+(function(){
+  'use strict';
+  if (window.__cwTp) return;
+  window.__cwTp = true;
+  var SUPA = 'https://mixuqjognbdrafrrlivc.supabase.co/rest/v1/';   /* 由 WB Cloud 适配器透明翻译 */
+  function getQ(k){
+    try{ var v = new URLSearchParams(location.search).get(k); if(v != null) return v; }catch(e){}
+    var m = location.search.match(new RegExp('[?&]' + k + '=([^&]+)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  var ti = parseInt(getQ('tr'), 10);
+  if (isNaN(ti) || ti < 0) return;
+  var g = null;
+  try { g = JSON.parse(localStorage.getItem('train_group')); } catch(e){}
+  if (!g || !g.urls || !g.urls.length) return;
+  var rid = getQ('q') || g.rid || null;
+  if (!rid) return;   /* 非队列串联（如门户自选课件组）不记断点 */
+  var total = g.urls.length;
+  var LS = 'wulun_tp_cw';
+
+  function localSave(rec){
+    var all = {};
+    try{ all = JSON.parse(localStorage.getItem(LS) || '{}'); }catch(e){}
+    if(rec) all[rid] = rec; else delete all[rid];
+    try{ localStorage.setItem(LS, JSON.stringify(all)); }catch(e){}
+  }
+  function cloudSave(rec){
+    /* 读-合-写：先取整行再 upsert，避免部分列被覆盖 */
+    fetch(SUPA + 'practice_sessions?rid=eq.' + encodeURIComponent(rid) + '&select=rid,title,subject,source,card_ids,new_card_ids,hit_map,browsed_at&limit=1', { headers: {'Content-Type':'application/json'} })
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(a){
+        var s = (a && a[0]) || null;
+        var row = s ? JSON.parse(JSON.stringify(s)) : { rid: rid, title: '', subject: '跨科', source: 'courseware-portal', card_ids: [], new_card_ids: [], hit_map: {} };
+        row.progress = rec;
+        row.browsed_at = new Date().toISOString();
+        return fetch(SUPA + 'practice_sessions?on_conflict=rid', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+          body: JSON.stringify([row])
+        });
+      })
+      .catch(function(){ /* 断点备份失败不影响训练 */ });
+  }
+  var rec = { kind: 'cw', idx: ti, total: total, ts: Date.now() };
+  localSave(rec);
+  cloudSave(rec);
+})();
+
+</script>
 </body></html>
