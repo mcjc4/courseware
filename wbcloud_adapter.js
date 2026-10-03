@@ -111,12 +111,15 @@
     else showCloudBadge('err', status === 500 ? 'WB Cloud 拒绝写入' : 'WB Cloud 未就绪');
   }
 
-  // 把 supabase REST 查询串解析成 WB Cloud 构造器参数
+  // 解析 supabase REST 查询串 → WB Cloud 构造器参数
+  // 2026-09-24：新增 on_conflict 参数识别（如 ?on_conflict=card_id），
+  //   该参数不是过滤条件，必须从 eqs 中剔除，否则 upsert 语义错误。
   function parseQuery(search) {
-    var cols = '*', eqs = [], order = null, limit = null;
+    var cols = '*', eqs = [], order = null, limit = null, onConflict = null;
     var params = new URLSearchParams(search);
     params.forEach(function (val, key) {
       if (key === 'select') { cols = val; }
+      else if (key === 'on_conflict') { onConflict = val; }
       else if (key === 'order') { var a = val.split('.'); order = { col: a[0], asc: a[1] !== 'desc' }; }
       else if (key === 'limit') { limit = parseInt(val, 10) || null; }
       else {
@@ -125,7 +128,7 @@
         else { eqs.push({ col: key, op: 'eq', val: val }); }
       }
     });
-    return { cols: cols, eqs: eqs, order: order, limit: limit };
+    return { cols: cols, eqs: eqs, order: order, limit: limit, onConflict: onConflict };
   }
 
   function applyFilters(qb, eqs, order, limit) {
@@ -173,7 +176,14 @@
           return makeResp(r2.data || [], 201);
         }
         if (/merge-duplicates/.test(prefer)) {
-          // course_stats：按 course_id 一课一行 → 用 id 去重（WB Cloud upsert 按 id）
+          // 2026-09-24：优先用查询串里的 on_conflict 列做 upsert 冲突键。
+          //   cards 表主键是 card_id（课件「加入训练」写 ?on_conflict=card_id），
+          //   course_stats 无 on_conflict 参数，保持旧行为按 id 去重。
+          if (q.onConflict) {
+            var r2c = await db.from(wbTable).upsert(rows, { onConflict: q.onConflict });
+            if (r2c.error) return makeResp([], 500);
+            return makeResp(r2c.data || [], 201);
+          }
           rows.forEach(function (row) {
             if (row && row.course_id != null && row.id == null) row.id = String(row.course_id);
           });
