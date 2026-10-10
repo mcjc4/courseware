@@ -3319,6 +3319,79 @@ body{padding-left:220px;padding-top:52px}
 })();
 </script>
 
+<!-- 门户课件浏览上报：点开课件 / 作业讲评 → 写一条浏览历史到云端 gaokao_state（记忆卡 history.html 可看） -->
+<script>
+(function () {
+  'use strict';
+  var ACTIVE_KEY = 'wulun_active_person';
+  function lsGet(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } }
+  function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function personKey(){ return lsGet(ACTIVE_KEY, 'chenxinyan'); }
+  var recent = Object.create(null);
+  function waitDb(ms){
+    return new Promise(function(resolve){
+      if(window.WB_DB) return resolve(window.WB_DB);
+      var n = 0, step = 200, max = Math.ceil((ms || 4000) / step);
+      var t = setInterval(function(){
+        if(window.WB_DB){ clearInterval(t); return resolve(window.WB_DB); }
+        if(window.__WB_SDK_FAIL || ++n >= max){ clearInterval(t); return resolve(null); }
+      }, step);
+    });
+  }
+  function hrefOf(card){
+    var h = card.getAttribute('data-href') || '';
+    if(!h) return '';
+    if(/^https?:/i.test(h)) return h;
+    return 'courseware/' + h.replace(/^\.?\//, '');
+  }
+  /* 本地镜像：云端不可用时，history.html 仍能从本机 localStorage 读到课件记录 */
+  function saveLocalMirror(bh){
+    try{
+      var store = lsGet('wulun_person_v2', {});
+      var pk = personKey();
+      var d0 = store[pk] || (store[pk] = {});
+      d0.browseHistory = bh.slice(0, 500);
+      store[pk] = d0;
+      lsSet('wulun_person_v2', store);
+    }catch(e){}
+  }
+  async function record(card){
+    try{
+      var cid = card.getAttribute('data-cid'); if(!cid) return;
+      var now = Date.now();
+      if(recent[cid] && (now - recent[cid]) < 30000) return;   /* 30s 内重复点同一课件不重复记 */
+      recent[cid] = now;
+      var db = await waitDb(4000); if(!db) return;
+      var sid = 'jikaka-' + personKey();
+      var rows = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
+      var data = (rows && rows[0] && rows[0].data);
+      if(!data || typeof data !== 'object') data = {};
+      var bh = Array.isArray(data.browseHistory) ? data.browseHistory.slice() : [];
+      bh = bh.filter(function(e){ return e && String(e.id) !== cid; });   /* 同一课件只保留最近一次 */
+      bh.unshift({
+        ts: now, id: cid, mode: '课件',
+        subject: card.getAttribute('data-subject') || '',
+        src: hrefOf(card),
+        t: card.getAttribute('data-knowledge') || '',
+        chapter: card.getAttribute('data-chapter') || ''
+      });
+      if(bh.length > 500) bh.length = 500;
+      saveLocalMirror(bh);
+      data.browseHistory = bh;
+      data.updatedAt = now;
+      await db.from('gaokao_state').upsert({ id: sid, data: data, updated_at: new Date().toISOString() });
+      window.__psBrowseLogged = (window.__psBrowseLogged || 0) + 1;
+    }catch(e){ /* 静默：上报失败不影响正常浏览课件 */ }
+  }
+  document.addEventListener('click', function(e){
+    var el = e.target;
+    var card = el && el.closest ? el.closest('.card[data-cid][data-href]') : null;
+    if(!card) return;
+    record(card);
+  }, true);
+})();
+</script>
+
 <!-- 统一标签库 管理器 (TagLib, 同源 WB Cloud tags 表) -->
 <style id="psTagMgrStyle">
 .psModalMask{position:fixed;inset:0;background:rgba(15,30,50,.45);z-index:200;display:flex;align-items:center;justify-content:center}
