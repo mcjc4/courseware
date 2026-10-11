@@ -3396,9 +3396,21 @@ body{padding-left:220px;padding-top:52px}
       recent[cid] = now;
       var db = await waitDb(4000); if(!db) return;
       var sid = 'jikaka-' + personKey();
-      var rows = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
-      var data = (rows && rows[0] && rows[0].data);
-      if(!data || typeof data !== 'object') data = {};
+      /* ⚠️ PORTAL-VER: 20261012a —— 修复：SDK 的 .select() 返回 {data:[...],error} 对象而非数组，
+         原写法 rows[0] 恒为 undefined → data 被当成 {} 重建 → 每次点课件都把记忆卡主档案
+         （state/browseHistory/pos/trainCount…）整体 upsert 成空壳（实测 255 字节），练习状态因此丢失。
+         现在：① 按 r.data[0] 取行；② 读接口异常 / 行存在但形状不可用 → 直接 return，绝不写；
+         ③ 写前重读一次并合并，缩小与 app 端 push 的竞态窗口。 */
+      var r0 = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
+      if(!r0 || !Array.isArray(r0.data)) return;                 /* 读接口异常 → 绝不写 */
+      var row0 = r0.data[0] || null;
+      var data = null;
+      if(!row0){
+        data = { v: 1 };                                           /* 确实无行 → 允许新建（无旧档可冲） */
+      }else{
+        data = (row0.data && typeof row0.data === 'object') ? row0.data : null;
+        if(!data) return;                                          /* 行存在但 data 不可用 → 绝不写 */
+      }
       var bh = Array.isArray(data.browseHistory) ? data.browseHistory.slice() : [];
       bh = bh.filter(function(e){ return e && String(e.id) !== cid; });   /* 同一课件只保留最近一次 */
       bh.unshift({
@@ -3410,6 +3422,12 @@ body{padding-left:220px;padding-top:52px}
       });
       if(bh.length > 500) bh.length = 500;
       saveLocalMirror(bh);
+      /* 写前重读最新档案，只合并本次课件浏览：避免把期间 app 端新写的进度覆盖掉 */
+      try{
+        var r1 = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
+        var row1 = (r1 && Array.isArray(r1.data) && r1.data[0]) ? r1.data[0] : null;
+        if(row1 && row1.data && typeof row1.data === 'object') data = row1.data;
+      }catch(e2){}
       data.browseHistory = bh;
       data.updatedAt = now;
       await db.from('gaokao_state').upsert({ id: sid, data: data, updated_at: new Date().toISOString() });
