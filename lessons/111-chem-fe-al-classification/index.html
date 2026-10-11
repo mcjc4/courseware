@@ -44,6 +44,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .nav-links{display:flex;gap:11px;margin-left:auto;font-size:13px;overflow-x:auto;white-space:nowrap;padding-left:8px}
 .nav-links a{color:var(--muted);text-decoration:none;padding:3px 1px}
 .nav-links a:hover{color:var(--brand)}
+.back-link{display:inline-block;margin:10px 0 4px;font-size:13px;font-weight:700;color:#1f4fd8;text-decoration:none;padding:6px 16px;border-radius:999px;background:#f0f6ff;border:1px solid #c9dcf7;transition:.15s}
+.back-link:hover{background:#dbeafe}
 /* ===== 首屏 ===== */
 .hero{padding:50px 0 4px;text-align:center}
 .kicker{display:inline-block;background:var(--accent-soft);color:#c96a1e;font-size:12.5px;padding:5px 14px;border-radius:999px;font-weight:700;letter-spacing:.5px}
@@ -131,7 +133,6 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 @media(max-width:640px){
   .card{padding:18px 16px}
   .nav-links{display:none}
-  .badges{margin:0 auto}
 }
 </style>
 <script type="application/json" id="c-meta">{"id":"course_111_chem-fe-al-classification","title":"Fe/Al 分类推断：两性体检×变色链×周期表分区","subject":"化学","chapter":"元素化合物（Fe/Al）","points":["铝的两性（氧化物碱均溶酸碱）", "NaOH溶液排他锁定Al", "电解熔融氧化铝制铝", "铁变价变色转化链", "周期表分区与反例战术"],"date":"2026-10-03","number":"111"}</script>
@@ -390,15 +391,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
 <div data-page-node-id="HUCua5MIuJdwEmDUufvEv6" class="topbar">
   <div data-page-node-id="NsfPpYTH9SPYcf7VmxKwhb" class="wrap">
-    <div data-page-node-id="NYTh3BKm9MEzfCl5i6yzdm" class="badges">
-      <div data-page-node-id="GWl10AUPbDVd2ujDVtvOsV" class="badge" data-b="concept"><span data-page-node-id="03WnuTO0JLsTMVo2nSDMyF" class="ico"><!--pnid:LqRo6OOIoSBV4XXCpiX7th-->🧠</span><span data-page-node-id="okG8jHCRIGiXfrS9ZdCNbc"><!--pnid:vhU8dxF39DYTp88p8qx1bL-->充电</span></div>
-      <div data-page-node-id="n0Mdz78GoRSI2l93fpzrww" class="badge" data-b="p1"><span data-page-node-id="LZYM6vhLNlcXI6ueWf51fH" class="ico"><!--pnid:B7ot1rb7PZwHBio2sMA4OA-->🔎</span><span data-page-node-id="EXkq8VR3ic6LyG8bHrliz9"><!--pnid:ORzhecDli0tDrwV2XiLtte-->验 A·B</span></div>
-      <div data-page-node-id="DquEg4za2S3Q9EVQZCyF7K" class="badge" data-b="p2"><span data-page-node-id="t6LrRJPdIemeebbLMw1ngo" class="ico"><!--pnid:1JNZEf7oQsoiOFiib49xSt-->🧪</span><span data-page-node-id="b2HwlbNhVBmke5fOf9NgU8"><!--pnid:8Uns4qzm1wZwR83EjXklbY-->两性验 C</span></div>
-      <div data-page-node-id="lei2qA15ldYTkH3wE9u0sF" class="badge" data-b="quiz"><span data-page-node-id="jy76aoAjaRgzEFQeFgvQAQ" class="ico"><!--pnid:J3EOjrvFsXNF863yQvkjtN-->🏆</span><span data-page-node-id="dk508sWFMiRdXEpOYAoGSX"><!--pnid:aGovYuOuN33gSARJUcSSMi-->小测</span></div>
-      <div data-page-node-id="WvcwxfBQgw4MEe9ItA7xFO" class="badge" data-b="p3"><span data-page-node-id="cCjuaI6AmnV0R47gdDBxwC" class="ico"><!--pnid:3uesAh8BwAFxFWJRT62Trg-->🎨</span><span data-page-node-id="wODTDPweF610aBs8D520Xx"><!--pnid:Qv4Fml1Ya7TWwL3ddnSNKi-->变色链 D</span></div>
-    </div>
     <div data-page-node-id="tgLKt3BkjU7C2oxNn2yjK8" class="nav-links">
-      <a data-page-node-id="IvDoGG23YYiYQMEpqHyFSV" href="#concepts"><!--pnid:FaxLpAEqfqFVgT0Uzd9ZIW-->概念充电</a><a data-page-node-id="ST1vRHWR7ux1EDHIQiMYH6" href="#part1"><!--pnid:y6jFR54T6psNbnXU42Ze2w-->验 A·B</a><a data-page-node-id="ikqCEZIFdXvI29jMuUfOgy" href="#part2"><!--pnid:8vMpC83zuDHhD1DTWc1eyH-->两性验 C</a><a href="#part3">变色链 D</a><a data-page-node-id="5zm3sGnYDWNmkP9518SBpD" href="#quiz"><!--pnid:MJJDvxZKy2OK3vcJvwb3XS-->通关小测</a><a data-page-node-id="1lqqmXMi4D1H5PXFsGfW9O" href="#summary"><!--pnid:O8LJI9duhEm1r35hH7EXNU-->记忆卡</a>
+      <a data-page-node-id="navProb" href="#problem" style="color:#1f4fd8;font-weight:700">📄 原题</a><a data-page-node-id="IvDoGG23YYiYQMEpqHyFSV" href="#concepts"><!--pnid:FaxLpAEqfqFVgT0Uzd9ZIW-->概念充电</a><a data-page-node-id="ST1vRHWR7ux1EDHIQiMYH6" href="#part1"><!--pnid:y6jFR54T6psNbnXU42Ze2w-->验 A·B</a><a data-page-node-id="ikqCEZIFdXvI29jMuUfOgy" href="#part2"><!--pnid:8vMpC83zuDHhD1DTWc1eyH-->两性验 C</a><a href="#part3">变色链 D</a><a data-page-node-id="5zm3sGnYDWNmkP9518SBpD" href="#quiz"><!--pnid:MJJDvxZKy2OK3vcJvwb3XS-->通关小测</a><a data-page-node-id="1lqqmXMi4D1H5PXFsGfW9O" href="#summary"><!--pnid:O8LJI9duhEm1r35hH7EXNU-->记忆卡</a>
     </div>
   </div>
 </div>
@@ -447,6 +441,9 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="t2hvcgwYkhUbpRs0B5Ne9b" id="problem">
     <div data-page-node-id="xJIPhCwr0xE9IyTTDcjWRu" class="card">
       <div data-page-node-id="qwROu6uDPx1rx8u1IAQB0G" class="sec-head"><span data-page-node-id="kudjyZ5FzYypLRhxLF9OLA" class="sec-no"><!--pnid:tqx3SptxybqgdX1wud3cOS-->原题</span><span data-page-node-id="IE9OXgsKiXYoSsMtFdFom8" class="sec-title"><!--pnid:oxTopBvW8wTCSHNHvq16gB-->先看一眼长啥样</span></div>
+
+      <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
+
       <p>（题3）部分含 Al 或 Fe 物质的分类与相互化合关系如图，其中 \(f\) 是氯化物。下列推断<b>不合理</b>的是</p>
       <div style="display:flex; justify-content:center; margin:6px 0 10px">
         <svg viewBox="0 0 420 190" style="width:min(440px,92%); height:auto">
@@ -473,7 +470,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
       <p style="margin-left:1.4em; text-indent:-1.4em">C．若 \(b\) 和 \(d\) 均能与同一物质反应生成 \(c\)，则组成 \(a\) 的元素一定位于周期表 \(p\) 区；</p>
       <p style="margin-left:1.4em; text-indent:-1.4em">D．在 \(g\rightarrow f\rightarrow e\rightarrow d\) 转化过程中，一定存在物质颜色的变化。</p>
 
-      <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
+
 
 
       <div class="note">这是「物质分类 + 元素化合物」的经典推断选择题：图是一张<b>空位图</b>——每个字母只告诉你「它属于哪一类」，具体是谁要靠两条候选线（Al 线 / Fe 线）往里代人。<b>破题三把钥匙</b>：①「\(a\) 能与 \(\mathrm{NaOH}\) 溶液反应」是<b>排他线索</b>（常见金属里只有 Al 干这事）；②「\(b\)、\(d\) 溶于同一物质生成同一种盐 \(c\)」是<b>两性体检</b>——Al 线 Fe 线都能过，所以凡说「一定」的都要拿反例敲打；③「\(g\rightarrow f\rightarrow e\rightarrow d\)」这条链藏着<b>两种碱</b>——只有变价金属 Fe 才走得出，而 Fe 的转化链自带一场「颜色变装秀」。</div>
@@ -907,7 +904,7 @@ var KEYS=['concept','p1','p2','p3','quiz'],got={};
 function award(k){
   if(got[k])return;got[k]=true;
   var b=document.querySelector('.badge[data-b="'+k+'"]');
-  if(b){b.classList.add('on');var r=b.getBoundingClientRect();FX.at(b,'sparkle');}
+  if(b){b.classList.add('on');FX.at(b,'sparkle');}  // 顶栏徽章已于 2026-10-11 移除，此处保留兜底
   if(KEYS.every(function(x){return got[x];})){
     setTimeout(function(){bigCelebration();toast('🎓 五徽章集齐！这道题已经进入你的舒适区。');},700);
   }
@@ -3055,6 +3052,11 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 })();
 </script>
+
+<!-- 返回导航（顶部已有 back-link，底部补一个，长页面滚到底也能回） -->
+<div style="max-width:1080px;margin:26px auto 40px;padding:0 16px">
+  <a class="back-link" href="https://jikaka-memory.app.workbuddy.host/library.html#secCw" style="display:inline-block;padding:9px 20px;border-radius:999px;background:#f0f6ff;border:1px solid #c9dcf7;color:#1f4fd8;font-weight:700;text-decoration:none">← 返回训练库课件队列</a>
+</div>
 <!--MC-CARDTRAIN-END-->
 </body>
 </html>
