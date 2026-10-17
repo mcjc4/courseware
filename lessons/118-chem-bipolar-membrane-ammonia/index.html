@@ -173,6 +173,33 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .tg-foot .st{flex:1;font-size:.73rem;color:var(--muted);line-height:1.5;}
 .tg-foot button{font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;padding:7px 18px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#5c6274;transition:.15s;}
 .tg-foot button:hover{border-color:var(--brand);color:var(--brand);}
+/* ===== 资料参考区（rf- 前缀，20261017）===== */
+.rf-btn{color:#B45309!important;border-color:#fcd34d!important;}
+.rf-btn:hover{background:rgba(217,119,6,.08)!important;}
+.rf-mask{position:fixed;inset:0;background:rgba(24,20,50,.45);z-index:121000;display:none;align-items:center;justify-content:center;padding:18px;}
+.rf-mask.open{display:flex;}
+.rf-pop{background:#fff;border-radius:18px;width:min(600px,100%);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 70px -20px rgba(30,20,80,.5);overflow:hidden;}
+.rf-head{padding:15px 18px 11px;font-family:inherit;font-weight:700;font-size:1rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #f0eefb;}
+.rf-head small{font-weight:600;font-size:.74rem;color:#B45309;}
+.rf-list{padding:12px 18px;overflow:auto;flex:1 1 auto;display:flex;flex-direction:column;gap:8px;min-height:90px;}
+.rf-item{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:9px 13px;background:#fffdf7;transition:.15s;}
+.rf-item:hover{border-color:#f59e0b;background:#fffbeb;}
+.rf-item a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600;font-size:.86rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rf-item a:hover{color:#B45309;}
+.rf-item small{display:block;font-weight:400;font-size:.68rem;color:#a3a9bd;margin-top:1px;}
+.rf-item .rf-del{flex:0 0 auto;border:none;background:none;color:#d1d5db;font-size:.9rem;cursor:pointer;padding:2px 6px;border-radius:6px;}
+.rf-item .rf-del:hover{color:#dc2626;background:#fee2e2;}
+.rf-empty{font-size:.8rem;color:#98a0b3;text-align:center;padding:18px 0;}
+.rf-add{display:flex;gap:8px;padding:0 18px 12px;flex-wrap:wrap;}
+.rf-add input{flex:1 1 120px;min-width:0;padding:7px 11px;border:1px solid var(--line);border-radius:9px;font-size:.82rem;font-family:inherit;background:#fff;color:var(--ink);}
+.rf-add input:focus{outline:none;border-color:#f59e0b;}
+.rf-add button{font-family:inherit;font-weight:700;font-size:.78rem;cursor:pointer;border:1px solid #B45309;background:none;color:#B45309;padding:6px 14px;border-radius:999px;white-space:nowrap;}
+.rf-foot{padding:11px 18px 15px;border-top:1px solid #f0eefb;display:flex;gap:9px;align-items:center;justify-content:flex-end;flex-wrap:wrap;}
+.rf-foot label{flex:1;display:flex;align-items:center;gap:6px;font-size:.76rem;color:#5c6274;cursor:pointer;user-select:none;}
+.rf-foot label input{accent-color:#B45309;cursor:pointer;}
+.rf-foot button{font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;padding:7px 18px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#5c6274;transition:.15s;}
+.rf-foot button:hover{border-color:#B45309;color:#B45309;}
+.rf-status{flex:1 0 100%;font-size:.72rem;color:#a3a9bd;text-align:right;}
 .tg-foot button.primary{background:linear-gradient(120deg,#5566e0,#8a5be1);border:1px solid transparent;color:#fff;}
 .tg-foot button.primary:hover{color:#fff;filter:brightness(1.05);}
 .tg-foot button:disabled{opacity:.55;cursor:not-allowed;}
@@ -421,6 +448,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
       <span class="ht-chips" id="htChips"><span class="ht-chip soft">加载中…</span></span>
       <button class="ht-btn" id="htEditBtn" type="button">✎ 修改标签</button>
       <button class="ht-btn" id="htTrainBtn" type="button" style="color:#0F766E;border-color:#99e6d5">🏋️ 加入训练</button>
+      <button class="ht-btn rf-btn" id="rfBtn" type="button">📚 参考资料<span id="rfCnt"></span></button>
       <div class="ht-src" id="htSrc"></div>
     </div>
 
@@ -445,6 +473,23 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
       </div>
     </div>
 
+  
+    <div class="rf-mask" id="rfMask">
+      <div class="rf-pop" role="dialog" aria-label="参考资料">
+        <div class="rf-head"><span>📚 参考资料</span><small id="rfCount"></small></div>
+        <div class="rf-list" id="rfList"></div>
+        <div class="rf-add">
+          <input id="rfTitle" type="text" placeholder="资料名称（如：可参考 xx 课程）">
+          <input id="rfUrl" type="text" placeholder="链接 https://…">
+          <button type="button" id="rfAddBtn">＋ 添加</button>
+        </div>
+        <div class="rf-foot">
+          <label><input type="checkbox" id="rfAuto"> 打开课件时自动弹出</label>
+          <button type="button" id="rfClose">关 闭</button>
+          <span class="rf-status" id="rfStatus"></span>
+        </div>
+      </div>
+    </div>
   </header>
 
   <!--pnid:N7uhzwsfydNVxKLrMGDfue--><!-- ✏️【题目区】贴新题原文。别忘了：题目前的一句"人话翻译"比原题本身更能安抚零基础读者。 -->
@@ -3468,6 +3513,92 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     return {upd:upd};
   },{dist:6.8,pol:1.06,az:0.55,target:[0,1.15,0],ratio:0.58});
+})();
+
+</script>
+<script>
+
+/* ===== 📚 资料参考区 · REF-VER 20261017a ===== */
+(function(){
+  var CID = (window.CM && CM.id) || (location.pathname.match(/lessons\/([^\/]+)/) || [,'course_unknown'])[1];
+  var LS_KEY = 'cw_refs_v1:' + CID;
+  var TABLE = 'course_refs';
+  var state = { items: [], auto: false };
+  var $ = function(id){ return document.getElementById(id); };
+  var btn = $('rfBtn'), mask = $('rfMask'), list = $('rfList'), cnt = $('rfCnt'), count = $('rfCount'),
+      it = $('rfTitle'), iu = $('rfUrl'), addBtn = $('rfAddBtn'), autoCb = $('rfAuto'),
+      closeBtn = $('rfClose'), stEl = $('rfStatus');
+
+  function say(m){ if (window.toast) toast(m); else if (stEl) stEl.textContent = m; }
+  function host(u){ try { return new URL(u).hostname.replace(/^www\./,''); } catch(e){ return u.slice(0,40); } }
+  function normUrl(u){ u = String(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u = 'https://' + u; return u; }
+  function valid(u){ try { var x = new URL(u); return x.protocol==='http:'||x.protocol==='https:'; } catch(e){ return false; } }
+
+  function render(){
+    var n = state.items.length;
+    cnt.textContent = n ? '(' + n + ')' : '';
+    count.textContent = n ? n + ' 条资料' : '还没有资料';
+    if (!n){ list.innerHTML = '<div class="rf-empty">暂无参考资料 —— 在下方输入名称和链接，点「＋ 添加」</div>'; return; }
+    var h = '';
+    state.items.forEach(function(itm, i){
+      h += '<div class="rf-item"><a href="' + itm.u + '" target="_blank" rel="noopener" title="' + itm.t.replace(/"/g,'&quot;') + '">📖 ' + itm.t + '<small>' + host(itm.u) + '</small></a>'
+        +  '<button type="button" class="rf-del" data-i="' + i + '" title="删除这条">✕</button></div>';
+    });
+    list.innerHTML = h;
+    list.querySelectorAll('.rf-del').forEach(function(b){
+      b.addEventListener('click', function(){ state.items.splice(+b.getAttribute('data-i'), 1); save(); });
+    });
+  }
+  function mirror(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){} }
+  function save(){
+    mirror(); render();
+    if (window.WB_DB && window.WB_DB.from){
+      window.WB_DB.from(TABLE).upsert([{ course_id: CID, items: state.items, auto: state.auto,
+        updated_at: new Date().toISOString() }], { onConflict: 'course_id' })
+        .then(function(r){ say(r && r.error ? '云端保存失败（本地已保存）' : '已同步云端'); })
+        .catch(function(){ say('云端保存失败（本地已保存）'); });
+    } else say('已保存（本地）');
+  }
+  function apply(obj){
+    if (!obj) return;
+    if (Array.isArray(obj.items)) state.items = obj.items.filter(function(x){ return x && x.t && x.u; });
+    state.auto = !!obj.auto;
+  }
+  function cloudPull(){
+    if (!(window.WB_DB && window.WB_DB.from)) return;
+    window.WB_DB.from(TABLE).select('*').eq('course_id', CID).then(function(r){
+      var row = r && r.data && r.data[0];
+      if (row && Array.isArray(row.items) && row.items.length){ apply(row); mirror(); render(); say('已从云端载入 ' + row.items.length + ' 条'); }
+      if (row && state.auto !== !!row.auto){ state.auto = !!row.auto; autoCb.checked = state.auto; mirror(); }
+    }).catch(function(){});
+  }
+  function openPop(){ mask.classList.add('open'); render(); }
+  function closePop(){ mask.classList.remove('open'); }
+
+  try { apply(JSON.parse(localStorage.getItem(LS_KEY) || 'null')); } catch(e){}
+  autoCb.checked = state.auto;
+  render();
+
+  var waited = 0;
+  (function waitDb(){
+    if (window.WB_DB && window.WB_DB.from){ cloudPull(); return; }
+    if ((waited += 400) < 10000) setTimeout(waitDb, 400);
+  })();
+
+  btn.addEventListener('click', openPop);
+  closeBtn.addEventListener('click', closePop);
+  mask.addEventListener('click', function(e){ if (e.target === mask) closePop(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePop(); });
+  addBtn.addEventListener('click', function(){
+    var t = it.value.trim(), u = normUrl(iu.value);
+    if (!t){ say('请输入资料名称'); it.focus(); return; }
+    if (!valid(u)){ say('链接格式不对（要 http(s):// 开头）'); iu.focus(); return; }
+    state.items.push({ t: t, u: u }); it.value = ''; iu.value = ''; save(); say('已添加「' + t + '」');
+  });
+  iu.addEventListener('keydown', function(e){ if (e.key === 'Enter') addBtn.click(); });
+  it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
+  autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
+  if (state.auto && state.items.length) setTimeout(openPop, 1200);
 })();
 
 </script>
