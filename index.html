@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>昕言解题课件库 · 互动课件导航</title>
-<script>
-/* LOCK-VER: 20261018a 加锁课件库：未解锁访问本页 → 重定向 locked.html 密码门（当天解锁标记 cw_unlock） */
-(function(){ try{ if(localStorage.getItem('cw_unlock') !== new Date().toDateString()){ location.replace('locked.html'); } }catch(e){} })();
-</script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -3387,7 +3383,6 @@ body{padding-left:220px;padding-top:52px}
     <a href="../index.html" data-m="root"><span class="lbl">📚 记忆卡</span></a>
     <a href="../knowledge/index.html" data-m="knowledge"><span class="lbl">📖 知识页</span></a>
     <a href="../courseware/" data-m="courseware"><span class="lbl">📝 解题课件库</span></a>
-    <a href="locked.html?relock=1" data-m="courseware" title="加锁课件库：清除当天解锁状态，回密码门重新上锁"><span class="lbl">🔥 加锁课件库</span></a>
     <div class="psGroupTitle">训练与查询</div>
     <a href="../library.html" data-m="library"><span class="lbl">🏋️ 训练库</span></a>
     <a href="../history.html" data-m="history"><span class="lbl">📋 浏览历史</span></a>
@@ -3398,7 +3393,6 @@ body{padding-left:220px;padding-top:52px}
 <header id="psTop">
   <div class="ptitle" id="psTitle">记忆卡</div>
   <div class="pact">
-    <button class="psLink" id="cwLockExit" title="清除当天解锁状态，立即重新上锁">🔓 退出锁定</button>
     <button class="psLink" id="psLinkBtn" title="复制本页链接">🔗 复制链接</button>
   </div>
 </header>
@@ -3938,17 +3932,6 @@ dbReady(12000).then(function(ok){
   function boot(){ bind(); setTimeout(flushPending, 1500); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
   setTimeout(bind, 1200);
-})();
-</script>
-<script>
-/* LOCK-VER: 20261018a 「🔓 退出锁定」：清当天解锁标记 → 回密码门（relock=1 保证即使已解锁也显示密码门） */
-(function(){
-  var b = document.getElementById('cwLockExit'); if(!b) return;
-  b.addEventListener('click', function(e){
-    e.preventDefault();
-    try{ localStorage.removeItem('cw_unlock'); }catch(err){}
-    location.replace('locked.html?relock=1');
-  });
 })();
 </script>
 
