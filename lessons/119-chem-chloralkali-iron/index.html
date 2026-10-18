@@ -102,7 +102,17 @@ small{color:var(--muted)}
 .viz h4{font-size:15px;margin-bottom:4px;color:#8a6d1f}
 .viz .hint{font-size:13px;color:var(--muted);margin-bottom:4px}
 .viz svg{width:100%;height:auto;display:block}
-.viz input[type=range]{width:100%;accent-color:var(--brand);margin:8px 0 4px};touch-action:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.viz input[type=range]{width:100%;height:28px;margin:10px 0 6px;touch-action:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;background:transparent;-webkit-tap-highlight-color:transparent}
+.viz input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;
+  background:linear-gradient(90deg,var(--brand-soft,#eef0ff),#cfd8f2);border:1px solid #dfe4f5}
+.viz input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;
+  border-radius:50%;background:var(--brand,#5566e0);border:2.5px solid #fff;margin-top:-7.5px;
+  box-shadow:0 2px 6px rgba(85,102,224,.42);cursor:grab;transition:transform .12s}
+.viz input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15);cursor:grabbing}
+.viz input[type=range]::-moz-range-track{height:8px;border-radius:999px;background:#dfe4f2;border:1px solid #dfe4f5}
+.viz input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2.5px solid #fff;border-radius:50%;
+  background:var(--brand,#5566e0);box-shadow:0 2px 6px rgba(85,102,224,.42);cursor:grab}
 .readout{font-size:15px;text-align:center;background:var(--brand-soft);border-radius:10px;padding:7px 10px;margin-top:6px}
 /* ===== 小测 ===== */
 .quiz-item{margin:14px 0}
@@ -596,7 +606,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">拖动滑块改变转移电子 \(n_e\)（mol），蓝色 Na⁺ 球穿膜搬进阴极室，Cl₂ 读数与两室 Δm 联动。\(n_e=6\) mol 正是“1 mol Fe₂O₃”那一档。</p>
         <svg id="svgA" viewBox="0 0 640 300"></svg>
         <div class="viz3d" id="vizA"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderA" type="range" min="0" max="6" step="0.25" value="6">
+        <input id="sliderA" type="range" min="0" max="6" step="0.25" value="3">
         <div class="readout" id="outA"></div>
       </div>
     </div>
@@ -625,7 +635,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">蓝线阴极室 +23n，红线阳极室 −58.5n，橙色虚线是 C 的说法（−213 g）。拖到 \(n_e=6\) 读出 −351 与 +138。</p>
         <svg id="svgB" viewBox="0 0 640 300"></svg>
         <div class="viz3d" id="vizB"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderB" type="range" min="0" max="6" step="0.25" value="6">
+        <input id="sliderB" type="range" min="0" max="6" step="0.25" value="3">
         <div class="readout" id="outB"></div>
       </div>
     </div>
@@ -650,7 +660,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">左红柱是 C 的说法（−213 g），右蓝柱是真值（随 \(n_e\) 变化）。拖到 \(n_e=6\)，判定 −351 ≠ −213。</p>
         <svg id="svgC" viewBox="0 0 640 320"></svg>
         <div class="viz3d" id="vizC"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderC" type="range" min="0" max="6" step="0.25" value="6">
+        <input id="sliderC" type="range" min="0" max="6" step="0.25" value="3">
         <div class="readout" id="outC"></div>
       </div>
     </div>
