@@ -3158,6 +3158,7 @@ document.addEventListener('DOMContentLoaded',function(){
                        tgt.y + st.dist * Math.cos(st.pol),
                        tgt.z + st.dist * sp * Math.cos(st.az));
       cam.lookAt(tgt);
+      if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
     host.addEventListener('pointerdown', function (e) {
@@ -3187,6 +3188,11 @@ document.addEventListener('DOMContentLoaded',function(){
     sprite: sprite,
     create: function (host, buildFn, o) {
       o = o || {};
+      /* 脏标记：没有 tick 动画的场景只在「相机/滑块/尺寸变化」后重绘一帧，
+         避免三块沙盘同时空转 rAF 把 GPU 占满（2026-10-18 修）。 */
+      var dirty = true;
+      function invalidate() { dirty = true; }
+      o.onApply = invalidate;
       var cv = host.querySelector('canvas');
       var ren;
       try {
@@ -3207,6 +3213,11 @@ document.addEventListener('DOMContentLoaded',function(){
       var api;
       try { api = buildFn(T, sc) || {}; }
       catch (e) { console.error('[VIZ3D] build failed:', e); return null; }
+      /* upd() 之后必须重绘一帧（无 tick 的场景不会自动 render） */
+      if (api && api.upd) {
+        var _upd = api.upd;
+        api.upd = function () { _upd.apply(api, arguments); dirty = true; };
+      }
       function resize() {
         var w = host.clientWidth || 640;
         var h = Math.round(w * (o.ratio || 0.56));
@@ -3215,6 +3226,7 @@ document.addEventListener('DOMContentLoaded',function(){
         ren.setSize(w, h, false);
         cam.aspect = w / h; cam.updateProjectionMatrix();
         if (api.tick) api.tick(0);
+        dirty = true;
         ren.render(sc, cam);
       }
       resize();
@@ -3222,16 +3234,25 @@ document.addEventListener('DOMContentLoaded',function(){
       else window.addEventListener('resize', resize);
       var vis = true;
       if (window.IntersectionObserver) {
-        new IntersectionObserver(function (es) { vis = es[0].isIntersecting; }).observe(host);
+        new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) dirty = true; }).observe(host);
       }
-      var t0 = performance.now();
+      /* ⚠️ tick(dt) 的 dt 必须是「上一帧到本帧的秒数」。
+         早期版本传的是 (now-t0)/1000（总时间），而模板里又 tickT+=dt，
+         结果 tickT≈t²/2 → sin(相位) 频率二次增长 → 沙盘越抖越快（2026-10-18 实锤）。 */
+      var _last = performance.now();
       (function loop() {
         requestAnimationFrame(loop);
         if (!vis) return;
-        if (api.tick) api.tick((performance.now() - t0) / 1000);
+        if (api.tick) {
+          var now = performance.now();
+          api.tick((now - _last) / 1000);
+          _last = now;
+          dirty = true;
+        } else if (!dirty) return;
         ren.render(sc, cam);
+        dirty = false;
       })();
-      return { scene: sc, cam: cam, ctl: ctl, api: api };
+      return { scene: sc, cam: cam, ctl: ctl, api: api, invalidate: invalidate };
     },
 
     /* 绑定：把滑块变化接到沙盘 upd()，并在 3D 就绪后隐藏原 2D SVG */
@@ -3299,7 +3320,6 @@ VIZ3D.bind('vizA','svgA',['sliderA'],function(T,sc){
   var mB=new T.Mesh(new T.SphereGeometry(0.15,20,16),new T.MeshLambertMaterial({color:0xc2410c}));
   sc.add(mA);sc.add(mB);
   var note=document.querySelector('#vizA .viz3d-note');
-  var tickT=0;
   function upd(){
     var t=+sl.value;
     var yA=P.fn(t);
@@ -3312,11 +3332,10 @@ VIZ3D.bind('vizA','svgA',['sliderA'],function(T,sc){
     if(note)note.innerHTML=P.noteFn(t,yA,yB);
   }
   if(sl)sl.addEventListener('input',upd);upd();
-  var api={upd:upd,tick:function(dt){
-    tickT+=dt;
-    mA.position.y+=0.018*Math.sin(tickT*2.2);
-    if(mB.visible)mB.position.y+=0.018*Math.sin(tickT*2.2+1.2);
-  }};
+  /* 2026-10-18：去掉「无交互也自抖」的呼吸动画（原来是 position.y += 0.018*sin(...)，
+     累加正弦 + core 传总时间当 dt → 频率二次增长，游标球越抖越快）。
+     现在沙盘完全静止，只有拖滑块/拖画布时才动；core 侧已改为按需重绘。 */
+  var api={upd:upd};
   return api;
 
   },{'dist':6.4,'pol':1.08,'az':0.62,'target':[0,0.7,0],'ratio':0.56});
@@ -3367,7 +3386,6 @@ VIZ3D.bind('vizB','svgB',['sliderB'],function(T,sc){
   var mB=new T.Mesh(new T.SphereGeometry(0.15,20,16),new T.MeshLambertMaterial({color:0xc2410c}));
   sc.add(mA);sc.add(mB);
   var note=document.querySelector('#vizB .viz3d-note');
-  var tickT=0;
   function upd(){
     var t=+sl.value;
     var yA=P.fn(t);
@@ -3380,11 +3398,10 @@ VIZ3D.bind('vizB','svgB',['sliderB'],function(T,sc){
     if(note)note.innerHTML=P.noteFn(t,yA,yB);
   }
   if(sl)sl.addEventListener('input',upd);upd();
-  var api={upd:upd,tick:function(dt){
-    tickT+=dt;
-    mA.position.y+=0.018*Math.sin(tickT*2.2);
-    if(mB.visible)mB.position.y+=0.018*Math.sin(tickT*2.2+1.2);
-  }};
+  /* 2026-10-18：去掉「无交互也自抖」的呼吸动画（原来是 position.y += 0.018*sin(...)，
+     累加正弦 + core 传总时间当 dt → 频率二次增长，游标球越抖越快）。
+     现在沙盘完全静止，只有拖滑块/拖画布时才动；core 侧已改为按需重绘。 */
+  var api={upd:upd};
   return api;
 
   },{'dist':6.4,'pol':1.08,'az':0.62,'target':[0,0.7,0],'ratio':0.56});
@@ -3414,7 +3431,6 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
     pillars.push({m:m,h0:h2});
   });
   var note=document.querySelector('#vizC .viz3d-note');
-  var tickT=0;
   function upd(){
     var t=+sl.value;
     pillars.forEach(function(p2,i){
@@ -3425,10 +3441,7 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
     if(note)note.innerHTML=P.noteFn?P.noteFn(t):'';
   }
   if(sl)sl.addEventListener('input',upd);upd();
-  var api={upd:upd,tick:function(dt){
-    tickT+=dt;
-    pillars.forEach(function(p2,i){p2.m.rotation.y=0.12*Math.sin(tickT*0.8+i);});
-  }};
+  var api={upd:upd};
   return api;
 
   },{'dist':6.2,'pol':1.06,'az':0.62,'target':[0,0.8,0],'ratio':0.56});
