@@ -102,7 +102,17 @@ small{color:var(--muted)}
 .viz h4{font-size:15px;margin-bottom:4px;color:#8a6d1f}
 .viz .hint{font-size:13px;color:var(--muted);margin-bottom:4px}
 .viz svg{width:100%;height:auto;display:block}
-.viz input[type=range]{width:100%;accent-color:var(--brand);margin:8px 0 4px};touch-action:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.viz input[type=range]{width:100%;height:28px;margin:10px 0 6px;touch-action:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;background:transparent;-webkit-tap-highlight-color:transparent}
+.viz input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;
+  background:linear-gradient(90deg,var(--brand-soft,#eef0ff),#cfd8f2);border:1px solid #dfe4f5}
+.viz input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;
+  border-radius:50%;background:var(--brand,#5566e0);border:2.5px solid #fff;margin-top:-7.5px;
+  box-shadow:0 2px 6px rgba(85,102,224,.42);cursor:grab;transition:transform .12s}
+.viz input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15);cursor:grabbing}
+.viz input[type=range]::-moz-range-track{height:8px;border-radius:999px;background:#dfe4f2;border:1px solid #dfe4f5}
+.viz input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2.5px solid #fff;border-radius:50%;
+  background:var(--brand,#5566e0);box-shadow:0 2px 6px rgba(85,102,224,.42);cursor:grab}
 .readout{font-size:15px;text-align:center;background:var(--brand-soft);border-radius:10px;padding:7px 10px;margin-top:6px}
 /* ===== 小测 ===== */
 .quiz-item{margin:14px 0}
@@ -611,7 +621,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">拖动滑块改变转移电子 \(n_e\)（mol），看 K⁺ 迁移、NH₃ 与 Cl₂ 的逸出量和两室质量变化如何联动。当 \(n_e=8\) mol 时正是题目那一档，读数亮绿。</p>
         <svg id="svgA" viewBox="0 0 640 300"></svg>
         <div class="viz3d" id="vizA"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderA" type="range" min="0" max="8" step="0.25" value="8">
+        <input id="sliderA" type="range" min="0" max="8" step="0.25" value="4">
         <div class="readout" id="outA"></div>
       </div>
     </div>
@@ -647,7 +657,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">拖动滑块改变转移电子 \(n_e\)，两条 Δm 直线随动；橙色虚线是 D 选项的说法（−17 g）。\(n_e=8\) 时左室真值 +295 g，读数亮绿。</p>
         <svg id="svgB" viewBox="0 0 640 300"></svg>
         <div class="viz3d" id="vizB"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderB" type="range" min="0" max="8" step="0.25" value="8">
+        <input id="sliderB" type="range" min="0" max="8" step="0.25" value="4">
         <div class="readout" id="outB"></div>
       </div>
     </div>
@@ -680,7 +690,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
         <p class="hint">左边红色虚柱是命题说法（−17 g），右边蓝色柱是随 \(n_e\) 变化的真值。把滑块拖到 \(n_e=8\)，天平亮出判定：命题不成立。</p>
         <svg id="svgC" viewBox="0 0 640 320"></svg>
         <div class="viz3d" id="vizC"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
-        <input id="sliderC" type="range" min="0" max="8" step="0.25" value="8">
+        <input id="sliderC" type="range" min="0" max="8" step="0.25" value="4">
         <div class="readout" id="outC"></div>
       </div>
     </div>
