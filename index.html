@@ -469,7 +469,6 @@
     <a href="https://jikaka-memory.app.workbuddy.host/knowledge/index.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📖 知识页</a>
     <a href="https://jikaka-memory.app.workbuddy.host/courseware/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #0C447C;background:#0C447C;color:#fff;font-weight:600">📝 解题课件库</a>
     <a href="solution_library.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">🧮 作业讲评</a>
-    <a href="#" id="cwLockExit" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d97706;background:#fff;color:#d97706" title="清除当天解锁状态，立即重新上锁">🔓 退出锁定</a>
   </div>
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
@@ -3388,6 +3387,7 @@ body{padding-left:220px;padding-top:52px}
     <a href="../index.html" data-m="root"><span class="lbl">📚 记忆卡</span></a>
     <a href="../knowledge/index.html" data-m="knowledge"><span class="lbl">📖 知识页</span></a>
     <a href="../courseware/" data-m="courseware"><span class="lbl">📝 解题课件库</span></a>
+    <a href="locked.html?relock=1" data-m="courseware" title="加锁课件库：清除当天解锁状态，回密码门重新上锁"><span class="lbl">🔥 加锁课件库</span></a>
     <div class="psGroupTitle">训练与查询</div>
     <a href="../library.html" data-m="library"><span class="lbl">🏋️ 训练库</span></a>
     <a href="../history.html" data-m="history"><span class="lbl">📋 浏览历史</span></a>
@@ -3398,6 +3398,7 @@ body{padding-left:220px;padding-top:52px}
 <header id="psTop">
   <div class="ptitle" id="psTitle">记忆卡</div>
   <div class="pact">
+    <button class="psLink" id="cwLockExit" title="清除当天解锁状态，立即重新上锁">🔓 退出锁定</button>
     <button class="psLink" id="psLinkBtn" title="复制本页链接">🔗 复制链接</button>
   </div>
 </header>
@@ -3940,13 +3941,13 @@ dbReady(12000).then(function(ok){
 })();
 </script>
 <script>
-/* LOCK-VER: 20261018a 「🔓 退出锁定」：清当天解锁标记 → 回密码门 */
+/* LOCK-VER: 20261018a 「🔓 退出锁定」：清当天解锁标记 → 回密码门（relock=1 保证即使已解锁也显示密码门） */
 (function(){
   var b = document.getElementById('cwLockExit'); if(!b) return;
   b.addEventListener('click', function(e){
     e.preventDefault();
     try{ localStorage.removeItem('cw_unlock'); }catch(err){}
-    location.replace('locked.html');
+    location.replace('locked.html?relock=1');
   });
 })();
 </script>
