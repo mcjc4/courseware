@@ -74,7 +74,9 @@
    默认密码在下方 LOCK_PWD，可自行修改；解锁标记按天存 localStorage（cw_unlock）。 */
 (function(){
   var LOCK_PWD = 'xy2026';
-  try{ if(localStorage.getItem('cw_unlock') === new Date().toDateString()){ location.replace('index.html'); } }catch(e){}
+  var relock = /[?&]relock=1/.test(location.search);   /* 已在解锁状态也强制回密码门（「🔥 加锁课件库」/「退出锁定」入口用） */
+  if(relock){ try{ localStorage.removeItem('cw_unlock'); }catch(e){} }
+  else { try{ if(localStorage.getItem('cw_unlock') === new Date().toDateString()){ location.replace('index.html'); } }catch(e){} }
   var inp = document.getElementById('pwd'), err = document.getElementById('lockErr');
   function unlock(){
     var v = (inp.value || '').trim();
