@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>昕言解题课件库 · 互动课件导航</title>
+<script>
+/* LOCK-VER: 20261018a 加锁课件库：未解锁访问本页 → 重定向 locked.html 密码门（当天解锁标记 cw_unlock） */
+(function(){ try{ if(localStorage.getItem('cw_unlock') !== new Date().toDateString()){ location.replace('locked.html'); } }catch(e){} })();
+</script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -465,6 +469,7 @@
     <a href="https://jikaka-memory.app.workbuddy.host/knowledge/index.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">📖 知识页</a>
     <a href="https://jikaka-memory.app.workbuddy.host/courseware/" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #0C447C;background:#0C447C;color:#fff;font-weight:600">📝 解题课件库</a>
     <a href="solution_library.html" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151">🧮 作业讲评</a>
+    <a href="#" id="cwLockExit" style="display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:999px;font-size:13px;text-decoration:none;border:1px solid #d97706;background:#fff;color:#d97706" title="清除当天解锁状态，立即重新上锁">🔓 退出锁定</a>
   </div>
   <div class="hero">
     <span class="tag">互动解题课件库 · 单文件离线可用</span>
@@ -3932,6 +3937,17 @@ dbReady(12000).then(function(ok){
   function boot(){ bind(); setTimeout(flushPending, 1500); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
   setTimeout(bind, 1200);
+})();
+</script>
+<script>
+/* LOCK-VER: 20261018a 「🔓 退出锁定」：清当天解锁标记 → 回密码门 */
+(function(){
+  var b = document.getElementById('cwLockExit'); if(!b) return;
+  b.addEventListener('click', function(e){
+    e.preventDefault();
+    try{ localStorage.removeItem('cw_unlock'); }catch(err){}
+    location.replace('locked.html');
+  });
 })();
 </script>
 
