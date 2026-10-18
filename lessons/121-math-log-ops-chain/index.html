@@ -102,7 +102,7 @@ small{color:var(--muted)}
 .viz h4{font-size:15px;margin-bottom:4px;color:#8a6d1f}
 .viz .hint{font-size:13px;color:var(--muted);margin-bottom:4px}
 .viz svg{width:100%;height:auto;display:block}
-.viz input[type=range]{width:100%;accent-color:var(--brand);margin:8px 0 4px}
+.viz input[type=range]{width:100%;accent-color:var(--brand);margin:8px 0 4px};touch-action:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .readout{font-size:15px;text-align:center;background:var(--brand-soft);border-radius:10px;padding:7px 10px;margin-top:6px}
 /* ===== 小测 ===== */
 .quiz-item{margin:14px 0}
@@ -3128,6 +3128,11 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     var drag = false, lx = 0, ly = 0;
     host.addEventListener('pointerdown', function (e) {
+      /* 只有点在画布（或 host 本体）上才启动旋转；
+         若将来在沙盘里放子控件，不会被 setPointerCapture 抢走指针（2026-10-18 加固）。 */
+      var cv = host.querySelector('canvas');
+      if (cv && e.target !== cv && e.target !== host) return;
+      if (e.button) return;
       drag = true; lx = e.clientX; ly = e.clientY;
       host.classList.add('grabbing');
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
@@ -3159,6 +3164,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var dirty = true;
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
+      /* 先显示再测量/观察：CSS 里 .viz3d 默认 display:none，
+         若在隐藏态下量 clientWidth 会得到 0、IntersectionObserver 也会误报不可见（2026-10-18 加固）。 */
+      host.style.display = 'block';
       var cv = host.querySelector('canvas');
       var ren;
       try {
@@ -3204,20 +3212,25 @@ document.addEventListener('DOMContentLoaded',function(){
       }
       /* ⚠️ tick(dt) 的 dt 必须是「上一帧到本帧的秒数」。
          早期版本传的是 (now-t0)/1000（总时间），而模板里又 tickT+=dt，
-         结果 tickT≈t²/2 → sin(相位) 频率二次增长 → 沙盘越抖越快（2026-10-18 实锤）。 */
+         结果 tickT≈t²/2 → sin(相位) 频率二次增长 → 沙盘越抖越快（2026-10-18 实锤）。
+         ⚠️ vis 只能用来跳过「不在视口时的 tick 空转」；
+         用户交互产生的 dirty 必须无条件渲染，否则会整体冻住（2026-10-18 加固）。 */
       var _last = performance.now();
       (function loop() {
         requestAnimationFrame(loop);
-        if (!vis) return;
         if (api.tick) {
           var now = performance.now();
           api.tick((now - _last) / 1000);
           _last = now;
+          if (!vis) { dirty = false; return; }   /* 有动画但不在视口：跳过且不留脏 */
           dirty = true;
-        } else if (!dirty) return;
+        } else if (!dirty) return;               /* 无动画且无变化：完全静止 */
         ren.render(sc, cam);
         dirty = false;
       })();
+      /* rAF 兜底：标签页被浏览器节流/暂停（后台、被遮挡、WebView 不调度 rAF）时，
+         dirty 仍能在 250ms 内被消费掉，避免「画面冻住、怎么拖都没反应」。 */
+      setInterval(function () { if (dirty) { ren.render(sc, cam); dirty = false; } }, 250);
       return { scene: sc, cam: cam, ctl: ctl, api: api, invalidate: invalidate };
     },
 
@@ -3233,7 +3246,11 @@ document.addEventListener('DOMContentLoaded',function(){
       window['__' + hostId] = inst;   /* 调试/校验钩子 */
       var sliders = (sliderIds || []).map(function (id) { return document.getElementById(id); }).filter(Boolean);
       function run() { if (inst.api && inst.api.upd) inst.api.upd(); }
-      sliders.forEach(function (s) { s.addEventListener('input', run); });
+      /* 同时监听 input 与 change：部分浏览器/输入法场景只派发 change */
+      sliders.forEach(function (s) {
+        s.addEventListener('input', run);
+        s.addEventListener('change', run);
+      });
       run();
       return inst;
     }
