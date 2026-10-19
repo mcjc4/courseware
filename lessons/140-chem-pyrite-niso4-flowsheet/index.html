@@ -420,7 +420,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
-.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
@@ -3091,11 +3091,12 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
     function apply() {
       var sp = Math.sin(st.pol);
@@ -3106,27 +3107,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
       st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st, tgt: tgt };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3139,6 +3190,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3236,8 +3288,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var wrap = document.createElement('div'); wrap.className = 'vz-stage';
       var cw = document.createElement('div'); cw.className = 'vz-canvas';
       var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
@@ -3482,7 +3535,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
       /* ---------- 点击 / 悬停拾取 ---------- */
       var ray = new T.Raycaster(), ndc = new T.Vector2();
-      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
       function hitAt(e) {
         var st = steps[cur];
@@ -3516,21 +3572,54 @@ document.addEventListener('DOMContentLoaded',function(){
         if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
         dirty = true;
       }
-      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+
+      cw.addEventListener('pointerdown', function (e) {
+        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
+        if (cbox.contains(e.target)) { tap = null; return; }
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
       cw.addEventListener('pointermove', function (e) {
-        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
         var now = performance.now();
-        if (now - hovT < 70 || moved) return;
+        if (now - hovT < 70) return;
         hovT = now;
         var o = hitAt(e);
         setHov(o);
-        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
       });
+
       cw.addEventListener('pointerup', function (e) {
-        if (moved) return;
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) showCard(o); else hideCard();
+        if (o) { dTap.t = 0; showCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+        hideCard();
       });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
 
       /* ---------- 尺寸 ---------- */
       function resize() {
@@ -3746,7 +3835,7 @@ return L;}),'noteFn':(function(t){return '三考点速判卡：<b style="color:#
 
   },{'maxN':4});
 
-VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.2,'pol':1.02,'az':0.72,'tgt':[0,0.15,0],'hud':"🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读流程：五站链路，每一步在干什么",'k':"题干「粉碎 → 焙烧(空气，SO₂ 出) → 酸浸(硫酸 + 双氧水) → 过滤除 Au → 调 pH → 沉钴 / 萃取」",'f':"\\text{FeS}_2,\\ \\text{NiS},\\ \\text{CoS},\\ \\text{CuS},\\ \\text{Au}",'d':"① 粉碎：增大接触面积、加快反应；② 焙烧：把硫化物<b>氧化</b>成氧化物，硫变 SO₂ 走掉；③ 酸浸：金属氧化物溶于硫酸，双氧水把 Co(III) 还原成 Co(II)；④ 调 pH：让 Fe³⁺、Cu²⁺ 水解沉淀；⑤ 沉钴或萃取：把 Co 与 Ni 分开。",'w':"流程题先把「每一步的目的」写出来，再去抠某一问的方程式——否则容易答非所问。",'cam':{'az':0.55,'pol':1.02,'dist':10.5,'tgt':[0,0.2,0]},'objs':[{'k':"box",'p':[-3.2,0.3,0],'sz':[0.78,0.78,0.78],'c':9741240,'op':0.9,'lb':"粉碎",'lp':[-3.2,1.08,0],'lc':"#1f2430",'card':{'cond':"粉碎 = 增大<b>接触面积</b>",'formula':"S\\uparrow\\Rightarrow v\\uparrow",'think':"固体反应速率受接触面积控制",'warn':"答「加快反应速率、使反应更充分」即可"}},{'k':"box",'p':[-1.6,0.3,0],'sz':[0.78,0.78,0.78],'c':16096779,'op':0.9,'lb':"焙烧",'lp':[-1.6,1.08,0],'lc':"#1f2430",'card':{'cond':"空气焙烧 ⇒ 硫化物被氧化，S 变 SO₂",'formula':"\\mathrm{MS}+O_2\\to \\mathrm{MO}+SO_2",'think':"烧渣主成分为 Fe₂O₃、CuO、NiO、Co₃O₄ 和 Au",'warn':"金不被氧化，留在渣里"}},{'k':"box",'p':[0,0.3,0],'sz':[0.78,0.78,0.78],'c':2450411,'op':0.9,'lb':"酸浸",'lp':[0,1.08,0],'lc':"#1f2430",'card':{'cond':"硫酸溶解氧化物；H₂O₂ 把 Co(III) 还原为 Co(II)",'formula':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4\\to 2CoSO_4+O_2\\uparrow+3H_2O",'think':"还原后 Co²⁺ 与 Ni²⁺ 行为接近，便于后续分步沉淀/萃取",'warn':"H₂O₂ 在这里是<b>还原剂</b>，不是氧化剂"}},{'k':"box",'p':[1.6,0.3,0],'sz':[0.78,0.78,0.78],'c':8141549,'op':0.9,'lb':"调 pH",'lp':[1.6,1.08,0],'lc':"#1f2430",'card':{'cond':"调 pH 让 Fe³⁺、Cu²⁺ 水解成氢氧化物除去",'formula':"\\mathrm{M^{n+}}+nH_2O\\rightleftharpoons M(OH)_n+nH^+",'think':"不同离子开始/完全沉淀的 pH 不同，这就是「窗口」",'warn':"pH 调太高会把 Co²⁺、Ni²⁺ 一起沉掉"}},{'k':"box",'p':[3.2,0.3,0],'sz':[0.78,0.78,0.78],'c':889992,'op':0.9,'lb':"沉钴/萃取",'lp':[3.2,1.08,0],'lc':"#1f2430",'card':{'cond':"方法 1 沉 CoCO₃；方法 2 用 P204/P507 萃取分离",'formula':"\\mathrm{Co^{2+}}+2HCO_3^-\\to CoCO_3\\downarrow+CO_2\\uparrow+H_2O",'think':"萃取靠配位能力差异（第 5 步）",'warn':"沉钴时 CO₂ 气泡会让颗粒疏松，不是杂质"}},{'k':"arrow",'a':[-2.8,0.3,0],'b':[-2.0,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[-1.2,0.3,0],'b':[-0.4,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.4,0.3,0],'b':[1.2,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[2.0,0.3,0],'b':[2.8,0.3,0],'c':"#94a3b8"},{'k':"label",'p':[0,-0.65,0],'lb':"五站各有目的 ⇒ 先写目的，再抠方程式",'c':"#1f2430"}]},{'t':"第 2 步 · (2) 焙烧配平：价态拆解定系数",'k':"设问「CoS 焙烧生成 Co₃O₄ 的化学方程式」",'f':"3\\mathrm{CoS}+5\\mathrm{O_2}\\xrightarrow{\\ \\Delta\\ }\\mathrm{Co_3O_4}+3\\mathrm{SO_2}",'d':"氧化半反应：S²⁻→S⁺⁴ 每个失 6e，3 个 S 共失 18e；Co²⁺→Co³⁺ 有 2 个各失 1e，合计 <b>失 20e</b>。O₂ 每分子得 4e ⇒ 需 <b>5 个 O₂</b>。Co 守恒定 3，S 守恒定 3 个 SO₂。",'w':"Co₃O₄ = Co₂O₃·CoO，含 <b>2 个 Co³⁺ + 1 个 Co²⁺</b>——只按 +2 算会配不平。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.5,0.3,0],'r':0.15,'c':"#94a3b8",'lb':"S²⁻ 失 6e×3",'lp':[-1.5,0.78,0],'lc':"#475569",'card':{'cond':"硫从 −2 价升到 +4 价，每个失 6 个电子",'formula':"\\mathrm{S^{2-}}\\to\\mathrm{S^{4+}}+6e^-",'think':"3 个 S 共失 18e，是配平的主项",'warn':"SO₂ 里 S 是 +4，不是 +6"}},{'k':"ball",'p':[-0.5,0.3,0],'r':0.15,'c':"#0ea5e9",'lb':"Co²⁺ 失 1e×2",'lp':[-0.5,0.78,0],'lc':"#0369a1",'card':{'cond':"Co₃O₄ 中有 2 个 Co 被氧化到 +3",'formula':"2\\mathrm{Co^{2+}}\\to2\\mathrm{Co^{3+}}+2e^-",'think':"Co₃O₄ 折算成 Co₂O₃·CoO：2 个 +3、1 个 +2",'warn':"漏掉这 2e 会算出 O₂ 系数 9/2"}},{'k':"arrow",'a':[0.0,0.3,0],'b':[0.9,0.3,0],'c':"#0f766e",'lb':"共失 20e",'lp':[0.45,0.72,0],'lc':"#0f766e"},{'k':"ball",'p':[1.35,0.3,0],'r':0.15,'c':"#dc2626",'lb':"O₂ 得 4e×5",'lp':[1.35,0.78,0],'lc':"#b91c1c"},{'k':"box",'p':[2.35,0.3,0],'sz':[0.55,0.55,0.55],'c':"#7c3aed",'op':0.9,'lb':"Co₃O₄",'lp':[2.35,0.78,0],'lc':"#6d28d9"},{'k':"label",'p':[0,-0.75,0],'lb':"3CoS + 5O₂ = Co₃O₄ + 3SO₂",'c':"#0f766e"}]},{'t':"第 3 步 · (3) 酸浸：H₂O₂ 是还原剂，不是氧化剂",'k':"题干「已知氧化性 Co₂O₃ > H₂O₂、Co₂O₃ > Cl₂」；设问「双氧水的作用」",'f':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4=2CoSO_4+O_2\\uparrow+3H_2O",'d':"烧渣里 Co 以 <b>Co(III)</b> 存在（Co₃O₄ 中的 Co₂O₃ 部分）。题给氧化性 Co₂O₃ > H₂O₂ ⇒ H₂O₂ 只能被 Co(III) <b>氧化</b>，自己作<b>还原剂</b>，把 Co(III) 还原成 Co(II)。Co²⁺ 与 Ni²⁺ 行为相近，后续才好分离。",'w':"看到「H₂O₂」不要条件反射当氧化剂——先比氧化性强弱。本题氧化剂:还原剂 = 1:1。",'cam':{'az':0.64,'pol':1.0,'dist':8.2,'tgt':[0,0.15,0]},'objs':[{'k':"ball",'p':[-1.1,0.35,0],'r':0.19,'c':"#7c3aed",'an':"pulse",'lb':"Co(III) 氧化剂",'lp':[-1.1,0.9,0],'lc':"#6d28d9",'card':{'cond':"氧化性 Co₂O₃ > H₂O₂ ⇒ Co(III) 夺电子",'formula':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4\\to 2CoSO_4+O_2\\uparrow+3H_2O",'think':"H₂O₂ 中 O 从 −1 升到 0（生成 O₂），被氧化",'warn':"H₂O₂ 既可作氧化剂也可作还原剂，看对手强弱"}},{'k':"arrow",'a':[-0.72,0.35,0],'b':[0.12,0.35,0],'c':"#0f766e",'lb':"e⁻",'lp':[-0.3,0.75,0],'lc':"#0f766e"},{'k':"ball",'p':[0.55,0.35,0],'r':0.17,'c':"#f59e0b",'lb':"H₂O₂ 还原剂",'lp':[0.55,0.9,0],'lc':"#b45309",'card':{'cond':"H₂O₂ 被氧化成 O₂，作<b>还原剂</b>",'formula':"\\mathrm{H_2O_2}-2e^-\\to \\mathrm{O_2}+2H^+",'think':"O 从 −1 升到 0，失电子",'warn':"写成「H₂O₂ 作氧化剂」直接错"}},{'k':"arrow",'a':[0.95,0.35,0],'b':[1.75,0.35,0],'c':"#94a3b8"},{'k':"ball",'p':[2.1,0.35,0],'r':0.17,'c':"#0d9488",'lb':"Co(II) 便于分离",'lp':[2.1,0.9,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.75,0],'lb':"氧化剂 : 还原剂 = 1 : 1",'c':"#0f766e"}]},{'t':"第 4 步 · (4) pH 窗口：四个门槛卡出 7.1",'k':"题干给四个 Ksp；设问「调 pH 的范围 / 最高能调到多少」",'f':"c(\\mathrm{OH^-})=\\sqrt{\\frac{K_{sp}}{c}}\\ \\Rightarrow\\ \\mathrm{pH}=14+\\lg c(\\mathrm{OH^-})",'d':"四个门槛：Fe³⁺ 完全沉淀 pH <b>2.8</b>；Cu²⁺ 完全 pH <b>6.6</b>；Co²⁺ 开始沉淀 pH <b>7.1</b>；Ni²⁺ 开始 pH <b>8.05</b>。要「除干净 Fe、Cu 又不损失 Co、Ni」⇒ 窗口 [6.6, 7.1] ⇒ <b>pH 最高 7.1</b>。",'w':"两个方向要同时满足：下限由「杂质沉完」定，上限由「主成分开始沉」定。只算一边必错。",'cam':{'az':0.5,'pol':0.95,'dist':9.4,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.8,0.1,0],'b':[2.8,0.1,0],'c':"#94a3b8",'w':0.035},{'k':"ball",'p':[-2.0,0.1,0],'r':0.12,'c':"#dc2626",'lb':"2.8 Fe³⁺ 完",'lp':[-2.0,0.62,0],'lc':"#b91c1c",'card':{'cond':"Fe³⁺ <b>完全沉淀</b>的 pH 上限（2.8）",'formula':"c(\\mathrm{OH^-})=\\sqrt[3]{10^{-38.6}/10^{-5}}=10^{-11.2}",'think':"Ksp 越小，完全沉淀所需 pH 越低",'warn':"这是窗口的<b>下限</b>"}},{'k':"ball",'p':[-0.3,0.1,0],'r':0.12,'c':"#f59e0b",'lb':"6.6 Cu²⁺ 完",'lp':[-0.3,0.62,0],'lc':"#b45309",'card':{'cond':"Cu²⁺ 完全沉淀的 pH（6.6）",'formula':"c(\\mathrm{OH^-})=\\sqrt{10^{-19.8}/10^{-5}}=10^{-7.4}",'think':"Cu(OH)₂ 的 Ksp 比 Fe(OH)₃ 大得多，要更高 pH",'warn':"6.6 是关键分界：低于它 Cu 除不干净"}},{'k':"ball",'p':[1.0,0.1,0],'r':0.12,'c':"#0d9488",'an':"pulse",'lb':"7.1 Co²⁺ 开始",'lp':[1.0,0.62,0],'lc':"#0f766e",'card':{'cond':"Co²⁺ <b>开始沉淀</b>的 pH（7.1）⇒ 这就是上限",'formula':"c(\\mathrm{OH^-})=\\sqrt{10^{-14.8}/0.1}=10^{-6.9}",'think':"再高一点 Co 就开始损失，产物收率下降",'warn':"答案「最高 7.1」就是卡在这一条"}},{'k':"ball",'p':[2.3,0.1,0],'r':0.12,'c':"#7c3aed",'lb':"8.05 Ni²⁺ 开始",'lp':[2.3,0.62,0],'lc':"#6d28d9"},{'k':"seg",'a':[-0.3,-0.32,0],'b':[1.0,-0.32,0],'c':"#0f766e",'w':0.05},{'k':"label",'p':[0.35,-0.72,0],'lb':"pH 窗口 [6.6, 7.1]",'c':"#0f766e"},{'k':"label",'p':[0,-1.25,0],'lb':"浸渣：Fe(OH)₃ + Cu(OH)₂",'c':"#475569"}]},{'t':"第 5 步 · (5)(6) 沉钴气泡 + 萃取电子效应，收口",'k':"设问「只加碳酸氢铵沉钴为什么颗粒疏松」「O(P204) 与 O(P507) 谁给电子能力强」",'f':"\\mathrm{Co^{2+}}+2\\mathrm{HCO_3^-}\\to\\mathrm{CoCO_3}\\downarrow+\\mathrm{CO_2}\\uparrow+\\mathrm{H_2O}",'d':"(5) 沉钴同时放出大量 <b>CO₂ 气泡</b>，气泡扰动晶体生长 ⇒ CoCO₃ 颗粒<b>疏松</b>。(6) P204 是 (RO)₂P(=O)OH（两个 −OR 吸电子）；P507 是 R—P(=O)(OR)OH（一个给电子的烃基 R）⇒ R 使 P=O 上氧的电子云密度更大 ⇒ 给电子能力 <b>O(P204) &lt; O(P507)</b>。",'w':"比较配位能力看「P=O 氧上电子云密度」；给电子基越多，氧越「富有」，配位越强。",'cam':{'az':0.62,'pol':1.0,'dist':8.8,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.35,0],'sz':[1.0,0.85,0.85],'c':"#0d9488",'op':0.88,'lb':"CoCO₃ 疏松",'lp':[-1.5,1.0,0],'lc':"#0f766e",'card':{'cond':"CO₂ 气泡扰动晶体生长 ⇒ 颗粒疏松、比表面积大",'formula':"\\mathrm{Co^{2+}}+2\\mathrm{HCO_3^-}\\to\\mathrm{CoCO_3}\\downarrow+\\mathrm{CO_2}\\uparrow+\\mathrm{H_2O}",'think':"气泡不断从晶体表面逸出，破坏规整生长",'warn':"疏松不是缺点，后续焙烧更容易分解"}},{'k':"ball",'p':[0.1,0.35,0],'r':0.1,'c':"#cbd5e1",'an':"pulse",'lb':"CO₂ ↑",'lp':[0.1,0.78,0],'lc':"#64748b"},{'k':"ball",'p':[1.35,0.2,0],'r':0.14,'c':"#7c3aed",'lb':"O(P204) 较弱",'lp':[1.35,0.72,0],'lc':"#6d28d9",'card':{'cond':"P204 = (RO)₂P(=O)OH，两个 −OR <b>吸电子</b>",'formula':"\\mathrm{(RO)_2P({=}O)OH}",'think':"吸电子基降低 P=O 氧的电子云密度",'warn':"给电子能力弱 ⇒ 配位能力弱"}},{'k':"ball",'p':[2.4,0.2,0],'r':0.14,'c':"#0d9488",'lb':"O(P507) 较强",'lp':[2.4,0.72,0],'lc':"#0f766e",'card':{'cond':"P507 = R—P(=O)(OR)OH，一个<b>给电子</b>的烃基 R",'formula':"\\mathrm{R{-}P({=}O)(OR)OH}",'think':"R 推电子 ⇒ P=O 氧电子云密度更高 ⇒ 给孤对能力更强",'warn':"结论是 O(P204) < O(P507)，别写反"}},{'k':"arrow",'a':[1.62,0.2,0],'b':[2.1,0.2,0],'c':"#0f766e"},{'k':"label",'p':[0,-0.75,0],'lb':"O(P204) < O(P507)　·　Co²⁺ 配位数 6（NaCl 型）",'c':"#0f766e"}]}]});
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.2,'pol':1.02,'az':0.72,'tgt':[0,0.15,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读流程：五站链路，每一步在干什么",'k':"题干「粉碎 → 焙烧(空气，SO₂ 出) → 酸浸(硫酸 + 双氧水) → 过滤除 Au → 调 pH → 沉钴 / 萃取」",'f':"\\text{FeS}_2,\\ \\text{NiS},\\ \\text{CoS},\\ \\text{CuS},\\ \\text{Au}",'d':"① 粉碎：增大接触面积、加快反应；② 焙烧：把硫化物<b>氧化</b>成氧化物，硫变 SO₂ 走掉；③ 酸浸：金属氧化物溶于硫酸，双氧水把 Co(III) 还原成 Co(II)；④ 调 pH：让 Fe³⁺、Cu²⁺ 水解沉淀；⑤ 沉钴或萃取：把 Co 与 Ni 分开。",'w':"流程题先把「每一步的目的」写出来，再去抠某一问的方程式——否则容易答非所问。",'cam':{'az':0.55,'pol':1.02,'dist':10.5,'tgt':[0,0.2,0]},'objs':[{'k':"box",'p':[-3.2,0.3,0],'sz':[0.78,0.78,0.78],'c':9741240,'op':0.9,'lb':"粉碎",'lp':[-3.2,1.08,0],'lc':"#1f2430",'card':{'cond':"粉碎 = 增大<b>接触面积</b>",'formula':"S\\uparrow\\Rightarrow v\\uparrow",'think':"固体反应速率受接触面积控制",'warn':"答「加快反应速率、使反应更充分」即可"}},{'k':"box",'p':[-1.6,0.3,0],'sz':[0.78,0.78,0.78],'c':16096779,'op':0.9,'lb':"焙烧",'lp':[-1.6,1.08,0],'lc':"#1f2430",'card':{'cond':"空气焙烧 ⇒ 硫化物被氧化，S 变 SO₂",'formula':"\\mathrm{MS}+O_2\\to \\mathrm{MO}+SO_2",'think':"烧渣主成分为 Fe₂O₃、CuO、NiO、Co₃O₄ 和 Au",'warn':"金不被氧化，留在渣里"}},{'k':"box",'p':[0,0.3,0],'sz':[0.78,0.78,0.78],'c':2450411,'op':0.9,'lb':"酸浸",'lp':[0,1.08,0],'lc':"#1f2430",'card':{'cond':"硫酸溶解氧化物；H₂O₂ 把 Co(III) 还原为 Co(II)",'formula':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4\\to 2CoSO_4+O_2\\uparrow+3H_2O",'think':"还原后 Co²⁺ 与 Ni²⁺ 行为接近，便于后续分步沉淀/萃取",'warn':"H₂O₂ 在这里是<b>还原剂</b>，不是氧化剂"}},{'k':"box",'p':[1.6,0.3,0],'sz':[0.78,0.78,0.78],'c':8141549,'op':0.9,'lb':"调 pH",'lp':[1.6,1.08,0],'lc':"#1f2430",'card':{'cond':"调 pH 让 Fe³⁺、Cu²⁺ 水解成氢氧化物除去",'formula':"\\mathrm{M^{n+}}+nH_2O\\rightleftharpoons M(OH)_n+nH^+",'think':"不同离子开始/完全沉淀的 pH 不同，这就是「窗口」",'warn':"pH 调太高会把 Co²⁺、Ni²⁺ 一起沉掉"}},{'k':"box",'p':[3.2,0.3,0],'sz':[0.78,0.78,0.78],'c':889992,'op':0.9,'lb':"沉钴/萃取",'lp':[3.2,1.08,0],'lc':"#1f2430",'card':{'cond':"方法 1 沉 CoCO₃；方法 2 用 P204/P507 萃取分离",'formula':"\\mathrm{Co^{2+}}+2HCO_3^-\\to CoCO_3\\downarrow+CO_2\\uparrow+H_2O",'think':"萃取靠配位能力差异（第 5 步）",'warn':"沉钴时 CO₂ 气泡会让颗粒疏松，不是杂质"}},{'k':"arrow",'a':[-2.8,0.3,0],'b':[-2.0,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[-1.2,0.3,0],'b':[-0.4,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.4,0.3,0],'b':[1.2,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[2.0,0.3,0],'b':[2.8,0.3,0],'c':"#94a3b8"},{'k':"label",'p':[0,-0.65,0],'lb':"五站各有目的 ⇒ 先写目的，再抠方程式",'c':"#1f2430"}]},{'t':"第 2 步 · (2) 焙烧配平：价态拆解定系数",'k':"设问「CoS 焙烧生成 Co₃O₄ 的化学方程式」",'f':"3\\mathrm{CoS}+5\\mathrm{O_2}\\xrightarrow{\\ \\Delta\\ }\\mathrm{Co_3O_4}+3\\mathrm{SO_2}",'d':"氧化半反应：S²⁻→S⁺⁴ 每个失 6e，3 个 S 共失 18e；Co²⁺→Co³⁺ 有 2 个各失 1e，合计 <b>失 20e</b>。O₂ 每分子得 4e ⇒ 需 <b>5 个 O₂</b>。Co 守恒定 3，S 守恒定 3 个 SO₂。",'w':"Co₃O₄ = Co₂O₃·CoO，含 <b>2 个 Co³⁺ + 1 个 Co²⁺</b>——只按 +2 算会配不平。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.5,0.3,0],'r':0.15,'c':"#94a3b8",'lb':"S²⁻ 失 6e×3",'lp':[-1.5,0.78,0],'lc':"#475569",'card':{'cond':"硫从 −2 价升到 +4 价，每个失 6 个电子",'formula':"\\mathrm{S^{2-}}\\to\\mathrm{S^{4+}}+6e^-",'think':"3 个 S 共失 18e，是配平的主项",'warn':"SO₂ 里 S 是 +4，不是 +6"}},{'k':"ball",'p':[-0.5,0.3,0],'r':0.15,'c':"#0ea5e9",'lb':"Co²⁺ 失 1e×2",'lp':[-0.5,0.78,0],'lc':"#0369a1",'card':{'cond':"Co₃O₄ 中有 2 个 Co 被氧化到 +3",'formula':"2\\mathrm{Co^{2+}}\\to2\\mathrm{Co^{3+}}+2e^-",'think':"Co₃O₄ 折算成 Co₂O₃·CoO：2 个 +3、1 个 +2",'warn':"漏掉这 2e 会算出 O₂ 系数 9/2"}},{'k':"arrow",'a':[0.0,0.3,0],'b':[0.9,0.3,0],'c':"#0f766e",'lb':"共失 20e",'lp':[0.45,0.72,0],'lc':"#0f766e"},{'k':"ball",'p':[1.35,0.3,0],'r':0.15,'c':"#dc2626",'lb':"O₂ 得 4e×5",'lp':[1.35,0.78,0],'lc':"#b91c1c"},{'k':"box",'p':[2.35,0.3,0],'sz':[0.55,0.55,0.55],'c':"#7c3aed",'op':0.9,'lb':"Co₃O₄",'lp':[2.35,0.78,0],'lc':"#6d28d9"},{'k':"label",'p':[0,-0.75,0],'lb':"3CoS + 5O₂ = Co₃O₄ + 3SO₂",'c':"#0f766e"}]},{'t':"第 3 步 · (3) 酸浸：H₂O₂ 是还原剂，不是氧化剂",'k':"题干「已知氧化性 Co₂O₃ > H₂O₂、Co₂O₃ > Cl₂」；设问「双氧水的作用」",'f':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4=2CoSO_4+O_2\\uparrow+3H_2O",'d':"烧渣里 Co 以 <b>Co(III)</b> 存在（Co₃O₄ 中的 Co₂O₃ 部分）。题给氧化性 Co₂O₃ > H₂O₂ ⇒ H₂O₂ 只能被 Co(III) <b>氧化</b>，自己作<b>还原剂</b>，把 Co(III) 还原成 Co(II)。Co²⁺ 与 Ni²⁺ 行为相近，后续才好分离。",'w':"看到「H₂O₂」不要条件反射当氧化剂——先比氧化性强弱。本题氧化剂:还原剂 = 1:1。",'cam':{'az':0.64,'pol':1.0,'dist':8.2,'tgt':[0,0.15,0]},'objs':[{'k':"ball",'p':[-1.1,0.35,0],'r':0.19,'c':"#7c3aed",'an':"pulse",'lb':"Co(III) 氧化剂",'lp':[-1.1,0.9,0],'lc':"#6d28d9",'card':{'cond':"氧化性 Co₂O₃ > H₂O₂ ⇒ Co(III) 夺电子",'formula':"\\mathrm{Co_2O_3}+H_2O_2+2H_2SO_4\\to 2CoSO_4+O_2\\uparrow+3H_2O",'think':"H₂O₂ 中 O 从 −1 升到 0（生成 O₂），被氧化",'warn':"H₂O₂ 既可作氧化剂也可作还原剂，看对手强弱"}},{'k':"arrow",'a':[-0.72,0.35,0],'b':[0.12,0.35,0],'c':"#0f766e",'lb':"e⁻",'lp':[-0.3,0.75,0],'lc':"#0f766e"},{'k':"ball",'p':[0.55,0.35,0],'r':0.17,'c':"#f59e0b",'lb':"H₂O₂ 还原剂",'lp':[0.55,0.9,0],'lc':"#b45309",'card':{'cond':"H₂O₂ 被氧化成 O₂，作<b>还原剂</b>",'formula':"\\mathrm{H_2O_2}-2e^-\\to \\mathrm{O_2}+2H^+",'think':"O 从 −1 升到 0，失电子",'warn':"写成「H₂O₂ 作氧化剂」直接错"}},{'k':"arrow",'a':[0.95,0.35,0],'b':[1.75,0.35,0],'c':"#94a3b8"},{'k':"ball",'p':[2.1,0.35,0],'r':0.17,'c':"#0d9488",'lb':"Co(II) 便于分离",'lp':[2.1,0.9,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.75,0],'lb':"氧化剂 : 还原剂 = 1 : 1",'c':"#0f766e"}]},{'t':"第 4 步 · (4) pH 窗口：四个门槛卡出 7.1",'k':"题干给四个 Ksp；设问「调 pH 的范围 / 最高能调到多少」",'f':"c(\\mathrm{OH^-})=\\sqrt{\\frac{K_{sp}}{c}}\\ \\Rightarrow\\ \\mathrm{pH}=14+\\lg c(\\mathrm{OH^-})",'d':"四个门槛：Fe³⁺ 完全沉淀 pH <b>2.8</b>；Cu²⁺ 完全 pH <b>6.6</b>；Co²⁺ 开始沉淀 pH <b>7.1</b>；Ni²⁺ 开始 pH <b>8.05</b>。要「除干净 Fe、Cu 又不损失 Co、Ni」⇒ 窗口 [6.6, 7.1] ⇒ <b>pH 最高 7.1</b>。",'w':"两个方向要同时满足：下限由「杂质沉完」定，上限由「主成分开始沉」定。只算一边必错。",'cam':{'az':0.5,'pol':0.95,'dist':9.4,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.8,0.1,0],'b':[2.8,0.1,0],'c':"#94a3b8",'w':0.035},{'k':"ball",'p':[-2.0,0.1,0],'r':0.12,'c':"#dc2626",'lb':"2.8 Fe³⁺ 完",'lp':[-2.0,0.62,0],'lc':"#b91c1c",'card':{'cond':"Fe³⁺ <b>完全沉淀</b>的 pH 上限（2.8）",'formula':"c(\\mathrm{OH^-})=\\sqrt[3]{10^{-38.6}/10^{-5}}=10^{-11.2}",'think':"Ksp 越小，完全沉淀所需 pH 越低",'warn':"这是窗口的<b>下限</b>"}},{'k':"ball",'p':[-0.3,0.1,0],'r':0.12,'c':"#f59e0b",'lb':"6.6 Cu²⁺ 完",'lp':[-0.3,0.62,0],'lc':"#b45309",'card':{'cond':"Cu²⁺ 完全沉淀的 pH（6.6）",'formula':"c(\\mathrm{OH^-})=\\sqrt{10^{-19.8}/10^{-5}}=10^{-7.4}",'think':"Cu(OH)₂ 的 Ksp 比 Fe(OH)₃ 大得多，要更高 pH",'warn':"6.6 是关键分界：低于它 Cu 除不干净"}},{'k':"ball",'p':[1.0,0.1,0],'r':0.12,'c':"#0d9488",'an':"pulse",'lb':"7.1 Co²⁺ 开始",'lp':[1.0,0.62,0],'lc':"#0f766e",'card':{'cond':"Co²⁺ <b>开始沉淀</b>的 pH（7.1）⇒ 这就是上限",'formula':"c(\\mathrm{OH^-})=\\sqrt{10^{-14.8}/0.1}=10^{-6.9}",'think':"再高一点 Co 就开始损失，产物收率下降",'warn':"答案「最高 7.1」就是卡在这一条"}},{'k':"ball",'p':[2.3,0.1,0],'r':0.12,'c':"#7c3aed",'lb':"8.05 Ni²⁺ 开始",'lp':[2.3,0.62,0],'lc':"#6d28d9"},{'k':"seg",'a':[-0.3,-0.32,0],'b':[1.0,-0.32,0],'c':"#0f766e",'w':0.05},{'k':"label",'p':[0.35,-0.72,0],'lb':"pH 窗口 [6.6, 7.1]",'c':"#0f766e"},{'k':"label",'p':[0,-1.25,0],'lb':"浸渣：Fe(OH)₃ + Cu(OH)₂",'c':"#475569"}]},{'t':"第 5 步 · (5)(6) 沉钴气泡 + 萃取电子效应，收口",'k':"设问「只加碳酸氢铵沉钴为什么颗粒疏松」「O(P204) 与 O(P507) 谁给电子能力强」",'f':"\\mathrm{Co^{2+}}+2\\mathrm{HCO_3^-}\\to\\mathrm{CoCO_3}\\downarrow+\\mathrm{CO_2}\\uparrow+\\mathrm{H_2O}",'d':"(5) 沉钴同时放出大量 <b>CO₂ 气泡</b>，气泡扰动晶体生长 ⇒ CoCO₃ 颗粒<b>疏松</b>。(6) P204 是 (RO)₂P(=O)OH（两个 −OR 吸电子）；P507 是 R—P(=O)(OR)OH（一个给电子的烃基 R）⇒ R 使 P=O 上氧的电子云密度更大 ⇒ 给电子能力 <b>O(P204) &lt; O(P507)</b>。",'w':"比较配位能力看「P=O 氧上电子云密度」；给电子基越多，氧越「富有」，配位越强。",'cam':{'az':0.62,'pol':1.0,'dist':8.8,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.35,0],'sz':[1.0,0.85,0.85],'c':"#0d9488",'op':0.88,'lb':"CoCO₃ 疏松",'lp':[-1.5,1.0,0],'lc':"#0f766e",'card':{'cond':"CO₂ 气泡扰动晶体生长 ⇒ 颗粒疏松、比表面积大",'formula':"\\mathrm{Co^{2+}}+2\\mathrm{HCO_3^-}\\to\\mathrm{CoCO_3}\\downarrow+\\mathrm{CO_2}\\uparrow+\\mathrm{H_2O}",'think':"气泡不断从晶体表面逸出，破坏规整生长",'warn':"疏松不是缺点，后续焙烧更容易分解"}},{'k':"ball",'p':[0.1,0.35,0],'r':0.1,'c':"#cbd5e1",'an':"pulse",'lb':"CO₂ ↑",'lp':[0.1,0.78,0],'lc':"#64748b"},{'k':"ball",'p':[1.35,0.2,0],'r':0.14,'c':"#7c3aed",'lb':"O(P204) 较弱",'lp':[1.35,0.72,0],'lc':"#6d28d9",'card':{'cond':"P204 = (RO)₂P(=O)OH，两个 −OR <b>吸电子</b>",'formula':"\\mathrm{(RO)_2P({=}O)OH}",'think':"吸电子基降低 P=O 氧的电子云密度",'warn':"给电子能力弱 ⇒ 配位能力弱"}},{'k':"ball",'p':[2.4,0.2,0],'r':0.14,'c':"#0d9488",'lb':"O(P507) 较强",'lp':[2.4,0.72,0],'lc':"#0f766e",'card':{'cond':"P507 = R—P(=O)(OR)OH，一个<b>给电子</b>的烃基 R",'formula':"\\mathrm{R{-}P({=}O)(OR)OH}",'think':"R 推电子 ⇒ P=O 氧电子云密度更高 ⇒ 给孤对能力更强",'warn':"结论是 O(P204) < O(P507)，别写反"}},{'k':"arrow",'a':[1.62,0.2,0],'b':[2.1,0.2,0],'c':"#0f766e"},{'k':"label",'p':[0,-0.75,0],'lb':"O(P204) < O(P507)　·　Co²⁺ 配位数 6（NaCl 型）",'c':"#0f766e"}]}]});
 </script>
 <script>
 
