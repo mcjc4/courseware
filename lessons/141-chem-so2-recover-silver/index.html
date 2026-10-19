@@ -425,7 +425,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
 .vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
-.vz-k{font-size:13px;font-weight:600;color:#1d4ed8;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.6}
+.vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
+.vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
+.vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
+.vz-bridge{font-size:11.5px;font-weight:600;color:#94a3b8;margin:.3em 0 .2em 3px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
@@ -437,10 +440,59 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-card.on{display:block}
 .vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
 .vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em}
+.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
 .vz-c-b{color:#475569}
 .vz-c-w{color:#b45309}
 @media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
 </style>
 </head>
 
@@ -550,22 +602,45 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<p><b>双路并行</b>：SO₂ 通入 AgNO₃ 同时发生复分解（Ag₂SO₃↓，白，主路）与氧化还原（Ag↓+SO₄²⁻，灰黑，副路）——Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 远小于 Ksp(Ag₂SO₄)=1.4×10⁻⁵。</p>
-
-      <p><b>两个离子方程式</b>：SO₂+2Ag⁺+2H₂O=2Ag↓+SO₄²⁻+4H⁺（电子守恒：S+4→+6 失 2e，2Ag⁺ 得 2e）。</p>
-
-      <p><b>化学方程式</b>：SO₂+2AgNO₃+H₂O=Ag₂SO₃↓+2HNO₃（复分解）；4AgNO₃+SO₂+2H₂O=Ag₂SO₄↓+2Ag↓+4HNO₃（含硫酸银的总量式）。</p>
-
-      <p><b>Q 判据</b>：Q=c²(Ag⁺)·c(SO₄²⁻)=0.01c(SO₄²⁻) &lt; Ksp ⇒ 沉淀中不含 Ag₂SO₄，填「&lt;」。</p>
-
-      <p><b>速率比</b>：n₁:n₂/2，联立 296n₁+108n₂=m 与 216n₁+108n₂=m₂ 解得 27(m−m₂):(37m₂−27m)。</p>
-
-      <p><b>优化</b>：先氨配位（银氨溶液）把 c(Ag⁺) 压到极低 → 复分解被掐断 → SO₂ 单走氧化还原路回收 Ag。</p>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">01</div>
+<div class="cx-t">一锅两路</div>
+<div class="cx-sub">一个现象，两条反应</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="40.0" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">SO₂ 入瓶</text></g><path d="M77.5 55.0 L92.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M92.5 55.0 L89.0 56.9 L89.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="94.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="130.0" y="48.18" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">复分解</text><text x="130.0" y="61.82" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag₂SO₃↓</text></g><path d="M167.5 55.0 L182.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M182.5 55.0 L179.0 56.9 L179.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="184.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="220.0" y="48.18" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">氧化还原</text><text x="220.0" y="61.82" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag↓</text></g></svg></div>
+<div class="cx-d">同一瓶溶液里可以同时跑两条路：<b>复分解</b>（生成难溶盐）和<b>氧化还原</b>（生成金属单质）。实验题里"白色沉淀 + 灰黑色固体"就是两条路的签名。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (2) 问要把两条离子方程式分别写出来。</div>
+</div>
+<div class="cx-card" style="--cxc:#0d9488">
+<div class="cx-no">02</div>
+<div class="cx-t">Ksp 越小越先沉</div>
+<div class="cx-sub">差几个数量级 = 差一条命</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect x="6" y="10" width="118" height="80" rx="10" fill="#16a34a" fill-opacity=".07" stroke="#16a34a" stroke-width="1.3"/><text x="65" y="28.87" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag₂SO₃</text><text x="65" y="43.13" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">1.5×10⁻¹⁴</text><rect x="30" y="58" width="70" height="19" rx="9" fill="#16a34a" fill-opacity=".13"/><text x="65" y="67.5" font-size="10" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">✓ 先沉·白色</text><rect x="136" y="10" width="118" height="80" rx="10" fill="#e11d48" fill-opacity=".07" stroke="#e11d48" stroke-width="1.3"/><text x="195" y="36.0" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag₂SO₄ 1.4×10⁻⁵</text><rect x="160" y="58" width="70" height="19" rx="9" fill="#e11d48" fill-opacity=".13"/><text x="195" y="61.61" font-size="9.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">✗</text><text x="195" y="73.39" font-size="9.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">差 9 个数量级</text><text x="130" y="103" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">同一个考点，两种写法</text></svg></div>
+<div class="cx-d">两种沉淀抢同一个离子时，<b>Ksp 更小的先沉</b>。差 9 个数量级意味着：在同样条件下，硫酸银几乎不可能析出。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (3) 问判"沉淀里有没有 Ag₂SO₄"。</div>
+</div>
+<div class="cx-card" style="--cxc:#f59e0b">
+<div class="cx-no">03</div>
+<div class="cx-t">用 Q 和 Ksp 比大小</div>
+<div class="cx-sub">Q &gt; Ksp 才沉淀</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><path d="M30 22 L30 93 L240 93" stroke="#cbd5e1" stroke-width="1.3" fill="none"/><path d="M34.0 41.2 L234.0 41.2" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/><path class="cx-dr" d="M34.0 82.1 L104.0 67.2 L174.0 47.4 L234.0 36.2" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-linecap="round"/><text x="135" y="105" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">c(SO₄²⁻) →</text><text x="14" y="40" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">Q</text><text x="190" y="26" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">Ksp 判据线</text></svg></div>
+<div class="cx-d">把实际浓度代进溶度积表达式得 <b>Q</b>：Q &gt; Ksp 才沉淀，Q &lt; Ksp 不沉淀。别只看"有没有这个离子"，要<b>算到数</b>。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：c(Ag⁺)=0.1 ⇒ Q = 0.01c(SO₄²⁻)，要沉淀得 c &gt; 1.4×10⁻³，实际远达不到。</div>
+</div>
+<div class="cx-card" style="--cxc:#7c3aed">
+<div class="cx-no">04</div>
+<div class="cx-t">配位掩蔽</div>
+<div class="cx-sub">把离子"藏起来"</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><circle cx="44" cy="60" r="16" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.3"/><text x="44" y="60.0" font-size="10" fill="#0f766e" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag⁺</text><circle class="cx-lp" style="animation-delay:0.00s" cx="44" cy="60" r="23" fill="none" stroke="#f59e0b" stroke-width="1.8"/><text x="44" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">未配位</text><path d="M69.0 60.0 L105.0 60.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M105.0 60.0 L101.5 61.9 L101.5 58.1 z" fill="#cbd5e1"/><circle cx="130" cy="60" r="16" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.3"/><text x="130" y="60.0" font-size="10" fill="#0f766e" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag⁺</text><line x1="130" y1="60" x2="130.0" y2="35.0" stroke="#94a3b8" stroke-width="1.1"/><circle cx="130.0" cy="35.0" r="6.4" fill="#7c3aed" opacity="0.9"/><circle class="cx-lp" style="animation-delay:1.10s" cx="130" cy="60" r="23" fill="none" stroke="#f59e0b" stroke-width="1.8"/><text x="130" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">一级</text><path d="M155.0 60.0 L191.0 60.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M191.0 60.0 L187.5 61.9 L187.5 58.1 z" fill="#cbd5e1"/><circle cx="216" cy="60" r="16" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.3"/><text x="216" y="60.0" font-size="10" fill="#0f766e" text-anchor="middle" font-weight="600" dominant-baseline="middle">Ag⁺</text><line x1="216" y1="60" x2="204.3" y2="37.9" stroke="#94a3b8" stroke-width="1.1"/><circle cx="204.3" cy="37.9" r="6.4" fill="#7c3aed" opacity="0.9"/><line x1="216" y1="60" x2="227.7" y2="37.9" stroke="#94a3b8" stroke-width="1.1"/><circle cx="227.7" cy="37.9" r="6.4" fill="#7c3aed" opacity="0.9"/><circle class="cx-lp" style="animation-delay:2.20s" cx="216" cy="60" r="23" fill="none" stroke="#f59e0b" stroke-width="1.8"/><text x="216" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">二级</text></svg></div>
+<div class="cx-d">加配体把金属离子包成配离子，<b>游离 c(Ag⁺) 骤降</b> ⇒ 依赖 Ag⁺ 的沉淀反应被掐断，而另一条路照常进行。这是实验调控的常用武器。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (3)② 提高银回收率：先加氨水，再通 SO₂。</div>
+</div>
+</div>
     </section>
 
   <section id="sandbox">
     <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
-    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>题干依据 → 公式 → 解析 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
     <div class="viz3d" id="vizS"><canvas></canvas></div>
   </section>
   
@@ -577,7 +652,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 装置与现象：三件套 × 一锅两路</span></div>
 
-<p><b>(1)</b> 70% H₂SO₄ 滴入 Na₂SO₃ 产生 SO₂，接口顺序：<b>发生装置 → 浓硫酸瓶（长进短出，干燥）→ 饱和食水瓶（短进长出，排液收集）→ 碱石灰瓶（尾气吸收）</b>。SO₂ 有毒易溶，排饱和食盐水收集既防溶损又易观察。</p><p><b>(2)</b> 现象「大量白色沉淀 + 瓶底略显灰色」= 两条反应路同时开工：</p><p style="text-align:center;font-weight:700;color:#2563eb">复分解（主）：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p style="text-align:center;font-weight:700;color:#b45309">氧化还原（副）：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><p>Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 极小 ⇒ 白色沉淀为主；灰色 Ag 是副路的「签名」。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「装置要"制 SO₂ → 干燥 → 收集 → 尾气处理"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>SO₂ 有毒、易溶于水 ⇒ 用<b>浓硫酸干燥</b>（长进短出）、<b>排饱和食盐水</b>收集（短进长出，既防溶解又易观察）、<b>碱石灰</b>吸收尾气，防止污染。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「瓶中出现"大量白色沉淀 + 瓶底略显灰色"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>一个现象说不出两个产物 ⇒ 必须<b>两条反应路</b>：复分解生成难溶的 Ag₂SO₃（白），氧化还原生成 Ag 单质（灰黑）。</div></div><p style="text-align:center;font-weight:700;color:#2563eb">复分解（主）：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p style="text-align:center;font-weight:700;color:#b45309">氧化还原（副）：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><div class="stx"><div class="stx-s"><i>看到题干</i>「两种沉淀到底谁为主」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 远小于 Ksp(Ag₂SO₄)=1.4×10⁻⁵ ⇒ <b>Ag₂SO₃ 先沉、量也大</b>，白色是主体；灰色 Ag 只是副路的"签名"。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -596,7 +671,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · 检验与 Ksp：红棕色 NO₂ × Q&lt;Ksp</span></div>
 
-<p><b>①</b> 灰黑固体加浓硝酸：<b>固体溶解、产生红棕色刺激性气味气体（NO₂）</b> ⇒ 含 Ag。银单质来自氧化还原路：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺。</p><p><b>②</b> 固体 X 加过量盐酸、静置，取上层清液<b>滴加 BaCl₂ 溶液，产生白色沉淀（BaSO₄）</b> ⇒ 溶液含 SO₄²⁻；SO₂ 与 AgNO₃ 生成 Ag₂SO₃ 的化学方程式：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃。</p><p><b>③</b> 沉淀中不含 Ag₂SO₄：Q = c²(Ag⁺)·c(SO₄²⁻) = 0.01·c(SO₄²⁻)。Q&gt;Ksp 需 c(SO₄²⁻) &gt; 1.4×10⁻³ mol/L，而被氧化产生的 SO₄²⁻ 远达不到 ⇒ <b style="color:#0f766e">Q &lt; 1.4×10⁻⁵，填「&lt;」</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「灰黑固体加浓硝酸，产生红棕色刺激性气体」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>红棕色气体 = <b>NO₂</b> ⇒ 说明固体里有能被硝酸氧化的<b>银单质</b> ⇒ 来自氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「取上层清液滴加 BaCl₂，出现白色沉淀」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>白色且不溶于盐酸的钡盐 = <b>BaSO₄</b> ⇒ 溶液里含 <b>SO₄²⁻</b> ⇒ 同样印证氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「问"沉淀中是否含 Ag₂SO₄"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>判断沉淀要<b>算 Q</b>：Q = c²(Ag⁺)·c(SO₄²⁻) = 0.1²·c(SO₄²⁻) = 0.01c(SO₄²⁻)。要析出需 Q &gt; Ksp ⇒ c(SO₄²⁻) &gt; 1.4×10⁻³ mol/L，而氧化生成的 SO₄²⁻ 远达不到 ⇒ <b style="color:#0f766e">Q &lt; Ksp，填「&lt;」</b>，沉淀中不含 Ag₂SO₄。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -613,7 +688,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 速率比与优化方案</span></div>
 
-<p><b>④</b> 设 n₁=n(Ag₂SO₃)、n₂=n(Ag)。质量式 296n₁+108n₂=m；Ag 质量式 216n₁+108n₂=m₂。两式相减 80n₁=m−m₂ ⇒ n₁=(m−m₂)/80，n₂=(37m₂−27m)/1080。</p><p>速率比（同时间）= Δn(SO₂)复 : Δn(SO₂)氧 = n₁ : n₂/2 = <b style="color:#0f766e">27(m−m₂) : (37m₂−27m)</b>。</p><p><b>(3)</b> 优化方案：<b>先向 AgNO₃ 溶液中加入足量氨水</b>（Ag⁺+2NH₃·H₂O⇌[Ag(NH₃)₂]⁺+2H₂O，c(Ag⁺) 降至极小），<b>再通入净化后的 SO₂</b>——复分解被抑制，SO₂ 只走氧化还原路，过滤即得 Ag，回收率提高。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「给了总质量 m 和银的质量 m₂，问两条路的速率比」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两个未知量 ⇒ 列<b>两个方程</b>：总质量、银的质量。设 n₁=n(Ag₂SO₃)、n₂=n(Ag)。</div></div><p>296n₁ + 108n₂ = m（总质量）；216n₁ + 108n₂ = m₂（银的质量，Ag₂SO₃ 里 Ag 占 216）。<br>两式相减：80n₁ = m − m₂ ⇒ n₁ = (m − m₂)/80，代回得 n₂ = (37m₂ − 27m)/1080。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「速率比 = 单位时间消耗 SO₂ 的量之比」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复分解每份耗 1 个 SO₂，氧化还原每 2 个 Ag 耗 1 个 SO₂ ⇒ 比值为 n₁ : n₂/2 ⇒ <b style="color:#0f766e">27(m−m₂) : (37m₂−27m)</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「想提高银的回收率」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>只有副路产 Ag，主路白白消耗 SO₂ 却不产银 ⇒ <b>掐断主路</b>：先加足量氨水把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺，游离 c(Ag⁺) 骤降 ⇒ Ag₂SO₃ 无法沉淀，SO₂ 只走氧化还原路，过滤即得 Ag。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -3322,7 +3397,9 @@ document.addEventListener('DOMContentLoaded',function(){
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div><div class="vz-k"></div>'
+      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
+        + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+        + '<div class="vz-bridge">↓ 所以想到</div>'
         + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
         + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
         + '<button type="button" class="vz-next">下一步 →</button></div>';
@@ -3331,6 +3408,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
       var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
       var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
+      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
       var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
       var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
 
@@ -3545,7 +3623,9 @@ document.addEventListener('DOMContentLoaded',function(){
         st.enter = 0;
         eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
         eT.textContent = st.t || '';
-        eK.innerHTML = st.k || ''; eK.style.display = st.k ? '' : 'none';
+        eK.innerHTML = st.k || '';
+        eSee.style.display = st.k ? '' : 'none';
+        eBr.style.display = st.k ? '' : 'none';
         eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
         eD.innerHTML = st.d || '';
         eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
@@ -3589,7 +3669,8 @@ document.addEventListener('DOMContentLoaded',function(){
       function showCard(o) {
         var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
         if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + cd.formula + '</div>';
+        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
+        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
         if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
         if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
         cbox.innerHTML = html;
