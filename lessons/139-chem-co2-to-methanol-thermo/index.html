@@ -412,7 +412,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .sig-line{margin:.5em 0 .3em;padding:.5em .75em;border-left:3px solid #2563eb;background:#eff6ff;border-radius:0 8px 8px 0;font-weight:600;line-height:1.7}
 .sig-line i{font-style:normal;color:#1d4ed8}
 
-/* ===== 解题沙盘 STAGE-VER 20261019a ===== */
+/* ===== 解题沙盘 STAGE-VER 20261019c ===== */
 .viz3d.vz-on{display:block!important;height:auto!important;background:transparent!important;border:0!important;padding:0!important}
 #sandbox{margin:26px 0}
 #sandbox .sb-sub{color:#64748b;font-size:13.5px;margin:.2em 0 .6em}
@@ -421,8 +421,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
 .vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
-.vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
+.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.82);padding:3px 8px;border-radius:8px;max-width:92%}
+.vz-panel{flex:0 0 342px;display:flex;flex-direction:column;background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;height:clamp(290px,34vw,430px)}
+.vz-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
+.vz-body::-webkit-scrollbar{width:6px}.vz-body::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
 .vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
 .vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
@@ -432,18 +434,26 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
-.vz-nav{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.vz-nav{flex:none;display:flex;gap:8px;padding:8px 12px;border-top:1px solid #eef2f7;background:#fbfcfe}
 .vz-nav button{flex:1;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;border:1px solid #cbd5e1;background:#fff;color:#1f2430;padding:.5em .4em;transition:.18s}
 .vz-nav button:hover:not(:disabled){background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
 .vz-nav button:disabled{opacity:.42;cursor:not-allowed}
-.vz-card{position:absolute;right:10px;bottom:10px;max-width:min(66%,330px);display:none;background:#fff;border:1px solid #dbe3ef;border-radius:12px;box-shadow:0 10px 26px rgba(15,23,42,.15);padding:10px 12px;font-size:12.5px;color:#334155;line-height:1.65;z-index:5}
-.vz-card.on{display:block}
-.vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
-.vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
-.vz-c-b{color:#475569}
-.vz-c-w{color:#b45309}
-@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+/* —— 常驻知识卡：沙盘下方整行铺开，不用点不用翻 —— */
+.vz-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(318px,1fr));gap:10px;margin-top:10px}
+.vz-cards-h{grid-column:1/-1;font-size:12.5px;font-weight:700;color:#1d4ed8;display:flex;justify-content:space-between;align-items:baseline;gap:8px;line-height:1.5;border-bottom:1px dashed #dbe6f6;padding-bottom:6px}
+.vz-cards-h span{font-weight:600;color:#94a3b8;font-size:11px;white-space:nowrap}
+.vz-cw{display:flex;gap:9px;border:1px solid #e6edf7;background:#fbfdff;border-radius:11px;padding:10px 11px;transition:box-shadow .25s,border-color .25s,background .25s}
+.vz-cw.hi{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.vz-ci{flex:none;width:19px;height:19px;border-radius:50%;background:#2563eb;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;line-height:1}
+.vz-cb{flex:1 1 auto;min-width:0}
+.vz-ct{font-size:12.5px;font-weight:700;color:#334155;margin-bottom:.15em}
+.vz-c-b{font-size:13px;color:#334155;line-height:1.68}
+.vz-c-f{text-align:left;font-size:12.5px;margin:.12em 0;overflow-x:auto;overflow-y:hidden;line-height:1.9}
+.vz-c-t{font-size:12px;color:#64748b;line-height:1.62;margin-top:.26em}
+.vz-c-t b{color:#94a3b8;font-weight:700;margin-right:4px}
+.vz-c-w{font-size:12px;color:#b45309;line-height:1.62;margin-top:.2em}
+.vz-c-w b{color:#d97706;font-weight:700;margin-right:4px}
+@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto;height:auto}.vz-body{max-height:56vh}.vz-cards{grid-template-columns:1fr}.vz-canvas{height:clamp(240px,58vw,340px)}}
 
 
 /* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
@@ -695,7 +705,7 @@ section[id]{scroll-margin-top:58px}
 
   <section id="sandbox">
     <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
-    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>，并把画面里每个带编号物体对应的<b>知识卡直接摊开在下方</b>（不用点也能看全）。点一下带 ①②③ 的物体，面板会自动滚到并高亮那张卡。</p>
     <div class="viz3d" id="vizS"><canvas></canvas></div>
   </section>
   
@@ -3268,6 +3278,28 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
+  /* 可点物体的编号徽章（蓝底白字圆圈）：和右侧常驻知识卡的 ①②③ 一一对应，
+     让「这里能点」在画面上直接看得见，不必靠试。 */
+  function badge(n) {
+    var S = 64, dpr = 2;
+    var c = document.createElement('canvas');
+    c.width = S * dpr; c.height = S * dpr;
+    var g = c.getContext('2d');
+    g.scale(dpr, dpr);
+    g.beginPath(); g.arc(S / 2, S / 2, S / 2 - 3, 0, Math.PI * 2);
+    g.fillStyle = '#2563eb'; g.fill();
+    g.lineWidth = 4; g.strokeStyle = '#ffffff'; g.stroke();
+    g.fillStyle = '#ffffff';
+    g.font = '700 36px "Microsoft YaHei","PingFang SC",sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(String(n), S / 2, S / 2 + 1);
+    var tx = new T.CanvasTexture(c); tx.needsUpdate = true;
+    var sp = new T.Sprite(new T.SpriteMaterial({ map: tx, transparent: true, depthTest: false }));
+    sp.scale.set(0.34, 0.34, 1);
+    sp.renderOrder = 30;
+    return sp;
+  }
+
   /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
      2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
@@ -3472,24 +3504,29 @@ document.addEventListener('DOMContentLoaded',function(){
       var cv = document.createElement('canvas'); cw.appendChild(cv);
       cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 右侧知识卡高亮';
       cw.appendChild(hud);
-      var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
+      var pb = document.createElement('div'); pb.className = 'vz-body';
+      pb.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
         + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
         + '<div class="vz-bridge">↓ 所以想到</div>'
-        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
-        + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
-        + '<button type="button" class="vz-next">下一步 →</button></div>';
+        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>';
+      var nav = document.createElement('div'); nav.className = 'vz-nav';
+      nav.innerHTML = '<button type="button" class="vz-prev">← 上一步</button>'
+        + '<button type="button" class="vz-next">下一步 →</button>';
+      pn.appendChild(pb); pn.appendChild(nav);
       wrap.appendChild(cw); wrap.appendChild(pn);
       host.appendChild(wrap);
+      /* 知识卡放沙盘下方整行铺开：不用点、不用在窄面板里翻，一眼看全 */
+      var eCards = document.createElement('div'); eCards.className = 'vz-cards';
+      host.appendChild(eCards);
 
-      var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
-      var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
-      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
-      var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
-      var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
+      var eIdx = pb.querySelector('.vz-idx'), eT = pb.querySelector('.vz-t');
+      var eK = pb.querySelector('.vz-k'), eF = pb.querySelector('.vz-f');
+      var eSee = pb.querySelector('.vz-see'), eBr = pb.querySelector('.vz-bridge');
+      var eD = pb.querySelector('.vz-d'), eW = pb.querySelector('.vz-w');
+      var bPrev = nav.querySelector('.vz-prev'), bNext = nav.querySelector('.vz-next');
 
       /* ---------- 渲染器 / 场景 ---------- */
       var ren;
@@ -3534,6 +3571,16 @@ document.addEventListener('DOMContentLoaded',function(){
       /* ---------- 图元工厂 ---------- */
       function V(a) { return new T.Vector3(a[0], a[1], a[2]); }
       function C(c, d) { return new T.Color(c == null ? d : c).getHex(); }
+      /* 徽章挂点：物体包围盒顶端正上方（比 m.position+固定值稳，大/小物体都不会挡住本体） */
+      function badgePos(m) {
+        try {
+          var b = new T.Box3().setFromObject(m);
+          if (isFinite(b.min.x) && isFinite(b.max.y)) {
+            return new T.Vector3((b.min.x + b.max.x) / 2, b.max.y + 0.2, (b.min.z + b.max.z) / 2);
+          }
+        } catch (e) {}
+        return m.position.clone().add(new T.Vector3(0, 0.45, 0));
+      }
 
       function buildObj(o, g, st) {
         var m = null, c = C(o.c, 0x2563eb);
@@ -3626,8 +3673,24 @@ document.addEventListener('DOMContentLoaded',function(){
         /* 动画登记 */
         if (o.an === 'pulse') st.anims.push({ type: 'pulse', m: m, ph: Math.random() * 6.28 });
         else if (o.an === 'spin') st.anims.push({ type: 'spin', m: m, sp: o.sp || 0.9 });
-        /* 可点击 */
-        if (o.card) { m.userData.card = o.card; m.userData.home = m.scale.clone(); st.pick.push(m); }
+        /* 可点击：打上编号徽章并登记（编号 = 右侧常驻知识卡序号，一一对应） */
+        if (o.card) {
+          m.userData.card = o.card;
+          m.userData.home = m.scale.clone();
+          st.pick.push(m);
+          st.hitObjs.push(m);
+          m.userData.ci = st.pick.length;
+          m.userData.cl = o.cb || o.lb || '';
+          var bd = badge(st.pick.length);
+          bd.position.copy(badgePos(m));
+          /* 徽章本身也是点击热区（学生第一反应是点编号）→ 指向同一个知识卡 */
+          bd.userData.card = o.card;
+          bd.userData.ci = st.pick.length;
+          bd.userData.host = m;
+          g.add(bd);
+          st.hitObjs.push(bd);
+          m.userData.badge = bd;
+        }
         return m;
       }
 
@@ -3636,7 +3699,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var g = new T.Group();
         g.visible = false;
         sc.add(g);
-        st.g = g; st.pick = []; st.anims = []; st.enter = 1;
+        st.g = g; st.pick = []; st.hitObjs = []; st.anims = []; st.enter = 1;
         (spec.base || []).forEach(function (o) { buildObj(o, g, st); });
         (st.objs || []).forEach(function (o) { buildObj(o, g, st); });
       });
@@ -3672,21 +3735,82 @@ document.addEventListener('DOMContentLoaded',function(){
           });
         } catch (e) {}
       }
-      function hideCard() { cbox.classList.remove('on'); cbox.innerHTML = ''; }
+      /* ---------- 常驻知识卡（2026-10-19 改：不再「点击才弹出」） ----------
+         切到某一步，这一步所有可点物体的卡片就全部摊在面板下方；
+         点击画面里的带编号物体 = 在面板里滚到对应卡并高亮，而不是遮住画面的浮层。 */
+      function cardHTML(m, i) {
+        var cd = m.userData.card || {}, t = m.userData.cl || '';
+        var h = '<div class="vz-cw" data-ci="' + i + '">'
+              + '<div class="vz-ci">' + i + '</div><div class="vz-cb">';
+        if (t) h += '<div class="vz-ct">' + t + '</div>';
+        if (cd.cond) h += '<div class="vz-c-b">' + cd.cond + '</div>';
+        if (cd.formula) h += '<div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
+        if (cd.think) h += '<div class="vz-c-t"><b>思路</b>' + cd.think + '</div>';
+        if (cd.warn) h += '<div class="vz-c-w"><b>易错</b>' + cd.warn + '</div>';
+        return h + '</div></div>';
+      }
+      function renderCards(st) {
+        if (!st.pick.length) { eCards.innerHTML = ''; eCards.style.display = 'none'; return; }
+        eCards.style.display = '';
+        var h = '<div class="vz-cards-h">🔑 本步知识卡'
+              + '<span>' + st.pick.length + ' 张 · 点画面里的 ①②③ 定位</span></div>';
+        for (var i = 0; i < st.pick.length; i++) h += cardHTML(st.pick[i], i + 1);
+        eCards.innerHTML = h;
+      }
+      /* 点物体 → 面板内滚到对应卡 + 高亮 2.8s（不做遮挡画面的浮层） */
+      function focusCard(o) {
+        var i = o.userData.ci;
+        if (!i) return;
+        var host = o.userData.host || o;
+        var el = eCards.querySelector('.vz-cw[data-ci="' + i + '"]');
+        if (!el) return;
+        var all = eCards.querySelectorAll('.vz-cw');
+        for (var k = 0; k < all.length; k++) all[k].classList.remove('hi');
+        el.classList.add('hi');
+        var r2 = el.getBoundingClientRect(), vh = window.innerHeight || 800;
+        if (r2.top < 8 || r2.bottom > vh - 8) {
+          try { el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+        }
+        clearTimeout(el._t);
+        el._t = setTimeout(function () { el.classList.remove('hi'); }, 2800);
+        if (host.userData.home) {
+          host.scale.copy(host.userData.home).multiplyScalar(1.22);
+          clearTimeout(host.userData._t);
+          host.userData._t = setTimeout(function () {
+            if (host.userData.home && hov !== host) host.scale.copy(host.userData.home);
+          }, 640);
+        }
+        dirty = true;
+      }
       /* 长公式自适应：迭代收敛缩字号，避免撑破右侧面板 */
-      function fitF() {
-        eF.style.fontSize = '';
-        var fs = parseFloat(window.getComputedStyle(eF).fontSize) || 13.5;
-        var base = fs;
-        for (var k = 0; k < 4; k++) {
-          var avail = eF.clientWidth, need = eF.scrollWidth;
-          if (avail < 40 || need <= avail + 1) return;
-          fs = Math.max(8, fs * (avail - 2) / need);
-          if (fs <= 8) { eF.style.fontSize = '8px'; return; }
-          eF.style.fontSize = fs + 'px';
+      function fitF() { fitOne(eF, 8); }
+
+      /* 卡片里的公式超宽 → 迭代缩字号（否则长方程式会被右边框截掉） */
+      /* 量「实际墨迹宽度」：KaTeX 的 katex-display 是块级、宽度=容器，
+         scrollWidth 永远等于 clientWidth，测不出溢出 → 必须用 Range 取内容包围盒 */
+      function inkW(e) {
+        try {
+          var r = document.createRange();
+          r.selectNodeContents(e);
+          var b = r.getBoundingClientRect();
+          return b.width || 0;
+        } catch (x) { return 0; }
+      }
+      function fitOne(e, floor) {
+        e.style.fontSize = '';
+        var cur = parseFloat(window.getComputedStyle(e).fontSize) || 12.5;
+        for (var k = 0; k < 6; k++) {
+          var avail = e.clientWidth - 2, need = inkW(e);
+          if (!need || avail < 40 || need <= avail) break;
+          cur = Math.max(floor, cur * avail / need);
+          e.style.fontSize = cur + 'px';
+          if (cur <= floor) break;
         }
       }
-
+      function fitCards() {
+        var fs = eCards.querySelectorAll('.vz-c-f');
+        for (var i = 0; i < fs.length; i++) fitOne(fs[i], 9.5);
+      }
       function wrapF(s) {
         s = (s || '').trim();
         if (!s) return '';
@@ -3712,8 +3836,12 @@ document.addEventListener('DOMContentLoaded',function(){
         bPrev.disabled = (i === 0);
         bNext.disabled = (i === steps.length - 1);
         camTo(st.cam);
-        hideCard(); renderMath(pn);
+        renderCards(st);
+        pb.scrollTop = 0;
+        renderMath(pn);
+        renderMath(eCards);   /* 卡片区已挪到面板外 → 必须单独渲染，否则公式是裸源码 */
         requestAnimationFrame(fitF); setTimeout(fitF, 260); setTimeout(fitF, 900);
+        requestAnimationFrame(fitCards); setTimeout(fitCards, 320); setTimeout(fitCards, 1000);
         dirty = true;
       }
       var cur = -1;
@@ -3731,32 +3859,19 @@ document.addEventListener('DOMContentLoaded',function(){
       var SLOP = [[0, 0], [12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, 9], [9, -9], [-9, -9]];
       function hitAt(e) {
         var st = steps[cur];
-        if (!st || !st.pick.length) return null;
+        if (!st || !st.hitObjs.length) return null;
         var r = cw.getBoundingClientRect();
         for (var i = 0; i < SLOP.length; i++) {
           ndc.x = ((e.clientX + SLOP[i][0] - r.left) / r.width) * 2 - 1;
           ndc.y = -((e.clientY + SLOP[i][1] - r.top) / r.height) * 2 + 1;
           ray.setFromCamera(ndc, cam);
-          var hs = ray.intersectObjects(st.pick, true);
+          var hs = ray.intersectObjects(st.hitObjs, true);
           if (!hs.length) continue;
           var o = hs[0].object;
           while (o && !o.userData.card) o = o.parent;
           if (o && o.userData.card) return o;
         }
         return null;
-      }
-      function showCard(o) {
-        var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
-        if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
-        if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
-        if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
-        cbox.innerHTML = html;
-        cbox.classList.add('on');
-        renderMath(cbox);
-        var x = cbox.querySelector('.vz-card-x');
-        if (x) x.onclick = function (ev) { ev.stopPropagation(); hideCard(); };
       }
       function setHov(o) {
         if (hov === o) return;
@@ -3767,8 +3882,6 @@ document.addEventListener('DOMContentLoaded',function(){
       }
 
       cw.addEventListener('pointerdown', function (e) {
-        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
-        if (cbox.contains(e.target)) { tap = null; return; }
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
         if (tap && tap.id !== e.pointerId) { tap = null; return; }
@@ -3800,7 +3913,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
         if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) { dTap.t = 0; showCard(o); return; }
+        if (o) { dTap.t = 0; focusCard(o); return; }
         /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
         var now = performance.now();
         if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
@@ -3809,7 +3922,6 @@ document.addEventListener('DOMContentLoaded',function(){
           return;
         }
         dTap = { t: now, x: e.clientX, y: e.clientY };
-        hideCard();
       });
       /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
       cw.addEventListener('pointercancel', function () { tap = null; });
@@ -3875,7 +3987,8 @@ document.addEventListener('DOMContentLoaded',function(){
       })();
 
       go(0);
-      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, cur: function () { return cur; } };
+      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, steps: steps,
+                                focus: focusCard, cur: function () { return cur; } };
       return window['__' + hostId];
     }
   };
@@ -4060,7 +4173,7 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
 
   },{});
 
-VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读题：两个反应，别只盯第一个",'k':"题干「反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g)　ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g)　ΔH₂=−23.9 kJ/mol」",'f':"\\mathrm{CO_2+3H_2\\rightleftharpoons CH_3OH+H_2O}\\quad\\Delta H_1=-49.6",'d':"两个反应<b>串联</b>：I 先造甲醇，II 再把甲醇脱水成二甲醚。所以算甲醇时要考虑它被 II 消耗掉一部分——这正是第 4 步 Kp 账本里 p₀(CO₂) 要加 2p(CH₃OCH₃) 的原因。",'w':"只写反应 I 就跑去算 Kp，会漏掉 II 消耗的甲醇。",'cam':{'az':0.66,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#2563eb",'op':0.85,'lb':"反应 I  ΔH₁=−49.6",'lp':[-1.5,1.0,0],'lc':"#1d4ed8",'card':{'cond':"CO₂ 加氢制甲醇，<b>放热</b>且气体分子数减少（4→2）",'formula':"\\Delta H_1<0,\\quad \\Delta S<0",'think':"放热 + 熵减 ⇒ 低温自发（第 2 步详算）",'warn':"ΔS<0 是因为 4 mol 气体变 2 mol"}},{'k':"arrow",'a':[-0.72,0.3,0],'b':[0.72,0.3,0],'c':"#0f766e",'lb':"串联",'lp':[0,0.72,0],'lc':"#0f766e"},{'k':"box",'p':[1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#7c3aed",'op':0.85,'lb':"反应 II  ΔH₂=−23.9",'lp':[1.5,1.0,0],'lc':"#6d28d9",'card':{'cond':"甲醇脱水成二甲醚，也<b>放热</b>（2→2 气体，ΔS≈0）",'formula':"2\\mathrm{CH_3OH\\rightleftharpoons CH_3OCH_3+H_2O}",'think':"II 消耗甲醇，算 Kp 时必须把它的量补回去",'warn':"忽略 II 会让 p₀(CO₂) 算小、Kp 算错"}},{'k':"label",'p':[0,-0.7,0],'lb':"一锅两反应 ⇒ 先算总量，再算平衡",'c':"#1f2430"}]},{'t':"第 2 步 · (1) 自发性：ΔG=ΔH−TΔS 谁说话",'k':"设问「反应 I 能自发进行的条件」与「图中曲线 a 代表哪个反应」",'f':"\\Delta G=\\Delta H-T\\Delta S<0\\ \\Rightarrow\\ T<\\frac{\\Delta H}{\\Delta S}",'d':"反应 I：ΔH<0、ΔS<0（4 mol 气体→2 mol），<b>低温</b>时 TΔS 项小，ΔG<0 自发；高温则逆转。曲线 a 随温度升高 ΔG <b>增大</b>，正是 ΔS<0 的特征 ⇒ a 代表反应 I。",'w':"ΔS 的正负看气体分子数变化，别凭感觉；ΔG 随 T 上升 = 斜率为 −ΔS > 0 ⇒ ΔS<0。",'cam':{'az':0.62,'pol':0.96,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.55*x-0.75;}),'c':"#2563eb",'r':0.045,'lb':"曲线 a：反应 I（ΔS<0）",'lp':[1.5,1.15,0],'lc':"#1d4ed8",'card':{'cond':"ΔG 随 T <b>上升</b> ⇒ 斜率 −ΔS>0 ⇒ ΔS<0",'formula':"\\left(\\frac{\\partial\\Delta G}{\\partial T}\\right)_p=-\\Delta S",'think':"气体分子数 4→2，混乱度降低，ΔS<0",'warn':"别把曲线斜率和 ΔH 搞混"}},{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.18*x-1.15;}),'c':"#7c3aed",'r':0.04,'lb':"反应 II（ΔS≈0，更平）",'lp':[1.6,0.35,0],'lc':"#6d28d9"},{'k':"seg",'a':[-2.6,0,0],'b':[2.6,0,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.3,0.28,0],'lb':"ΔG=0 分界",'c':"#64748b"},{'k':"ball",'p':[-0.9,-0.05,0],'r':0.13,'c':"#0f766e",'an':"pulse",'lb':"低温区：ΔG<0 自发",'lp':[-0.6,-0.55,0],'lc':"#0f766e",'card':{'cond':"低温 ⇒ TΔS 项小 ⇒ ΔG=ΔH−TΔS<0",'formula':"T<\\frac{|\\Delta H|}{|\\Delta S|}",'think':"放热 + 熵减的组合，低温自发、高温不自发",'warn':"「任何温度都能自发」只在 ΔH<0 且 ΔS>0 时成立"}},{'k':"label",'p':[0,-1.25,0],'lb':"⇒ 反应 I 低温自发；曲线 a 是 I",'c':"#0f766e"}]},{'t':"第 3 步 · (2) 惰气与充气：四种情形别混",'k':"设问「恒温恒压充惰气 / 恒容充惰气 / 充 CO₂ / 分离 CH₃OCH₃ 的影响」",'f':"pV=nRT\\ \\Rightarrow\\ \\text{恒压充惰气} \\Leftrightarrow \\text{减压}",'d':"① 恒容充惰气：各组分分压不变 ⇒ <b>平衡不移动</b>；② 恒压充惰气：体积变大 ⇒ 相当于<b>减压</b> ⇒ 向气体分子数多的方向（左）移动；③ 充 CO₂：反应物增 ⇒ 右移，但 CH₃OH 体积分数<b>不一定</b>升高；④ 分离 CH₃OCH₃：产物减少 ⇒ II 右移 ⇒ 甲醇转化率提高。选 <b>D</b>。",'w':"「恒压充惰气 = 减压」是必考结论；「充反应物 ⇒ 分数一定升」是常见错判。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"恒容 + 惰气 ⇒ 不移",'lp':[-1.75,1.05,0],'lc':"#0f766e"},{'k':"box",'p':[-0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#dc2626",'op':0.85,'lb':"恒压 + 惰气 ⇒ 减压左移",'lp':[-0.6,1.05,0],'lc':"#b91c1c",'card':{'cond':"恒压充惰气 ⇒ 体积增大 ⇒ 各分压下降",'formula':"p_i=\\frac{n_i}{n_{总}}p_{总}\\downarrow",'think':"相当于给体系「减压」，平衡向气体分子数多的方向移动",'warn':"恒容时充惰气，分压不变、平衡不动——两者别混"}},{'k':"box",'p':[0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#f59e0b",'op':0.85,'lb':"充 CO₂ ⇒ 右移",'lp':[0.6,1.05,0],'lc':"#b45309"},{'k':"box",'p':[1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"分离醚 ⇒ 转化率↑",'lp':[1.75,1.05,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.55,0],'lb':"四项过筛 ⇒ 只有 D 对",'c':"#0f766e"},{'k':"arrow",'a':[-0.22,0.35,0],'b':[0.22,0.35,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.98,0.35,0],'b':[1.36,0.35,0],'c':"#94a3b8"}]},{'t':"第 4 步 · (3) Kp 账本：H 守恒补出 p(H₂O)=3.0",'k':"题干「平衡后 p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa」——缺 p(H₂O)",'f':"K_p=\\frac{p(\\mathrm{CH_3OH})\\cdot p(\\mathrm{H_2O})}{p(\\mathrm{CO_2})\\cdot p(\\mathrm{H_2})^3}=\\frac{0.75\\times3.0}{0.25\\times0.5^3}=72",'d':"<b>C 守恒</b>：p₀(CO₂)=p(CO₂)+p(CH₃OH)+2p(CH₃OCH₃)=0.25+0.75+1.5=2.5；<b>H 守恒</b>：2p₀(H₂)=4p(CH₃OH)+6p(CH₃OCH₃)+2p(H₂O)+2p(H₂)，而 p₀(H₂)=p(H₂)+3[p(CH₃OH)+2p(CH₃OCH₃)]=0.5+6.75=7.25 ⇒ <b>p(H₂O)=3.0 MPa</b>。",'w':"二甲醚含 6 个 H、由 2 个甲醇来——H 守恒里系数是 6 不是 3；漏掉就会算错 p(H₂O)。",'cam':{'az':0.58,'pol':1.0,'dist':9.0,'tgt':[0,0.05,0]},'objs':[{'k':"box",'p':[-1.8,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#0ea5e9",'lb':"CO₂ 0.25",'lp':[-1.8,0.2,0],'lc':"#0369a1"},{'k':"box",'p':[-1.05,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#7c3aed",'lb':"H₂ 0.5",'lp':[-1.05,0.2,0],'lc':"#6d28d9"},{'k':"box",'p':[-0.3,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#0d9488",'lb':"CH₃OH 0.75",'lp':[-0.3,0.65,0],'lc':"#0f766e"},{'k':"box",'p':[0.45,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#f59e0b",'lb':"CH₃OCH₃ 0.75",'lp':[0.45,0.65,0],'lc':"#b45309"},{'k':"ball",'p':[1.35,-0.2,0],'r':0.2,'c':"#dc2626",'an':"pulse",'lb':"H₂O = 3.0（求出来）",'lp':[1.35,0.45,0],'lc':"#b91c1c",'card':{'cond':"p(H₂O) 由 <b>H 守恒</b>反推，不能直接读",'formula':"2p_0(\\mathrm{H_2})=4p(\\mathrm{CH_3OH})+6p(\\mathrm{CH_3OCH_3})+2p(\\mathrm{H_2O})+2p(\\mathrm{H_2})",'think':"先 C 守恒定 p₀(CO₂)=2.5，再用 H 守恒定 p(H₂O)",'warn':"二甲醚系数是 6——它含 6 个 H"}},{'k':"label",'p':[0,-1.55,0],'lb':"Kp = 72 MPa⁻²",'c':"#0f766e"}]},{'t':"第 5 步 · (4)(5) 产率下降 + 能量图，收口",'k':"设问「CH₃OCH₃ 平衡产率随温度升高而下降的原因」「反应初期 c(CH₃OH) 基本不变说明什么」",'f':"\\text{升温}\\Rightarrow \\text{放热反应逆移}\\Rightarrow \\text{原料少 + 生成受抑}",'d':"反应 I、II 都放热，升温双双<b>逆向移动</b>：甲醇变少（原料少了），甲醇脱水也被抑制 ⇒ 二甲醚产率单调下降。反应初期 c(CH₃OH) 基本不变 ⇒ <b>已达平衡</b>；能量图反应物平台高于生成物，中间一座活化能峰，ΔH=−49.6 kJ/mol。",'w':"「产率下降」要归因到两个反应<b>共同</b>逆移，只说一个会被扣分。",'cam':{'az':0.58,'pol':0.98,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.4,'x1':2.4,'n':120,'f':(function(x){return 1.05-0.16*(x+2.4);}),'c':"#dc2626",'r':0.045,'lb':"产率 0.48 → 0.31",'lp':[1.2,1.2,0],'lc':"#b91c1c",'card':{'cond':"温度↑ ⇒ 放热反应逆移 ⇒ 产率单调下降",'formula':"K_p(T)\\downarrow\\ \\ (\\Delta H<0)",'think':"I 逆移让甲醇变少，II 逆移让脱水受抑，双重打击",'warn':"若把 II 当成吸热就会推出相反结论"}},{'k':"seg",'a':[-2.4,0,0],'b':[2.4,0,0],'c':"#94a3b8",'w':0.03},{'k':"box",'p':[-1.2,-0.55,0],'sz':[0.7,0.55,0.7],'c':"#2563eb",'op':0.9,'lb':"反应物平台",'lp':[-1.2,0.05,0],'lc':"#1d4ed8"},{'k':"ball",'p':[0,0.55,0],'r':0.13,'c':"#f59e0b",'an':"pulse",'lb':"活化能峰 Ea",'lp':[0,0.95,0],'lc':"#b45309"},{'k':"box",'p':[1.2,-1.1,0],'sz':[0.7,0.55,0.7],'c':"#0f766e",'op':0.9,'lb':"生成物平台",'lp':[1.2,-0.55,0],'lc':"#0f766e"},{'k':"label",'p':[0,-1.7,0],'lb':"ΔH = −49.6 kJ/mol（放热）",'c':"#0f766e"}]}]});
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 右侧知识卡高亮",'steps':[{'t':"第 1 步 · 读题：两个反应，别只盯第一个",'k':"反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g) + H₂O(g)　ΔH₂ = +23.9 kJ·mol⁻¹",'f':"\\mathrm{CO_2+3H_2\\rightleftharpoons CH_3OH+H_2O}\\quad\\Delta H_1=-49.6",'d':"两个反应<b>串联</b>：I 先造甲醇，II 再把甲醇脱水成二甲醚。所以算甲醇时要考虑它被 II 消耗掉一部分——这正是第 4 步 Kp 账本里 p₀(CO₂) 要加 2p(CH₃OCH₃) 的原因。",'w':"只写反应 I 就跑去算 Kp，会漏掉 II 消耗的甲醇。",'cam':{'az':0.66,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#2563eb",'op':0.85,'lb':"反应 I  ΔH₁=−49.6",'lp':[-1.5,1.0,0],'lc':"#1d4ed8",'card':{'cond':"CO₂ 加氢制甲醇，<b>放热</b>且气体分子数减少（4→2）",'formula':"\\Delta H_1<0,\\quad \\Delta S<0",'think':"放热 + 熵减 ⇒ 低温自发（第 2 步详算）",'warn':"ΔS<0 是因为 4 mol 气体变 2 mol"}},{'k':"arrow",'a':[-0.72,0.3,0],'b':[0.72,0.3,0],'c':"#0f766e",'lb':"串联",'lp':[0,0.72,0],'lc':"#0f766e"},{'k':"box",'p':[1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#7c3aed",'op':0.85,'lb':"反应 II  ΔH₂=+23.9",'lp':[1.5,1.0,0],'lc':"#6d28d9",'card':{'cond':"甲醇脱水成二甲醚，<b>吸热</b>（ΔH₂&gt;0；2→2 气体，Δn=0）",'formula':"2\\mathrm{CH_3OH\\rightleftharpoons CH_3OCH_3+H_2O}",'think':"吸热 ⇒ 升温正移；但 Δn = 0 ⇒ 压强、惰气都动不了它",'warn':"Δn = 0 是这道题的命门：压强不能作平衡判据"}},{'k':"label",'p':[0,-0.7,0],'lb':"一锅两反应 ⇒ 先算总量，再算平衡",'c':"#1f2430"}]},{'t':"第 2 步 · (1) 自发性：ΔG=ΔH−TΔS 谁说话",'k':"设问「反应 I 能自发进行的条件」与「图中曲线 a 代表哪个反应」",'f':"\\Delta G=\\Delta H-T\\Delta S<0\\ \\Rightarrow\\ T<\\frac{\\Delta H}{\\Delta S}",'d':"反应 I：ΔH<0、ΔS<0（4 mol 气体→2 mol），<b>低温</b>时 TΔS 项小，ΔG<0 自发；高温则逆转。曲线 a 随温度升高 ΔG <b>增大</b>，正是 ΔS<0 的特征 ⇒ a 代表反应 I。",'w':"ΔS 的正负看气体分子数变化，别凭感觉；ΔG 随 T 上升 = 斜率为 −ΔS > 0 ⇒ ΔS<0。",'cam':{'az':0.62,'pol':0.96,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.55*x-0.75;}),'c':"#2563eb",'r':0.045,'lb':"曲线 a：反应 I（ΔS<0）",'lp':[1.5,1.15,0],'lc':"#1d4ed8",'card':{'cond':"ΔG 随 T <b>上升</b> ⇒ 斜率 −ΔS>0 ⇒ ΔS<0",'formula':"\\left(\\frac{\\partial\\Delta G}{\\partial T}\\right)_p=-\\Delta S",'think':"气体分子数 4→2，混乱度降低，ΔS<0",'warn':"别把曲线斜率和 ΔH 搞混"}},{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.18*x-1.15;}),'c':"#7c3aed",'r':0.04,'lb':"反应 II（ΔS≈0，更平）",'lp':[1.6,0.35,0],'lc':"#6d28d9"},{'k':"seg",'a':[-2.6,0,0],'b':[2.6,0,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.3,0.28,0],'lb':"ΔG=0 分界",'c':"#64748b"},{'k':"ball",'p':[-0.9,-0.05,0],'r':0.13,'c':"#0f766e",'an':"pulse",'lb':"低温区：ΔG<0 自发",'lp':[-0.6,-0.55,0],'lc':"#0f766e",'card':{'cond':"低温 ⇒ TΔS 项小 ⇒ ΔG=ΔH−TΔS<0",'formula':"T<\\frac{|\\Delta H|}{|\\Delta S|}",'think':"放热 + 熵减的组合，低温自发、高温不自发",'warn':"「任何温度都能自发」只在 ΔH<0 且 ΔS>0 时成立"}},{'k':"label",'p':[0,-1.25,0],'lb':"⇒ 反应 I 低温自发；曲线 a 是 I",'c':"#0f766e"}]},{'t':"第 3 步 · (2) 惰气与充气：四种情形别混",'k':"设问「恒温恒压充惰气 / 恒容充惰气 / 充 CO₂ / 分离 CH₃OCH₃ 的影响」",'f':"pV=nRT\\ \\Rightarrow\\ \\text{恒压充惰气} \\Leftrightarrow \\text{减压}",'d':"① 恒容充惰气：各组分分压不变 ⇒ <b>平衡不移动</b>；② 恒压充惰气：体积变大 ⇒ 相当于<b>减压</b> ⇒ 向气体分子数多的方向（左）移动；③ 充 CO₂：反应物增 ⇒ 右移，但 CH₃OH 体积分数<b>不一定</b>升高；④ 分离 CH₃OCH₃：产物减少 ⇒ II 右移 ⇒ 甲醇转化率提高。选 <b>D</b>。",'w':"「恒压充惰气 = 减压」是必考结论；「充反应物 ⇒ 分数一定升」是常见错判。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"恒容 + 惰气 ⇒ 不移",'lp':[-1.75,1.05,0],'lc':"#0f766e"},{'k':"box",'p':[-0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#dc2626",'op':0.85,'lb':"恒压 + 惰气 ⇒ 减压左移",'lp':[-0.6,1.05,0],'lc':"#b91c1c",'card':{'cond':"恒压充惰气 ⇒ 体积增大 ⇒ 各分压下降",'formula':"p_i=\\frac{n_i}{n_{总}}p_{总}\\downarrow",'think':"相当于给体系「减压」，平衡向气体分子数多的方向移动",'warn':"恒容时充惰气，分压不变、平衡不动——两者别混"}},{'k':"box",'p':[0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#f59e0b",'op':0.85,'lb':"充 CO₂ ⇒ 右移",'lp':[0.6,1.05,0],'lc':"#b45309"},{'k':"box",'p':[1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"分离醚 ⇒ 转化率↑",'lp':[1.75,1.05,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.55,0],'lb':"四项过筛 ⇒ 只有 D 对",'c':"#0f766e"},{'k':"arrow",'a':[-0.22,0.35,0],'b':[0.22,0.35,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.98,0.35,0],'b':[1.36,0.35,0],'c':"#94a3b8"}]},{'t':"第 4 步 · (3) Kp 账本：H 守恒补出 p(H₂O)=3.0",'k':"题干「平衡后 p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa」——缺 p(H₂O)",'f':"K_p=\\frac{p(\\mathrm{CH_3OH})\\cdot p(\\mathrm{H_2O})}{p(\\mathrm{CO_2})\\cdot p(\\mathrm{H_2})^3}=\\frac{0.75\\times3.0}{0.25\\times0.5^3}=72",'d':"<b>C 守恒</b>：p₀(CO₂)=p(CO₂)+p(CH₃OH)+2p(CH₃OCH₃)=0.25+0.75+1.5=2.5；<b>H 守恒</b>：2p₀(H₂)=4p(CH₃OH)+6p(CH₃OCH₃)+2p(H₂O)+2p(H₂)，而 p₀(H₂)=p(H₂)+3[p(CH₃OH)+2p(CH₃OCH₃)]=0.5+6.75=7.25 ⇒ <b>p(H₂O)=3.0 MPa</b>。",'w':"二甲醚含 6 个 H、由 2 个甲醇来——H 守恒里系数是 6 不是 3；漏掉就会算错 p(H₂O)。",'cam':{'az':0.58,'pol':1.0,'dist':9.0,'tgt':[0,0.05,0]},'objs':[{'k':"box",'p':[-1.8,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#0ea5e9",'lb':"CO₂ 0.25",'lp':[-1.8,0.2,0],'lc':"#0369a1"},{'k':"box",'p':[-1.05,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#7c3aed",'lb':"H₂ 0.5",'lp':[-1.05,0.2,0],'lc':"#6d28d9"},{'k':"box",'p':[-0.3,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#0d9488",'lb':"CH₃OH 0.75",'lp':[-0.3,0.65,0],'lc':"#0f766e"},{'k':"box",'p':[0.45,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#f59e0b",'lb':"CH₃OCH₃ 0.75",'lp':[0.45,0.65,0],'lc':"#b45309"},{'k':"ball",'p':[1.35,-0.2,0],'r':0.2,'c':"#dc2626",'an':"pulse",'lb':"H₂O = 3.0（求出来）",'lp':[1.35,0.45,0],'lc':"#b91c1c",'card':{'cond':"p(H₂O) 由 <b>H 守恒</b>反推，不能直接读",'formula':"2p_0(\\mathrm{H_2})=4p(\\mathrm{CH_3OH})+6p(\\mathrm{CH_3OCH_3})+2p(\\mathrm{H_2O})+2p(\\mathrm{H_2})",'think':"先 C 守恒定 p₀(CO₂)=2.5，再用 H 守恒定 p(H₂O)",'warn':"二甲醚系数是 6——它含 6 个 H"}},{'k':"label",'p':[0,-1.55,0],'lb':"Kp = 72 MPa⁻²",'c':"#0f766e"}]},{'t':"第 5 步 · (4)(5) 产率下降 + 能量图，收口",'k':"设问「CH₃OCH₃ 平衡产率随温度升高而下降的原因」「反应初期 c(CH₃OH) 基本不变说明什么」",'f':"\\text{升温}\\Rightarrow \\Delta H_1<0\\ \\text{逆移}\\Rightarrow c(\\mathrm{CH_3OH})\\downarrow\\Rightarrow \\text{产率降}",'d':"反应 I <b>放热</b>（ΔH₁=−49.6），升温逆移 ⇒ 甲醇大幅减少；反应 II 虽<b>吸热</b>（ΔH₂=+23.9）、升温本应正移，但它唯一的原料就是甲醇 —— 上游<b>断供</b>的影响压过正移 ⇒ 二甲醚产率净下降。反应初期 c(CH₃OH) 基本不变 ⇒ <b>已达平衡</b>；能量图反应物平台高于生成物，中间一座活化能峰，ΔH=−49.6 kJ/mol。",'w':"别把 II 写成放热：它吸热、升温本应正移；产率下降是「I 断供」压过「II 正移」的结果。",'cam':{'az':0.58,'pol':0.98,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.4,'x1':2.4,'n':120,'f':(function(x){return 1.05-0.16*(x+2.4);}),'c':"#dc2626",'r':0.045,'lb':"产率 0.48 → 0.31",'lp':[1.2,1.2,0],'lc':"#b91c1c",'card':{'cond':"产率看的是<b>上游甲醇供应</b>，不是 II 自己的 ΔH",'formula':"K_p(T)\\downarrow\\ \\ (\\Delta H<0)",'think':"I 放热 ⇒ 升温甲醇少；II 吸热本应正移，但缺原料 ⇒ 净下降",'warn':"II 吸热（+23.9），写成放热就全错"}},{'k':"seg",'a':[-2.4,0,0],'b':[2.4,0,0],'c':"#94a3b8",'w':0.03},{'k':"box",'p':[-1.2,-0.55,0],'sz':[0.7,0.55,0.7],'c':"#2563eb",'op':0.9,'lb':"反应物平台",'lp':[-1.2,0.05,0],'lc':"#1d4ed8"},{'k':"ball",'p':[0,0.55,0],'r':0.13,'c':"#f59e0b",'an':"pulse",'lb':"活化能峰 Ea",'lp':[0,0.95,0],'lc':"#b45309"},{'k':"box",'p':[1.2,-1.1,0],'sz':[0.7,0.55,0.7],'c':"#0f766e",'op':0.9,'lb':"生成物平台",'lp':[1.2,-0.55,0],'lc':"#0f766e"},{'k':"label",'p':[0,-1.7,0],'lb':"ΔH₁ = −49.6 kJ/mol（I 放热）",'c':"#0f766e"}]}]});
 </script>
 <script>
 
