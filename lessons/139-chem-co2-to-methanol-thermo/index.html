@@ -493,6 +493,44 @@ section[id]{scroll-margin-top:58px}
 .stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
 .stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
 
+/* 题干原文（可折叠） */
+.stem-src{margin:.55em 0 .2em;border:1px dashed #dbe3ef;border-radius:12px;background:#fbfcff;
+  padding:.5em .85em}
+.stem-src>summary{cursor:pointer;font-weight:600;color:#1d4ed8;font-size:13.5px;list-style:none;
+  outline:none}
+.stem-src>summary::-webkit-details-marker{display:none}
+.stem-src>summary::before{content:"▸ ";color:#94a3b8}
+.stem-src[open]>summary::before{content:"▾ "}
+.ss-body{margin-top:.45em;font-size:14px;line-height:1.9;color:#334155}
+.ss-body b{color:#1f2430;font-weight:600}
+
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+.prob-img-img{cursor:zoom-in}
+.pz-mask{position:fixed;inset:0;z-index:999999;display:none;background:rgba(12,18,30,.9);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);touch-action:none;
+  overscroll-behavior:contain}
+.pz-mask.on{display:block}
+.pz-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none}
+.pz-img{width:auto;height:auto;max-width:94vw;max-height:88vh;border-radius:10px;background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);transform-origin:center center;
+  will-change:transform;cursor:grab;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none}
+.pz-img.grabbing{cursor:grabbing}
+.pz-x{position:absolute;right:16px;top:14px;z-index:2;width:40px;height:40px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:18px;
+  line-height:1;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-x:hover{background:rgba(255,255,255,.28)}
+.pz-tools{position:absolute;left:16px;top:16px;z-index:2;display:flex;gap:8px}
+.pz-tools button{min-width:40px;height:36px;border:1px solid rgba(255,255,255,.28);
+  border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-tools button:hover{background:rgba(255,255,255,.26)}
+.pz-hint{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;
+  color:rgba(255,255,255,.72);font-size:12.5px;pointer-events:none}
+@media(max-width:620px){.pz-hint{font-size:11.5px;bottom:10px}
+  .pz-img{max-width:96vw;max-height:82vh}}
 </style>
 </head>
 
@@ -592,7 +630,24 @@ section[id]{scroll-margin-top:58px}
 
       <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
 
-      <p><b>人话翻译</b>：CO₂ 加氢先产甲醇（反应 I），甲醇再脱水缩合成二甲醚 CH₃OCH₃（反应 II）。五个小问：①自发性（ΔG 判据）；②充惰气的四种说法挑对的；③给三个分压、用守恒补出 p(H₂O)、算 Kp；④解释 DME 平衡产率随温度下降；⑤画放热反应能量图。</p><p><b>破题抓手</b>：反应 I 气体分子数 4→2 ⇒ ΔS<0，配 ΔH<0 ⇒ 低温自发；Kp 的缺口分压永远藏在「元素守恒」里——C 管碳、H 管氢，一次联立补齐。</p>
+      <details class="stem-src"><summary>📄 题干原文（文字版 · 下面每一处「看到题干」都逐字引自这里）</summary><div class="ss-body">通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。CO₂ 转化为甲醇已成为绿色化学的热门课题。一定条件下，在恒容密闭容器中发生下列反应：<br>反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹<br>反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g) + H₂O(g)　ΔH₂ = +23.9 kJ·mol⁻¹<br>(1) 反应 I 能自发进行的条件是______。已知如图 1 中曲线代表反应的 ΔG 与温度变化的关系，则曲线______（填“a”或“b”）表示反应 I。<br>(2) 若容器中仅发生反应 II，下列说法正确的是______。<br>A. 恒温恒容下，容器压强不再变化说明反应达到平衡状态<br>B. 恒温恒压下，平衡时充入氦气，CH₃OCH₃ 的体积分数减小，CH₃OH 的转化率不变<br>C. 其他条件不变时，温度越高，甲醇转化率越高<br>D. 恒温恒容下，及时分离出 CH₃OCH₃，可以提高 CH₃OH 的转化率和反应速率<br>(3) 一定温度下，投入一定量的 CO₂ 和 H₂，反应后测得部分物质的平衡分压（即组分的物质的量分数 × 总压）：p(CH₃OH) = 0.75 MPa，p(CH₃OCH₃) = 0.75 MPa，p(CO₂) = 0.25 MPa 和 p(H₂) = 0.5 MPa 则反应 I 的平衡常数 Kp = ______ MPa⁻²（Kp 为用分压表示的平衡常数）。<br>(4) 一定温度下 CH₃OCH₃ 的平衡产率随温度的变化如图 2 所示，请从平衡移动角度分析原因______。<br>(5) 某温度下，反应初期 c(CH₃OH) 的含量在一段时间内基本保持不变，请在图 4 中画出反应过程中的能量变化图。</div></details><p><b>人话翻译</b>：CO₂ 加氢先产甲醇（反应 I），甲醇再脱水缩合成二甲醚 CH₃OCH₃（反应 II）。五个小问：①自发性（ΔG 判据）；②充惰气的四种说法挑对的；③给三个分压、用守恒补出 p(H₂O)、算 Kp；④解释 DME 平衡产率随温度下降；⑤画放热反应能量图。</p><p><b>破题抓手</b>：反应 I 气体分子数 4→2 ⇒ ΔS<0，配 ΔH<0 ⇒ 低温自发；Kp 的缺口分压永远藏在「元素守恒」里——C 管碳、H 管氢，一次联立补齐。</p><div class="sig-wrap">
+<div class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</div>
+<table class="sig-tbl">
+<thead><tr>
+<th>题干这句话（原文照抄）</th>
+<th>意味着什么样的条件 / 结论</th>
+</tr></thead>
+<tbody>
+<tr><td>「反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹」</td><td>⇒ 放热（ΔH&lt;0）+ 4 mol 气体变 2 mol（ΔS&lt;0）⇒ <b>低温自发</b>；升温逆移、K 变小</td></tr>
+<tr><td>「反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g) + H₂O(g)　ΔH₂ = +23.9 kJ·mol⁻¹」</td><td>⇒ 吸热、气体分子数 2→2（Δn=0）⇒ 升温正移；<b>压强、惰气都动不了它</b>，只有温度和浓度能</td></tr>
+<tr><td>「(1) 反应 I 能自发进行的条件是______」</td><td>⇒ ΔG = ΔH − TΔS &lt; 0；ΔH&lt;0 有利、ΔS&lt;0 不利 ⇒ 只有<b>低温</b>满足</td></tr>
+<tr><td>「(2) 若容器中仅发生反应 II，下列说法正确的是______」</td><td>⇒ 只考 II 一个平衡 ⇒ Δn=0 决定两件事：压强自始至终不变（不能作判据）、恒压充惰气不移动</td></tr>
+<tr><td>「p(CH₃OH) = 0.75 MPa，p(CH₃OCH₃) = 0.75 MPa，p(CO₂) = 0.25 MPa 和 p(H₂) = 0.5 MPa」</td><td>⇒ 四个分压 + C、H 守恒 ⇒ 能反解出缺的 p(H₂O)；Kp 只按反应 I 写表达式（Δn=−2 ⇒ 单位 MPa⁻²）</td></tr>
+<tr><td>「(4) 一定温度下 CH₃OCH₃ 的平衡产率随温度的变化如图 2 所示」</td><td>⇒ 产率随温度降，但 II 本身吸热 ⇒ 原因只能在上游：I 放热、升温逆移 ⇒ 甲醇断供</td></tr>
+<tr><td>「反应初期 c(CH₃OH) 的含量在一段时间内基本保持不变」</td><td>⇒ 浓度"不变"= 已达平衡（不是没反应）⇒ 能量图按放热的反应 I 画：反应物高、生成物低</td></tr>
+</tbody>
+</table>
+</div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -650,9 +705,9 @@ section[id]{scroll-margin-top:58px}
        每步配比：这一步要干嘛（一句话）+ 公式 + 一句吐槽或避坑提醒。 -->
   <!--pnid:kHTwGlNtmrsXcs1SAshvor--><!-- 第一问 -->
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
-    <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 自发性与惰气：ΔG 判据 × 四说法排雷</span></div>
+    <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 自发性与惰气：ΔG 判据 × (2) 四个说法</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：4 mol 气体 → 2 mol 气体（CO₂+3H₂ → CH₃OH+H₂O）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>气体分子数减少 ⇒ <b>ΔS&lt;0</b> ⇒ −TΔS 为正且随温度增大 ⇒ 只有<b>低温</b>时 ΔG 才可能为负 ⇒ <b>低温自发</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「图 1 里有两条线，a 是上升的、b 是下降的」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>ΔG 随 T 升高而增大 ⇒ 说明 −TΔS&gt;0 ⇒ ΔS&lt;0 ⇒ <b>上升线 a 就是反应 I</b>；下降线 b 对应的反应 ΔS&gt;0。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「题目问"充入惰性气体"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>恒容 ⇒ 各组分分压不变 ⇒ 不移动；恒压 ⇒ 总体积变大 = 减压 ⇒ 向气体分子数增多的方向移动（反应 I 左移，CH₃OH 转化率<b>降低</b>）。</div></div><p><b>A</b> 恒温恒容充惰气：分压不变 ⇒ 不移动，"压强增大说明已移动"错。<br><b>B</b> 恒温恒压充惰气 = 减压 ⇒ 反应 I 左移，转化率降低，"不变"错。<br><b>C</b> 恒压充 CO₂：平衡虽右移，但体系总量也增大，CH₃OH 的体积分数不一定提高，错。<br><b>D</b> 及时分离出 CH₃OCH₃ ⇒ 反应 II 右移、消耗更多 CH₃OH ⇒ 转化率提高（但速率不变）⇒ <b style="color:#0f766e">D 对</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>正反应<b>放热</b>（ΔH&lt;0），且 4 mol 气体 → 2 mol 气体（<b>ΔS&lt;0</b>）⇒ −TΔS 为正且随温度增大 ⇒ 只有<b>低温</b>时 ΔG = ΔH − TΔS 才可能小于 0 ⇒ <b>低温自发</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(1) 反应 I 能自发进行的条件是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把 ΔG 判据落到温度上：ΔH&lt;0 有利、ΔS&lt;0 不利 ⇒ 温度越高越不利 ⇒ 填「<b>低温</b>」。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g) + H₂O(g)　ΔH₂ = +23.9 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>ΔH₂ &gt; 0 ⇒ 反应 II <b>吸热</b>，升温对它<b>正移</b>有利；气体分子数 2 → 2（Δn = 0）⇒ <b>压强、惰气都动不了它</b>，只有温度和浓度能。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(2) 若容器中仅发生反应 II，下列说法正确的是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>四个选项考四件事：压强判据、充惰气、升温、分离产物 ⇒ 逐个用"Δn=0 + 吸热"两条已知去判。</div></div><p><b>A</b> 反应 II 前后气体都是 2 mol（Δn=0）⇒ 恒温恒容下压强<b>自始至终不变</b> ⇒ 不能作平衡判据，错。<br><b>B</b> 恒温恒压充氦气 ⇒ 体积变大、各组分分压<b>等比下降</b>；Δn=0 ⇒ Q 仍等于 K ⇒ 平衡<b>不移动</b>、CH₃OH 的转化率不变；惰气占走体积 ⇒ CH₃OCH₃ 的体积分数减小 ⇒ <b>对</b>。<br><b>C</b> ΔH₂ = +23.9，吸热 ⇒ 升温正移 ⇒ 甲醇转化率升高 ⇒ <b>对</b>。<br><b>D</b> 分离出 CH₃OCH₃ 能让平衡正移、转化率提高，但产物被移走使<b>逆反应速率下降</b>，正反应速率随后也跟着降 ⇒ "提高反应速率"错。<br><b style="color:#0f766e">答案 BC</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「B. 恒温恒压下，平衡时充入氦气，CH₃OCH₃ 的体积分数减小，CH₃OH 的转化率不变」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>恒压充惰气 = 先<b>稀释</b>再谈<b>减压</b>：Δn=0 的反应只被稀释、不被减压推动 ⇒ 转化率不变，而体积分数被惰气摊薄 ⇒ 减小。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -671,7 +726,7 @@ section[id]{scroll-margin-top:58px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · Kp 账本：守恒补出 p(H₂O)=3.0，Kp=72</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「给了 4 个平衡分压，唯独缺 p(H₂O)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>封闭体系里每种元素的原子数在反应前后不变 ⇒ 缺的分压可以用 <b>C 守恒、H 守恒</b>反解出来。</div></div><p>已知：p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa。</p><p><b>C 守恒</b>：p₀(CO₂) = p(CO₂) + p(CH₃OH) + 2p(CH₃OCH₃) = 0.25 + 0.75 + 1.5 = <b>2.5 MPa</b>。</p><p><b>H 守恒</b>：2p₀(H₂) = 4p(CH₃OH) + 6p(CH₃OCH₃) + 2p(H₂O) + 2p(H₂)，而 p₀(H₂) = p(H₂) + 3[p(CH₃OH) + 2p(CH₃OCH₃)] = 0.5 + 6.75 = 7.25 ⇒ <b style="color:#0f766e">p(H₂O) = 3.0 MPa</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「题目要 Kp」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把平衡分压代进 Kp = p(CH₃OH)·p(H₂O) / [p(CO₂)·p(H₂)³] = 0.75×3.0 / (0.25×0.5³) = <b style="color:#0f766e">72 MPa⁻²</b>。注意单位是 MPa⁻²（Δn = −2）。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「p(CH₃OH) = 0.75 MPa，p(CH₃OCH₃) = 0.75 MPa，p(CO₂) = 0.25 MPa 和 p(H₂) = 0.5 MPa」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>封闭体系里每种元素的原子数在反应前后不变 ⇒ 缺的分压可以用 <b>C 守恒、H 守恒</b>反解出来。</div></div><p>已知：p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa。</p><p><b>C 守恒</b>：p₀(CO₂) = p(CO₂) + p(CH₃OH) + 2p(CH₃OCH₃) = 0.25 + 0.75 + 1.5 = <b>2.5 MPa</b>。</p><p><b>H 守恒</b>：2p₀(H₂) = 4p(CH₃OH) + 6p(CH₃OCH₃) + 2p(H₂O) + 2p(H₂)，而 p₀(H₂) = p(H₂) + 3[p(CH₃OH) + 2p(CH₃OCH₃)] = 0.5 + 6.75 = 7.25 ⇒ <b style="color:#0f766e">p(H₂O) = 3.0 MPa</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「则反应 I 的平衡常数 Kp = ______ MPa⁻²」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把平衡分压代进 Kp = p(CH₃OH)·p(H₂O) / [p(CO₂)·p(H₂)³] = 0.75×3.0 / (0.25×0.5³) = <b style="color:#0f766e">72 MPa⁻²</b>。注意单位是 MPa⁻²（Δn = −2）。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -688,12 +743,12 @@ section[id]{scroll-margin-top:58px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 产率析因与能量图</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「图 2 中 DME 平衡产率随温度升高单调下降」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>反应 I、II <b>都放热</b> ⇒ 升温双双逆移：I 逆移让原料 c(CH₃OH) 显著变少，II 逆移又直接抑制生成 ⇒ <b>"原料变少 + 生成受抑"双重打击</b>，产率下降。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「题目说"反应初期 c(CH₃OH) 基本不变"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>这说明反应已经<b>达到平衡</b>（不是还没开始反应）⇒ 画能量图时按"一个放热反应、反应物高、生成物低"来画。</div></div><p><b>能量变化图要点</b>：纵轴能量、横轴反应历程；反应物平台（CO₂+3H₂）<b>高于</b>生成物平台（CH₃OH+H₂O），中间一座活化能峰；平台高度差即 ΔH = −49.6 kJ/mol。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「(4) 一定温度下 CH₃OCH₃ 的平衡产率随温度的变化如图 2 所示」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>产率随温度<b>下降</b>，可反应 II 本身是<b>吸热</b>的（升温本该正移）⇒ 原因只能在"上游"：反应 I 放热、升温大幅<b>逆移</b> ⇒ 体系里 c(CH₃OH) 显著减少。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>I 是 II 的<b>原料供应站</b>：甲醇断供 ⇒ 即使 II 被升温推着正移，也没有原料可转 ⇒ <b>"原料变少"压过"II 自身正移"</b>，产率净下降。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(5) 某温度下，反应初期 c(CH₃OH) 的含量在一段时间内基本保持不变」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>浓度"不变"（不是相等）= 已经<b>达到平衡</b>，不是还没开始反应 ⇒ 画能量图按"放热的反应 I"处理。</div></div><p><b>能量变化图要点</b>：纵轴能量、横轴反应历程；反应物平台（CO₂+3H₂）<b>高于</b>生成物平台（CH₃OH+H₂O），中间一座活化能峰；平台高度差即 ΔH = −49.6 kJ/mol。</p>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
         <h4>🌡️ 亲手拖一拖：产率–温度曲线</h4>
-        <p class="hint">拖动滑块扫过温度轴（500~700 ℃），CH₃OCH₃ 平衡产率从 0.47 一路滑到 0.31——放热反应的宿命。</p>
+        <p class="hint">拖动滑块扫过温度轴（500~700 ℃），CH₃OCH₃ 平衡产率从 0.48 一路滑到 0.31——上游放热反应逆移、甲醇断供的宿命。</p>
         <svg id="svgC" viewBox="0 0 640 320"></svg>
         <div class="viz3d" id="vizC"><canvas></canvas><div class="viz3d-hud">🖐 拖动旋转 · 滚轮缩放 · 双击复位</div><div class="viz3d-note"></div></div>
         <input id="sliderC" type="range" min="500" max="700" step="5" value="680">
@@ -747,15 +802,15 @@ section[id]{scroll-margin-top:58px}
       </div>
 
       <div class="quiz-item" data-ans="1">
-        <div class="q-head"><span class="q-no">Q4</span><span class="q-text">反应 II 的 ΔH₂ 与「CH₃OCH₃ 产率随温度升高降低」的关系，正确的是</span></div>
+        <div class="q-head"><span class="q-no">Q4</span><span class="q-text">反应 II 为吸热反应，但 CH₃OCH₃ 的平衡产率仍随温度升高而降低，主要原因是</span></div>
         <div class="opts">
-          <button class="opt">ΔH₂>0，升温正移产率升高</button>
-          <button class="opt">ΔH₂<0，升温逆移；加上反应 I 逆移使 c(CH₃OH) 降低，产率下降</button>
-          <button class="opt">产率下降只与压强有关</button>
-          <button class="opt">ΔH₂ 符号与产率无关</button>
+          <button class="opt">升温使反应 II 逆向移动</button>
+          <button class="opt">升温使反应 I 逆向移动，c(CH₃OH) 大幅降低（原料断供）</button>
+          <button class="opt">升温使 Kp 减小</button>
+          <button class="opt">产率与温度无关</button>
         </div>
         <div class="verdict"></div>
-        <div class="why">DME 产率下降需要 I、II 双逆移共同解释——反应 I 供料减少是主因之一。</div>
+        <div class="why">反应 I 放热，升温逆移使甲醇浓度骤降；II 虽吸热正移，但原料不足的影响占主导，产率净下降。</div>
       </div>
     </section>
 
@@ -1085,7 +1140,7 @@ return L;}),'noteFn':(function(t){var k=Math.round(t);var d=['守恒列账：C �
   var NS='http://www.w3.org/2000/svg';
   function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
   function txt(x,y,s,fill,size,anchor,w){var t=el('text',{x:x,y:y,'font-size':size||11.5,fill:fill||'#5c6470','text-anchor':anchor||'middle','font-weight':w||'normal'});t.textContent=s;return t;}
-  var P={'kind':"f120a",'xmin':500,'xmax':700,'ymin':0.28,'ymax':0.5,'xstep':50,'ystep':0.04,'curveColor':"#0d9488",'fn':(function(t){return 0.473-(t-500)*0.00085;}),'fnGhost':(function(t){return null;}),'guides':[],'dots':[{'x':520,'color':"#2563eb",'label':"0.47",'dx':8,'dy':-10},{'x':680,'color':"#c0392b",'label':"0.31",'dx':-46,'dy':18}],'headFn':(function(t){return '温度 = '+t+' ℃';}),'noteFn':(function(t){var y=0.473-(t-500)*0.00085;return '一定温度下 CH₃OCH₃ 的平衡产率 ≈ '+y.toFixed(2)+'：随温度升高单调下降。原因：反应 I（ΔH₁<0）升温强烈逆移 ⇒ c(CH₃OH) 显著降低；反应 II（甲醇脱水，放热）升温也逆移 ⇒ 双重左移，CH₃OCH₃ 产率降低。';}),'opts':{}};
+  var P={'kind':"f120a",'xmin':500,'xmax':700,'ymin':0.28,'ymax':0.5,'xstep':50,'ystep':0.04,'curveColor':"#0d9488",'fn':(function(t){return 0.473-(t-500)*0.00085;}),'fnGhost':(function(t){return null;}),'guides':[],'dots':[{'x':520,'color':"#2563eb",'label':"0.47",'dx':8,'dy':-10},{'x':680,'color':"#c0392b",'label':"0.31",'dx':-46,'dy':18}],'headFn':(function(t){return '温度 = '+t+' ℃';}),'noteFn':(function(t){var y=0.473-(t-500)*0.00085;return '一定温度下 CH₃OCH₃ 的平衡产率 ≈ '+y.toFixed(2)+'：随温度升高单调下降。原因：反应 I（ΔH₁<0）升温强烈逆移 ⇒ c(CH₃OH) 显著降低；反应 II 虽吸热（升温本应正移），但原料甲醇被 I 抽走，供不上 ⇒ 产率净下降。';}),'opts':{}};
 
   var W=640,H=300,L=54,R2=622,T2=16,B2=266;
   function X(x){return L+(x-P.xmin)/(P.xmax-P.xmin)*(R2-L);}
@@ -2545,7 +2600,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <!--COURSEWARE-FEAT-END-->
 
 <!--MCARD-DATA-BEGIN-->
-<script>window.MCARD_DATA = {"cid": "course_139_chem-co2-to-methanol-thermo", "cards": [{"card_id": "hw:化学:che1426", "subject": "化学", "chapter": "化学-反应原理·自发性", "signal": "看到【ΔH 与 ΔS 符号组合，问「能自发进行的条件」】", "conclusion": "想到【ΔG=ΔH−TΔS<0 才自发。ΔH<0、ΔS<0 ⇒ 低温自发；ΔH<0、ΔS>0 ⇒ 任何温度自发；ΔH>0、ΔS>0 ⇒ 高温自发】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1427", "subject": "化学", "chapter": "化学-反应原理·惰性气体", "signal": "看到【充入惰性气体后平衡是否移动】", "conclusion": "想到【恒温恒容：各组分浓度/分压不变 ⇒ 不移动；恒温恒压：体积变大 ⇒ 相当于减压，向气体分子数增大的方向移动】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1428", "subject": "化学", "chapter": "化学-反应原理·Kp计算", "signal": "看到【平衡时给了部分组分的分压，求某个 Kp，但缺 1~2 个分压】", "conclusion": "想到【用元素守恒补缺口：C 守恒定 p₀(CO₂)，H 守恒定 p(H₂O)（CH₃OH 与 CH₃OCH₃ 都由 CO₂+H₂ 来）。Kp=Π分压^系数，固体和纯液体不写入】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1429", "subject": "化学", "chapter": "化学-反应原理·平衡移动表述", "signal": "看到【某组分体积分数（产率）随温度/压强变化的图像，要求从平衡移动角度解释】", "conclusion": "想到【逐条写清因果链：升温 → 放热反应逆移 → 该组分来源减少/消耗增加 → 产率下降。涉及串联反应（I 供料、II 产 DME）要两条都提】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1430", "subject": "化学", "chapter": "化学-反应原理·平衡状态判断", "signal": "看到【某组分浓度在一段时间内基本保持不变，要求画能量变化图】", "conclusion": "想到【浓度不变（不是相等）= 已达平衡。画放热反应能量图：反应物平台高于生成物平台，中间一座活化能峰，ΔH=生成物−反应物<0】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1431", "subject": "化学", "chapter": "化学-反应原理·多反应守恒", "signal": "看到【同一容器中同时发生两个（串联/平行）反应，问某组分平衡量】", "conclusion": "想到【把两反应的化学计量当「管道」：CH₃OH 生成量 = 自身分压 + 2×DME 分压（被 II 消耗的部分）。守恒方程列在「总量」上，不在单组分上】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=−23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 恒温恒容充惰性气体平衡不移动；恒温恒压充惰气相当于减压、平衡左移；恒压充 CO₂ 平衡右移但 CH₃OH 体积分数不一定提高；及时分离 CH₃OCH₃ 可提高 CH₃OH 转化率——选 D。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I、II 均为放热反应，升温平衡均逆向移动，c(CH₃OH) 降低且 II 逆移，产率下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}]}</script>
+<script>window.MCARD_DATA = {"cid": "course_139_chem-co2-to-methanol-thermo", "cards": [{"card_id": "hw:化学:che1426", "subject": "化学", "chapter": "化学-反应原理·自发性", "signal": "看到【ΔH 与 ΔS 符号组合，问「能自发进行的条件」】", "conclusion": "想到【ΔG=ΔH−TΔS<0 才自发。ΔH<0、ΔS<0 ⇒ 低温自发；ΔH<0、ΔS>0 ⇒ 任何温度自发；ΔH>0、ΔS>0 ⇒ 高温自发】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1427", "subject": "化学", "chapter": "化学-反应原理·惰性气体", "signal": "看到【充入惰性气体后平衡是否移动】", "conclusion": "想到【恒温恒容：各组分浓度/分压不变 ⇒ 不移动；恒温恒压：体积变大 ⇒ 相当于减压，向气体分子数增大的方向移动】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1428", "subject": "化学", "chapter": "化学-反应原理·Kp计算", "signal": "看到【平衡时给了部分组分的分压，求某个 Kp，但缺 1~2 个分压】", "conclusion": "想到【用元素守恒补缺口：C 守恒定 p₀(CO₂)，H 守恒定 p(H₂O)（CH₃OH 与 CH₃OCH₃ 都由 CO₂+H₂ 来）。Kp=Π分压^系数，固体和纯液体不写入】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1429", "subject": "化学", "chapter": "化学-反应原理·平衡移动表述", "signal": "看到【某组分体积分数（产率）随温度/压强变化的图像，要求从平衡移动角度解释】", "conclusion": "想到【逐条写清因果链：升温 → 放热反应逆移 → 该组分来源减少/消耗增加 → 产率下降。涉及串联反应（I 供料、II 产 DME）要两条都提】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1430", "subject": "化学", "chapter": "化学-反应原理·平衡状态判断", "signal": "看到【某组分浓度在一段时间内基本保持不变，要求画能量变化图】", "conclusion": "想到【浓度不变（不是相等）= 已达平衡。画放热反应能量图：反应物平台高于生成物平台，中间一座活化能峰，ΔH=生成物−反应物<0】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}, {"card_id": "hw:化学:che1431", "subject": "化学", "chapter": "化学-反应原理·多反应守恒", "signal": "看到【同一容器中同时发生两个（串联/平行）反应，问某组分平衡量】", "conclusion": "想到【把两反应的化学计量当「管道」：CH₃OH 生成量 = 自身分压 + 2×DME 分压（被 II 消耗的部分）。守恒方程列在「总量」上，不在单组分上】", "orig": "通过化学将 CO₂ 转化成基本化工原料可以解决温室效应带来的环境问题。在恒容密闭容器中发生：反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g) ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g) ΔH₂=+23.9 kJ/mol。(1) 反应 I 能自发进行的条件是低温；图 1 中曲线 a（ΔG 随温度升高而增大）代表反应 I。(2) 仅发生反应 II（Δn=0）：压强始终不变、不能作判据（A 错）；恒压充惰气只稀释不移动，体积分数减小、转化率不变（B 对）；ΔH₂=+23.9 吸热，升温转化率升高（C 对）；分离产物提高转化率但降低反应速率（D 错）——选 BC。(3) 一定温度下投入 CO₂ 和 H₂，平衡后 p(CH₃OH)=0.75 MPa、p(CH₃OCH₃)=0.75 MPa、p(CO₂)=0.25 MPa、p(H₂)=0.5 MPa，由 C/H 守恒求出 p(H₂O)=3.0 MPa，Kp=p(CH₃OH)·p(H₂O)/[p(CO₂)·p(H₂)³]=0.75×3.0/(0.25×0.5³)=72 MPa⁻²。(4) CH₃OCH₃ 平衡产率随温度升高降低（0.48→0.31）：反应 I 放热，升温逆移使 c(CH₃OH) 大幅降低；反应 II 虽吸热（ΔH₂=+23.9），但原料不足的影响占主导，产率净下降。(5) 反应初期 c(CH₃OH) 基本不变说明已达平衡；能量变化图为放热反应能量图（反应物总能量高于生成物，带活化能峰）。", "src": "2026.10.18 化学第3题", "link": "", "note": "", "tags": ["che-train"]}]}</script>
 <!--MCARD-DATA-END-->
 <!--MC-TRAIN-BEGIN-->
 <script>
@@ -3941,7 +3996,7 @@ return L;}),'noteFn':(function(t){return '五组分平衡分压：H₂O=3.0 MPa 
 
 VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
   var sl=document.getElementById('sliderC');
-  var P={'kind':"f120a",'xmin':500,'xmax':700,'ymin':0.28,'ymax':0.5,'xstep':50,'ystep':0.04,'curveColor':"#0d9488",'fn':(function(t){return 0.473-(t-500)*0.00085;}),'fnGhost':(function(t){return null;}),'guides':[],'dots':[{'x':520,'color3':2450411,'label':"0.47",'ink':"#1d4ed8"},{'x':680,'color3':14427686,'label':"0.31",'ink':"#b91c1c"}],'headFn':(function(t){return '温度 = '+t+' ℃';}),'noteFn':(function(t,yA,yB){return 'T='+t+' ℃　CH₃OCH₃ 平衡产率 '+yA.toFixed(2)+' —— 升温双重逆移（I 供甲醇减少 + II 自身放热），产率单调下降。';}),'ymin3':0.28,'ymax3':0.5,'ymid':0.39,'planes':[{'y':0.4,'color':16096779,'label':"产率 0.40",'ink':"#B45309"}],'tubeColor':889992};
+  var P={'kind':"f120a",'xmin':500,'xmax':700,'ymin':0.28,'ymax':0.5,'xstep':50,'ystep':0.04,'curveColor':"#0d9488",'fn':(function(t){return 0.473-(t-500)*0.00085;}),'fnGhost':(function(t){return null;}),'guides':[],'dots':[{'x':520,'color3':2450411,'label':"0.47",'ink':"#1d4ed8"},{'x':680,'color3':14427686,'label':"0.31",'ink':"#b91c1c"}],'headFn':(function(t){return '温度 = '+t+' ℃';}),'noteFn':(function(t,yA,yB){return 'T='+t+' ℃　CH₃OCH₃ 平衡产率 '+yA.toFixed(2)+' —— 升温使 I 逆移、甲醇断供（II 虽吸热正移，原料不足占主导），产率单调下降。';}),'ymin3':0.28,'ymax3':0.5,'ymid':0.39,'planes':[{'y':0.4,'color':16096779,'label':"产率 0.40",'ink':"#B45309"}],'tubeColor':889992};
   function boxMesh(w,h,d,colr,op){
     return new T.Mesh(new T.BoxGeometry(w,h,d),
       new T.MeshLambertMaterial({color:colr,transparent:true,opacity:op==null?0.92:op}));
@@ -4090,6 +4145,159 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.0
   it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
   autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
   if (state.auto && state.items.length) setTimeout(openPop, 1200);
+})();
+
+</script>
+<script>
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+(function () {
+  if (window.__pzInit) return; window.__pzInit = 1;
+  var mask = null, img = null, stageEl = null;
+  var sc = 1, baseFit = 1, tx = 0, ty = 0, d0 = null, pts = {}, pinch = null, dragging = false;
+
+  function boot() {
+    if (mask) return;
+    mask = document.createElement('div');
+    mask.className = 'pz-mask';
+    mask.innerHTML =
+      '<button class="pz-x" type="button" aria-label="关闭">\u2715</button>' +
+      '<div class="pz-tools"><button type="button" data-z="out">\uff0d</button>' +
+      '<button type="button" data-z="reset">1:1</button>' +
+      '<button type="button" data-z="in">\uff0b</button></div>' +
+      '<div class="pz-stage"><img class="pz-img" alt="\u539f\u9898\u56fe\u653e\u5927"></div>' +
+      '<div class="pz-hint">\u6eda\u8f6e / \u53cc\u6307\u7f29\u653e \u00b7 \u62d6\u52a8\u5e73\u79fb \u00b7 \u53cc\u51fb\u590d\u4f4d \u00b7 Esc \u6216\u70b9\u7a7a\u767d\u5173\u95ed</div>';
+    document.body.appendChild(mask);
+    img = mask.querySelector('.pz-img');
+    stageEl = mask.querySelector('.pz-stage');
+
+    mask.querySelector('.pz-x').addEventListener('click', close);
+    mask.addEventListener('click', function (e) {
+      if (e.target === mask || e.target === stageEl) close();
+    });
+    mask.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+    Array.prototype.forEach.call(mask.querySelectorAll('.pz-tools button'), function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = b.getAttribute('data-z');
+        if (k === 'in') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        else if (k === 'out') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        else reset();
+      });
+    });
+    img.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      if (sc > baseFit * 1.05) reset(); else zoomAt(e.clientX, e.clientY, (baseFit * 2) / sc);
+    });
+    img.addEventListener('load', fit);
+    img.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+
+  function fit() {
+    var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    var vw = window.innerWidth * 0.94, vh = window.innerHeight * 0.86;
+    baseFit = Math.max(1, Math.min(vw / w, vh / h, 3));   // 最多放大 3 倍，再大就糊
+    sc = baseFit; tx = 0; ty = 0;
+    apply();
+  }
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function zoomAt(cx, cy, f) {
+    var lo = baseFit * 0.55, hi = baseFit * 4;
+    var ns = Math.min(hi, Math.max(lo, sc * f));
+    if (Math.abs(ns - sc) < 1e-6) return;
+    var r = img.getBoundingClientRect();
+    var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    tx -= ox * (ns / sc - 1); ty -= oy * (ns / sc - 1);
+    sc = ns;
+    if (sc <= baseFit * 1.01) { tx = 0; ty = 0; sc = baseFit; }
+    apply();
+  }
+  function reset() { sc = baseFit; tx = 0; ty = 0; apply(); }
+
+  function onDown(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (e.target !== img) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) { dragging = false; pinch = dist(); }
+    else { dragging = true; d0 = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; }
+    img.classList.add('grabbing');
+    try { img.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function dist() {
+    var a = Object.keys(pts); if (a.length < 2) return 0;
+    var p1 = pts[a[0]], p2 = pts[a[1]];
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+  function onMove(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) {
+      var dd = dist();
+      if (pinch && dd > 0) { zoomAt((pts[Object.keys(pts)[0]].x + pts[Object.keys(pts)[1]].x) / 2,
+                                   (pts[Object.keys(pts)[0]].y + pts[Object.keys(pts)[1]].y) / 2,
+                                   dd / pinch); }
+      pinch = dd;
+      return;
+    }
+    if (!dragging || !d0) return;
+    tx = d0.tx + (e.clientX - d0.x);
+    ty = d0.ty + (e.clientY - d0.y);
+    apply();
+  }
+  function onUp(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { dragging = false; if (img) img.classList.remove('grabbing'); }
+  }
+
+  function open(src) {
+    boot();
+    baseFit = 1;
+    img.src = src;
+    reset();
+    if (img.complete) fit();
+    mask.classList.add('on');
+    mask.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    if (!mask) return;
+    mask.classList.remove('on');
+    mask.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    reset();
+    pts = {}; pinch = null; dragging = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    if (!t.classList.contains('prob-img-img')) return;
+    if (!t.getAttribute('src')) return;
+    e.preventDefault();
+    open(t.getAttribute('src'));
+  }, true);
+
+  // 图片后来才渲染出来的场景（粘贴 / 上传 / 切换版本）也补个提示
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG' && t.classList.contains('prob-img-img') && !t.title) {
+      t.title = '\u70b9\u51fb\u653e\u5927';
+    }
+  }, true);
 })();
 
 </script>
