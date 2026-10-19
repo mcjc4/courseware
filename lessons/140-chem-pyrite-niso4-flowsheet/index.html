@@ -425,7 +425,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
 .vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
-.vz-k{font-size:13px;font-weight:600;color:#1d4ed8;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.6}
+.vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
+.vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
+.vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
+.vz-bridge{font-size:11.5px;font-weight:600;color:#94a3b8;margin:.3em 0 .2em 3px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
@@ -437,10 +440,59 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-card.on{display:block}
 .vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
 .vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em}
+.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
 .vz-c-b{color:#475569}
 .vz-c-w{color:#b45309}
 @media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
 </style>
 </head>
 
@@ -550,22 +602,45 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<p><b>流程主链</b>：粉碎 → 焙烧（3CoS+5O₂=Co₃O₄+3SO₂）→ 酸浸（H₂SO₄+H₂O₂，H₂O₂ 作还原剂）→ 调 pH 沉 Fe³⁺/Cu²⁺ → 沉钴/萃取分离 → NiSO₄。</p>
-
-      <p><b>pH 窗口</b>：Fe³⁺ 完全 2.8、Cu²⁺ 完全 6.6、Co²⁺ 开始 7.1、Ni²⁺ 开始 8.05 ⇒ pH 最高 <b>7.1</b>，浸渣 Fe(OH)₃、Cu(OH)₂。</p>
-
-      <p><b>Co₃O₄=Co₂O₃·CoO</b>：2 个 Co(III) 作氧化剂共得 2e⁻，与 1 mol H₂O₂（失 2e⁻）恰好 1:1；浓盐酸路线被 Co(III) 氧化出有毒 Cl₂。</p>
-
-      <p><b>沉钴气泡</b>：Co²⁺+2HCO₃⁻=CoCO₃↓+CO₂↑+H₂O，CO₂ 气泡扰动 ⇒ 沉淀疏松。</p>
-
-      <p><b>配位能力</b>：P=O 的 O 给孤对电子；P507 有给电子的 R ⇒ 氧上电子云密度更大 ⇒ O(P204)<O(P507)。</p>
-
-      <p><b>晶胞计算</b>：NaCl 型 CoO，Z=4，配位数 6，ρ=4×75/(N_A·a³·10⁻²¹) g/cm³。</p>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">01</div>
+<div class="cx-t">流程题 = 一条链</div>
+<div class="cx-sub">每站进料 = 上站出料</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="31.75" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">焙烧</text></g><path d="M61.0 55.0 L68.0 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M68.0 55.0 L64.5 56.9 L64.5 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="69.5" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="97.25" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">酸浸</text></g><path d="M126.5 55.0 L133.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M133.5 55.0 L130.0 56.9 L130.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="135.0" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="162.75" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">调 pH</text></g><path d="M192.0 55.0 L199.0 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M199.0 55.0 L195.5 56.9 L195.5 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.65s"><rect x="200.5" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="228.25" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">萃取</text></g></svg></div>
+<div class="cx-d">工艺流程图不用一次看懂全部。<b>一站一站问三件事</b>：这里加什么、发生什么反应、哪些东西进了溶液、哪些进了渣。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (1)(2)(3) 问都落在"焙烧"和"酸浸"这两站上。</div>
+</div>
+<div class="cx-card" style="--cxc:#0d9488">
+<div class="cx-no">02</div>
+<div class="cx-t">pH 窗口</div>
+<div class="cx-sub">沉掉杂质，别沉产品</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect class="cx-r" style="animation-delay:0.00s" x="3.0" y="72.5" width="44.0" height="19.5" rx="5" fill="#0d9488" fill-opacity=".82"/><text x="25.0" y="63.52173913043478" font-size="10.5" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">2.8</text><text x="25.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">Fe³⁺ 沉完</text><rect class="cx-r" style="animation-delay:0.28s" x="73.0" y="46.1" width="44.0" height="45.9" rx="5" fill="#0d9488" fill-opacity=".82"/><text x="95.0" y="37.08695652173914" font-size="10.5" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">6.6</text><text x="95.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">Cu²⁺ 沉完</text><rect class="cx-r" style="animation-delay:0.56s" x="143.0" y="42.6" width="44.0" height="49.4" rx="5" fill="#e11d48" fill-opacity=".82"/><text x="165.0" y="33.60869565217392" font-size="10.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">7.1</text><text x="165.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">Co²⁺ 开始</text><rect class="cx-r" style="animation-delay:0.84s" x="213.0" y="36.0" width="44.0" height="56.0" rx="5" fill="#e11d48" fill-opacity=".82"/><text x="235.0" y="27.0" font-size="10.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">8.05</text><text x="235.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">Ni²⁺ 开始</text><line x1="16" y1="92" x2="244" y2="92" stroke="#cbd5e1" stroke-width="1.2"/></svg></div>
+<div class="cx-d">每个金属离子都有两个 pH 门槛：<b>开始沉淀</b>和<b>沉淀完全</b>。除杂的 pH 窗口 = "杂质都沉完了" 到 "产品还没开始沉" 之间。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (4) 问找最高 pH，就是取窗口的右端 7.1。</div>
+</div>
+<div class="cx-card" style="--cxc:#f59e0b">
+<div class="cx-no">03</div>
+<div class="cx-t">氧化剂 / 还原剂看价态</div>
+<div class="cx-sub">谁升谁降，电子守恒</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><circle cx="56" cy="50" r="24" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.4"/><text x="56" y="50.0" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">Co(Ⅲ)</text><text x="56" y="92.0" font-size="9.5" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">得 e⁻ · 氧化剂</text><circle cx="204" cy="50" r="24" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.4"/><text x="204" y="50.0" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">H₂O₂</text><text x="204" y="92.0" font-size="9.5" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">失 e⁻ · 还原剂</text><g class="cx-lp"><path d="M94.0 38.0 L166.0 38.0" stroke="#0d9488" stroke-width="1.7" fill="none"/><path d="M166.0 38.0 L160.0 41.3 L160.0 34.7 z" fill="#0d9488"/></g><g class="cx-lp" style="animation-delay:1.7s"><path d="M166.0 62.0 L94.0 62.0" stroke="#0d9488" stroke-width="1.7" fill="none"/><path d="M94.0 62.0 L100.0 58.7 L100.0 65.3 z" fill="#0d9488"/></g><text x="130" y="22" font-size="9" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">正反应</text></svg></div>
+<div class="cx-d">判断角色只看<b>化合价升降</b>：元素价态降低 = 得电子 = 作氧化剂；升高 = 失电子 = 作还原剂。配平靠<b>得失电子总数相等</b>。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (3) 问 H₂O₂ 与 Co₃O₄ 的比，就是 2e⁻ : 2e⁻ = 1:1。</div>
+</div>
+<div class="cx-card" style="--cxc:#7c3aed">
+<div class="cx-no">04</div>
+<div class="cx-t">电子效应定强弱</div>
+<div class="cx-sub">给电子基 vs 吸电子基</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect x="6" y="10" width="118" height="80" rx="10" fill="#16a34a" fill-opacity=".07" stroke="#16a34a" stroke-width="1.3"/><text x="65" y="28.87" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">P507：</text><text x="65" y="43.13" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">有给电子的 R</text><rect x="30" y="58" width="70" height="19" rx="9" fill="#16a34a" fill-opacity=".13"/><text x="65" y="61.92" font-size="9.0" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">✓</text><text x="65" y="73.08" font-size="9.0" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">氧上电子云更密</text><rect x="136" y="10" width="118" height="80" rx="10" fill="#e11d48" fill-opacity=".07" stroke="#e11d48" stroke-width="1.3"/><text x="195" y="28.87" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">P204：</text><text x="195" y="43.13" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">两个 −OR 吸电子</text><rect x="160" y="58" width="70" height="19" rx="9" fill="#e11d48" fill-opacity=".13"/><text x="195" y="61.3" font-size="10" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">✗</text><text x="195" y="73.7" font-size="10" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">电子云被抽走</text><text x="130" y="103" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">同一个考点，两种写法</text></svg></div>
+<div class="cx-d">配位能力看配位原子上的<b>电子云密度</b>：周围基团给电子 ⇒ 密度大 ⇒ 更容易把孤对给出去；吸电子 ⇒ 密度小 ⇒ 配位弱。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (6) 问比较 O(P204) 与 O(P507)。</div>
+</div>
+</div>
     </section>
 
   <section id="sandbox">
     <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
-    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>题干依据 → 公式 → 解析 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
     <div class="viz3d" id="vizS"><canvas></canvas></div>
   </section>
   
@@ -577,7 +652,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 焙烧与酸浸：价态拆解 × 双氧水角色</span></div>
 
-<p><b>(1)</b> 粉碎：<b>增大接触面积，加快焙烧速率，使焙烧更充分</b>。</p><p><b>(2)</b> 焙烧时 CoS 被氧气氧化为 Co₃O₄：<b style="color:#0f766e">3CoS + 5O₂ =(高温) Co₃O₄ + 3SO₂</b>（Co 升价、S−2→+4，O₂ 降为 −2，配平自检：O 左 10 右 4+6=10 ✓）。</p><p><b>(3)</b> Co₃O₄=Co₂O₃·CoO：2 个 Co(III) 得 2e⁻ 作氧化剂，H₂O₂ 失 2e⁻ 作还原剂 ⇒ <b>1:1</b>。用浓盐酸代替硫酸+双氧水的缺点：除挥发性外，<b>Co(III) 会氧化 Cl⁻ 生成有毒 Cl₂ 污染环境</b>（题给氧化性 Co₂O₃>Cl₂）。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「流程第一步是"粉碎"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>固体要参与反应 ⇒ <b>接触面积越大，反应越快越充分</b> ⇒ 提高焙烧速率和原料利用率。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「焙烧时 CoS 变成 Co₃O₄」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co₃O₄ 要拆成 <b>Co₂O₃·CoO</b>（两个 +3、一个 +2）；S 从 −2 升到 +4（失 6e⁻），O₂ 得电子 ⇒ 配平得 <b style="color:#0f766e">3CoS + 5O₂ =(高温) Co₃O₄ + 3SO₂</b>（O：左 10、右 4+6=10 ✓）。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「酸浸时加了 H₂O₂，而 Co₃O₄ 里含 Co(III)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co(III) 氧化性强 ⇒ 会把还原性物质氧化 ⇒ 这里 H₂O₂ 是<b>还原剂</b>，把 Co(III) 还原成 Co(II) 以便浸出。2 个 Co(III) 共得 2e⁻，1 个 H₂O₂ 失 2e⁻ ⇒ <b>1:1</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「问"用浓盐酸代替硫酸 + 双氧水"的缺点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>题给 Co₂O₃ 的氧化性 &gt; Cl₂ ⇒ Co(III) 会把 Cl⁻ 氧化成<b>有毒的 Cl₂</b>，污染环境；另外盐酸易挥发、还原性也会干扰。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -596,7 +671,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · pH 窗口：四门槛定 7.1</span></div>
 
-<p>四个门槛（c=0.1 mol/L 时开始沉淀 / c=10⁻⁵ 完全沉淀）：</p><p>Fe³⁺ 完全：c(OH⁻)=(10⁻³⁸·⁶/10⁻⁵)^⅓=10⁻¹¹·² ⇒ pH 2.8；Cu²⁺ 完全：√(10⁻¹⁹·⁸/10⁻⁵)=10⁻⁷·⁴ ⇒ pH 6.6；Co²⁺ 开始：√(10⁻¹⁴·⁸/0.1)=10⁻⁶·⁹ ⇒ pH 7.1；Ni²⁺ 开始：√(10⁻¹²·⁹/0.1)=10⁻⁵·⁹⁵ ⇒ pH 8.05。</p><p>窗口 [6.6, 7.1]：Fe³⁺、Cu²⁺ 沉完，Co²⁺、Ni²⁺ 不动 ⇒ <b style="color:#0f766e">pH 最高 7.1</b>；浸渣主要成分 <b>Fe(OH)₃、Cu(OH)₂</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「目标是"把 Fe、Cu 除掉，但不能损失 Ni、Co"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>⇒ 要找 pH 窗口：让 Fe³⁺、Cu²⁺ <b>沉淀完全</b>，同时 Co²⁺、Ni²⁺ <b>还没开始沉淀</b>。</div></div><p>四个门槛（c=0.1 mol/L 时开始沉淀 / c=10⁻⁵ 时沉淀完全）：</p><p>Fe³⁺ 完全：c(OH⁻) = (10⁻³⁸·⁶/10⁻⁵)^⅓ = 10⁻¹¹·² ⇒ <b>pH 2.8</b>；<br>Cu²⁺ 完全：√(10⁻¹⁹·⁸/10⁻⁵) = 10⁻⁷·⁴ ⇒ <b>pH 6.6</b>；<br>Co²⁺ 开始：√(10⁻¹⁴·⁸/0.1) = 10⁻⁶·⁹ ⇒ <b>pH 7.1</b>；<br>Ni²⁺ 开始：√(10⁻¹²·⁹/0.1) = 10⁻⁵·⁹⁵ ⇒ <b>pH 8.05</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「把四个门槛排成一列：2.8 &lt; 6.6 &lt; 7.1 &lt; 8.05」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>交集就是窗口 <b>[6.6, 7.1]</b> ⇒ pH 最高调到 <b style="color:#0f766e">7.1</b>（再高 Co²⁺ 就要开始沉了）；此时浸渣主要是 <b>Fe(OH)₃、Cu(OH)₂</b>。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -613,7 +688,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 沉钴气泡与萃取配位：电子效应定强弱</span></div>
 
-<p><b>(5)</b> 只加碳酸氢铵：Co²⁺ + 2HCO₃⁻ = CoCO₃↓ + CO₂↑ + H₂O，<b>大量 CO₂ 气泡</b>扰动晶体生长 ⇒ CoCO₃ 颗粒疏松。</p><p><b>(6)</b> P204 是 (RO)₂P(=O)OH（两个 −OR 吸电子），P507 是 R—P(=O)(OR)OH（一个给电子的烃基 R）。R 使 P=O 氧上电子云密度更大 ⇒ 给出孤对能力更强 ⇒ <b style="color:#0f766e">O(P204) &lt; O(P507)</b>。</p><p><b>(7)</b> CoO 晶胞为 NaCl 型：Co²⁺ 配位数 <b>6</b>；晶胞含 4 个 CoO，ρ = 4×75 / (N_A·(a×10⁻⁷)³) = <b>300/(N_A·a³·10⁻²¹)</b> g/cm³（a 以 nm 计）。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「用碳酸氢铵沉钴」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co²⁺ + 2HCO₃⁻ = CoCO₃↓ + CO₂↑ + H₂O ⇒ 反应<b>放出大量 CO₂ 气泡</b>，气泡扰动晶体生长 ⇒ CoCO₃ 颗粒<b>疏松</b>、易过滤易洗涤。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「比较 P204 与 P507 的配位能力」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两者都靠 P=O 上的氧给孤对电子；P507 多一个<b>给电子</b>的烃基 R，P204 是两个<b>吸电子</b>的 −OR ⇒ P507 氧上电子云密度更大 ⇒ 配位更强 ⇒ <b style="color:#0f766e">O(P204) &lt; O(P507)</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「问 CoO 晶胞（与 NaCl 同型）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>NaCl 型 ⇒ <b>配位数 6、Z = 4</b> ⇒ ρ = 4M/(N_A·a³) = 4×75/(N_A·a³) ⇒ <b>ρ = 300/(N_A·a³×10⁻²¹) g/cm³</b>（a 以 nm 计）。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -3299,7 +3374,9 @@ document.addEventListener('DOMContentLoaded',function(){
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div><div class="vz-k"></div>'
+      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
+        + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+        + '<div class="vz-bridge">↓ 所以想到</div>'
         + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
         + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
         + '<button type="button" class="vz-next">下一步 →</button></div>';
@@ -3308,6 +3385,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
       var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
       var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
+      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
       var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
       var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
 
@@ -3522,7 +3600,9 @@ document.addEventListener('DOMContentLoaded',function(){
         st.enter = 0;
         eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
         eT.textContent = st.t || '';
-        eK.innerHTML = st.k || ''; eK.style.display = st.k ? '' : 'none';
+        eK.innerHTML = st.k || '';
+        eSee.style.display = st.k ? '' : 'none';
+        eBr.style.display = st.k ? '' : 'none';
         eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
         eD.innerHTML = st.d || '';
         eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
@@ -3566,7 +3646,8 @@ document.addEventListener('DOMContentLoaded',function(){
       function showCard(o) {
         var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
         if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + cd.formula + '</div>';
+        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
+        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
         if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
         if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
         cbox.innerHTML = html;
