@@ -454,6 +454,34 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-c-b{color:#475569}
 .vz-c-w{color:#b45309}
 @media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+.prob-img-img{cursor:zoom-in}
+.pz-mask{position:fixed;inset:0;z-index:999999;display:none;background:rgba(12,18,30,.9);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);touch-action:none;
+  overscroll-behavior:contain}
+.pz-mask.on{display:block}
+.pz-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none}
+.pz-img{width:auto;height:auto;max-width:94vw;max-height:88vh;border-radius:10px;background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);transform-origin:center center;
+  will-change:transform;cursor:grab;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none}
+.pz-img.grabbing{cursor:grabbing}
+.pz-x{position:absolute;right:16px;top:14px;z-index:2;width:40px;height:40px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:18px;
+  line-height:1;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-x:hover{background:rgba(255,255,255,.28)}
+.pz-tools{position:absolute;left:16px;top:16px;z-index:2;display:flex;gap:8px}
+.pz-tools button{min-width:40px;height:36px;border:1px solid rgba(255,255,255,.28);
+  border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-tools button:hover{background:rgba(255,255,255,.26)}
+.pz-hint{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;
+  color:rgba(255,255,255,.72);font-size:12.5px;pointer-events:none}
+@media(max-width:620px){.pz-hint{font-size:11.5px;bottom:10px}
+  .pz-img{max-width:96vw;max-height:82vh}}
 </style>
 </head>
 
@@ -565,15 +593,15 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
           <thead><tr><th>题干这句话</th><th>意味着什么样的条件或结论</th></tr></thead>
           <tbody>
             <tr><th>E: \(x^2/a^2+y^2/b^2=1\ (a>b>0)\)</th><td>焦点在 <b>x 轴</b>（\(a\) 在 \(x\) 项下、且 \(a>b\)）；恒有 \(c^2=a^2-b^2\)；\(a,b,c\) 三个量待定，需要<b>两个独立条件</b>才能定方程</td></tr>
-            <tr><th>离心率为 \(\sqrt3/2\)</th><td>⇒ \(c/a=\sqrt3/2\)，这是<b>形状条件</b>——只给比例，不给大小；一个方程解不出 \(a,b\)</td></tr>
+            <tr><th>离心率为 \(\dfrac{\sqrt3}{2}\)</th><td>⇒ \(c/a=\sqrt3/2\)，这是<b>形状条件</b>——只给比例，不给大小；一个方程解不出 \(a,b\)</td></tr>
             <tr><th>长轴长为 4</th><td>⇒ \(2a=4\) ⇒ \(a=2\)，这是<b>大小条件</b>；必须与上一句<b>联立</b>才有唯一解 ⇒ \(c=\sqrt3\)、\(b^2=1\)</td></tr>
             <tr><th>直线 \(l\) 与 \(x\) 轴、\(y\) 轴分别交于点 \(M\)、\(N\)</th><td>⇒ \(l\) 不平行坐标轴、不过原点，可设 \(y=kx+t\ (k\ne0,t\ne0)\)；\(M,N\) 落在坐标轴上 ⇒ \(OM,ON\) <b>天然当三角形的底</b></td></tr>
             <tr><th>（均不与坐标原点 \(O\) 重合）</th><td>⇒ 截距非零 ⇒ \(S_{\triangle OAM},S_{\triangle OBN}\) 都不退化，作比时<b>分母不为 0</b></td></tr>
             <tr><th>与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点</th><td>⇒ 联立有<b>两个实根</b> ⇒ \(\Delta>0\)（本题 \(m^2<2\)）⇒ <b>韦达可用</b>：\(x_A+x_B\)、\(x_Ax_B\) 都是已知的</td></tr>
-            <tr><th>(2) 直线 \(l\) 的斜率为 \(-\tfrac12\)</th><td>⇒ 可设 \(y=-\tfrac{x}{2}+m\) ⇒ \(M=(2m,0),N=(0,m)\)：两底成 <b>2:1</b> ⇒ 面积比被压成一个式子 \(2|y_A|/|x_B|\)</td></tr>
+            <tr><th>(2) 直线 \(l\) 的斜率为 \(-\dfrac{1}{2}\)</th><td>⇒ 可设 \(y=-\tfrac{x}{2}+m\) ⇒ \(M=(2m,0),N=(0,m)\)：两底成 <b>2:1</b> ⇒ 面积比被压成一个式子 \(2|y_A|/|x_B|\)</td></tr>
             <tr><th>(3) 椭圆右顶点为 \(C\)</th><td>⇒ \(C=(a,0)=(2,0)\)——第 (1) 问的结论在这里<b>升级成已知条件</b></td></tr>
             <tr><th>当 \(k_{AC}\cdot k_{BC}=-2\) 时</th><td>⇒ 斜率语言翻译成坐标语言：\(y_1y_2=-2(x_1-2)(x_2-2)\) ⇒ 得到关于 \(k,t\) 的<b>齐次方程</b> ⇒ 定点</td></tr>
-            <tr><th>是否过定点？若过定点…；若不过定点，请说明理由</th><td>⇒ 必须<b>分类讨论</b>：两根都要交代，能舍的写清理由（本题 \(t=-2k\) 使 \(l\) 过 \(C\)，\(k_{AC}\) 无定义）</td></tr>
+            <tr><th>直线 \(l\) 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由</th><td>⇒ 必须<b>分类讨论</b>：两根都要交代，能舍的写清理由（本题 \(t=-2k\) 使 \(l\) 过 \(C\)，\(k_{AC}\) 无定义）</td></tr>
           </tbody>
         </table>
         <p style="margin:.5em 0 0;color:#475569">读题时就把它列完：<b>每一句都在给条件或在限定范围</b>，列不出来的句子往往就是漏掉的得分点。</p>
@@ -657,7 +685,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">📐 离心率定形状，长轴定大小</div>
-        <p class="sig-line">📌 题干「离心率为 \(\sqrt3/2\)」⇒ <i>\(c/a=\sqrt3/2\)</i>，这是<b>形状条件</b>：只给比例，不给大小。</p>
+        <p class="sig-line">📌 题干「离心率为 \(\dfrac{\sqrt3}{2}\)」⇒ <i>\(c/a=\sqrt3/2\)</i>，这是<b>形状条件</b>：只给比例，不给大小。</p>
         <p class="sig-line">📌 题干「长轴长为 4」⇒ <i>\(2a=4\Rightarrow a=2\)</i>，这是<b>大小条件</b>：两句必须<b>联立</b>才定得住方程。</p>
         <p>于是 \(e=\dfrac{c}{a}=\dfrac{\sqrt3}{2}\) 给「扁的比例」，\(2a=4\) 给「大小」。两条件联立：</p>
         <div class="formula-box">$$a=2,\qquad c=\sqrt3,\qquad b^2=a^2-c^2=1$$</div>
@@ -697,7 +725,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step"><div class="step-inner">
         <div class="step-head">🏒 韦达魔法一步收口</div>
-        <p class="sig-line">📌 题干「直线 \(l\) 的斜率为 \(-\tfrac12\)」⇒ <i>\(y=-\tfrac{x}{2}+m\Rightarrow M=(2m,0),\ N=(0,m)\)</i>：两底成 <b>2:1</b>，比值被压成 <i>\(2|y_A|/|x_B|\)</i>。</p>
+        <p class="sig-line">📌 题干「直线 \(l\) 的斜率为 \(-\dfrac{1}{2}\)」⇒ <i>\(y=-\tfrac{x}{2}+m\Rightarrow M=(2m,0),\ N=(0,m)\)</i>：两底成 <b>2:1</b>，比值被压成 <i>\(2|y_A|/|x_B|\)</i>。</p>
         <p class="sig-line">📌 题干「与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点」⇒ <i>韦达可用，且 \(\Delta>0\Rightarrow m^2<2\)</i>——<i>\(x_A+x_B=2m\)</i> 就是这一问的发动机。</p>
         <p>联立得 \(x^2-2mx+2m^2-2=0\)（\(m^2<2\)），韦达 \(x_A+x_B=2m\)。而 \(y_A=m-\dfrac{x_A}{2}\)，于是</p>
         <div class="formula-box">$$\frac{S_{\triangle OAM}}{S_{\triangle OBN}}=\frac{2|y_A|}{|x_B|}=\frac{|2m-x_A|}{|x_B|}=\frac{|x_B|}{|x_B|}=1$$</div>
@@ -729,7 +757,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step"><div class="step-inner">
         <div class="step-head">🏁 因式分解 + 舍根</div>
-        <p class="sig-line">📌 题干「是否过定点？若过定点…；若不过定点，请说明理由」⇒ 两根都要<b>交代</b>：<i>\(t=-2k\)</i> 使 \(l\) 过 \(C\)、\(k_{AC}\) 无定义 ⇒ <b>舍</b>；<i>\(t=-\tfrac{14}{9}k\)</i> ⇒ 定点。</p>
+        <p class="sig-line">📌 题干「直线 \(l\) 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由」⇒ 两根都要<b>交代</b>：<i>\(t=-2k\)</i> 使 \(l\) 过 \(C\)、\(k_{AC}\) 无定义 ⇒ <b>舍</b>；<i>\(t=-\tfrac{14}{9}k\)</i> ⇒ 定点。</p>
         <div class="formula-box">$$9t^2+32kt+28k^2=0\ \Rightarrow\ (t+2k)(9t+14k)=0$$</div>
         <p>\(t=-2k\)：\(l\) 过 \(C=(2,0)\)，与条件矛盾，<b>舍</b>；\(t=-\dfrac{14}{9}k\)：\(l: y=k\left(x-\dfrac{14}{9}\right)\) 恒过定点 \(\left(\dfrac{14}{9},\,0\right)\)。</p>
         <p class="sig-line">📌 拿题干「与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点」反过来当<b>检验器</b>：<i>\(14/9\approx1.56<2\)</i> ⇒ 定点在椭圆内部 ⇒ 过内点的直线必交两点，答案自洽。</p>
@@ -4079,6 +4107,159 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
   it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
   autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
   if (state.auto && state.items.length) setTimeout(openPop, 1200);
+})();
+
+</script>
+<script>
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+(function () {
+  if (window.__pzInit) return; window.__pzInit = 1;
+  var mask = null, img = null, stageEl = null;
+  var sc = 1, baseFit = 1, tx = 0, ty = 0, d0 = null, pts = {}, pinch = null, dragging = false;
+
+  function boot() {
+    if (mask) return;
+    mask = document.createElement('div');
+    mask.className = 'pz-mask';
+    mask.innerHTML =
+      '<button class="pz-x" type="button" aria-label="关闭">\u2715</button>' +
+      '<div class="pz-tools"><button type="button" data-z="out">\uff0d</button>' +
+      '<button type="button" data-z="reset">1:1</button>' +
+      '<button type="button" data-z="in">\uff0b</button></div>' +
+      '<div class="pz-stage"><img class="pz-img" alt="\u539f\u9898\u56fe\u653e\u5927"></div>' +
+      '<div class="pz-hint">\u6eda\u8f6e / \u53cc\u6307\u7f29\u653e \u00b7 \u62d6\u52a8\u5e73\u79fb \u00b7 \u53cc\u51fb\u590d\u4f4d \u00b7 Esc \u6216\u70b9\u7a7a\u767d\u5173\u95ed</div>';
+    document.body.appendChild(mask);
+    img = mask.querySelector('.pz-img');
+    stageEl = mask.querySelector('.pz-stage');
+
+    mask.querySelector('.pz-x').addEventListener('click', close);
+    mask.addEventListener('click', function (e) {
+      if (e.target === mask || e.target === stageEl) close();
+    });
+    mask.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+    Array.prototype.forEach.call(mask.querySelectorAll('.pz-tools button'), function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = b.getAttribute('data-z');
+        if (k === 'in') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        else if (k === 'out') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        else reset();
+      });
+    });
+    img.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      if (sc > baseFit * 1.05) reset(); else zoomAt(e.clientX, e.clientY, (baseFit * 2) / sc);
+    });
+    img.addEventListener('load', fit);
+    img.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+
+  function fit() {
+    var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    var vw = window.innerWidth * 0.94, vh = window.innerHeight * 0.86;
+    baseFit = Math.max(1, Math.min(vw / w, vh / h, 3));   // 最多放大 3 倍，再大就糊
+    sc = baseFit; tx = 0; ty = 0;
+    apply();
+  }
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function zoomAt(cx, cy, f) {
+    var lo = baseFit * 0.55, hi = baseFit * 4;
+    var ns = Math.min(hi, Math.max(lo, sc * f));
+    if (Math.abs(ns - sc) < 1e-6) return;
+    var r = img.getBoundingClientRect();
+    var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    tx -= ox * (ns / sc - 1); ty -= oy * (ns / sc - 1);
+    sc = ns;
+    if (sc <= baseFit * 1.01) { tx = 0; ty = 0; sc = baseFit; }
+    apply();
+  }
+  function reset() { sc = baseFit; tx = 0; ty = 0; apply(); }
+
+  function onDown(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (e.target !== img) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) { dragging = false; pinch = dist(); }
+    else { dragging = true; d0 = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; }
+    img.classList.add('grabbing');
+    try { img.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function dist() {
+    var a = Object.keys(pts); if (a.length < 2) return 0;
+    var p1 = pts[a[0]], p2 = pts[a[1]];
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+  function onMove(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) {
+      var dd = dist();
+      if (pinch && dd > 0) { zoomAt((pts[Object.keys(pts)[0]].x + pts[Object.keys(pts)[1]].x) / 2,
+                                   (pts[Object.keys(pts)[0]].y + pts[Object.keys(pts)[1]].y) / 2,
+                                   dd / pinch); }
+      pinch = dd;
+      return;
+    }
+    if (!dragging || !d0) return;
+    tx = d0.tx + (e.clientX - d0.x);
+    ty = d0.ty + (e.clientY - d0.y);
+    apply();
+  }
+  function onUp(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { dragging = false; if (img) img.classList.remove('grabbing'); }
+  }
+
+  function open(src) {
+    boot();
+    baseFit = 1;
+    img.src = src;
+    reset();
+    if (img.complete) fit();
+    mask.classList.add('on');
+    mask.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    if (!mask) return;
+    mask.classList.remove('on');
+    mask.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    reset();
+    pts = {}; pinch = null; dragging = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    if (!t.classList.contains('prob-img-img')) return;
+    if (!t.getAttribute('src')) return;
+    e.preventDefault();
+    open(t.getAttribute('src'));
+  }, true);
+
+  // 图片后来才渲染出来的场景（粘贴 / 上传 / 切换版本）也补个提示
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG' && t.classList.contains('prob-img-img') && !t.title) {
+      t.title = '\u70b9\u51fb\u653e\u5927';
+    }
+  }, true);
 })();
 
 </script>
