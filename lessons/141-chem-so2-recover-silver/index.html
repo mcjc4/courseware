@@ -493,6 +493,44 @@ section[id]{scroll-margin-top:58px}
 .stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
 .stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
 
+/* 题干原文（可折叠） */
+.stem-src{margin:.55em 0 .2em;border:1px dashed #dbe3ef;border-radius:12px;background:#fbfcff;
+  padding:.5em .85em}
+.stem-src>summary{cursor:pointer;font-weight:600;color:#1d4ed8;font-size:13.5px;list-style:none;
+  outline:none}
+.stem-src>summary::-webkit-details-marker{display:none}
+.stem-src>summary::before{content:"▸ ";color:#94a3b8}
+.stem-src[open]>summary::before{content:"▾ "}
+.ss-body{margin-top:.45em;font-size:14px;line-height:1.9;color:#334155}
+.ss-body b{color:#1f2430;font-weight:600}
+
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+.prob-img-img{cursor:zoom-in}
+.pz-mask{position:fixed;inset:0;z-index:999999;display:none;background:rgba(12,18,30,.9);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);touch-action:none;
+  overscroll-behavior:contain}
+.pz-mask.on{display:block}
+.pz-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none}
+.pz-img{width:auto;height:auto;max-width:94vw;max-height:88vh;border-radius:10px;background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);transform-origin:center center;
+  will-change:transform;cursor:grab;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none}
+.pz-img.grabbing{cursor:grabbing}
+.pz-x{position:absolute;right:16px;top:14px;z-index:2;width:40px;height:40px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:18px;
+  line-height:1;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-x:hover{background:rgba(255,255,255,.28)}
+.pz-tools{position:absolute;left:16px;top:16px;z-index:2;display:flex;gap:8px}
+.pz-tools button{min-width:40px;height:36px;border:1px solid rgba(255,255,255,.28);
+  border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-tools button:hover{background:rgba(255,255,255,.26)}
+.pz-hint{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;
+  color:rgba(255,255,255,.72);font-size:12.5px;pointer-events:none}
+@media(max-width:620px){.pz-hint{font-size:11.5px;bottom:10px}
+  .pz-img{max-width:96vw;max-height:82vh}}
 </style>
 </head>
 
@@ -592,7 +630,25 @@ section[id]{scroll-margin-top:58px}
 
       <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
 
-      <p><b>人话翻译</b>：把 SO₂ 气体通进 0.1 mol/L 的 AgNO₃ 溶液——瓶里冒出大量白色沉淀（Ag₂SO₃），瓶底还躺着一点灰黑色的东西（Ag 单质）。实验题沿着「装置顺序 → 现象解释 → 离子/化学方程式 → Ksp 判沉淀 → 定量速率比 → 优化方案」一路深挖。</p><p><b>破题抓手</b>：认准「两个现象=两条反应路」；Ksp 差 9 个数量级决定主副；Q 与 Ksp 比大小别忘先算临界浓度；优化方案的核心武器是「配位掩蔽」——把 c(Ag⁺) 压下去。</p>
+      <details class="stem-src"><summary>📄 题干原文（文字版 · 下面每一处「看到题干」都逐字引自这里）</summary><div class="ss-body">从含银废渣中回收银是保护金属资源的有效途径。<br>(1) 实验室用 70% H₂SO₄ 和 Na₂SO₃ 制取干燥 SO₂，选择净化与收集 SO₂ 所需装置，接口连接顺序为______。<br>(2) 兴趣小组探究从 AgNO₃ 溶液中回收银，将 SO₂ 通入一定体积 0.1 mol·L⁻¹ 的 AgNO₃ 溶液中（装置如图）。<br>已知：<br>a. 25℃时，Ksp(Ag₂SO₃)=1.5×10⁻¹⁴，Ksp(Ag₂SO₄)=1.4×10⁻⁵。<br>b. Ag₂SO₃、Ag₂SO₄ 均能溶于浓氨水，生成 [Ag(NH₃)₂]⁺。<br>Ⅰ. 实验现象：瓶内产生大量白色沉淀，瓶底沉淀略显灰色。<br>Ⅱ. 沉淀成分的分析<br>①取固体 X 加入过量浓氨水中，固体大部分溶解，过滤，得到无色溶液和少量灰黑色固体；将灰黑色固体加入浓硝酸中，固体溶解，______（填实验现象），说明沉淀中含有 Ag。SO₂ 与 AgNO₃ 溶液反应生成银单质的离子方程式是______。<br>②另取固体 X 加入过量盐酸中，充分反应后静置，取上层清液于试管中，______（填实验操作和现象），说明沉淀中含有 Ag₂SO₃。SO₂ 与 AgNO₃ 溶液反应生成 Ag₂SO₃ 的化学方程式是______。<br>③进一步实验证明，沉淀中不含 Ag₂SO₄，原因是 c²(Ag⁺)·c(SO₄²⁻)______1.4×10⁻⁵（填“>”“<”或“=”）。<br>Ⅲ. 实验结论：SO₂ 通入 AgNO₃ 溶液中同时发生复分解反应和氧化还原反应，Ag 的回收率低。<br>④另取 m g 固体 X 进行定量分析，测得其中 Ag 的质量为 m₂ g，该条件下 SO₂ 与 AgNO₃ 溶液发生复分解反应和氧化还原反应的平均反应速率之比为______。<br>(3) 基于上述探究，兴趣小组重新设计了用 SO₂ 从 AgNO₃ 溶液中回收 Ag 的优化方案，避免了复分解反应的发生。该方案为______。</div></details><p><b>人话翻译</b>：把 SO₂ 气体通进 0.1 mol/L 的 AgNO₃ 溶液——瓶里冒出大量白色沉淀（Ag₂SO₃），瓶底还躺着一点灰黑色的东西（Ag 单质）。实验题沿着「装置顺序 → 现象解释 → 离子/化学方程式 → Ksp 判沉淀 → 定量速率比 → 优化方案」一路深挖。</p><p><b>破题抓手</b>：认准「两个现象=两条反应路」；Ksp 差 9 个数量级决定主副；Q 与 Ksp 比大小别忘先算临界浓度；优化方案的核心武器是「配位掩蔽」——把 c(Ag⁺) 压下去。</p><div class="sig-wrap">
+<div class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</div>
+<table class="sig-tbl">
+<thead><tr>
+<th>题干这句话（原文照抄）</th>
+<th>意味着什么样的条件 / 结论</th>
+</tr></thead>
+<tbody>
+<tr><td>「实验室用 70% H₂SO₄ 和 Na₂SO₃ 制取干燥 SO₂，选择净化与收集 SO₂ 所需装置」</td><td>⇒ 关键词"干燥" ⇒ 必须有浓硫酸洗气瓶（长进短出）；SO₂ 有毒且易溶 ⇒ 排饱和食盐水收集 + 碱石灰尾气</td></tr>
+<tr><td>「将 SO₂ 通入一定体积 0.1 mol·L⁻¹ 的 AgNO₃ 溶液中」</td><td>⇒ 给了浓度 0.1 ⇒ 后面所有 Q = c²(Ag⁺)·c(SO₄²⁻) 都能直接代数字算</td></tr>
+<tr><td>「Ⅰ. 实验现象：瓶内产生大量白色沉淀，瓶底沉淀略显灰色」</td><td>⇒ 一个现象两条反应路：白 = Ag₂SO₃（复分解）、灰黑 = Ag（氧化还原）⇒ 后面所有设问都挂在这两条线上</td></tr>
+<tr><td>「a. 25℃时，Ksp(Ag₂SO₃)=1.5×10⁻¹⁴，Ksp(Ag₂SO₄)=1.4×10⁻⁵」</td><td>⇒ 同类型难溶盐比 Ksp 就是比溶解度 ⇒ Ag₂SO₃ 先沉、量也多 ⇒ 白色是主体</td></tr>
+<tr><td>「b. Ag₂SO₃、Ag₂SO₄ 均能溶于浓氨水，生成 [Ag(NH₃)₂]⁺」</td><td>⇒ 银能被浓氨水<b>配位溶走</b>，灰黑固体不溶 ⇒ 这是"把 Ag 与银盐分开"的分离依据</td></tr>
+<tr><td>「③进一步实验证明，沉淀中不含 Ag₂SO₄，原因是 c²(Ag⁺)·c(SO₄²⁻)______1.4×10⁻⁵」</td><td>⇒ 判沉淀看 Q 与 Ksp：Q &lt; Ksp 就不沉；本题 SO₄²⁻ 只来自副反应，浓度极小 ⇒ 填 "&lt;"</td></tr>
+<tr><td>「④另取 m g 固体 X 进行定量分析，测得其中 Ag 的质量为 m₂ g」</td><td>⇒ 两个未知量（n₁、n₂）配两个方程：总质量、银的质量 ⇒ 解出后按化学计量换成 SO₂ 消耗比</td></tr>
+<tr><td>「(3) 基于上述探究，兴趣小组重新设计了用 SO₂ 从 AgNO₃ 溶液中回收 Ag 的优化方案，避免了复分解反应的发生」</td><td>⇒ "避免复分解"⇔ 压低游离 c(Ag⁺) ⇒ 先加足量氨水配位成 [Ag(NH₃)₂]⁺，再通 SO₂ 只走氧化还原</td></tr>
+</tbody>
+</table>
+</div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -652,7 +708,7 @@ section[id]{scroll-margin-top:58px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 装置与现象：三件套 × 一锅两路</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「装置要"制 SO₂ → 干燥 → 收集 → 尾气处理"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>SO₂ 有毒、易溶于水 ⇒ 用<b>浓硫酸干燥</b>（长进短出）、<b>排饱和食盐水</b>收集（短进长出，既防溶解又易观察）、<b>碱石灰</b>吸收尾气，防止污染。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「瓶中出现"大量白色沉淀 + 瓶底略显灰色"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>一个现象说不出两个产物 ⇒ 必须<b>两条反应路</b>：复分解生成难溶的 Ag₂SO₃（白），氧化还原生成 Ag 单质（灰黑）。</div></div><p style="text-align:center;font-weight:700;color:#2563eb">复分解（主）：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p style="text-align:center;font-weight:700;color:#b45309">氧化还原（副）：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><div class="stx"><div class="stx-s"><i>看到题干</i>「两种沉淀到底谁为主」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 远小于 Ksp(Ag₂SO₄)=1.4×10⁻⁵ ⇒ <b>Ag₂SO₃ 先沉、量也大</b>，白色是主体；灰色 Ag 只是副路的"签名"。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「(1) 实验室用 70% H₂SO₄ 和 Na₂SO₃ 制取干燥 SO₂，选择净化与收集 SO₂ 所需装置」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>SO₂ 有毒、易溶于水 ⇒ 用<b>浓硫酸干燥</b>（长进短出）、<b>排饱和食盐水</b>收集（短进长出，既防溶解又易观察）、<b>碱石灰</b>吸收尾气，防止污染。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「Ⅰ. 实验现象：瓶内产生大量白色沉淀，瓶底沉淀略显灰色」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>一个现象说不出两个产物 ⇒ 必须<b>两条反应路</b>：复分解生成难溶的 Ag₂SO₃（白），氧化还原生成 Ag 单质（灰黑）。</div></div><p style="text-align:center;font-weight:700;color:#2563eb">复分解（主）：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p style="text-align:center;font-weight:700;color:#b45309">氧化还原（副）：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><div class="stx"><div class="stx-s"><i>看到题干</i>「a. 25℃时，Ksp(Ag₂SO₃)=1.5×10⁻¹⁴，Ksp(Ag₂SO₄)=1.4×10⁻⁵」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 远小于 Ksp(Ag₂SO₄)=1.4×10⁻⁵ ⇒ <b>Ag₂SO₃ 先沉、量也大</b>，白色是主体；灰色 Ag 只是副路的"签名"。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -671,7 +727,7 @@ section[id]{scroll-margin-top:58px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · 检验与 Ksp：红棕色 NO₂ × Q&lt;Ksp</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「灰黑固体加浓硝酸，产生红棕色刺激性气体」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>红棕色气体 = <b>NO₂</b> ⇒ 说明固体里有能被硝酸氧化的<b>银单质</b> ⇒ 来自氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「取上层清液滴加 BaCl₂，出现白色沉淀」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>白色且不溶于盐酸的钡盐 = <b>BaSO₄</b> ⇒ 溶液里含 <b>SO₄²⁻</b> ⇒ 同样印证氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「问"沉淀中是否含 Ag₂SO₄"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>判断沉淀要<b>算 Q</b>：Q = c²(Ag⁺)·c(SO₄²⁻) = 0.1²·c(SO₄²⁻) = 0.01c(SO₄²⁻)。要析出需 Q &gt; Ksp ⇒ c(SO₄²⁻) &gt; 1.4×10⁻³ mol/L，而氧化生成的 SO₄²⁻ 远达不到 ⇒ <b style="color:#0f766e">Q &lt; Ksp，填「&lt;」</b>，沉淀中不含 Ag₂SO₄。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「将灰黑色固体加入浓硝酸中，固体溶解，______（填实验现象），说明沉淀中含有 Ag」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>红棕色气体 = <b>NO₂</b> ⇒ 说明固体里有能被硝酸氧化的<b>银单质</b> ⇒ 来自氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「取上层清液于试管中，______（填实验操作和现象），说明沉淀中含有 Ag₂SO₃」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>要验 SO₄²⁻ 就滴加 BaCl₂ 溶液，产生不溶于盐酸的白色钡盐 = <b>BaSO₄</b> ⇒ 溶液里含 <b>SO₄²⁻</b> ⇒ 同样印证氧化还原路。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「③进一步实验证明，沉淀中不含 Ag₂SO₄，原因是 c²(Ag⁺)·c(SO₄²⁻)______1.4×10⁻⁵」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>判断沉淀要<b>算 Q</b>：Q = c²(Ag⁺)·c(SO₄²⁻) = 0.1²·c(SO₄²⁻) = 0.01c(SO₄²⁻)。要析出需 Q &gt; Ksp ⇒ c(SO₄²⁻) &gt; 1.4×10⁻³ mol/L，而氧化生成的 SO₄²⁻ 远达不到 ⇒ <b style="color:#0f766e">Q &lt; Ksp，填「&lt;」</b>，沉淀中不含 Ag₂SO₄。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -688,7 +744,7 @@ section[id]{scroll-margin-top:58px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 速率比与优化方案</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「给了总质量 m 和银的质量 m₂，问两条路的速率比」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两个未知量 ⇒ 列<b>两个方程</b>：总质量、银的质量。设 n₁=n(Ag₂SO₃)、n₂=n(Ag)。</div></div><p>296n₁ + 108n₂ = m（总质量）；216n₁ + 108n₂ = m₂（银的质量，Ag₂SO₃ 里 Ag 占 216）。<br>两式相减：80n₁ = m − m₂ ⇒ n₁ = (m − m₂)/80，代回得 n₂ = (37m₂ − 27m)/1080。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「速率比 = 单位时间消耗 SO₂ 的量之比」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复分解每份耗 1 个 SO₂，氧化还原每 2 个 Ag 耗 1 个 SO₂ ⇒ 比值为 n₁ : n₂/2 ⇒ <b style="color:#0f766e">27(m−m₂) : (37m₂−27m)</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「想提高银的回收率」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>只有副路产 Ag，主路白白消耗 SO₂ 却不产银 ⇒ <b>掐断主路</b>：先加足量氨水把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺，游离 c(Ag⁺) 骤降 ⇒ Ag₂SO₃ 无法沉淀，SO₂ 只走氧化还原路，过滤即得 Ag。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「④另取 m g 固体 X 进行定量分析，测得其中 Ag 的质量为 m₂ g」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两个未知量 ⇒ 列<b>两个方程</b>：总质量、银的质量。设 n₁=n(Ag₂SO₃)、n₂=n(Ag)。</div></div><p>296n₁ + 108n₂ = m（总质量）；216n₁ + 108n₂ = m₂（银的质量，Ag₂SO₃ 里 Ag 占 216）。<br>两式相减：80n₁ = m − m₂ ⇒ n₁ = (m − m₂)/80，代回得 n₂ = (37m₂ − 27m)/1080。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「该条件下 SO₂ 与 AgNO₃ 溶液发生复分解反应和氧化还原反应的平均反应速率之比为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复分解每份耗 1 个 SO₂，氧化还原每 2 个 Ag 耗 1 个 SO₂ ⇒ 比值为 n₁ : n₂/2 ⇒ <b style="color:#0f766e">27(m−m₂) : (37m₂−27m)</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(3) 基于上述探究，兴趣小组重新设计了用 SO₂ 从 AgNO₃ 溶液中回收 Ag 的优化方案，避免了复分解反应的发生」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>只有副路产 Ag，主路白白消耗 SO₂ 却不产银 ⇒ <b>掐断主路</b>：先加足量氨水把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺，游离 c(Ag⁺) 骤降 ⇒ Ag₂SO₃ 无法沉淀，SO₂ 只走氧化还原路，过滤即得 Ag。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -4060,6 +4116,159 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.0,'pol':1.0
   it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
   autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
   if (state.auto && state.items.length) setTimeout(openPop, 1200);
+})();
+
+</script>
+<script>
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+(function () {
+  if (window.__pzInit) return; window.__pzInit = 1;
+  var mask = null, img = null, stageEl = null;
+  var sc = 1, baseFit = 1, tx = 0, ty = 0, d0 = null, pts = {}, pinch = null, dragging = false;
+
+  function boot() {
+    if (mask) return;
+    mask = document.createElement('div');
+    mask.className = 'pz-mask';
+    mask.innerHTML =
+      '<button class="pz-x" type="button" aria-label="关闭">\u2715</button>' +
+      '<div class="pz-tools"><button type="button" data-z="out">\uff0d</button>' +
+      '<button type="button" data-z="reset">1:1</button>' +
+      '<button type="button" data-z="in">\uff0b</button></div>' +
+      '<div class="pz-stage"><img class="pz-img" alt="\u539f\u9898\u56fe\u653e\u5927"></div>' +
+      '<div class="pz-hint">\u6eda\u8f6e / \u53cc\u6307\u7f29\u653e \u00b7 \u62d6\u52a8\u5e73\u79fb \u00b7 \u53cc\u51fb\u590d\u4f4d \u00b7 Esc \u6216\u70b9\u7a7a\u767d\u5173\u95ed</div>';
+    document.body.appendChild(mask);
+    img = mask.querySelector('.pz-img');
+    stageEl = mask.querySelector('.pz-stage');
+
+    mask.querySelector('.pz-x').addEventListener('click', close);
+    mask.addEventListener('click', function (e) {
+      if (e.target === mask || e.target === stageEl) close();
+    });
+    mask.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+    Array.prototype.forEach.call(mask.querySelectorAll('.pz-tools button'), function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = b.getAttribute('data-z');
+        if (k === 'in') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        else if (k === 'out') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        else reset();
+      });
+    });
+    img.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      if (sc > baseFit * 1.05) reset(); else zoomAt(e.clientX, e.clientY, (baseFit * 2) / sc);
+    });
+    img.addEventListener('load', fit);
+    img.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+
+  function fit() {
+    var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    var vw = window.innerWidth * 0.94, vh = window.innerHeight * 0.86;
+    baseFit = Math.max(1, Math.min(vw / w, vh / h, 3));   // 最多放大 3 倍，再大就糊
+    sc = baseFit; tx = 0; ty = 0;
+    apply();
+  }
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function zoomAt(cx, cy, f) {
+    var lo = baseFit * 0.55, hi = baseFit * 4;
+    var ns = Math.min(hi, Math.max(lo, sc * f));
+    if (Math.abs(ns - sc) < 1e-6) return;
+    var r = img.getBoundingClientRect();
+    var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    tx -= ox * (ns / sc - 1); ty -= oy * (ns / sc - 1);
+    sc = ns;
+    if (sc <= baseFit * 1.01) { tx = 0; ty = 0; sc = baseFit; }
+    apply();
+  }
+  function reset() { sc = baseFit; tx = 0; ty = 0; apply(); }
+
+  function onDown(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (e.target !== img) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) { dragging = false; pinch = dist(); }
+    else { dragging = true; d0 = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; }
+    img.classList.add('grabbing');
+    try { img.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function dist() {
+    var a = Object.keys(pts); if (a.length < 2) return 0;
+    var p1 = pts[a[0]], p2 = pts[a[1]];
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+  function onMove(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) {
+      var dd = dist();
+      if (pinch && dd > 0) { zoomAt((pts[Object.keys(pts)[0]].x + pts[Object.keys(pts)[1]].x) / 2,
+                                   (pts[Object.keys(pts)[0]].y + pts[Object.keys(pts)[1]].y) / 2,
+                                   dd / pinch); }
+      pinch = dd;
+      return;
+    }
+    if (!dragging || !d0) return;
+    tx = d0.tx + (e.clientX - d0.x);
+    ty = d0.ty + (e.clientY - d0.y);
+    apply();
+  }
+  function onUp(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { dragging = false; if (img) img.classList.remove('grabbing'); }
+  }
+
+  function open(src) {
+    boot();
+    baseFit = 1;
+    img.src = src;
+    reset();
+    if (img.complete) fit();
+    mask.classList.add('on');
+    mask.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    if (!mask) return;
+    mask.classList.remove('on');
+    mask.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    reset();
+    pts = {}; pinch = null; dragging = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    if (!t.classList.contains('prob-img-img')) return;
+    if (!t.getAttribute('src')) return;
+    e.preventDefault();
+    open(t.getAttribute('src'));
+  }, true);
+
+  // 图片后来才渲染出来的场景（粘贴 / 上传 / 切换版本）也补个提示
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG' && t.classList.contains('prob-img-img') && !t.title) {
+      t.title = '\u70b9\u51fb\u653e\u5927';
+    }
+  }, true);
 })();
 
 </script>
