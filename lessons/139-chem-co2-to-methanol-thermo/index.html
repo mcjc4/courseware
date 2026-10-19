@@ -425,7 +425,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
 .vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
-.vz-k{font-size:13px;font-weight:600;color:#1d4ed8;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.6}
+.vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
+.vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
+.vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
+.vz-bridge{font-size:11.5px;font-weight:600;color:#94a3b8;margin:.3em 0 .2em 3px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
@@ -437,10 +440,59 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-card.on{display:block}
 .vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
 .vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em}
+.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
 .vz-c-b{color:#475569}
 .vz-c-w{color:#b45309}
 @media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
 </style>
 </head>
 
@@ -550,20 +602,45 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<p><b>复合判据</b>：反应 I 中 ΔH₁=−49.6 kJ/mol、气体分子数 4→2（ΔS<0）⇒ ΔG=ΔH−TΔS 低温为负 ⇒ <b>低温自发</b>；ΔG–T 图上升线 a 代表反应 I。</p>
-
-      <p><b>惰气两句话</b>：恒容充惰气不移动；恒压充惰气=减压，向分子数增大方向移动（反应 I 左移）。</p>
-
-      <p><b>Kp 账本</b>：C 守恒 p₀(CO₂)=0.25+0.75+1.5=2.5；H 守恒 p(H₂O)=3.0 MPa；Kp=0.75×3.0/(0.25×0.5³)=<b>72 MPa⁻²</b>。</p>
-
-      <p><b>产率析因</b>：CH₃OCH₃ 产率随 T 升高降低——I、II 均放热，升温均逆移（I 使 c(CH₃OH) 降低，II 自身左移）。</p>
-
-      <p><b>能量图</b>：放热反应，反应物平台高于生成物平台，中间活化能峰；c(CH₃OH) 不变即达平衡。</p>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">01</div>
+<div class="cx-t">ΔG = ΔH − TΔS</div>
+<div class="cx-sub">能不能自发，看这个数正负</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><path d="M30 22 L30 93 L240 93" stroke="#cbd5e1" stroke-width="1.3" fill="none"/><path d="M34.0 38.7 L234.0 38.7" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/><path class="cx-dr" d="M34.0 80.8 L90.0 70.9 L134.0 59.8 L184.0 43.6 L234.0 32.5" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-linecap="round"/><text x="135" y="105" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">温度 T →</text><text x="14" y="40" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">ΔG</text><text x="190" y="26" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">ΔG 上升 ⇒ 高温不自发</text></svg></div>
+<div class="cx-d">ΔG<b>小于 0 才自发</b>。ΔH 是"放不放热"，TΔS 是"乱不乱"。ΔS<0（气体分子变少）时，−TΔS 是正的，而且<b>温度越高这项越大</b> ⇒ 只有低温 ΔG 才为负。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (1) 问判"低温自发"，并在图 1 里认出上升的那条线 a。</div>
+</div>
+<div class="cx-card" style="--cxc:#e11d48">
+<div class="cx-no">02</div>
+<div class="cx-t">惰气两句话</div>
+<div class="cx-sub">恒容不管，恒压等于减压</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect x="6" y="10" width="118" height="80" rx="10" fill="#16a34a" fill-opacity=".07" stroke="#16a34a" stroke-width="1.3"/><text x="65" y="36.0" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">恒容充惰气</text><rect x="30" y="58" width="70" height="19" rx="9" fill="#16a34a" fill-opacity=".13"/><text x="65" y="62.230000000000004" font-size="8.5" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">✓</text><text x="65" y="72.77000000000001" font-size="8.5" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">分压不变·不移动</text><rect x="136" y="10" width="118" height="80" rx="10" fill="#e11d48" fill-opacity=".07" stroke="#e11d48" stroke-width="1.3"/><text x="195" y="36.0" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">恒压充惰气</text><rect x="160" y="58" width="70" height="19" rx="9" fill="#e11d48" fill-opacity=".13"/><text x="195" y="62.230000000000004" font-size="8.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">✗</text><text x="195" y="72.77000000000001" font-size="8.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">体积变大·等于减压</text><text x="130" y="103" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">同一个考点，两种写法</text></svg></div>
+<div class="cx-d">充惰气要看容器怎么变：<b>恒容</b>时各组分分压不变 ⇒ 平衡不动；<b>恒压</b>时总体积变大，等于给体系<b>减压</b> ⇒ 向气体分子数增多的方向移动。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (2) 的 A、B 两个说法，一个考恒容、一个考恒压。</div>
+</div>
+<div class="cx-card" style="--cxc:#f59e0b">
+<div class="cx-no">03</div>
+<div class="cx-t">Kp 的缺口藏在守恒里</div>
+<div class="cx-sub">反应前后原子不会凭空多出来</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><path d="M130 62 L130 100" stroke="#94a3b8" stroke-width="3"/><path d="M108 102 L152 102" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/><g class="cx-osc"><path d="M50 46 L210 46" stroke="#475569" stroke-width="2.4" stroke-linecap="round"/><path d="M50 46 L50 62" stroke="#94a3b8" stroke-width="1.3"/><path d="M28 62 h44 l-7 13 h-30 z" fill="#0d9488" fill-opacity=".14" stroke="#0d9488" stroke-width="1.2"/><path d="M210 46 L210 62" stroke="#94a3b8" stroke-width="1.3"/><path d="M188 62 h44 l-7 13 h-30 z" fill="#0d9488" fill-opacity=".14" stroke="#0d9488" stroke-width="1.2"/></g><text x="50" y="84" font-size="10.5" fill="#0f766e" text-anchor="middle" font-weight="600" dominant-baseline="middle">碳守恒</text><text x="210" y="84" font-size="10.5" fill="#0f766e" text-anchor="middle" font-weight="600" dominant-baseline="middle">氢守恒</text><text x="130" y="40" font-size="15" fill="#475569" text-anchor="middle" font-weight="700" dominant-baseline="middle">=</text></svg></div>
+<div class="cx-d">平衡题经常"少给一个分压"。不用慌：<b>反应前后每种元素的原子总数不变</b>，用 C 守恒定 CO₂ 的起始量、用 H 守恒补出 H₂O 的分压，缺口就填上了。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (3) 问 p(H₂O) 就是用它补出来的（3.0 MPa）。</div>
+</div>
+<div class="cx-card" style="--cxc:#7c3aed">
+<div class="cx-no">04</div>
+<div class="cx-t">放热反应：升温必逆移</div>
+<div class="cx-sub">产率随温度掉下来</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect class="cx-r" style="animation-delay:0.00s" x="73.0" y="36.0" width="44.0" height="56.0" rx="5" fill="#0d9488" fill-opacity=".82"/><text x="95.0" y="26.999999999999993" font-size="10.5" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">0.47</text><text x="95.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">500 ℃</text><rect class="cx-r" style="animation-delay:0.28s" x="143.0" y="55.1" width="44.0" height="36.9" rx="5" fill="#e11d48" fill-opacity=".82"/><text x="165.0" y="46.06382978723404" font-size="10.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">0.31</text><text x="165.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">700 ℃</text><line x1="16" y1="92" x2="244" y2="92" stroke="#cbd5e1" stroke-width="1.2"/></svg></div>
+<div class="cx-d">正反应放热 ⇒ 升温时平衡向<b>吸热方向（逆向）</b>移动 ⇒ 产物产率下降。如果连着两个放热反应，升温就是<b>双重打击</b>。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (4) 问解释 DME 产率随温度下降。</div>
+</div>
+</div>
     </section>
 
   <section id="sandbox">
     <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
-    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>题干依据 → 公式 → 解析 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
     <div class="viz3d" id="vizS"><canvas></canvas></div>
   </section>
   
@@ -575,7 +652,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 自发性与惰气：ΔG 判据 × 四说法排雷</span></div>
 
-<p><b>(1)</b> 反应 I：ΔH₁=−49.6 kJ/mol、气体分子数 4→2（ΔS<0）。ΔG=ΔH−TΔS：低温两项配合为负、高温 −TΔS 变正 ⇒ <b>低温自发</b>。图 1 中<b>上升线 a</b>（ΔG 随 T 升高增大）代表反应 I；下降线 b 是 ΔS>0 的反应。</p><p><b>(2)</b> A 恒温恒容充惰气：各组分分压不变 ⇒ 平衡不移动，「压强增大说明已移动」错；B 恒温恒压充惰气 = 减压 ⇒ 反应 I（分子数减小）左移，CH₃OH 转化率降低，「不变」错；C 恒压充 CO₂ 平衡右移但体系总量也增大，CH₃OH 体积分数不一定提高，错；D 及时分离出 CH₃OCH₃，反应 II 右移消耗更多 CH₃OH ⇒ CH₃OH 转化率提高（但速率不变）——<b style="color:#0f766e">D 对</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：4 mol 气体 → 2 mol 气体（CO₂+3H₂ → CH₃OH+H₂O）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>气体分子数减少 ⇒ <b>ΔS&lt;0</b> ⇒ −TΔS 为正且随温度增大 ⇒ 只有<b>低温</b>时 ΔG 才可能为负 ⇒ <b>低温自发</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「图 1 里有两条线，a 是上升的、b 是下降的」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>ΔG 随 T 升高而增大 ⇒ 说明 −TΔS&gt;0 ⇒ ΔS&lt;0 ⇒ <b>上升线 a 就是反应 I</b>；下降线 b 对应的反应 ΔS&gt;0。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「题目问"充入惰性气体"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>恒容 ⇒ 各组分分压不变 ⇒ 不移动；恒压 ⇒ 总体积变大 = 减压 ⇒ 向气体分子数增多的方向移动（反应 I 左移，CH₃OH 转化率<b>降低</b>）。</div></div><p><b>A</b> 恒温恒容充惰气：分压不变 ⇒ 不移动，"压强增大说明已移动"错。<br><b>B</b> 恒温恒压充惰气 = 减压 ⇒ 反应 I 左移，转化率降低，"不变"错。<br><b>C</b> 恒压充 CO₂：平衡虽右移，但体系总量也增大，CH₃OH 的体积分数不一定提高，错。<br><b>D</b> 及时分离出 CH₃OCH₃ ⇒ 反应 II 右移、消耗更多 CH₃OH ⇒ 转化率提高（但速率不变）⇒ <b style="color:#0f766e">D 对</b>。</p>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -594,7 +671,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · Kp 账本：守恒补出 p(H₂O)=3.0，Kp=72</span></div>
 
-<p>平衡分压（物质的量分数×总压）：p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa，缺 p(H₂O)。</p><p><b>C 守恒</b>：p₀(CO₂) = p(CO₂) + p(CH₃OH) + 2p(CH₃OCH₃) = 0.25+0.75+1.5 = 2.5 MPa。</p><p><b>H 守恒</b>：2p₀(H₂) = 4p(CH₃OH) + 6p(CH₃OCH₃) + 2p(H₂O) + 2p(H₂)，而 p₀(H₂) = p(H₂) + 3[p(CH₃OH) + 2p(CH₃OCH₃)] = 0.5+6.75 = 7.25 ⇒ <b>p(H₂O) = 3.0 MPa</b>。</p><p><b>Kp</b> = p(CH₃OH)·p(H₂O) / [p(CO₂)·p(H₂)³] = 0.75×3.0 / (0.25×0.5³) = <b style="color:#0f766e">72 MPa⁻²</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「给了 4 个平衡分压，唯独缺 p(H₂O)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>封闭体系里每种元素的原子数在反应前后不变 ⇒ 缺的分压可以用 <b>C 守恒、H 守恒</b>反解出来。</div></div><p>已知：p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa。</p><p><b>C 守恒</b>：p₀(CO₂) = p(CO₂) + p(CH₃OH) + 2p(CH₃OCH₃) = 0.25 + 0.75 + 1.5 = <b>2.5 MPa</b>。</p><p><b>H 守恒</b>：2p₀(H₂) = 4p(CH₃OH) + 6p(CH₃OCH₃) + 2p(H₂O) + 2p(H₂)，而 p₀(H₂) = p(H₂) + 3[p(CH₃OH) + 2p(CH₃OCH₃)] = 0.5 + 6.75 = 7.25 ⇒ <b style="color:#0f766e">p(H₂O) = 3.0 MPa</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「题目要 Kp」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把平衡分压代进 Kp = p(CH₃OH)·p(H₂O) / [p(CO₂)·p(H₂)³] = 0.75×3.0 / (0.25×0.5³) = <b style="color:#0f766e">72 MPa⁻²</b>。注意单位是 MPa⁻²（Δn = −2）。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -611,7 +688,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 产率析因与能量图</span></div>
 
-<p><b>(4)</b> 图 2：CH₃OCH₃ 平衡产率 0.48 → 0.31 随温度升高单调下降。因果链：反应 I 放热，升温逆移 ⇒ c(CH₃OH) 显著降低；反应 II（甲醇脱水）也放热，升温同样逆移 ⇒ 「原料变少 + 生成受抑」双重打击，DME 产率下降。</p><p><b>(5)</b> 反应初期 c(CH₃OH) 基本不变 = 已达平衡。能量变化图：纵轴能量、横轴反应历程，反应物平台（CO₂+3H₂）高于生成物平台（CH₃OH+H₂O），中间一座活化能峰，ΔH=−49.6 kJ/mol。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「图 2 中 DME 平衡产率随温度升高单调下降」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>反应 I、II <b>都放热</b> ⇒ 升温双双逆移：I 逆移让原料 c(CH₃OH) 显著变少，II 逆移又直接抑制生成 ⇒ <b>"原料变少 + 生成受抑"双重打击</b>，产率下降。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「题目说"反应初期 c(CH₃OH) 基本不变"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>这说明反应已经<b>达到平衡</b>（不是还没开始反应）⇒ 画能量图时按"一个放热反应、反应物高、生成物低"来画。</div></div><p><b>能量变化图要点</b>：纵轴能量、横轴反应历程；反应物平台（CO₂+3H₂）<b>高于</b>生成物平台（CH₃OH+H₂O），中间一座活化能峰；平台高度差即 ΔH = −49.6 kJ/mol。</p>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -3344,7 +3421,9 @@ document.addEventListener('DOMContentLoaded',function(){
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div><div class="vz-k"></div>'
+      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
+        + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+        + '<div class="vz-bridge">↓ 所以想到</div>'
         + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
         + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
         + '<button type="button" class="vz-next">下一步 →</button></div>';
@@ -3353,6 +3432,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
       var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
       var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
+      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
       var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
       var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
 
@@ -3567,7 +3647,9 @@ document.addEventListener('DOMContentLoaded',function(){
         st.enter = 0;
         eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
         eT.textContent = st.t || '';
-        eK.innerHTML = st.k || ''; eK.style.display = st.k ? '' : 'none';
+        eK.innerHTML = st.k || '';
+        eSee.style.display = st.k ? '' : 'none';
+        eBr.style.display = st.k ? '' : 'none';
         eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
         eD.innerHTML = st.d || '';
         eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
@@ -3611,7 +3693,8 @@ document.addEventListener('DOMContentLoaded',function(){
       function showCard(o) {
         var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
         if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + cd.formula + '</div>';
+        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
+        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
         if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
         if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
         cbox.innerHTML = html;
