@@ -420,7 +420,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
-.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
@@ -3114,11 +3114,12 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
     function apply() {
       var sp = Math.sin(st.pol);
@@ -3129,27 +3130,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
       st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st, tgt: tgt };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3162,6 +3213,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3259,8 +3311,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var wrap = document.createElement('div'); wrap.className = 'vz-stage';
       var cw = document.createElement('div'); cw.className = 'vz-canvas';
       var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
@@ -3505,7 +3558,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
       /* ---------- 点击 / 悬停拾取 ---------- */
       var ray = new T.Raycaster(), ndc = new T.Vector2();
-      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
       function hitAt(e) {
         var st = steps[cur];
@@ -3539,21 +3595,54 @@ document.addEventListener('DOMContentLoaded',function(){
         if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
         dirty = true;
       }
-      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+
+      cw.addEventListener('pointerdown', function (e) {
+        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
+        if (cbox.contains(e.target)) { tap = null; return; }
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
       cw.addEventListener('pointermove', function (e) {
-        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
         var now = performance.now();
-        if (now - hovT < 70 || moved) return;
+        if (now - hovT < 70) return;
         hovT = now;
         var o = hitAt(e);
         setHov(o);
-        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
       });
+
       cw.addEventListener('pointerup', function (e) {
-        if (moved) return;
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) showCard(o); else hideCard();
+        if (o) { dTap.t = 0; showCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+        hideCard();
       });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
 
       /* ---------- 尺寸 ---------- */
       function resize() {
@@ -3795,7 +3884,7 @@ return L;}),'noteFn':(function(t){return '定量四步：<b style="color:#0f766e
 
   },{'maxN':4});
 
-VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.0,'pol':1.02,'az':0.72,'tgt':[0,0.1,0],'hud':"🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡",'steps':[{'t':"第 1 步 · (1) 装置接口：为什么是「长进短出」",'k':"设问「用 70% H₂SO₄ 与 Na₂SO₃ 制干燥 SO₂，净化与收集装置的接口顺序」",'f':"\\mathrm{H_2SO_4(70\\%)+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'d':"顺序：<b>发生装置 → 浓硫酸洗气瓶（长进短出，干燥）→ 饱和食盐水（短进长出，排液法收集）→ 碱石灰（尾气吸收）</b>。干燥瓶必须「长进短出」让气体穿过浓硫酸；收集瓶「短进长出」把液体从长管压出；SO₂ 有毒，末端必须吸收。",'w':"两个瓶子的进出方向是相反的——干燥瓶下沉、收集瓶上浮，写反了就扣分。",'cam':{'az':0.55,'pol':1.02,'dist':10.2,'tgt':[0,0.15,0]},'objs':[{'k':"box",'p':[-3.0,0.3,0],'sz':[0.66,0.95,0.66],'c':16096779,'op':0.28,'lb':"发生装置",'lp':[-3.0,1.16,0],'lc':"#1f2430",'card':{'cond':"70% 硫酸 + Na₂SO₃ 是<b>实验室制 SO₂</b> 的标准方法",'formula':"\\mathrm{H_2SO_4+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'think':"不用稀硫酸（浓度低、产气慢），也不用浓盐酸（引入 HCl 杂质）",'warn':"70% 是「较浓」而非「浓硫酸」，反应温和可控"}},{'k':"box",'p':[-1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':2450411,'op':0.28,'lb':"浓硫酸（长进短出）",'lp':[-1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"洗气瓶：气体<b>长管进、短管出</b>，穿过液体被干燥",'formula':"\\text{长进短出}",'think':"若短进长出，气体从液面上方走，等于没洗",'warn':"这是最常考的方向细节"}},{'k':"box",'p':[0,0.3,0],'sz':[0.66,0.95,0.66],'c':889992,'op':0.28,'lb':"饱和食盐水（短进长出）",'lp':[0,1.16,0],'lc':"#1f2430",'card':{'cond':"收集：气体<b>短进长出</b>，把液体从长管压出去",'formula':"\\text{短进长出（排液法）}",'think':"SO₂ 易溶但饱和食盐水可降低溶解损失",'warn':"方向与干燥瓶相反，别记混"}},{'k':"box",'p':[1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':8141549,'op':0.28,'lb':"碱石灰（尾气）",'lp':[1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"SO₂ 有毒且酸性 ⇒ 用碱石灰吸收尾气",'formula':"\\mathrm{SO_2+2NaOH\\to Na_2SO_3+H_2O}",'think':"末端吸收是安全底线，不能省",'warn':"此处不是「排水」，是「吸收」"}},{'k':"arrow",'a':[-2.62,0.3,0],'b':[-1.86,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[-1.12,0.3,0],'b':[-0.36,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.36,0.3,0],'b':[1.12,0.3,0],'c':"#94a3b8"},{'k':"label",'p':[0,-0.7,0],'lb':"发生 → 干燥 → 收集 → 尾气",'c':"#1f2430"}]},{'t':"第 2 步 · (2) 现象：白色沉淀 + 瓶底微灰 = 两条反应路",'k':"题干「产生大量白色沉淀，瓶底沉淀略显灰色」",'f':"\\mathrm{SO_2+2AgNO_3+H_2O=Ag_2SO_3\\downarrow+2HNO_3}",'d':"<b>白色</b>沉淀是复分解路生成的 Ag₂SO₃；<b>灰色</b>是氧化还原路还原出的银单质：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺。同一瓶里两条路<b>同时</b>发生。",'w':"只写复分解会漏掉灰色；「略显灰色」就是命题人给的第二个反应的线索。",'cam':{'az':0.6,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-0.9,-0.25,0],'sz':[0.5,0.35,0.5],'c':"#e2e8f0",'op':0.95,'lb':"Ag₂SO₃ 白色沉淀",'lp':[-0.9,0.15,0],'lc':"#475569",'card':{'cond':"复分解路：S 保持 +4 价，生成<b>白色</b> Ag₂SO₃",'formula':"\\mathrm{SO_2+2Ag^++H_2O\\to Ag_2SO_3\\downarrow+2H^+}",'think':"Ag₂SO₃ 难溶（Ksp=1.5×10⁻¹⁴），先析出",'warn':"它溶于浓氨水生成 [Ag(NH₃)₂]⁺——这是优化方案的抓手"}},{'k':"ball",'p':[0.5,-0.25,0],'r':0.13,'c':"#94a3b8",'an':"pulse",'lb':"Ag 灰黑色",'lp':[0.5,0.22,0],'lc':"#475569",'card':{'cond':"氧化还原路：S 从 +4 升到 +6，<b>Ag⁺ 被还原</b>成 Ag",'formula':"\\mathrm{SO_2+2Ag^++2H_2O=2Ag\\downarrow+SO_4^{2-}+4H^+}",'think':"SO₂ 有还原性，遇到氧化性 Ag⁺ 就还原它",'warn':"这一步同时产生 SO₄²⁻，第 4 步要用到"}},{'k':"arrow",'a':[-1.65,0.55,0],'b':[-1.05,0.1,0],'c':"#0d9488",'lb':"复分解",'lp':[-1.6,0.9,0],'lc':"#0f766e"},{'k':"arrow",'a':[0.05,0.55,0],'b':[0.42,0.05,0],'c':"#b45309",'lb':"氧化还原",'lp':[0.1,0.92,0],'lc':"#b45309"},{'k':"label",'p':[-0.2,-1.1,0],'lb':"白色 + 灰色 ⇒ 两条路并行",'c':"#1f2430"}]},{'t':"第 3 步 · 检验：红棕色 NO₂ 验银，BaCl₂ 验硫酸根",'k':"设问「灰黑固体加浓硝酸产生红棕色气体说明什么」「上层清液滴 BaCl₂ 变浑浊说明什么」",'f':"\\mathrm{Ag+2HNO_3(浓)\\to AgNO_3+NO_2\\uparrow+H_2O}",'d':"① 红棕色、有刺激性气味的气体是 <b>NO₂</b> ⇒ 固体中含<b>银</b>（被硝酸氧化）。② 加过量盐酸后取上层清液滴 BaCl₂，产生<b>白色沉淀 BaSO₄</b> ⇒ 溶液含 <b>SO₄²⁻</b>，它正是氧化还原路产生的。",'w':"「加过量盐酸」是为了先除去 Ag⁺（否则 AgCl 也会是白色沉淀），这一步不能省。",'cam':{'az':0.58,'pol':1.0,'dist':8.2,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.2,0.3,0],'r':0.16,'c':"#94a3b8",'lb':"灰黑固体（含 Ag）",'lp':[-1.2,0.82,0],'lc':"#475569",'card':{'cond':"浓硝酸溶解 + 红棕色气体 ⇒ <b>含 Ag</b>",'formula':"\\mathrm{Ag+2HNO_3\\to AgNO_3+NO_2\\uparrow+H_2O}",'think':"能被浓硝酸氧化成 NO₂ 的活泼金属/银都很典型",'warn':"NO 是无色的，红棕色才是 NO₂"}},{'k':"flow",'a':[-0.75,0.55,0],'b':[0.25,1.15,0],'c':"#dc2626",'n':8,'spd':0.36,'r':0.055},{'k':"label",'p':[0.55,1.5,0],'lb':"NO₂ 红棕色 ↑",'c':"#b91c1c"},{'k':"ball",'p':[1.5,0.3,0],'r':0.16,'c':"#0d9488",'an':"pulse",'lb':"BaSO₄ 白色沉淀",'lp':[1.5,0.82,0],'lc':"#0f766e",'card':{'cond':"加过量盐酸后再滴 BaCl₂ ⇒ 白色沉淀 ⇒ 含 <b>SO₄²⁻</b>",'formula':"\\mathrm{Ba^{2+}+SO_4^{2-}\\to BaSO_4\\downarrow}",'think':"先除 Ag⁺ 避免 AgCl 干扰，再验 SO₄²⁻",'warn':"顺序颠倒就会被 AgCl 假阳性骗到"}},{'k':"label",'p':[0,-0.55,0],'lb':"① NO₂ ⇒ 有 Ag　② BaCl₂ ⇒ 有 SO₄²⁻",'c':"#1f2430"}]},{'t':"第 4 步 · (2)③ 为什么没有 Ag₂SO₄：算 Q 比 Ksp",'k':"题干「Ksp(Ag₂SO₄)=1.4×10⁻⁵」；设问「沉淀中是否含 Ag₂SO₄」",'f':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})=0.01\\,c(\\mathrm{SO_4^{2-}})<1.4\\times10^{-5}",'d':"c(Ag⁺)=0.1 ⇒ c²(Ag⁺)=0.01。要让 Ag₂SO₄ 沉淀需 Q > Ksp，即 c(SO₄²⁻) > <b>1.4×10⁻³ mol/L</b>；而氧化还原路产生的 SO₄²⁻ 远达不到这个量级 ⇒ <b>Q &lt; Ksp</b>，不沉淀。答案填「&lt;」。",'w':"判据是 Q 与 Ksp 比较，不是「有没有 SO₄²⁻」——有也不一定沉。",'cam':{'az':0.55,'pol':0.98,'dist':8.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.4,-0.5,0],'b':[2.4,-0.5,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.2,-0.9,0],'lb':"c(SO₄²⁻) ↑",'c':"#64748b"},{'k':"seg",'a':[-2.4,0.55,0],'b':[2.4,0.55,0],'c':"#f59e0b",'w':0.035,'lb':"Ksp = 1.4×10⁻⁵",'lp':[2.0,0.95,0],'lc':"#b45309"},{'k':"poly",'pts':[[-2.4,-1.2,0],[-0.6,-0.75,0],[1.2,-0.15,0]],'c':"#2563eb",'r':0.04,'lb':"Q 实际增长（远低于 Ksp）",'lp':[0.9,-0.95,0],'lc':"#1d4ed8",'card':{'cond':"Q < Ksp ⇒ <b>不产生沉淀</b>",'formula':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})",'think':"被氧化出来的 SO₄²⁻ 浓度太低，够不到 1.4×10⁻³",'warn':"别把「含有 SO₄²⁻」直接当成「会沉 Ag₂SO₄」"}},{'k':"label",'p':[1.6,-0.15,0],'lb':"实际够不到交点",'c':"#b91c1c"},{'k':"label",'p':[0,-1.7,0],'lb':"答：Q < Ksp（不含 Ag₂SO₄）",'c':"#0f766e"}]},{'t':"第 5 步 · (2)④(3) 速率比 + 先配位后通气的优化",'k':"设问「两路消耗 SO₂ 的速率比」「如何提高银的回收率」",'f':"\\Delta n_{\\text{复}}:\\Delta n_{\\text{氧}}=27(m-m_2):(37m_2-27m)",'d':"设 n₁=n(Ag₂SO₃)、n₂=n(Ag)：质量式 296n₁+108n₂=m，银质量式 216n₁+108n₂=m₂，相减得 80n₁=m−m₂。氧化还原路耗 SO₂ = n₂/2，联立即得速率比。优化：<b>先加足量氨水</b>把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺（c(Ag⁺) 降到极小）⇒ 复分解被抑制，SO₂ 只走氧化还原路 ⇒ 过滤即得银。",'w':"「先配位再通气」的本质是压低 c(Ag⁺) 卡死复分解路，而不是把 SO₂ 吸收掉。",'cam':{'az':0.6,'pol':1.0,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.9,0.35,0],'sz':[0.95,0.8,0.8],'c':"#0ea5e9",'op':0.88,'lb':"复分解路 耗 n₁",'lp':[-1.9,1.05,0],'lc':"#0369a1",'card':{'cond':"复分解：1 个 SO₂ 生成 1 个 Ag₂SO₃",'formula':"n(\\mathrm{SO_2})_{\\text{复}}=n_1",'think':"硫守恒，直接 1:1",'warn':"别把它和氧化还原路搞混"}},{'k':"box",'p':[-0.5,0.35,0],'sz':[0.95,0.8,0.8],'c':"#b45309",'op':0.88,'lb':"氧化还原路 耗 n₂/2",'lp':[-0.5,1.05,0],'lc':"#b45309",'card':{'cond':"氧化还原：1 个 SO₂ 生成 2 个 Ag ⇒ 耗 SO₂ = n₂/2",'formula':"n(\\mathrm{SO_2})_{\\text{氧}}=n_2/2",'think':"2Ag⁺ 才能吃 1 个 SO₂ 的两个电子",'warn':"系数 1/2 最容易漏"}},{'k':"arrow",'a':[0.05,0.35,0],'b':[0.75,0.35,0],'c':"#0f766e",'lb':"联立消元",'lp':[0.4,0.8,0],'lc':"#0f766e"},{'k':"ball",'p':[1.35,0.35,0],'r':0.17,'c':"#0d9488",'an':"pulse",'lb':"27(m−m₂) : (37m₂−27m)",'lp':[1.35,0.95,0],'lc':"#0f766e"},{'k':"flow",'a':[-2.2,-0.9,0],'b':[-0.2,-0.9,0],'c':"#7c3aed",'n':8,'spd':0.34,'r':0.055},{'k':"label",'p':[0.9,-0.9,0],'lb':"先加氨水 ⇒ c(Ag⁺)↓ ⇒ 复分解被抑制",'c':"#6d28d9"},{'k':"label",'p':[0,-1.6,0],'lb':"优化：先氨配位，再通净化后的 SO₂",'c':"#0f766e"}]}]});
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.0,'pol':1.02,'az':0.72,'tgt':[0,0.1,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡",'steps':[{'t':"第 1 步 · (1) 装置接口：为什么是「长进短出」",'k':"设问「用 70% H₂SO₄ 与 Na₂SO₃ 制干燥 SO₂，净化与收集装置的接口顺序」",'f':"\\mathrm{H_2SO_4(70\\%)+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'d':"顺序：<b>发生装置 → 浓硫酸洗气瓶（长进短出，干燥）→ 饱和食盐水（短进长出，排液法收集）→ 碱石灰（尾气吸收）</b>。干燥瓶必须「长进短出」让气体穿过浓硫酸；收集瓶「短进长出」把液体从长管压出；SO₂ 有毒，末端必须吸收。",'w':"两个瓶子的进出方向是相反的——干燥瓶下沉、收集瓶上浮，写反了就扣分。",'cam':{'az':0.55,'pol':1.02,'dist':10.2,'tgt':[0,0.15,0]},'objs':[{'k':"box",'p':[-3.0,0.3,0],'sz':[0.66,0.95,0.66],'c':16096779,'op':0.28,'lb':"发生装置",'lp':[-3.0,1.16,0],'lc':"#1f2430",'card':{'cond':"70% 硫酸 + Na₂SO₃ 是<b>实验室制 SO₂</b> 的标准方法",'formula':"\\mathrm{H_2SO_4+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'think':"不用稀硫酸（浓度低、产气慢），也不用浓盐酸（引入 HCl 杂质）",'warn':"70% 是「较浓」而非「浓硫酸」，反应温和可控"}},{'k':"box",'p':[-1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':2450411,'op':0.28,'lb':"浓硫酸（长进短出）",'lp':[-1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"洗气瓶：气体<b>长管进、短管出</b>，穿过液体被干燥",'formula':"\\text{长进短出}",'think':"若短进长出，气体从液面上方走，等于没洗",'warn':"这是最常考的方向细节"}},{'k':"box",'p':[0,0.3,0],'sz':[0.66,0.95,0.66],'c':889992,'op':0.28,'lb':"饱和食盐水（短进长出）",'lp':[0,1.16,0],'lc':"#1f2430",'card':{'cond':"收集：气体<b>短进长出</b>，把液体从长管压出去",'formula':"\\text{短进长出（排液法）}",'think':"SO₂ 易溶但饱和食盐水可降低溶解损失",'warn':"方向与干燥瓶相反，别记混"}},{'k':"box",'p':[1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':8141549,'op':0.28,'lb':"碱石灰（尾气）",'lp':[1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"SO₂ 有毒且酸性 ⇒ 用碱石灰吸收尾气",'formula':"\\mathrm{SO_2+2NaOH\\to Na_2SO_3+H_2O}",'think':"末端吸收是安全底线，不能省",'warn':"此处不是「排水」，是「吸收」"}},{'k':"arrow",'a':[-2.62,0.3,0],'b':[-1.86,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[-1.12,0.3,0],'b':[-0.36,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.36,0.3,0],'b':[1.12,0.3,0],'c':"#94a3b8"},{'k':"label",'p':[0,-0.7,0],'lb':"发生 → 干燥 → 收集 → 尾气",'c':"#1f2430"}]},{'t':"第 2 步 · (2) 现象：白色沉淀 + 瓶底微灰 = 两条反应路",'k':"题干「产生大量白色沉淀，瓶底沉淀略显灰色」",'f':"\\mathrm{SO_2+2AgNO_3+H_2O=Ag_2SO_3\\downarrow+2HNO_3}",'d':"<b>白色</b>沉淀是复分解路生成的 Ag₂SO₃；<b>灰色</b>是氧化还原路还原出的银单质：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺。同一瓶里两条路<b>同时</b>发生。",'w':"只写复分解会漏掉灰色；「略显灰色」就是命题人给的第二个反应的线索。",'cam':{'az':0.6,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-0.9,-0.25,0],'sz':[0.5,0.35,0.5],'c':"#e2e8f0",'op':0.95,'lb':"Ag₂SO₃ 白色沉淀",'lp':[-0.9,0.15,0],'lc':"#475569",'card':{'cond':"复分解路：S 保持 +4 价，生成<b>白色</b> Ag₂SO₃",'formula':"\\mathrm{SO_2+2Ag^++H_2O\\to Ag_2SO_3\\downarrow+2H^+}",'think':"Ag₂SO₃ 难溶（Ksp=1.5×10⁻¹⁴），先析出",'warn':"它溶于浓氨水生成 [Ag(NH₃)₂]⁺——这是优化方案的抓手"}},{'k':"ball",'p':[0.5,-0.25,0],'r':0.13,'c':"#94a3b8",'an':"pulse",'lb':"Ag 灰黑色",'lp':[0.5,0.22,0],'lc':"#475569",'card':{'cond':"氧化还原路：S 从 +4 升到 +6，<b>Ag⁺ 被还原</b>成 Ag",'formula':"\\mathrm{SO_2+2Ag^++2H_2O=2Ag\\downarrow+SO_4^{2-}+4H^+}",'think':"SO₂ 有还原性，遇到氧化性 Ag⁺ 就还原它",'warn':"这一步同时产生 SO₄²⁻，第 4 步要用到"}},{'k':"arrow",'a':[-1.65,0.55,0],'b':[-1.05,0.1,0],'c':"#0d9488",'lb':"复分解",'lp':[-1.6,0.9,0],'lc':"#0f766e"},{'k':"arrow",'a':[0.05,0.55,0],'b':[0.42,0.05,0],'c':"#b45309",'lb':"氧化还原",'lp':[0.1,0.92,0],'lc':"#b45309"},{'k':"label",'p':[-0.2,-1.1,0],'lb':"白色 + 灰色 ⇒ 两条路并行",'c':"#1f2430"}]},{'t':"第 3 步 · 检验：红棕色 NO₂ 验银，BaCl₂ 验硫酸根",'k':"设问「灰黑固体加浓硝酸产生红棕色气体说明什么」「上层清液滴 BaCl₂ 变浑浊说明什么」",'f':"\\mathrm{Ag+2HNO_3(浓)\\to AgNO_3+NO_2\\uparrow+H_2O}",'d':"① 红棕色、有刺激性气味的气体是 <b>NO₂</b> ⇒ 固体中含<b>银</b>（被硝酸氧化）。② 加过量盐酸后取上层清液滴 BaCl₂，产生<b>白色沉淀 BaSO₄</b> ⇒ 溶液含 <b>SO₄²⁻</b>，它正是氧化还原路产生的。",'w':"「加过量盐酸」是为了先除去 Ag⁺（否则 AgCl 也会是白色沉淀），这一步不能省。",'cam':{'az':0.58,'pol':1.0,'dist':8.2,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.2,0.3,0],'r':0.16,'c':"#94a3b8",'lb':"灰黑固体（含 Ag）",'lp':[-1.2,0.82,0],'lc':"#475569",'card':{'cond':"浓硝酸溶解 + 红棕色气体 ⇒ <b>含 Ag</b>",'formula':"\\mathrm{Ag+2HNO_3\\to AgNO_3+NO_2\\uparrow+H_2O}",'think':"能被浓硝酸氧化成 NO₂ 的活泼金属/银都很典型",'warn':"NO 是无色的，红棕色才是 NO₂"}},{'k':"flow",'a':[-0.75,0.55,0],'b':[0.25,1.15,0],'c':"#dc2626",'n':8,'spd':0.36,'r':0.055},{'k':"label",'p':[0.55,1.5,0],'lb':"NO₂ 红棕色 ↑",'c':"#b91c1c"},{'k':"ball",'p':[1.5,0.3,0],'r':0.16,'c':"#0d9488",'an':"pulse",'lb':"BaSO₄ 白色沉淀",'lp':[1.5,0.82,0],'lc':"#0f766e",'card':{'cond':"加过量盐酸后再滴 BaCl₂ ⇒ 白色沉淀 ⇒ 含 <b>SO₄²⁻</b>",'formula':"\\mathrm{Ba^{2+}+SO_4^{2-}\\to BaSO_4\\downarrow}",'think':"先除 Ag⁺ 避免 AgCl 干扰，再验 SO₄²⁻",'warn':"顺序颠倒就会被 AgCl 假阳性骗到"}},{'k':"label",'p':[0,-0.55,0],'lb':"① NO₂ ⇒ 有 Ag　② BaCl₂ ⇒ 有 SO₄²⁻",'c':"#1f2430"}]},{'t':"第 4 步 · (2)③ 为什么没有 Ag₂SO₄：算 Q 比 Ksp",'k':"题干「Ksp(Ag₂SO₄)=1.4×10⁻⁵」；设问「沉淀中是否含 Ag₂SO₄」",'f':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})=0.01\\,c(\\mathrm{SO_4^{2-}})<1.4\\times10^{-5}",'d':"c(Ag⁺)=0.1 ⇒ c²(Ag⁺)=0.01。要让 Ag₂SO₄ 沉淀需 Q > Ksp，即 c(SO₄²⁻) > <b>1.4×10⁻³ mol/L</b>；而氧化还原路产生的 SO₄²⁻ 远达不到这个量级 ⇒ <b>Q &lt; Ksp</b>，不沉淀。答案填「&lt;」。",'w':"判据是 Q 与 Ksp 比较，不是「有没有 SO₄²⁻」——有也不一定沉。",'cam':{'az':0.55,'pol':0.98,'dist':8.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.4,-0.5,0],'b':[2.4,-0.5,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.2,-0.9,0],'lb':"c(SO₄²⁻) ↑",'c':"#64748b"},{'k':"seg",'a':[-2.4,0.55,0],'b':[2.4,0.55,0],'c':"#f59e0b",'w':0.035,'lb':"Ksp = 1.4×10⁻⁵",'lp':[2.0,0.95,0],'lc':"#b45309"},{'k':"poly",'pts':[[-2.4,-1.2,0],[-0.6,-0.75,0],[1.2,-0.15,0]],'c':"#2563eb",'r':0.04,'lb':"Q 实际增长（远低于 Ksp）",'lp':[0.9,-0.95,0],'lc':"#1d4ed8",'card':{'cond':"Q < Ksp ⇒ <b>不产生沉淀</b>",'formula':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})",'think':"被氧化出来的 SO₄²⁻ 浓度太低，够不到 1.4×10⁻³",'warn':"别把「含有 SO₄²⁻」直接当成「会沉 Ag₂SO₄」"}},{'k':"label",'p':[1.6,-0.15,0],'lb':"实际够不到交点",'c':"#b91c1c"},{'k':"label",'p':[0,-1.7,0],'lb':"答：Q < Ksp（不含 Ag₂SO₄）",'c':"#0f766e"}]},{'t':"第 5 步 · (2)④(3) 速率比 + 先配位后通气的优化",'k':"设问「两路消耗 SO₂ 的速率比」「如何提高银的回收率」",'f':"\\Delta n_{\\text{复}}:\\Delta n_{\\text{氧}}=27(m-m_2):(37m_2-27m)",'d':"设 n₁=n(Ag₂SO₃)、n₂=n(Ag)：质量式 296n₁+108n₂=m，银质量式 216n₁+108n₂=m₂，相减得 80n₁=m−m₂。氧化还原路耗 SO₂ = n₂/2，联立即得速率比。优化：<b>先加足量氨水</b>把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺（c(Ag⁺) 降到极小）⇒ 复分解被抑制，SO₂ 只走氧化还原路 ⇒ 过滤即得银。",'w':"「先配位再通气」的本质是压低 c(Ag⁺) 卡死复分解路，而不是把 SO₂ 吸收掉。",'cam':{'az':0.6,'pol':1.0,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.9,0.35,0],'sz':[0.95,0.8,0.8],'c':"#0ea5e9",'op':0.88,'lb':"复分解路 耗 n₁",'lp':[-1.9,1.05,0],'lc':"#0369a1",'card':{'cond':"复分解：1 个 SO₂ 生成 1 个 Ag₂SO₃",'formula':"n(\\mathrm{SO_2})_{\\text{复}}=n_1",'think':"硫守恒，直接 1:1",'warn':"别把它和氧化还原路搞混"}},{'k':"box",'p':[-0.5,0.35,0],'sz':[0.95,0.8,0.8],'c':"#b45309",'op':0.88,'lb':"氧化还原路 耗 n₂/2",'lp':[-0.5,1.05,0],'lc':"#b45309",'card':{'cond':"氧化还原：1 个 SO₂ 生成 2 个 Ag ⇒ 耗 SO₂ = n₂/2",'formula':"n(\\mathrm{SO_2})_{\\text{氧}}=n_2/2",'think':"2Ag⁺ 才能吃 1 个 SO₂ 的两个电子",'warn':"系数 1/2 最容易漏"}},{'k':"arrow",'a':[0.05,0.35,0],'b':[0.75,0.35,0],'c':"#0f766e",'lb':"联立消元",'lp':[0.4,0.8,0],'lc':"#0f766e"},{'k':"ball",'p':[1.35,0.35,0],'r':0.17,'c':"#0d9488",'an':"pulse",'lb':"27(m−m₂) : (37m₂−27m)",'lp':[1.35,0.95,0],'lc':"#0f766e"},{'k':"flow",'a':[-2.2,-0.9,0],'b':[-0.2,-0.9,0],'c':"#7c3aed",'n':8,'spd':0.34,'r':0.055},{'k':"label",'p':[0.9,-0.9,0],'lb':"先加氨水 ⇒ c(Ag⁺)↓ ⇒ 复分解被抑制",'c':"#6d28d9"},{'k':"label",'p':[0,-1.6,0],'lb':"优化：先氨配位，再通净化后的 SO₂",'c':"#0f766e"}]}]});
 </script>
 <script>
 
