@@ -401,6 +401,46 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .viz3d-hud,.viz3d-note{position:absolute;pointer-events:none;font-size:11.5px;color:#8f8877;line-height:1.5}
 .viz3d-hud{left:10px;top:8px;background:rgba(255,255,255,.86);padding:3px 10px;border-radius:999px;border:1px solid #e6e2d8}
 .viz3d-note{left:10px;bottom:8px;background:rgba(255,255,255,.88);padding:4px 10px;border-radius:8px;border:1px solid #e6e2d8}
+
+/* ===== 题眼翻译 SIG-VER 20261019a ===== */
+.sig-wrap{margin:.7em 0 .2em;padding:.7em .85em;background:#f8fafc;border:1px solid #dbe3ef;border-radius:12px}
+.sig-ttl{font-weight:600;color:#1f2430;margin:0 0 .45em}
+.sig-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.sig-tbl th,.sig-tbl td{border:1px solid #dbe3ef;padding:.45em .6em;text-align:left;vertical-align:top;line-height:1.65}
+.sig-tbl th{background:#eef2f9;color:#1f2430;font-weight:600;width:34%}
+.sig-tbl td b{color:#1d4ed8}
+.sig-line{margin:.5em 0 .3em;padding:.5em .75em;border-left:3px solid #2563eb;background:#eff6ff;border-radius:0 8px 8px 0;font-weight:600;line-height:1.7}
+.sig-line i{font-style:normal;color:#1d4ed8}
+
+/* ===== 解题沙盘 STAGE-VER 20261019a ===== */
+.viz3d.vz-on{display:block!important;height:auto!important;background:transparent!important;border:0!important;padding:0!important}
+#sandbox{margin:26px 0}
+#sandbox .sb-sub{color:#64748b;font-size:13.5px;margin:.2em 0 .6em}
+#vizS{height:auto}
+.vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
+.vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
+.vz-canvas.grabbing{cursor:grabbing}
+.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
+.vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
+.vz-idx{font-size:12px;font-weight:600;color:#2563eb}
+.vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
+.vz-k{font-size:13px;font-weight:600;color:#1d4ed8;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.6}
+.vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
+.vz-d{font-size:13px;color:#475569;line-height:1.7}
+.vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
+.vz-nav{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.vz-nav button{flex:1;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;border:1px solid #cbd5e1;background:#fff;color:#1f2430;padding:.5em .4em;transition:.18s}
+.vz-nav button:hover:not(:disabled){background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
+.vz-nav button:disabled{opacity:.42;cursor:not-allowed}
+.vz-card{position:absolute;right:10px;bottom:10px;max-width:min(66%,330px);display:none;background:#fff;border:1px solid #dbe3ef;border-radius:12px;box-shadow:0 10px 26px rgba(15,23,42,.15);padding:10px 12px;font-size:12.5px;color:#334155;line-height:1.65;z-index:5}
+.vz-card.on{display:block}
+.vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
+.vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
+.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em}
+.vz-c-b{color:#475569}
+.vz-c-w{color:#b45309}
+@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
 </style>
 </head>
 
@@ -522,6 +562,13 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <p><b>优化</b>：先氨配位（银氨溶液）把 c(Ag⁺) 压到极低 → 复分解被掐断 → SO₂ 单走氧化还原路回收 Ag。</p>
     </section>
+
+  <section id="sandbox">
+    <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>题干依据 → 公式 → 解析 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <div class="viz3d" id="vizS"><canvas></canvas></div>
+  </section>
+  
 
   <!--pnid:prx6ejADRbE0BpCD8IaASQ--><!-- ✏️【分步解题区】一问一个 section，复制本段可做第二问 / 第三问（记得改 id 与徽章键名）。
        .step 默认折叠，第一张加 class="on" 默认展开；按钮文案自动变成"下一步（i/n）→"。
@@ -3102,7 +3149,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }, { passive: false });
     host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
     apply();
-    return { apply: apply, st: st };
+    return { apply: apply, st: st, tgt: tgt };
   }
 
   window.VIZ3D = {
@@ -3191,6 +3238,386 @@ document.addEventListener('DOMContentLoaded',function(){
       sliders.forEach(function (s) { s.addEventListener('input', run); });
       run();
       return inst;
+    },
+
+    /* ============================================================
+       解题分步沙盘 Stage（2026-10-19 · 对齐「threejs 制作课件」要求）
+       左侧 3D 演示区 + 右侧知识点讲解面板（步骤号/标题/条件/公式/解析/易错）
+       上一步/下一步切换 → 每步对应不同 3D 图形、标注、动画、文字
+       三维元素可点击 → 弹出知识卡（条件/结论 · 公式定理 · 推导思路 · 易错点）
+       ============================================================ */
+    stage: function (hostId, spec) {
+      var host = document.getElementById(hostId);
+      if (!host || !window.THREE) return null;
+      spec = spec || {};
+      var steps = spec.steps || [];
+      if (!steps.length) return null;
+
+      /* ---------- DOM：左 3D / 右面板 ---------- */
+      host.innerHTML = '';
+      host.classList.add('vz-on');
+      var wrap = document.createElement('div'); wrap.className = 'vz-stage';
+      var cw = document.createElement('div'); cw.className = 'vz-canvas';
+      var cv = document.createElement('canvas'); cw.appendChild(cv);
+      var hud = document.createElement('div'); hud.className = 'vz-hud';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      cw.appendChild(hud);
+      var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
+      var pn = document.createElement('div'); pn.className = 'vz-panel';
+      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div><div class="vz-k"></div>'
+        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
+        + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
+        + '<button type="button" class="vz-next">下一步 →</button></div>';
+      wrap.appendChild(cw); wrap.appendChild(pn);
+      host.appendChild(wrap);
+
+      var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
+      var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
+      var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
+      var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
+
+      /* ---------- 渲染器 / 场景 ---------- */
+      var ren;
+      try { ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); }
+      catch (e) { host.classList.remove('vz-on'); host.innerHTML = ''; return null; }
+      ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      var sc = new T.Scene();
+      var cam = new T.PerspectiveCamera(40, 16 / 9, 0.05, 500);
+      sc.add(new T.AmbientLight(0xffffff, 0.84));
+      var dl = new T.DirectionalLight(0xffffff, 0.48); dl.position.set(5, 9, 7); sc.add(dl);
+      var dl2 = new T.DirectionalLight(0xffffff, 0.2); dl2.position.set(-7, 4, -6); sc.add(dl2);
+
+      var dirty = true;
+      var ctl = orbit(cw, cam, {
+        az: spec.az == null ? 0.78 : spec.az,
+        pol: spec.pol == null ? 1.04 : spec.pol,
+        dist: spec.dist || 7.4,
+        target: spec.tgt || [0, 0.5, 0],
+        onApply: function () { dirty = true; }
+      });
+
+      /* ---------- 基础教学辅助：网格地面 + 坐标轴 ---------- */
+      var baseG = new T.Group(); sc.add(baseG);
+      if (spec.grid !== false) {
+        var gl = spec.gridLen || 9;
+        var gh = new T.GridHelper(gl, gl * 2, 0xc9d3e2, 0xe4eaf3);
+        gh.material.transparent = true; gh.material.opacity = 0.72;
+        gh.position.y = spec.gridY == null ? -1.4 : spec.gridY;
+        baseG.add(gh);
+      }
+      if (spec.axes) {
+        var al = spec.axesLen || 3.2;
+        baseG.add(new T.AxesHelper(al));
+        [['x', [al + 0.3, 0, 0], '#dc2626'], ['y', [0, al + 0.3, 0], '#16a34a'], ['z', [0, 0, al + 0.3], '#2563eb']]
+          .forEach(function (it) {
+            var sp = sprite(it[0], it[2], 26, 0.2);
+            sp.position.set(it[1][0], it[1][1], it[1][2]);
+            baseG.add(sp);
+          });
+      }
+
+      /* ---------- 图元工厂 ---------- */
+      function V(a) { return new T.Vector3(a[0], a[1], a[2]); }
+      function C(c, d) { return new T.Color(c == null ? d : c).getHex(); }
+
+      function buildObj(o, g, st) {
+        var m = null, c = C(o.c, 0x2563eb);
+        if (o.k === 'ball') {
+          m = new T.Mesh(new T.SphereGeometry(o.r || 0.14, 24, 18),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'box') {
+          var s = o.sz || [0.6, 0.6, 0.6];
+          m = new T.Mesh(new T.BoxGeometry(s[0], s[1], s[2]),
+            new T.MeshLambertMaterial({ color: c, transparent: o.op != null, opacity: o.op == null ? 0.92 : o.op }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'seg' || o.k === 'arrow') {
+          var a = V(o.a), b = V(o.b);
+          var dir = new T.Vector3().subVectors(b, a), len = dir.length();
+          if (len < 1e-6) return null;
+          m = new T.Mesh(new T.CylinderGeometry(o.w || 0.022, o.w || 0.022, len, 10),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(a).add(b).multiplyScalar(0.5);
+          m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), dir.clone().normalize());
+          if (o.k === 'arrow') {
+            var cone = new T.Mesh(new T.ConeGeometry(o.r || 0.072, 0.23, 14),
+              new T.MeshLambertMaterial({ color: c }));
+            cone.position.copy(b);
+            cone.quaternion.copy(m.quaternion);
+            g.add(cone);
+          }
+        } else if (o.k === 'curve') {
+          var pts = [], N = o.n || 150;
+          for (var i = 0; i <= N; i++) {
+            var u = o.x0 + (o.x1 - o.x0) * i / N, yy = o.f(u);
+            if (yy == null || isNaN(yy) || !isFinite(yy)) continue;
+            pts.push(new T.Vector3(u, yy, o.z || 0));
+          }
+          if (pts.length < 2) return null;
+          m = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts), Math.min(260, pts.length * 2),
+            o.r || 0.03, 8), new T.MeshLambertMaterial({ color: c }));
+        } else if (o.k === 'poly') {
+          var pp = (o.pts || []).map(V);
+          if (pp.length < 2) return null;
+          m = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pp), pp.length * 6,
+            o.r || 0.03, 8), new T.MeshLambertMaterial({ color: c }));
+        } else if (o.k === 'ring') {
+          m = new T.Mesh(new T.TorusGeometry(o.r || 0.6, o.w || 0.02, 10, 56),
+            new T.MeshLambertMaterial({ color: c, transparent: true, opacity: o.op == null ? 0.92 : o.op }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'plane') {
+          var ps = o.sz || [3, 3];
+          m = new T.Mesh(new T.PlaneGeometry(ps[0], ps[1]),
+            new T.MeshBasicMaterial({ color: c, transparent: true, opacity: o.op == null ? 0.15 : o.op, side: T.DoubleSide }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+          if (o.rx != null) m.rotation.x = o.rx;
+        } else if (o.k === 'bond') {
+          var a2 = V(o.a), b2 = V(o.b);
+          var d2 = new T.Vector3().subVectors(b2, a2), l2 = d2.length();
+          if (l2 < 1e-6) return null;
+          m = new T.Mesh(new T.CylinderGeometry(o.w || 0.055, o.w || 0.055, l2, 12),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(a2).add(b2).multiplyScalar(0.5);
+          m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), d2.clone().normalize());
+        } else if (o.k === 'flow') {
+          m = new T.Group();
+          var n = o.n || 9;
+          for (var j = 0; j < n; j++) {
+            var sp = new T.Mesh(new T.SphereGeometry(o.r || 0.055, 12, 10),
+              new T.MeshLambertMaterial({ color: c, transparent: true, opacity: 0.9 }));
+            sp.userData.ph = j / n;
+            m.add(sp);
+          }
+          st.anims.push({ type: 'flow', m: m, a: V(o.a), b: V(o.b), spd: o.spd || 0.34 });
+        } else if (o.k === 'label') {
+          var lb = sprite(o.lb, o.c || '#3f3a30', o.fs || 28, o.zz || 0.24);
+          lb.position.copy(V(o.p || [0, 0, 0]));
+          g.add(lb);
+          return null;
+        }
+        if (!m) return null;
+        if (o.rx) m.rotation.x = o.rx;
+        if (o.ry) m.rotation.y = o.ry;
+        if (o.rz) m.rotation.z = o.rz;
+        g.add(m);
+
+        /* 标签 */
+        if (o.lb) {
+          var lp = o.lp ? V(o.lp) : m.position.clone().add(new T.Vector3(0, o.ldy == null ? 0.34 : o.ldy, 0));
+          var sp2 = sprite(o.lb, o.lc || '#3f3a30', o.fs || 28, o.zz || 0.24);
+          sp2.position.copy(lp);
+          g.add(sp2);
+        }
+        /* 动画登记 */
+        if (o.an === 'pulse') st.anims.push({ type: 'pulse', m: m, ph: Math.random() * 6.28 });
+        else if (o.an === 'spin') st.anims.push({ type: 'spin', m: m, sp: o.sp || 0.9 });
+        /* 可点击 */
+        if (o.card) { m.userData.card = o.card; m.userData.home = m.scale.clone(); st.pick.push(m); }
+        return m;
+      }
+
+      /* ---------- 构建每一步 ---------- */
+      steps.forEach(function (st, si) {
+        var g = new T.Group();
+        g.visible = false;
+        sc.add(g);
+        st.g = g; st.pick = []; st.anims = []; st.enter = 1;
+        (spec.base || []).forEach(function (o) { buildObj(o, g, st); });
+        (st.objs || []).forEach(function (o) { buildObj(o, g, st); });
+      });
+
+      /* ---------- 相机补间 ---------- */
+      var tw = null;
+      function camTo(c) {
+        if (!c) return;
+        tw = {
+          t: 0, dur: 0.62,
+          f: { az: ctl.st.az, pol: ctl.st.pol, dist: ctl.st.dist, tx: ctl.tgt.x, ty: ctl.tgt.y, tz: ctl.tgt.z },
+          to: {
+            az: c.az == null ? ctl.st.az : c.az,
+            pol: c.pol == null ? ctl.st.pol : c.pol,
+            dist: c.dist == null ? ctl.st.dist : c.dist,
+            tx: c.tgt ? c.tgt[0] : ctl.tgt.x,
+            ty: c.tgt ? c.tgt[1] : ctl.tgt.y,
+            tz: c.tgt ? c.tgt[2] : ctl.tgt.z
+          }
+        };
+      }
+
+      /* ---------- 面板 / 步骤切换 ---------- */
+      function renderMath(root) {
+        if (!window.renderMathInElement || !root) return;
+        try {
+          window.renderMathInElement(root, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '\\(', right: '\\)', display: false },
+              { left: '$', right: '$', display: false }
+            ], throwOnError: false
+          });
+        } catch (e) {}
+      }
+      function hideCard() { cbox.classList.remove('on'); cbox.innerHTML = ''; }
+      /* 长公式自适应：迭代收敛缩字号，避免撑破右侧面板 */
+      function fitF() {
+        eF.style.fontSize = '';
+        var fs = parseFloat(window.getComputedStyle(eF).fontSize) || 13.5;
+        var base = fs;
+        for (var k = 0; k < 4; k++) {
+          var avail = eF.clientWidth, need = eF.scrollWidth;
+          if (avail < 40 || need <= avail + 1) return;
+          fs = Math.max(8, fs * (avail - 2) / need);
+          if (fs <= 8) { eF.style.fontSize = '8px'; return; }
+          eF.style.fontSize = fs + 'px';
+        }
+      }
+
+      function wrapF(s) {
+        s = (s || '').trim();
+        if (!s) return '';
+        if (/^\$\$[\s\S]*\$\$$/.test(s) || /^\\\([\s\S]*\\\)$/.test(s) || /^\$[\s\S]*\$$/.test(s)) return s;
+        return '$$' + s + '$$';
+      }
+      function go(i) {
+        i = Math.max(0, Math.min(steps.length - 1, i));
+        if (i === cur) return;
+        steps.forEach(function (s, j) { s.g.visible = (j === i); });
+        cur = i;
+        var st = steps[i];
+        st.enter = 0;
+        eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
+        eT.textContent = st.t || '';
+        eK.innerHTML = st.k || ''; eK.style.display = st.k ? '' : 'none';
+        eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
+        eD.innerHTML = st.d || '';
+        eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
+        eW.style.display = st.w ? '' : 'none';
+        bPrev.disabled = (i === 0);
+        bNext.disabled = (i === steps.length - 1);
+        camTo(st.cam);
+        hideCard(); renderMath(pn);
+        requestAnimationFrame(fitF); setTimeout(fitF, 260); setTimeout(fitF, 900);
+        dirty = true;
+      }
+      var cur = -1;
+      bPrev.addEventListener('click', function () { go(cur - 1); });
+      bNext.addEventListener('click', function () { go(cur + 1); });
+
+      /* ---------- 点击 / 悬停拾取 ---------- */
+      var ray = new T.Raycaster(), ndc = new T.Vector2();
+      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+
+      function hitAt(e) {
+        var st = steps[cur];
+        if (!st || !st.pick.length) return null;
+        var r = cw.getBoundingClientRect();
+        ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+        ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+        ray.setFromCamera(ndc, cam);
+        var hs = ray.intersectObjects(st.pick, true);
+        if (!hs.length) return null;
+        var o = hs[0].object;
+        while (o && !o.userData.card) o = o.parent;
+        return o && o.userData.card ? o : null;
+      }
+      function showCard(o) {
+        var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
+        if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
+        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + cd.formula + '</div>';
+        if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
+        if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
+        cbox.innerHTML = html;
+        cbox.classList.add('on');
+        renderMath(cbox);
+        var x = cbox.querySelector('.vz-card-x');
+        if (x) x.onclick = function (ev) { ev.stopPropagation(); hideCard(); };
+      }
+      function setHov(o) {
+        if (hov === o) return;
+        if (hov && hov.userData.home) hov.scale.copy(hov.userData.home);
+        hov = o;
+        if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
+        dirty = true;
+      }
+      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+      cw.addEventListener('pointermove', function (e) {
+        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        var now = performance.now();
+        if (now - hovT < 70 || moved) return;
+        hovT = now;
+        var o = hitAt(e);
+        setHov(o);
+        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+      });
+      cw.addEventListener('pointerup', function (e) {
+        if (moved) return;
+        var o = hitAt(e);
+        if (o) showCard(o); else hideCard();
+      });
+
+      /* ---------- 尺寸 ---------- */
+      function resize() {
+        var w = cw.clientWidth || 640, h = cw.clientHeight || 340;
+        ren.setSize(w, h, false);
+        cam.aspect = w / h; cam.updateProjectionMatrix();
+        dirty = true;
+      }
+      resize();
+      if (window.ResizeObserver) new ResizeObserver(resize).observe(cw);
+      else window.addEventListener('resize', resize);
+
+      /* ---------- 主循环 ---------- */
+      var vis = true;
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) dirty = true; }).observe(cw);
+      }
+      var last = performance.now(), tt = 0;
+      (function loop() {
+        requestAnimationFrame(loop);
+        if (!vis) return;
+        var now = performance.now(), dt = Math.min((now - last) / 1000, 0.05);
+        last = now; tt += dt;
+
+        /* 相机补间 */
+        if (tw) {
+          tw.t = Math.min(1, tw.t + dt / tw.dur);
+          var k = 1 - Math.pow(1 - tw.t, 3);
+          ctl.st.az = tw.f.az + (tw.to.az - tw.f.az) * k;
+          ctl.st.pol = tw.f.pol + (tw.to.pol - tw.f.pol) * k;
+          ctl.st.dist = tw.f.dist + (tw.to.dist - tw.f.dist) * k;
+          ctl.tgt.set(tw.f.tx + (tw.to.tx - tw.f.tx) * k,
+                      tw.f.ty + (tw.to.ty - tw.f.ty) * k,
+                      tw.f.tz + (tw.to.tz - tw.f.tz) * k);
+          ctl.apply();
+          if (tw.t >= 1) tw = null;
+        }
+        /* 当前步动画 */
+        var st = steps[cur];
+        if (st) {
+          if (st.enter < 1) {
+            st.enter = Math.min(1, st.enter + dt * 2.6);
+            var e1 = 1 - Math.pow(1 - st.enter, 3);
+            st.g.scale.setScalar(0.015 + 0.985 * e1);
+          }
+          for (var i = 0; i < st.anims.length; i++) {
+            var a = st.anims[i];
+            if (a.type === 'pulse') a.m.scale.setScalar(1 + 0.09 * Math.sin(tt * 2.2 + a.ph));
+            else if (a.type === 'spin') a.m.rotation.y += dt * a.sp;
+            else if (a.type === 'flow') {
+              a.m.children.forEach(function (sp) {
+                var p = (tt * a.spd + sp.userData.ph) % 1;
+                sp.position.lerpVectors(a.a, a.b, p);
+                sp.material.opacity = 0.2 + 0.8 * Math.sin(Math.PI * p);
+              });
+            }
+          }
+        }
+        ren.render(sc, cam);
+      })();
+
+      go(0);
+      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, cur: function () { return cur; } };
+      return window['__' + hostId];
     }
   };
 })();
@@ -3367,6 +3794,8 @@ return L;}),'noteFn':(function(t){return '定量四步：<b style="color:#0f766e
   return api;
 
   },{'maxN':4});
+
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':9.0,'pol':1.02,'az':0.72,'tgt':[0,0.1,0],'hud':"🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡",'steps':[{'t':"第 1 步 · (1) 装置接口：为什么是「长进短出」",'k':"设问「用 70% H₂SO₄ 与 Na₂SO₃ 制干燥 SO₂，净化与收集装置的接口顺序」",'f':"\\mathrm{H_2SO_4(70\\%)+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'d':"顺序：<b>发生装置 → 浓硫酸洗气瓶（长进短出，干燥）→ 饱和食盐水（短进长出，排液法收集）→ 碱石灰（尾气吸收）</b>。干燥瓶必须「长进短出」让气体穿过浓硫酸；收集瓶「短进长出」把液体从长管压出；SO₂ 有毒，末端必须吸收。",'w':"两个瓶子的进出方向是相反的——干燥瓶下沉、收集瓶上浮，写反了就扣分。",'cam':{'az':0.55,'pol':1.02,'dist':10.2,'tgt':[0,0.15,0]},'objs':[{'k':"box",'p':[-3.0,0.3,0],'sz':[0.66,0.95,0.66],'c':16096779,'op':0.28,'lb':"发生装置",'lp':[-3.0,1.16,0],'lc':"#1f2430",'card':{'cond':"70% 硫酸 + Na₂SO₃ 是<b>实验室制 SO₂</b> 的标准方法",'formula':"\\mathrm{H_2SO_4+Na_2SO_3\\to Na_2SO_4+SO_2\\uparrow+H_2O}",'think':"不用稀硫酸（浓度低、产气慢），也不用浓盐酸（引入 HCl 杂质）",'warn':"70% 是「较浓」而非「浓硫酸」，反应温和可控"}},{'k':"box",'p':[-1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':2450411,'op':0.28,'lb':"浓硫酸（长进短出）",'lp':[-1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"洗气瓶：气体<b>长管进、短管出</b>，穿过液体被干燥",'formula':"\\text{长进短出}",'think':"若短进长出，气体从液面上方走，等于没洗",'warn':"这是最常考的方向细节"}},{'k':"box",'p':[0,0.3,0],'sz':[0.66,0.95,0.66],'c':889992,'op':0.28,'lb':"饱和食盐水（短进长出）",'lp':[0,1.16,0],'lc':"#1f2430",'card':{'cond':"收集：气体<b>短进长出</b>，把液体从长管压出去",'formula':"\\text{短进长出（排液法）}",'think':"SO₂ 易溶但饱和食盐水可降低溶解损失",'warn':"方向与干燥瓶相反，别记混"}},{'k':"box",'p':[1.5,0.3,0],'sz':[0.66,0.95,0.66],'c':8141549,'op':0.28,'lb':"碱石灰（尾气）",'lp':[1.5,1.16,0],'lc':"#1f2430",'card':{'cond':"SO₂ 有毒且酸性 ⇒ 用碱石灰吸收尾气",'formula':"\\mathrm{SO_2+2NaOH\\to Na_2SO_3+H_2O}",'think':"末端吸收是安全底线，不能省",'warn':"此处不是「排水」，是「吸收」"}},{'k':"arrow",'a':[-2.62,0.3,0],'b':[-1.86,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[-1.12,0.3,0],'b':[-0.36,0.3,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.36,0.3,0],'b':[1.12,0.3,0],'c':"#94a3b8"},{'k':"label",'p':[0,-0.7,0],'lb':"发生 → 干燥 → 收集 → 尾气",'c':"#1f2430"}]},{'t':"第 2 步 · (2) 现象：白色沉淀 + 瓶底微灰 = 两条反应路",'k':"题干「产生大量白色沉淀，瓶底沉淀略显灰色」",'f':"\\mathrm{SO_2+2AgNO_3+H_2O=Ag_2SO_3\\downarrow+2HNO_3}",'d':"<b>白色</b>沉淀是复分解路生成的 Ag₂SO₃；<b>灰色</b>是氧化还原路还原出的银单质：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺。同一瓶里两条路<b>同时</b>发生。",'w':"只写复分解会漏掉灰色；「略显灰色」就是命题人给的第二个反应的线索。",'cam':{'az':0.6,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-0.9,-0.25,0],'sz':[0.5,0.35,0.5],'c':"#e2e8f0",'op':0.95,'lb':"Ag₂SO₃ 白色沉淀",'lp':[-0.9,0.15,0],'lc':"#475569",'card':{'cond':"复分解路：S 保持 +4 价，生成<b>白色</b> Ag₂SO₃",'formula':"\\mathrm{SO_2+2Ag^++H_2O\\to Ag_2SO_3\\downarrow+2H^+}",'think':"Ag₂SO₃ 难溶（Ksp=1.5×10⁻¹⁴），先析出",'warn':"它溶于浓氨水生成 [Ag(NH₃)₂]⁺——这是优化方案的抓手"}},{'k':"ball",'p':[0.5,-0.25,0],'r':0.13,'c':"#94a3b8",'an':"pulse",'lb':"Ag 灰黑色",'lp':[0.5,0.22,0],'lc':"#475569",'card':{'cond':"氧化还原路：S 从 +4 升到 +6，<b>Ag⁺ 被还原</b>成 Ag",'formula':"\\mathrm{SO_2+2Ag^++2H_2O=2Ag\\downarrow+SO_4^{2-}+4H^+}",'think':"SO₂ 有还原性，遇到氧化性 Ag⁺ 就还原它",'warn':"这一步同时产生 SO₄²⁻，第 4 步要用到"}},{'k':"arrow",'a':[-1.65,0.55,0],'b':[-1.05,0.1,0],'c':"#0d9488",'lb':"复分解",'lp':[-1.6,0.9,0],'lc':"#0f766e"},{'k':"arrow",'a':[0.05,0.55,0],'b':[0.42,0.05,0],'c':"#b45309",'lb':"氧化还原",'lp':[0.1,0.92,0],'lc':"#b45309"},{'k':"label",'p':[-0.2,-1.1,0],'lb':"白色 + 灰色 ⇒ 两条路并行",'c':"#1f2430"}]},{'t':"第 3 步 · 检验：红棕色 NO₂ 验银，BaCl₂ 验硫酸根",'k':"设问「灰黑固体加浓硝酸产生红棕色气体说明什么」「上层清液滴 BaCl₂ 变浑浊说明什么」",'f':"\\mathrm{Ag+2HNO_3(浓)\\to AgNO_3+NO_2\\uparrow+H_2O}",'d':"① 红棕色、有刺激性气味的气体是 <b>NO₂</b> ⇒ 固体中含<b>银</b>（被硝酸氧化）。② 加过量盐酸后取上层清液滴 BaCl₂，产生<b>白色沉淀 BaSO₄</b> ⇒ 溶液含 <b>SO₄²⁻</b>，它正是氧化还原路产生的。",'w':"「加过量盐酸」是为了先除去 Ag⁺（否则 AgCl 也会是白色沉淀），这一步不能省。",'cam':{'az':0.58,'pol':1.0,'dist':8.2,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.2,0.3,0],'r':0.16,'c':"#94a3b8",'lb':"灰黑固体（含 Ag）",'lp':[-1.2,0.82,0],'lc':"#475569",'card':{'cond':"浓硝酸溶解 + 红棕色气体 ⇒ <b>含 Ag</b>",'formula':"\\mathrm{Ag+2HNO_3\\to AgNO_3+NO_2\\uparrow+H_2O}",'think':"能被浓硝酸氧化成 NO₂ 的活泼金属/银都很典型",'warn':"NO 是无色的，红棕色才是 NO₂"}},{'k':"flow",'a':[-0.75,0.55,0],'b':[0.25,1.15,0],'c':"#dc2626",'n':8,'spd':0.36,'r':0.055},{'k':"label",'p':[0.55,1.5,0],'lb':"NO₂ 红棕色 ↑",'c':"#b91c1c"},{'k':"ball",'p':[1.5,0.3,0],'r':0.16,'c':"#0d9488",'an':"pulse",'lb':"BaSO₄ 白色沉淀",'lp':[1.5,0.82,0],'lc':"#0f766e",'card':{'cond':"加过量盐酸后再滴 BaCl₂ ⇒ 白色沉淀 ⇒ 含 <b>SO₄²⁻</b>",'formula':"\\mathrm{Ba^{2+}+SO_4^{2-}\\to BaSO_4\\downarrow}",'think':"先除 Ag⁺ 避免 AgCl 干扰，再验 SO₄²⁻",'warn':"顺序颠倒就会被 AgCl 假阳性骗到"}},{'k':"label",'p':[0,-0.55,0],'lb':"① NO₂ ⇒ 有 Ag　② BaCl₂ ⇒ 有 SO₄²⁻",'c':"#1f2430"}]},{'t':"第 4 步 · (2)③ 为什么没有 Ag₂SO₄：算 Q 比 Ksp",'k':"题干「Ksp(Ag₂SO₄)=1.4×10⁻⁵」；设问「沉淀中是否含 Ag₂SO₄」",'f':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})=0.01\\,c(\\mathrm{SO_4^{2-}})<1.4\\times10^{-5}",'d':"c(Ag⁺)=0.1 ⇒ c²(Ag⁺)=0.01。要让 Ag₂SO₄ 沉淀需 Q > Ksp，即 c(SO₄²⁻) > <b>1.4×10⁻³ mol/L</b>；而氧化还原路产生的 SO₄²⁻ 远达不到这个量级 ⇒ <b>Q &lt; Ksp</b>，不沉淀。答案填「&lt;」。",'w':"判据是 Q 与 Ksp 比较，不是「有没有 SO₄²⁻」——有也不一定沉。",'cam':{'az':0.55,'pol':0.98,'dist':8.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.4,-0.5,0],'b':[2.4,-0.5,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.2,-0.9,0],'lb':"c(SO₄²⁻) ↑",'c':"#64748b"},{'k':"seg",'a':[-2.4,0.55,0],'b':[2.4,0.55,0],'c':"#f59e0b",'w':0.035,'lb':"Ksp = 1.4×10⁻⁵",'lp':[2.0,0.95,0],'lc':"#b45309"},{'k':"poly",'pts':[[-2.4,-1.2,0],[-0.6,-0.75,0],[1.2,-0.15,0]],'c':"#2563eb",'r':0.04,'lb':"Q 实际增长（远低于 Ksp）",'lp':[0.9,-0.95,0],'lc':"#1d4ed8",'card':{'cond':"Q < Ksp ⇒ <b>不产生沉淀</b>",'formula':"Q=c^2(\\mathrm{Ag^+})\\cdot c(\\mathrm{SO_4^{2-}})",'think':"被氧化出来的 SO₄²⁻ 浓度太低，够不到 1.4×10⁻³",'warn':"别把「含有 SO₄²⁻」直接当成「会沉 Ag₂SO₄」"}},{'k':"label",'p':[1.6,-0.15,0],'lb':"实际够不到交点",'c':"#b91c1c"},{'k':"label",'p':[0,-1.7,0],'lb':"答：Q < Ksp（不含 Ag₂SO₄）",'c':"#0f766e"}]},{'t':"第 5 步 · (2)④(3) 速率比 + 先配位后通气的优化",'k':"设问「两路消耗 SO₂ 的速率比」「如何提高银的回收率」",'f':"\\Delta n_{\\text{复}}:\\Delta n_{\\text{氧}}=27(m-m_2):(37m_2-27m)",'d':"设 n₁=n(Ag₂SO₃)、n₂=n(Ag)：质量式 296n₁+108n₂=m，银质量式 216n₁+108n₂=m₂，相减得 80n₁=m−m₂。氧化还原路耗 SO₂ = n₂/2，联立即得速率比。优化：<b>先加足量氨水</b>把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺（c(Ag⁺) 降到极小）⇒ 复分解被抑制，SO₂ 只走氧化还原路 ⇒ 过滤即得银。",'w':"「先配位再通气」的本质是压低 c(Ag⁺) 卡死复分解路，而不是把 SO₂ 吸收掉。",'cam':{'az':0.6,'pol':1.0,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.9,0.35,0],'sz':[0.95,0.8,0.8],'c':"#0ea5e9",'op':0.88,'lb':"复分解路 耗 n₁",'lp':[-1.9,1.05,0],'lc':"#0369a1",'card':{'cond':"复分解：1 个 SO₂ 生成 1 个 Ag₂SO₃",'formula':"n(\\mathrm{SO_2})_{\\text{复}}=n_1",'think':"硫守恒，直接 1:1",'warn':"别把它和氧化还原路搞混"}},{'k':"box",'p':[-0.5,0.35,0],'sz':[0.95,0.8,0.8],'c':"#b45309",'op':0.88,'lb':"氧化还原路 耗 n₂/2",'lp':[-0.5,1.05,0],'lc':"#b45309",'card':{'cond':"氧化还原：1 个 SO₂ 生成 2 个 Ag ⇒ 耗 SO₂ = n₂/2",'formula':"n(\\mathrm{SO_2})_{\\text{氧}}=n_2/2",'think':"2Ag⁺ 才能吃 1 个 SO₂ 的两个电子",'warn':"系数 1/2 最容易漏"}},{'k':"arrow",'a':[0.05,0.35,0],'b':[0.75,0.35,0],'c':"#0f766e",'lb':"联立消元",'lp':[0.4,0.8,0],'lc':"#0f766e"},{'k':"ball",'p':[1.35,0.35,0],'r':0.17,'c':"#0d9488",'an':"pulse",'lb':"27(m−m₂) : (37m₂−27m)",'lp':[1.35,0.95,0],'lc':"#0f766e"},{'k':"flow",'a':[-2.2,-0.9,0],'b':[-0.2,-0.9,0],'c':"#7c3aed",'n':8,'spd':0.34,'r':0.055},{'k':"label",'p':[0.9,-0.9,0],'lb':"先加氨水 ⇒ c(Ag⁺)↓ ⇒ 复分解被抑制",'c':"#6d28d9"},{'k':"label",'p':[0,-1.6,0],'lb':"优化：先氨配位，再通净化后的 SO₂",'c':"#0f766e"}]}]});
 </script>
 <script>
 
