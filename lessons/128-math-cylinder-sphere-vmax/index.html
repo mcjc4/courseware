@@ -411,6 +411,147 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .viz3d-hud,.viz3d-note{position:absolute;pointer-events:none;font-size:11.5px;color:#8f8877;line-height:1.5}
 .viz3d-hud{left:10px;top:8px;background:rgba(255,255,255,.86);padding:3px 10px;border-radius:999px;border:1px solid #e6e2d8}
 .viz3d-note{left:10px;bottom:8px;background:rgba(255,255,255,.88);padding:4px 10px;border-radius:8px;border:1px solid #e6e2d8}
+
+/* ===== 题眼翻译 SIG-VER 20261019a ===== */
+.sig-wrap{margin:.7em 0 .2em;padding:.7em .85em;background:#f8fafc;border:1px solid #dbe3ef;border-radius:12px}
+.sig-ttl{font-weight:600;color:#1f2430;margin:0 0 .45em}
+.sig-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.sig-tbl th,.sig-tbl td{border:1px solid #dbe3ef;padding:.45em .6em;text-align:left;vertical-align:top;line-height:1.65}
+.sig-tbl th{background:#eef2f9;color:#1f2430;font-weight:600;width:34%}
+.sig-tbl td b{color:#1d4ed8}
+.sig-line{margin:.5em 0 .3em;padding:.5em .75em;border-left:3px solid #2563eb;background:#eff6ff;border-radius:0 8px 8px 0;font-weight:600;line-height:1.7}
+.sig-line i{font-style:normal;color:#1d4ed8}
+
+/* ===== 解题沙盘 STAGE-VER 20261019d ===== */
+.viz3d.vz-on{display:block!important;height:auto!important;background:transparent!important;border:0!important;padding:0!important}
+#sandbox{margin:26px 0}
+#sandbox .sb-sub{color:#64748b;font-size:13.5px;margin:.2em 0 .6em}
+#vizS{height:auto}
+.vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
+.vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
+.vz-canvas.grabbing{cursor:grabbing}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.82);padding:3px 8px;border-radius:8px;max-width:92%}
+.vz-panel{flex:0 0 342px;display:flex;flex-direction:column;background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;height:clamp(290px,34vw,430px)}
+.vz-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
+.vz-body::-webkit-scrollbar{width:6px}.vz-body::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+.vz-head{flex:none;padding:11px 14px 9px;border-bottom:1px solid #eef2f7;background:#fbfcfe}
+.vz-idx{font-size:12px;font-weight:600;color:#2563eb}
+.vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5;margin-top:3px}
+.vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
+.vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
+.vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
+.vz-bridge{font-size:11.5px;font-weight:600;color:#94a3b8;margin:.3em 0 .2em 3px}
+.vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
+.vz-d{font-size:13px;color:#475569;line-height:1.7}
+.vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
+.vz-nav{flex:none;display:flex;gap:8px;padding:8px 12px;border-top:1px solid #eef2f7;background:#fbfcfe}
+.vz-nav button{flex:1;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;border:1px solid #cbd5e1;background:#fff;color:#1f2430;padding:.5em .4em;transition:.18s}
+.vz-nav button:hover:not(:disabled){background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
+.vz-nav button:disabled{opacity:.42;cursor:not-allowed}
+/* —— 常驻知识卡：沙盘下方整行铺开，不用点不用翻 —— */
+.vz-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(318px,1fr));gap:10px;margin-top:10px}
+.vz-cards-h{grid-column:1/-1;font-size:12.5px;font-weight:700;color:#1d4ed8;display:flex;justify-content:space-between;align-items:baseline;gap:8px;line-height:1.5;border-bottom:1px dashed #dbe6f6;padding-bottom:6px}
+.vz-cards-h span{font-weight:600;color:#94a3b8;font-size:11px;white-space:nowrap}
+.vz-cw{display:flex;gap:9px;border:1px solid #e6edf7;background:#fbfdff;border-radius:11px;padding:10px 11px;transition:box-shadow .25s,border-color .25s,background .25s}
+.vz-cw.hi{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.vz-ci{flex:none;width:19px;height:19px;border-radius:50%;background:#2563eb;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;line-height:1}
+.vz-cb{flex:1 1 auto;min-width:0}
+.vz-ct{font-size:12.5px;font-weight:700;color:#334155;margin-bottom:.15em}
+.vz-c-b{font-size:13px;color:#334155;line-height:1.68}
+.vz-c-f{text-align:left;font-size:12.5px;margin:.12em 0;overflow-x:auto;overflow-y:hidden;line-height:1.9}
+.vz-c-t{font-size:12px;color:#64748b;line-height:1.62;margin-top:.26em}
+.vz-c-t b{color:#94a3b8;font-weight:700;margin-right:4px}
+.vz-c-w{font-size:12px;color:#b45309;line-height:1.62;margin-top:.2em}
+.vz-c-w b{color:#d97706;font-weight:700;margin-right:4px}
+@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto;height:auto}.vz-body{max-height:56vh}.vz-cards{grid-template-columns:1fr}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
+/* 题干原文（可折叠） */
+.stem-src{margin:.55em 0 .2em;border:1px dashed #dbe3ef;border-radius:12px;background:#fbfcff;
+  padding:.5em .85em}
+.stem-src>summary{cursor:pointer;font-weight:600;color:#1d4ed8;font-size:13.5px;list-style:none;
+  outline:none}
+.stem-src>summary::-webkit-details-marker{display:none}
+.stem-src>summary::before{content:"▸ ";color:#94a3b8}
+.stem-src[open]>summary::before{content:"▾ "}
+.ss-body{margin-top:.45em;font-size:14px;line-height:1.9;color:#334155}
+.ss-body b{color:#1f2430;font-weight:600}
+
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+.prob-img-img{cursor:zoom-in}
+.pz-mask{position:fixed;inset:0;z-index:999999;display:none;background:rgba(12,18,30,.9);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);touch-action:none;
+  overscroll-behavior:contain}
+.pz-mask.on{display:block}
+.pz-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none}
+.pz-img{width:auto;height:auto;max-width:94vw;max-height:88vh;border-radius:10px;background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);transform-origin:center center;
+  will-change:transform;cursor:grab;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none}
+.pz-img.grabbing{cursor:grabbing}
+.pz-x{position:absolute;right:16px;top:14px;z-index:2;width:40px;height:40px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:18px;
+  line-height:1;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-x:hover{background:rgba(255,255,255,.28)}
+.pz-tools{position:absolute;left:16px;top:16px;z-index:2;display:flex;gap:8px}
+.pz-tools button{min-width:40px;height:36px;border:1px solid rgba(255,255,255,.28);
+  border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-tools button:hover{background:rgba(255,255,255,.26)}
+.pz-hint{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;
+  color:rgba(255,255,255,.72);font-size:12.5px;pointer-events:none}
+@media(max-width:620px){.pz-hint{font-size:11.5px;bottom:10px}
+  .pz-img{max-width:96vw;max-height:82vh}}
 </style>
 </head>
 
@@ -510,9 +651,27 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
 
+      <details class="stem-src"><summary>📄 题干原文（文字版 · 下面每一处「看到题干」都逐字引自这里）</summary><div class="ss-body">已知圆柱 OO₁，点 P 是上底面圆周上的一个动点，点 A、B、C 在下底面的圆周上，且满足 AB=2，∠ACB=30°。三棱锥 P-ABC 外接球的表面积为 52π，则三棱锥 P-ABC 体积的最大值为______。</div></details>
       <p><b>人话翻译</b>：圆柱里躺着一个三棱锥——底面三角形由「定弦 + 定圆周角」定出底面半径，外接球表面积把圆柱的高锁死；最后让顶点 \(C\) 在圆上滑动，把底面积撑到最大。</p>
       <p>已知圆柱 \(OO_1\)，点 \(P\) 是上底面圆周上的一个动点，点 \(A\)、\(B\)、\(C\) 在下底面的圆周上，且满足 \(AB=2\)，\(\angle ACB=30^\circ\)。三棱锥 \(P-ABC\) 外接球的表面积为 \(52\pi\)，则三棱锥 \(P-ABC\) 体积的最大值为______。</p>
       <p><b>答案</b>：\(4+2\sqrt3\)</p>
+      <div class="sig-wrap">
+<div class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</div>
+<table class="sig-tbl">
+<thead><tr>
+<th>题干这句话（原文照抄）</th>
+<th>意味着什么样的条件 / 结论</th>
+</tr></thead>
+<tbody>
+<tr><td>「A、B、C 在下底面的圆周上」</td><td>⇒ ⇒ \(A,B,C\) 都在底面圆上 ⇒ <b>\(\triangle ABC\) 的外接圆就是底面圆</b>，半径 \(R\) 直接由正弦定理定出</td></tr>
+<tr><td>「AB=2，∠ACB=30°」</td><td>⇒ ⇒ 弦 \(AB\) 与所对圆周角已知 ⇒ \(2R=\dfrac{AB}{\sin\angle ACB}=\dfrac{2}{1/2}=4\) ⇒ <b>\(R=2\)</b>（底面圆半径定死）</td></tr>
+<tr><td>「点 P 是上底面圆周上的一个动点」</td><td>⇒ ⇒ \(P\) 在<b>上底面圆</b>上动 ⇒ \(P\) 到底面的距离恒为<b>柱高 \(h\)</b>（棱锥的高不变）</td></tr>
+<tr><td>「三棱锥 P-ABC 外接球的表面积为 52π」</td><td>⇒ ⇒ \(4\pi\rho^2=52\pi\) ⇒ \(\rho^2=13\)；球心在中轴中点 ⇒ \(\rho^2=R^2+\left(\frac h2\right)^2\) ⇒ \(h=6\)</td></tr>
+<tr><td>「三棱锥 P-ABC 体积的最大值」</td><td>⇒ ⇒ \(V=\frac13 S_{\triangle ABC}\cdot h\)，\(h\) 已定 ⇒ <b>只需最大化底面积</b></td></tr>
+<tr><td>「体积的最大值」</td><td>⇒ ⇒ \(\triangle ABC\) 的 \(AB\) 定长、\(C\) 在圆上动 ⇒ \(C\) 到 \(AB\) 的距离最大时面积最大 ⇒ \(S_{\max}=2+\sqrt3\)</td></tr>
+</tbody>
+</table>
+</div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -522,52 +681,48 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🎯</span><span class="c-title">① 正弦定理定半径：r=2 <span style="color:var(--accent)">★本题钥匙①</span></span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$2R=\frac{AB}{\sin\angle ACB}=\frac{2}{1/2}=4\ \Rightarrow\ R=2$$</div>
-        <p>下底面圆就是 \(\triangle ABC\) 的外接圆 ⇒ 圆柱底面半径 \(r=2\)。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">⚽</span><span class="c-title">② 轴截面模型：球心居中 <span style="color:var(--accent)">★本题钥匙②</span></span><span class="c-tag">20 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$R_s^2=r^2+\left(\tfrac{h}{2}\right)^2$$</div>
-        <p>球心在两底面圆心连线的中点——水平 \(r\)、竖直 \(h/2\) 的勾股。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🧮</span><span class="c-title">③ 表面积翻译：R_s²=13</span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$52\pi=4\pi R_s^2\ \Rightarrow\ R_s^2=13\ \Rightarrow\ 4+\tfrac{h^2}{4}=13\ \Rightarrow\ h=6$$</div>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">📈</span><span class="c-title">④ 面积最大：R+弦心距</span><span class="c-tag">25 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>\(C\) 在圆上动，\(AB=2\) 定弦：</p>
-        <div class="formula-box">$$d_{\max}=R+\sqrt{R^2-\left(\tfrac{AB}{2}\right)^2}=2+\sqrt3$$</div>
-        <p>\(S_{\max}=\tfrac12\cdot2\cdot(2+\sqrt3)=2+\sqrt3\)。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">📦</span><span class="c-title">⑤ 体积收口</span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$V_{\max}=\tfrac13\cdot(2+\sqrt3)\cdot6=4+2\sqrt3$$</div>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">✅</span><span class="c-title">⑥ 数值自检</span><span class="c-tag">10 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>\(4+2\sqrt3\approx7.46\)：\(\tfrac13\cdot3.73\cdot6\approx7.46\) ✓ 量纲、数量级都合理。</p>
-        </div></div>
-      </div>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">01</div>
+<div class="cx-t">正弦定理：弦 + 圆周角 ⇒ 半径</div>
+<div class="cx-sub">R = AB ÷ (2sin∠ACB)</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="40.0" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">弦 AB=2</text></g><path d="M77.5 55.0 L92.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M92.5 55.0 L89.0 56.9 L89.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="94.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="130.0" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">∠ACB=30°</text></g><path d="M167.5 55.0 L182.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M182.5 55.0 L179.0 56.9 L179.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="184.0" y="36" width="72.0" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="220.0" y="49.730000000000004" font-size="8.5" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">2R</text><text x="220.0" y="60.27" font-size="8.5" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">= AB/sinC ⇒ R=2</text></g><text x="130" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">外接圆半径</text></svg></div>
+<div class="cx-d">同一个圆里，一条弦的长度和它所对的圆周角成固定比例：\(\dfrac{AB}{\sin\angle ACB}=2R\)。所以只要「一条弦 + 一个对角」，圆的半径就定了——这是把「圆」翻译成数字的最快通道。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 \(\dfrac{2}{\sin30^\circ}=4\) ⇒ 底面圆半径 \(R=2\)。</div>
+</div>
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">02</div>
+<div class="cx-t">外接球：球心必在中轴中点</div>
+<div class="cx-sub">上下一对称，球心只能在正中间</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="72.0" height="38" rx="9" fill="#7c3aed" fill-opacity=".1" stroke="#7c3aed" stroke-width="1.3"/><text x="40.0" y="55.0" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="600" dominant-baseline="middle">球心在中轴</text></g><path d="M77.5 55.0 L92.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M92.5 55.0 L89.0 56.9 L89.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="94.0" y="36" width="72.0" height="38" rx="9" fill="#7c3aed" fill-opacity=".1" stroke="#7c3aed" stroke-width="1.3"/><text x="130.0" y="48.18" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="600" dominant-baseline="middle">ρ²=R²+</text><text x="130.0" y="61.82" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="600" dominant-baseline="middle">(h/2)²</text></g><path d="M167.5 55.0 L182.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M182.5 55.0 L179.0 56.9 L179.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="184.0" y="36" width="72.0" height="38" rx="9" fill="#7c3aed" fill-opacity=".1" stroke="#7c3aed" stroke-width="1.3"/><text x="220.0" y="48.18" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="600" dominant-baseline="middle">ρ²=13</text><text x="220.0" y="61.82" font-size="11" fill="#7c3aed" text-anchor="middle" font-weight="600" dominant-baseline="middle">⇒ h=6</text></g><text x="130" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">勾股定高</text></svg></div>
+<div class="cx-d">圆柱上下两个底面圆关于中截面对称，所以同时套住这两个圆的球，<b>球心一定落在中轴的中点</b>。于是球半径 \(\rho\)、底面半径 \(R\)、半高 \(\frac h2\) 构成直角三角形。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 \(\rho^2=13\)、\(R^2=4\) ⇒ \(\left(\frac h2\right)^2=9\) ⇒ \(h=6\)，棱锥的高就出来了。</div>
+</div>
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">03</div>
+<div class="cx-t">体积只跟底面积有关</div>
+<div class="cx-sub">高被圆柱锁死，只剩底面积可疑</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="72.0" height="38" rx="9" fill="#f59e0b" fill-opacity=".1" stroke="#f59e0b" stroke-width="1.3"/><text x="40.0" y="48.18" font-size="11" fill="#f59e0b" text-anchor="middle" font-weight="600" dominant-baseline="middle">V</text><text x="40.0" y="61.82" font-size="11" fill="#f59e0b" text-anchor="middle" font-weight="600" dominant-baseline="middle">= ⅓·S底·h</text></g><path d="M77.5 55.0 L92.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M92.5 55.0 L89.0 56.9 L89.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="94.0" y="36" width="72.0" height="38" rx="9" fill="#f59e0b" fill-opacity=".1" stroke="#f59e0b" stroke-width="1.3"/><text x="130.0" y="55.0" font-size="11" fill="#f59e0b" text-anchor="middle" font-weight="600" dominant-baseline="middle">h 已定</text></g><path d="M167.5 55.0 L182.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M182.5 55.0 L179.0 56.9 L179.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="184.0" y="36" width="72.0" height="38" rx="9" fill="#f59e0b" fill-opacity=".1" stroke="#f59e0b" stroke-width="1.3"/><text x="220.0" y="55.0" font-size="11" fill="#f59e0b" text-anchor="middle" font-weight="600" dominant-baseline="middle">最大化 S底</text></g><text x="130" y="94" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">变量分离</text></svg></div>
+<div class="cx-d">三棱锥体积 \(V=\frac13 S h\)。本题里 \(P\) 在上底面圆周上动，到底面的距离<b>始终等于柱高</b>，所以 \(h\) 是常数——整个最值问题只剩一个变量：底面积 \(S_{\triangle ABC}\)。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 \(h=6\)，于是 \(V_{\max}=2S_{\max}=2(2+\sqrt3)=4+2\sqrt3\)。</div>
+</div>
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">04</div>
+<div class="cx-t">动点在圆上：到定弦的距离</div>
+<div class="cx-sub">最远点是「圆心垂线」穿过圆的点</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect x="6" y="10" width="118" height="80" rx="10" fill="#16a34a" fill-opacity=".07" stroke="#16a34a" stroke-width="1.3"/><text x="65" y="36.0" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">C 在圆心垂线上</text><rect x="30" y="58" width="70" height="19" rx="9" fill="#16a34a" fill-opacity=".13"/><text x="65" y="61.61" font-size="9.5" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">✓</text><text x="65" y="73.39" font-size="9.5" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">距离 = R + d</text><rect x="136" y="10" width="118" height="80" rx="10" fill="#e11d48" fill-opacity=".07" stroke="#e11d48" stroke-width="1.3"/><text x="195" y="36.0" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">C 随便取</text><rect x="160" y="58" width="70" height="19" rx="9" fill="#e11d48" fill-opacity=".13"/><text x="195" y="61.61" font-size="9.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">✗</text><text x="195" y="73.39" font-size="9.5" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">距离 < R + d</text><text x="130" y="103" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">同一个考点，两种写法</text></svg></div>
+<div class="cx-d">圆上一点到一条定弦的距离，最大值为 \(R+d\)（\(d\) 是圆心到弦的距离），最小值为 \(R-d\)。取到的位置，就是过圆心作弦的垂线、再延长到圆周的那个点。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 \(d=\sqrt{R^2-\left(\frac{AB}{2}\right)^2}=\sqrt3\) ⇒ 最大距离 \(2+\sqrt3\) ⇒ \(S_{\max}=2+\sqrt3\)。</div>
+</div>
+</div>
     </section>
+
+  <section id="sandbox">
+    <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>，并把画面里每个带编号物体对应的<b>知识卡直接摊开在下方</b>（不用点也能看全）。点一下带 ①②③ 的物体，面板会自动滚到并高亮那张卡。</p>
+    <div class="viz3d" id="vizS"><canvas></canvas></div>
+  </section>
+  
 
   <!--pnid:prx6ejADRbE0BpCD8IaASQ--><!-- ✏️【分步解题区】一问一个 section，复制本段可做第二问 / 第三问（记得改 id 与徽章键名）。
        .step 默认折叠，第一张加 class="on" 默认展开；按钮文案自动变成"下一步（i/n）→"。
@@ -578,12 +733,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">🎯 圆周角 + 弦 → 外接圆</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「AB=2，∠ACB=30°」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>弦与对角已知 ⇒ 用<b>正弦定理</b> \(\dfrac{AB}{\sin C}=2R\) 求外接圆半径，得 \(R=2\)——这正是底面圆的半径，圆柱的形状从此定了一半。</div></div>
         <p>\(A\)、\(B\)、\(C\) 都在下底面圆周上：\(\triangle ABC\) 的外接圆<b>就是</b>下底面圆。正弦定理一步：</p>
         <div class="formula-box">$$2R=\frac{AB}{\sin\angle ACB}=\frac{2}{\tfrac12}=4\ \Rightarrow\ r=R=2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">⚽ 轴截面模型预备</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「点 A、B、C 在下底面的圆周上」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(A,B,C\) 都在底面圆上 ⇒ \(\triangle ABC\) 的外接圆<b>就是</b>底面圆 ⇒ 刚算的 \(R=2\) 不是三角形自己的半径，而是圆柱底面半径。</div></div>
         <p>\(P\) 在上底圆周、\(ABC\) 在下底圆周——图形关于中截面对称，<b>外接球心必在两底面圆心 \(O_1O\) 的连线上</b>（到上、下底面圆周各点等距）。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
@@ -606,12 +763,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">🧮 勾股拼半径</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「三棱锥 P-ABC 外接球的表面积为 52π」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>球面面积给的是球半径：\(4\pi\rho^2=52\pi\) ⇒ \(\rho^2=13\)；球心在中轴中点 ⇒ \(\rho^2=R^2+\left(\frac h2\right)^2\) ⇒ 反解出柱高 \(h=6\)。</div></div>
         <p>球心在连线中点：到 \(P\)（或任意下底圆周点）的距离满足</p>
         <div class="formula-box">$$R_s^2=r^2+\left(\tfrac{h}{2}\right)^2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 解出 h</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「点 P 是上底面圆周上的一个动点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(P\) 在上底面圆周上 ⇒ <b>到底面的距离恒为柱高</b> \(h\) ⇒ 棱锥的高是常数，只要求出 \(h\)，体积就只差底面积。</div></div>
         <p>表面积 \(52\pi=4\pi R_s^2\Rightarrow R_s^2=13\)：</p>
         <div class="formula-box">$$4+\tfrac{h^2}{4}=13\ \Rightarrow\ h^2=36\ \Rightarrow\ h=6$$</div>
       </div></div>
@@ -633,12 +792,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">📈 压成一元问题</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「三棱锥 P-ABC 体积的最大值」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(V=\frac13 S_{\triangle ABC}\cdot h\)，\(h=6\) 已定 ⇒ 问题化成「\(C\) 在圆上动，底面积最大是多少」，而 \(S=\frac12|AB|\cdot d(C,AB)\) ⇒ 只需让 \(C\) 到 \(AB\) 最远。</div></div>
         <p>\(V=\tfrac13\cdot S_{\triangle ABC}\cdot h\)，\(h=6\) 已定 ⇒ 只需 \(S\) 最大。\(S=\tfrac12\cdot AB\cdot d(C,AB)\)，\(AB=2\) 定弦：</p>
         <div class="formula-box">$$d_{\max}=R+\sqrt{R^2-1}=2+\sqrt3$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 收口</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「AB=2，∠ACB=30°」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(AB\) 定长 ⇒ 圆心到 \(AB\) 的距离 \(d=\sqrt{2^2-1^2}=\sqrt3\) ⇒ \(C\) 到 \(AB\) 的最大距离 \(R+d=2+\sqrt3\) ⇒ \(S_{\max}=2+\sqrt3\) ⇒ \(V_{\max}=4+2\sqrt3\)。</div></div>
         <div class="formula-box">$$S_{\max}=2+\sqrt3\quad\Rightarrow\quad V_{\max}=\tfrac13(2+\sqrt3)\cdot6=\boxed{4+2\sqrt3}$$</div>
         <div class="note">\(C\) 取到弦 \(AB\) 对面的圆周「顶点」时距离最大——这是定弦动点问题的标准极值位置。</div>
       </div></div>
@@ -3119,12 +3280,40 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 可点物体的编号徽章（蓝底白字圆圈）：和右侧常驻知识卡的 ①②③ 一一对应，
+     让「这里能点」在画面上直接看得见，不必靠试。 */
+  function badge(n) {
+    var S = 64, dpr = 2;
+    var c = document.createElement('canvas');
+    c.width = S * dpr; c.height = S * dpr;
+    var g = c.getContext('2d');
+    g.scale(dpr, dpr);
+    g.beginPath(); g.arc(S / 2, S / 2, S / 2 - 3, 0, Math.PI * 2);
+    g.fillStyle = '#2563eb'; g.fill();
+    g.lineWidth = 4; g.strokeStyle = '#ffffff'; g.stroke();
+    g.fillStyle = '#ffffff';
+    g.font = '700 36px "Microsoft YaHei","PingFang SC",sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(String(n), S / 2, S / 2 + 1);
+    var tx = new T.CanvasTexture(c); tx.needsUpdate = true;
+    var sp = new T.Sprite(new T.SpriteMaterial({ map: tx, transparent: true, depthTest: false }));
+    sp.scale.set(0.34, 0.34, 1);
+    sp.renderOrder = 30;
+    return sp;
+  }
+
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
+    /* 缩放范围按「初始机位」相对限定：手机上两指一张就能拉 3~10 倍，
+       绝对上下限会把画面顶出画框（2026-10-19 修） */
+    var dMin = o.dmin != null ? o.dmin : Math.max(1.1, d0 * 0.5);
+    var dMax = o.dmax != null ? o.dmax : Math.max(d0 * 2.2, 6);
+    function clampD(d) { return Math.min(Math.max(d, dMin), dMax); }
     function apply() {
       var sp = Math.sin(st.pol);
       cam.position.set(tgt.x + st.dist * sp * Math.sin(st.az),
@@ -3134,27 +3323,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = clampD(dist0 * pinchD0 / d);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
-      st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
+      st.dist = clampD(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)));
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3167,6 +3406,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3243,6 +3483,517 @@ document.addEventListener('DOMContentLoaded',function(){
       sliders.forEach(function (s) { s.addEventListener('input', run); });
       run();
       return inst;
+    },
+
+    /* ============================================================
+       解题分步沙盘 Stage（2026-10-19 · 对齐「threejs 制作课件」要求）
+       左侧 3D 演示区 + 右侧知识点讲解面板（步骤号/标题/条件/公式/解析/易错）
+       上一步/下一步切换 → 每步对应不同 3D 图形、标注、动画、文字
+       三维元素可点击 → 弹出知识卡（条件/结论 · 公式定理 · 推导思路 · 易错点）
+       ============================================================ */
+    stage: function (hostId, spec) {
+      var host = document.getElementById(hostId);
+      if (!host || !window.THREE) return null;
+      spec = spec || {};
+      var steps = spec.steps || [];
+      if (!steps.length) return null;
+
+      /* ---------- DOM：左 3D / 右面板 ---------- */
+      host.innerHTML = '';
+      host.classList.add('vz-on');
+      var wrap = document.createElement('div'); wrap.className = 'vz-stage';
+      var cw = document.createElement('div'); cw.className = 'vz-canvas';
+      var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
+      var hud = document.createElement('div'); hud.className = 'vz-hud';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 右侧知识卡高亮';
+      cw.appendChild(hud);
+      var pn = document.createElement('div'); pn.className = 'vz-panel';
+      /* 标题固定成头部：内容再长也只滚正文，学生始终看得到「这一步做什么」 */
+      var ph = document.createElement('div'); ph.className = 'vz-head';
+      ph.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>';
+      var pb = document.createElement('div'); pb.className = 'vz-body';
+      pb.innerHTML = '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+        + '<div class="vz-bridge">↓ 所以想到</div>'
+        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>';
+      var nav = document.createElement('div'); nav.className = 'vz-nav';
+      nav.innerHTML = '<button type="button" class="vz-prev">← 上一步</button>'
+        + '<button type="button" class="vz-next">下一步 →</button>';
+      pn.appendChild(ph); pn.appendChild(pb); pn.appendChild(nav);
+      wrap.appendChild(cw); wrap.appendChild(pn);
+      host.appendChild(wrap);
+      /* 知识卡放沙盘下方整行铺开：不用点、不用在窄面板里翻，一眼看全 */
+      var eCards = document.createElement('div'); eCards.className = 'vz-cards';
+      host.appendChild(eCards);
+
+      var eIdx = ph.querySelector('.vz-idx'), eT = ph.querySelector('.vz-t');
+      var eK = pb.querySelector('.vz-k'), eF = pb.querySelector('.vz-f');
+      var eSee = pb.querySelector('.vz-see'), eBr = pb.querySelector('.vz-bridge');
+      var eD = pb.querySelector('.vz-d'), eW = pb.querySelector('.vz-w');
+      var bPrev = nav.querySelector('.vz-prev'), bNext = nav.querySelector('.vz-next');
+
+      /* ---------- 渲染器 / 场景 ---------- */
+      var ren;
+      try { ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); }
+      catch (e) { host.classList.remove('vz-on'); host.innerHTML = ''; return null; }
+      ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      var sc = new T.Scene();
+      var cam = new T.PerspectiveCamera(40, 16 / 9, 0.05, 500);
+      sc.add(new T.AmbientLight(0xffffff, 0.84));
+      var dl = new T.DirectionalLight(0xffffff, 0.48); dl.position.set(5, 9, 7); sc.add(dl);
+      var dl2 = new T.DirectionalLight(0xffffff, 0.2); dl2.position.set(-7, 4, -6); sc.add(dl2);
+
+      var dirty = true;
+      var ctl = orbit(cw, cam, {
+        az: spec.az == null ? 0.78 : spec.az,
+        pol: spec.pol == null ? 1.04 : spec.pol,
+        dist: spec.dist || 7.4,
+        target: spec.tgt || [0, 0.5, 0],
+        onApply: function () { dirty = true; }
+      });
+
+      /* ---------- 基础教学辅助：网格地面 + 坐标轴 ---------- */
+      var baseG = new T.Group(); sc.add(baseG);
+      if (spec.grid !== false) {
+        var gl = spec.gridLen || 9;
+        var gh = new T.GridHelper(gl, gl * 2, 0xc9d3e2, 0xe4eaf3);
+        gh.material.transparent = true; gh.material.opacity = 0.72;
+        gh.position.y = spec.gridY == null ? -1.4 : spec.gridY;
+        baseG.add(gh);
+      }
+      if (spec.axes) {
+        var al = spec.axesLen || 3.2;
+        baseG.add(new T.AxesHelper(al));
+        [['x', [al + 0.3, 0, 0], '#dc2626'], ['y', [0, al + 0.3, 0], '#16a34a'], ['z', [0, 0, al + 0.3], '#2563eb']]
+          .forEach(function (it) {
+            var sp = sprite(it[0], it[2], 26, 0.2);
+            sp.position.set(it[1][0], it[1][1], it[1][2]);
+            baseG.add(sp);
+          });
+      }
+
+      /* ---------- 图元工厂 ---------- */
+      function V(a) { return new T.Vector3(a[0], a[1], a[2]); }
+      function C(c, d) { return new T.Color(c == null ? d : c).getHex(); }
+      /* 徽章挂点：物体包围盒顶端正上方（比 m.position+固定值稳，大/小物体都不会挡住本体） */
+      function badgePos(m) {
+        try {
+          var b = new T.Box3().setFromObject(m);
+          if (isFinite(b.min.x) && isFinite(b.max.y)) {
+            return new T.Vector3((b.min.x + b.max.x) / 2, b.max.y + 0.2, (b.min.z + b.max.z) / 2);
+          }
+        } catch (e) {}
+        return m.position.clone().add(new T.Vector3(0, 0.45, 0));
+      }
+
+      function buildObj(o, g, st) {
+        var m = null, c = C(o.c, 0x2563eb);
+        if (o.k === 'ball') {
+          m = new T.Mesh(new T.SphereGeometry(o.r || 0.14, 24, 18),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'box') {
+          var s = o.sz || [0.6, 0.6, 0.6];
+          m = new T.Mesh(new T.BoxGeometry(s[0], s[1], s[2]),
+            new T.MeshLambertMaterial({ color: c, transparent: o.op != null, opacity: o.op == null ? 0.92 : o.op }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'seg' || o.k === 'arrow') {
+          var a = V(o.a), b = V(o.b);
+          var dir = new T.Vector3().subVectors(b, a), len = dir.length();
+          if (len < 1e-6) return null;
+          m = new T.Mesh(new T.CylinderGeometry(o.w || 0.022, o.w || 0.022, len, 10),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(a).add(b).multiplyScalar(0.5);
+          m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), dir.clone().normalize());
+          if (o.k === 'arrow') {
+            var cone = new T.Mesh(new T.ConeGeometry(o.r || 0.072, 0.23, 14),
+              new T.MeshLambertMaterial({ color: c }));
+            cone.position.copy(b);
+            cone.quaternion.copy(m.quaternion);
+            g.add(cone);
+          }
+        } else if (o.k === 'curve') {
+          var pts = [], N = o.n || 150;
+          for (var i = 0; i <= N; i++) {
+            var u = o.x0 + (o.x1 - o.x0) * i / N, yy = o.f(u);
+            if (yy == null || isNaN(yy) || !isFinite(yy)) continue;
+            pts.push(new T.Vector3(u, yy, o.z || 0));
+          }
+          if (pts.length < 2) return null;
+          m = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts), Math.min(260, pts.length * 2),
+            o.r || 0.03, 8), new T.MeshLambertMaterial({ color: c }));
+        } else if (o.k === 'poly') {
+          var pp = (o.pts || []).map(V);
+          if (pp.length < 2) return null;
+          m = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pp), pp.length * 6,
+            o.r || 0.03, 8), new T.MeshLambertMaterial({ color: c }));
+        } else if (o.k === 'ring') {
+          m = new T.Mesh(new T.TorusGeometry(o.r || 0.6, o.w || 0.02, 10, 56),
+            new T.MeshLambertMaterial({ color: c, transparent: true, opacity: o.op == null ? 0.92 : o.op }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+        } else if (o.k === 'plane') {
+          var ps = o.sz || [3, 3];
+          m = new T.Mesh(new T.PlaneGeometry(ps[0], ps[1]),
+            new T.MeshBasicMaterial({ color: c, transparent: true, opacity: o.op == null ? 0.15 : o.op, side: T.DoubleSide }));
+          m.position.copy(V(o.p || [0, 0, 0]));
+          if (o.rx != null) m.rotation.x = o.rx;
+        } else if (o.k === 'bond') {
+          var a2 = V(o.a), b2 = V(o.b);
+          var d2 = new T.Vector3().subVectors(b2, a2), l2 = d2.length();
+          if (l2 < 1e-6) return null;
+          m = new T.Mesh(new T.CylinderGeometry(o.w || 0.055, o.w || 0.055, l2, 12),
+            new T.MeshLambertMaterial({ color: c }));
+          m.position.copy(a2).add(b2).multiplyScalar(0.5);
+          m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), d2.clone().normalize());
+        } else if (o.k === 'flow') {
+          m = new T.Group();
+          var n = o.n || 9;
+          for (var j = 0; j < n; j++) {
+            var sp = new T.Mesh(new T.SphereGeometry(o.r || 0.055, 12, 10),
+              new T.MeshLambertMaterial({ color: c, transparent: true, opacity: 0.9 }));
+            sp.userData.ph = j / n;
+            m.add(sp);
+          }
+          st.anims.push({ type: 'flow', m: m, a: V(o.a), b: V(o.b), spd: o.spd || 0.34 });
+        } else if (o.k === 'label') {
+          var lb = sprite(o.lb, o.c || '#3f3a30', o.fs || 28, o.zz || 0.24);
+          lb.position.copy(V(o.p || [0, 0, 0]));
+          g.add(lb);
+          return null;
+        }
+        if (!m) return null;
+        if (o.rx) m.rotation.x = o.rx;
+        if (o.ry) m.rotation.y = o.ry;
+        if (o.rz) m.rotation.z = o.rz;
+        g.add(m);
+
+        /* 标签 */
+        if (o.lb) {
+          var lp = o.lp ? V(o.lp) : m.position.clone().add(new T.Vector3(0, o.ldy == null ? 0.34 : o.ldy, 0));
+          var sp2 = sprite(o.lb, o.lc || '#3f3a30', o.fs || 28, o.zz || 0.24);
+          sp2.position.copy(lp);
+          g.add(sp2);
+        }
+        /* 动画登记 */
+        if (o.an === 'pulse') st.anims.push({ type: 'pulse', m: m, ph: Math.random() * 6.28 });
+        else if (o.an === 'spin') st.anims.push({ type: 'spin', m: m, sp: o.sp || 0.9 });
+        /* 可点击：打上编号徽章并登记（编号 = 右侧常驻知识卡序号，一一对应） */
+        if (o.card) {
+          m.userData.card = o.card;
+          m.userData.home = m.scale.clone();
+          st.pick.push(m);
+          st.hitObjs.push(m);
+          m.userData.ci = st.pick.length;
+          m.userData.cl = o.cb || o.lb || '';
+          var bd = badge(st.pick.length);
+          bd.position.copy(badgePos(m));
+          /* 徽章本身也是点击热区（学生第一反应是点编号）→ 指向同一个知识卡 */
+          bd.userData.card = o.card;
+          bd.userData.ci = st.pick.length;
+          bd.userData.host = m;
+          g.add(bd);
+          st.hitObjs.push(bd);
+          m.userData.badge = bd;
+        }
+        return m;
+      }
+
+      /* ---------- 构建每一步 ---------- */
+      steps.forEach(function (st, si) {
+        var g = new T.Group();
+        g.visible = false;
+        sc.add(g);
+        st.g = g; st.pick = []; st.hitObjs = []; st.anims = []; st.enter = 1;
+        (spec.base || []).forEach(function (o) { buildObj(o, g, st); });
+        (st.objs || []).forEach(function (o) { buildObj(o, g, st); });
+      });
+
+      /* ---------- 相机补间 ---------- */
+      var tw = null;
+      function camTo(c) {
+        if (!c) return;
+        tw = {
+          t: 0, dur: 0.62,
+          f: { az: ctl.st.az, pol: ctl.st.pol, dist: ctl.st.dist, tx: ctl.tgt.x, ty: ctl.tgt.y, tz: ctl.tgt.z },
+          to: {
+            az: c.az == null ? ctl.st.az : c.az,
+            pol: c.pol == null ? ctl.st.pol : c.pol,
+            dist: c.dist == null ? ctl.st.dist : c.dist,
+            tx: c.tgt ? c.tgt[0] : ctl.tgt.x,
+            ty: c.tgt ? c.tgt[1] : ctl.tgt.y,
+            tz: c.tgt ? c.tgt[2] : ctl.tgt.z
+          }
+        };
+      }
+
+      /* ---------- 面板 / 步骤切换 ---------- */
+      function renderMath(root) {
+        if (!window.renderMathInElement || !root) return;
+        try {
+          window.renderMathInElement(root, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '\\(', right: '\\)', display: false },
+              { left: '$', right: '$', display: false }
+            ], throwOnError: false
+          });
+        } catch (e) {}
+      }
+      /* ---------- 常驻知识卡（2026-10-19 改：不再「点击才弹出」） ----------
+         切到某一步，这一步所有可点物体的卡片就全部摊在面板下方；
+         点击画面里的带编号物体 = 在面板里滚到对应卡并高亮，而不是遮住画面的浮层。 */
+      function cardHTML(m, i) {
+        var cd = m.userData.card || {}, t = m.userData.cl || '';
+        var h = '<div class="vz-cw" data-ci="' + i + '">'
+              + '<div class="vz-ci">' + i + '</div><div class="vz-cb">';
+        if (t) h += '<div class="vz-ct">' + t + '</div>';
+        if (cd.cond) h += '<div class="vz-c-b">' + cd.cond + '</div>';
+        if (cd.formula) h += '<div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
+        if (cd.think) h += '<div class="vz-c-t"><b>思路</b>' + cd.think + '</div>';
+        if (cd.warn) h += '<div class="vz-c-w"><b>易错</b>' + cd.warn + '</div>';
+        return h + '</div></div>';
+      }
+      function renderCards(st) {
+        if (!st.pick.length) { eCards.innerHTML = ''; eCards.style.display = 'none'; return; }
+        eCards.style.display = '';
+        var h = '<div class="vz-cards-h">🔑 本步知识卡'
+              + '<span>' + st.pick.length + ' 张 · 点画面里的 ①②③ 定位</span></div>';
+        for (var i = 0; i < st.pick.length; i++) h += cardHTML(st.pick[i], i + 1);
+        eCards.innerHTML = h;
+      }
+      /* 点物体 → 面板内滚到对应卡 + 高亮 2.8s（不做遮挡画面的浮层） */
+      function focusCard(o) {
+        var i = o.userData.ci;
+        if (!i) return;
+        var host = o.userData.host || o;
+        var el = eCards.querySelector('.vz-cw[data-ci="' + i + '"]');
+        if (!el) return;
+        var all = eCards.querySelectorAll('.vz-cw');
+        for (var k = 0; k < all.length; k++) all[k].classList.remove('hi');
+        el.classList.add('hi');
+        var r2 = el.getBoundingClientRect(), vh = window.innerHeight || 800;
+        if (r2.top < 8 || r2.bottom > vh - 8) {
+          try { el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+        }
+        clearTimeout(el._t);
+        el._t = setTimeout(function () { el.classList.remove('hi'); }, 2800);
+        if (host.userData.home) {
+          host.scale.copy(host.userData.home).multiplyScalar(1.22);
+          clearTimeout(host.userData._t);
+          host.userData._t = setTimeout(function () {
+            if (host.userData.home && hov !== host) host.scale.copy(host.userData.home);
+          }, 640);
+        }
+        dirty = true;
+      }
+      /* 长公式自适应：迭代收敛缩字号，避免撑破右侧面板 */
+      function fitF() { fitOne(eF, 8); }
+
+      /* 卡片里的公式超宽 → 迭代缩字号（否则长方程式会被右边框截掉） */
+      /* 量「实际墨迹宽度」：KaTeX 的 katex-display 是块级、宽度=容器，
+         scrollWidth 永远等于 clientWidth，测不出溢出 → 必须用 Range 取内容包围盒 */
+      function inkW(e) {
+        try {
+          var r = document.createRange();
+          r.selectNodeContents(e);
+          var b = r.getBoundingClientRect();
+          return b.width || 0;
+        } catch (x) { return 0; }
+      }
+      function fitOne(e, floor) {
+        e.style.fontSize = '';
+        var cur = parseFloat(window.getComputedStyle(e).fontSize) || 12.5;
+        for (var k = 0; k < 6; k++) {
+          var avail = e.clientWidth - 2, need = inkW(e);
+          if (!need || avail < 40 || need <= avail) break;
+          cur = Math.max(floor, cur * avail / need);
+          e.style.fontSize = cur + 'px';
+          if (cur <= floor) break;
+        }
+      }
+      function fitCards() {
+        var fs = eCards.querySelectorAll('.vz-c-f');
+        for (var i = 0; i < fs.length; i++) fitOne(fs[i], 9.5);
+      }
+      function wrapF(s) {
+        s = (s || '').trim();
+        if (!s) return '';
+        if (/^\$\$[\s\S]*\$\$$/.test(s) || /^\\\([\s\S]*\\\)$/.test(s) || /^\$[\s\S]*\$$/.test(s)) return s;
+        return '$$' + s + '$$';
+      }
+      function go(i) {
+        i = Math.max(0, Math.min(steps.length - 1, i));
+        if (i === cur) return;
+        steps.forEach(function (s, j) { s.g.visible = (j === i); });
+        cur = i;
+        var st = steps[i];
+        st.enter = 0;
+        eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
+        eT.textContent = st.t || '';
+        eK.innerHTML = st.k || '';
+        eSee.style.display = st.k ? '' : 'none';
+        eBr.style.display = st.k ? '' : 'none';
+        eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
+        eD.innerHTML = st.d || '';
+        eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
+        eW.style.display = st.w ? '' : 'none';
+        bPrev.disabled = (i === 0);
+        bNext.disabled = (i === steps.length - 1);
+        camTo(st.cam);
+        renderCards(st);
+        pb.scrollTop = 0;
+        renderMath(pn);
+        renderMath(eCards);   /* 卡片区已挪到面板外 → 必须单独渲染，否则公式是裸源码 */
+        requestAnimationFrame(fitF); setTimeout(fitF, 260); setTimeout(fitF, 900);
+        requestAnimationFrame(fitCards); setTimeout(fitCards, 320); setTimeout(fitCards, 1000);
+        dirty = true;
+      }
+      var cur = -1;
+      bPrev.addEventListener('click', function () { go(cur - 1); });
+      bNext.addEventListener('click', function () { go(cur + 1); });
+
+      /* ---------- 点击 / 悬停拾取 ---------- */
+      var ray = new T.Raycaster(), ndc = new T.Vector2();
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
+
+      /* 拾取：手指有 ~10px 误差，中心点打不中时按 3×3 网格向四周探一圈 */
+      var SLOP = [[0, 0], [12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, 9], [9, -9], [-9, -9]];
+      function hitAt(e) {
+        var st = steps[cur];
+        if (!st || !st.hitObjs.length) return null;
+        var r = cw.getBoundingClientRect();
+        for (var i = 0; i < SLOP.length; i++) {
+          ndc.x = ((e.clientX + SLOP[i][0] - r.left) / r.width) * 2 - 1;
+          ndc.y = -((e.clientY + SLOP[i][1] - r.top) / r.height) * 2 + 1;
+          ray.setFromCamera(ndc, cam);
+          var hs = ray.intersectObjects(st.hitObjs, true);
+          if (!hs.length) continue;
+          var o = hs[0].object;
+          while (o && !o.userData.card) o = o.parent;
+          if (o && o.userData.card) return o;
+        }
+        return null;
+      }
+      function setHov(o) {
+        if (hov === o) return;
+        if (hov && hov.userData.home) hov.scale.copy(hov.userData.home);
+        hov = o;
+        if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
+        dirty = true;
+      }
+
+      cw.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
+      cw.addEventListener('pointermove', function (e) {
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
+        var now = performance.now();
+        if (now - hovT < 70) return;
+        hovT = now;
+        var o = hitAt(e);
+        setHov(o);
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
+      });
+
+      cw.addEventListener('pointerup', function (e) {
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
+        var o = hitAt(e);
+        if (o) { dTap.t = 0; focusCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+      });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
+
+      /* ---------- 尺寸 ---------- */
+      function resize() {
+        var w = cw.clientWidth || 640, h = cw.clientHeight || 340;
+        ren.setSize(w, h, false);
+        cam.aspect = w / h; cam.updateProjectionMatrix();
+        dirty = true;
+      }
+      resize();
+      if (window.ResizeObserver) new ResizeObserver(resize).observe(cw);
+      else window.addEventListener('resize', resize);
+
+      /* ---------- 主循环 ---------- */
+      var vis = true;
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) dirty = true; }).observe(cw);
+      }
+      var last = performance.now(), tt = 0;
+      (function loop() {
+        requestAnimationFrame(loop);
+        if (!vis) return;
+        var now = performance.now(), dt = Math.min((now - last) / 1000, 0.05);
+        last = now; tt += dt;
+
+        /* 相机补间 */
+        if (tw) {
+          tw.t = Math.min(1, tw.t + dt / tw.dur);
+          var k = 1 - Math.pow(1 - tw.t, 3);
+          ctl.st.az = tw.f.az + (tw.to.az - tw.f.az) * k;
+          ctl.st.pol = tw.f.pol + (tw.to.pol - tw.f.pol) * k;
+          ctl.st.dist = tw.f.dist + (tw.to.dist - tw.f.dist) * k;
+          ctl.tgt.set(tw.f.tx + (tw.to.tx - tw.f.tx) * k,
+                      tw.f.ty + (tw.to.ty - tw.f.ty) * k,
+                      tw.f.tz + (tw.to.tz - tw.f.tz) * k);
+          ctl.apply();
+          if (tw.t >= 1) tw = null;
+        }
+        /* 当前步动画 */
+        var st = steps[cur];
+        if (st) {
+          if (st.enter < 1) {
+            st.enter = Math.min(1, st.enter + dt * 2.6);
+            var e1 = 1 - Math.pow(1 - st.enter, 3);
+            st.g.scale.setScalar(0.015 + 0.985 * e1);
+          }
+          for (var i = 0; i < st.anims.length; i++) {
+            var a = st.anims[i];
+            if (a.type === 'pulse') a.m.scale.setScalar(1 + 0.09 * Math.sin(tt * 2.2 + a.ph));
+            else if (a.type === 'spin') a.m.rotation.y += dt * a.sp;
+            else if (a.type === 'flow') {
+              a.m.children.forEach(function (sp) {
+                var p = (tt * a.spd + sp.userData.ph) % 1;
+                sp.position.lerpVectors(a.a, a.b, p);
+                sp.material.opacity = 0.2 + 0.8 * Math.sin(Math.PI * p);
+              });
+            }
+          }
+        }
+        ren.render(sc, cam);
+      })();
+
+      go(0);
+      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, steps: steps,
+                                focus: focusCard, cur: function () { return cur; } };
+      return window['__' + hostId];
     }
   };
 })();
@@ -3417,6 +4168,8 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
   return api;
 
   },{'dist':6.8,'pol':1.08,'az':0.62,'target':[0,0.8,0],'ratio':0.56});
+
+VIZ3D.stage('vizS', {'grid':true,'gridY':-0.4,'axes':false,'dist':12.6,'pol':1.12,'az':0.62,'tgt':[0,3.0,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 下方知识卡高亮",'steps':[{'t':"第 1 步 · 弦 + 圆周角定底面圆：R=2",'k':"AB=2，∠ACB=30°",'f':"2R=\\frac{AB}{\\sin\\angle ACB}=\\frac{2}{1/2}=4\\ \\Longrightarrow\\ R=2",'d':"\\(A,B,C\\) 都在底面圆上 ⇒ \\(\\triangle ABC\\) 的外接圆就是底面圆。弦 \\(AB=2\\)、对角 \\(30^\\circ\\) ⇒ 正弦定理一步给出 \\(R=2\\)：圆柱的半径定死了。",'w':"\\(R=2\\) 是<b>底面圆</b>的半径，不是三角形某个内切圆——它决定圆柱粗细。",'cam':{'az':0.62,'pol':1.1,'dist':13.2,'tgt':[0,3.0,0]},'objs':[{'k':"ring",'p':[0,0,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"ring",'p':[0,6,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"seg",'a':[2.0,0,0.0],'b':[2.0,6,0.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[1.2246467991473532e-16,0,2.0],'b':[1.2246467991473532e-16,6,2.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-2.0,0,2.4492935982947064e-16],'b':[-2.0,6,2.4492935982947064e-16],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-3.6739403974420594e-16,0,-2.0],'b':[-3.6739403974420594e-16,6,-2.0],'c':"#cbd5e1",'w':0.008},{'k':"ring",'p':[0,0,0],'r':2,'w':0.03,'c':"#2563eb",'rx':1.5707963267948966,'card':{'cond':"\\(\\triangle ABC\\) 的外接圆 = 底面圆",'formula':"2R=\\frac{AB}{\\sin\\angle ACB}=4\\ \\Rightarrow\\ R=2",'think':"一条弦 + 它的对角 ⇒ 圆的半径，正弦定理最快",'warn':"\\(R\\) 是外接圆半径，别和三角形面积公式里的 \\(r\\) 混"}},{'k':"ball",'p':[-1,0,-1.7320508075688772],'r':0.1,'c':"#2563eb",'lb':"A",'lp':[-1.4,0.2,-1.9],'lc':"#2563eb"},{'k':"ball",'p':[1,0,-1.7320508075688772],'r':0.1,'c':"#2563eb",'lb':"B",'lp':[1.4,0.2,-1.9],'lc':"#2563eb"},{'k':"ball",'p':[0,0,2],'r':0.1,'c':"#2563eb",'lb':"C",'lp':[0.2,0.2,2.7],'lc':"#2563eb"},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[1,0,-1.7320508075688772],'c':"#f59e0b",'w':0.035,'lb':"AB=2",'lp':[0,-0.4,-2.1],'lc':"#f59e0b"},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.02},{'k':"seg",'a':[1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.02},{'k':"label",'p':[0,0.7,0.4],'lb':"∠ACB=30°",'c':"#0f766e"}]},{'t':"第 2 步 · 外接球给方程：球心在中轴中点 ⇒ h=6",'k':"三棱锥 P-ABC 外接球的表面积为 52π",'f':"4\\pi\\rho^2=52\\pi\\ \\Rightarrow\\ \\rho^2=13,\\qquad \\rho^2=R^2+\\left(\\frac h2\\right)^2\\ \\Rightarrow\\ h=6",'d':"圆柱上下对称 ⇒ 同时套住上下底面圆的球，球心在<b>中轴中点</b>。于是 \\(\\rho\\)、\\(R\\)、\\(\\frac h2\\) 构成直角三角形：\\(13=4+\\left(\\frac h2\\right)^2\\) ⇒ \\(h=6\\)。",'w':"球心为什么在中点？因为 A、B、C 在底面圆上 ⇒ 球心到底面的距离必须是 \\(\\sqrt{\\rho^2-R^2}\\)，上下各一半。",'cam':{'az':0.62,'pol':1.1,'dist':13.2,'tgt':[0,3.0,0]},'objs':[{'k':"ring",'p':[0,0,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"ring",'p':[0,6,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"seg",'a':[2.0,0,0.0],'b':[2.0,6,0.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[1.2246467991473532e-16,0,2.0],'b':[1.2246467991473532e-16,6,2.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-2.0,0,2.4492935982947064e-16],'b':[-2.0,6,2.4492935982947064e-16],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-3.6739403974420594e-16,0,-2.0],'b':[-3.6739403974420594e-16,6,-2.0],'c':"#cbd5e1",'w':0.008},{'k':"arrow",'a':[0,3,0],'b':[2,3,0],'c':"#7c3aed",'w':0.02,'lb':"R=2",'lp':[1.1,3.35,0],'lc':"#7c3aed"},{'k':"arrow",'a':[-2.6,0,0],'b':[-2.6,6,0],'c':"#0f766e",'w':0.02,'lb':"h=6",'lp':[-3.0,3.0,0],'lc':"#0f766e"},{'k':"ball",'p':[0,3,0],'r':0.11,'c':"#7c3aed",'lb':"球心 O",'lp':[0,3.5,0],'lc':"#7c3aed",'card':{'cond':"上下底面圆关于中截面对称 ⇒ <b>球心在中轴中点</b>",'formula':"\\rho^2=R^2+\\left(\\frac h2\\right)^2=4+9=13",'think':"外接球半径、底面半径、半高构成直角三角形——勾股定高",'warn':"\\(\\rho^2=13\\) 是<b>球的半径平方</b>，不是柱高；别把 13 直接当 \\(h\\)"},'an':"pulse"},{'k':"ball",'p':[0,0,2],'r':0.09,'c':"#2563eb",'lb':"C",'lp':[0.3,0.25,2.6],'lc':"#2563eb"}]},{'t':"第 3 步 · 体积：高被锁死，只剩底面积可动",'k':"三棱锥 P-ABC 体积的最大值",'f':"V=\\frac13\\,S_{\\triangle ABC}\\cdot h=\\frac13\\cdot S\\cdot6=2S",'d':"\\(P\\) 在上底面圆周上动，但它到底面的距离<b>永远是柱高 6</b> ⇒ \\(h\\) 是常数。于是 \\(V=2S_{\\triangle ABC}\\)：求体积最大值等价于求底面积最大值。",'w':"\\(P\\) 在圆周上动，体积却和高无关——这一点想通，题目瞬间只剩平面几何。",'cam':{'az':0.62,'pol':1.1,'dist':13.2,'tgt':[0,3.0,0]},'objs':[{'k':"ring",'p':[0,0,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"ring",'p':[0,6,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"seg",'a':[2.0,0,0.0],'b':[2.0,6,0.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[1.2246467991473532e-16,0,2.0],'b':[1.2246467991473532e-16,6,2.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-2.0,0,2.4492935982947064e-16],'b':[-2.0,6,2.4492935982947064e-16],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-3.6739403974420594e-16,0,-2.0],'b':[-3.6739403974420594e-16,6,-2.0],'c':"#cbd5e1",'w':0.008},{'k':"ball",'p':[0,6,2],'r':0.12,'c':"#f59e0b",'lb':"P（动点）",'lp':[0.2,6.4,2.4],'lc':"#f59e0b",'card':{'cond':"\\(P\\) 在上底面圆周上 ⇒ 到底面距离恒为 \\(h=6\\)",'formula':"V=\\frac13 S\\cdot h=2S",'think':"动点只在「水平位置」上动，竖直高度不变 ⇒ 高是常数",'warn':"若 \\(P\\) 能在上底面<b>内部</b>动，高度就不再是常数了——看清是「圆周上」"},'an':"pulse"},{'k':"seg",'a':[0,6,2],'b':[-1,0,-1.7320508075688772],'c':"#94a3b8",'w':0.012},{'k':"seg",'a':[0,6,2],'b':[1,0,-1.7320508075688772],'c':"#94a3b8",'w':0.012},{'k':"seg",'a':[0,6,2],'b':[0,0,2],'c':"#94a3b8",'w':0.012},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[1,0,-1.7320508075688772],'c':"#f59e0b",'w':0.03},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.016},{'k':"seg",'a':[1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.016},{'k':"ball",'p':[-1,0,-1.7320508075688772],'r':0.08,'c':"#2563eb"},{'k':"ball",'p':[1,0,-1.7320508075688772],'r':0.08,'c':"#2563eb"},{'k':"ball",'p':[0,0,2],'r':0.08,'c':"#2563eb"},{'k':"label",'p':[0,1.4,-2.4],'lb':"V = ⅓·S·6 = 2S",'c':"#0f766e"}]},{'t':"第 4 步 · C 滑到最远：S 最大 = 2+√3",'k':"AB=2，∠ACB=30°",'f':"d=\\sqrt{R^2-\\left(\\tfrac{AB}{2}\\right)^2}=\\sqrt3,\\quad d(C,AB)_{\\max}=R+d=2+\\sqrt3,\\quad S_{\\max}=2+\\sqrt3",'d':"\\(AB\\) 是定弦 ⇒ 圆心到它的距离 \\(d=\\sqrt3\\) 固定；\\(C\\) 在圆上动，到 \\(AB\\) 的距离最大值为 \\(R+d=2+\\sqrt3\\)（位置：过圆心作 \\(AB\\) 的垂线，取远离 \\(AB\\) 的那一端）。于是 \\(S_{\\max}=\\frac12\\cdot2\\cdot(2+\\sqrt3)=2+\\sqrt3\\)。",'w':"最大值是 \\(R+d\\) 不是 \\(2R\\)：\\(d\\) 是圆心到弦的距离，只有当弦过圆心（\\(d=0\\)）时两者才相等。",'cam':{'az':0.62,'pol':1.1,'dist':13.2,'tgt':[0,3.0,0]},'objs':[{'k':"ring",'p':[0,0,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"ring",'p':[0,6,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"seg",'a':[2.0,0,0.0],'b':[2.0,6,0.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[1.2246467991473532e-16,0,2.0],'b':[1.2246467991473532e-16,6,2.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-2.0,0,2.4492935982947064e-16],'b':[-2.0,6,2.4492935982947064e-16],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-3.6739403974420594e-16,0,-2.0],'b':[-3.6739403974420594e-16,6,-2.0],'c':"#cbd5e1",'w':0.008},{'k':"ball",'p':[-1,0,-1.7320508075688772],'r':0.08,'c':"#2563eb"},{'k':"ball",'p':[1,0,-1.7320508075688772],'r':0.08,'c':"#2563eb"},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[1,0,-1.7320508075688772],'c':"#f59e0b",'w':0.03,'lb':"AB=2",'lp':[0,-0.35,-2.1],'lc':"#f59e0b"},{'k':"seg",'a':[0,0,-1.7320508075688772],'b':[0,0,2],'c':"#94a3b8",'w':0.012},{'k':"ball",'p':[0,0,-1.7320508075688772],'r':0.06,'c':"#94a3b8",'lb':"垂足",'lp':[0.36,0.2,-1.7320508075688772],'lc':"#94a3b8"},{'k':"ball",'p':[0,0,2],'r':0.13,'c':"#dc2626",'lb':"C 最远：R+d",'lp':[0.2,0.3,2.8],'lc':"#dc2626",'card':{'cond':"\\(C\\) 到 \\(AB\\) 的最大距离 = \\(R+d=2+\\sqrt3\\)",'formula':"S_{\\max}=\\tfrac12\\cdot2\\cdot(2+\\sqrt3)=2+\\sqrt3",'think':"定弦 + 动点 ⇒ 最远点在「圆心垂线」穿出圆周处",'warn':"\\(d=\\sqrt{R^2-(AB/2)^2}=\\sqrt3\\) 要算，别把最大距离写成 \\(2R=4\\)"},'an':"pulse"},{'k':"label",'p':[0,1.5,1.0],'lb':"S 最大 = 2+√3",'c':"#0f766e"}]},{'t':"第 5 步 · 收口：V_max = 4+2√3",'k':"则三棱锥 P-ABC 体积的最大值为",'f':"V_{\\max}=2S_{\\max}=2(2+\\sqrt3)=4+2\\sqrt3",'d':"\\(V=2S\\)、\\(S_{\\max}=2+\\sqrt3\\) ⇒ \\(V_{\\max}=4+2\\sqrt3\\)。整道题其实是两步：先用球定高，再用圆的性质定最大底面积。",'w':"最后别再乘 \\(\\frac13\\)：\\(V=2S\\) 里已经把 \\(\\frac13\\) 和 \\(h=6\\) 合进去了。",'cam':{'az':0.62,'pol':1.1,'dist':13.2,'tgt':[0,3.0,0]},'objs':[{'k':"ring",'p':[0,0,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"ring",'p':[0,6,0],'r':2,'w':0.022,'c':"#cbd5e1",'rx':1.5707963267948966},{'k':"seg",'a':[2.0,0,0.0],'b':[2.0,6,0.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[1.2246467991473532e-16,0,2.0],'b':[1.2246467991473532e-16,6,2.0],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-2.0,0,2.4492935982947064e-16],'b':[-2.0,6,2.4492935982947064e-16],'c':"#cbd5e1",'w':0.008},{'k':"seg",'a':[-3.6739403974420594e-16,0,-2.0],'b':[-3.6739403974420594e-16,6,-2.0],'c':"#cbd5e1",'w':0.008},{'k':"ball",'p':[0,6,2],'r':0.1,'c':"#f59e0b",'lb':"P",'lp':[0.2,6.4,2.4],'lc':"#f59e0b"},{'k':"ball",'p':[-1,0,-1.7320508075688772],'r':0.07,'c':"#2563eb"},{'k':"ball",'p':[1,0,-1.7320508075688772],'r':0.07,'c':"#2563eb"},{'k':"ball",'p':[0,0,2],'r':0.1,'c':"#dc2626"},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[1,0,-1.7320508075688772],'c':"#f59e0b",'w':0.03},{'k':"seg",'a':[-1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.016},{'k':"seg",'a':[1,0,-1.7320508075688772],'b':[0,0,2],'c':"#0f766e",'w':0.016},{'k':"seg",'a':[0,6,2],'b':[-1,0,-1.7320508075688772],'c':"#94a3b8",'w':0.01},{'k':"seg",'a':[0,6,2],'b':[1,0,-1.7320508075688772],'c':"#94a3b8",'w':0.01},{'k':"seg",'a':[0,6,2],'b':[0,0,2],'c':"#94a3b8",'w':0.01},{'k':"label",'p':[0,3.2,2.2],'lb':"V_max = 4 + 2√3",'c':"#0f766e"}]}]});
 </script>
 <script>
 
@@ -3501,6 +4254,159 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
   it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
   autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
   if (state.auto && state.items.length) setTimeout(openPop, 1200);
+})();
+
+</script>
+<script>
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+(function () {
+  if (window.__pzInit) return; window.__pzInit = 1;
+  var mask = null, img = null, stageEl = null;
+  var sc = 1, baseFit = 1, tx = 0, ty = 0, d0 = null, pts = {}, pinch = null, dragging = false;
+
+  function boot() {
+    if (mask) return;
+    mask = document.createElement('div');
+    mask.className = 'pz-mask';
+    mask.innerHTML =
+      '<button class="pz-x" type="button" aria-label="关闭">\u2715</button>' +
+      '<div class="pz-tools"><button type="button" data-z="out">\uff0d</button>' +
+      '<button type="button" data-z="reset">1:1</button>' +
+      '<button type="button" data-z="in">\uff0b</button></div>' +
+      '<div class="pz-stage"><img class="pz-img" alt="\u539f\u9898\u56fe\u653e\u5927"></div>' +
+      '<div class="pz-hint">\u6eda\u8f6e / \u53cc\u6307\u7f29\u653e \u00b7 \u62d6\u52a8\u5e73\u79fb \u00b7 \u53cc\u51fb\u590d\u4f4d \u00b7 Esc \u6216\u70b9\u7a7a\u767d\u5173\u95ed</div>';
+    document.body.appendChild(mask);
+    img = mask.querySelector('.pz-img');
+    stageEl = mask.querySelector('.pz-stage');
+
+    mask.querySelector('.pz-x').addEventListener('click', close);
+    mask.addEventListener('click', function (e) {
+      if (e.target === mask || e.target === stageEl) close();
+    });
+    mask.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+    Array.prototype.forEach.call(mask.querySelectorAll('.pz-tools button'), function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = b.getAttribute('data-z');
+        if (k === 'in') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        else if (k === 'out') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        else reset();
+      });
+    });
+    img.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      if (sc > baseFit * 1.05) reset(); else zoomAt(e.clientX, e.clientY, (baseFit * 2) / sc);
+    });
+    img.addEventListener('load', fit);
+    img.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+
+  function fit() {
+    var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    var vw = window.innerWidth * 0.94, vh = window.innerHeight * 0.86;
+    baseFit = Math.max(1, Math.min(vw / w, vh / h, 3));   // 最多放大 3 倍，再大就糊
+    sc = baseFit; tx = 0; ty = 0;
+    apply();
+  }
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function zoomAt(cx, cy, f) {
+    var lo = baseFit * 0.55, hi = baseFit * 4;
+    var ns = Math.min(hi, Math.max(lo, sc * f));
+    if (Math.abs(ns - sc) < 1e-6) return;
+    var r = img.getBoundingClientRect();
+    var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    tx -= ox * (ns / sc - 1); ty -= oy * (ns / sc - 1);
+    sc = ns;
+    if (sc <= baseFit * 1.01) { tx = 0; ty = 0; sc = baseFit; }
+    apply();
+  }
+  function reset() { sc = baseFit; tx = 0; ty = 0; apply(); }
+
+  function onDown(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (e.target !== img) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) { dragging = false; pinch = dist(); }
+    else { dragging = true; d0 = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; }
+    img.classList.add('grabbing');
+    try { img.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function dist() {
+    var a = Object.keys(pts); if (a.length < 2) return 0;
+    var p1 = pts[a[0]], p2 = pts[a[1]];
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+  function onMove(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) {
+      var dd = dist();
+      if (pinch && dd > 0) { zoomAt((pts[Object.keys(pts)[0]].x + pts[Object.keys(pts)[1]].x) / 2,
+                                   (pts[Object.keys(pts)[0]].y + pts[Object.keys(pts)[1]].y) / 2,
+                                   dd / pinch); }
+      pinch = dd;
+      return;
+    }
+    if (!dragging || !d0) return;
+    tx = d0.tx + (e.clientX - d0.x);
+    ty = d0.ty + (e.clientY - d0.y);
+    apply();
+  }
+  function onUp(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { dragging = false; if (img) img.classList.remove('grabbing'); }
+  }
+
+  function open(src) {
+    boot();
+    baseFit = 1;
+    img.src = src;
+    reset();
+    if (img.complete) fit();
+    mask.classList.add('on');
+    mask.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    if (!mask) return;
+    mask.classList.remove('on');
+    mask.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    reset();
+    pts = {}; pinch = null; dragging = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    if (!t.classList.contains('prob-img-img')) return;
+    if (!t.getAttribute('src')) return;
+    e.preventDefault();
+    open(t.getAttribute('src'));
+  }, true);
+
+  // 图片后来才渲染出来的场景（粘贴 / 上传 / 切换版本）也补个提示
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG' && t.classList.contains('prob-img-img') && !t.title) {
+      t.title = '\u70b9\u51fb\u653e\u5927';
+    }
+  }, true);
 })();
 
 </script>
