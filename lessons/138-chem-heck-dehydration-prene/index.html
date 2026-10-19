@@ -425,7 +425,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
 .vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
-.vz-k{font-size:13px;font-weight:600;color:#1d4ed8;background:#eff6ff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.6}
+.vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
+.vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
+.vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
+.vz-bridge{font-size:11.5px;font-weight:600;color:#94a3b8;margin:.3em 0 .2em 3px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
@@ -437,10 +440,59 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-card.on{display:block}
 .vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
 .vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em}
+.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
 .vz-c-b{color:#475569}
 .vz-c-w{color:#b45309}
 @media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
 </style>
 </head>
 
@@ -550,22 +602,45 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<p><b>合成主链</b>：甲苯 →(Br₂/FeBr₃)→ 对溴甲苯 →(Cl₂/光照; 水解)→ 对溴苯甲醛 →(乙二醇/浓H₂SO₄)→ 1b（缩醛）→(Pd 催化 Heck-脱水 + 2a)→ 3a。</p>
-
-      <p><b>2a 是 2-甲基-3-丁烯-2-醇</b>：(CH₃)₂C(OH)CH=CH₂，分子式 C₅H₁₀O；Heck 偶联后脱水端烯变共轭二烯。</p>
-
-      <p><b>两组峰计数</b>：C₅H₁₀O、氢谱两组峰 ⇒ 2,2-二甲基丙醛（9H+1H）、3-戊酮（6H+4H）、2,2-二甲基氧杂环丁烷（4H+6H），共 3 种。</p>
-
-      <p><b>键的变化</b>：Heck-脱水中有 C—Br σ 键断裂、新 C=C π 键形成（A 对）。</p>
-
-      <p><b>空间结构</b>：3a 的缩醛碳与甲基碳都是 sp³ 四面体 ⇒ 不可能全共面（C 错）。</p>
-
-      <p><b>绿色化学</b>：催化加氢还原 H₂ 全部进入产物 ⇒ 原子利用率 100%（D 对）。</p>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#0d9488">
+<div class="cx-no">01</div>
+<div class="cx-t">缩醛 = 醛基的保护壳</div>
+<div class="cx-sub">先保护，再拼键</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><circle cx="56" cy="50" r="24" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.4"/><text x="56" y="50.0" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">醛基</text><text x="56" y="92.0" font-size="9.5" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">—CHO 活泼</text><circle cx="204" cy="50" r="24" fill="#0d9488" fill-opacity=".12" stroke="#0d9488" stroke-width="1.4"/><text x="204" y="50.0" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700" dominant-baseline="middle">缩醛</text><text x="204" y="92.0" font-size="9.5" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">五元环稳定</text><g class="cx-lp"><path d="M94.0 38.0 L166.0 38.0" stroke="#0d9488" stroke-width="1.7" fill="none"/><path d="M166.0 38.0 L160.0 41.3 L160.0 34.7 z" fill="#0d9488"/></g><g class="cx-lp" style="animation-delay:1.7s"><path d="M166.0 62.0 L94.0 62.0" stroke="#0d9488" stroke-width="1.7" fill="none"/><path d="M94.0 62.0 L100.0 58.7 L100.0 65.3 z" fill="#0d9488"/></g><text x="130" y="22" font-size="9" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">正反应</text></svg></div>
+<div class="cx-d">醛基太活泼，遇到氧化剂、碱、Pd 催化都会坏。加乙二醇、酸催化，醛基变<b>缩醛</b>就"穿上保护壳"；等反应做完，再加酸水解又能变回醛基。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：路线第 ③ 步就是给对溴苯甲醛套保护壳，得到的 1b 就是题干里的 1a。</div>
+</div>
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">02</div>
+<div class="cx-t">合成路线 = 一条链</div>
+<div class="cx-sub">每步只改一个位置</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><g class="cx-lp" style="animation-delay:0.00s"><rect x="4.0" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="31.75" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">甲苯</text></g><path d="M61.0 55.0 L68.0 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M68.0 55.0 L64.5 56.9 L64.5 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:0.55s"><rect x="69.5" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="97.25" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">对溴甲苯</text></g><path d="M126.5 55.0 L133.5 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M133.5 55.0 L130.0 56.9 L130.0 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.10s"><rect x="135.0" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="162.75" y="48.18" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">对溴</text><text x="162.75" y="61.82" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">苯甲醛</text></g><path d="M192.0 55.0 L199.0 55.0" stroke="#cbd5e1" stroke-width="1.2" fill="none"/><path d="M199.0 55.0 L195.5 56.9 L195.5 53.1 z" fill="#cbd5e1"/><g class="cx-lp" style="animation-delay:1.65s"><rect x="200.5" y="36" width="55.5" height="38" rx="9" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.3"/><text x="228.25" y="55.0" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="600" dominant-baseline="middle">1b 缩醛</text></g></svg></div>
+<div class="cx-d">路线题不要试图一次看全，<b>一站一站看</b>：每站的进料是上一站的出料，每一步只改分子上的一个位置（上溴 / 变醛 / 保护）。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (4)② 问三步路线的试剂与反应类型，就按这条链逐站报。</div>
+</div>
+<div class="cx-card" style="--cxc:#7c3aed">
+<div class="cx-no">03</div>
+<div class="cx-t">两组峰 = 两类氢</div>
+<div class="cx-sub">峰数看环境，面积看个数</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect class="cx-r" style="animation-delay:0.00s" x="73.0" y="36.0" width="44.0" height="56.0" rx="5" fill="#7c3aed" fill-opacity=".82"/><text x="95.0" y="27.0" font-size="10.5" fill="#7c3aed" text-anchor="middle" font-weight="700" dominant-baseline="middle">9</text><text x="95.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">叔丁基 9H</text><rect class="cx-r" style="animation-delay:0.28s" x="143.0" y="85.8" width="44.0" height="6.2" rx="5" fill="#f59e0b" fill-opacity=".82"/><text x="165.0" y="76.77777777777777" font-size="10.5" fill="#f59e0b" text-anchor="middle" font-weight="700" dominant-baseline="middle">1</text><text x="165.0" y="103" font-size="10" fill="#64748b" text-anchor="middle" font-weight="400" dominant-baseline="middle">醛基 1H</text><line x1="16" y1="92" x2="244" y2="92" stroke="#cbd5e1" stroke-width="1.2"/></svg></div>
+<div class="cx-d">氢谱的<b>峰数 = 氢的环境种数</b>，峰面积比 = 各类氢的个数比。"只有两组峰"就意味着全分子的 H 只能分成两类 ⇒ 结构必须高度对称。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：第 (2) 问枚举 C₅H₁₀O 的两组峰异构体，就是先锁定"高度对称"再数。</div>
+</div>
+<div class="cx-card" style="--cxc:#e11d48">
+<div class="cx-no">04</div>
+<div class="cx-t">有 sp³ 碳就不可能全共面</div>
+<div class="cx-sub">共面判据</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><rect x="6" y="10" width="118" height="80" rx="10" fill="#16a34a" fill-opacity=".07" stroke="#16a34a" stroke-width="1.3"/><text x="65" y="36.0" font-size="11.5" fill="#16a34a" text-anchor="middle" font-weight="600" dominant-baseline="middle">sp² 平面三角</text><rect x="30" y="58" width="70" height="19" rx="9" fill="#16a34a" fill-opacity=".13"/><text x="65" y="61.3" font-size="10" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">✓</text><text x="65" y="73.7" font-size="10" fill="#16a34a" text-anchor="middle" font-weight="700" dominant-baseline="middle">可与苯环共面</text><rect x="136" y="10" width="118" height="80" rx="10" fill="#e11d48" fill-opacity=".07" stroke="#e11d48" stroke-width="1.3"/><text x="195" y="36.0" font-size="11.5" fill="#e11d48" text-anchor="middle" font-weight="600" dominant-baseline="middle">sp³ 四面体</text><rect x="160" y="58" width="70" height="19" rx="9" fill="#e11d48" fill-opacity=".13"/><text x="195" y="61.3" font-size="10" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">✗</text><text x="195" y="73.7" font-size="10" fill="#e11d48" text-anchor="middle" font-weight="700" dominant-baseline="middle">把碳顶出平面</text><text x="130" y="103" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">同一个考点，两种写法</text></svg></div>
+<div class="cx-d">苯环、双键碳是 <b>sp² 平面</b>；饱和碳、缩醛碳、甲基碳是 <b>sp³ 四面体</b>。分子里只要有一个 sp³ 碳，就<b>不可能所有原子共面</b>。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：C 项说"所有碳原子可能共面"，一眼就能否掉。</div>
+</div>
+</div>
     </section>
 
   <section id="sandbox">
     <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
-    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>题干依据 → 公式 → 解析 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>。场景里的物体可以<b>点一下</b>，弹出「关键条件 / 公式定理 / 推导思路 / 易错点」知识卡。</p>
     <div class="viz3d" id="vizS"><canvas></canvas></div>
   </section>
   
@@ -577,7 +652,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 三步合成 1b：从甲苯到缩醛（路线链）</span></div>
 
-<p>① <b>苯环溴代</b>：Br₂/FeBr₃（无机试剂），甲基邻对位定位，取对位得对溴甲苯——取代反应。</p><p>② <b>侧链变醛</b>：Cl₂/光照 把 —CH₃ 氯代为 —CHCl₂，再水解得 —CHO，得对溴苯甲醛（<b>同时含醛基与溴原子两种官能团</b>——这正是 (4)② 第一空的答案）。</p><p>③ <b>缩醛化</b>：对溴苯甲醛 + 乙二醇 ⇌(浓硫酸,Δ) 1b + H₂O——取代反应。1b 即 1a（对溴苯甲醛的乙二醇缩醛）。</p><p>图 A 拖到第 5 步看全程：甲苯 → 对溴甲苯 → 对溴苯甲醛 → 1b →（Heck-脱水）3a。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「从甲苯出发，产物是"对位"取代」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>甲基是<b>邻对位定位基</b> ⇒ 溴代上对位 ⇒ 对溴甲苯（Br₂/FeBr₃，苯环上的取代反应）。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「要把 —CH₃ 变成 —CHO」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>不能直接氧化（会一路氧化成羧酸）⇒ 先 <b>Cl₂/光照</b> 把甲基氯代成 —CHCl₂，再水解 ⇒ 对溴苯甲醛。此刻分子上<b>同时有醛基和溴原子</b>——这正是 (4)② 第一空的答案。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「下一步要做 Pd 催化的 Heck 偶联，但分子上有活泼的醛基」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>醛基在反应条件下会被破坏 ⇒ 先<b>保护</b>：加乙二醇、浓硫酸催化，醛基变缩醛（1,3-二氧五环）⇒ 得 1b，即 1a。</div></div><p>三步连起来就是一句话：<b>先定位上溴 → 再侧链变醛 → 最后套保护壳</b>。图 A 拖到第 5 步可看全程。</p>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -596,7 +671,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · 两组峰计数：2a 的同分异构体</span></div>
 
-<p>2a = 2-甲基-3-丁烯-2-醇，分子式 <b>C₅H₁₀O</b>（不饱和度 1）。要求氢谱只有 <b>两组峰</b> ⇒ 高度对称。</p><p>① <b>2,2-二甲基丙醛</b> (CH₃)₃C—CHO：叔丁基 9H + 醛基 1H；② <b>3-戊酮</b> CH₃CH₂COCH₂CH₃：6H + 4H；③ <b>2,2-二甲基氧杂环丁烷</b>（O 在四元环里）：环上 2 个 CH₂ 等价 4H + 2 个 CH₃ 等价 6H。</p><p>共 <b style="color:#0f766e">3 种</b>（不考虑立体异构），任写其一即可。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「2a 分子式 C₅H₁₀O，氢谱"只有两组峰"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>峰数 = 氢的<b>环境种数</b> ⇒ 全分子的 H 只能分成 2 类 ⇒ 结构必须<b>高度对称</b>。（不饱和度 1，所以是醛/酮/环醚，不含苯环。）</div></div><p>按对称性从高到低枚举：</p><p>① <b>2,2-二甲基丙醛</b> (CH₃)₃C—CHO：叔丁基 9H + 醛基 1H；<br>② <b>3-戊酮</b> CH₃CH₂COCH₂CH₃：两端对称，6H + 4H；<br>③ <b>2,2-二甲基氧杂环丁烷</b>（O 在四元环里）：环上 2 个 CH₂ 等价 4H + 2 个 CH₃ 等价 6H。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「要求"两组峰"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>逐个验证都只有 2 组等价氢 ⇒ <b style="color:#0f766e">共 3 种</b>（不考虑立体异构），任写其一即可。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -613,7 +688,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 选项终审：σ/π、sp³、共面、原子利用率</span></div>
 
-<p><b>A ✔</b>：Heck 偶联中 Ar—Br 的 C—Br σ 键断裂；脱水生成端烯 C=C π 键——既有 σ 断裂又有 π 形成。</p><p><b>B ✘</b>：2a=(CH₃)₂C(OH)CH=CH₂ 无手性碳；sp³ 原子 = 2 个甲基 C + C(OH) + 醇 O = <b>4 个</b>，不是 3。</p><p><b>C ✘</b>：3a 的缩醛碳（1,3-二氧五环 2 位 C）与侧链 —CH₃ 都是 sp³ 四面体，不可能所有碳共面。</p><p><b>D ✔</b>：3a 催化加氢还原，H₂ 全部进入产物，原子利用率 100%——<b style="color:#0f766e">答案 AD</b>。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「A：Heck 偶联 + 脱水」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ar—Br 的 <b>C—Br σ 键断裂</b>；脱水生成端烯时形成 <b>C=C π 键</b> ⇒ 既有 σ 断裂又有 π 形成 ⇒ <b style="color:#0f766e">A 对</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「B：数手性碳与 sp³ 原子」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>2a = (CH₃)₂C(OH)CH=CH₂ 没有连四个不同基团的碳 ⇒ 无手性碳；sp³ 原子 = 2 个甲基 C + C(OH) + 醇 O = <b>4 个</b>，不是 3 ⇒ B 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「C：说"所有碳原子可能共面"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>3a 的缩醛碳与甲基碳都是 <b>sp³ 四面体</b> ⇒ 只要有 sp³ 碳就不可能全共面 ⇒ C 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「D：催化加氢」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>H₂ 的两个 H 全部进入产物、无副产物 ⇒ 原子利用率 100% ⇒ D 对 ⇒ <b>答案 AD</b>。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -3306,7 +3381,9 @@ document.addEventListener('DOMContentLoaded',function(){
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div><div class="vz-k"></div>'
+      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
+        + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+        + '<div class="vz-bridge">↓ 所以想到</div>'
         + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
         + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
         + '<button type="button" class="vz-next">下一步 →</button></div>';
@@ -3315,6 +3392,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
       var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
       var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
+      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
       var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
       var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
 
@@ -3529,7 +3607,9 @@ document.addEventListener('DOMContentLoaded',function(){
         st.enter = 0;
         eIdx.textContent = '第 ' + (i + 1) + ' / ' + steps.length + ' 步';
         eT.textContent = st.t || '';
-        eK.innerHTML = st.k || ''; eK.style.display = st.k ? '' : 'none';
+        eK.innerHTML = st.k || '';
+        eSee.style.display = st.k ? '' : 'none';
+        eBr.style.display = st.k ? '' : 'none';
         eF.innerHTML = wrapF(st.f); eF.style.display = st.f ? '' : 'none';
         eD.innerHTML = st.d || '';
         eW.innerHTML = st.w ? ('⚠️ 易错 · ' + st.w) : '';
@@ -3573,7 +3653,8 @@ document.addEventListener('DOMContentLoaded',function(){
       function showCard(o) {
         var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
         if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + cd.formula + '</div>';
+        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
+        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
         if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
         if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
         cbox.innerHTML = html;
