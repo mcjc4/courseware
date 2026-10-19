@@ -3121,6 +3121,11 @@ document.addEventListener('DOMContentLoaded',function(){
                  : new T.Vector3(0, 0.5, 0);
     var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
+    /* 缩放范围按「初始机位」相对限定：手机上两指一张就能拉 3~10 倍，
+       绝对上下限会把画面顶出画框（2026-10-19 修） */
+    var dMin = o.dmin != null ? o.dmin : Math.max(1.1, d0 * 0.5);
+    var dMax = o.dmax != null ? o.dmax : Math.max(d0 * 2.2, 6);
+    function clampD(d) { return Math.min(Math.max(d, dMin), dMax); }
     function apply() {
       var sp = Math.sin(st.pol);
       cam.position.set(tgt.x + st.dist * sp * Math.sin(st.az),
@@ -3166,7 +3171,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var d = twoDist();
         if (pinchD0 > 12 && d > 12) {
           /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
-          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          st.dist = clampD(dist0 * pinchD0 / d);
           apply();
         }
         return;
@@ -3193,7 +3198,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
-      st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
+      st.dist = clampD(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)));
       apply();
     }, { passive: false });
 
@@ -3563,18 +3568,23 @@ document.addEventListener('DOMContentLoaded',function(){
          触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
       var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
+      /* 拾取：手指有 ~10px 误差，中心点打不中时按 3×3 网格向四周探一圈 */
+      var SLOP = [[0, 0], [12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, 9], [9, -9], [-9, -9]];
       function hitAt(e) {
         var st = steps[cur];
         if (!st || !st.pick.length) return null;
         var r = cw.getBoundingClientRect();
-        ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-        ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
-        ray.setFromCamera(ndc, cam);
-        var hs = ray.intersectObjects(st.pick, true);
-        if (!hs.length) return null;
-        var o = hs[0].object;
-        while (o && !o.userData.card) o = o.parent;
-        return o && o.userData.card ? o : null;
+        for (var i = 0; i < SLOP.length; i++) {
+          ndc.x = ((e.clientX + SLOP[i][0] - r.left) / r.width) * 2 - 1;
+          ndc.y = -((e.clientY + SLOP[i][1] - r.top) / r.height) * 2 + 1;
+          ray.setFromCamera(ndc, cam);
+          var hs = ray.intersectObjects(st.pick, true);
+          if (!hs.length) continue;
+          var o = hs[0].object;
+          while (o && !o.userData.card) o = o.parent;
+          if (o && o.userData.card) return o;
+        }
+        return null;
       }
       function showCard(o) {
         var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
