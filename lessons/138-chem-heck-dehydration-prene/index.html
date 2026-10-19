@@ -420,7 +420,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
-.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
@@ -3098,11 +3098,12 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
     function apply() {
       var sp = Math.sin(st.pol);
@@ -3113,27 +3114,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
       st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st, tgt: tgt };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3146,6 +3197,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3243,8 +3295,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var wrap = document.createElement('div'); wrap.className = 'vz-stage';
       var cw = document.createElement('div'); cw.className = 'vz-canvas';
       var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
@@ -3489,7 +3542,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
       /* ---------- 点击 / 悬停拾取 ---------- */
       var ray = new T.Raycaster(), ndc = new T.Vector2();
-      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
       function hitAt(e) {
         var st = steps[cur];
@@ -3523,21 +3579,54 @@ document.addEventListener('DOMContentLoaded',function(){
         if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
         dirty = true;
       }
-      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+
+      cw.addEventListener('pointerdown', function (e) {
+        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
+        if (cbox.contains(e.target)) { tap = null; return; }
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
       cw.addEventListener('pointermove', function (e) {
-        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
         var now = performance.now();
-        if (now - hovT < 70 || moved) return;
+        if (now - hovT < 70) return;
         hovT = now;
         var o = hitAt(e);
         setHov(o);
-        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
       });
+
       cw.addEventListener('pointerup', function (e) {
-        if (moved) return;
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) showCard(o); else hideCard();
+        if (o) { dTap.t = 0; showCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+        hideCard();
       });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
 
       /* ---------- 尺寸 ---------- */
       function resize() {
@@ -3762,7 +3851,7 @@ return L;}),'noteFn':(function(t){return '四项判定柱：绿对红错 ⇒ <b 
 
   },{'maxN':4});
 
-VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.4,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读题：一锅法 = 一锅两步（Heck 偶联 + 脱水）",'k':"题干「钯催化的 Heck-脱水反应，一锅法合成含异戊二烯侧链的化合物」",'f':"\\text{1a}+\\text{2a}\\ \\xrightarrow{\\ \\mathrm{Pd}\\ }\\ \\text{3a}",'d':"①「<b>一锅法</b>」⇒ 不分离中间体，两步串联；②「<b>Heck 偶联</b>」⇒ 卤代芳烃（1a 的 C–Br）与烯烃（2a）成键，断的是 C–Br σ 键、形成的是新的 C–C σ 键；③「<b>脱水</b>」⇒ 2a 的叔醇脱水生成 C=C。",'w':"别把「一锅法」理解成一步反应——它只是不分离中间产物。",'cam':{'az':0.62,'pol':1.02,'dist':8.0,'tgt':[0.4,0,0]},'objs':[{'k':"ball",'p':[0.52,0.35,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.26,0.8,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.26,0.8,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.52,0.35,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.26,-0.1,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.26,-0.1,0.0],'r':0.1,'c':"#334155"},{'k':"bond",'a':[0.52,0.35,0.0],'b':[0.26,0.8,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[0.26,0.8,0.0],'b':[-0.26,0.8,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.26,0.8,0.0],'b':[-0.52,0.35,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.52,0.35,0.0],'b':[-0.26,-0.1,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.26,-0.1,0.0],'b':[0.26,-0.1,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[0.26,-0.1,0.0],'b':[0.52,0.35,0.0],'c':"#334155",'w':0.045},{'k':"ball",'p':[1.05,0.62,0],'r':0.12,'c':"#0d9488"},{'k':"ball",'p':[1.62,0.18,0],'r':0.1,'c':"#dc2626",'lb':"O",'lp':[1.62,0.46,0],'lc':"#b91c1c"},{'k':"ball",'p':[1.42,-0.44,0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.72,-0.36,0],'r':0.1,'c':"#dc2626",'lb':"O",'lp':[0.62,-0.66,0],'lc':"#b91c1c"},{'k':"bond",'a':[1.05,0.62,0],'b':[1.62,0.18,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[1.62,0.18,0],'b':[1.42,-0.44,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[1.42,-0.44,0],'b':[0.72,-0.36,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[0.72,-0.36,0],'b':[1.05,0.62,0],'c':"#64748b",'w':0.045},{'k':"label",'p':[0,1.28,0],'lb':"1a：对溴苯甲醛乙二醇缩醛",'c':"#1f2430"},{'k':"ball",'p':[-0.52,0.35,0],'r':0.11,'c':"#7c3aed",'lb':"Br",'lp':[-0.52,0.08,0],'lc':"#6d28d9",'card':{'cond':"C–Br 是 Heck 反应的<b>反应位点</b>",'formula':"\\mathrm{Ar-Br}+\\mathrm{CH_2{=}CH-R}\\xrightarrow{\\mathrm{Pd}}\\mathrm{Ar-CH{=}CH-R}",'think':"Pd 插入 C–Br 键 → 与烯烃配位 → 迁移插入 → β-H 消除",'warn':"断的是 σ 键、成的是 σ 键，同时伴随 π 键重排"}}]},{'t':"第 2 步 · (1) 官能团：看环，不是看醛",'k':"设问「1a 中含氧官能团的名称」",'f':"\\mathrm{R_2C(OR')_2}\\ \\ \\text{——}\\ \\text{缩醛（醚键）}",'d':"1a 是把醛基（–CHO）与乙二醇缩合成的<b>环状缩醛</b>。缩醛里能识别的含氧官能团是<b>醚键</b>（C–O–C），不是醛基——醛基已经被保护掉了。",'w':"缩醛 ≠ 醛。写「醛基」就错了；写「醚键」或「环状缩醛」才对。",'cam':{'az':0.55,'pol':1.0,'dist':7.2,'tgt':[1.1,0.1,0]},'objs':[{'k':"ball",'p':[1.05,0.62,0],'r':0.13,'c':"#0d9488",'an':"pulse"},{'k':"ball",'p':[1.62,0.18,0],'r':0.11,'c':"#dc2626",'lb':"O（醚键）",'lp':[1.75,0.5,0],'lc':"#b91c1c",'card':{'cond':"缩醛中的氧属于<b>醚键</b> C–O–C",'formula':"\\mathrm{C{-}O{-}C}",'think':"醛 + 2 醇 → 缩醛 + 水，官能团从 C=O 变成两个 C–O",'warn':"缩醛遇碱稳定、遇酸水解——这也是它用来保护醛基的原因"}},{'k':"ball",'p':[1.42,-0.44,0],'r':0.11,'c':"#334155"},{'k':"ball",'p':[0.72,-0.36,0],'r':0.11,'c':"#dc2626",'lb':"O（醚键）",'lp':[0.5,-0.72,0],'lc':"#b91c1c"},{'k':"bond",'a':[1.05,0.62,0],'b':[1.62,0.18,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[1.62,0.18,0],'b':[1.42,-0.44,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[1.42,-0.44,0],'b':[0.72,-0.36,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[0.72,-0.36,0],'b':[1.05,0.62,0],'c':"#64748b",'w':0.05},{'k':"label",'p':[1.15,1.15,0],'lb':"环状缩醛 → 醚键",'c':"#0f766e"}]},{'t':"第 3 步 · (2)① 分子式：2a 的 C₅H₁₀O 怎么数",'k':"设问「2a 的分子式」",'f':"\\mathrm{C_5H_{10}O}\\qquad \\Omega=\\frac{2\\times5+2-10}{2}=1",'d':"2a 是 2-甲基-3-丁烯-2-醇：主链 4 个碳 + 1 个甲基 = <b>5 个 C</b>；一个羟基氧 = <b>1 个 O</b>；一个 C=C ⇒ 不饱和度 1 ⇒ H 比饱和烷烃少 2 个，得 <b>H₁₀</b>。",'w':"别漏掉甲基碳；不饱和度 1 对应 H = 2n+2−2 = 10（n=5）。",'cam':{'az':0.5,'pol':1.0,'dist':7.0,'tgt':[0,0.2,0]},'objs':[{'k':"ball",'p':[-0.8,0.2,0],'r':0.13,'c':"#334155",'lb':"C1",'lp':[-0.8,0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.4,-0.2,0],'r':0.13,'c':"#334155",'lb':"C2",'lp':[-0.4,-0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[0.1,0.2,0],'r':0.13,'c':"#334155",'lb':"C3",'lp':[0.1,0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[0.6,-0.2,0],'r':0.13,'c':"#334155",'lb':"C4",'lp':[0.6,-0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.4,0.62,0],'r':0.13,'c':"#334155",'lb':"CH₃",'lp':[-0.4,0.94,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.8,0.2,0],'r':0.1,'c':"#dc2626"},{'k':"ball",'p':[-1.16,0.5,0],'r':0.11,'c':"#dc2626",'lb':"OH",'lp':[-1.5,0.62,0],'lc':"#b91c1c",'card':{'cond':"2a 是<b>叔醇</b>：羟基连在连有 3 个碳的碳上",'formula':"\\mathrm{(CH_3)_2C(OH)CH{=}CH_2}",'think':"叔醇最容易脱水（生成稳定的共轭二烯）",'warn':"它没有手性碳——4 个基团有两组相同 CH₃"}},{'k':"bond",'a':[-0.8,0.2,0],'b':[-1.16,0.5,0],'c':"#dc2626",'w':0.045},{'k':"bond",'a':[-0.8,0.2,0],'b':[-0.4,-0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[-0.4,-0.2,0],'b':[0.1,0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[0.1,0.2,0],'b':[0.6,-0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[-0.4,-0.2,0],'b':[-0.4,0.62,0],'c':"#334155",'w':0.05},{'k':"label",'p':[0,-1.05,0],'lb':"5 个 C + 1 个 O + 1 个 C=C ⇒ C₅H₁₀O",'c':"#0f766e"}]},{'t':"第 4 步 · (2)② 两组峰：把对称性当筛子",'k':"设问「核磁共振氢谱只有两组峰的同分异构体有几种」",'f':"\\text{两组峰}\\ \\Leftrightarrow\\ \\text{只有 2 种化学环境不同的 H}",'d':"两组峰意味着分子的氢<b>高度对称</b>：要么 9H+1H（三个等价 CH₃ + 醛氢），要么 6H+4H（两个等价 CH₃ + 两个等价 CH₂）。把 C₅H₁₀O 的醛、酮、环醚三类逐一过筛，符合的共 <b>3 种</b>。",'w':"「两组峰」是数等价氢的组数，不是峰的个数；积分数比（9:1、6:4）也要能对上。",'cam':{'az':0.55,'pol':1.0,'dist':9.2,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.75,0.35,0],'r':0.15,'c':"#0f766e",'lb':"2,2-二甲基丙醛",'lp':[-1.75,0.85,0],'lc':"#0f766e",'card':{'cond':"(CH₃)₃C–CHO：三个 CH₃ 等价（9H）+ 醛氢（1H）",'formula':"\\mathrm{(CH_3)_3CCHO}",'think':"叔丁基的高对称性是「两组峰」的常见来源",'warn':"醛氢必须单独成一组，别漏"}},{'k':"ball",'p':[0,0.35,0],'r':0.15,'c':"#0f766e",'lb':"3-戊酮",'lp':[0,0.85,0],'lc':"#0f766e",'card':{'cond':"C₂H₅–CO–C₂H₅：两个乙基等价 ⇒ 6H + 4H",'formula':"\\mathrm{CH_3CH_2COCH_2CH_3}",'think':"对称酮两侧乙基完全等价，只有 α-H 与 β-H 两类",'warn':"若碳链不对称就变成 4 组峰"}},{'k':"ball",'p':[1.75,0.35,0],'r':0.15,'c':"#0f766e",'lb':"2,2-二甲基氧杂环丁烷",'lp':[1.75,0.85,0],'lc':"#0f766e",'card':{'cond':"四元环：两个等价 CH₃ + 环上两个等价 CH₂",'formula':"\\mathrm{C_4H_6O(CH_3)_2}",'think':"环上对称面让 CH₂ 两氢等价、CH₃ 三组等价",'warn':"环状醚容易漏——只想到醛酮就会少算"}},{'k':"label",'p':[0,-0.65,0],'lb':"三类逐一过筛 ⇒ 共 3 种",'c':"#0f766e"}]},{'t':"第 5 步 · (3) 终审：σ/π、sp³、共面、原子利用率",'k':"设问「下列说法正确的是」（不定项）",'f':"\\text{A}\\ \\checkmark\\quad \\text{B}\\ \\times\\quad \\text{C}\\ \\times\\quad \\text{D}\\ \\checkmark",'d':"A ✓ Heck 反应断 C–Br <b>σ 键</b>、形成 C–C <b>σ 键</b>，同时 π 键重排；B ✗ 2a 无手性碳（两个 CH₃ 相同），sp³ 杂化原子是 <b>4 个</b>不是 2 个；C ✗ 3a 含 sp³ 碳（缩醛环、甲基），带四面体碳<b>不可能全部共面</b>；D ✓ 加氢还原是加成，<b>原子利用率 100%</b>。",'w':"「含 sp³ 碳还全部共面」是选择题高频错项——四面体键角 109.5° 就注定不共面。",'cam':{'az':0.6,'pol':1.0,'dist':9.0,'tgt':[0,0.15,0]},'objs':[{'k':"box",'p':[-2.1,0.35,0],'sz':[0.6,0.6,0.6],'c':"#0f766e",'op':0.9,'lb':"A ✓ σ断/π成",'lp':[-2.1,1.0,0],'lc':"#0f766e"},{'k':"box",'p':[-0.7,0.35,0],'sz':[0.6,0.6,0.6],'c':"#dc2626",'op':0.85,'lb':"B ✗ sp³ 是 4 个",'lp':[-0.7,1.0,0],'lc':"#b91c1c"},{'k':"box",'p':[0.7,0.35,0],'sz':[0.6,0.6,0.6],'c':"#dc2626",'op':0.85,'lb':"C ✗ 不可能全共面",'lp':[0.7,1.0,0],'lc':"#b91c1c"},{'k':"box",'p':[2.1,0.35,0],'sz':[0.6,0.6,0.6],'c':"#0f766e",'op':0.9,'lb':"D ✓ 利用率 100%",'lp':[2.1,1.0,0],'lc':"#0f766e"},{'k':"ball",'p':[0,-0.6,0],'r':0.16,'c':"#7c3aed",'an':"pulse",'lb':"sp³ 四面体碳 109.5°",'lp':[0,-1.1,0],'lc':"#6d28d9",'card':{'cond':"sp³ 碳是<b>四面体</b>，四个键不共面",'formula':"\\angle=109^{\\circ}28'",'think':"只要分子里有 sp³ 碳，就不能要求所有原子共面",'warn':"苯环、双键部分共面 ≠ 整个分子共面"}},{'k':"label",'p':[0,-1.55,0],'lb':"答案：AD",'c':"#0f766e"}]}]});
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.4,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读题：一锅法 = 一锅两步（Heck 偶联 + 脱水）",'k':"题干「钯催化的 Heck-脱水反应，一锅法合成含异戊二烯侧链的化合物」",'f':"\\text{1a}+\\text{2a}\\ \\xrightarrow{\\ \\mathrm{Pd}\\ }\\ \\text{3a}",'d':"①「<b>一锅法</b>」⇒ 不分离中间体，两步串联；②「<b>Heck 偶联</b>」⇒ 卤代芳烃（1a 的 C–Br）与烯烃（2a）成键，断的是 C–Br σ 键、形成的是新的 C–C σ 键；③「<b>脱水</b>」⇒ 2a 的叔醇脱水生成 C=C。",'w':"别把「一锅法」理解成一步反应——它只是不分离中间产物。",'cam':{'az':0.62,'pol':1.02,'dist':8.0,'tgt':[0.4,0,0]},'objs':[{'k':"ball",'p':[0.52,0.35,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.26,0.8,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.26,0.8,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.52,0.35,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[-0.26,-0.1,0.0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.26,-0.1,0.0],'r':0.1,'c':"#334155"},{'k':"bond",'a':[0.52,0.35,0.0],'b':[0.26,0.8,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[0.26,0.8,0.0],'b':[-0.26,0.8,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.26,0.8,0.0],'b':[-0.52,0.35,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.52,0.35,0.0],'b':[-0.26,-0.1,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[-0.26,-0.1,0.0],'b':[0.26,-0.1,0.0],'c':"#334155",'w':0.045},{'k':"bond",'a':[0.26,-0.1,0.0],'b':[0.52,0.35,0.0],'c':"#334155",'w':0.045},{'k':"ball",'p':[1.05,0.62,0],'r':0.12,'c':"#0d9488"},{'k':"ball",'p':[1.62,0.18,0],'r':0.1,'c':"#dc2626",'lb':"O",'lp':[1.62,0.46,0],'lc':"#b91c1c"},{'k':"ball",'p':[1.42,-0.44,0],'r':0.1,'c':"#334155"},{'k':"ball",'p':[0.72,-0.36,0],'r':0.1,'c':"#dc2626",'lb':"O",'lp':[0.62,-0.66,0],'lc':"#b91c1c"},{'k':"bond",'a':[1.05,0.62,0],'b':[1.62,0.18,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[1.62,0.18,0],'b':[1.42,-0.44,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[1.42,-0.44,0],'b':[0.72,-0.36,0],'c':"#64748b",'w':0.045},{'k':"bond",'a':[0.72,-0.36,0],'b':[1.05,0.62,0],'c':"#64748b",'w':0.045},{'k':"label",'p':[0,1.28,0],'lb':"1a：对溴苯甲醛乙二醇缩醛",'c':"#1f2430"},{'k':"ball",'p':[-0.52,0.35,0],'r':0.11,'c':"#7c3aed",'lb':"Br",'lp':[-0.52,0.08,0],'lc':"#6d28d9",'card':{'cond':"C–Br 是 Heck 反应的<b>反应位点</b>",'formula':"\\mathrm{Ar-Br}+\\mathrm{CH_2{=}CH-R}\\xrightarrow{\\mathrm{Pd}}\\mathrm{Ar-CH{=}CH-R}",'think':"Pd 插入 C–Br 键 → 与烯烃配位 → 迁移插入 → β-H 消除",'warn':"断的是 σ 键、成的是 σ 键，同时伴随 π 键重排"}}]},{'t':"第 2 步 · (1) 官能团：看环，不是看醛",'k':"设问「1a 中含氧官能团的名称」",'f':"\\mathrm{R_2C(OR')_2}\\ \\ \\text{——}\\ \\text{缩醛（醚键）}",'d':"1a 是把醛基（–CHO）与乙二醇缩合成的<b>环状缩醛</b>。缩醛里能识别的含氧官能团是<b>醚键</b>（C–O–C），不是醛基——醛基已经被保护掉了。",'w':"缩醛 ≠ 醛。写「醛基」就错了；写「醚键」或「环状缩醛」才对。",'cam':{'az':0.55,'pol':1.0,'dist':7.2,'tgt':[1.1,0.1,0]},'objs':[{'k':"ball",'p':[1.05,0.62,0],'r':0.13,'c':"#0d9488",'an':"pulse"},{'k':"ball",'p':[1.62,0.18,0],'r':0.11,'c':"#dc2626",'lb':"O（醚键）",'lp':[1.75,0.5,0],'lc':"#b91c1c",'card':{'cond':"缩醛中的氧属于<b>醚键</b> C–O–C",'formula':"\\mathrm{C{-}O{-}C}",'think':"醛 + 2 醇 → 缩醛 + 水，官能团从 C=O 变成两个 C–O",'warn':"缩醛遇碱稳定、遇酸水解——这也是它用来保护醛基的原因"}},{'k':"ball",'p':[1.42,-0.44,0],'r':0.11,'c':"#334155"},{'k':"ball",'p':[0.72,-0.36,0],'r':0.11,'c':"#dc2626",'lb':"O（醚键）",'lp':[0.5,-0.72,0],'lc':"#b91c1c"},{'k':"bond",'a':[1.05,0.62,0],'b':[1.62,0.18,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[1.62,0.18,0],'b':[1.42,-0.44,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[1.42,-0.44,0],'b':[0.72,-0.36,0],'c':"#64748b",'w':0.05},{'k':"bond",'a':[0.72,-0.36,0],'b':[1.05,0.62,0],'c':"#64748b",'w':0.05},{'k':"label",'p':[1.15,1.15,0],'lb':"环状缩醛 → 醚键",'c':"#0f766e"}]},{'t':"第 3 步 · (2)① 分子式：2a 的 C₅H₁₀O 怎么数",'k':"设问「2a 的分子式」",'f':"\\mathrm{C_5H_{10}O}\\qquad \\Omega=\\frac{2\\times5+2-10}{2}=1",'d':"2a 是 2-甲基-3-丁烯-2-醇：主链 4 个碳 + 1 个甲基 = <b>5 个 C</b>；一个羟基氧 = <b>1 个 O</b>；一个 C=C ⇒ 不饱和度 1 ⇒ H 比饱和烷烃少 2 个，得 <b>H₁₀</b>。",'w':"别漏掉甲基碳；不饱和度 1 对应 H = 2n+2−2 = 10（n=5）。",'cam':{'az':0.5,'pol':1.0,'dist':7.0,'tgt':[0,0.2,0]},'objs':[{'k':"ball",'p':[-0.8,0.2,0],'r':0.13,'c':"#334155",'lb':"C1",'lp':[-0.8,0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.4,-0.2,0],'r':0.13,'c':"#334155",'lb':"C2",'lp':[-0.4,-0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[0.1,0.2,0],'r':0.13,'c':"#334155",'lb':"C3",'lp':[0.1,0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[0.6,-0.2,0],'r':0.13,'c':"#334155",'lb':"C4",'lp':[0.6,-0.52,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.4,0.62,0],'r':0.13,'c':"#334155",'lb':"CH₃",'lp':[-0.4,0.94,0],'lc':"#1f2430"},{'k':"ball",'p':[-0.8,0.2,0],'r':0.1,'c':"#dc2626"},{'k':"ball",'p':[-1.16,0.5,0],'r':0.11,'c':"#dc2626",'lb':"OH",'lp':[-1.5,0.62,0],'lc':"#b91c1c",'card':{'cond':"2a 是<b>叔醇</b>：羟基连在连有 3 个碳的碳上",'formula':"\\mathrm{(CH_3)_2C(OH)CH{=}CH_2}",'think':"叔醇最容易脱水（生成稳定的共轭二烯）",'warn':"它没有手性碳——4 个基团有两组相同 CH₃"}},{'k':"bond",'a':[-0.8,0.2,0],'b':[-1.16,0.5,0],'c':"#dc2626",'w':0.045},{'k':"bond",'a':[-0.8,0.2,0],'b':[-0.4,-0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[-0.4,-0.2,0],'b':[0.1,0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[0.1,0.2,0],'b':[0.6,-0.2,0],'c':"#334155",'w':0.05},{'k':"bond",'a':[-0.4,-0.2,0],'b':[-0.4,0.62,0],'c':"#334155",'w':0.05},{'k':"label",'p':[0,-1.05,0],'lb':"5 个 C + 1 个 O + 1 个 C=C ⇒ C₅H₁₀O",'c':"#0f766e"}]},{'t':"第 4 步 · (2)② 两组峰：把对称性当筛子",'k':"设问「核磁共振氢谱只有两组峰的同分异构体有几种」",'f':"\\text{两组峰}\\ \\Leftrightarrow\\ \\text{只有 2 种化学环境不同的 H}",'d':"两组峰意味着分子的氢<b>高度对称</b>：要么 9H+1H（三个等价 CH₃ + 醛氢），要么 6H+4H（两个等价 CH₃ + 两个等价 CH₂）。把 C₅H₁₀O 的醛、酮、环醚三类逐一过筛，符合的共 <b>3 种</b>。",'w':"「两组峰」是数等价氢的组数，不是峰的个数；积分数比（9:1、6:4）也要能对上。",'cam':{'az':0.55,'pol':1.0,'dist':9.2,'tgt':[0,0.1,0]},'objs':[{'k':"ball",'p':[-1.75,0.35,0],'r':0.15,'c':"#0f766e",'lb':"2,2-二甲基丙醛",'lp':[-1.75,0.85,0],'lc':"#0f766e",'card':{'cond':"(CH₃)₃C–CHO：三个 CH₃ 等价（9H）+ 醛氢（1H）",'formula':"\\mathrm{(CH_3)_3CCHO}",'think':"叔丁基的高对称性是「两组峰」的常见来源",'warn':"醛氢必须单独成一组，别漏"}},{'k':"ball",'p':[0,0.35,0],'r':0.15,'c':"#0f766e",'lb':"3-戊酮",'lp':[0,0.85,0],'lc':"#0f766e",'card':{'cond':"C₂H₅–CO–C₂H₅：两个乙基等价 ⇒ 6H + 4H",'formula':"\\mathrm{CH_3CH_2COCH_2CH_3}",'think':"对称酮两侧乙基完全等价，只有 α-H 与 β-H 两类",'warn':"若碳链不对称就变成 4 组峰"}},{'k':"ball",'p':[1.75,0.35,0],'r':0.15,'c':"#0f766e",'lb':"2,2-二甲基氧杂环丁烷",'lp':[1.75,0.85,0],'lc':"#0f766e",'card':{'cond':"四元环：两个等价 CH₃ + 环上两个等价 CH₂",'formula':"\\mathrm{C_4H_6O(CH_3)_2}",'think':"环上对称面让 CH₂ 两氢等价、CH₃ 三组等价",'warn':"环状醚容易漏——只想到醛酮就会少算"}},{'k':"label",'p':[0,-0.65,0],'lb':"三类逐一过筛 ⇒ 共 3 种",'c':"#0f766e"}]},{'t':"第 5 步 · (3) 终审：σ/π、sp³、共面、原子利用率",'k':"设问「下列说法正确的是」（不定项）",'f':"\\text{A}\\ \\checkmark\\quad \\text{B}\\ \\times\\quad \\text{C}\\ \\times\\quad \\text{D}\\ \\checkmark",'d':"A ✓ Heck 反应断 C–Br <b>σ 键</b>、形成 C–C <b>σ 键</b>，同时 π 键重排；B ✗ 2a 无手性碳（两个 CH₃ 相同），sp³ 杂化原子是 <b>4 个</b>不是 2 个；C ✗ 3a 含 sp³ 碳（缩醛环、甲基），带四面体碳<b>不可能全部共面</b>；D ✓ 加氢还原是加成，<b>原子利用率 100%</b>。",'w':"「含 sp³ 碳还全部共面」是选择题高频错项——四面体键角 109.5° 就注定不共面。",'cam':{'az':0.6,'pol':1.0,'dist':9.0,'tgt':[0,0.15,0]},'objs':[{'k':"box",'p':[-2.1,0.35,0],'sz':[0.6,0.6,0.6],'c':"#0f766e",'op':0.9,'lb':"A ✓ σ断/π成",'lp':[-2.1,1.0,0],'lc':"#0f766e"},{'k':"box",'p':[-0.7,0.35,0],'sz':[0.6,0.6,0.6],'c':"#dc2626",'op':0.85,'lb':"B ✗ sp³ 是 4 个",'lp':[-0.7,1.0,0],'lc':"#b91c1c"},{'k':"box",'p':[0.7,0.35,0],'sz':[0.6,0.6,0.6],'c':"#dc2626",'op':0.85,'lb':"C ✗ 不可能全共面",'lp':[0.7,1.0,0],'lc':"#b91c1c"},{'k':"box",'p':[2.1,0.35,0],'sz':[0.6,0.6,0.6],'c':"#0f766e",'op':0.9,'lb':"D ✓ 利用率 100%",'lp':[2.1,1.0,0],'lc':"#0f766e"},{'k':"ball",'p':[0,-0.6,0],'r':0.16,'c':"#7c3aed",'an':"pulse",'lb':"sp³ 四面体碳 109.5°",'lp':[0,-1.1,0],'lc':"#6d28d9",'card':{'cond':"sp³ 碳是<b>四面体</b>，四个键不共面",'formula':"\\angle=109^{\\circ}28'",'think':"只要分子里有 sp³ 碳，就不能要求所有原子共面",'warn':"苯环、双键部分共面 ≠ 整个分子共面"}},{'k':"label",'p':[0,-1.55,0],'lb':"答案：AD",'c':"#0f766e"}]}]});
 </script>
 <script>
 
