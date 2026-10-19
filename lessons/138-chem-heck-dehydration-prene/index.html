@@ -493,6 +493,44 @@ section[id]{scroll-margin-top:58px}
 .stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
 .stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
 
+/* 题干原文（可折叠） */
+.stem-src{margin:.55em 0 .2em;border:1px dashed #dbe3ef;border-radius:12px;background:#fbfcff;
+  padding:.5em .85em}
+.stem-src>summary{cursor:pointer;font-weight:600;color:#1d4ed8;font-size:13.5px;list-style:none;
+  outline:none}
+.stem-src>summary::-webkit-details-marker{display:none}
+.stem-src>summary::before{content:"▸ ";color:#94a3b8}
+.stem-src[open]>summary::before{content:"▾ "}
+.ss-body{margin-top:.45em;font-size:14px;line-height:1.9;color:#334155}
+.ss-body b{color:#1f2430;font-weight:600}
+
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+.prob-img-img{cursor:zoom-in}
+.pz-mask{position:fixed;inset:0;z-index:999999;display:none;background:rgba(12,18,30,.9);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);touch-action:none;
+  overscroll-behavior:contain}
+.pz-mask.on{display:block}
+.pz-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none}
+.pz-img{width:auto;height:auto;max-width:94vw;max-height:88vh;border-radius:10px;background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);transform-origin:center center;
+  will-change:transform;cursor:grab;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none}
+.pz-img.grabbing{cursor:grabbing}
+.pz-x{position:absolute;right:16px;top:14px;z-index:2;width:40px;height:40px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:18px;
+  line-height:1;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-x:hover{background:rgba(255,255,255,.28)}
+.pz-tools{position:absolute;left:16px;top:16px;z-index:2;display:flex;gap:8px}
+.pz-tools button{min-width:40px;height:36px;border:1px solid rgba(255,255,255,.28);
+  border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:background .18s}
+.pz-tools button:hover{background:rgba(255,255,255,.26)}
+.pz-hint{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;
+  color:rgba(255,255,255,.72);font-size:12.5px;pointer-events:none}
+@media(max-width:620px){.pz-hint{font-size:11.5px;bottom:10px}
+  .pz-img{max-width:96vw;max-height:82vh}}
 </style>
 </head>
 
@@ -592,7 +630,24 @@ section[id]{scroll-margin-top:58px}
 
       <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
 
-      <p><b>人话翻译</b>：科学家用「钯催化 Heck-脱水」一锅法，把「带溴的缩醛 1a」和「异戊烯醇 2a」拼成 「缩醛-苯环-CH=CH-C(CH₃)=CH₂」（3a，带异戊二烯侧链）。五个小问分别考：官能团识别、分子式、两组峰异构体计数、键的变化/杂化/共面/原子利用率、以及从甲苯三步合成 1b 的路线设计。</p><p><b>破题抓手</b>：认准 3a 结构里「1,3-二氧五环（缩醛）+ 苯环 + 共轭二烯侧链」三大件；1b 就是 1a——缩醛是醛基的「保护壳」，路线题先保护、后拼键。</p>
+      <details class="stem-src"><summary>📄 题干原文（文字版 · 下面每一处「看到题干」都逐字引自这里）</summary><div class="ss-body">我国科学家采用钯催化的 Heck-脱水反应，成功以「一锅法」合成了 12 种含有异戊二烯侧链的化合物，其中一个反应如下（反应条件省略；1a、2a、3a 的结构式见图）：<br>(1) 化合物 1a 中含氧官能团的名称是______。<br>(2) ①化合物 2a 的分子式为______。<br>②在 2a 的同分异构体中，核磁共振氢谱只有两组峰的结构共有______种（不考虑立体异构）。写出其中一种的结构简式______。<br>(3) 下列说法正确的有______。<br>A. 在 1a、2a 生成 3a 的过程中，有 σ 键断裂与 π 键形成<br>B. 在 2a 分子中，存在手性碳原子，共有 3 个原子采取 sp³ 杂化<br>C. 在 3a 分子中，所有碳原子可以共平面<br>D. 化合物 3a 可发生原子利用率为 100% 的还原反应<br>(4) 某兴趣小组设计以甲苯为原料，经三步反应合成化合物 1b 的路线。1b 可经上述 Heck-脱水反应合成化合物 3b（1b 的结构式见图）。<br>①1b 的结构简式为______。<br>②从 1b 出发，其逆合成路径如下，填写对应有机物的结构简式：<br>1b ⇒ ______（含两种官能团）⇒ ______（羧酸）⇒<br>③在合成 1b 的步骤中，第一步使用的无机试剂为______；第三步为取代反应，其化学方程式为______（注明反应条件）。</div></details><p><b>人话翻译</b>：科学家用「钯催化 Heck-脱水」一锅法，把「带溴的缩醛 1a」和「异戊烯醇 2a」拼成 「缩醛-苯环-CH=CH-C(CH₃)=CH₂」（3a，带异戊二烯侧链）。五个小问分别考：官能团识别、分子式、两组峰异构体计数、键的变化/杂化/共面/原子利用率、以及从甲苯三步合成 1b 的路线设计。</p><p><b>破题抓手</b>：认准 3a 结构里「1,3-二氧五环（缩醛）+ 苯环 + 共轭二烯侧链」三大件；1b 就是 1a——缩醛是醛基的「保护壳」，路线题先保护、后拼键。</p><div class="sig-wrap">
+<div class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</div>
+<table class="sig-tbl">
+<thead><tr>
+<th>题干这句话（原文照抄）</th>
+<th>意味着什么样的条件 / 结论</th>
+</tr></thead>
+<tbody>
+<tr><td>「我国科学家采用钯催化的 Heck-脱水反应，成功以「一锅法」合成了 12 种含有异戊二烯侧链的化合物」</td><td>⇒ 题干给的是"拼 C—C 键"的成键工具：Heck 偶联接芳环与烯，脱水再生成共轭二烯 ⇒ 侧链骨架由此定形</td></tr>
+<tr><td>「(1) 化合物 1a 中含氧官能团的名称是______」</td><td>⇒ 1a 的含氧环是 1,3-二氧五环（缩醛）⇒ 官能团答<b>醚键</b>，不是醛基（醛基已被保护成缩醛）</td></tr>
+<tr><td>「②在 2a 的同分异构体中，核磁共振氢谱只有两组峰的结构共有______种」</td><td>⇒ 两组峰 = 只有<b>两类氢</b> ⇒ 结构必须高度对称；不饱和度 1 ⇒ 醛/酮/环醚，不含苯环</td></tr>
+<tr><td>「(3) 下列说法正确的有______」</td><td>⇒ 多选问法 ⇒ 四个说法逐个用"键的变化 / 杂化 / 共面 / 原子利用率"四条判据验，不允许凭印象</td></tr>
+<tr><td>「A. 在 1a、2a 生成 3a 的过程中，有 σ 键断裂与 π 键形成」</td><td>⇒ Ar—Br 的 C—Br <b>σ 键断</b>（Heck 氧化加成）、脱水成 C=C <b>π 键</b> ⇒ 两者都有</td></tr>
+<tr><td>「B. 在 2a 分子中，存在手性碳原子，共有 3 个原子采取 sp³ 杂化」</td><td>⇒ 手性碳要连四个不同基团；sp³ 原子数点清是 <b>4 个</b>（2 个甲基 C + C(OH) + 醇 O）⇒ 两句都错</td></tr>
+<tr><td>「(4) 某兴趣小组设计以甲苯为原料，经三步反应合成化合物 1b 的路线」</td><td>⇒ 三步 = 定位上溴 → 侧链氯代再水解成醛 → 醛基缩醛化保护；顺序反了 Heck 会毁掉醛基</td></tr>
+</tbody>
+</table>
+</div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -652,7 +707,7 @@ section[id]{scroll-margin-top:58px}
   <section data-page-node-id="b6hSaRQ9dts5aSm1Jtb8pZ" id="part1">
     <div data-page-node-id="H14HteFeDuYGhPeyPYU51L" class="sec-head"><span data-page-node-id="qZBTpOxJ2Brc6NbXdbMHt4" class="sec-no"><!--pnid:p85ctFYM6D4iGkzWnBR4BJ-->02</span><span data-page-node-id="6V774r4bP7NkSCC8vigQo2" class="sec-title">第 1 关 · 三步合成 1b：从甲苯到缩醛（路线链）</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「从甲苯出发，产物是"对位"取代」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>甲基是<b>邻对位定位基</b> ⇒ 溴代上对位 ⇒ 对溴甲苯（Br₂/FeBr₃，苯环上的取代反应）。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「要把 —CH₃ 变成 —CHO」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>不能直接氧化（会一路氧化成羧酸）⇒ 先 <b>Cl₂/光照</b> 把甲基氯代成 —CHCl₂，再水解 ⇒ 对溴苯甲醛。此刻分子上<b>同时有醛基和溴原子</b>——这正是 (4)② 第一空的答案。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「下一步要做 Pd 催化的 Heck 偶联，但分子上有活泼的醛基」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>醛基在反应条件下会被破坏 ⇒ 先<b>保护</b>：加乙二醇、浓硫酸催化，醛基变缩醛（1,3-二氧五环）⇒ 得 1b，即 1a。</div></div><p>三步连起来就是一句话：<b>先定位上溴 → 再侧链变醛 → 最后套保护壳</b>。图 A 拖到第 5 步可看全程。</p>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「以甲苯为原料，经三步反应合成化合物 1b」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>甲基是<b>邻对位定位基</b> ⇒ 溴代上对位 ⇒ 对溴甲苯（Br₂/FeBr₃，苯环上的取代反应）。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「①1b 的结构简式为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>要把 —CH₃ 变成 —CHO：不能直接氧化（会一路氧化成羧酸）⇒ 先 <b>Cl₂/光照</b> 把甲基氯代成 —CHCl₂，再水解 ⇒ 对溴苯甲醛。此刻分子上<b>同时有醛基和溴原子</b>——这正是 (4)② 第一空的答案。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「1b 可经上述 Heck-脱水反应合成化合物 3b」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>醛基在反应条件下会被破坏 ⇒ 先<b>保护</b>：加乙二醇、浓硫酸催化，醛基变缩醛（1,3-二氧五环）⇒ 得 1b，即 1a。</div></div><p>三步连起来就是一句话：<b>先定位上溴 → 再侧链变醛 → 最后套保护壳</b>。图 A 拖到第 5 步可看全程。</p>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -671,7 +726,7 @@ section[id]{scroll-margin-top:58px}
   <section data-page-node-id="d8RfFFK175ITtbuRh0PAko" id="part2">
     <div data-page-node-id="WHSMSKUAyJrmwLfVFhNj7r" class="sec-head"><span data-page-node-id="R1JB6zp6gaFjylT14xCeYb" class="sec-no"><!--pnid:P3HHZkjIyzxd27k4qOVWnd-->03</span><span data-page-node-id="x38u5AczOjXmCRdwAAMv0q" class="sec-title">第 2 关 · 两组峰计数：2a 的同分异构体</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「2a 分子式 C₅H₁₀O，氢谱"只有两组峰"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>峰数 = 氢的<b>环境种数</b> ⇒ 全分子的 H 只能分成 2 类 ⇒ 结构必须<b>高度对称</b>。（不饱和度 1，所以是醛/酮/环醚，不含苯环。）</div></div><p>按对称性从高到低枚举：</p><p>① <b>2,2-二甲基丙醛</b> (CH₃)₃C—CHO：叔丁基 9H + 醛基 1H；<br>② <b>3-戊酮</b> CH₃CH₂COCH₂CH₃：两端对称，6H + 4H；<br>③ <b>2,2-二甲基氧杂环丁烷</b>（O 在四元环里）：环上 2 个 CH₂ 等价 4H + 2 个 CH₃ 等价 6H。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「要求"两组峰"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>逐个验证都只有 2 组等价氢 ⇒ <b style="color:#0f766e">共 3 种</b>（不考虑立体异构），任写其一即可。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「②在 2a 的同分异构体中，核磁共振氢谱只有两组峰的结构共有______种」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>峰数 = 氢的<b>环境种数</b> ⇒ 全分子的 H 只能分成 2 类 ⇒ 结构必须<b>高度对称</b>。（不饱和度 1，所以是醛/酮/环醚，不含苯环。）</div></div><p>按对称性从高到低枚举：</p><p>① <b>2,2-二甲基丙醛</b> (CH₃)₃C—CHO：叔丁基 9H + 醛基 1H；<br>② <b>3-戊酮</b> CH₃CH₂COCH₂CH₃：两端对称，6H + 4H；<br>③ <b>2,2-二甲基氧杂环丁烷</b>（O 在四元环里）：环上 2 个 CH₂ 等价 4H + 2 个 CH₃ 等价 6H。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「（不考虑立体异构）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>逐个验证都只有 2 组等价氢 ⇒ <b style="color:#0f766e">共 3 种</b>（不考虑立体异构），任写其一即可。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -688,7 +743,7 @@ section[id]{scroll-margin-top:58px}
   <section id="part3">
     <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">第 3 关 · 选项终审：σ/π、sp³、共面、原子利用率</span></div>
 
-<div class="stx"><div class="stx-s"><i>看到题干</i>「A：Heck 偶联 + 脱水」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ar—Br 的 <b>C—Br σ 键断裂</b>；脱水生成端烯时形成 <b>C=C π 键</b> ⇒ 既有 σ 断裂又有 π 形成 ⇒ <b style="color:#0f766e">A 对</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「B：数手性碳与 sp³ 原子」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>2a = (CH₃)₂C(OH)CH=CH₂ 没有连四个不同基团的碳 ⇒ 无手性碳；sp³ 原子 = 2 个甲基 C + C(OH) + 醇 O = <b>4 个</b>，不是 3 ⇒ B 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「C：说"所有碳原子可能共面"」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>3a 的缩醛碳与甲基碳都是 <b>sp³ 四面体</b> ⇒ 只要有 sp³ 碳就不可能全共面 ⇒ C 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「D：催化加氢」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>H₂ 的两个 H 全部进入产物、无副产物 ⇒ 原子利用率 100% ⇒ D 对 ⇒ <b>答案 AD</b>。</div></div>
+<div class="stx"><div class="stx-s"><i>看到题干</i>「A. 在 1a、2a 生成 3a 的过程中，有 σ 键断裂与 π 键形成」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ar—Br 的 <b>C—Br σ 键断裂</b>；脱水生成端烯时形成 <b>C=C π 键</b> ⇒ 既有 σ 断裂又有 π 形成 ⇒ <b style="color:#0f766e">A 对</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「B. 在 2a 分子中，存在手性碳原子，共有 3 个原子采取 sp³ 杂化」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>2a = (CH₃)₂C(OH)CH=CH₂ 没有连四个不同基团的碳 ⇒ 无手性碳；sp³ 原子 = 2 个甲基 C + C(OH) + 醇 O = <b>4 个</b>，不是 3 ⇒ B 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「C. 在 3a 分子中，所有碳原子可以共平面」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>3a 的缩醛碳与甲基碳都是 <b>sp³ 四面体</b> ⇒ 只要有 sp³ 碳就不可能全共面 ⇒ C 错。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「D. 化合物 3a 可发生原子利用率为 100% 的还原反应」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>H₂ 的两个 H 全部进入产物、无副产物 ⇒ 原子利用率 100% ⇒ D 对 ⇒ <b>答案 AD</b>。</div></div>
       <button class="next-btn">下一步 →</button>
 
       <div class="viz">
@@ -4027,6 +4082,159 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.4,'pol':1.0
   it.addEventListener('keydown', function(e){ if (e.key === 'Enter') iu.focus(); });
   autoCb.addEventListener('change', function(){ state.auto = autoCb.checked; save(); });
   if (state.auto && state.items.length) setTimeout(openPop, 1200);
+})();
+
+</script>
+<script>
+
+/* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
+(function () {
+  if (window.__pzInit) return; window.__pzInit = 1;
+  var mask = null, img = null, stageEl = null;
+  var sc = 1, baseFit = 1, tx = 0, ty = 0, d0 = null, pts = {}, pinch = null, dragging = false;
+
+  function boot() {
+    if (mask) return;
+    mask = document.createElement('div');
+    mask.className = 'pz-mask';
+    mask.innerHTML =
+      '<button class="pz-x" type="button" aria-label="关闭">\u2715</button>' +
+      '<div class="pz-tools"><button type="button" data-z="out">\uff0d</button>' +
+      '<button type="button" data-z="reset">1:1</button>' +
+      '<button type="button" data-z="in">\uff0b</button></div>' +
+      '<div class="pz-stage"><img class="pz-img" alt="\u539f\u9898\u56fe\u653e\u5927"></div>' +
+      '<div class="pz-hint">\u6eda\u8f6e / \u53cc\u6307\u7f29\u653e \u00b7 \u62d6\u52a8\u5e73\u79fb \u00b7 \u53cc\u51fb\u590d\u4f4d \u00b7 Esc \u6216\u70b9\u7a7a\u767d\u5173\u95ed</div>';
+    document.body.appendChild(mask);
+    img = mask.querySelector('.pz-img');
+    stageEl = mask.querySelector('.pz-stage');
+
+    mask.querySelector('.pz-x').addEventListener('click', close);
+    mask.addEventListener('click', function (e) {
+      if (e.target === mask || e.target === stageEl) close();
+    });
+    mask.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+    }, { passive: false });
+    Array.prototype.forEach.call(mask.querySelectorAll('.pz-tools button'), function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = b.getAttribute('data-z');
+        if (k === 'in') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25);
+        else if (k === 'out') zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8);
+        else reset();
+      });
+    });
+    img.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      if (sc > baseFit * 1.05) reset(); else zoomAt(e.clientX, e.clientY, (baseFit * 2) / sc);
+    });
+    img.addEventListener('load', fit);
+    img.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+
+  function fit() {
+    var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
+    var vw = window.innerWidth * 0.94, vh = window.innerHeight * 0.86;
+    baseFit = Math.max(1, Math.min(vw / w, vh / h, 3));   // 最多放大 3 倍，再大就糊
+    sc = baseFit; tx = 0; ty = 0;
+    apply();
+  }
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function zoomAt(cx, cy, f) {
+    var lo = baseFit * 0.55, hi = baseFit * 4;
+    var ns = Math.min(hi, Math.max(lo, sc * f));
+    if (Math.abs(ns - sc) < 1e-6) return;
+    var r = img.getBoundingClientRect();
+    var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    tx -= ox * (ns / sc - 1); ty -= oy * (ns / sc - 1);
+    sc = ns;
+    if (sc <= baseFit * 1.01) { tx = 0; ty = 0; sc = baseFit; }
+    apply();
+  }
+  function reset() { sc = baseFit; tx = 0; ty = 0; apply(); }
+
+  function onDown(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (e.target !== img) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) { dragging = false; pinch = dist(); }
+    else { dragging = true; d0 = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; }
+    img.classList.add('grabbing');
+    try { img.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function dist() {
+    var a = Object.keys(pts); if (a.length < 2) return 0;
+    var p1 = pts[a[0]], p2 = pts[a[1]];
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+  function onMove(e) {
+    if (!mask || !mask.classList.contains('on')) return;
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var n = Object.keys(pts).length;
+    if (n >= 2) {
+      var dd = dist();
+      if (pinch && dd > 0) { zoomAt((pts[Object.keys(pts)[0]].x + pts[Object.keys(pts)[1]].x) / 2,
+                                   (pts[Object.keys(pts)[0]].y + pts[Object.keys(pts)[1]].y) / 2,
+                                   dd / pinch); }
+      pinch = dd;
+      return;
+    }
+    if (!dragging || !d0) return;
+    tx = d0.tx + (e.clientX - d0.x);
+    ty = d0.ty + (e.clientY - d0.y);
+    apply();
+  }
+  function onUp(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { dragging = false; if (img) img.classList.remove('grabbing'); }
+  }
+
+  function open(src) {
+    boot();
+    baseFit = 1;
+    img.src = src;
+    reset();
+    if (img.complete) fit();
+    mask.classList.add('on');
+    mask.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    if (!mask) return;
+    mask.classList.remove('on');
+    mask.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    reset();
+    pts = {}; pinch = null; dragging = false;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    if (!t.classList.contains('prob-img-img')) return;
+    if (!t.getAttribute('src')) return;
+    e.preventDefault();
+    open(t.getAttribute('src'));
+  }, true);
+
+  // 图片后来才渲染出来的场景（粘贴 / 上传 / 切换版本）也补个提示
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG' && t.classList.contains('prob-img-img') && !t.title) {
+      t.title = '\u70b9\u51fb\u653e\u5927';
+    }
+  }, true);
 })();
 
 </script>
