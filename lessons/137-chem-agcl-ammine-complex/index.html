@@ -420,7 +420,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
-.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
@@ -3110,11 +3110,12 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
     function apply() {
       var sp = Math.sin(st.pol);
@@ -3125,27 +3126,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
       st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st, tgt: tgt };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3158,6 +3209,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3255,8 +3307,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var wrap = document.createElement('div'); wrap.className = 'vz-stage';
       var cw = document.createElement('div'); cw.className = 'vz-canvas';
       var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
@@ -3501,7 +3554,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
       /* ---------- 点击 / 悬停拾取 ---------- */
       var ray = new T.Raycaster(), ndc = new T.Vector2();
-      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
       function hitAt(e) {
         var st = steps[cur];
@@ -3535,21 +3591,54 @@ document.addEventListener('DOMContentLoaded',function(){
         if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
         dirty = true;
       }
-      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+
+      cw.addEventListener('pointerdown', function (e) {
+        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
+        if (cbox.contains(e.target)) { tap = null; return; }
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
       cw.addEventListener('pointermove', function (e) {
-        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
         var now = performance.now();
-        if (now - hovT < 70 || moved) return;
+        if (now - hovT < 70) return;
         hovT = now;
         var o = hitAt(e);
         setHov(o);
-        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
       });
+
       cw.addEventListener('pointerup', function (e) {
-        if (moved) return;
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) showCard(o); else hideCard();
+        if (o) { dTap.t = 0; showCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+        hideCard();
       });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
 
       /* ---------- 尺寸 ---------- */
       function resize() {
