@@ -422,7 +422,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .sig-line{margin:.5em 0 .3em;padding:.5em .75em;border-left:3px solid #2563eb;background:#eff6ff;border-radius:0 8px 8px 0;font-weight:600;line-height:1.7}
 .sig-line i{font-style:normal;color:#1d4ed8}
 
-/* ===== 解题沙盘 STAGE-VER 20261019a ===== */
+/* ===== 解题沙盘 STAGE-VER 20261019d ===== */
 .viz3d.vz-on{display:block!important;height:auto!important;background:transparent!important;border:0!important;padding:0!important}
 #sandbox{margin:26px 0}
 #sandbox .sb-sub{color:#64748b;font-size:13.5px;margin:.2em 0 .6em}
@@ -431,10 +431,13 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
 .vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
-.vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
+.vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.82);padding:3px 8px;border-radius:8px;max-width:92%}
+.vz-panel{flex:0 0 342px;display:flex;flex-direction:column;background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;height:clamp(290px,34vw,430px)}
+.vz-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
+.vz-body::-webkit-scrollbar{width:6px}.vz-body::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+.vz-head{flex:none;padding:11px 14px 9px;border-bottom:1px solid #eef2f7;background:#fbfcfe}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
-.vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5}
+.vz-t{font-size:15px;font-weight:700;color:#1f2430;line-height:1.5;margin-top:3px}
 .vz-see{font-size:13px;color:#1f2937;background:#f8fbff;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.45em .6em;line-height:1.65}
 .vz-see i{font-style:normal;font-weight:700;font-size:11px;color:#fff;background:#2563eb;border-radius:5px;padding:1px 6px;margin-right:6px}
 .vz-k{font-weight:600;color:#1f2937;background:none;border:0;padding:0;display:inline}
@@ -442,18 +445,85 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-f{font-size:13.5px;color:#1f2430;text-align:center;padding:.15em 0;overflow-x:auto;overflow-y:hidden}
 .vz-d{font-size:13px;color:#475569;line-height:1.7}
 .vz-w{font-size:12.5px;color:#b45309;background:#fffbeb;border-radius:8px;padding:.45em .6em;line-height:1.6}
-.vz-nav{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.vz-nav{flex:none;display:flex;gap:8px;padding:8px 12px;border-top:1px solid #eef2f7;background:#fbfcfe}
 .vz-nav button{flex:1;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;border:1px solid #cbd5e1;background:#fff;color:#1f2430;padding:.5em .4em;transition:.18s}
 .vz-nav button:hover:not(:disabled){background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
 .vz-nav button:disabled{opacity:.42;cursor:not-allowed}
-.vz-card{position:absolute;right:10px;bottom:10px;max-width:min(66%,330px);display:none;background:#fff;border:1px solid #dbe3ef;border-radius:12px;box-shadow:0 10px 26px rgba(15,23,42,.15);padding:10px 12px;font-size:12.5px;color:#334155;line-height:1.65;z-index:5}
-.vz-card.on{display:block}
-.vz-card-x{position:absolute;right:6px;top:3px;border:0;background:transparent;font-size:16px;color:#94a3b8;cursor:pointer;line-height:1}
-.vz-c-h{font-weight:700;color:#1d4ed8;margin:.3em 0 .12em;font-size:12px}
-.vz-c-f{text-align:center;font-size:12.5px;margin:.12em 0 .28em;overflow-x:auto;overflow-y:hidden;line-height:1.9}
-.vz-c-b{color:#475569}
-.vz-c-w{color:#b45309}
-@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto}.vz-canvas{height:clamp(240px,58vw,340px)}}
+/* —— 常驻知识卡：沙盘下方整行铺开，不用点不用翻 —— */
+.vz-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(318px,1fr));gap:10px;margin-top:10px}
+.vz-cards-h{grid-column:1/-1;font-size:12.5px;font-weight:700;color:#1d4ed8;display:flex;justify-content:space-between;align-items:baseline;gap:8px;line-height:1.5;border-bottom:1px dashed #dbe6f6;padding-bottom:6px}
+.vz-cards-h span{font-weight:600;color:#94a3b8;font-size:11px;white-space:nowrap}
+.vz-cw{display:flex;gap:9px;border:1px solid #e6edf7;background:#fbfdff;border-radius:11px;padding:10px 11px;transition:box-shadow .25s,border-color .25s,background .25s}
+.vz-cw.hi{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.vz-ci{flex:none;width:19px;height:19px;border-radius:50%;background:#2563eb;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;line-height:1}
+.vz-cb{flex:1 1 auto;min-width:0}
+.vz-ct{font-size:12.5px;font-weight:700;color:#334155;margin-bottom:.15em}
+.vz-c-b{font-size:13px;color:#334155;line-height:1.68}
+.vz-c-f{text-align:left;font-size:12.5px;margin:.12em 0;overflow-x:auto;overflow-y:hidden;line-height:1.9}
+.vz-c-t{font-size:12px;color:#64748b;line-height:1.62;margin-top:.26em}
+.vz-c-t b{color:#94a3b8;font-weight:700;margin-right:4px}
+.vz-c-w{font-size:12px;color:#b45309;line-height:1.62;margin-top:.2em}
+.vz-c-w b{color:#d97706;font-weight:700;margin-right:4px}
+@media(max-width:820px){.vz-stage{flex-direction:column}.vz-panel{flex:1 1 auto;height:auto}.vz-body{max-height:56vh}.vz-cards{grid-template-columns:1fr}.vz-canvas{height:clamp(240px,58vw,340px)}}
+
+
+/* ===== 概念充电站 + 看到⇒想到  TEACH-VER 20261019b ===== */
+section[id]{scroll-margin-top:58px}
+.cx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:1.1em 0 .9em}
+@media(max-width:820px){.cx-grid{grid-template-columns:1fr}}
+.cx-card{position:relative;background:#fff;border:1px solid #e3e9f3;border-radius:14px;
+  padding:14px 16px 14px 19px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.cx-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cxc,#2563eb)}
+.cx-no{position:absolute;right:12px;top:11px;font-size:11.5px;font-weight:700;color:#cbd5e1;letter-spacing:.04em}
+.cx-t{font-size:15.5px;font-weight:700;color:#1f2430;margin:0 0 1px;padding-right:26px;line-height:1.45}
+.cx-sub{font-size:12.5px;color:#7c8798;margin:0 0 4px}
+.cx-fig{background:#f7f9fd;border:1px solid #eef2f9;border-radius:10px;padding:5px 7px;margin:8px 0 9px}
+.cx-fig svg{display:block;width:100%;height:auto}
+.cx-d{font-size:14px;line-height:1.78;color:#374151}
+.cx-d b{color:#1d4ed8;font-weight:600}
+.cx-use{margin-top:9px;font-size:12.5px;line-height:1.6;color:#0f766e;background:#f0fdf9;
+  border:1px solid #ccfbf1;border-radius:8px;padding:5px 9px;display:block}
+.cx-use b{font-weight:600}
+
+@keyframes cxFade{0%{opacity:0;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes cxDraw{to{stroke-dashoffset:0}}
+@keyframes cxRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+@keyframes cxLoop{0%,100%{opacity:.55}40%,62%{opacity:1}}
+@keyframes cxOsc{0%,100%{transform:rotate(0)}22%{transform:rotate(-4.5deg)}
+  46%{transform:rotate(3.5deg)}68%{transform:rotate(-1.5deg)}84%{transform:rotate(0)}}
+@keyframes cxMove{0%{transform:translateX(0);opacity:0}18%{opacity:1}
+  82%{opacity:1}100%{transform:translateX(-42px);opacity:0}}
+@keyframes cxPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.6}}
+.cx-f{animation:cxFade .75s ease both}
+.cx-lp{animation:cxLoop 3.4s ease-in-out infinite}
+.cx-dr{stroke-dasharray:280;stroke-dashoffset:280;animation:cxDraw 1.7s ease-out forwards}
+.cx-r{transform-box:fill-box;transform-origin:bottom;animation:cxRise .95s cubic-bezier(.2,.8,.2,1) both}
+.cx-osc{transform-box:fill-box;transform-origin:center 46px;animation:cxOsc 4.2s ease-in-out infinite}
+.cx-mv{animation:cxMove 2.6s linear infinite}
+.cx-p{transform-box:fill-box;transform-origin:center;animation:cxPulse 2.8s ease-in-out infinite}
+.cx-fig text{font-family:inherit}
+
+/* 「看到题干 ⇒ 所以想到」 */
+.stx{margin:.9em 0;border-left:3px solid #2563eb;background:#f8fbff;
+  border-radius:0 10px 10px 0;padding:.62em .9em .66em}
+.stx-s{font-size:14.5px;line-height:1.75;color:#1f2937}
+.stx-t{font-size:14.5px;line-height:1.75;color:#0f3f39}
+.stx-s i,.stx-t i{font-style:normal;font-weight:600;font-size:12px;color:#fff;background:#2563eb;
+  border-radius:6px;padding:1px 7px;margin-right:7px}
+.stx-t i{background:#0f766e}
+.stx-m{font-size:12px;color:#94a3b8;margin:.2em 0 .2em 2px;font-weight:600;letter-spacing:.02em}
+.stx-n{font-size:13px;color:#64748b;margin-top:.3em;line-height:1.7}
+
+/* 题干原文（可折叠） */
+.stem-src{margin:.55em 0 .2em;border:1px dashed #dbe3ef;border-radius:12px;background:#fbfcff;
+  padding:.5em .85em}
+.stem-src>summary{cursor:pointer;font-weight:600;color:#1d4ed8;font-size:13.5px;list-style:none;
+  outline:none}
+.stem-src>summary::-webkit-details-marker{display:none}
+.stem-src>summary::before{content:"▸ ";color:#94a3b8}
+.stem-src[open]>summary::before{content:"▾ "}
+.ss-body{margin-top:.45em;font-size:14px;line-height:1.9;color:#334155}
+.ss-body b{color:#1f2430;font-weight:600}
 
 
 /* ===== 原题图点击放大 ZOOM-VER 20261019b ===== */
@@ -582,30 +652,33 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
       <div class="prob-img" data-cid="__course__" tabindex="0"><div class="prob-img-head"><b>🖼 原题图</b><button type="button" class="prob-img-btn" data-act="pick">选择图片</button><button type="button" class="prob-img-btn danger" data-act="clear">清除</button></div><div class="prob-img-body"><div class="prob-img-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M3 16l5-4 4 3 4-5 5 6"/></svg><p>此处放入本题的<b>原题截图</b><br>点「选择图片」，或直接 <b>Ctrl+V</b> 粘贴（先点一下本框），也可将图片拖入</p></div></div></div>
 
       <p><b>人话翻译</b>：先由离心率和长轴写出椭圆；再证一个漂亮事实——斜率 −1/2 的弦，两端点与原点、轴交点构成的两个三角形面积比恒为 1:1；最后加上「斜率乘积 = −2」的条件，看直线是否被迫过某个定点。</p>
+      <details class="stem-src"><summary>📄 题干原文（文字版 · 下面每一处「看到题干」都逐字引自这里）</summary><div class="ss-body">已知椭圆 E: x²/a²+y²/b²=1 (a>b>0) 的离心率为 √3/2，长轴长为 4。<br>直线 l 与 x 轴、y 轴分别交于点 M、N（均不与坐标原点 O 重合），与椭圆 E 相交于 A、B 两点。<br>(1) 求 E 的方程；<br>(2) 直线 l 的斜率为 −1/2 时，求 △OAM 与 △OBN 的面积之比；<br>(3) 椭圆右顶点为 C，当 k_AC·k_BC=−2 时，直线 l 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由。</div></details>
       <p>已知椭圆 \(E: \dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1\ (a>b>0)\) 的离心率为 \(\dfrac{\sqrt3}{2}\)，长轴长为 4。直线 \(l\) 与 \(x\) 轴、\(y\) 轴分别交于点 \(M\)、\(N\)（均不与坐标原点 \(O\) 重合），与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点。</p>
       <p style="margin-left:1.4em; text-indent:-1.4em">(1) 求 \(E\) 的方程；</p>
       <p style="margin-left:1.4em; text-indent:-1.4em">(2) 直线 \(l\) 的斜率为 \(-\dfrac{1}{2}\) 时，求 \(\triangle OAM\) 与 \(\triangle OBN\) 的面积之比；</p>
       <p style="margin-left:1.4em; text-indent:-1.4em">(3) 椭圆右顶点为 \(C\)，当 \(k_{AC}\cdot k_{BC}=-2\) 时，直线 \(l\) 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由。</p>
       <p><b>答案</b>：(1) \(\dfrac{x^2}{4}+y^2=1\)；(2) \(1:1\)；(3) 过定点 \(\left(\dfrac{14}{9},\,0\right)\)</p>
-            <div class="sig-wrap">
-        <p class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</p>
-        <table class="sig-tbl">
-          <thead><tr><th>题干这句话</th><th>意味着什么样的条件或结论</th></tr></thead>
-          <tbody>
-            <tr><th>E: \(x^2/a^2+y^2/b^2=1\ (a>b>0)\)</th><td>焦点在 <b>x 轴</b>（\(a\) 在 \(x\) 项下、且 \(a>b\)）；恒有 \(c^2=a^2-b^2\)；\(a,b,c\) 三个量待定，需要<b>两个独立条件</b>才能定方程</td></tr>
-            <tr><th>离心率为 \(\dfrac{\sqrt3}{2}\)</th><td>⇒ \(c/a=\sqrt3/2\)，这是<b>形状条件</b>——只给比例，不给大小；一个方程解不出 \(a,b\)</td></tr>
-            <tr><th>长轴长为 4</th><td>⇒ \(2a=4\) ⇒ \(a=2\)，这是<b>大小条件</b>；必须与上一句<b>联立</b>才有唯一解 ⇒ \(c=\sqrt3\)、\(b^2=1\)</td></tr>
-            <tr><th>直线 \(l\) 与 \(x\) 轴、\(y\) 轴分别交于点 \(M\)、\(N\)</th><td>⇒ \(l\) 不平行坐标轴、不过原点，可设 \(y=kx+t\ (k\ne0,t\ne0)\)；\(M,N\) 落在坐标轴上 ⇒ \(OM,ON\) <b>天然当三角形的底</b></td></tr>
-            <tr><th>（均不与坐标原点 \(O\) 重合）</th><td>⇒ 截距非零 ⇒ \(S_{\triangle OAM},S_{\triangle OBN}\) 都不退化，作比时<b>分母不为 0</b></td></tr>
-            <tr><th>与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点</th><td>⇒ 联立有<b>两个实根</b> ⇒ \(\Delta>0\)（本题 \(m^2<2\)）⇒ <b>韦达可用</b>：\(x_A+x_B\)、\(x_Ax_B\) 都是已知的</td></tr>
-            <tr><th>(2) 直线 \(l\) 的斜率为 \(-\dfrac{1}{2}\)</th><td>⇒ 可设 \(y=-\tfrac{x}{2}+m\) ⇒ \(M=(2m,0),N=(0,m)\)：两底成 <b>2:1</b> ⇒ 面积比被压成一个式子 \(2|y_A|/|x_B|\)</td></tr>
-            <tr><th>(3) 椭圆右顶点为 \(C\)</th><td>⇒ \(C=(a,0)=(2,0)\)——第 (1) 问的结论在这里<b>升级成已知条件</b></td></tr>
-            <tr><th>当 \(k_{AC}\cdot k_{BC}=-2\) 时</th><td>⇒ 斜率语言翻译成坐标语言：\(y_1y_2=-2(x_1-2)(x_2-2)\) ⇒ 得到关于 \(k,t\) 的<b>齐次方程</b> ⇒ 定点</td></tr>
-            <tr><th>直线 \(l\) 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由</th><td>⇒ 必须<b>分类讨论</b>：两根都要交代，能舍的写清理由（本题 \(t=-2k\) 使 \(l\) 过 \(C\)，\(k_{AC}\) 无定义）</td></tr>
-          </tbody>
-        </table>
-        <p style="margin:.5em 0 0;color:#475569">读题时就把它列完：<b>每一句都在给条件或在限定范围</b>，列不出来的句子往往就是漏掉的得分点。</p>
-      </div>
+      <div class="sig-wrap">
+<div class="sig-ttl">🔍 题眼翻译：题干每句话 ⇒ 意味着什么条件 / 结论</div>
+<table class="sig-tbl">
+<thead><tr>
+<th>题干这句话（原文照抄）</th>
+<th>意味着什么样的条件 / 结论</th>
+</tr></thead>
+<tbody>
+<tr><td>「E: x²/a²+y²/b²=1 (a>b>0)」</td><td>⇒ 焦点在 <b>x 轴</b>（\(a\) 在 \(x\) 项下、且 \(a>b\)）；恒有 \(c^2=a^2-b^2\)；\(a,b,c\) 三个量待定，需要<b>两个独立条件</b>才能定方程</td></tr>
+<tr><td>「离心率为 √3/2」</td><td>⇒ ⇒ \(c/a=\sqrt3/2\)，这是<b>形状条件</b>——只给比例，不给大小；一个方程解不出 \(a,b\)</td></tr>
+<tr><td>「长轴长为 4」</td><td>⇒ ⇒ \(2a=4\) ⇒ \(a=2\)，这是<b>大小条件</b>；必须与上一句<b>联立</b>才有唯一解 ⇒ \(c=\sqrt3\)、\(b^2=1\)</td></tr>
+<tr><td>「直线 l 与 x 轴、y 轴分别交于点 M、N」</td><td>⇒ ⇒ \(l\) 不平行坐标轴、不过原点，可设 \(y=kx+t\ (k\ne0,t\ne0)\)；\(M,N\) 落在坐标轴上 ⇒ \(OM,ON\) <b>天然当三角形的底</b></td></tr>
+<tr><td>「（均不与坐标原点 O 重合）」</td><td>⇒ ⇒ 截距非零 ⇒ \(S_{\triangle OAM},S_{\triangle OBN}\) 都不退化，作比时<b>分母不为 0</b></td></tr>
+<tr><td>「与椭圆 E 相交于 A、B 两点」</td><td>⇒ ⇒ 联立有<b>两个实根</b> ⇒ \(\Delta>0\)（本题 \(m^2<2\)）⇒ <b>韦达可用</b>：\(x_A+x_B\)、\(x_Ax_B\) 都是已知的</td></tr>
+<tr><td>「(2) 直线 l 的斜率为 −1/2 时」</td><td>⇒ ⇒ 可设 \(y=-\tfrac{x}{2}+m\) ⇒ \(M=(2m,0),N=(0,m)\)：两底成 <b>2:1</b> ⇒ 面积比被压成一个式子 \(2|y_A|/|x_B|\)</td></tr>
+<tr><td>「(3) 椭圆右顶点为 C」</td><td>⇒ ⇒ \(C=(a,0)=(2,0)\)——第 (1) 问的结论在这里<b>升级成已知条件</b></td></tr>
+<tr><td>「当 k_AC·k_BC=−2 时」</td><td>⇒ ⇒ 斜率语言翻译成坐标语言：\(y_1y_2=-2(x_1-2)(x_2-2)\) ⇒ 得到关于 \(k,t\) 的<b>齐次方程</b> ⇒ 定点</td></tr>
+<tr><td>「直线 l 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由」</td><td>⇒ ⇒ 必须<b>分类讨论</b>：两根都要交代，能舍的写清理由（本题 \(t=-2k\) 使 \(l\) 过 \(C\)，\(k_{AC}\) 无定义）</td></tr>
+</tbody>
+</table>
+</div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -615,66 +688,48 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
   <section data-page-node-id="atYA5Jh41AzRteE7LIEJbn" id="concepts">
     <div data-page-node-id="WZlD5AcP3xxlPI3UXtqqJt" class="sec-head"><span data-page-node-id="XX1Z6N3zWAije0Uu7H7QzF" class="sec-no"><!--pnid:ieWRrTYENnBQDASoXicGYf-->01</span><span data-page-node-id="EzKDVKk39jMAZNHxOxqI3w" class="sec-title"><!--pnid:PP7mOr3m7dFyoAR9m1FWw5-->概念充电站 · 先把忘掉的补回来</span></div>
 
-<div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🔍</span><span class="c-title">⓪ 题眼翻译：先列「每句话 ⇒ 什么条件」<span style="color:var(--accent)">★通用方法</span></span><span class="c-tag">20 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>本题逐句的翻译结果见<b>上方题干区表格</b>。通用三步：</p>
-        <p>① 把题干<b>逐句切分</b>；② 每句写下它给的<b>条件</b>或<b>限定</b>（范围、非零、不退化、可用定理）；③ 翻译不出条件的句子，往往就是<b>漏掉的得分点</b>。</p>
-        <div class="note">本题最易漏的两句：「均不与原点 \(O\) 重合」⇒ \(m\ne0\)，作比时分母不为 0；「相交于 \(A\)、\(B\) 两点」⇒ \(\Delta>0\) 且<b>韦达可用</b>。</div>
-        <div class="note">下面三步讲解每一步开头都会标 📌，指明<b>由题干哪一句话推出</b>——解题不是凭空想起公式，而是把每句话换成条件。</div>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">📐</span><span class="c-title">① 双条件定方程：x²/4+y²=1 <span style="color:var(--accent)">★本题钥匙①</span></span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>离心率定形状、长轴定大小：</p>
-        <div class="formula-box">$$e=\frac{c}{a}=\frac{\sqrt3}{2},\quad 2a=4 \Rightarrow a=2,\ c=\sqrt3,\ b^2=1$$</div>
-        <p>三步出方程，回代验 e 收工。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">⚖️</span><span class="c-title">② 面积比恒 1 的韦达魔法 <span style="color:var(--accent)">★本题钥匙②</span></span><span class="c-tag">30 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>轴交点当底，高用交点坐标：</p>
-        <div class="formula-box">$$\frac{S_{\triangle OAM}}{S_{\triangle OBN}}=\frac{2|y_A|}{|x_B|}=\frac{|2m-x_A|}{|x_B|}=\frac{|x_B|}{|x_B|}=1$$</div>
-        <div class="note">核心一步：韦达 \(x_A+x_B=2m\) ⇒ \(2m-x_A=x_B\)。</div>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🎯</span><span class="c-title">③ 定点问题三板斧</span><span class="c-tag">40 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>① 参数化 \(l: y=kx+t\)；② 条件 → k,t 恒等式；③ 解出 \(t=-\tfrac{14}{9}k\)：</p>
-        <div class="formula-box">$$l:\ y=kx-\frac{14}{9}k=k\left(x-\frac{14}{9}\right) \Rightarrow \text{定点}\left(\frac{14}{9},0\right)$$</div>
-        <div class="note">舍根：\(t=-2k\) 使 \(l\) 过 \(C=(2,0)\)，退化舍去。</div>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🧮</span><span class="c-title">④ 两个漂亮的中间结果</span><span class="c-tag">20 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$y_1y_2=\frac{t^2-4k^2}{1+4k^2},\qquad (x_1-2)(x_2-2)=\frac{4(t+2k)^2}{1+4k^2}$$</div>
-        <p>后者配方成<b>完全平方</b>——不是巧合，是定点问题的信号。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">🔍</span><span class="c-title">⑤ 齐次二次方程两根：Δ=16</span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<div class="formula-box">$$9t^2+32kt+28k^2=0 \Rightarrow (t+2k)(9t+14k)=0$$</div>
-        <p>\(t=-2k\)（过 C，舍）与 \(t=-\tfrac{14}{9}k\)（定点）——两根都要讨论。</p>
-        </div></div>
-      </div>
-
-      <div class="concept-card">
-        <div class="c-head"><span class="c-emoji">✅</span><span class="c-title">⑥ 内点检验：14/9 < 2</span><span class="c-tag">15 秒</span><span class="c-check">✓</span><span class="c-arrow">▾</span></div>
-        <div class="c-body"><div class="c-inner">
-<p>\(14/9\approx1.56<2\)：定点在椭圆内部，过内部点的直线<b>必交椭圆两点</b>——答案自洽，不用补讨论。</p>
-        </div></div>
-      </div>
+<div class="cx-grid">
+<div class="cx-card" style="--cxc:#2563eb">
+<div class="cx-no">01</div>
+<div class="cx-t">离心率 e：椭圆有多「扁」</div>
+<div class="cx-sub">一个纯比例，不带单位</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><ellipse cx="60" cy="52" rx="31" ry="29" fill="#2563eb" fill-opacity=".1" stroke="#2563eb" stroke-width="1.5"/><ellipse cx="196" cy="52" rx="44" ry="15" fill="#7c3aed" fill-opacity=".1" stroke="#7c3aed" stroke-width="1.5"/><text x="60" y="93" font-size="10" fill="#2563eb" text-anchor="middle" font-weight="400" dominant-baseline="middle">e 小（接近圆）</text><text x="196" y="93" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="400" dominant-baseline="middle">e 大（更扁）</text><path d="M102.0 52.0 L144.0 52.0" stroke="#cbd5e1" stroke-width="1.4" fill="none"/><path d="M144.0 52.0 L140.0 54.2 L140.0 49.8 z" fill="#cbd5e1"/><text x="123" y="36" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">e 变大</text></svg></div>
+<div class="cx-d">椭圆里 <b>a</b> 是横着能伸多长、<b>b</b> 是竖着能伸多高、<b>c</b> 是焦点到中心的距离。e = c/a 只比较长度，所以是个<b>纯比例</b>——把椭圆整体放大缩小，e 一点都不变。e 越小越接近圆（e=0 就是圆），e 越接近 1 越扁。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 e=√3/2 只说明「扁到什么程度」，还得靠「长轴长 4」才定得出具体多大。</div>
+</div>
+<div class="cx-card" style="--cxc:#f59e0b">
+<div class="cx-no">02</div>
+<div class="cx-t">三角形面积：底 × 高 ÷ 2</div>
+<div class="cx-sub">高必须是「垂直」的那一段</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><line x1="24" y1="86" x2="236" y2="86" stroke="#cbd5e1" stroke-width="1.1"/><line x1="46" y1="14" x2="46" y2="102" stroke="#cbd5e1" stroke-width="1.1"/><polygon points="46,86 192,86 98,26" fill="#f59e0b" fill-opacity=".13" stroke="#f59e0b" stroke-width="1.6"/><line x1="98" y1="26" x2="98" y2="86" stroke="#c2410c" stroke-width="1.6" stroke-dasharray="4 3"/><circle cx="46.0" cy="86.0" r="3.4" fill="#475569" opacity="0.9"/><circle cx="192.0" cy="86.0" r="3.4" fill="#b45309" opacity="0.9"/><circle cx="98.0" cy="26.0" r="3.4" fill="#c2410c" opacity="0.9"/><text x="38" y="97" font-size="10" fill="#475569" text-anchor="middle" font-weight="400" dominant-baseline="middle">O</text><text x="198" y="97" font-size="10" fill="#b45309" text-anchor="middle" font-weight="400" dominant-baseline="middle">M</text><text x="98" y="15" font-size="10" fill="#c2410c" text-anchor="middle" font-weight="400" dominant-baseline="middle">A</text><text x="119" y="108" font-size="9.5" fill="#b45309" text-anchor="middle" font-weight="400" dominant-baseline="middle">底 = |OM|</text><text x="104" y="66" font-size="9.5" fill="#c2410c" text-anchor="start" font-weight="400" dominant-baseline="middle">高 = |y_A|</text></svg></div>
+<div class="cx-d">三角形面积 = ½ × 底 × 高。<b>底</b>可以任选一条边，<b>高</b>是另一个顶点到这条边的<b>垂直距离</b>。选底有个窍门：哪条边落在坐标轴上（或与轴平行），就用它当底——这时高恰好是另一个顶点的某个坐标的绝对值。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题 M、N 都在坐标轴上 ⇒ OM、ON 直接当底，高就是 |y_A| 与 |x_B|，完全不用点到直线的距离公式。</div>
+</div>
+<div class="cx-card" style="--cxc:#7c3aed">
+<div class="cx-no">03</div>
+<div class="cx-t">韦达定理：不解方程也用两根</div>
+<div class="cx-sub">两根之和 = −一次项系数 ÷ 二次项系数</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><line x1="30" y1="48" x2="232" y2="48" stroke="#94a3b8" stroke-width="1.3"/><circle cx="80.0" cy="48.0" r="4" fill="#c2410c" opacity="0.9"/><text x="80" y="31" font-size="10.5" fill="#c2410c" text-anchor="middle" font-weight="700" dominant-baseline="middle">x_A</text><circle cx="152.0" cy="48.0" r="4" fill="#7c3aed" opacity="0.9"/><text x="152" y="31" font-size="10.5" fill="#7c3aed" text-anchor="middle" font-weight="700" dominant-baseline="middle">x_B</text><path d="M80.0 60.0 L152.0 60.0" stroke="#0f766e" stroke-width="1.3" fill="none"/><path d="M152.0 60.0 L148.0 62.2 L148.0 57.8 z" fill="#0f766e"/><text x="116" y="72" font-size="9.5" fill="#0f766e" text-anchor="middle" font-weight="400" dominant-baseline="middle">长度 2m − x_A</text><text x="130" y="92" font-size="11.5" fill="#0f766e" text-anchor="middle" font-weight="700" dominant-baseline="middle">2m − x_A = x_B</text><text x="130" y="108" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">＝ 另一个交点的横坐标</text></svg></div>
+<div class="cx-d">直线与椭圆联立后是一个一元二次方程，它的两根就是两个交点的横坐标。<b>韦达定理</b>跳过求根，直接给出两根之和与两根之积。只要式子里只出现「和」或「积」，就能整体替换进去。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题联立得 x² − 2mx + 2m² − 2 = 0 ⇒ x_A + x_B = 2m，于是 2m − x_A 就是 x_B：另一个交点被「送」到手上。</div>
+</div>
+<div class="cx-card" style="--cxc:#e11d48">
+<div class="cx-no">04</div>
+<div class="cx-t">过定点：把参数提出来</div>
+<div class="cx-sub">t 写成 k 的倍数，定点就露出来</div>
+<div class="cx-fig"><svg viewBox="0 0 260 116" role="img"><ellipse cx="120" cy="58" rx="86" ry="40" fill="#2563eb" fill-opacity=".08" stroke="#2563eb" stroke-width="1.4"/><line x1="135.0" y1="25.8" x2="239.0" y2="90.2" stroke="#cbd5e1" stroke-width="1.3"/><line x1="135.0" y1="58.0" x2="239.0" y2="58.0" stroke="#cbd5e1" stroke-width="1.3"/><line x1="135.0" y1="98.6" x2="239.0" y2="17.4" stroke="#cbd5e1" stroke-width="1.3"/><circle cx="187.0" cy="58.0" r="4.6" fill="#dc2626" opacity="0.9"/><text x="179.0" y="84" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="400" dominant-baseline="middle">定点 (14/9, 0)</text><text x="56" y="24" font-size="9.5" fill="#94a3b8" text-anchor="middle" font-weight="400" dominant-baseline="middle">每一条都过同一点</text></svg></div>
+<div class="cx-d">直线里同时有斜率 k 和截距 t，如果条件迫使 t 只能取 k 的某个倍数，方程就能写成 y = k(x − x₀)。这种形式在 x = x₀ 时无论 k 取什么都等于 0，说明所有这样的直线都过同一个点。</div>
+<div class="cx-use">🎯 <b>本题用在哪</b>：本题解出 t = −14k/9 ⇒ y = k(x − 14/9) ⇒ 定点 (14/9, 0)；若解出 t = −2k 则过 C，必须舍。</div>
+</div>
+</div>
     </section>
+
+  <section id="sandbox">
+    <div class="sec-head"><span class="sec-no">🧊</span><span class="sec-title">解题沙盘 · 从读题到收口，一步步走完整道题</span></div>
+    <p class="sb-sub">左侧 3D 场景随步骤切换；右侧面板给出这一步的<b>看到题干 → 所以想到 → 公式 → 易错点</b>，并把画面里每个带编号物体对应的<b>知识卡直接摊开在下方</b>（不用点也能看全）。点一下带 ①②③ 的物体，面板会自动滚到并高亮那张卡。</p>
+    <div class="viz3d" id="vizS"><canvas></canvas></div>
+  </section>
+  
 
   <!--pnid:prx6ejADRbE0BpCD8IaASQ--><!-- ✏️【分步解题区】一问一个 section，复制本段可做第二问 / 第三问（记得改 id 与徽章键名）。
        .step 默认折叠，第一张加 class="on" 默认展开；按钮文案自动变成"下一步（i/n）→"。
@@ -685,16 +740,16 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">📐 离心率定形状，长轴定大小</div>
-        <p class="sig-line">📌 题干「离心率为 \(\dfrac{\sqrt3}{2}\)」⇒ <i>\(c/a=\sqrt3/2\)</i>，这是<b>形状条件</b>：只给比例，不给大小。</p>
-        <p class="sig-line">📌 题干「长轴长为 4」⇒ <i>\(2a=4\Rightarrow a=2\)</i>，这是<b>大小条件</b>：两句必须<b>联立</b>才定得住方程。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「离心率为 √3/2」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(c/a=\sqrt3/2\) —— 这是<b>形状条件</b>：只给「扁不扁」的比例，一个方程解不出 \(a,b\)。</div></div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「长轴长为 4」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(2a=4\Rightarrow a=2\) —— 这是<b>大小条件</b>：必须和上一句<b>联立</b>，才定得住方程。</div></div>
         <p>于是 \(e=\dfrac{c}{a}=\dfrac{\sqrt3}{2}\) 给「扁的比例」，\(2a=4\) 给「大小」。两条件联立：</p>
         <div class="formula-box">$$a=2,\qquad c=\sqrt3,\qquad b^2=a^2-c^2=1$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 写方程 + 回代检验</div>
-        <p class="sig-line">📌 题干「(1) 求 \(E\) 的方程」⇒ 只要交出 <i>\(a^2,b^2\)</i> 两个分母；写完必须<b>回代</b>——两句条件各验一次才算闭环。</p>
-        <div class="formula-box">$$E:\ \frac{x^2}{4}+y^2=1$$</div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「(1) 求 E 的方程」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>只要交出 \(a^2\)、\(b^2\) 两个分母；写完必须<b>回代</b>——两个条件各验一次才算闭环。</div></div>
+        <div class="formula-box">$$E:// \frac{x^2}{4}+y^2=1$$</div>
         <p>检验：\(e=\sqrt{1-\dfrac{b^2}{a^2}}=\sqrt{1-\dfrac14}=\dfrac{\sqrt3}{2}\) ✓，长轴 \(2a=4\) ✓。焦点在 \(x\) 轴（\(a=2>b=1\)）。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
@@ -717,16 +772,16 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">⚖️ 面积拆解：M、N 当底</div>
-        <p class="sig-line">📌 题干「\(l\) 与 \(x\) 轴、\(y\) 轴分别交于点 \(M\)、\(N\)」⇒ <i>\(M,N\)</i> 都落在坐标轴上 ⇒ <i>\(OM,ON\)</i> <b>天然当三角形的底</b>，高就是交点坐标的绝对值。</p>
-        <p class="sig-line">📌 题干「均不与坐标原点 \(O\) 重合」⇒ <i>\(m\ne0\)</i>，两个三角形都不退化，作比时<b>分母不为 0</b>。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「直线 l 与 x 轴、y 轴分别交于点 M、N」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>M、N 都落在坐标轴上 ⇒ \(OM,ON\) <b>天然当三角形的底</b>，A、B 只需贡献一个坐标当高。</div></div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「（均不与坐标原点 O 重合）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>截距 \(m\ne0\) ⇒ 两个三角形都不退化，作比时<b>分母不为 0</b>。</div></div>
         <p>设 \(l: y=-\dfrac{x}{2}+m\)，则 \(M=(2m,0)\)、\(N=(0,m)\)。轴上交点天然当底：</p>
         <div class="formula-box">$$S_{\triangle OAM}=\tfrac12|2m|\cdot|y_A|,\qquad S_{\triangle OBN}=\tfrac12|m|\cdot|x_B|$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">🏒 韦达魔法一步收口</div>
-        <p class="sig-line">📌 题干「直线 \(l\) 的斜率为 \(-\dfrac{1}{2}\)」⇒ <i>\(y=-\tfrac{x}{2}+m\Rightarrow M=(2m,0),\ N=(0,m)\)</i>：两底成 <b>2:1</b>，比值被压成 <i>\(2|y_A|/|x_B|\)</i>。</p>
-        <p class="sig-line">📌 题干「与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点」⇒ <i>韦达可用，且 \(\Delta>0\Rightarrow m^2<2\)</i>——<i>\(x_A+x_B=2m\)</i> 就是这一问的发动机。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「(2) 直线 l 的斜率为 −1/2 时」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>可设 \(y=-\tfrac{x}{2}+m\) ⇒ \(M=(2m,0),\ N=(0,m)\)：两底成 <b>2:1</b>，比值被压成 \(2|y_A|/|x_B|\)。</div></div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「与椭圆 E 相交于 A、B 两点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>韦达可用且 \(\Delta>0\Rightarrow m^2<2\)；\(x_A+x_B=2m\) 就是这一问的发动机。</div></div>
         <p>联立得 \(x^2-2mx+2m^2-2=0\)（\(m^2<2\)），韦达 \(x_A+x_B=2m\)。而 \(y_A=m-\dfrac{x_A}{2}\)，于是</p>
         <div class="formula-box">$$\frac{S_{\triangle OAM}}{S_{\triangle OBN}}=\frac{2|y_A|}{|x_B|}=\frac{|2m-x_A|}{|x_B|}=\frac{|x_B|}{|x_B|}=1$$</div>
         <div class="note">核心：\(2m-x_A\) 恰是<b>另一个交点</b>的横坐标 \(x_B\)——比值与 \(m\) 无关，恒为 1:1。</div>
@@ -749,18 +804,18 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 
       <div class="step on"><div class="step-inner">
         <div class="step-head">🎯 参数化 + 条件翻译</div>
-        <p class="sig-line">📌 题干「椭圆右顶点为 \(C\)」⇒ <i>\(C=(a,0)=(2,0)\)</i>——第 (1) 问算出的 \(a=2\) 在这里<b>升级成已知条件</b>。</p>
-        <p class="sig-line">📌 题干「当 \(k_{AC}\cdot k_{BC}=-2\) 时」⇒ 翻译成坐标语言 <i>\(y_1y_2=-2(x_1-2)(x_2-2)\)</i>：斜率条件必须<b>降维成坐标式</b>，韦达才吃得下。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「(3) 椭圆右顶点为 C」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(C=(a,0)=(2,0)\)——第 (1) 问算出的 \(a=2\) 在这里<b>升级成已知条件</b>。</div></div>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「当 k_AC·k_BC=−2 时」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>斜率语言必须<b>降维成坐标乘积式</b> \(y_1y_2=-2(x_1-2)(x_2-2)\)，韦达才吃得下。</div></div>
         <p>设 \(l: y=kx+t\)（\(k\ne0, t\ne0\)），条件 \(k_{AC}\cdot k_{BC}=-2\) 即 \(y_1y_2=-2(x_1-2)(x_2-2)\)。联立并代韦达：</p>
         <div class="formula-box">$$y_1y_2=\frac{t^2-4k^2}{1+4k^2},\qquad (x_1-2)(x_2-2)=\frac{4(t+2k)^2}{1+4k^2}$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">🏁 因式分解 + 舍根</div>
-        <p class="sig-line">📌 题干「直线 \(l\) 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由」⇒ 两根都要<b>交代</b>：<i>\(t=-2k\)</i> 使 \(l\) 过 \(C\)、\(k_{AC}\) 无定义 ⇒ <b>舍</b>；<i>\(t=-\tfrac{14}{9}k\)</i> ⇒ 定点。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「直线 l 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两根都要<b>交代</b>：\(t=-2k\) 使 \(l\) 过 \(C\)、\(k_{AC}\) 无定义 ⇒ <b>舍</b>；\(t=-\tfrac{14}{9}k\) ⇒ 定点。</div></div>
         <div class="formula-box">$$9t^2+32kt+28k^2=0\ \Rightarrow\ (t+2k)(9t+14k)=0$$</div>
         <p>\(t=-2k\)：\(l\) 过 \(C=(2,0)\)，与条件矛盾，<b>舍</b>；\(t=-\dfrac{14}{9}k\)：\(l: y=k\left(x-\dfrac{14}{9}\right)\) 恒过定点 \(\left(\dfrac{14}{9},\,0\right)\)。</p>
-        <p class="sig-line">📌 拿题干「与椭圆 \(E\) 相交于 \(A\)、\(B\) 两点」反过来当<b>检验器</b>：<i>\(14/9\approx1.56<2\)</i> ⇒ 定点在椭圆内部 ⇒ 过内点的直线必交两点，答案自洽。</p>
+        <div class="stx"><div class="stx-s"><i>看到题干</i>「与椭圆 E 相交于 A、B 两点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>反过来当<b>检验器</b>：\(14/9\approx1.56<2\) ⇒ 定点在椭圆<b>内部</b> ⇒ 过内点的直线必交两点，答案自洽。</div></div>
         <div class="note">内点检验：\(14/9\approx1.56<2\)，定点在椭圆内部 ⇒ 过它的直线必交椭圆两点，答案自洽。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
@@ -3240,6 +3295,28 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
+  /* 可点物体的编号徽章（蓝底白字圆圈）：和右侧常驻知识卡的 ①②③ 一一对应，
+     让「这里能点」在画面上直接看得见，不必靠试。 */
+  function badge(n) {
+    var S = 64, dpr = 2;
+    var c = document.createElement('canvas');
+    c.width = S * dpr; c.height = S * dpr;
+    var g = c.getContext('2d');
+    g.scale(dpr, dpr);
+    g.beginPath(); g.arc(S / 2, S / 2, S / 2 - 3, 0, Math.PI * 2);
+    g.fillStyle = '#2563eb'; g.fill();
+    g.lineWidth = 4; g.strokeStyle = '#ffffff'; g.stroke();
+    g.fillStyle = '#ffffff';
+    g.font = '700 36px "Microsoft YaHei","PingFang SC",sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(String(n), S / 2, S / 2 + 1);
+    var tx = new T.CanvasTexture(c); tx.needsUpdate = true;
+    var sp = new T.Sprite(new T.SpriteMaterial({ map: tx, transparent: true, depthTest: false }));
+    sp.scale.set(0.34, 0.34, 1);
+    sp.renderOrder = 30;
+    return sp;
+  }
+
   /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
      2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
@@ -3444,24 +3521,31 @@ document.addEventListener('DOMContentLoaded',function(){
       var cv = document.createElement('canvas'); cw.appendChild(cv);
       cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 右侧知识卡高亮';
       cw.appendChild(hud);
-      var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
-      pn.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>'
-        + '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
+      /* 标题固定成头部：内容再长也只滚正文，学生始终看得到「这一步做什么」 */
+      var ph = document.createElement('div'); ph.className = 'vz-head';
+      ph.innerHTML = '<div class="vz-idx"></div><div class="vz-t"></div>';
+      var pb = document.createElement('div'); pb.className = 'vz-body';
+      pb.innerHTML = '<div class="vz-see"><i>看到题干</i><span class="vz-k"></span></div>'
         + '<div class="vz-bridge">↓ 所以想到</div>'
-        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>'
-        + '<div class="vz-nav"><button type="button" class="vz-prev">← 上一步</button>'
-        + '<button type="button" class="vz-next">下一步 →</button></div>';
+        + '<div class="vz-f"></div><div class="vz-d"></div><div class="vz-w"></div>';
+      var nav = document.createElement('div'); nav.className = 'vz-nav';
+      nav.innerHTML = '<button type="button" class="vz-prev">← 上一步</button>'
+        + '<button type="button" class="vz-next">下一步 →</button>';
+      pn.appendChild(ph); pn.appendChild(pb); pn.appendChild(nav);
       wrap.appendChild(cw); wrap.appendChild(pn);
       host.appendChild(wrap);
+      /* 知识卡放沙盘下方整行铺开：不用点、不用在窄面板里翻，一眼看全 */
+      var eCards = document.createElement('div'); eCards.className = 'vz-cards';
+      host.appendChild(eCards);
 
-      var eIdx = pn.querySelector('.vz-idx'), eT = pn.querySelector('.vz-t');
-      var eK = pn.querySelector('.vz-k'), eF = pn.querySelector('.vz-f');
-      var eSee = pn.querySelector('.vz-see'), eBr = pn.querySelector('.vz-bridge');
-      var eD = pn.querySelector('.vz-d'), eW = pn.querySelector('.vz-w');
-      var bPrev = pn.querySelector('.vz-prev'), bNext = pn.querySelector('.vz-next');
+      var eIdx = ph.querySelector('.vz-idx'), eT = ph.querySelector('.vz-t');
+      var eK = pb.querySelector('.vz-k'), eF = pb.querySelector('.vz-f');
+      var eSee = pb.querySelector('.vz-see'), eBr = pb.querySelector('.vz-bridge');
+      var eD = pb.querySelector('.vz-d'), eW = pb.querySelector('.vz-w');
+      var bPrev = nav.querySelector('.vz-prev'), bNext = nav.querySelector('.vz-next');
 
       /* ---------- 渲染器 / 场景 ---------- */
       var ren;
@@ -3506,6 +3590,16 @@ document.addEventListener('DOMContentLoaded',function(){
       /* ---------- 图元工厂 ---------- */
       function V(a) { return new T.Vector3(a[0], a[1], a[2]); }
       function C(c, d) { return new T.Color(c == null ? d : c).getHex(); }
+      /* 徽章挂点：物体包围盒顶端正上方（比 m.position+固定值稳，大/小物体都不会挡住本体） */
+      function badgePos(m) {
+        try {
+          var b = new T.Box3().setFromObject(m);
+          if (isFinite(b.min.x) && isFinite(b.max.y)) {
+            return new T.Vector3((b.min.x + b.max.x) / 2, b.max.y + 0.2, (b.min.z + b.max.z) / 2);
+          }
+        } catch (e) {}
+        return m.position.clone().add(new T.Vector3(0, 0.45, 0));
+      }
 
       function buildObj(o, g, st) {
         var m = null, c = C(o.c, 0x2563eb);
@@ -3598,8 +3692,24 @@ document.addEventListener('DOMContentLoaded',function(){
         /* 动画登记 */
         if (o.an === 'pulse') st.anims.push({ type: 'pulse', m: m, ph: Math.random() * 6.28 });
         else if (o.an === 'spin') st.anims.push({ type: 'spin', m: m, sp: o.sp || 0.9 });
-        /* 可点击 */
-        if (o.card) { m.userData.card = o.card; m.userData.home = m.scale.clone(); st.pick.push(m); }
+        /* 可点击：打上编号徽章并登记（编号 = 右侧常驻知识卡序号，一一对应） */
+        if (o.card) {
+          m.userData.card = o.card;
+          m.userData.home = m.scale.clone();
+          st.pick.push(m);
+          st.hitObjs.push(m);
+          m.userData.ci = st.pick.length;
+          m.userData.cl = o.cb || o.lb || '';
+          var bd = badge(st.pick.length);
+          bd.position.copy(badgePos(m));
+          /* 徽章本身也是点击热区（学生第一反应是点编号）→ 指向同一个知识卡 */
+          bd.userData.card = o.card;
+          bd.userData.ci = st.pick.length;
+          bd.userData.host = m;
+          g.add(bd);
+          st.hitObjs.push(bd);
+          m.userData.badge = bd;
+        }
         return m;
       }
 
@@ -3608,7 +3718,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var g = new T.Group();
         g.visible = false;
         sc.add(g);
-        st.g = g; st.pick = []; st.anims = []; st.enter = 1;
+        st.g = g; st.pick = []; st.hitObjs = []; st.anims = []; st.enter = 1;
         (spec.base || []).forEach(function (o) { buildObj(o, g, st); });
         (st.objs || []).forEach(function (o) { buildObj(o, g, st); });
       });
@@ -3644,21 +3754,82 @@ document.addEventListener('DOMContentLoaded',function(){
           });
         } catch (e) {}
       }
-      function hideCard() { cbox.classList.remove('on'); cbox.innerHTML = ''; }
+      /* ---------- 常驻知识卡（2026-10-19 改：不再「点击才弹出」） ----------
+         切到某一步，这一步所有可点物体的卡片就全部摊在面板下方；
+         点击画面里的带编号物体 = 在面板里滚到对应卡并高亮，而不是遮住画面的浮层。 */
+      function cardHTML(m, i) {
+        var cd = m.userData.card || {}, t = m.userData.cl || '';
+        var h = '<div class="vz-cw" data-ci="' + i + '">'
+              + '<div class="vz-ci">' + i + '</div><div class="vz-cb">';
+        if (t) h += '<div class="vz-ct">' + t + '</div>';
+        if (cd.cond) h += '<div class="vz-c-b">' + cd.cond + '</div>';
+        if (cd.formula) h += '<div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
+        if (cd.think) h += '<div class="vz-c-t"><b>思路</b>' + cd.think + '</div>';
+        if (cd.warn) h += '<div class="vz-c-w"><b>易错</b>' + cd.warn + '</div>';
+        return h + '</div></div>';
+      }
+      function renderCards(st) {
+        if (!st.pick.length) { eCards.innerHTML = ''; eCards.style.display = 'none'; return; }
+        eCards.style.display = '';
+        var h = '<div class="vz-cards-h">🔑 本步知识卡'
+              + '<span>' + st.pick.length + ' 张 · 点画面里的 ①②③ 定位</span></div>';
+        for (var i = 0; i < st.pick.length; i++) h += cardHTML(st.pick[i], i + 1);
+        eCards.innerHTML = h;
+      }
+      /* 点物体 → 面板内滚到对应卡 + 高亮 2.8s（不做遮挡画面的浮层） */
+      function focusCard(o) {
+        var i = o.userData.ci;
+        if (!i) return;
+        var host = o.userData.host || o;
+        var el = eCards.querySelector('.vz-cw[data-ci="' + i + '"]');
+        if (!el) return;
+        var all = eCards.querySelectorAll('.vz-cw');
+        for (var k = 0; k < all.length; k++) all[k].classList.remove('hi');
+        el.classList.add('hi');
+        var r2 = el.getBoundingClientRect(), vh = window.innerHeight || 800;
+        if (r2.top < 8 || r2.bottom > vh - 8) {
+          try { el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+        }
+        clearTimeout(el._t);
+        el._t = setTimeout(function () { el.classList.remove('hi'); }, 2800);
+        if (host.userData.home) {
+          host.scale.copy(host.userData.home).multiplyScalar(1.22);
+          clearTimeout(host.userData._t);
+          host.userData._t = setTimeout(function () {
+            if (host.userData.home && hov !== host) host.scale.copy(host.userData.home);
+          }, 640);
+        }
+        dirty = true;
+      }
       /* 长公式自适应：迭代收敛缩字号，避免撑破右侧面板 */
-      function fitF() {
-        eF.style.fontSize = '';
-        var fs = parseFloat(window.getComputedStyle(eF).fontSize) || 13.5;
-        var base = fs;
-        for (var k = 0; k < 4; k++) {
-          var avail = eF.clientWidth, need = eF.scrollWidth;
-          if (avail < 40 || need <= avail + 1) return;
-          fs = Math.max(8, fs * (avail - 2) / need);
-          if (fs <= 8) { eF.style.fontSize = '8px'; return; }
-          eF.style.fontSize = fs + 'px';
+      function fitF() { fitOne(eF, 8); }
+
+      /* 卡片里的公式超宽 → 迭代缩字号（否则长方程式会被右边框截掉） */
+      /* 量「实际墨迹宽度」：KaTeX 的 katex-display 是块级、宽度=容器，
+         scrollWidth 永远等于 clientWidth，测不出溢出 → 必须用 Range 取内容包围盒 */
+      function inkW(e) {
+        try {
+          var r = document.createRange();
+          r.selectNodeContents(e);
+          var b = r.getBoundingClientRect();
+          return b.width || 0;
+        } catch (x) { return 0; }
+      }
+      function fitOne(e, floor) {
+        e.style.fontSize = '';
+        var cur = parseFloat(window.getComputedStyle(e).fontSize) || 12.5;
+        for (var k = 0; k < 6; k++) {
+          var avail = e.clientWidth - 2, need = inkW(e);
+          if (!need || avail < 40 || need <= avail) break;
+          cur = Math.max(floor, cur * avail / need);
+          e.style.fontSize = cur + 'px';
+          if (cur <= floor) break;
         }
       }
-
+      function fitCards() {
+        var fs = eCards.querySelectorAll('.vz-c-f');
+        for (var i = 0; i < fs.length; i++) fitOne(fs[i], 9.5);
+      }
       function wrapF(s) {
         s = (s || '').trim();
         if (!s) return '';
@@ -3684,8 +3855,12 @@ document.addEventListener('DOMContentLoaded',function(){
         bPrev.disabled = (i === 0);
         bNext.disabled = (i === steps.length - 1);
         camTo(st.cam);
-        hideCard(); renderMath(pn);
+        renderCards(st);
+        pb.scrollTop = 0;
+        renderMath(pn);
+        renderMath(eCards);   /* 卡片区已挪到面板外 → 必须单独渲染，否则公式是裸源码 */
         requestAnimationFrame(fitF); setTimeout(fitF, 260); setTimeout(fitF, 900);
+        requestAnimationFrame(fitCards); setTimeout(fitCards, 320); setTimeout(fitCards, 1000);
         dirty = true;
       }
       var cur = -1;
@@ -3703,32 +3878,19 @@ document.addEventListener('DOMContentLoaded',function(){
       var SLOP = [[0, 0], [12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, 9], [9, -9], [-9, -9]];
       function hitAt(e) {
         var st = steps[cur];
-        if (!st || !st.pick.length) return null;
+        if (!st || !st.hitObjs.length) return null;
         var r = cw.getBoundingClientRect();
         for (var i = 0; i < SLOP.length; i++) {
           ndc.x = ((e.clientX + SLOP[i][0] - r.left) / r.width) * 2 - 1;
           ndc.y = -((e.clientY + SLOP[i][1] - r.top) / r.height) * 2 + 1;
           ray.setFromCamera(ndc, cam);
-          var hs = ray.intersectObjects(st.pick, true);
+          var hs = ray.intersectObjects(st.hitObjs, true);
           if (!hs.length) continue;
           var o = hs[0].object;
           while (o && !o.userData.card) o = o.parent;
           if (o && o.userData.card) return o;
         }
         return null;
-      }
-      function showCard(o) {
-        var cd = o.userData.card, html = '<button class="vz-card-x" type="button">×</button>';
-        if (cd.cond) html += '<div class="vz-c-h">🔑 关键条件 / 结论</div><div class="vz-c-b">' + cd.cond + '</div>';
-        /* 卡片里的公式同样是裸 LaTeX（无 $ 定界符）——必须走 wrapF，否则学生看到的是 \mathrm{...} 源码 */
-        if (cd.formula) html += '<div class="vz-c-h">📐 公式 / 定理</div><div class="vz-c-f">' + wrapF(cd.formula) + '</div>';
-        if (cd.think) html += '<div class="vz-c-h">🧠 推导思路</div><div class="vz-c-b">' + cd.think + '</div>';
-        if (cd.warn) html += '<div class="vz-c-h">⚠️ 易错点</div><div class="vz-c-b vz-c-w">' + cd.warn + '</div>';
-        cbox.innerHTML = html;
-        cbox.classList.add('on');
-        renderMath(cbox);
-        var x = cbox.querySelector('.vz-card-x');
-        if (x) x.onclick = function (ev) { ev.stopPropagation(); hideCard(); };
       }
       function setHov(o) {
         if (hov === o) return;
@@ -3739,8 +3901,6 @@ document.addEventListener('DOMContentLoaded',function(){
       }
 
       cw.addEventListener('pointerdown', function (e) {
-        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
-        if (cbox.contains(e.target)) { tap = null; return; }
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
         if (tap && tap.id !== e.pointerId) { tap = null; return; }
@@ -3772,7 +3932,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
         if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) { dTap.t = 0; showCard(o); return; }
+        if (o) { dTap.t = 0; focusCard(o); return; }
         /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
         var now = performance.now();
         if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
@@ -3781,7 +3941,6 @@ document.addEventListener('DOMContentLoaded',function(){
           return;
         }
         dTap = { t: now, x: e.clientX, y: e.clientY };
-        hideCard();
       });
       /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
       cw.addEventListener('pointercancel', function () { tap = null; });
@@ -3847,7 +4006,8 @@ document.addEventListener('DOMContentLoaded',function(){
       })();
 
       go(0);
-      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, cur: function () { return cur; } };
+      window['__' + hostId] = { ctl: ctl, scene: sc, cam: cam, go: go, spec: spec, steps: steps,
+                                focus: focusCard, cur: function () { return cur; } };
       return window['__' + hostId];
     }
   };
@@ -4023,6 +4183,8 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
   return api;
 
   },{'dist':6.8,'pol':1.08,'az':0.62,'target':[0,0.8,0],'ratio':0.56});
+
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.52,'axes':false,'dist':7.8,'pol':1.5,'az':0.06,'tgt':[0,0.1,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点带编号的物体 → 下方知识卡高亮",'steps':[{'t':"第 1 步 · 双条件定方程：离心率管「形状」，长轴管「大小」",'k':"离心率为 √3/2，长轴长为 4",'f':"e=\\frac{c}{a}=\\frac{\\sqrt3}{2},\\quad 2a=4\\ \\Rightarrow\\ a=2,\\ c=\\sqrt3,\\ b^2=a^2-c^2=1",'d':"「<b>离心率</b>」只锁住 c 与 a 的<b>比例</b>（扁不扁），一个方程解不出 a、b；「<b>长轴长 4</b>」给出<b>绝对大小</b> 2a=4。两条独立条件联立 ⇒ a=2、c=√3、b²=1。注意 a>b>0 已经告诉我们 a 在 x 项下、焦点在 x 轴。",'w':"b² = a² − c²（不是 c² − a²）；把两条条件当成「同一个条件」用两次，是这一问最常见的失分。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.03,'card':{'cond':"两个条件联立 ⇒ <b>a=2、b²=1</b>，焦点在 x 轴",'formula':"E:\\ \\frac{x^2}{4}+y^2=1",'think':"e 定比例、2a 定大小 ⇒ a=2、c=√3 ⇒ b²=a²−c²=1",'warn':"回代验算：e=√(1−1/4)=√3/2 ✓，长轴 2a=4 ✓——两个条件各验一次"}},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.03},{'k':"seg",'a':[0,0,0],'b':[2,0,0],'c':"#10b981",'w':0.022,'lb':"a=2",'lp':[1.0,0.26,0],'card':{'cond':"长轴长 4 ⇒ 半长轴 a=2（横着能伸到 ±2）",'formula':"2a=4\\ \\Rightarrow\\ a=2",'think':"题干给「长轴长」= 2a，先把长度除以 2 再入方程",'warn':"a 是半长轴，不是长轴——这是最常见的一处读题错位"}},{'k':"seg",'a':[0,0,0],'b':[0,1,0],'c':"#7c3aed",'w':0.022,'lb':"b=1",'lp':[0.34,0.55,0]},{'k':"ball",'p':[-1.7321,0,0],'r':0.055,'c':"#dc2626",'lb':"F₁",'lp':[-1.7321,-0.28,0],'lc':"#b91c1c"},{'k':"ball",'p':[1.7321,0,0],'r':0.055,'c':"#dc2626",'lb':"F₂",'lp':[1.7321,-0.28,0],'lc':"#b91c1c",'card':{'cond':"a=2、c=√3 ⇒ 焦距 2c=2√3，焦点 (±√3, 0)",'formula':"e=\\frac{c}{a}=\\frac{\\sqrt3}{2}\\ \\Longleftrightarrow\\ c=\\frac{\\sqrt3}{2}a",'think':"e 只给比例 ⇒ 单独一个 e 能定出无数个相似椭圆，必须再有一个长度条件",'warn':"e 越大越扁；e=√3/2 对应 b/a=1/2"}},{'k':"label",'p':[2.14,0.3,0],'lb':"A₂(2,0)",'c':"#0f766e"},{'k':"label",'p':[-1.02,1.26,0],'lb':"E: x²/4 + y² = 1",'c':"#0f766e"}]},{'t':"第 2 步 · 第 (2) 问：M、N 落在坐标轴上 ⇒ OM、ON 天然当底",'k':"直线 l 与 x 轴、y 轴分别交于点 M、N（均不与坐标原点 O 重合）",'f':"S_{\\triangle OAM}=\\frac12|OM|\\cdot|y_A|,\\qquad S_{\\triangle OBN}=\\frac12|ON|\\cdot|x_B|",'d':"M 在 x 轴上、N 在 y 轴上 ⇒ OM、ON 直接就是两个三角形的<b>底</b>；顶点 A、B 到对应轴的<b>垂线段</b>就是高 —— 一个用 |y_A|、一个用 |x_B|。括号里「均不与原点重合」保证底不为 0、作比时分母有意义。",'w':"高是「到哪条轴的垂线段」：△OAM 底在 x 轴 ⇒ 高是 |y_A|；△OBN 底在 y 轴 ⇒ 高是 |x_B|，两者不能混。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"seg",'a':[-1.5,1.65,0],'b':[2.5,-0.35,0],'c':"#1d4ed8",'w':0.016,'z':0,'lb':"l: y = −x/2 + m",'lp':[2.05,-0.62,0],'lc':"#1d4ed8"},{'k':"seg",'a':[0,0,0],'b':[-0.1909,0.9954],'c':"#f59e0b",'w':0.017},{'k':"seg",'a':[-0.1909,0.9954],'b':[1.8,0.0],'c':"#f59e0b",'w':0.017},{'k':"seg",'a':[1.8,0.0],'b':[0,0,0],'c':"#f59e0b",'w':0.017},{'k':"seg",'a':[0,0,0],'b':[1.9909,-0.0954],'c':"#a855f7",'w':0.017},{'k':"seg",'a':[1.9909,-0.0954],'b':[0.0,0.9],'c':"#a855f7",'w':0.017},{'k':"seg",'a':[0.0,0.9],'b':[0,0,0],'c':"#a855f7",'w':0.017},{'k':"seg",'a':[-0.1909,0.9954,0],'b':[-0.1909,0,0],'c':"#c2410c",'w':0.009},{'k':"seg",'a':[1.9909,-0.0954,0],'b':[0,-0.0954,0],'c':"#c2410c",'w':0.009},{'k':"ball",'p':[1.8,0.0,0],'r':0.062,'c':"#f59e0b",'lb':"M(2m,0)",'lp':[2.14,-0.24,0],'lc':"#b45309",'card':{'cond':"M、N 在坐标轴上 ⇒ <b>OM、ON 天然当底</b>",'formula':"S_{\\triangle OAM}=\\tfrac12|OM|\\cdot|y_A|",'think':"轴上两点连原点 ⇒ 底就是截距的绝对值，另一顶点只需贡献一个坐标",'warn':"底不是斜边 AM —— 三角形 OAM 的三个顶点是 O、A、M"}},{'k':"ball",'p':[0.0,0.9,0],'r':0.062,'c':"#a855f7",'lb':"N(0,m)",'lp':[-0.34,1.06,0],'lc':"#7c3aed",'card':{'cond':"「均不与原点重合」⇒ 截距 m≠0，两个三角形都不退化",'formula':"m\\neq 0\\ \\Rightarrow\\ |OM|=2|m|\\neq0,\\ |ON|=|m|\\neq0",'think':"作比要求分母不为 0；若 m=0，l 过原点，△OBN 直接退化成一条线",'warn':"括号里的限定不是废话 —— 它是「比值的分母有意义」这个结论的来源"}},{'k':"ball",'p':[-0.1909,0.9954,0],'r':0.062,'c':"#c2410c",'lb':"A",'lp':[-0.36,1.24,0],'lc':"#b91c1c",'card':{'cond':"A 的纵坐标绝对值 = △OAM 的<b>高</b>",'formula':"h_{A}=|y_A|",'think':"底在 x 轴上 ⇒ 高就是到 x 轴的垂线段，读 y 坐标即可",'warn':"别把 |y_A| 写成 A 到直线的距离 —— 那是对另一条底说的"}},{'k':"ball",'p':[1.9909,-0.0954,0],'r':0.062,'c':"#c2410c",'lb':"B",'lp':[2.16,0.18,0],'lc':"#b91c1c",'card':{'cond':"B 的横坐标绝对值 = △OBN 的<b>高</b>",'formula':"h_{B}=|x_B|",'think':"底在 y 轴上 ⇒ 高是到 y 轴的垂线段，读 x 坐标",'warn':"两个三角形的高用「不同」的坐标，这是本题最容易错位的一步"}}]},{'t':"第 3 步 · 韦达一步收口：2m − x_A 恰好就是 x_B",'k':"(2) 直线 l 的斜率为 −1/2 时",'f':"\\frac{S_{\\triangle OAM}}{S_{\\triangle OBN}}=\\frac{2|y_A|}{|x_B|}=\\frac{|2m-x_A|}{|x_B|}=\\frac{|x_B|}{|x_B|}=1",'d':"斜率定了 ⇒ M=(2m,0)、N=(0,m)，两个底成 <b>2:1</b>，比值被压成一个分式 2|y_A|/|x_B|。再把 y_A = m − x_A/2 代进去 ⇒ 2y_A = 2m − x_A；而联立得到的韦达式说 x_A + x_B = 2m ⇒ <b>2m − x_A 就是 x_B</b>。比值与 m 无关，恒等于 1。",'w':"这步不是「把 A、B 解出来」——是用 x_A+x_B 替换 2m。韦达把「另一个交点」直接送上门，这也是它能写进答案的原因。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"seg",'a':[-1.5,1.65,0],'b':[2.5,-0.35,0],'c':"#1d4ed8",'w':0.016,'lb':"y = −x/2 + m",'lp':[2.16,-0.62,0],'lc':"#1d4ed8"},{'k':"seg",'a':[0,0,0],'b':[-0.1909,0.9954],'c':"#f59e0b",'w':0.012},{'k':"seg",'a':[-0.1909,0.9954],'b':[1.8,0.0],'c':"#f59e0b",'w':0.012},{'k':"seg",'a':[1.8,0.0],'b':[0,0,0],'c':"#f59e0b",'w':0.012},{'k':"seg",'a':[0,0,0],'b':[1.9909,-0.0954],'c':"#a855f7",'w':0.012},{'k':"seg",'a':[1.9909,-0.0954],'b':[0.0,0.9],'c':"#a855f7",'w':0.012},{'k':"seg",'a':[0.0,0.9],'b':[0,0,0],'c':"#a855f7",'w':0.012},{'k':"seg",'a':[-0.1909,0.9954,0],'b':[-0.1909,0,0],'c':"#c2410c",'w':0.009},{'k':"seg",'a':[1.9909,-0.0954,0],'b':[0,-0.0954,0],'c':"#c2410c",'w':0.009},{'k':"seg",'a':[0,0.9954,0],'b':[2.0,0.9954,0],'c':"#94a3b8",'w':0.008},{'k':"label",'p':[1.0,1.14,0],'lb':"2|y_A| = 2m − x_A",'c':"#c2410c"},{'k':"label",'p':[1.62,-0.72,0],'lb':"|x_B| = x_B",'c':"#7c3aed"},{'k':"ball",'p':[-0.1909,0.9954,0],'r':0.06,'c':"#c2410c",'lb':"A(x_A, y_A)",'lp':[-0.62,1.24,0],'lc':"#b91c1c",'card':{'cond':"A 在直线上 ⇒ y_A = m − x_A/2 ⇒ <b>2y_A = 2m − x_A</b>",'formula':"y_A=m-\\frac{x_A}{2}\\ \\Rightarrow\\ 2y_A=2m-x_A",'think':"把「直线上的点」这个身份用掉，y 就能换成 x",'warn':"移项时别丢系数 2 —— 2y_A 才是 2m−x_A"}},{'k':"ball",'p':[1.9909,-0.0954,0],'r':0.06,'c':"#7c3aed",'lb':"B(x_B, y_B)",'lp':[2.2,0.22,0],'lc':"#6d28d9",'card':{'cond':"韦达 x_A+x_B=2m ⇒ <b>2m−x_A=x_B</b>",'formula':"x^2-2mx+2m^2-2=0\\ \\Rightarrow\\ x_A+x_B=2m",'think':"联立后一次项系数 −2m ⇒ 两根之和 = 2m，这就是「魔法」的全部来源",'warn':"Δ>0 ⇔ m²<2 是韦达可用的前提（本题 m=0.9 满足）"}},{'k':"ball",'p':[1.0,0.9954,0],'r':0.05,'c':"#10b981",'lb':"等长",'lp':[1.0,1.14,0],'lc':"#0f766e",'card':{'cond':"两条线段<b>长度相等</b> ⇒ 比值 = 1，与 m 无关",'formula':"\\frac{2|y_A|}{|x_B|}=1",'think':"分子、分母恰好是同一个量 ⇒ 无论 m 怎么变（只要交两点），比值恒 1:1",'warn':"答案要写「与 m 无关」，只写 1:1 会显得没证完"}}]},{'t':"第 4 步 · 第 (3) 问：把「斜率乘积 = −2」翻译成坐标语言",'k':"(3) 椭圆右顶点为 C",'f':"k_{AC}\\cdot k_{BC}=-2\\ \\Longrightarrow\\ y_1y_2=-2(x_1-2)(x_2-2)",'d':"C=(a,0)=(2,0) 是第 (1) 问算出来的，在这里<b>升级成已知</b>。斜率乘积条件里的 k_AC、k_BC 都带分母 (x_i − 2)，先<b>乘开成坐标乘积式</b>，才能整体代入韦达；同时设 l: y = kx + t（k≠0、t≠0，保证两轴交点存在且不过原点）。",'w':"不能把条件当成「两条斜率直接相乘」丢给韦达 —— 必须先化成 y₁y₂ = −2(x₁−2)(x₂−2) 这种乘积形式。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"seg",'a':[-0.55,0.88,0],'b':[2.24,-1.66,0],'c':"#1d4ed8",'w':0.016,'lb':"l: y = kx + t",'lp':[1.92,-1.36,0],'lc':"#1d4ed8",'card':{'cond':"设 <b>y = kx + t</b>（k≠0、t≠0）：斜率存在、两轴交点存在、不过原点",'formula':"l:\\ y=kx+t\\quad (k\\neq0,\\ t\\neq0)",'think':"题干说 l 与两轴都相交 ⇒ 不平行坐标轴 ⇒ 斜率存在且截距存在",'warn':"若设成 x = my + n，后面斜率乘积条件就没法直接翻译"}},{'k':"seg",'a':[2.0,0.0],'b':[0.6552,-0.9448],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[0.6552,-0.9448],'b':[1.9048,0.3048],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[1.9048,0.3048],'b':[2.0,0.0],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[2.0,0.0],'b':[0.6552,-0.9448],'c':"#0d9488",'w':0.014},{'k':"seg",'a':[2.0,0.0],'b':[1.9048,0.3048],'c':"#0d9488",'w':0.014},{'k':"ball",'p':[2.0,0.0,0],'r':0.068,'c':"#0f766e",'lb':"C(2,0)",'lp':[1.94,-0.36,0],'lc':"#0f766e",'card':{'cond':"右顶点 C=(a,0)=(2,0) —— <b>第 (1) 问的答案在这里变成已知条件</b>",'formula':"C=(a,0)=(2,0)",'think':"第 (1) 问求出 a=2，从这一问起它就是「题目给的条件」",'warn':"C 在椭圆上 ⇒ 任何过 C 的直线与椭圆必有交点，但 k_AC 在 A=C 时无定义"}},{'k':"ball",'p':[0.6552,-0.9448,0],'r':0.058,'c':"#0d9488",'lb':"A",'lp':[0.42,-1.16,0],'lc':"#0f766e",'card':{'cond':"k_AC 的分母是 (x_A − 2)：<b>A 不能与 C 重合</b>",'formula':"k_{AC}=\\frac{y_1-0}{x_1-2}",'think':"分母非零是斜率存在的前提 ⇒ 后面舍根的依据就藏在这里",'warn':"这个细节在第 6 步决定「t=−2k 必须舍」"}},{'k':"ball",'p':[1.9048,0.3048,0],'r':0.058,'c':"#0d9488",'lb':"B",'lp':[1.8,0.56,0],'lc':"#0f766e"}]},{'t':"第 5 步 · 韦达整体代入 ⇒ 得到 k、t 的齐次二次方程",'k':"当 k_AC·k_BC=−2 时",'f':"9t^2+32kt+28k^2=0\\ \\Longrightarrow\\ (t+2k)(9t+14k)=0",'d':"联立椭圆得 (1+4k²)x² + 8ktx + 4t²−4 = 0。把 y₁y₂ 与 (x₁−2)(x₂−2) 都化成 k、t 的分式：y₁y₂ = (t²−4k²)/(1+4k²)，(x₁−2)(x₂−2) = 4(t+2k)²/(1+4k²)。代回条件、两边同乘分母 ⇒ 二次齐次式 ⇒ 因式分解出两个根。",'w':"(x₁−2)(x₂−2) 配方后是<b>完全平方</b> —— 这不是巧合，是「定点在 x 轴上」的信号，出现在这里就说明路走对了。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"seg",'a':[-0.52,0.88,0],'b':[2.26,-1.62,0],'c':"#1d4ed8",'w':0.016,'lb':"y = x − 14/9",'lp':[1.96,-1.3,0],'lc':"#1d4ed8"},{'k':"seg",'a':[2.0,0.0],'b':[0.6019,-0.9536],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[0.6019,-0.9536],'b':[1.887,0.3314],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[1.887,0.3314],'b':[2.0,0.0],'c':"#e2e8f0",'w':0.006},{'k':"seg",'a':[2.0,0.0],'b':[0.6019,-0.9536],'c':"#0d9488",'w':0.013},{'k':"seg",'a':[2.0,0.0],'b':[1.887,0.3314],'c':"#0d9488",'w':0.013},{'k':"ball",'p':[0.6019,-0.9536,0],'r':0.058,'c':"#c2410c",'lb':"A",'lp':[0.4,-1.2,0],'lc':"#b91c1c",'card':{'cond':"y₁y₂ = (t²−4k²)/(1+4k²)",'formula':"y_1y_2=k(x_1+x_2)t+t^2-k^2x_1x_2=\\frac{t^2-4k^2}{1+4k^2}",'think':"把 y=kx+t 代进两根之和/积，分子自然出现 t²−k²·(4) 的形式",'warn':"分子是 t²−4k²，不是 t²+4k²——符号错整道题就崩"}},{'k':"ball",'p':[1.887,0.3314,0],'r':0.058,'c':"#c2410c",'lb':"B",'lp':[2.06,0.6,0],'lc':"#b91c1c",'card':{'cond':"(x₁−2)(x₂−2) = 4(t+2k)²/(1+4k²) —— <b>完全平方</b>",'formula':"(x_1-2)(x_2-2)=\\frac{4t^2+16kt+16k^2}{1+4k^2}=\\frac{4(t+2k)^2}{1+4k^2}",'think':"能配成完全平方 ⇒ 条件里一定藏着 t=−2k 这个「直线过 C」的退化根",'warn':"不配方也能硬算，但会看不出后面为什么要舍根"}},{'k':"ball",'p':[1.0,-0.35,0],'r':0.05,'c':"#7c3aed",'an':"pulse",'card':{'cond':"条件两边同乘 (1+4k²) ⇒ 得到<b>齐次二次式</b>",'formula':"t^2-4k^2=-8(t+2k)^2\\ \\Rightarrow\\ 9t^2+32kt+28k^2=0",'think':"整理后是关于 k、t 的二次齐次式 ⇒ 可以因式分解 ⇒ 每个因式对应一族直线",'warn':"Δ = 32²−4·9·28 = 1024−1008 = 16 > 0 ⇒ 两个实根，都要讨论"}}]},{'t':"第 6 步 · 舍根 + 定论：过定点 (14/9, 0)，且定点在椭圆内",'k':"直线 l 是否过定点？若过定点，求出定点坐标；若不过定点，请说明理由",'f':"t=-2k\\ \\text{（过}\\ C\\text{，舍）}\\qquad t=-\\frac{14}{9}k\\ \\Rightarrow\\ y=k\\left(x-\\frac{14}{9}\\right)\\ \\Rightarrow\\ \\left(\\frac{14}{9},0\\right)",'d':"两个根必须都交代：t = −2k ⇒ y = k(x−2) 过 C=(2,0)，此时 A 或 B 就是 C、k_AC 无定义 ⇒ <b>舍</b>；t = −14k/9 ⇒ 直线恒过 (14/9, 0)。最后用「相交于两点」反向自检：14/9 ≈ 1.56 < 2 ⇒ 定点在椭圆<b>内部</b> ⇒ 过它的任何直线必交椭圆两点，答案自洽。",'w':"定点题的「舍根」永远在检验条件的定义域：不是算错，是那条直线让题干里的 k_AC 根本不存在。",'cam':{'az':0.06,'pol':1.5,'dist':7.8,'tgt':[0,0.1,0]},'objs':[{'k':"seg",'a':[-2.42,0,0],'b':[2.62,0,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[0,-1.42,0],'b':[0,1.52,0],'c':"#cbd5e1",'w':0.011},{'k':"label",'p':[2.62,0.24,0],'lb':"x",'c':"#94a3b8"},{'k':"label",'p':[0.18,1.45,0],'lb':"y",'c':"#94a3b8"},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"curve",'x0':-2,'x1':2,'n':120,'f':(function(x){var v=1-x*x/4;return v<0?null:-Math.sqrt(v);}),'c':"#2563eb",'r':0.026,'z':0},{'k':"seg",'a':[-1.0,-2.4,0],'b':[2.6,3.6,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[-0.9,2.2,0],'b':[2.7,-2.5,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[-1.2,0.5,0],'b':[2.8,-1.5,0],'c':"#cbd5e1",'w':0.011},{'k':"seg",'a':[-0.4,1.9,0],'b':[2.5,-1.9,0],'c':"#1d4ed8",'w':0.015,'lb':"y = k(x − 14/9)",'lp':[2.16,-2.1,0],'lc':"#1d4ed8"},{'k':"ball",'p':[1.5556,0.0,0],'r':0.075,'c':"#dc2626",'an':"pulse",'lb':"定点 (14/9, 0)",'lp':[1.62,0.44,0],'lc':"#b91c1c",'card':{'cond':"t = −14k/9 ⇒ 直线恒过 <b>(14/9, 0)</b>",'formula':"y=kx-\\frac{14}{9}k=k\\left(x-\\frac{14}{9}\\right)",'think':"把 t 写成 k 的倍数 ⇒ 提出 k ⇒ 与 k 无关的那个点就是定点",'warn':"定点坐标别写成 (14/9, 0) 之外的形态：点必须在 x 轴上，因为 t 是 k 的一次齐次"}},{'k':"ball",'p':[2.0,0.0,0],'r':0.062,'c':"#94a3b8",'lb':"C(2,0)",'lp':[1.94,-0.34,0],'lc':"#64748b",'card':{'cond':"t = −2k ⇒ y = k(x−2) 过 C ⇒ <b>舍</b>",'formula':"t=-2k\\ \\Rightarrow\\ l:\\ y=k(x-2)\\ \\ni C(2,0)",'think':"直线过 C ⇒ A 或 B 与 C 重合 ⇒ k_AC 的分母 x_A−2 = 0 ⇒ 条件本身无定义",'warn':"舍根要写清「为什么舍」——只写「舍去」不给理由会扣分"}},{'k':"ball",'p':[1.2,0.0,0],'r':0.05,'c':"#10b981",'card':{'cond':"14/9 ≈ 1.56 < 2 ⇒ 定点在椭圆<b>内部</b>",'formula':"\\frac{14}{9}<2=a",'think':"过内部点的直线必与椭圆交于两点 ⇒ 与题干「相交于 A、B 两点」自洽",'warn':"若算出的定点在椭圆外，过它的某些直线不交椭圆，答案就一定有错"}},{'k':"label",'p':[0,1.28,0],'lb':"三条过定点的直线都交椭圆两点",'c':"#0f766e"}]}]});
 </script>
 <script>
 
