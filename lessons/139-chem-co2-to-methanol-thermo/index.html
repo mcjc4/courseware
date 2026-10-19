@@ -420,7 +420,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:44px}
 .vz-stage{display:flex;gap:14px;align-items:stretch;margin:10px 0 4px}
 .vz-canvas{position:relative;flex:1 1 auto;min-width:0;height:clamp(290px,34vw,430px);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;cursor:grab;background:linear-gradient(180deg,#fbfcff,#eef3fb)}
 .vz-canvas.grabbing{cursor:grabbing}
-.vz-canvas canvas{display:block;width:100%;height:100%}
+.vz-canvas canvas{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .vz-hud{position:absolute;left:10px;top:8px;font-size:12px;color:#64748b;pointer-events:none;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:8px}
 .vz-panel{flex:0 0 314px;display:flex;flex-direction:column;gap:7px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;overflow:auto}
 .vz-idx{font-size:12px;font-weight:600;color:#2563eb}
@@ -3136,11 +3136,12 @@ document.addEventListener('DOMContentLoaded',function(){
     return s;
   }
 
-  /* 自写轨道控制：拖动旋转 + 滚轮缩放 + 双击复位（不依赖 OrbitControls） */
+  /* 自写轨道控制：单指/鼠标拖动旋转 + 双指捏合 & 滚轮缩放 + 双击/双触复位（不依赖 OrbitControls）
+     2026-10-19 修：补多指 pinch 缩放（原来只认单指 → 手机双指完全没反应） */
   function orbit(host, cam, o) {
     var tgt = o.target ? (o.target.length ? new T.Vector3(o.target[0], o.target[1], o.target[2]) : o.target)
                  : new T.Vector3(0, 0.5, 0);
-    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6 };
+    var st = { az: o.az == null ? 0.8 : o.az, pol: o.pol == null ? 1.05 : o.pol, dist: o.dist || 6, np: 0, pinched: false };
     var az0 = st.az, pol0 = st.pol, d0 = st.dist;
     function apply() {
       var sp = Math.sin(st.pol);
@@ -3151,27 +3152,77 @@ document.addEventListener('DOMContentLoaded',function(){
       if (o.onApply) o.onApply();
     }
     var drag = false, lx = 0, ly = 0;
+    var ptrs = {}, pinchD0 = 0, dist0 = 0;
+
+    function nPtrs() { var n = 0; for (var k in ptrs) if (ptrs[k]) n++; return n; }
+    function twoDist() {
+      var a = null, b = null;
+      for (var k in ptrs) {
+        if (!ptrs[k]) continue;
+        if (!a) a = ptrs[k]; else if (!b) b = ptrs[k];
+      }
+      if (!a || !b) return 0;
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     host.addEventListener('pointerdown', function (e) {
-      drag = true; lx = e.clientX; ly = e.clientY;
-      host.classList.add('grabbing');
+      ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+      st.np = nPtrs();
       try { host.setPointerCapture(e.pointerId); } catch (x) {}
+      if (st.np <= 1) {
+        drag = true; lx = e.clientX; ly = e.clientY;
+        host.classList.add('grabbing');
+      } else {
+        /* 第二指落下 → 进入捏合缩放，立即停掉旋转，否则会把缩放抖成旋转 */
+        drag = false;
+        st.pinched = true;
+        pinchD0 = twoDist(); dist0 = st.dist;
+      }
     });
+
     host.addEventListener('pointermove', function (e) {
+      var p = ptrs[e.pointerId];
+      if (p) { p.x = e.clientX; p.y = e.clientY; }
+      if (nPtrs() >= 2) {
+        var d = twoDist();
+        if (pinchD0 > 12 && d > 12) {
+          /* 两指距离变大 → 镜头靠近（放大）；变小 → 拉远 */
+          st.dist = Math.min(Math.max(dist0 * pinchD0 / d, 2.2), 20);
+          apply();
+        }
+        return;
+      }
       if (!drag) return;
       st.az -= (e.clientX - lx) * 0.008;
       st.pol = Math.min(Math.max(st.pol - (e.clientY - ly) * 0.008, 0.12), Math.PI - 0.12);
       lx = e.clientX; ly = e.clientY; apply();
     });
-    host.addEventListener('pointerup', function () { drag = false; host.classList.remove('grabbing'); });
-    host.addEventListener('pointercancel', function () { drag = false; host.classList.remove('grabbing'); });
+
+    function end(e) {
+      if (ptrs[e.pointerId]) delete ptrs[e.pointerId];
+      st.np = nPtrs();
+      if (st.np === 0) {
+        drag = false; st.pinched = false; host.classList.remove('grabbing');
+      } else if (st.np === 1) {
+        /* 抬起一指 → 以剩下那指重新锚定旋转基准，避免视角跳变 */
+        for (var k in ptrs) { if (ptrs[k]) { lx = ptrs[k].x; ly = ptrs[k].y; } }
+        drag = true; pinchD0 = 0;
+      }
+    }
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', end);
+
     host.addEventListener('wheel', function (e) {
       e.preventDefault();
       st.dist = Math.min(Math.max(st.dist * (1 + (e.deltaY > 0 ? 0.09 : -0.09)), 2.2), 20);
       apply();
     }, { passive: false });
-    host.addEventListener('dblclick', function () { st.az = az0; st.pol = pol0; st.dist = d0; apply(); });
+
+    function reset() { st.az = az0; st.pol = pol0; st.dist = d0; apply(); }
+    host.addEventListener('dblclick', reset);
     apply();
-    return { apply: apply, st: st, tgt: tgt };
+    return { apply: apply, st: st, tgt: tgt, reset: reset };
   }
 
   window.VIZ3D = {
@@ -3184,6 +3235,7 @@ document.addEventListener('DOMContentLoaded',function(){
       function invalidate() { dirty = true; }
       o.onApply = invalidate;
       var cv = host.querySelector('canvas');
+      if (cv) cv.style.touchAction = 'none';   /* 触屏：手势交给沙盘，别被页面滚动吞掉 */
       var ren;
       try {
         ren = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
@@ -3281,8 +3333,9 @@ document.addEventListener('DOMContentLoaded',function(){
       var wrap = document.createElement('div'); wrap.className = 'vz-stage';
       var cw = document.createElement('div'); cw.className = 'vz-canvas';
       var cv = document.createElement('canvas'); cw.appendChild(cv);
+      cv.style.touchAction = 'none';           /* 触屏：双指捏合/单指拖动不被页面滚动抢走 */
       var hud = document.createElement('div'); hud.className = 'vz-hud';
-      hud.textContent = spec.hud || '🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡';
+      hud.textContent = spec.hud || '🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡';
       cw.appendChild(hud);
       var cbox = document.createElement('div'); cbox.className = 'vz-card'; cw.appendChild(cbox);
       var pn = document.createElement('div'); pn.className = 'vz-panel';
@@ -3527,7 +3580,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
       /* ---------- 点击 / 悬停拾取 ---------- */
       var ray = new T.Raycaster(), ndc = new T.Vector2();
-      var dX = 0, dY = 0, moved = false, hov = null, hovT = 0;
+      var hov = null, hovT = 0;
+      /* tap：手指/鼠标点击判定（2026-10-19 修：原逻辑靠 pointermove 的 moved 标记，
+         触摸时指头轻微抖动就会被判成"拖动"→ 知识卡永不弹出） */
+      var tap = null, dTap = { t: 0, x: 0, y: 0 };
 
       function hitAt(e) {
         var st = steps[cur];
@@ -3561,21 +3617,54 @@ document.addEventListener('DOMContentLoaded',function(){
         if (hov && hov.userData.home) hov.scale.copy(hov.userData.home).multiplyScalar(1.13);
         dirty = true;
       }
-      cw.addEventListener('pointerdown', function (e) { dX = e.clientX; dY = e.clientY; moved = false; });
+
+      cw.addEventListener('pointerdown', function (e) {
+        /* 点在知识卡内 → 不当作画布点击，否则点卡片会立刻把它关掉 */
+        if (cbox.contains(e.target)) { tap = null; return; }
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        /* 第二根手指落下 → 这是捏合手势，取消点击判定 */
+        if (tap && tap.id !== e.pointerId) { tap = null; return; }
+        tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), far: 0,
+                tch: e.pointerType !== 'mouse' };
+      });
+
       cw.addEventListener('pointermove', function (e) {
-        if (Math.abs(e.clientX - dX) > 5 || Math.abs(e.clientY - dY) > 5) moved = true;
+        if (tap && tap.id === e.pointerId) {
+          var dd = Math.sqrt(Math.pow(e.clientX - tap.x, 2) + Math.pow(e.clientY - tap.y, 2));
+          if (dd > tap.far) tap.far = dd;
+        }
+        /* 悬停高亮只给鼠标/笔；触摸拖动不该触发 */
+        if (e.pointerType === 'touch' || ctl.st.np > 1) return;
+        if (tap && tap.far > 5) return;
         var now = performance.now();
-        if (now - hovT < 70 || moved) return;
+        if (now - hovT < 70) return;
         hovT = now;
         var o = hitAt(e);
         setHov(o);
-        cw.style.cursor = (moved ? 'grabbing' : (o ? 'pointer' : 'grab'));
+        cw.style.cursor = (tap && tap.far > 5 ? 'grabbing' : (o ? 'pointer' : 'grab'));
       });
+
       cw.addEventListener('pointerup', function (e) {
-        if (moved) return;
+        var tp = tap; tap = null;
+        if (!tp || tp.id !== e.pointerId) return;
+        if (ctl.st.pinched) return;                       /* 捏合过 → 不弹卡 */
+        var dt = performance.now() - tp.t;
+        var lim = tp.tch ? 14 : 6;                        /* 手指抖动容差比鼠标大 */
+        if (tp.far > lim || dt > 900) return;              /* 拖过 / 长按 → 不弹卡 */
         var o = hitAt(e);
-        if (o) showCard(o); else hideCard();
+        if (o) { dTap.t = 0; showCard(o); return; }
+        /* 空白处连点两下 → 复位视角（移动端没有 dblclick） */
+        var now = performance.now();
+        if (now - dTap.t < 380 && Math.abs(e.clientX - dTap.x) < 46 && Math.abs(e.clientY - dTap.y) < 46) {
+          dTap.t = 0;
+          if (ctl.reset) ctl.reset();
+          return;
+        }
+        dTap = { t: now, x: e.clientX, y: e.clientY };
+        hideCard();
       });
+      /* 触摸端被系统打断（来电/通知栏）时清状态，避免下一次点击被误吞 */
+      cw.addEventListener('pointercancel', function () { tap = null; });
 
       /* ---------- 尺寸 ---------- */
       function resize() {
@@ -3823,7 +3912,7 @@ VIZ3D.bind('vizC','svgC',['sliderC'],function(T,sc){
 
   },{});
 
-VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 滚轮缩放 · 双击复位 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读题：两个反应，别只盯第一个",'k':"题干「反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g)　ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g)　ΔH₂=−23.9 kJ/mol」",'f':"\\mathrm{CO_2+3H_2\\rightleftharpoons CH_3OH+H_2O}\\quad\\Delta H_1=-49.6",'d':"两个反应<b>串联</b>：I 先造甲醇，II 再把甲醇脱水成二甲醚。所以算甲醇时要考虑它被 II 消耗掉一部分——这正是第 4 步 Kp 账本里 p₀(CO₂) 要加 2p(CH₃OCH₃) 的原因。",'w':"只写反应 I 就跑去算 Kp，会漏掉 II 消耗的甲醇。",'cam':{'az':0.66,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#2563eb",'op':0.85,'lb':"反应 I  ΔH₁=−49.6",'lp':[-1.5,1.0,0],'lc':"#1d4ed8",'card':{'cond':"CO₂ 加氢制甲醇，<b>放热</b>且气体分子数减少（4→2）",'formula':"\\Delta H_1<0,\\quad \\Delta S<0",'think':"放热 + 熵减 ⇒ 低温自发（第 2 步详算）",'warn':"ΔS<0 是因为 4 mol 气体变 2 mol"}},{'k':"arrow",'a':[-0.72,0.3,0],'b':[0.72,0.3,0],'c':"#0f766e",'lb':"串联",'lp':[0,0.72,0],'lc':"#0f766e"},{'k':"box",'p':[1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#7c3aed",'op':0.85,'lb':"反应 II  ΔH₂=−23.9",'lp':[1.5,1.0,0],'lc':"#6d28d9",'card':{'cond':"甲醇脱水成二甲醚，也<b>放热</b>（2→2 气体，ΔS≈0）",'formula':"2\\mathrm{CH_3OH\\rightleftharpoons CH_3OCH_3+H_2O}",'think':"II 消耗甲醇，算 Kp 时必须把它的量补回去",'warn':"忽略 II 会让 p₀(CO₂) 算小、Kp 算错"}},{'k':"label",'p':[0,-0.7,0],'lb':"一锅两反应 ⇒ 先算总量，再算平衡",'c':"#1f2430"}]},{'t':"第 2 步 · (1) 自发性：ΔG=ΔH−TΔS 谁说话",'k':"设问「反应 I 能自发进行的条件」与「图中曲线 a 代表哪个反应」",'f':"\\Delta G=\\Delta H-T\\Delta S<0\\ \\Rightarrow\\ T<\\frac{\\Delta H}{\\Delta S}",'d':"反应 I：ΔH<0、ΔS<0（4 mol 气体→2 mol），<b>低温</b>时 TΔS 项小，ΔG<0 自发；高温则逆转。曲线 a 随温度升高 ΔG <b>增大</b>，正是 ΔS<0 的特征 ⇒ a 代表反应 I。",'w':"ΔS 的正负看气体分子数变化，别凭感觉；ΔG 随 T 上升 = 斜率为 −ΔS > 0 ⇒ ΔS<0。",'cam':{'az':0.62,'pol':0.96,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.55*x-0.75;}),'c':"#2563eb",'r':0.045,'lb':"曲线 a：反应 I（ΔS<0）",'lp':[1.5,1.15,0],'lc':"#1d4ed8",'card':{'cond':"ΔG 随 T <b>上升</b> ⇒ 斜率 −ΔS>0 ⇒ ΔS<0",'formula':"\\left(\\frac{\\partial\\Delta G}{\\partial T}\\right)_p=-\\Delta S",'think':"气体分子数 4→2，混乱度降低，ΔS<0",'warn':"别把曲线斜率和 ΔH 搞混"}},{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.18*x-1.15;}),'c':"#7c3aed",'r':0.04,'lb':"反应 II（ΔS≈0，更平）",'lp':[1.6,0.35,0],'lc':"#6d28d9"},{'k':"seg",'a':[-2.6,0,0],'b':[2.6,0,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.3,0.28,0],'lb':"ΔG=0 分界",'c':"#64748b"},{'k':"ball",'p':[-0.9,-0.05,0],'r':0.13,'c':"#0f766e",'an':"pulse",'lb':"低温区：ΔG<0 自发",'lp':[-0.6,-0.55,0],'lc':"#0f766e",'card':{'cond':"低温 ⇒ TΔS 项小 ⇒ ΔG=ΔH−TΔS<0",'formula':"T<\\frac{|\\Delta H|}{|\\Delta S|}",'think':"放热 + 熵减的组合，低温自发、高温不自发",'warn':"「任何温度都能自发」只在 ΔH<0 且 ΔS>0 时成立"}},{'k':"label",'p':[0,-1.25,0],'lb':"⇒ 反应 I 低温自发；曲线 a 是 I",'c':"#0f766e"}]},{'t':"第 3 步 · (2) 惰气与充气：四种情形别混",'k':"设问「恒温恒压充惰气 / 恒容充惰气 / 充 CO₂ / 分离 CH₃OCH₃ 的影响」",'f':"pV=nRT\\ \\Rightarrow\\ \\text{恒压充惰气} \\Leftrightarrow \\text{减压}",'d':"① 恒容充惰气：各组分分压不变 ⇒ <b>平衡不移动</b>；② 恒压充惰气：体积变大 ⇒ 相当于<b>减压</b> ⇒ 向气体分子数多的方向（左）移动；③ 充 CO₂：反应物增 ⇒ 右移，但 CH₃OH 体积分数<b>不一定</b>升高；④ 分离 CH₃OCH₃：产物减少 ⇒ II 右移 ⇒ 甲醇转化率提高。选 <b>D</b>。",'w':"「恒压充惰气 = 减压」是必考结论；「充反应物 ⇒ 分数一定升」是常见错判。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"恒容 + 惰气 ⇒ 不移",'lp':[-1.75,1.05,0],'lc':"#0f766e"},{'k':"box",'p':[-0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#dc2626",'op':0.85,'lb':"恒压 + 惰气 ⇒ 减压左移",'lp':[-0.6,1.05,0],'lc':"#b91c1c",'card':{'cond':"恒压充惰气 ⇒ 体积增大 ⇒ 各分压下降",'formula':"p_i=\\frac{n_i}{n_{总}}p_{总}\\downarrow",'think':"相当于给体系「减压」，平衡向气体分子数多的方向移动",'warn':"恒容时充惰气，分压不变、平衡不动——两者别混"}},{'k':"box",'p':[0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#f59e0b",'op':0.85,'lb':"充 CO₂ ⇒ 右移",'lp':[0.6,1.05,0],'lc':"#b45309"},{'k':"box",'p':[1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"分离醚 ⇒ 转化率↑",'lp':[1.75,1.05,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.55,0],'lb':"四项过筛 ⇒ 只有 D 对",'c':"#0f766e"},{'k':"arrow",'a':[-0.22,0.35,0],'b':[0.22,0.35,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.98,0.35,0],'b':[1.36,0.35,0],'c':"#94a3b8"}]},{'t':"第 4 步 · (3) Kp 账本：H 守恒补出 p(H₂O)=3.0",'k':"题干「平衡后 p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa」——缺 p(H₂O)",'f':"K_p=\\frac{p(\\mathrm{CH_3OH})\\cdot p(\\mathrm{H_2O})}{p(\\mathrm{CO_2})\\cdot p(\\mathrm{H_2})^3}=\\frac{0.75\\times3.0}{0.25\\times0.5^3}=72",'d':"<b>C 守恒</b>：p₀(CO₂)=p(CO₂)+p(CH₃OH)+2p(CH₃OCH₃)=0.25+0.75+1.5=2.5；<b>H 守恒</b>：2p₀(H₂)=4p(CH₃OH)+6p(CH₃OCH₃)+2p(H₂O)+2p(H₂)，而 p₀(H₂)=p(H₂)+3[p(CH₃OH)+2p(CH₃OCH₃)]=0.5+6.75=7.25 ⇒ <b>p(H₂O)=3.0 MPa</b>。",'w':"二甲醚含 6 个 H、由 2 个甲醇来——H 守恒里系数是 6 不是 3；漏掉就会算错 p(H₂O)。",'cam':{'az':0.58,'pol':1.0,'dist':9.0,'tgt':[0,0.05,0]},'objs':[{'k':"box",'p':[-1.8,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#0ea5e9",'lb':"CO₂ 0.25",'lp':[-1.8,0.2,0],'lc':"#0369a1"},{'k':"box",'p':[-1.05,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#7c3aed",'lb':"H₂ 0.5",'lp':[-1.05,0.2,0],'lc':"#6d28d9"},{'k':"box",'p':[-0.3,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#0d9488",'lb':"CH₃OH 0.75",'lp':[-0.3,0.65,0],'lc':"#0f766e"},{'k':"box",'p':[0.45,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#f59e0b",'lb':"CH₃OCH₃ 0.75",'lp':[0.45,0.65,0],'lc':"#b45309"},{'k':"ball",'p':[1.35,-0.2,0],'r':0.2,'c':"#dc2626",'an':"pulse",'lb':"H₂O = 3.0（求出来）",'lp':[1.35,0.45,0],'lc':"#b91c1c",'card':{'cond':"p(H₂O) 由 <b>H 守恒</b>反推，不能直接读",'formula':"2p_0(\\mathrm{H_2})=4p(\\mathrm{CH_3OH})+6p(\\mathrm{CH_3OCH_3})+2p(\\mathrm{H_2O})+2p(\\mathrm{H_2})",'think':"先 C 守恒定 p₀(CO₂)=2.5，再用 H 守恒定 p(H₂O)",'warn':"二甲醚系数是 6——它含 6 个 H"}},{'k':"label",'p':[0,-1.55,0],'lb':"Kp = 72 MPa⁻²",'c':"#0f766e"}]},{'t':"第 5 步 · (4)(5) 产率下降 + 能量图，收口",'k':"设问「CH₃OCH₃ 平衡产率随温度升高而下降的原因」「反应初期 c(CH₃OH) 基本不变说明什么」",'f':"\\text{升温}\\Rightarrow \\text{放热反应逆移}\\Rightarrow \\text{原料少 + 生成受抑}",'d':"反应 I、II 都放热，升温双双<b>逆向移动</b>：甲醇变少（原料少了），甲醇脱水也被抑制 ⇒ 二甲醚产率单调下降。反应初期 c(CH₃OH) 基本不变 ⇒ <b>已达平衡</b>；能量图反应物平台高于生成物，中间一座活化能峰，ΔH=−49.6 kJ/mol。",'w':"「产率下降」要归因到两个反应<b>共同</b>逆移，只说一个会被扣分。",'cam':{'az':0.58,'pol':0.98,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.4,'x1':2.4,'n':120,'f':(function(x){return 1.05-0.16*(x+2.4);}),'c':"#dc2626",'r':0.045,'lb':"产率 0.48 → 0.31",'lp':[1.2,1.2,0],'lc':"#b91c1c",'card':{'cond':"温度↑ ⇒ 放热反应逆移 ⇒ 产率单调下降",'formula':"K_p(T)\\downarrow\\ \\ (\\Delta H<0)",'think':"I 逆移让甲醇变少，II 逆移让脱水受抑，双重打击",'warn':"若把 II 当成吸热就会推出相反结论"}},{'k':"seg",'a':[-2.4,0,0],'b':[2.4,0,0],'c':"#94a3b8",'w':0.03},{'k':"box",'p':[-1.2,-0.55,0],'sz':[0.7,0.55,0.7],'c':"#2563eb",'op':0.9,'lb':"反应物平台",'lp':[-1.2,0.05,0],'lc':"#1d4ed8"},{'k':"ball",'p':[0,0.55,0],'r':0.13,'c':"#f59e0b",'an':"pulse",'lb':"活化能峰 Ea",'lp':[0,0.95,0],'lc':"#b45309"},{'k':"box",'p':[1.2,-1.1,0],'sz':[0.7,0.55,0.7],'c':"#0f766e",'op':0.9,'lb':"生成物平台",'lp':[1.2,-0.55,0],'lc':"#0f766e"},{'k':"label",'p':[0,-1.7,0],'lb':"ΔH = −49.6 kJ/mol（放热）",'c':"#0f766e"}]}]});
+VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.02,'az':0.72,'tgt':[0,0.05,0],'hud':"🖐 拖动旋转 · 双指捏合缩放 · 点物体看知识卡",'steps':[{'t':"第 1 步 · 读题：两个反应，别只盯第一个",'k':"题干「反应 I：CO₂(g)+3H₂(g) ⇌ CH₃OH(g)+H₂O(g)　ΔH₁=−49.6 kJ/mol；反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g)+H₂O(g)　ΔH₂=−23.9 kJ/mol」",'f':"\\mathrm{CO_2+3H_2\\rightleftharpoons CH_3OH+H_2O}\\quad\\Delta H_1=-49.6",'d':"两个反应<b>串联</b>：I 先造甲醇，II 再把甲醇脱水成二甲醚。所以算甲醇时要考虑它被 II 消耗掉一部分——这正是第 4 步 Kp 账本里 p₀(CO₂) 要加 2p(CH₃OCH₃) 的原因。",'w':"只写反应 I 就跑去算 Kp，会漏掉 II 消耗的甲醇。",'cam':{'az':0.66,'pol':1.0,'dist':8.4,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#2563eb",'op':0.85,'lb':"反应 I  ΔH₁=−49.6",'lp':[-1.5,1.0,0],'lc':"#1d4ed8",'card':{'cond':"CO₂ 加氢制甲醇，<b>放热</b>且气体分子数减少（4→2）",'formula':"\\Delta H_1<0,\\quad \\Delta S<0",'think':"放热 + 熵减 ⇒ 低温自发（第 2 步详算）",'warn':"ΔS<0 是因为 4 mol 气体变 2 mol"}},{'k':"arrow",'a':[-0.72,0.3,0],'b':[0.72,0.3,0],'c':"#0f766e",'lb':"串联",'lp':[0,0.72,0],'lc':"#0f766e"},{'k':"box",'p':[1.5,0.3,0],'sz':[1.3,0.85,0.85],'c':"#7c3aed",'op':0.85,'lb':"反应 II  ΔH₂=−23.9",'lp':[1.5,1.0,0],'lc':"#6d28d9",'card':{'cond':"甲醇脱水成二甲醚，也<b>放热</b>（2→2 气体，ΔS≈0）",'formula':"2\\mathrm{CH_3OH\\rightleftharpoons CH_3OCH_3+H_2O}",'think':"II 消耗甲醇，算 Kp 时必须把它的量补回去",'warn':"忽略 II 会让 p₀(CO₂) 算小、Kp 算错"}},{'k':"label",'p':[0,-0.7,0],'lb':"一锅两反应 ⇒ 先算总量，再算平衡",'c':"#1f2430"}]},{'t':"第 2 步 · (1) 自发性：ΔG=ΔH−TΔS 谁说话",'k':"设问「反应 I 能自发进行的条件」与「图中曲线 a 代表哪个反应」",'f':"\\Delta G=\\Delta H-T\\Delta S<0\\ \\Rightarrow\\ T<\\frac{\\Delta H}{\\Delta S}",'d':"反应 I：ΔH<0、ΔS<0（4 mol 气体→2 mol），<b>低温</b>时 TΔS 项小，ΔG<0 自发；高温则逆转。曲线 a 随温度升高 ΔG <b>增大</b>，正是 ΔS<0 的特征 ⇒ a 代表反应 I。",'w':"ΔS 的正负看气体分子数变化，别凭感觉；ΔG 随 T 上升 = 斜率为 −ΔS > 0 ⇒ ΔS<0。",'cam':{'az':0.62,'pol':0.96,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.55*x-0.75;}),'c':"#2563eb",'r':0.045,'lb':"曲线 a：反应 I（ΔS<0）",'lp':[1.5,1.15,0],'lc':"#1d4ed8",'card':{'cond':"ΔG 随 T <b>上升</b> ⇒ 斜率 −ΔS>0 ⇒ ΔS<0",'formula':"\\left(\\frac{\\partial\\Delta G}{\\partial T}\\right)_p=-\\Delta S",'think':"气体分子数 4→2，混乱度降低，ΔS<0",'warn':"别把曲线斜率和 ΔH 搞混"}},{'k':"curve",'x0':-2.6,'x1':2.6,'n':140,'f':(function(x){return 0.18*x-1.15;}),'c':"#7c3aed",'r':0.04,'lb':"反应 II（ΔS≈0，更平）",'lp':[1.6,0.35,0],'lc':"#6d28d9"},{'k':"seg",'a':[-2.6,0,0],'b':[2.6,0,0],'c':"#94a3b8",'w':0.03},{'k':"label",'p':[-2.3,0.28,0],'lb':"ΔG=0 分界",'c':"#64748b"},{'k':"ball",'p':[-0.9,-0.05,0],'r':0.13,'c':"#0f766e",'an':"pulse",'lb':"低温区：ΔG<0 自发",'lp':[-0.6,-0.55,0],'lc':"#0f766e",'card':{'cond':"低温 ⇒ TΔS 项小 ⇒ ΔG=ΔH−TΔS<0",'formula':"T<\\frac{|\\Delta H|}{|\\Delta S|}",'think':"放热 + 熵减的组合，低温自发、高温不自发",'warn':"「任何温度都能自发」只在 ΔH<0 且 ΔS>0 时成立"}},{'k':"label",'p':[0,-1.25,0],'lb':"⇒ 反应 I 低温自发；曲线 a 是 I",'c':"#0f766e"}]},{'t':"第 3 步 · (2) 惰气与充气：四种情形别混",'k':"设问「恒温恒压充惰气 / 恒容充惰气 / 充 CO₂ / 分离 CH₃OCH₃ 的影响」",'f':"pV=nRT\\ \\Rightarrow\\ \\text{恒压充惰气} \\Leftrightarrow \\text{减压}",'d':"① 恒容充惰气：各组分分压不变 ⇒ <b>平衡不移动</b>；② 恒压充惰气：体积变大 ⇒ 相当于<b>减压</b> ⇒ 向气体分子数多的方向（左）移动；③ 充 CO₂：反应物增 ⇒ 右移，但 CH₃OH 体积分数<b>不一定</b>升高；④ 分离 CH₃OCH₃：产物减少 ⇒ II 右移 ⇒ 甲醇转化率提高。选 <b>D</b>。",'w':"「恒压充惰气 = 减压」是必考结论；「充反应物 ⇒ 分数一定升」是常见错判。",'cam':{'az':0.6,'pol':1.0,'dist':8.6,'tgt':[0,0.1,0]},'objs':[{'k':"box",'p':[-1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"恒容 + 惰气 ⇒ 不移",'lp':[-1.75,1.05,0],'lc':"#0f766e"},{'k':"box",'p':[-0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#dc2626",'op':0.85,'lb':"恒压 + 惰气 ⇒ 减压左移",'lp':[-0.6,1.05,0],'lc':"#b91c1c",'card':{'cond':"恒压充惰气 ⇒ 体积增大 ⇒ 各分压下降",'formula':"p_i=\\frac{n_i}{n_{总}}p_{总}\\downarrow",'think':"相当于给体系「减压」，平衡向气体分子数多的方向移动",'warn':"恒容时充惰气，分压不变、平衡不动——两者别混"}},{'k':"box",'p':[0.6,0.35,0],'sz':[0.75,0.75,0.75],'c':"#f59e0b",'op':0.85,'lb':"充 CO₂ ⇒ 右移",'lp':[0.6,1.05,0],'lc':"#b45309"},{'k':"box",'p':[1.75,0.35,0],'sz':[0.75,0.75,0.75],'c':"#0f766e",'op':0.9,'lb':"分离醚 ⇒ 转化率↑",'lp':[1.75,1.05,0],'lc':"#0f766e"},{'k':"label",'p':[0,-0.55,0],'lb':"四项过筛 ⇒ 只有 D 对",'c':"#0f766e"},{'k':"arrow",'a':[-0.22,0.35,0],'b':[0.22,0.35,0],'c':"#94a3b8"},{'k':"arrow",'a':[0.98,0.35,0],'b':[1.36,0.35,0],'c':"#94a3b8"}]},{'t':"第 4 步 · (3) Kp 账本：H 守恒补出 p(H₂O)=3.0",'k':"题干「平衡后 p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 MPa」——缺 p(H₂O)",'f':"K_p=\\frac{p(\\mathrm{CH_3OH})\\cdot p(\\mathrm{H_2O})}{p(\\mathrm{CO_2})\\cdot p(\\mathrm{H_2})^3}=\\frac{0.75\\times3.0}{0.25\\times0.5^3}=72",'d':"<b>C 守恒</b>：p₀(CO₂)=p(CO₂)+p(CH₃OH)+2p(CH₃OCH₃)=0.25+0.75+1.5=2.5；<b>H 守恒</b>：2p₀(H₂)=4p(CH₃OH)+6p(CH₃OCH₃)+2p(H₂O)+2p(H₂)，而 p₀(H₂)=p(H₂)+3[p(CH₃OH)+2p(CH₃OCH₃)]=0.5+6.75=7.25 ⇒ <b>p(H₂O)=3.0 MPa</b>。",'w':"二甲醚含 6 个 H、由 2 个甲醇来——H 守恒里系数是 6 不是 3；漏掉就会算错 p(H₂O)。",'cam':{'az':0.58,'pol':1.0,'dist':9.0,'tgt':[0,0.05,0]},'objs':[{'k':"box",'p':[-1.8,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#0ea5e9",'lb':"CO₂ 0.25",'lp':[-1.8,0.2,0],'lc':"#0369a1"},{'k':"box",'p':[-1.05,-0.85,0],'sz':[0.32,1.7,0.32],'c':"#7c3aed",'lb':"H₂ 0.5",'lp':[-1.05,0.2,0],'lc':"#6d28d9"},{'k':"box",'p':[-0.3,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#0d9488",'lb':"CH₃OH 0.75",'lp':[-0.3,0.65,0],'lc':"#0f766e"},{'k':"box",'p':[0.45,-0.6,0],'sz':[0.32,2.2,0.32],'c':"#f59e0b",'lb':"CH₃OCH₃ 0.75",'lp':[0.45,0.65,0],'lc':"#b45309"},{'k':"ball",'p':[1.35,-0.2,0],'r':0.2,'c':"#dc2626",'an':"pulse",'lb':"H₂O = 3.0（求出来）",'lp':[1.35,0.45,0],'lc':"#b91c1c",'card':{'cond':"p(H₂O) 由 <b>H 守恒</b>反推，不能直接读",'formula':"2p_0(\\mathrm{H_2})=4p(\\mathrm{CH_3OH})+6p(\\mathrm{CH_3OCH_3})+2p(\\mathrm{H_2O})+2p(\\mathrm{H_2})",'think':"先 C 守恒定 p₀(CO₂)=2.5，再用 H 守恒定 p(H₂O)",'warn':"二甲醚系数是 6——它含 6 个 H"}},{'k':"label",'p':[0,-1.55,0],'lb':"Kp = 72 MPa⁻²",'c':"#0f766e"}]},{'t':"第 5 步 · (4)(5) 产率下降 + 能量图，收口",'k':"设问「CH₃OCH₃ 平衡产率随温度升高而下降的原因」「反应初期 c(CH₃OH) 基本不变说明什么」",'f':"\\text{升温}\\Rightarrow \\text{放热反应逆移}\\Rightarrow \\text{原料少 + 生成受抑}",'d':"反应 I、II 都放热，升温双双<b>逆向移动</b>：甲醇变少（原料少了），甲醇脱水也被抑制 ⇒ 二甲醚产率单调下降。反应初期 c(CH₃OH) 基本不变 ⇒ <b>已达平衡</b>；能量图反应物平台高于生成物，中间一座活化能峰，ΔH=−49.6 kJ/mol。",'w':"「产率下降」要归因到两个反应<b>共同</b>逆移，只说一个会被扣分。",'cam':{'az':0.58,'pol':0.98,'dist':9.0,'tgt':[0,0.1,0]},'objs':[{'k':"curve",'x0':-2.4,'x1':2.4,'n':120,'f':(function(x){return 1.05-0.16*(x+2.4);}),'c':"#dc2626",'r':0.045,'lb':"产率 0.48 → 0.31",'lp':[1.2,1.2,0],'lc':"#b91c1c",'card':{'cond':"温度↑ ⇒ 放热反应逆移 ⇒ 产率单调下降",'formula':"K_p(T)\\downarrow\\ \\ (\\Delta H<0)",'think':"I 逆移让甲醇变少，II 逆移让脱水受抑，双重打击",'warn':"若把 II 当成吸热就会推出相反结论"}},{'k':"seg",'a':[-2.4,0,0],'b':[2.4,0,0],'c':"#94a3b8",'w':0.03},{'k':"box",'p':[-1.2,-0.55,0],'sz':[0.7,0.55,0.7],'c':"#2563eb",'op':0.9,'lb':"反应物平台",'lp':[-1.2,0.05,0],'lc':"#1d4ed8"},{'k':"ball",'p':[0,0.55,0],'r':0.13,'c':"#f59e0b",'an':"pulse",'lb':"活化能峰 Ea",'lp':[0,0.95,0],'lc':"#b45309"},{'k':"box",'p':[1.2,-1.1,0],'sz':[0.7,0.55,0.7],'c':"#0f766e",'op':0.9,'lb':"生成物平台",'lp':[1.2,-0.55,0],'lc':"#0f766e"},{'k':"label",'p':[0,-1.7,0],'lb':"ΔH = −49.6 kJ/mol（放热）",'c':"#0f766e"}]}]});
 </script>
 <script>
 
