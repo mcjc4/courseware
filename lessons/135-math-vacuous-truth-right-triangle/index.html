@@ -709,6 +709,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -790,7 +791,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ∠A：左边最大能到多少", "sub": "固定 ∠A 后把 ∠B 扫一遍取最大 —— 最逼近 1 的那一下已经是退化三角形（另一角为 0°）", "view": [-1.35, 1.35, -0.6, 0.72], "param": {"name": "A", "label": "∠A（度）", "min": 5, "max": 175, "step": 0.5, "val": 90, "fmt": 1, "ticks": ["5", "90", "175"]}, "scalars": [{"n": "mx", "e": "(function(){var A=p*PI/180,best=-9;for(var i=1;i<240;i++){var B=(PI-A)*i/240,C=PI-A-B;var v=-pow(cos(A),2)+pow(cos(B),2)-pow(cos(C),2);if(v>best)best=v;}return best;})()"}, {"n": "gp", "e": "1-S.mx"}], "shapes": [{"t": "seg", "x1": -1, "y1": 0.12, "x2": 1, "y2": 0.12, "c": "#cbd5e1", "w": 3}, {"t": "seg", "x1": 1, "y1": -0.2, "x2": 1, "y2": 0.5, "c": "#ef4444", "w": 2, "dash": [6, 4]}, {"t": "point", "x": "S.mx", "y": 0.12, "c": "#f59e0b", "r": 6.5, "pulse": true, "label": "max L", "dy": -7}, {"t": "text", "x": 0.55, "y": 0.58, "c": "#ef4444", "s": "红线 = 条件要求的 L = 1", "fs": 11}, {"t": "text", "x": 0, "y": -0.3, "c": "#94a3b8", "s": "−1 ← 左边 L 的取值范围 → 1", "fs": 11}], "readouts": [{"k": "∠A", "e": "p", "f": 1}, {"k": "max L（扫遍 ∠B）", "e": "S.mx", "f": 5, "hl": true}, {"k": "1 − max L", "e": "S.gp", "f": 6}], "concl": {"cond": "1", "on": "✅ 橙点最远也只能<b>逼近</b> 1（此时三角形退化）⇒ 真三角形里 L = 1 <b>永远取不到</b> ⇒ 满足条件的对象一个都没有（P = ∅）", "off": ""}, "hud": "🖐 左右拖动 = 改 ∠A · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -819,7 +819,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ∠A：直角三角形里 L 能等于 1 吗", "sub": "取 ∠C = 90° ⇒ L = −cos2A ≤ 1，等号只在 A = 90°（退化）⇒ 找不出一个直角三角形满足条件", "view": [-0.18, 1.28, -0.18, 1.28], "param": {"name": "A", "label": "∠A（度，∠C = 90°）", "min": 1, "max": 89, "step": 0.2, "val": 45, "fmt": 1, "ticks": ["1", "45", "89"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "L", "e": "-cos(2*S.rd)"}, {"n": "gp", "e": "1-S.L"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": "sin(S.rd)", "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": "cos(S.rd)", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": "sin(S.rd)", "y1": 0, "x2": 0, "y2": "cos(S.rd)", "c": "#c2410c", "w": 2.8}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "C", "dx": -9, "dy": 2}, {"t": "point", "x": "sin(S.rd)", "y": 0, "c": "#2563eb", "r": 5, "label": "B", "dx": 4, "dy": 19}, {"t": "point", "x": 0, "y": "cos(S.rd)", "c": "#2563eb", "r": 5, "label": "A", "dx": -9, "dy": -3}, {"t": "text", "x": 0.75, "y": 0.2, "c": "#94a3b8", "s": "斜边 AB = 1，直角在 C", "fs": 11}], "readouts": [{"k": "∠A", "e": "p", "f": 1}, {"k": "∠B = 90° − A", "e": "90-p", "f": 1}, {"k": "L = −cos2A", "e": "S.L", "f": 5, "hl": true}, {"k": "1 − L", "e": "S.gp", "f": 5}], "concl": {"cond": "abs(p-45)<0.6", "on": "✅ 干净反例：A = B = 45° 时 <b>L = 0 ≠ 1</b> —— 直角三角形推不出这个条件 ⇒ <b>Q ⇒ P 不成立（不必要）</b>", "off": "拖到 A = 45°：等腰直角这个反例最能说明「直角三角形也不满足条件」"}, "hud": "🖐 左右拖动 = 改 ∠A · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -846,7 +845,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 集合视角：为什么「恒假」反而是充分条件", "sub": "P = { 满足 L=1 的三角形 } = ∅ ⇒ P ⊆ Q 空真成立（充分）；Q ⊄ P（不必要）⇒ 选 A", "view": [-1.75, 1.75, -1.05, 1.05], "param": {"name": "A", "label": "反例的 ∠A（∠C = 90°）", "min": 20, "max": 70, "step": 0.2, "val": 45, "fmt": 1, "ticks": ["20", "45", "70"]}, "scalars": [{"n": "L", "e": "-cos(2*p*PI/180)"}, {"n": "sf", "e": "1"}, {"n": "nc", "e": "0"}], "shapes": [{"t": "ellipse", "a": 1.05, "b": 0.86, "cx": 0.3, "cy": 0, "c": "#2563eb", "w": 2.4, "fill": "37,99,235", "fa": 0.12}, {"t": "ellipse", "a": 0.34, "b": 0.29, "cx": -0.62, "cy": 0, "c": "#94a3b8", "w": 1.6, "dash": [6, 4]}, {"t": "text", "x": 0.32, "y": 0.05, "c": "#1d4ed8", "s": "Q：直角三角形", "fs": 12.5}, {"t": "text", "x": -0.62, "y": 0.05, "c": "#94a3b8", "s": "P = ∅", "fs": 12.5}, {"t": "text", "x": -0.62, "y": -0.45, "c": "#94a3b8", "s": "P：L = 1", "fs": 11}, {"t": "text", "x": 0.15, "y": -0.78, "c": "#0f766e", "s": "空集是任何集合的子集 ⇒ 「P ⇒ Q」空真成立", "fs": 11.5}], "readouts": [{"k": "反例的 L", "e": "S.L", "f": 5}, {"k": "反例满足 L=1 吗", "e": "0", "f": 0}, {"k": "充分（空真）", "e": "S.sf", "f": 0, "hl": true}, {"k": "必要", "e": "S.nc", "f": 0}, {"k": "答案", "e": "1", "f": 0, "tpl": "A（充分不必要）"}], "concl": {"cond": "1", "on": "✅ <b>选 A：充分不必要条件</b> —— 条件恒假 ⇒ 蕴含式空真成立（充分）；直角三角形里有反例 ⇒ 不必要。验伪优先于证明：先找反例，再谈推导", "off": ""}, "hud": "🖐 左右拖动 = 换一个反例角度"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -916,6 +914,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 空真充分 + 反例否定必要 ⇒ A。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4570,5 +4569,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.2,'axes':false,'dist':5.8,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
