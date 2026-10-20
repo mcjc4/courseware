@@ -711,6 +711,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -792,7 +793,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖切点：切线 l 什么时候变成 y = 4x + 1", "sub": "f′(x) = e^x + 3cos3x —— 切点拖到 x₀ = 0 那一刻，斜率正好是 1 + 3 = 4", "view": [-1.5, 1.8, -1.4, 3.4], "param": {"name": "x₀", "label": "切点横坐标 x₀", "min": -0.6, "max": 0.6, "step": 0.005, "val": 0, "fmt": 3, "ticks": ["−0.6", "0", "0.6"]}, "scalars": [{"n": "w", "e": "p"}, {"n": "k", "e": "exp(p)+3*cos(3*p)"}, {"n": "f0", "e": "exp(p)+sin(3*p)"}, {"n": "q", "e": "S.f0-S.k*p"}], "shapes": [{"t": "func", "f": "exp(p)+sin(3*p)", "c": "#2563eb", "w": 2.8}, {"t": "line", "k": "S.k", "q": "S.q", "c": "#c2410c", "w": 2.4}, {"t": "point", "x": "p", "y": "S.f0", "c": "#7c3aed", "r": 6, "pulse": true, "label": "切点", "dy": -6}, {"t": "text", "x": 1.0, "y": 3.05, "c": "#94a3b8", "s": "蓝 = f(x) · 橙 = 切线 l", "fs": 11}], "readouts": [{"k": "切点 x₀", "e": "p", "f": 3}, {"k": "f(x₀)", "e": "S.f0", "f": 4}, {"k": "斜率 f′(x₀)", "e": "S.k", "f": 4, "hl": true}, {"k": "切线截距", "e": "S.q", "f": 4}], "concl": {"cond": "abs(p)<0.02", "on": "✅ x₀ = 0 ⇒ f(0) = 1、f′(0) = 1 + 3 = 4 ⇒ <b>l: y = 4x + 1</b>", "off": "拖到 x₀ = 0：那时斜率才是 4，切线才是 y = 4x + 1"}, "hud": "🖐 左右拖动 = 挪动切点 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -823,7 +823,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 m：直线什么时候与抛物线「刚好擦上」", "sub": "把 y = 4x+1 代入 y² = 4x+m 得到 16x²+4x+(1−m)=0 —— Δ = 0 就是相切", "view": [-1.3, 2.4, -3.2, 3.2], "param": {"name": "m", "label": "抛物线参数 m", "min": -1.5, "max": 3, "step": 0.005, "val": 0.75, "fmt": 3, "ticks": ["−1.5", "0.75", "3"]}, "scalars": [{"n": "m", "e": "p"}, {"n": "dl", "e": "64*p-48"}, {"n": "nn", "e": "S.dl>0.0001?2:(S.dl>-0.0001?1:0)"}], "shapes": [{"t": "func", "f": "sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "-sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "line", "k": 4, "q": 1, "c": "#c2410c", "w": 2.4}, {"t": "text", "x": 1.5, "y": 2.8, "c": "#94a3b8", "s": "蓝 = y² = 4x + m · 橙 = l: y = 4x + 1", "fs": 11}], "readouts": [{"k": "m", "e": "p", "f": 3}, {"k": "Δ = 64m − 48", "e": "S.dl", "f": 3, "hl": true}, {"k": "交点个数", "e": "S.nn", "f": 0}], "concl": {"cond": "abs(S.dl)<0.6", "on": "✅ Δ = 0 ⇒ 64m − 48 = 0 ⇒ <b>m = 3/4</b>", "off": "拖到 Δ = 0：那时直线与抛物线只有一个公共点（相切）"}, "hud": "🖐 左右拖动 = 改 m · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -850,7 +849,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 排印陷阱：y²=4x+m 与 y²=4(x+m) 差多少", "sub": "括号挪一格，答案从 3/4 变成 3/16 —— 两条抛物线画在一起，切线对上的根本不是同一个 m", "view": [-1.3, 2.4, -3.2, 3.2], "param": {"name": "m", "label": "抛物线参数 m", "min": 0, "max": 3, "step": 0.005, "val": 0.75, "fmt": 3, "ticks": ["0", "0.75", "3"]}, "scalars": [{"n": "m", "e": "p"}, {"n": "d1", "e": "64*p-48"}, {"n": "d2", "e": "256*p-48"}], "shapes": [{"t": "func", "f": "sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "-sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "2*sqrt(p+S.m)", "c": "#f59e0b", "w": 1.8, "dash": [7, 5]}, {"t": "func", "f": "-2*sqrt(p+S.m)", "c": "#f59e0b", "w": 1.8, "dash": [7, 5]}, {"t": "line", "k": 4, "q": 1, "c": "#c2410c", "w": 2.4}, {"t": "text", "x": 1.35, "y": 2.8, "c": "#2563eb", "s": "蓝实线 = y² = 4x + m（正确读法）", "fs": 11}, {"t": "text", "x": 1.35, "y": -2.85, "c": "#f59e0b", "s": "橙虚线 = y² = 4(x+m)（误读）", "fs": 11}], "readouts": [{"k": "m", "e": "p", "f": 3}, {"k": "Δ₁（正确读法）", "e": "S.d1", "f": 3}, {"k": "Δ₂（误读）", "e": "S.d2", "f": 3}, {"k": "正确解 m = 3/4", "e": "0.75", "f": 2, "hl": true}, {"k": "误读解 m = 3/16", "e": "0.1875", "f": 4}], "concl": {"cond": "abs(p-0.75)<0.01", "on": "✅ 正确读法下 m = <b>3/4</b>；若误读成 4(x+m) 会解出 3/16 —— 差 4 倍", "off": "拖到 m = 0.75：只有蓝线与橙直线相切，橙虚线还没对上"}, "hud": "🖐 左右拖动 = 改 m · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -920,6 +918,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 (x−2)²=m+4 只含 x ⇒ 两条竖直线——排印笔误。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4574,5 +4573,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.2,'axes':false,'dist':5.8,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
