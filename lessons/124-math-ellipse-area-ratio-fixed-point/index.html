@@ -717,6 +717,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -800,7 +801,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 离心率定「形状」，长轴定「大小」", "sub": "a = 2 固定不动，拖 e 看椭圆怎么变扁 —— e = √3/2 那一刻正好落在本题", "view": [-3.2, 3.2, -2.02, 2.02], "param": {"name": "e", "label": "离心率 e = c/a", "min": 0.05, "max": 0.97, "step": 0.001, "val": 0.866, "fmt": 3, "ticks": ["0.05", "0.5", "0.97"]}, "scalars": [{"n": "b", "e": "2*sqrt(1-p*p)"}, {"n": "c", "e": "2*p"}], "shapes": [{"t": "ellipse", "a": 2, "b": "S.b", "c": "#2563eb", "w": 2.6, "fill": "37,99,235", "fa": 0.08}, {"t": "seg", "x1": -2, "y1": 0, "x2": 2, "y2": 0, "c": "#cbd5e1", "w": 1.4, "dash": [5, 4]}, {"t": "seg", "x1": "-S.c", "y1": 0, "x2": "S.c", "y2": 0, "c": "#f59e0b", "w": 3.2}, {"t": "point", "x": "-S.c", "y": 0, "c": "#c2410c", "label": "F₁", "dx": -4, "dy": -16}, {"t": "point", "x": "S.c", "y": 0, "c": "#c2410c", "label": "F₂", "dx": 4, "dy": -16}, {"t": "point", "x": -2, "y": 0, "c": "#94a3b8", "r": 4}, {"t": "point", "x": 2, "y": 0, "c": "#94a3b8", "r": 4}, {"t": "point", "x": 0, "y": "S.b", "c": "#7c3aed", "r": 4, "label": "B₁", "dy": -2}, {"t": "point", "x": 0, "y": "-S.b", "c": "#7c3aed", "r": 4, "label": "B₂", "dy": 2}, {"t": "text", "x": 0, "y": 1.95, "c": "#94a3b8", "s": "长轴 2a = 4（固定）· 橙色线段 = 焦距 2c", "fs": 11.5}], "readouts": [{"k": "半焦距 c", "e": "S.c", "f": 3}, {"k": "短半轴 b = √(4−c²)", "e": "S.b", "f": 3}, {"k": "b²", "e": "4*(1-p*p)", "f": 3, "hl": true}, {"k": "方程", "e": "4*(1-p*p)", "f": 3, "tpl": "x²/4 + y²/{v} = 1"}], "concl": {"cond": "abs(p-0.8660254)<0.008", "on": "🎯 <b>正好是本题</b>：e = √3/2 ⇒ c = √3 ⇒ b² = 4 − 3 = 1 ⇒ <b>x²/4 + y² = 1</b>", "off": "把 e 一路拖到 0.866 —— 拖到那一刻，方程就变成 x²/4 + y² = 1"}, "hud": "🖐 左右拖动 = 改离心率 e · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -834,7 +834,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖直线，看比值为什么「纹丝不动」", "sub": "l: y = −x/2 + m —— 拖 m 让直线平移：两个三角形都在变，比值恒 1 : 1", "view": [-3.45, 3.45, -1.98, 1.98], "param": {"name": "m", "label": "直线截距 m", "min": -1.39, "max": 1.39, "step": 0.005, "val": 0.75, "fmt": 2, "ticks": ["−1.39", "0", "1.39"]}, "scalars": [{"n": "sq", "e": "sqrt(max(0,2-p*p))"}, {"n": "xA", "e": "p - S.sq"}, {"n": "xB", "e": "p + S.sq"}, {"n": "yA", "e": "-0.5*S.xA + p"}, {"n": "yB", "e": "-0.5*S.xB + p"}, {"n": "s1", "e": "abs(2*p)*abs(S.yA)/2"}, {"n": "s2", "e": "abs(p)*abs(S.xB)/2"}, {"n": "rt", "e": "S.s2==0?1:S.s1/S.s2"}], "shapes": [{"t": "ellipse", "a": 2, "b": 1, "c": "#2563eb", "w": 2.6, "fill": "37,99,235", "fa": 0.07}, {"t": "area", "pts": [["0", "0"], ["2*p", "0"], ["S.xA", "S.yA"]], "fill": "37,99,235", "fa": 0.22}, {"t": "area", "pts": [["0", "0"], ["0", "p"], ["S.xB", "S.yB"]], "fill": "245,158,11", "fa": 0.22}, {"t": "line", "k": -0.5, "q": "p", "c": "#c2410c", "w": 2}, {"t": "seg", "x1": 0, "y1": 0, "x2": "2*p", "y2": 0, "c": "#2563eb", "w": 3}, {"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": "p", "c": "#f59e0b", "w": 3}, {"t": "point", "x": "S.xA", "y": "S.yA", "c": "#1d4ed8", "label": "A", "dx": -8, "dy": -4}, {"t": "point", "x": "S.xB", "y": "S.yB", "c": "#b45309", "label": "B", "dx": 9, "dy": -2}, {"t": "point", "x": "2*p", "y": 0, "c": "#2563eb", "r": 4, "label": "M", "dy": 21}, {"t": "point", "x": 0, "y": "p", "c": "#f59e0b", "r": 4, "label": "N", "dx": -9, "dy": -2}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4, "label": "O", "dx": -7, "dy": 7}], "readouts": [{"k": "x_A", "e": "S.xA", "f": 3}, {"k": "x_B", "e": "S.xB", "f": 3}, {"k": "x_A + x_B（韦达 = 2m）", "e": "S.xA+S.xB", "f": 3}, {"k": "2m − x_A（另一交点的横坐标）", "e": "2*p-S.xA", "f": 3, "hl": true}, {"k": "S₁ : S₂", "e": "S.rt", "f": 3, "tpl": "1 : {v}", "hl": true}], "concl": {"cond": "1", "on": "✅ 无论 m 怎么拖，<b>S△OAM : S△OBN 恒为 1 : 1</b> —— 因为 2m − x_A 永远等于 x_B", "off": ""}, "hud": "🖐 左右拖动 = 平移直线 l · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -866,7 +865,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖斜率 k：直线永远穿过定点 (14/9, 0)", "sub": "l: y = k(x − 14/9)，k 随便变 —— 斜率积 k_AC·k_BC 始终等于 −2", "view": [-3.45, 3.45, -1.98, 1.98], "param": {"name": "k", "label": "斜率 k", "min": 0.3, "max": 1.6, "step": 0.01, "val": 0.8, "fmt": 2, "ticks": ["0.3", "0.95", "1.6"]}, "scalars": [{"n": "t", "e": "-14*p/9"}, {"n": "Q", "e": "1+4*p*p"}, {"n": "D", "e": "16*(1+4*p*p-p*p*(14/9)*(14/9))"}, {"n": "x1", "e": "(8*p*p*(14/9)-sqrt(max(0,S.D)))/(2*S.Q)"}, {"n": "x2", "e": "(8*p*p*(14/9)+sqrt(max(0,S.D)))/(2*S.Q)"}, {"n": "y1", "e": "p*(S.x1-14/9)"}, {"n": "y2", "e": "p*(S.x2-14/9)"}, {"n": "kp", "e": "(S.y1/(S.x1-2))*(S.y2/(S.x2-2))"}], "shapes": [{"t": "ellipse", "a": 2, "b": 1, "c": "#2563eb", "w": 2.6, "fill": "37,99,235", "fa": 0.07}, {"t": "line", "k": "p", "q": "S.t", "c": "#c2410c", "w": 2}, {"t": "point", "x": "14/9", "y": 0, "c": "#0f766e", "r": 6, "pulse": true, "label": "P", "dx": -9, "dy": -6}, {"t": "point", "x": "S.x1", "y": "S.y1", "c": "#7c3aed", "label": "A", "dx": -5}, {"t": "point", "x": "S.x2", "y": "S.y2", "c": "#7c3aed", "label": "B", "dx": 7, "dy": 2}, {"t": "text", "x": -1.15, "y": 1.62, "c": "#0f766e", "s": "定点 P(14/9, 0)：k 怎么变，直线都穿过它", "fs": 11.5}, {"t": "point", "x": 2, "y": 0, "c": "#64748b", "r": 4, "label": "C", "dx": 13, "dy": 17}], "readouts": [{"k": "截距 t = −14k/9", "e": "S.t", "f": 3}, {"k": "k_AC · k_BC", "e": "S.kp", "f": 3, "hl": true}, {"k": "定点 P 的横坐标", "e": "14/9", "f": 4}], "concl": {"cond": "abs(S.kp+2)<0.02", "on": "✅ 只要 t = −14k/9，直线就<b>恒过 P(14/9, 0)</b>，且 k_AC·k_BC ≡ −2；P 在椭圆内部（14/9 ≈ 1.56 &lt; 2）⇒ 过它必交两点", "off": ""}, "hud": "🖐 左右拖动 = 改斜率 k · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -936,6 +934,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 14/9≈1.56&lt;2，在椭圆内部 x 轴上——过内点的直线必交两点。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4588,5 +4587,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.52,'axes':false,'dist':7.8,'pol':1.5
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
