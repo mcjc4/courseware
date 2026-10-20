@@ -709,6 +709,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -790,7 +791,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 |AF₂|：定义与题设一联立，|BF₂| 就被钉成 2a", "sub": "双曲线定义 |AF₁| − |AF₂| = 2a；题设 |AF₁| = |AB| = |AF₂| + |BF₂| ⇒ |BF₂| = 2a（与 m 无关）", "view": [-0.8, 6.4, -1.7, 1.7], "param": {"name": "m", "label": "|AF₂| = m（取 a = 1）", "min": 0.3, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.3", "1", "2.5"]}, "scalars": [{"n": "L", "e": "p+2"}, {"n": "af1", "e": "p+2"}, {"n": "df", "e": "(p+2)-(p+2)"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0.8, "x2": "S.L", "y2": 0.8, "c": "#cbd5e1", "w": 6}, {"t": "seg", "x1": 0, "y1": -0.8, "x2": "S.af1", "y2": -0.8, "c": "#f59e0b", "w": 6}, {"t": "point", "x": 0, "y": 0.8, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": "p", "y": 0.8, "c": "#2563eb", "r": 5, "label": "F₂", "dy": -6}, {"t": "point", "x": "S.L", "y": 0.8, "c": "#2563eb", "r": 5, "label": "B", "dx": 8, "dy": -6}, {"t": "point", "x": "S.af1", "y": -0.8, "c": "#f59e0b", "r": 5, "label": "F₁", "dx": 9, "dy": 17}, {"t": "text", "x": "S.L/2", "y": 1.28, "c": "#64748b", "s": "上排 = 过焦点的弦 A—F₂—B", "fs": 11}, {"t": "text", "x": "S.L/2", "y": -1.32, "c": "#f59e0b", "s": "下排 = |AF₁|（定义：比 |AF₂| 长 2a）", "fs": 11}], "readouts": [{"k": "|AF₂| = m", "e": "p", "f": 3}, {"k": "|F₂B| = 2a", "e": "2", "f": 3}, {"k": "|AB| = m + 2a", "e": "S.L", "f": 3}, {"k": "|AF₁| = m + 2a", "e": "S.af1", "f": 3, "hl": true}, {"k": "|AF₁| − |AB|（≡ 0）", "e": "S.df", "f": 4}], "concl": {"cond": "1", "on": "✅ 题设 |AF₁| = |AB| 与定义 |AF₁| = |AF₂| + 2a 一减 ⇒ <b>|BF₂| = 2a = 2</b>，而且跟 m 取多少毫无关系", "off": ""}, "hud": "🖐 左右拖动 = 改 |AF₂| · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -820,7 +820,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 m：等腰三角形的顶角把腰长定死", "sub": "AB = AF₁ = m+2a、BF₁ = 4a —— 顶角余弦 1/9 反解出 m = a = 1", "view": [-1.3, 5.7, -0.9, 4.3], "param": {"name": "m", "label": "|AF₂| = m（取 a = 1）", "min": 0.3, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.3", "1", "2.5"]}, "scalars": [{"n": "L", "e": "p+2"}, {"n": "fx", "e": "S.L-8/S.L"}, {"n": "fy", "e": "sqrt(max(0,S.L*S.L-S.fx*S.fx))"}, {"n": "cs", "e": "1-8/(S.L*S.L)"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": "S.L", "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.4}, {"t": "seg", "x1": "S.L", "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.4}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": "S.L", "y": 0, "c": "#2563eb", "r": 5, "label": "B", "dx": 8, "dy": -4}, {"t": "point", "x": "p", "y": 0, "c": "#0f766e", "r": 5, "label": "F₂", "dy": 19}, {"t": "point", "x": "S.fx", "y": "S.fy", "c": "#c2410c", "r": 5, "label": "F₁", "dx": 8, "dy": -4}, {"t": "text", "x": 2.6, "y": 3.9, "c": "#94a3b8", "s": "|AB| = |AF₁| = m+2a（等腰）· |BF₁| = 4a", "fs": 11}], "readouts": [{"k": "|AB| = |AF₁| = m + 2a", "e": "S.L", "f": 3}, {"k": "|BF₁| = 4a", "e": "4", "f": 2}, {"k": "cos∠BAF₁ = 1 − 8/(m+2a)²", "e": "S.cs", "f": 5, "hl": true}, {"k": "题给 1/9 ≈", "e": "1/9", "f": 5}, {"k": "m", "e": "p", "f": 3}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ 1 − 8/(m+2)² = 1/9 ⇒ (m+2)² = 9 ⇒ <b>m = a = 1</b>", "off": "拖到 m = 1：那时顶角余弦才等于 1/9"}, "hud": "🖐 左右拖动 = 改 |AF₂| · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -849,7 +848,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖离心率 e：焦点三角形反解 e = √21/3", "sub": "△AF₁F₂ 三边：|AF₁| = 3a = 3、|AF₂| = a = 1、|F₁F₂| = 2c = 2e —— 顶角余弦 1/9 锁死 e", "view": [-1.4, 3.9, -0.75, 3.6], "param": {"name": "e", "label": "离心率 e", "min": 1.05, "max": 1.95, "step": 0.005, "val": 1.5275, "fmt": 4, "ticks": ["1.05", "1.5275", "1.95"]}, "scalars": [{"n": "fx", "e": "5-2*p*p"}, {"n": "fy", "e": "sqrt(max(0,9-S.fx*S.fx))"}, {"n": "cs", "e": "S.fx/3"}, {"n": "cs2", "e": "(10-4*p*p)/6"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 1, "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.6}, {"t": "seg", "x1": 1, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#7c3aed", "w": 2.4}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": 1, "y": 0, "c": "#2563eb", "r": 5, "label": "F₂", "dy": 19}, {"t": "point", "x": "S.fx", "y": "S.fy", "c": "#c2410c", "r": 5, "label": "F₁", "dx": 8, "dy": -4}, {"t": "text", "x": 2.0, "y": 3.3, "c": "#94a3b8", "s": "|AF₁| = 3、|AF₂| = 1、|F₁F₂| = 2e", "fs": 11}], "readouts": [{"k": "离心率 e", "e": "p", "f": 4, "hl": true}, {"k": "2c = 2e", "e": "2*p", "f": 4}, {"k": "cos∠F₁AF₂", "e": "S.cs", "f": 5}, {"k": "题给 1/9 ≈", "e": "1/9", "f": 5}, {"k": "√21/3 ≈", "e": "sqrt(21)/3", "f": 4}], "concl": {"cond": "abs(S.cs-1/9)<0.002", "on": "✅ 4c² = 28a²/3 ⇒ e² = 7/3 ⇒ <b>e = √21/3 ≈ 1.5275</b>", "off": "拖到 cos∠F₁AF₂ = 1/9 ≈ 0.1111：那时 e 正好是 √21/3"}, "hud": "🖐 左右拖动 = 改离心率 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -919,6 +917,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 e²=7/3 ⇒ e=√21/3。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4573,5 +4572,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-2.4,'axes':false,'dist':8.8,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
