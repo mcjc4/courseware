@@ -716,6 +716,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -791,7 +792,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖偏移量 d：方差什么时候归零", "sub": "s² = 离差平方的平均值 —— 每一项都是平方，求和为 0 只能说明每一项都是 0", "view": [0.7, 4.6, -0.95, 0.95], "param": {"name": "d", "label": "第 3 个数据的偏移 d", "min": -2, "max": 2, "step": 0.01, "val": 0.6, "fmt": 2, "ticks": ["−2", "0", "2"]}, "scalars": [{"n": "mn", "e": "2+p/3"}, {"n": "ss", "e": "2*(p/3)*(p/3)+(2*p/3)*(2*p/3)"}, {"n": "v", "e": "S.ss/3"}, {"n": "eq", "e": "abs(p)<1e-9?1:0"}], "shapes": [{"t": "seg", "x1": 1.2, "y1": 0, "x2": 4.2, "y2": 0, "c": "#cbd5e1", "w": 2}, {"t": "point", "x": 2, "y": 0.16, "c": "#2563eb", "r": 5}, {"t": "point", "x": 2, "y": -0.16, "c": "#2563eb", "r": 5}, {"t": "point", "x": "2+p", "y": 0, "c": "#f59e0b", "r": 6, "pulse": true, "label": "2+d", "dy": -6}, {"t": "seg", "x1": "S.mn", "y1": -0.62, "x2": "S.mn", "y2": 0.62, "c": "#7c3aed", "w": 2, "dash": [5, 4]}, {"t": "point", "x": "S.mn", "y": 0, "c": "#7c3aed", "r": 4, "label": "均值", "dy": 20}, {"t": "text", "x": 2.6, "y": -0.72, "c": "#94a3b8", "s": "紫虚线 = 均值随 d 移动 · 蓝点 = 两个固定的 2", "fs": 11}], "readouts": [{"k": "均值 x̄", "e": "S.mn", "f": 4}, {"k": "离差平方和", "e": "S.ss", "f": 4}, {"k": "方差 s² = 平方和/3", "e": "S.v", "f": 4, "hl": true}, {"k": "所有数据相等（1=是）", "e": "S.eq", "f": 0}], "concl": {"cond": "abs(p)<0.02", "on": "✅ s² = 0 ⇒ 每个离差都是 0 ⇒ <b>所有数据都相等</b> ⇒ <b>A 项对</b>", "off": "拖到 d = 0：只有那时三个数全相等，方差才归零"}, "hud": "🖐 左右拖动 = 改偏移量 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -822,7 +822,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖幂次 k：x³ 项的系数到底是几", "sub": "四个括号各出一份系数，加起来才是答案 —— 题面给的 −69 少了整整 104", "view": [-0.35, 4.5, -185, 38], "param": {"name": "k", "label": "幂次 k", "min": 0, "max": 4, "step": 1, "snap": true, "val": 3, "fmt": 0, "ticks": ["0", "2", "4"]}, "scalars": [{"n": "c1", "e": "(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(4,p)*pow(-3,p)"}, {"n": "c2", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(5,p)"}, {"n": "c3", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(6,p)"}, {"n": "c4", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(7,p)"}, {"n": "tt", "e": "S.c1+S.c2+S.c3+S.c4"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": "S.c1", "c": "#2563eb", "w": 16}, {"t": "seg", "x1": 1, "y1": 0, "x2": 1, "y2": "S.c2", "c": "#f59e0b", "w": 16}, {"t": "seg", "x1": 2, "y1": 0, "x2": 2, "y2": "S.c3", "c": "#7c3aed", "w": 16}, {"t": "seg", "x1": 3, "y1": 0, "x2": 3, "y2": "S.c4", "c": "#0f766e", "w": 16}, {"t": "seg", "x1": -0.3, "y1": 0, "x2": 4.2, "y2": 0, "c": "#cbd5e1", "w": 2}, {"t": "seg", "x1": -0.3, "y1": "-69", "x2": 4.2, "y2": "-69", "c": "#ef4444", "w": 1.5, "dash": [6, 4]}, {"t": "text", "x": 0, "y": "-S.c1-14", "c": "#2563eb", "s": "(1−3x)⁴", "fs": 11}, {"t": "text", "x": 1, "y": 14, "c": "#f59e0b", "s": "(1−x)⁵", "fs": 11}, {"t": "text", "x": 2, "y": 14, "c": "#7c3aed", "s": "(1−x)⁶", "fs": 11}, {"t": "text", "x": 3, "y": 14, "c": "#0f766e", "s": "(1−x)⁷", "fs": 11}, {"t": "text", "x": 2.0, "y": -74, "c": "#ef4444", "s": "红虚线 = 题面给的 −69", "fs": 11}, {"t": "text", "x": 2.0, "y": -168, "c": "#94a3b8", "s": "同款中间量陷阱：z 的截距是 ln a，不是 a ⇒ a = e^{4.16} ≈ 64.2", "fs": 11}], "readouts": [{"k": "幂次 k", "e": "p", "f": 0}, {"k": "(1−3x)⁴ 的系数", "e": "S.c1", "f": 0}, {"k": "(1−x)⁵ 的系数", "e": "S.c2", "f": 0}, {"k": "(1−x)⁶ 的系数", "e": "S.c3", "f": 0}, {"k": "(1−x)⁷ 的系数", "e": "S.c4", "f": 0}, {"k": "四项相加", "e": "S.tt", "f": 0, "hl": true}], "concl": {"cond": "abs(p-3)<0.5", "on": "✅ k = 3：−108 − 10 − 20 − 35 = <b>−173 ≠ −69</b> ⇒ <b>C 项错</b>", "off": "拖到 k = 3：看四项系数相加是否等于题面给的 −69"}, "hud": "🖐 左右拖动 = 换幂次（只取整数）"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -850,7 +849,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖上界 b：175→180 这一牙到底多大", "sub": "μ=170、σ=5：175 = μ+σ、180 = μ+2σ —— 中间那一牙是「两个区间差的一半」", "view": [148, 192, -0.006, 0.088], "param": {"name": "b", "label": "上界 b（cm）", "min": 171, "max": 186, "step": 0.05, "val": 180, "fmt": 2, "ticks": ["171", "180", "186"]}, "scalars": [{"n": "zb", "e": "(p-170)/5"}, {"n": "fb", "e": "(function(z){var t=1/(1+0.2316419*abs(z));var d=0.3989423*exp(-z*z/2);var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-q:q;})(S.zb)"}, {"n": "f1", "e": "(function(z){var t=1/(1+0.2316419*abs(z));var d=0.3989423*exp(-z*z/2);var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-q:q;})(1)"}, {"n": "pr", "e": "S.fb-S.f1"}, {"n": "cr", "e": "(0.9545-0.6827)/2"}], "shapes": [{"t": "func", "f": "exp(-(p-170)*(p-170)/50)/(5*sqrt(2*PI))", "c": "#2563eb", "w": 2.6}, {"t": "band", "f": "exp(-(p-170)*(p-170)/50)/(5*sqrt(2*PI))", "x1": 175, "x2": "p", "fill": "37,99,235", "fa": 0.32}, {"t": "seg", "x1": 170, "y1": 0, "x2": 170, "y2": 0.082, "c": "#94a3b8", "w": 1.4, "dash": [5, 4]}, {"t": "seg", "x1": 175, "y1": 0, "x2": 175, "y2": 0.07, "c": "#c2410c", "w": 1.6}, {"t": "seg", "x1": "p", "y1": 0, "x2": "p", "y2": 0.07, "c": "#c2410c", "w": 1.6}, {"t": "text", "x": 170, "y": 0.0855, "c": "#94a3b8", "s": "μ=170", "fs": 11}, {"t": "text", "x": 175.6, "y": 0.075, "c": "#c2410c", "s": "μ+σ", "fs": 11}, {"t": "text", "x": 180.6, "y": 0.075, "c": "#c2410c", "s": "μ+2σ", "fs": 11}, {"t": "text", "x": 155, "y": 0.055, "c": "#94a3b8", "s": "蓝色块 = P(175 &lt; X &lt; b)", "fs": 11}], "readouts": [{"k": "上界 b", "e": "p", "f": 2}, {"k": "z = (b−170)/5", "e": "S.zb", "f": 3}, {"k": "P(175 &lt; X &lt; b)", "e": "S.pr", "f": 4, "hl": true}, {"k": "正确值（两区间差的一半）", "e": "S.cr", "f": 4}, {"k": "题面给的（整条月牙）", "e": "0.2718", "f": 4}], "concl": {"cond": "abs(p-180)<0.4", "on": "✅ P(175&lt;X&lt;180) = (0.9545−0.6827)/2 = <b>0.1359</b> ≠ 0.2718 ⇒ <b>D 项错</b>（0.2718 是整条月牙，忘了除以 2）", "off": "拖到 b = 180：看蓝色块的面积是不是 0.1359"}, "hud": "🖐 左右拖动 = 改上界 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -920,6 +918,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 只有 A 是充要成立的定义级判断。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4574,5 +4573,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.0,'axes':false,'dist':7.4,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
