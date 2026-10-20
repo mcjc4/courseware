@@ -3654,15 +3654,45 @@ body{padding-left:220px;padding-top:52px}
 })();
 </script>
 
-<!-- 门户课件浏览上报：点开课件 / 作业讲评 → 写一条浏览历史到云端 gaokao_state（记忆卡 history.html 可看） -->
+<!-- 门户课件浏览上报（R49）：写独立小行 jikaka-<person>-browse + 本地镜像 + 待同步队列
+     旧实现每次点课件都要「读 3.3MB 整档 → 改 → 整档 upsert」：手机端点开新标签后本页被挂起，
+     3.3MB 上传根本传不完，于是只有本地镜像写成功、云端丢失（用户反馈「手机上看了 124，历史里没有今天」）。
+     现在只读写 -browse 行（~30KB），并先把记录落到本地队列，云端失败下次打开门户自动补传。 -->
 <script>
 (function () {
   'use strict';
   var ACTIVE_KEY = 'wulun_active_person';
+  var PENDING_KEY = 'wulun_browse_pending_v1';
+  var MIRROR_KEY = 'wulun_person_v2';
+  var ROW_SUFFIX = '-browse';
   function lsGet(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } }
   function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   function personKey(){ return lsGet(ACTIVE_KEY, 'chenxinyan'); }
-  var recent = Object.create(null);
+  function rowId(pk){ return 'jikaka-' + pk + ROW_SUFFIX; }
+
+  /* ---------- 待同步队列（云端写失败也能补传） ---------- */
+  function pendList(){ var a = lsGet(PENDING_KEY, []); return Array.isArray(a) ? a.filter(function(e){ return e && e.id; }) : []; }
+  function pendSave(a){ lsSet(PENDING_KEY, a.slice(0, 200)); }
+  function pendPut(e){ pendSave([e].concat(pendList().filter(function(x){ return String(x.id) !== String(e.id); }))); }
+  function pendDel(id){ pendSave(pendList().filter(function(x){ return String(x.id) !== String(id); })); }
+
+  function mergeBh(bh, e){
+    var out = (Array.isArray(bh) ? bh : []).filter(function(x){ return x && String(x.id) !== String(e.id); });
+    out.unshift(e);
+    out.sort(function(a, b){ return ((b && b.ts) || 0) - ((a && a.ts) || 0); });
+    return out.slice(0, 200);   /* -browse 行只存课件浏览，200 条足够覆盖全部课件，payload 压到 ~26KB */
+  }
+  /* 本地镜像：云端不可用时，history.html 仍能从本机 localStorage 读到课件记录 */
+  function saveLocalMirror(e){
+    try{
+      var store = lsGet(MIRROR_KEY, {});
+      var pk = personKey();
+      var d0 = store[pk] || (store[pk] = {});
+      d0.browseHistory = mergeBh(d0.browseHistory, e);
+      store[pk] = d0;
+      lsSet(MIRROR_KEY, store);
+    }catch(err){}
+  }
   function waitDb(ms){
     return new Promise(function(resolve){
       if(window.WB_DB) return resolve(window.WB_DB);
@@ -3673,75 +3703,73 @@ body{padding-left:220px;padding-top:52px}
       }, step);
     });
   }
-  function hrefOf(card){
-    var h = card.getAttribute('data-href') || '';
+  function absSrc(h){
     if(!h) return '';
     if(/^https?:/i.test(h)) return h;
     return 'courseware/' + h.replace(/^\.?\//, '');
   }
-  /* 本地镜像：云端不可用时，history.html 仍能从本机 localStorage 读到课件记录 */
-  function saveLocalMirror(bh){
-    try{
-      var store = lsGet('wulun_person_v2', {});
-      var pk = personKey();
-      var d0 = store[pk] || (store[pk] = {});
-      d0.browseHistory = bh.slice(0, 500);
-      store[pk] = d0;
-      lsSet('wulun_person_v2', store);
-    }catch(e){}
+  /* 只读写 -browse 一行：payload ~30KB，手机端也能写完 */
+  async function push(entry, db){
+    var sid = rowId(personKey());
+    var r0 = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
+    if(!r0 || !Array.isArray(r0.data)) return false;            /* 读失败 → 绝不写 */
+    var row = r0.data[0] || null;
+    var data = (row && row.data && typeof row.data === 'object') ? row.data : { v: 1 };
+    data.browseHistory = mergeBh(data.browseHistory, entry);
+    data.updatedAt = Date.now();
+    await db.from('gaokao_state').upsert({ id: sid, data: data, updated_at: new Date().toISOString() });
+    return true;
   }
-  async function record(card){
-    try{
-      var cid = card.getAttribute('data-cid'); if(!cid) return;
-      var now = Date.now();
-      if(recent[cid] && (now - recent[cid]) < 30000) return;   /* 30s 内重复点同一课件不重复记 */
-      recent[cid] = now;
-      var db = await waitDb(4000); if(!db) return;
-      var sid = 'jikaka-' + personKey();
-      /* ⚠️ PORTAL-VER: 20261012a —— 修复：SDK 的 .select() 返回 {data:[...],error} 对象而非数组，
-         原写法 rows[0] 恒为 undefined → data 被当成 {} 重建 → 每次点课件都把记忆卡主档案
-         （state/browseHistory/pos/trainCount…）整体 upsert 成空壳（实测 255 字节），练习状态因此丢失。
-         现在：① 按 r.data[0] 取行；② 读接口异常 / 行存在但形状不可用 → 直接 return，绝不写；
-         ③ 写前重读一次并合并，缩小与 app 端 push 的竞态窗口。 */
-      var r0 = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
-      if(!r0 || !Array.isArray(r0.data)) return;                 /* 读接口异常 → 绝不写 */
-      var row0 = r0.data[0] || null;
-      var data = null;
-      if(!row0){
-        data = { v: 1 };                                           /* 确实无行 → 允许新建（无旧档可冲） */
-      }else{
-        data = (row0.data && typeof row0.data === 'object') ? row0.data : null;
-        if(!data) return;                                          /* 行存在但 data 不可用 → 绝不写 */
-      }
-      var bh = Array.isArray(data.browseHistory) ? data.browseHistory.slice() : [];
-      bh = bh.filter(function(e){ return e && String(e.id) !== cid; });   /* 同一课件只保留最近一次 */
-      bh.unshift({
-        ts: now, id: cid, mode: '课件',
-        subject: card.getAttribute('data-subject') || '',
-        src: hrefOf(card),
-        t: card.getAttribute('data-knowledge') || '',
-        chapter: card.getAttribute('data-chapter') || ''
+  function flushPending(){
+    var list = pendList(); if(!list.length) return Promise.resolve(0);
+    return waitDb(4000).then(function(db){
+      if(!db) return 0;
+      var done = 0;
+      return list.reduce(function(chain, e){
+        return chain.then(function(){
+          return push(e, db).then(function(ok){ if(ok){ pendDel(e.id); done++; } }).catch(function(){});
+        });
+      }, Promise.resolve()).then(function(){
+        window.__psBrowseFlushed = (window.__psBrowseFlushed || 0) + done;
+        return done;
       });
-      if(bh.length > 500) bh.length = 500;
-      saveLocalMirror(bh);
-      /* 写前重读最新档案，只合并本次课件浏览：避免把期间 app 端新写的进度覆盖掉 */
-      try{
-        var r1 = await db.from('gaokao_state').select('id,data').eq('id', sid).limit(1);
-        var row1 = (r1 && Array.isArray(r1.data) && r1.data[0]) ? r1.data[0] : null;
-        if(row1 && row1.data && typeof row1.data === 'object') data = row1.data;
-      }catch(e2){}
-      data.browseHistory = bh;
-      data.updatedAt = now;
-      await db.from('gaokao_state').upsert({ id: sid, data: data, updated_at: new Date().toISOString() });
-      window.__psBrowseLogged = (window.__psBrowseLogged || 0) + 1;
-    }catch(e){ /* 静默：上报失败不影响正常浏览课件 */ }
+    }).catch(function(){ return 0; });
   }
+  var recent = Object.create(null);
+  function record(card){
+    var cid = (card && card.getAttribute) ? card.getAttribute('data-cid') : '';
+    if(!cid) return Promise.resolve(false);
+    var now = Date.now();
+    if(recent[cid] && (now - recent[cid]) < 30000) return Promise.resolve(false);   /* 30s 内重复点同一课件不重复记 */
+    recent[cid] = now;
+    var entry = {
+      ts: now, id: cid, mode: '课件',
+      subject: card.getAttribute('data-subject') || '',
+      src: absSrc(card.getAttribute('data-href') || ''),
+      t: card.getAttribute('data-knowledge') || '',
+      chapter: card.getAttribute('data-chapter') || ''
+    };
+    /* ① 先落地：本地镜像 + 待同步队列 —— 页面被挂起/关闭也不丢 */
+    saveLocalMirror(entry);
+    pendPut(entry);
+    /* ② 再推云端（小载荷） */
+    return waitDb(4000).then(function(db){
+      if(!db) return false;
+      return push(entry, db).then(function(ok){
+        if(ok){ pendDel(cid); window.__psBrowseLogged = (window.__psBrowseLogged || 0) + 1; }
+        return ok;
+      });
+    }).catch(function(){ return false; });
+  }
+  window.__psRecordBrowse = record;
   document.addEventListener('click', function(e){
     var el = e.target;
     var card = el && el.closest ? el.closest('.card[data-cid][data-href]') : null;
     if(!card) return;
     record(card);
   }, true);
+  /* 打开门户即补传历史积压 */
+  window.addEventListener('load', function(){ setTimeout(function(){ flushPending(); }, 1200); });
 })();
 </script>
 
