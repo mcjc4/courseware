@@ -713,6 +713,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -796,7 +797,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 C 的横坐标：cos∠ABC 什么时候等于 −√6/6", "sub": "CA = CD = 3 把 C 锁在圆弧上；AB=1、CD=3 且平行 —— 拖到 x=2 那一刻就是本题", "view": [-2.3, 3.2, -0.7, 3.2], "param": {"name": "x", "label": "C 的横坐标 x", "min": 1.1, "max": 2.9, "step": 0.005, "val": 2.0, "fmt": 2, "ticks": ["1.1", "2.0", "2.9"]}, "scalars": [{"n": "h", "e": "sqrt(9-p*p)"}, {"n": "bc", "e": "sqrt((p-1)*(p-1)+S.h*S.h)"}, {"n": "cs", "e": "-(p-1)/S.bc"}, {"n": "ar", "e": "S.h/2"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 1, "y2": 0, "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": 1, "y1": 0, "x2": "p", "y2": "S.h", "c": "#2563eb", "w": 2.4}, {"t": "seg", "x1": "p", "y1": "S.h", "x2": "p-3", "y2": "S.h", "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": "p-3", "y1": "S.h", "x2": 0, "y2": 0, "c": "#cbd5e1", "w": 1.8, "dash": [6, 4]}, {"t": "seg", "x1": 0, "y1": 0, "x2": "p", "y2": "S.h", "c": "#f59e0b", "w": 2.2}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": 1, "y": 0, "c": "#2563eb", "r": 4.5, "label": "B", "dx": 3, "dy": 19}, {"t": "point", "x": "p", "y": "S.h", "c": "#f59e0b", "r": 5, "label": "C", "dx": 8, "dy": -2}, {"t": "point", "x": "p-3", "y": "S.h", "c": "#94a3b8", "r": 4.5, "label": "D", "dx": -9, "dy": -2}, {"t": "text", "x": 1.0, "y": 2.9, "c": "#94a3b8", "s": "橙线 = CA = 3（不变量）· 上底 CD = 3", "fs": 11}], "readouts": [{"k": "梯形的高 h = √(9−x²)", "e": "S.h", "f": 4}, {"k": "BC", "e": "S.bc", "f": 4}, {"k": "cos∠ABC", "e": "S.cs", "f": 5, "hl": true}, {"k": "S△ABC = h/2", "e": "S.ar", "f": 4}], "concl": {"cond": "abs(p-2)<0.02", "on": "✅ x = 2 ⇒ BC = √6、cos∠ABC = −√6/6、<b>S = √5/2 ≈ 1.118</b>", "off": "拖到 x = 2：那时 cos∠ABC 才等于 −√6/6 ≈ −0.4082"}, "hud": "🖐 左右拖动 = 挪动点 C · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -826,7 +826,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ∠DAC：BD 什么时候等于 √7", "sub": "两个余弦把 △ACD 定死（AC=3、AD=3/√2），AB∥CD 且 AB=1 把 B 钉好 —— 剩下就是算 BD", "view": [-0.7, 4.3, -2.7, 0.95], "param": {"name": "α", "label": "∠DAC = α（度）", "min": 50, "max": 85, "step": 0.1, "val": 69.3, "fmt": 1, "ticks": ["50", "69.3", "85"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "bt", "e": "acos(0.75)"}, {"n": "de", "e": "PI-S.rd-S.bt"}, {"n": "ac", "e": "3*sin(S.de)/sin(S.rd)"}, {"n": "ad", "e": "3*sin(S.bt)/sin(S.rd)"}, {"n": "dx", "e": "S.ad*cos(S.rd)"}, {"n": "dy", "e": "-S.ad*sin(S.rd)"}, {"n": "bx", "e": "(S.ac-S.dx)/3"}, {"n": "by", "e": "(0-S.dy)/3"}, {"n": "bd", "e": "sqrt((S.dx-S.bx)*(S.dx-S.bx)+(S.dy-S.by)*(S.dy-S.by))"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": "S.ac", "y2": 0, "c": "#f59e0b", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.dx", "y2": "S.dy", "c": "#f59e0b", "w": 2.2}, {"t": "seg", "x1": "S.dx", "y1": "S.dy", "x2": "S.ac", "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.bx", "y2": "S.by", "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": "S.bx", "y1": "S.by", "x2": "S.dx", "y2": "S.dy", "c": "#c2410c", "w": 2.8}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": "S.ac", "y": 0, "c": "#f59e0b", "r": 5, "label": "C", "dx": 8, "dy": -3}, {"t": "point", "x": "S.dx", "y": "S.dy", "c": "#2563eb", "r": 5, "label": "D", "dx": 3, "dy": 21}, {"t": "point", "x": "S.bx", "y": "S.by", "c": "#2563eb", "r": 4.5, "label": "B", "dx": -9, "dy": -3}, {"t": "text", "x": 1.9, "y": 0.62, "c": "#94a3b8", "s": "AB ∥ CD 且 |AB| = 1 ⇒ B = A + (C−D)/3", "fs": 11}], "readouts": [{"k": "cos α", "e": "cos(S.rd)", "f": 4, "hl": true}, {"k": "cos∠ACD = 3/4（题给）", "e": "0.75", "f": 2}, {"k": "AC", "e": "S.ac", "f": 4}, {"k": "AD", "e": "S.ad", "f": 4}, {"k": "BD", "e": "S.bd", "f": 4, "hl": true}], "concl": {"cond": "abs(S.bd-sqrt(7))<0.01", "on": "✅ cos α = √2/4 ⇒ AC = 3、AD = 3√2/2，<b>BD = √7 ≈ 2.6458</b>", "off": "拖到 α ≈ 69.3°（cos α = √2/4 ≈ 0.3536）：那时 BD 才等于 √7"}, "hud": "🖐 左右拖动 = 改 ∠DAC · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -854,7 +853,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 三板斧 vs 坐标兜底：两条路永远算出同一个 BC", "sub": "坐标法 √((x−1)²+h²) 与余弦定理 √(10−2x) 画出来完全重合 —— 算完用另一条验一遍最稳", "view": [0.95, 3.0, -0.2, 3.0], "param": {"name": "x", "label": "C 的横坐标 x", "min": 1.05, "max": 2.95, "step": 0.005, "val": 2.0, "fmt": 2, "ticks": ["1.05", "2.0", "2.95"]}, "scalars": [{"n": "g1", "e": "sqrt(10-2*p)"}, {"n": "g2", "e": "sqrt((p-1)*(p-1)+(9-p*p))"}, {"n": "df", "e": "abs(S.g1-S.g2)"}, {"n": "hh", "e": "sqrt(9-p*p)"}], "shapes": [{"t": "func", "f": "sqrt(10-2*p)", "c": "#2563eb", "w": 3.2}, {"t": "func", "f": "sqrt((p-1)*(p-1)+(9-p*p))", "c": "#f59e0b", "w": 2, "dash": [7, 5]}, {"t": "point", "x": "p", "y": "S.g1", "c": "#7c3aed", "r": 6, "pulse": true, "label": "BC", "dy": -6}, {"t": "text", "x": 2.0, "y": 2.55, "c": "#94a3b8", "s": "蓝 = 余弦定理 √(10−2x) · 橙虚 = 坐标法（完全重合）", "fs": 11}, {"t": "text", "x": 2.0, "y": -0.14, "c": "#c2410c", "s": "x = 2 时 BC = √6 ≈ 2.449", "fs": 11}], "readouts": [{"k": "BC（余弦定理）", "e": "S.g1", "f": 5}, {"k": "BC（坐标法）", "e": "S.g2", "f": 5}, {"k": "两条路的差", "e": "S.df", "f": 6, "hl": true}, {"k": "梯形的高 h", "e": "S.hh", "f": 4}, {"k": "S△ABC", "e": "S.hh/2", "f": 4}], "concl": {"cond": "1", "on": "✅ 差恒为 0：(x−1)² + h² = (x−1)² + (9−x²) = <b>10 − 2x</b>，两法本就是同一件事 —— 算完换一条路验一遍，是最便宜的纠错", "off": ""}, "hud": "🖐 左右拖动 = 挪动点 C · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -924,6 +922,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 B=(7/4, 3√7/4)，BD=√(112/16)=√7。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4578,5 +4577,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.2,'axes':false,'dist':6.4,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
