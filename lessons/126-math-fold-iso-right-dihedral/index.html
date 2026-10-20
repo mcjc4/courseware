@@ -715,6 +715,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -798,7 +799,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖折角 θ：△BDC 什么时候变成等边", "sub": "BD = DC = 2 是折叠过程中的不变量；θ = 60° 时 BC 也等于 2 ⇒ 等边 ⇒ BM⊥DC", "view": [-0.7, 2.7, -0.6, 2.5], "param": {"name": "θ", "label": "二面角 θ（度）", "min": 20, "max": 180, "step": 0.5, "val": 60, "fmt": 1, "ticks": ["20", "100", "180"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "cx", "e": "2*cos(S.rd)"}, {"n": "cy", "e": "2*sin(S.rd)"}, {"n": "mx", "e": "cos(S.rd)"}, {"n": "my", "e": "sin(S.rd)"}, {"n": "bc", "e": "sqrt((S.cx-2)*(S.cx-2)+S.cy*S.cy)"}, {"n": "bm", "e": "sqrt(5-4*cos(S.rd))"}, {"n": "cmb", "e": "(2*cos(S.rd)-1)/S.bm"}, {"n": "amb", "e": "acos(max(-1,min(1,S.cmb)))*180/PI"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 2, "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.cx", "y2": "S.cy", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 2, "y1": 0, "x2": "S.cx", "y2": "S.cy", "c": "#f59e0b", "w": 2.6}, {"t": "seg", "x1": 2, "y1": 0, "x2": "S.mx", "y2": "S.my", "c": "#7c3aed", "w": 2.2, "dash": [6, 4]}, {"t": "seg", "x1": -0.45, "y1": -0.45, "x2": 0.28, "y2": -0.45, "c": "#94a3b8", "w": 1.4}, {"t": "seg", "x1": -0.45, "y1": -0.45, "x2": -0.45, "y2": 0.3, "c": "#94a3b8", "w": 1.4}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "D", "dx": -9, "dy": 2}, {"t": "point", "x": 2, "y": 0, "c": "#2563eb", "r": 5, "label": "B", "dx": 4, "dy": -4}, {"t": "point", "x": "S.cx", "y": "S.cy", "c": "#f59e0b", "r": 5, "label": "C", "dx": 7, "dy": -2}, {"t": "point", "x": "S.mx", "y": "S.my", "c": "#7c3aed", "r": 4.5, "label": "M", "dx": -9, "dy": -2}, {"t": "text", "x": -0.42, "y": 0.45, "c": "#94a3b8", "s": "AD ⊥ 平面 BDC（折痕）", "fs": 11, "anchor": "left"}], "readouts": [{"k": "二面角 θ", "e": "p", "f": 1}, {"k": "BC = 4sin(θ/2)", "e": "S.bc", "f": 4, "hl": true}, {"k": "|BD| − |BC|（0 ⇒ 等边）", "e": "2-S.bc", "f": 4}, {"k": "∠BMC（90° ⇒ 垂直）", "e": "S.amb", "f": 2}], "concl": {"cond": "abs(p-60)<0.8", "on": "✅ θ = 60° ⇒ BC = 2 = BD = DC，△BDC 等边 ⇒ <b>BM ⊥ DC</b>；再配上 AD ⊥ 平面 BDC（折痕）⇒ BM ⊥ 平面 ADC ⇒ <b>BM ⊥ AC</b>", "off": "拖到 60°：只有那一刻 BC 才等于 2，△BDC 才是等边三角形"}, "hud": "🖐 左右拖动 = 改折叠的二面角 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -829,7 +829,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖折角 θ：两面角 M-AB-D 的余弦怎么走", "sub": "平面 DAB 的法向量白送 (0,1,0)，平面 MAB 的法向量算出来 ⇒ cos φ = (4−2cosθ)/√(8sin²θ+(4−2cosθ)²)", "view": [-0.25, 1.35, -0.22, 0.92], "param": {"name": "θ", "label": "二面角 θ（度）", "min": 20, "max": 180, "step": 0.5, "val": 60, "fmt": 1, "ticks": ["20", "100", "180"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "u", "e": "4-2*cos(S.rd)"}, {"n": "v", "e": "8*sin(S.rd)*sin(S.rd)"}, {"n": "cp", "e": "S.u/sqrt(S.v+S.u*S.u)"}, {"n": "ph", "e": "acos(max(-1,min(1,S.cp)))*180/PI"}, {"n": "ex", "e": "1.05*cos(acos(max(-1,min(1,S.cp))))"}, {"n": "ey", "e": "1.05*sin(acos(max(-1,min(1,S.cp))))"}, {"n": "mx2", "e": "0.72*cos(acos(max(-1,min(1,S.cp)))/2)"}, {"n": "my2", "e": "0.72*sin(acos(max(-1,min(1,S.cp)))/2)"}], "shapes": [{"t": "area", "pts": [["0", "0"], ["0.95", "0"], ["S.mx2", "S.my2"], ["S.ex*0.9", "S.ey*0.9"]], "fill": "34,197,94", "fa": 0.16}, {"t": "seg", "x1": 0, "y1": 0, "x2": 1.15, "y2": 0, "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.ex", "y2": "S.ey", "c": "#c2410c", "w": 2.8}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "AB（棱）", "dx": 2, "dy": 20}, {"t": "text", "x": 0.62, "y": 0.12, "c": "#0f766e", "s": "绿色夹角 φ = 平面 MAB 与 DAB 的两面角", "fs": 11}, {"t": "text", "x": 0.62, "y": -0.12, "c": "#94a3b8", "s": "蓝线 = 平面 DAB 的截面，橙线 = 平面 MAB 的截面", "fs": 10.5}], "readouts": [{"k": "二面角 θ（折角）", "e": "p", "f": 1}, {"k": "cos φ", "e": "S.cp", "f": 4, "hl": true}, {"k": "φ（度）", "e": "S.ph", "f": 2}, {"k": "√15/5 ≈", "e": "sqrt(15)/5", "f": 4}], "concl": {"cond": "abs(p-60)<0.8", "on": "✅ θ = 60° ⇒ cos φ = 3/√15 = <b>√15/5 ≈ 0.7746</b>（法向量：n₁=(0,1,0)，n₂=(√3, 3, √3)）", "off": "拖到 60°：那时 cos φ 正好等于 √15/5 ≈ 0.7746"}, "hud": "🖐 左右拖动 = 改折叠的二面角 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -859,7 +858,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 AQ：MQ 与平面 ABM 的夹角正弦何时等于 √2/10", "sub": "Q 在 AC 上滑动，sin ψ = |MQ·n| / (|MQ|·|n|)；曲线与虚线相交处就是答案 AQ = √2/2", "view": [0, 2.95, -0.05, 0.98], "param": {"name": "t", "label": "AQ 的长度 t", "min": 0.05, "max": 2.8, "step": 0.005, "val": 0.707, "fmt": 3, "ticks": ["0.05", "1.4", "2.8"]}, "scalars": [{"n": "qx", "e": "0.3535533905932738*p"}, {"n": "qy", "e": "0.6123724356957945*p"}, {"n": "qz", "e": "2-0.7071067811865476*p"}, {"n": "ex", "e": "S.qx-0.5"}, {"n": "ey", "e": "S.qy-0.8660254037844386"}, {"n": "ez", "e": "S.qz"}, {"n": "dd", "e": "1.7320508075688772*S.ex+3*S.ey+1.7320508075688772*S.ez"}, {"n": "lm", "e": "sqrt(S.ex*S.ex+S.ey*S.ey+S.ez*S.ez)"}, {"n": "sp", "e": "abs(S.dd)/(S.lm*3.872983346207417)"}, {"n": "gap", "e": "S.sp-sqrt(2)/10"}], "shapes": [{"t": "func", "f": "(function(){var t=p;var qx=0.3535533905932738*t,qy=0.6123724356957945*t,qz=2-0.7071067811865476*t;var ex=qx-0.5,ey=qy-0.8660254037844386,ez=qz;var dd=1.7320508075688772*ex+3*ey+1.7320508075688772*ez;var lm=Math.sqrt(ex*ex+ey*ey+ez*ez);return Math.abs(dd)/(lm*3.872983346207417);})()", "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": 0, "y1": 0.1414213562373095, "x2": 2.9, "y2": 0.1414213562373095, "c": "#ef4444", "w": 1.6, "dash": [6, 4]}, {"t": "point", "x": "p", "y": "S.sp", "c": "#f59e0b", "r": 6, "pulse": true, "label": "Q", "dy": -6}, {"t": "text", "x": 2.1, "y": 0.2, "c": "#ef4444", "s": "目标线 sin ψ = √2/10 ≈ 0.1414", "fs": 11}, {"t": "text", "x": 1.45, "y": 0.9, "c": "#94a3b8", "s": "横轴 = AQ 长度（0 → |AC| = 2√2）", "fs": 11}], "readouts": [{"k": "AQ = t", "e": "p", "f": 3}, {"k": "sin ψ（线面角）", "e": "S.sp", "f": 4, "hl": true}, {"k": "√2/10 ≈", "e": "sqrt(2)/10", "f": 4}, {"k": "差值（0 ⇒ 命中）", "e": "S.gap", "f": 4}], "concl": {"cond": "abs(S.gap)<0.004", "on": "✅ 命中：<b>AQ = √2/2</b>（Q 在线段 AC 内，0 &lt; √2/2 &lt; 2√2 ⇒ 点确实存在）", "off": "拖 t 让橙色点落到红色虚线上 —— 曲线单调上升，交点唯一"}, "hud": "🖐 左右拖动 = 让 Q 在 AC 上滑动 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -929,6 +927,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 t=1/4，|AC|=2√2 ⇒ AQ=√2/2。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4583,5 +4582,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.9,'axes':false,'dist':7.4,'pol':1.1,
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
