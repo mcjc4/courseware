@@ -708,6 +708,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -788,7 +789,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖虚部 b：分母怎么被「实数化」", "sub": "同乘共轭 −2−bi：i(−2−bi) = b − 2i，分母变成 4 + b² —— 一步把分母擦成实数", "view": [-3.1, 2.5, -2.7, 2.3], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": -2, "y2": "p", "c": "#2563eb", "w": 2.4}, {"t": "seg", "x1": 0, "y1": 0, "x2": -2, "y2": "-p", "c": "#94a3b8", "w": 1.8, "dash": [6, 4]}, {"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": 1, "c": "#f59e0b", "w": 2.4}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.re", "y2": "S.im", "c": "#c2410c", "w": 2.8}, {"t": "point", "x": -2, "y": "p", "c": "#2563eb", "r": 5, "label": "−2+bi", "dx": -4, "dy": -5}, {"t": "point", "x": -2, "y": "-p", "c": "#94a3b8", "r": 4.5, "label": "共轭 −2−bi", "dx": -2, "dy": 19}, {"t": "point", "x": 0, "y": 1, "c": "#f59e0b", "r": 5, "label": "分子 i", "dx": 8, "dy": -4}, {"t": "point", "x": "S.re", "y": "S.im", "c": "#c2410c", "r": 6.5, "pulse": true, "label": "商", "dx": 9, "dy": -4}, {"t": "text", "x": -1.1, "y": 2.0, "c": "#94a3b8", "s": "蓝 = 分母 · 灰虚 = 它的共轭 · 橙 = 分子 · 红 = 商", "fs": 11}], "readouts": [{"k": "分母的模方 4 + b²", "e": "S.n2", "f": 3}, {"k": "商的实部 b/(4+b²)", "e": "S.re", "f": 4}, {"k": "商的虚部 −2/(4+b²)", "e": "S.im", "f": 4, "hl": true}, {"k": "−2/5 =", "e": "-0.4", "f": 3}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ b = 1 ⇒ i(−2−i) = 1 − 2i，除以 5 ⇒ <b>1/5 − (2/5)i</b>", "off": "拖到 b = 1：那时分母是 −2+i，商正好是 1/5 − (2/5)i"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -817,7 +817,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 b：商的虚部落在哪条选项线上", "sub": "四个选项就是四条水平线：±1/5 与 ±2/5 —— 商的轨迹扫过去，只在 −2/5 上真正停住", "view": [-3.1, 2.5, -1.15, 1.15], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}], "shapes": [{"t": "line", "k": 0, "q": 0.4, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": 0.2, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -0.2, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -0.4, "c": "#22c3a6", "w": 2.4}, {"t": "point", "x": "S.re", "y": "S.im", "c": "#c2410c", "r": 7, "pulse": true, "label": "商", "dx": 10, "dy": -5}, {"t": "text", "x": 1.55, "y": 0.47, "c": "#94a3b8", "s": "A 1/5", "fs": 11}, {"t": "text", "x": 1.55, "y": 0.27, "c": "#94a3b8", "s": "B −1/5（错在下面）", "fs": 10.5}, {"t": "text", "x": 1.55, "y": -0.27, "c": "#94a3b8", "s": "C 2/5（符号反了）", "fs": 10.5}, {"t": "text", "x": 1.55, "y": -0.47, "c": "#0f766e", "s": "D −2/5 ✔", "fs": 11.5}], "readouts": [{"k": "b", "e": "p", "f": 2}, {"k": "商的实部", "e": "S.re", "f": 4}, {"k": "商的虚部", "e": "S.im", "f": 4, "hl": true}, {"k": "A 选项 1/5", "e": "0.2", "f": 2}, {"k": "D 选项 −2/5", "e": "-0.4", "f": 2}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ 红点落在绿线上 ⇒ 虚部 = <b>−2/5，选 D</b>", "off": "拖到 b = 1：红点会正好停在 −2/5 这条绿线上"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -844,7 +843,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 复盘：i² = −1 记反了会掉进哪个选项", "sub": "错在符号就落到 +2/5（选 C）；忘了除以模方就飞到 −2 —— 两处都要盯", "view": [-3.1, 2.5, -1.4, 1.4], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}, {"n": "w1", "e": "2/S.n2"}, {"n": "w2", "e": "-2"}], "shapes": [{"t": "point", "x": "S.re", "y": "S.im", "c": "#0f766e", "r": 7, "pulse": true, "label": "正确 −2/5", "dx": 12, "dy": -5}, {"t": "point", "x": "S.re", "y": "S.w1", "c": "#ef4444", "r": 6, "label": "错① +2/5", "dx": 12, "dy": -5}, {"t": "line", "k": 0, "q": -0.4, "c": "#22c3a6", "w": 2.2}, {"t": "line", "k": 0, "q": 0.4, "c": "#ef4444", "w": 1.6, "dash": [6, 4]}, {"t": "text", "x": -2.4, "y": 1.2, "c": "#0f766e", "s": "绿点 = i² = −1（正确）", "fs": 11.5}, {"t": "text", "x": -2.4, "y": -1.2, "c": "#ef4444", "s": "红点 = 把 i² 记成 +1", "fs": 11.5}], "readouts": [{"k": "正确虚部", "e": "S.im", "f": 4, "hl": true}, {"k": "错① 虚部（i² 记反）", "e": "S.w1", "f": 4}, {"k": "错② 虚部（忘了除以模方）", "e": "S.w2", "f": 4}, {"k": "商的实部", "e": "S.re", "f": 4}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ i(−2−i) = −2i − i² = 1 − 2i ⇒ 除以 5 得 <b>1/5 − (2/5)i</b>，虚部 −2/5 ⇒ <b>选 D</b>", "off": "拖到 b = 1：看两个点分别落在哪条线上"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -914,6 +912,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 虚部（系数）本来就是实数；无论怎么问都不带 i。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4568,5 +4567,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.6,'axes':false,'dist':5.4,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
