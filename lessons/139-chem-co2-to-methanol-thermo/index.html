@@ -697,6 +697,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -767,7 +768,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "📉 拖一拖：温度升高，两个反应的 ΔG 各往哪边走", "sub": "ΔG = ΔH − TΔS：反应 I 放热且 ΔS<0（4 mol 气 → 2 mol 气）⇒ 只有低温才自发", "view": [140, 940, -68, 68], "param": {"name": "T", "label": "温度 T（K）", "min": 200, "max": 900, "step": 1, "val": 200, "fmt": 0, "ticks": ["200", "550", "900"]}, "scalars": [{"n": "g1", "e": "-49.6+0.177*p"}, {"n": "g2", "e": "23.9-0.05*p"}, {"n": "sp", "e": "S.g1<0?1:0"}], "shapes": [{"t": "seg", "x1": 140, "y1": 0, "x2": 940, "y2": 0, "c": "#94a3b8", "w": 1.6, "dash": [6, 4]}, {"t": "func", "f": "-49.6+0.177*p", "c": "#2563eb", "w": 2.8}, {"t": "func", "f": "23.9-0.05*p", "c": "#94a3b8", "w": 2, "dash": [6, 4]}, {"t": "point", "x": "p", "y": "S.g1", "c": "#2563eb", "r": 6.5, "pulse": true, "label": "反应 I", "dy": -16}, {"t": "point", "x": "p", "y": "S.g2", "c": "#64748b", "r": 5, "label": "反应 II", "dy": -16}, {"t": "text", "x": 390, "y": 34, "c": "#2563eb", "s": "ΔG(I) = −49.6 + 0.177T（斜率为正 ⇒ 曲线 a）", "fs": 12, "b": 1}, {"t": "text", "x": 660, "y": -40, "c": "#64748b", "s": "ΔG(II) = +23.9 − 0.05T（高温才变负）", "fs": 11.5}, {"t": "text", "x": 520, "y": 6, "c": "#94a3b8", "s": "ΔG = 0 判据线（线下 = 自发）", "fs": 11, "anchor": "left"}, {"t": "text", "x": 215, "y": -58, "c": "#0f766e", "s": "← 自发区", "fs": 11.5, "b": 1, "anchor": "left"}], "readouts": [{"k": "温度 T（K）", "e": "p", "f": 0}, {"k": "ΔG(反应 I) kJ/mol", "e": "S.g1", "f": 1, "hl": true}, {"k": "ΔG(反应 II) kJ/mol", "e": "S.g2", "f": 1}, {"k": "反应 I 自发？（1=是）", "e": "S.sp", "f": 0}], "concl": {"cond": "p<281", "on": "✅ T < 280 K 时 ΔG(I) < 0 ⇒ <b>低温自发</b>；ΔS<0 ⇒ 斜率为正 ⇒ 图 1 中曲线 <b>a</b> 是反应 I", "off": "继续往右升温：蓝线越走越高，反应 I 很快就不自发了"}, "hud": "🖐 图上左右拖动 = 改温度 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -786,7 +786,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🧮 拖一拖：缺的 p(H₂O) 由 H 守恒说了算", "sub": "已知 p(CH₃OH)=0.75、p(CH₃OCH₃)=0.75、p(CO₂)=0.25、p(H₂)=0.5 ⇒ H 守恒残差归零处就是答案", "view": [0.2, 4.8, -12, 118], "param": {"name": "w", "label": "p(H₂O)（MPa）", "min": 0.5, "max": 4.5, "step": 0.01, "val": 0.5, "fmt": 3, "ticks": ["0.5", "2.5", "4.5"]}, "scalars": [{"n": "kp", "e": "0.75*p/(0.25*Math.pow(0.5,3))"}, {"n": "rs", "e": "6-2*p"}], "shapes": [{"t": "func", "f": "24*p", "c": "#2563eb", "w": 2.8}, {"t": "seg", "x1": 0.2, "y1": 72, "x2": 4.8, "y2": 72, "c": "#f59e0b", "w": 1.8, "dash": [6, 4]}, {"t": "seg", "x1": "p", "y1": -12, "x2": "p", "y2": 118, "c": "#94a3b8", "w": 1.2, "dash": [4, 4]}, {"t": "point", "x": "p", "y": "S.kp", "c": "#2563eb", "r": 6.5, "pulse": true, "label": "Kp(p)", "dy": -16}, {"t": "text", "x": 3.15, "y": 64, "c": "#b45309", "s": "Kp = 72（题解位置）", "fs": 11.5, "b": 1}, {"t": "text", "x": 1.55, "y": 96, "c": "#2563eb", "s": "Kp = 0.75·p(H₂O) / [0.25 × 0.5³] = 24·p(H₂O)", "fs": 12, "b": 1}, {"t": "text", "x": 2.5, "y": -8, "c": "#64748b", "s": "横轴：待定的 p(H₂O)（MPa）", "fs": 11}], "readouts": [{"k": "你设的 p(H₂O)", "e": "p", "f": 3}, {"k": "对应的 Kp（MPa⁻²）", "e": "S.kp", "f": 2, "hl": true}, {"k": "H 守恒残差（=0 才对）", "e": "S.rs", "f": 3}, {"k": "C 守恒 p₀(CO₂)=2.5（恒）", "e": "2.5", "f": 1}, {"k": "p₀(H₂)=7.25（恒）", "e": "7.25", "f": 2}], "concl": {"cond": "Math.abs(p-3)<0.02", "on": "✅ 残差 = 6 − 2p(H₂O) 归零 ⇒ <b>p(H₂O)=3.0，Kp = 72 MPa⁻²</b>（Δn=−2，单位别丢负指数）", "off": "拖到 H 守恒残差 = 0 的位置：那才是唯一自洽的 p(H₂O)"}, "hud": "🖐 图上左右拖动 = 改 p(H₂O) · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -803,7 +802,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🌡️ 拖一拖：升温，产率为什么反而掉", "sub": "反应 II 本身吸热（升温本该正移）⇒ 原因在上游：反应 I 放热，升温大幅逆移 ⇒ 甲醇断供", "view": [480, 720, -0.06, 1.12], "param": {"name": "T", "label": "温度（℃）", "min": 500, "max": 700, "step": 1, "val": 500, "fmt": 0, "ticks": ["500", "600", "700"]}, "scalars": [{"n": "y", "e": "0.48-0.00085*(p-500)"}, {"n": "sup", "e": "1-0.9*(p-500)/200"}], "shapes": [{"t": "func", "f": "0.48-0.00085*(p-500)", "c": "#7c3aed", "w": 2.8}, {"t": "func", "f": "1-0.9*(p-500)/200", "c": "#2563eb", "w": 2.4, "dash": [7, 4]}, {"t": "seg", "x1": "p", "y1": -0.06, "x2": "p", "y2": 1.12, "c": "#94a3b8", "w": 1.2, "dash": [4, 4]}, {"t": "point", "x": "p", "y": "S.y", "c": "#7c3aed", "r": 6.5, "pulse": true, "label": "CH₃OCH₃ 产率", "dy": -14}, {"t": "point", "x": "p", "y": "S.sup", "c": "#2563eb", "r": 6, "label": "c(CH₃OH) 相对量", "dy": -14}, {"t": "text", "x": 530, "y": 0.86, "c": "#2563eb", "s": "上游：反应 I 放热，升温逆移 ⇒ 甲醇断供（陡）", "fs": 11.5, "b": 1}, {"t": "text", "x": 530, "y": 0.42, "c": "#7c3aed", "s": "下游：CH₃OCH₃ 平衡产率（缓降）", "fs": 11.5, "b": 1}, {"t": "text", "x": 600, "y": 0.03, "c": "#64748b", "s": "上游「原料变少」压过下游「II 自身正移」 ⇒ 净效果下降", "fs": 11.5}], "readouts": [{"k": "温度（℃）", "e": "p", "f": 0}, {"k": "CH₃OCH₃ 平衡产率", "e": "S.y", "f": 3, "hl": true}, {"k": "c(CH₃OH) 相对量", "e": "S.sup", "f": 3}, {"k": "产率降幅", "e": "0.48-S.y", "f": 3}], "concl": {"cond": "p>650", "on": "✅ 升到 700 ℃：产率 0.48 → 0.31 —— <b>I 放热逆移、甲醇断供是主因</b>，这就是 (4) 的标准答案骨架", "off": "往右拖升温：蓝线（断供）掉得比紫线（产率）快得多"}, "hud": "🖐 图上左右拖动 = 改温度 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -861,6 +859,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">反应 I 放热，升温逆移使甲醇浓度骤降；II 虽吸热正移，但原料不足的影响占主导，产率净下降。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4473,5 +4472,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.55,'axes':false,'dist':8.6,'pol':1.0
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
