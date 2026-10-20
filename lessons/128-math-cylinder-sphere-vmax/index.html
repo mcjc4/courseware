@@ -710,6 +710,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -791,7 +792,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ∠ACB：正弦定理反解底面半径", "sub": "AB = 2r·sin∠ACB 是圆内接三角形的硬约束 —— 弦长固定时，圆周角越小，圆越大", "view": [-3.4, 3.4, -2.6, 2.6], "param": {"name": "∠C", "label": "圆周角 ∠ACB（度）", "min": 20, "max": 90, "step": 0.2, "val": 30, "fmt": 1, "ticks": ["20", "30", "90"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "r", "e": "1/sin(S.rd)"}, {"n": "d", "e": "sqrt(S.r*S.r-1)"}, {"n": "ab", "e": "2*S.r*sin(S.rd)"}], "shapes": [{"t": "ellipse", "a": "S.r", "b": "S.r", "c": "#94a3b8", "w": 1.8, "dash": [6, 4]}, {"t": "seg", "x1": -1, "y1": "-S.d", "x2": 1, "y2": "-S.d", "c": "#2563eb", "w": 3}, {"t": "seg", "x1": -1, "y1": "-S.d", "x2": 0, "y2": "S.r", "c": "#c2410c", "w": 2}, {"t": "seg", "x1": 1, "y1": "-S.d", "x2": 0, "y2": "S.r", "c": "#c2410c", "w": 2}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4, "label": "O", "dx": -8, "dy": 4}, {"t": "point", "x": -1, "y": "-S.d", "c": "#2563eb", "r": 4.5, "label": "A", "dx": -9, "dy": -2}, {"t": "point", "x": 1, "y": "-S.d", "c": "#2563eb", "r": 4.5, "label": "B", "dx": 9, "dy": -2}, {"t": "point", "x": 0, "y": "S.r", "c": "#c2410c", "r": 5, "label": "C", "dx": 7, "dy": -3}, {"t": "text", "x": 0, "y": -2.3, "c": "#94a3b8", "s": "灰圆 = 下底面（半径 r）· 蓝弦 AB = 2（固定）", "fs": 11}], "readouts": [{"k": "∠ACB", "e": "p", "f": 1}, {"k": "底面半径 r = 1/sin∠C", "e": "S.r", "f": 4, "hl": true}, {"k": "2r·sin∠ACB（= AB）", "e": "S.ab", "f": 4}, {"k": "圆心到弦的距离", "e": "S.d", "f": 4}], "concl": {"cond": "abs(p-30)<0.3", "on": "✅ ∠ACB = 30° ⇒ 2 = 2r·sin30° = r ⇒ <b>底面半径 r = 2</b>", "off": "拖到 30°：那时 2r·sin30° = 2 才对得上 AB = 2 ⇒ r = 2"}, "hud": "🖐 左右拖动 = 改圆周角 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -822,7 +822,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖圆柱的高 h：外接球半径什么时候等于 √13", "sub": "球心在轴的中点：R² = r² + (h/2)² = 4 + h²/4 —— 表面积 52π ⇒ R² = 13 ⇒ h = 6", "view": [-5.4, 5.4, -5.0, 5.0], "param": {"name": "h", "label": "圆柱的高 h", "min": 2, "max": 9, "step": 0.02, "val": 6, "fmt": 2, "ticks": ["2", "6", "9"]}, "scalars": [{"n": "R2", "e": "4+p*p/4"}, {"n": "R", "e": "sqrt(4+p*p/4)"}, {"n": "S4", "e": "4*PI*(4+p*p/4)"}], "shapes": [{"t": "ellipse", "a": "S.R", "b": "S.R", "c": "#f59e0b", "w": 2.4, "dash": [6, 4]}, {"t": "seg", "x1": -2, "y1": "p/2", "x2": 2, "y2": "p/2", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": -2, "y1": "-p/2", "x2": 2, "y2": "-p/2", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": -2, "y1": "-p/2", "x2": -2, "y2": "p/2", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 2, "y1": "-p/2", "x2": 2, "y2": "p/2", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 0, "y1": 0, "x2": 2, "y2": "p/2", "c": "#c2410c", "w": 1.8}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "球心（轴中点）", "dx": 2, "dy": 20}, {"t": "point", "x": 2, "y": "p/2", "c": "#c2410c", "r": 5, "label": "P", "dx": 10, "dy": -4}, {"t": "text", "x": 0, "y": -4.4, "c": "#94a3b8", "s": "蓝矩形 = 圆柱轴截面（半宽 r = 2）· 橙虚圆 = 外接球", "fs": 11}], "readouts": [{"k": "圆柱的高 h", "e": "p", "f": 2}, {"k": "R² = 4 + h²/4", "e": "S.R2", "f": 4, "hl": true}, {"k": "外接球半径 R", "e": "S.R", "f": 4}, {"k": "表面积 4πR²", "e": "S.S4", "f": 3}], "concl": {"cond": "abs(S.R2-13)<0.05", "on": "✅ R² = 13 ⇒ 4πR² = 52π，反解 <b>h = 6</b>", "off": "拖到 R² = 13：那时 4 + h²/4 = 13 ⇒ h = 6"}, "hud": "🖐 左右拖动 = 改圆柱的高 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -851,7 +850,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖点 C：底面积最大时体积也最大", "sub": "AB = 2 是定弦，C 在圆上跑 —— 离 AB 最远时 S△ABC 最大 = 2+√3 ⇒ V = ⅓·S·h = 4+2√3", "view": [-2.9, 2.9, -2.9, 2.9], "param": {"name": "φ", "label": "点 C 的方位角 φ（度）", "min": 0, "max": 360, "step": 0.5, "val": 90, "fmt": 1, "ticks": ["0", "180", "360"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "cx", "e": "2*cos(S.rd)"}, {"n": "cy", "e": "2*sin(S.rd)"}, {"n": "ds", "e": "abs(S.cy+1.7320508075688772)"}, {"n": "ar", "e": "S.ds"}, {"n": "vv", "e": "2*S.ds"}], "shapes": [{"t": "ellipse", "a": 2, "b": 2, "c": "#94a3b8", "w": 1.8, "dash": [6, 4]}, {"t": "area", "pts": [["-1", "-1.7320508075688772"], ["1", "-1.7320508075688772"], ["S.cx", "S.cy"]], "fill": "37,99,235", "fa": 0.24}, {"t": "seg", "x1": -1, "y1": -1.7320508075688772, "x2": 1, "y2": -1.7320508075688772, "c": "#2563eb", "w": 3}, {"t": "seg", "x1": -1, "y1": -1.7320508075688772, "x2": "S.cx", "y2": "S.cy", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 1, "y1": -1.7320508075688772, "x2": "S.cx", "y2": "S.cy", "c": "#2563eb", "w": 2}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4, "label": "O", "dx": -8, "dy": 4}, {"t": "point", "x": -1, "y": -1.7320508075688772, "c": "#2563eb", "r": 4.5, "label": "A", "dx": -9, "dy": -2}, {"t": "point", "x": 1, "y": -1.7320508075688772, "c": "#2563eb", "r": 4.5, "label": "B", "dx": 9, "dy": -2}, {"t": "point", "x": "S.cx", "y": "S.cy", "c": "#f59e0b", "r": 6, "pulse": true, "label": "C", "dx": 8, "dy": -3}, {"t": "text", "x": 0, "y": -2.55, "c": "#94a3b8", "s": "弦 AB = 2 固定，圆心到弦 = √3；C 到 AB 最远 = √3 + 2", "fs": 11}], "readouts": [{"k": "C 到直线 AB 的距离", "e": "S.ds", "f": 4}, {"k": "S△ABC = ½·2·距离", "e": "S.ar", "f": 4, "hl": true}, {"k": "V = ⅓·S·h（h=6）", "e": "S.vv", "f": 4, "hl": true}, {"k": "目标 2+√3 ≈", "e": "2+sqrt(3)", "f": 4}], "concl": {"cond": "abs(S.ar-(2+sqrt(3)))<0.01", "on": "✅ 最远点 ⇒ S<sub>max</sub> = 2+√3 ≈ 3.732 ⇒ <b>V<sub>max</sub> = 4+2√3 ≈ 7.464</b>", "off": "拖 φ 让 C 跑到弦 AB 的正对面（φ = 90°）：那时底面积最大"}, "hud": "🖐 左右拖动 = 让 C 在圆周上跑 · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -921,6 +919,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 V=⅓·(2+√3)·6=2(2+√3)=4+2√3。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4575,5 +4574,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-0.4,'axes':false,'dist':12.6,'pol':1.1
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
