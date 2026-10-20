@@ -712,6 +712,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -793,7 +794,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ω：三个公共点为什么「等间距 + 纵坐标交替」", "sub": "sinωx = cosωx ⇒ ωx = π/4 + kπ ⇒ 间距恒为 π/ω，纵坐标只有 ±√2/2 两种", "view": [-0.12, 2.35, -1.35, 1.35], "param": {"name": "ω", "label": "角频率 ω", "min": 1, "max": 5, "step": 0.01, "val": 3, "fmt": 2, "ticks": ["1", "3", "5"]}, "scalars": [{"n": "w", "e": "p"}, {"n": "x1", "e": "(PI/4)/S.w"}, {"n": "x2", "e": "(PI/4+PI)/S.w"}, {"n": "x3", "e": "(PI/4+2*PI)/S.w"}, {"n": "y1", "e": "sin(PI/4)"}, {"n": "y2", "e": "sin(PI/4+PI)"}, {"n": "gp", "e": "PI/S.w"}, {"n": "ss", "e": "S.y1*S.y1+S.y2*S.y2"}], "shapes": [{"t": "func", "f": "sin(S.w*p)", "c": "#2563eb", "w": 2.4}, {"t": "func", "f": "cos(S.w*p)", "c": "#f59e0b", "w": 2.4}, {"t": "point", "x": "S.x1", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "A", "dx": -7, "dy": -4}, {"t": "point", "x": "S.x2", "y": "S.y2", "c": "#7c3aed", "r": 5, "label": "B", "dx": 6, "dy": 18}, {"t": "point", "x": "S.x3", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "C", "dx": 7, "dy": -4}, {"t": "text", "x": 1.5, "y": 1.2, "c": "#94a3b8", "s": "蓝 = sinωx · 橙 = cosωx · 紫 = 三个相邻公共点", "fs": 11}], "readouts": [{"k": "ω", "e": "p", "f": 2}, {"k": "公共点间距 π/ω", "e": "S.gp", "f": 4}, {"k": "y₁", "e": "S.y1", "f": 4}, {"k": "y₂", "e": "S.y2", "f": 4}, {"k": "y₁² + y₂²", "e": "S.ss", "f": 4, "hl": true}], "concl": {"cond": "1", "on": "✅ <b>A 对</b>：y₁² + y₂² = ½ + ½ = 1，与 ω 取多少无关 —— 纵坐标只有 ±√2/2 两种", "off": ""}, "hud": "🖐 左右拖动 = 改 ω · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -823,7 +823,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ω：面积 √2π/3 一把锁死 ω = 3", "sub": "底 AC = 2π/ω、高 = √2 ⇒ 面积 = √2π/ω；同时对上 B 项的平移量 ωπ/6 = π/2", "view": [-0.12, 2.35, -1.35, 1.35], "param": {"name": "ω", "label": "角频率 ω", "min": 1, "max": 5, "step": 0.01, "val": 3, "fmt": 2, "ticks": ["1", "3", "5"]}, "scalars": [{"n": "w", "e": "p"}, {"n": "x1", "e": "(PI/4)/S.w"}, {"n": "x2", "e": "(PI/4+PI)/S.w"}, {"n": "x3", "e": "(PI/4+2*PI)/S.w"}, {"n": "y1", "e": "sin(PI/4)"}, {"n": "y2", "e": "sin(PI/4+PI)"}, {"n": "ar", "e": "sqrt(2)*PI/S.w"}, {"n": "tg", "e": "sqrt(2)*PI/3"}, {"n": "sh", "e": "S.w*PI/6-PI/2"}], "shapes": [{"t": "area", "pts": [["S.x1", "S.y1"], ["S.x2", "S.y2"], ["S.x3", "S.y1"]], "fill": "124,58,237", "fa": 0.24}, {"t": "func", "f": "sin(S.w*p)", "c": "#2563eb", "w": 2.2}, {"t": "func", "f": "cos(S.w*p)", "c": "#f59e0b", "w": 2.2}, {"t": "seg", "x1": "S.x1", "y1": "S.y1", "x2": "S.x3", "y2": "S.y1", "c": "#7c3aed", "w": 1.6, "dash": [6, 4]}, {"t": "point", "x": "S.x1", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "A", "dx": -7, "dy": -4}, {"t": "point", "x": "S.x2", "y": "S.y2", "c": "#7c3aed", "r": 5, "label": "B", "dx": 6, "dy": 18}, {"t": "point", "x": "S.x3", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "C", "dx": 7, "dy": -4}, {"t": "text", "x": 1.35, "y": 1.2, "c": "#7c3aed", "s": "紫色三角形 = △ABC（底 2π/ω，高 √2）", "fs": 11}], "readouts": [{"k": "ω", "e": "p", "f": 2}, {"k": "S△ABC = √2π/ω", "e": "S.ar", "f": 4, "hl": true}, {"k": "题给 √2π/3 ≈", "e": "S.tg", "f": 4}, {"k": "ωπ/6 − π/2（0 ⇒ B 对）", "e": "S.sh", "f": 4}], "concl": {"cond": "abs(p-3)<0.02", "on": "✅ ω = 3 ⇒ 面积正好 √2π/3；且 cos(ωx − ωπ/6) = sin ωx ⇒ <b>B 对</b>", "off": "拖到 ω = 3：那时面积才等于 √2π/3，平移量也对得上"}, "hud": "🖐 左右拖动 = 改 ω · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -851,7 +850,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 换一个起点 k：C 项为什么错、D 项为什么对", "sub": "h(x)=f+g —— 第 1 个公共点取不同的 k，h(x₁) 在 ±√2 之间跳；但中点始终是零点", "view": [-0.1, 5.3, -1.75, 1.75], "param": {"name": "k", "label": "公共点序号起点 k（只取整数）", "min": 0, "max": 2, "step": 1, "snap": true, "val": 0, "fmt": 0, "ticks": ["0", "1", "2"]}, "scalars": [{"n": "x1", "e": "(PI/4+p*PI)/3"}, {"n": "x2", "e": "(PI/4+(p+1)*PI)/3"}, {"n": "x3", "e": "(PI/4+(p+2)*PI)/3"}, {"n": "y1", "e": "sin(PI/4+p*PI)"}, {"n": "md", "e": "(S.x2+S.x3)/2"}, {"n": "h1", "e": "sin(3*S.x1)+cos(3*S.x1)"}, {"n": "hm", "e": "sin(3*S.md)+cos(3*S.md)"}], "shapes": [{"t": "func", "f": "sin(3*p)+cos(3*p)", "c": "#2563eb", "w": 2.6}, {"t": "line", "k": 0, "q": 1.4142135623730951, "c": "#ef4444", "w": 1.4, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -1.4142135623730951, "c": "#ef4444", "w": 1.4, "dash": [6, 4]}, {"t": "point", "x": "S.x1", "y": "S.h1", "c": "#7c3aed", "r": 6, "pulse": true, "label": "h(x₁)", "dy": -6}, {"t": "point", "x": "S.md", "y": "S.hm", "c": "#0f766e", "r": 6, "pulse": true, "label": "h(中点)", "dx": 6, "dy": -6}, {"t": "text", "x": 3.6, "y": 1.5, "c": "#ef4444", "s": "红虚线 = ±√2（C 项说的是 +√2）", "fs": 11}, {"t": "text", "x": 3.3, "y": -1.55, "c": "#0f766e", "s": "绿点恒在 x 轴上 ⇒ D 项 h((x₂+x₃)/2)=0 恒成立", "fs": 11}], "readouts": [{"k": "起点 k", "e": "p", "f": 0}, {"k": "y₁ = sin(π/4+kπ)", "e": "S.y1", "f": 4}, {"k": "h(x₁)", "e": "S.h1", "f": 4, "hl": true}, {"k": "h((x₂+x₃)/2)", "e": "S.hm", "f": 6, "hl": true}, {"k": "√2 ≈", "e": "sqrt(2)", "f": 4}], "concl": {"cond": "1", "on": "✅ <b>C 错</b>：k 为奇数时 h(x₁) = −√2，不恒等于 +√2；<b>D 对</b>：中点处相位是 π/4+(k+3/2)π，sin+cos 恒为 0 ⇒ 选 <b>ABD</b>", "off": ""}, "hud": "🖐 左右拖动 = 换起点 k · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -921,6 +919,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 A、B、D 恒成立；C 有反例。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4575,5 +4574,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-1.4,'axes':false,'dist':7.2,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
