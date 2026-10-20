@@ -710,6 +710,7 @@ section[id]{scroll-margin-top:58px}
 </tbody>
 </table>
 </div>
+    </div>
     </section>
 
   <!--pnid:nopbX6n7iudhrRp2GTzU1C--><!-- ✏️【概念充电站】每张卡 = 一个解题会用到的前置概念，数量按需增减（3~8 张）。
@@ -792,7 +793,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 a：什么时候 f(x) 真的是奇函数", "sub": "奇函数必过原点 ⇒ f(0)=0 ⇒ b=1；再由 f(−1) + f(1) = 0 反解 a", "view": [-3, 3, -0.58, 0.58], "param": {"name": "a", "label": "参数 a（已取 b = 1）", "min": 0.5, "max": 5, "step": 0.01, "val": 2, "fmt": 2, "ticks": ["0.5", "2", "5"]}, "scalars": [{"n": "A", "e": "p"}, {"n": "f1", "e": "1/(4+p)"}, {"n": "fm", "e": "-0.5/(1+p)"}, {"n": "sm", "e": "1/(4+p)-0.5/(1+p)"}], "shapes": [{"t": "func", "f": "(pow(2,p)-1)/(2*pow(2,p)+S.A)", "c": "#2563eb", "w": 2.8}, {"t": "point", "x": 1, "y": "S.f1", "c": "#c2410c", "r": 5, "label": "f(1)", "dx": 10, "dy": -5}, {"t": "point", "x": -1, "y": "S.fm", "c": "#c2410c", "r": 5, "label": "f(−1)", "dx": -4, "dy": 19}, {"t": "point", "x": 0, "y": 0, "c": "#7c3aed", "r": 5.5, "pulse": true, "label": "f(0)=0 ⇒ b=1", "dy": -6}, {"t": "text", "x": 1.7, "y": 0.5, "c": "#94a3b8", "s": "橙点关于原点对称 ⇔ f(−1) + f(1) = 0", "fs": 11}], "readouts": [{"k": "a", "e": "p", "f": 2}, {"k": "f(1) = 1/(4+a)", "e": "S.f1", "f": 4}, {"k": "f(−1) = −1/(2(1+a))", "e": "S.fm", "f": 4}, {"k": "f(−1) + f(1)（0 ⇒ 奇）", "e": "S.sm", "f": 5, "hl": true}], "concl": {"cond": "abs(p-2)<0.02", "on": "✅ 2(1+a) = 4+a ⇒ <b>a = 2</b>；于是 f(x) = (2ˣ−1) / (2(2ˣ+1))，单调递增", "off": "拖到 a = 2：那时 f(−1) 与 f(1) 才刚好关于原点对称"}, "hud": "🖐 左右拖动 = 改参数 a · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:8LC7hDujfbQZzgMVdTG4t1--><!-- ✏️【第二问】同样结构。makeWalker('part2', ...) 与徽章键 p2 一一对应。 -->
@@ -823,7 +823,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 x：把 f 从不等式里「摘掉」", "sub": "f 递增且为奇函数 ⇒ f(u₁) + f(v) &lt; 0 ⟺ f(u₁) &lt; f(−v) ⟺ u₁ &lt; −v —— 参数只剩一个 k", "view": [-3, 3, -0.58, 0.58], "param": {"name": "x", "label": "变量 x（取 k = 1.5）", "min": -2, "max": 2, "step": 0.01, "val": 0, "fmt": 2, "ticks": ["−2", "0", "2"]}, "scalars": [{"n": "A", "e": "2"}, {"n": "u1", "e": "1.5*pow(3,p)"}, {"n": "u2", "e": "pow(9,p)-pow(3,p)+2"}, {"n": "v1", "e": "pow(3,p)-pow(9,p)-2"}, {"n": "f1", "e": "(pow(2,S.u1)-1)/(2*pow(2,S.u1)+2)"}, {"n": "fv", "e": "(pow(2,S.v1)-1)/(2*pow(2,S.v1)+2)"}, {"n": "sm", "e": "S.f1+S.fv"}, {"n": "df", "e": "S.u1-S.u2"}], "shapes": [{"t": "func", "f": "(pow(2,p)-1)/(2*pow(2,p)+2)", "c": "#2563eb", "w": 2.8}, {"t": "point", "x": "S.u1", "y": "S.f1", "c": "#c2410c", "r": 6, "pulse": true, "label": "f(k·3ˣ)", "dy": -6}, {"t": "point", "x": "S.v1", "y": "S.fv", "c": "#7c3aed", "r": 6, "pulse": true, "label": "f(3ˣ−9ˣ−2)", "dy": 19}, {"t": "text", "x": 1.8, "y": 0.5, "c": "#94a3b8", "s": "橙 + 紫 &lt; 0 ⇔ 橙点在紫点左边（f 递增）", "fs": 11}], "readouts": [{"k": "3ˣ", "e": "pow(3,p)", "f": 4}, {"k": "u₁ = k·3ˣ", "e": "S.u1", "f": 4}, {"k": "−v = 9ˣ − 3ˣ + 2", "e": "S.u2", "f": 4}, {"k": "f(u₁) + f(3ˣ−9ˣ−2)", "e": "S.sm", "f": 5, "hl": true}, {"k": "u₁ − (9ˣ−3ˣ+2)（&lt;0 ⇒ 成立）", "e": "S.df", "f": 5}], "concl": {"cond": "S.u1<S.u2", "on": "✅ 去掉 f 之后只剩 <b>k·3ˣ &lt; 9ˣ − 3ˣ + 2</b>（对任意 x 都要成立）", "off": "这一步 u₁ ≥ 9ˣ−3ˣ+2，原不等式在此处失效 —— k 取得太大了"}, "hud": "🖐 左右拖动 = 改 x · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <section id="part3">
@@ -851,7 +850,6 @@ section[id]{scroll-margin-top:58px}
   </div>
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 k：AM-GM 给出最后的上界", "sub": "k &lt; 3ˣ + 2·3⁻ˣ − 1 对任意 x 成立 ⇒ k &lt; min = 2√2 − 1（t = 3ˣ = √2 时取到）", "view": [0.25, 5.0, -0.35, 4.6], "param": {"name": "k", "label": "参数 k", "min": 0.5, "max": 3, "step": 0.005, "val": 1.5, "fmt": 3, "ticks": ["0.5", "1.828", "3"]}, "scalars": [{"n": "kk", "e": "p"}, {"n": "mn", "e": "2*sqrt(2)-1"}, {"n": "gp", "e": "p-(2*sqrt(2)-1)"}], "shapes": [{"t": "func", "f": "p+2/p-1", "c": "#2563eb", "w": 2.8}, {"t": "line", "k": 0, "q": "S.kk", "c": "#c2410c", "w": 2}, {"t": "point", "x": "sqrt(2)", "y": "2*sqrt(2)-1", "c": "#0f766e", "r": 6, "pulse": true, "label": "最低点", "dx": 6, "dy": -6}, {"t": "seg", "x1": "sqrt(2)", "y1": 0, "x2": "sqrt(2)", "y2": "2*sqrt(2)-1", "c": "#0f766e", "w": 1.2, "dash": [5, 4]}, {"t": "text", "x": 3.2, "y": 4.15, "c": "#94a3b8", "s": "蓝 = t + 2/t − 1（t = 3ˣ &gt; 0）", "fs": 11}, {"t": "text", "x": 3.0, "y": "S.kk+0.28", "c": "#c2410c", "s": "橙线 = 你选的 k", "fs": 11}], "readouts": [{"k": "k", "e": "p", "f": 3}, {"k": "min = 2√2 − 1 ≈", "e": "S.mn", "f": 4, "hl": true}, {"k": "取到最小值时 t = √2 ≈", "e": "sqrt(2)", "f": 4}, {"k": "k − min（≥0 ⇒ 不成立）", "e": "S.gp", "f": 4}], "concl": {"cond": "p<2*sqrt(2)-1", "on": "✅ k &lt; 2√2 − 1 ⇒ 对任意 x 都成立 ⇒ <b>选 A</b>", "off": "❌ k ≥ 2√2 − 1 ⇒ 在 t = √2 附近不等式会失效（橙线压到曲线之上）"}, "hud": "🖐 左右拖动 = 改 k · 滚轮微调"}</script>
 </div>
-    </div>
   </section>
 
   <!--pnid:RGhMijLh3cpS07cxufqatB--><!-- ✏️【小测】每题一个 .quiz-item，data-ans="正确选项下标(0 起)"。
@@ -921,6 +919,7 @@ section[id]{scroll-margin-top:58px}
         <div class="verdict"></div>
         <div class="why">💡 取等点可达 ⇒ 严格小于，选 A。</div>
       </div>
+    </div>
     </section>
 
   <!--pnid:KuwfFp3O4v72AVn9azSAnl--><!-- ✏️【记忆卡】"信号 → 结论"两列表 + 三个易错点 + 一个彩蛋故事（讲点数学史，收尾有回味）。 -->
@@ -4575,5 +4574,5 @@ VIZ3D.stage('vizS', {'grid':true,'gridY':-0.8,'axes':false,'dist':7.4,'pol':1.52
 })();
 
 </script>
-</body>
+<!--LAYOUT-VER 20261020a--></body>
 </html>
