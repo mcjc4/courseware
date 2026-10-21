@@ -783,14 +783,20 @@ section[id]{scroll-margin-top:58px}
             <div class="step on"><div class="step-inner">
         <div class="step-head">🧲 解公共点方程</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「g(x)=cosωx」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>公共点要求 \(\sin\omega x=\cos\omega x\) ⇒ \(\tan\omega x=1\) ⇒ \(x=\dfrac{\pi}{4\omega}+\dfrac{k\pi}{\omega}\)：<b>横坐标是等差数列</b>，公差 \(\dfrac{\pi}{\omega}\)。</div></div>
-        <p>\(\sin\omega x=\cos\omega x\Leftrightarrow\omega x=\dfrac{\pi}{4}+k\pi\)：横坐标等间距 \(\dfrac{\pi}{\omega}\)，纵坐标 \(\pm\dfrac{\sqrt2}2\) <b>正负交替</b>。</p>
+        <p><b>先看清目标</b>：两个函数图象的公共点，就是把 \(f(x)=g(x)\) 解出来的点。解出 \(x\) 之后，交点的排布规律（间距、高度）才谈得上。</p>
+        <p><b>① 为什么可以两边同除 \(\cos\omega x\)</b>：先确认 \(\cos\omega x\neq0\)——若 \(\cos\omega x=0\)，则 \(\sin\omega x=\pm1\neq0\)，与 \(\sin=\cos\) 矛盾。于是两边同除：\(\tan\omega x=1\) ⇒</p>
+        <div class="formula-box">$$\sin\omega x=\cos\omega x\ \Longleftrightarrow\ \omega x=\frac{\pi}{4}+k\pi\ (k\in\mathbb{Z})$$</div>
+        <p><b>② 横坐标：等间距</b>：把上式除以 \(\omega\) 得 \(x_k=\dfrac{1}{\omega}\left(\dfrac{\pi}{4}+k\pi\right)\)。相邻两点作差：\(x_{k+1}-x_k=\dfrac{\pi}{\omega}\)——<b>与 \(k\) 无关</b>，所以交点横坐标是等差数列。</p>
+        <p><b>③ 纵坐标：正负交替</b>：代回 \(y=\sin\omega x=\sin\left(\dfrac{\pi}{4}+k\pi\right)\)。\(k\) 为偶数时 \(=\dfrac{\sqrt2}{2}\)，\(k\) 为奇数时 \(=-\dfrac{\sqrt2}{2}\)，即交点高度在 \(\pm\dfrac{\sqrt2}{2}\) 之间一跳一跳。平方之后两者都是 \(\dfrac12\)。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ A 选项 + 几何结构</div>
+        <div class="step-head">✅ A 选项 + 三角形底边结构</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「相邻的三个公共点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>走半个周期两者同时变号 ⇒ <b>纵坐标一高一低交替</b>，只有 \(\pm\dfrac{\sqrt2}{2}\) 两个值 ⇒ \(y_1^2+y_2^2=1\)，A 选项成立。</div></div>
+        <p><b>④ 判 A</b>：不论 \(y_1,y_2\) 取正还是取负，都有 \(y_1^2=y_2^2=\dfrac12\)，故 \(y_1^2+y_2^2=\dfrac12+\dfrac12=1\) ⇒ <b>A 正确</b>。</p>
         <div class="formula-box">$$y_1^2+y_2^2=\tfrac12+\tfrac12=1\ \checkmark$$</div>
-        <p>\(A\)、\(C\) 同高 ⇒ \(|AC|=\dfrac{2\pi}{\omega}\)（水平底边），\(B\) 垂下高 \(\sqrt2\)。</p>
+        <p><b>⑤ 底边多长</b>：\(A\)、\(C\) 是相邻三点中的首尾，中间隔了 2 个间距，\(k\) 相差 2 是偶数，所以两者<b>同高</b> ⇒ \(AC\) 是水平底边，长度 \(|AC|=2\cdot\dfrac{\pi}{\omega}=\dfrac{2\pi}{\omega}\)。</p>
+        <p><b>⑥ 高是多少</b>：\(B\) 与 \(A\) 相邻，\(k\) 相差 1 是奇数 ⇒ 纵坐标反号，高度差 \(=\dfrac{\sqrt2}{2}-\left(-\dfrac{\sqrt2}{2}\right)=\sqrt2\)。这个 \(\sqrt2\) 就是第 2 关面积公式里的高。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -812,16 +818,20 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 ω：面积 √2π/3 一把锁死 ω = 3", "sub": "底 AC = 2π/ω、高 = √2 ⇒ 面积 = √2π/ω；同时对上 B 项的平移量 ωπ/6 = π/2", "view": [-0.12, 2.35, -1.35, 1.35], "param": {"name": "ω", "label": "角频率 ω", "min": 1, "max": 5, "step": 0.01, "val": 3, "fmt": 2, "ticks": ["1", "3", "5"]}, "scalars": [{"n": "w", "e": "p"}, {"n": "x1", "e": "(PI/4)/S.w"}, {"n": "x2", "e": "(PI/4+PI)/S.w"}, {"n": "x3", "e": "(PI/4+2*PI)/S.w"}, {"n": "y1", "e": "sin(PI/4)"}, {"n": "y2", "e": "sin(PI/4+PI)"}, {"n": "ar", "e": "sqrt(2)*PI/S.w"}, {"n": "tg", "e": "sqrt(2)*PI/3"}, {"n": "sh", "e": "S.w*PI/6-PI/2"}], "shapes": [{"t": "area", "pts": [["S.x1", "S.y1"], ["S.x2", "S.y2"], ["S.x3", "S.y1"]], "fill": "124,58,237", "fa": 0.24}, {"t": "func", "f": "sin(S.w*p)", "c": "#2563eb", "w": 2.2}, {"t": "func", "f": "cos(S.w*p)", "c": "#f59e0b", "w": 2.2}, {"t": "seg", "x1": "S.x1", "y1": "S.y1", "x2": "S.x3", "y2": "S.y1", "c": "#7c3aed", "w": 1.6, "dash": [6, 4]}, {"t": "point", "x": "S.x1", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "A", "dx": -7, "dy": -4}, {"t": "point", "x": "S.x2", "y": "S.y2", "c": "#7c3aed", "r": 5, "label": "B", "dx": 6, "dy": 18}, {"t": "point", "x": "S.x3", "y": "S.y1", "c": "#7c3aed", "r": 5, "label": "C", "dx": 7, "dy": -4}, {"t": "text", "x": 1.35, "y": 1.2, "c": "#7c3aed", "s": "紫色三角形 = △ABC（底 2π/ω，高 √2）", "fs": 11}], "readouts": [{"k": "ω", "e": "p", "f": 2}, {"k": "S△ABC = √2π/ω", "e": "S.ar", "f": 4, "hl": true}, {"k": "题给 √2π/3 ≈", "e": "S.tg", "f": 4}, {"k": "ωπ/6 − π/2（0 ⇒ B 对）", "e": "S.sh", "f": 4}], "concl": {"cond": "abs(p-3)<0.02", "on": "✅ ω = 3 ⇒ 面积正好 √2π/3；且 cos(ωx − ωπ/6) = sin ωx ⇒ <b>B 对</b>", "off": "拖到 ω = 3：那时面积才等于 √2π/3，平移量也对得上"}, "hud": "🖐 左右拖动 = 改 ω · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">📊 面积收口</div>
+        <div class="step-head">📊 面积收口定 ω</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「若 △ABC 的面积为 √2π/3」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(A,C\) 同高 ⇒ 底 \(|AC|=\dfrac{2\pi}{\omega}\)、高 \(\sqrt2\) ⇒ \(S=\dfrac{\sqrt2\pi}{\omega}\) ⇒ 令其等于 \(\dfrac{\sqrt2\pi}{3}\) ⇒ \(\omega=3\)。</div></div>
+        <p><b>先看清目标</b>：\(\omega\) 是唯一的未知参数，题给的面积是唯一能解出它的等式。</p>
+        <p><b>① 代入面积公式</b>：\(S=\tfrac12\cdot\text{底}\cdot\text{高}=\tfrac12\cdot\dfrac{2\pi}{\omega}\cdot\sqrt2\)。\(\tfrac12\) 与 \(2\pi\) 里的 2 约掉，剩 \(\pi\)：</p>
         <div class="formula-box">$$S=\tfrac12\cdot\tfrac{2\pi}{\omega}\cdot\sqrt2=\tfrac{\sqrt2\pi}{\omega}=\tfrac{\sqrt2\pi}{3}\ \Rightarrow\ \omega=3$$</div>
+        <p><b>② 怎么读出 \(\omega=3\)</b>：两边同有因子 \(\sqrt2\pi\)，约掉后剩 \(\dfrac1\omega=\dfrac13\) ⇒ \(\omega=3\)（\(\omega>0\) 是周期函数的前提，无负根问题）。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">🔁 B 选项：诱导公式验证</div>
+        <div class="step-head">🔁 B 选项：先换相位再诱导</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「B. f(x)=g(x−π/6)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(\omega=3\) 之后逐条验：\(g\left(x-\dfrac{\pi}{6}\right)=\cos\left(3x-\dfrac{\pi}{2}\right)=\sin3x=f(x)\) ⇒ <b>B 对</b>（平移量 \(\dfrac{\pi}{6}\) 是 \(\omega=3\) 时的「相位差 \(\dfrac{\pi}{2}\)」折算出来的）。</div></div>
+        <p><b>③ 平移进函数内部要乘 \(\omega\)</b>：\(g\left(x-\tfrac{\pi}{6}\right)=\cos\left[3\left(x-\tfrac{\pi}{6}\right)\right]=\cos\left(3x-\dfrac{\pi}{2}\right)\)。平移量 \(\tfrac{\pi}{6}\) 在<b>相位尺度</b>上被放大成 \(3\times\tfrac{\pi}{6}=\dfrac{\pi}{2}\)，这一步是本题最易错的地方。</p>
         <div class="formula-box">$$g\left(x-\tfrac{\pi}{6}\right)=\cos\left(3x-\tfrac{\pi}{2}\right)=\sin3x=f(x)\ \checkmark$$</div>
-        <div class="note">平移量 \(\pi/6\) 在相位尺度是 \(3\times\pi/6=\pi/2\)——先乘 \(\omega\) 再用诱导公式。</div>
+        <p><b>④ 诱导公式的依据</b>：\(\cos\left(\theta-\dfrac{\pi}{2}\right)=\cos\theta\cos\dfrac{\pi}{2}+\sin\theta\sin\dfrac{\pi}{2}=0+\sin\theta=\sin\theta\)。令 \(\theta=3x\) 即得 \(\sin3x\)，与 \(f(x)=\sin3x\) 逐字相同 ⇒ <b>B 正确</b>。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -841,16 +851,23 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 换一个起点 k：C 项为什么错、D 项为什么对", "sub": "h(x)=f+g —— 第 1 个公共点取不同的 k，h(x₁) 在 ±√2 之间跳；但中点始终是零点", "view": [-0.1, 5.3, -1.75, 1.75], "param": {"name": "k", "label": "公共点序号起点 k（只取整数）", "min": 0, "max": 2, "step": 1, "snap": true, "val": 0, "fmt": 0, "ticks": ["0", "1", "2"]}, "scalars": [{"n": "x1", "e": "(PI/4+p*PI)/3"}, {"n": "x2", "e": "(PI/4+(p+1)*PI)/3"}, {"n": "x3", "e": "(PI/4+(p+2)*PI)/3"}, {"n": "y1", "e": "sin(PI/4+p*PI)"}, {"n": "md", "e": "(S.x2+S.x3)/2"}, {"n": "h1", "e": "sin(3*S.x1)+cos(3*S.x1)"}, {"n": "hm", "e": "sin(3*S.md)+cos(3*S.md)"}], "shapes": [{"t": "func", "f": "sin(3*p)+cos(3*p)", "c": "#2563eb", "w": 2.6}, {"t": "line", "k": 0, "q": 1.4142135623730951, "c": "#ef4444", "w": 1.4, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -1.4142135623730951, "c": "#ef4444", "w": 1.4, "dash": [6, 4]}, {"t": "point", "x": "S.x1", "y": "S.h1", "c": "#7c3aed", "r": 6, "pulse": true, "label": "h(x₁)", "dy": -6}, {"t": "point", "x": "S.md", "y": "S.hm", "c": "#0f766e", "r": 6, "pulse": true, "label": "h(中点)", "dx": 6, "dy": -6}, {"t": "text", "x": 3.6, "y": 1.5, "c": "#ef4444", "s": "红虚线 = ±√2（C 项说的是 +√2）", "fs": 11}, {"t": "text", "x": 3.3, "y": -1.55, "c": "#0f766e", "s": "绿点恒在 x 轴上 ⇒ D 项 h((x₂+x₃)/2)=0 恒成立", "fs": 11}], "readouts": [{"k": "起点 k", "e": "p", "f": 0}, {"k": "y₁ = sin(π/4+kπ)", "e": "S.y1", "f": 4}, {"k": "h(x₁)", "e": "S.h1", "f": 4, "hl": true}, {"k": "h((x₂+x₃)/2)", "e": "S.hm", "f": 6, "hl": true}, {"k": "√2 ≈", "e": "sqrt(2)", "f": 4}], "concl": {"cond": "1", "on": "✅ <b>C 错</b>：k 为奇数时 h(x₁) = −√2，不恒等于 +√2；<b>D 对</b>：中点处相位是 π/4+(k+3/2)π，sin+cos 恒为 0 ⇒ 选 <b>ABD</b>", "off": ""}, "hud": "🖐 左右拖动 = 换起点 k · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">❌ C：不恒成立（有反例）</div>
+        <div class="step-head">❌ C：不恒成立，给个反例就够</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「C. h(x₁)=√2」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(h=\sqrt2\sin\left(3x+\dfrac{\pi}{4}\right)\)：只有当 \(x_1=\dfrac{\pi}{12}\) 时恰好等于 \(\sqrt2\)；若三点换一组（\(x_1\) 往后挪 \(\dfrac{\pi}{3}\)），\(h(x_1)=-\sqrt2\) ⇒ <b>不恒成立，C 错</b>。</div></div>
-        <p>\(h(x_1)=\sin3x_1+\cos3x_1=\pm\sqrt2\)：起点组未指定，\(y_1=-\tfrac{\sqrt2}2\) 时 \(h(x_1)=-\sqrt2\ne\sqrt2\) ⇒ <b>C 错</b>。</p>
+        <p><b>① 先算出 h 到底是什么</b>：\(x_1\) 是交点横坐标，所以 \(3x_1=\dfrac{\pi}{4}+k\pi\)。把 \(h(x)=\sin3x+\cos3x\) 在 \(x_1\) 处求出：</p>
+        <div class="formula-box">$$h(x_1)=\sin\left(\tfrac{\pi}{4}+k\pi\right)+\cos\left(\tfrac{\pi}{4}+k\pi\right)=\pm\sqrt2$$</div>
+        <p><b>② 为什么是 \(\pm\sqrt2\)</b>：\(k\) 偶时两项都是 \(+\dfrac{\sqrt2}{2}\)，和 \(\sqrt2\)；\(k\) 奇时两项同时变号，和 \(-\sqrt2\)。</p>
+        <p><b>③ 反例</b>：题干只说「交点的横坐标 \(x_1&lt;x_2&lt;x_3\)」，<b>没说 \(x_1\) 是哪一个交点</b>。取 \(k\) 为奇数的那个交点，\(h(x_1)=-\sqrt2\neq\sqrt2\)，所以「\(h(x_1)=\sqrt2\)」不恒成立 ⇒ <b>C 错</b>。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ D：中点相消恒成立</div>
+        <div class="step-head">✅ D：中点相位相消恒成立</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「D. h((x₂+x₃)/2)=0」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>中点代入 \(3\cdot\dfrac{x_2+x_3}{2}=\dfrac{7\pi}{4}\) ⇒ \(h=\sin\dfrac{7\pi}{4}+\cos\dfrac{7\pi}{4}=-\dfrac{\sqrt2}{2}+\dfrac{\sqrt2}{2}=0\) ⇒ <b>D 对</b>（中点正好落在 \(h\) 的零点上）。</div></div>
+        <p><b>④ 先把中点相位算出来</b>：\(x_2,x_3\) 是相邻两点，不妨设\(3x_2=\dfrac{\pi}{4}+k\pi\)、\(3x_3=\dfrac{\pi}{4}+(k+1)\pi\)。两式相加除以 2：</p>
+        <div class="formula-box">$$3\cdot\frac{x_2+x_3}{2}=\frac{(\tfrac{\pi}{4}+k\pi)+(\tfrac{\pi}{4}+(k+1)\pi)}{2}=\frac{\pi}{4}+k\pi+\frac{\pi}{2}=\frac{3\pi}{4}+k\pi$$</div>
+        <p><b>⑤ 代进 h</b>：\(\sin\dfrac{3\pi}{4}=\dfrac{\sqrt2}{2}\)、\(\cos\dfrac{3\pi}{4}=-\dfrac{\sqrt2}{2}\)，两项<b>大小相同符号相反</b>，相加为 0；加 \(k\pi\) 时两项同时变号，和仍是 0。取 \(k=1\) 即得 \(\dfrac{7\pi}{4}\)：</p>
         <div class="formula-box">$$3\cdot\tfrac{x_2+x_3}{2}=\tfrac{7\pi}{4}\ \Rightarrow\ h=\sin\tfrac{7\pi}{4}+\cos\tfrac{7\pi}{4}=-\tfrac{\sqrt2}2+\tfrac{\sqrt2}2=0$$</div>
-        <p><b>多选答案：ABD</b>。C 的教训：算出正解后必须再找反例。</p>
+        <p><b>⑥ 结论</b>：对任意 \(k\) 都有 \(h=0\)，与「是否恒成立」的问法一致 ⇒ <b>D 正确</b>。多选答案 <b>ABD</b>。</p>
+        <div class="note">C 的教训：算出一个「看起来对」的结论后，必须再去找反例——多选里最贵的一分往往丢在这里。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
