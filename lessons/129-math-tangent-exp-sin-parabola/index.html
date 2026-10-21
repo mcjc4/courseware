@@ -780,16 +780,21 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖切点：切线 l 什么时候变成 y = 4x + 1", "sub": "f′(x) = e^x + 3cos3x —— 切点拖到 x₀ = 0 那一刻，斜率正好是 1 + 3 = 4", "view": [-1.5, 1.8, -1.4, 3.4], "param": {"name": "x₀", "label": "切点横坐标 x₀", "min": -0.6, "max": 0.6, "step": 0.005, "val": 0, "fmt": 3, "ticks": ["−0.6", "0", "0.6"]}, "scalars": [{"n": "w", "e": "p"}, {"n": "k", "e": "exp(p)+3*cos(3*p)"}, {"n": "f0", "e": "exp(p)+sin(3*p)"}, {"n": "q", "e": "S.f0-S.k*p"}], "shapes": [{"t": "func", "f": "exp(p)+sin(3*p)", "c": "#2563eb", "w": 2.8}, {"t": "line", "k": "S.k", "q": "S.q", "c": "#c2410c", "w": 2.4}, {"t": "point", "x": "p", "y": "S.f0", "c": "#7c3aed", "r": 6, "pulse": true, "label": "切点", "dy": -6}, {"t": "text", "x": 1.0, "y": 3.05, "c": "#94a3b8", "s": "蓝 = f(x) · 橙 = 切线 l", "fs": 11}], "readouts": [{"k": "切点 x₀", "e": "p", "f": 3}, {"k": "f(x₀)", "e": "S.f0", "f": 4}, {"k": "斜率 f′(x₀)", "e": "S.k", "f": 4, "hl": true}, {"k": "切线截距", "e": "S.q", "f": 4}], "concl": {"cond": "abs(p)<0.02", "on": "✅ x₀ = 0 ⇒ f(0) = 1、f′(0) = 1 + 3 = 4 ⇒ <b>l: y = 4x + 1</b>", "off": "拖到 x₀ = 0：那时斜率才是 4，切线才是 y = 4x + 1"}, "hud": "🖐 左右拖动 = 挪动切点 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🧵 求导与斜率</div>
+        <div class="step-head">🧵 切点 → 导数 → 斜率</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「曲线 y=e^x+sin3x 在点 (0,1) 处的切线」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>「在点处的切线」⇒ 切点已知、斜率等于导数：\(k=y'(0)\) ⇒ 点斜式一步写出 \(l: y=4x+1\)。</div></div>
-        <p>切点验证：\(y(0)=e^0+\sin0=1\) ✓。求导（\(\sin3x\) 链式法则乘 3）：</p>
+        <p><b>先看清目标</b>：求过点 \(P(0,1)\) 的切线 \(l\)。切线三件套 = 切点坐标、切线斜率、点斜式，一样都不能少。</p>
+        <p><b>① 先确认切点真在曲线上</b>：把 \(x=0\) 代进 \(y=e^x+\sin3x\)：\(y(0)=e^0+\sin0=1+0=1\)，正好等于 \(P\) 的纵坐标 ✓。（若不等，\(P\) 就只是个外部点，得另设切点 \((x_0,y_0)\)——本题不用。）</p>
+        <p><b>② 逐项求导</b>：\(e^x\) 求导仍是 \(e^x\)；\(\sin3x\) 是<b>复合函数</b>，按 \((\sin u)'=u'\cos u\) 要先对 \(u=3x\) 求导得 3，再乘 \(\cos3x\)：\((\sin3x)'=3\cos3x\)。所以</p>
         <div class="formula-box">$$y'=e^x+3\cos3x,\qquad y'(0)=1+3=4$$</div>
+        <p><b>③ 斜率</b>：\(k=y'(0)=e^0+3\cos0=1+3\times1=4\)（\(\cos0=1\)，那个 3 就是第 ② 步链式法则带出来的，丢了它就变成 \(k=2\)）。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 点斜式</div>
+        <div class="step-head">✅ 点斜式收口</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「y=e^x+sin3x」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>求导时 \(\sin3x\) 是复合函数 ⇒ \(y'=e^x+3\cos3x\)，<b>内层的 3 不能丢</b> ⇒ \(y'(0)=4\)。</div></div>
+        <p><b>④ 代点斜式</b>：\(y-y_0=k(x-x_0)\)，代入 \(k=4\)、\((x_0,y_0)=(0,1)\)：\(y-1=4(x-0)\) ⇒ \(y=4x+1\)。</p>
         <div class="formula-box">$$l:\ y=4x+1$$</div>
+        <p><b>⑤ 一眼验算</b>：直线过 \((0,1)\) ✓；斜率 4 与 \(y'(0)=4\) 一致 ✓。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -811,17 +816,23 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 m：直线什么时候与抛物线「刚好擦上」", "sub": "把 y = 4x+1 代入 y² = 4x+m 得到 16x²+4x+(1−m)=0 —— Δ = 0 就是相切", "view": [-1.3, 2.4, -3.2, 3.2], "param": {"name": "m", "label": "抛物线参数 m", "min": -1.5, "max": 3, "step": 0.005, "val": 0.75, "fmt": 3, "ticks": ["−1.5", "0.75", "3"]}, "scalars": [{"n": "m", "e": "p"}, {"n": "dl", "e": "64*p-48"}, {"n": "nn", "e": "S.dl>0.0001?2:(S.dl>-0.0001?1:0)"}], "shapes": [{"t": "func", "f": "sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "-sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "line", "k": 4, "q": 1, "c": "#c2410c", "w": 2.4}, {"t": "text", "x": 1.5, "y": 2.8, "c": "#94a3b8", "s": "蓝 = y² = 4x + m · 橙 = l: y = 4x + 1", "fs": 11}], "readouts": [{"k": "m", "e": "p", "f": 3}, {"k": "Δ = 64m − 48", "e": "S.dl", "f": 3, "hl": true}, {"k": "交点个数", "e": "S.nn", "f": 0}], "concl": {"cond": "abs(S.dl)<0.6", "on": "✅ Δ = 0 ⇒ 64m − 48 = 0 ⇒ <b>m = 3/4</b>", "off": "拖到 Δ = 0：那时直线与抛物线只有一个公共点（相切）"}, "hud": "🖐 左右拖动 = 改 m · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🎯 联立抛物线</div>
+        <div class="step-head">🎯 相切到底翻译成什么</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「直线 l 与抛物线 y²=4x+m 也相切」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>「相切」⇒ 联立后 \(\Delta=0\)：把 \(y=4x+1\) 代进 \(y^2=4x+m\)，得到关于 \(x\) 的一元二次方程。</div></div>
-        <p>\(l\) 与 \(y^2=4x+m\) 相切 ⇔ 代入后一元二次方程唯一解：</p>
+        <p><b>先看清目标</b>：\(m\) 藏在抛物线 \(y^2=4x+m\) 里，唯一的约束是「与 \(l\) 相切」。所以问题变成：把「相切」这个词换成一条能算的等式。</p>
+        <p><b>① 翻译原理</b>：直线与二次曲线联立后得到一个一元二次方程，<b>交点的个数 = 实根的个数</b>。相切就是「恰好一个公共点」，即方程有<b>重根</b> ⇒ \(\Delta=0\)。（前提是这方程真是二次的，二次项系数不能为 0。）</p>
+        <p><b>② 联立消元</b>：把 \(y=4x+1\) 整体代入 \(y^2=4x+m\)：\((4x+1)^2=4x+m\)。</p>
+        <p><b>③ 展开整理</b>：\((4x+1)^2=16x^2+8x+1\)，把右边搬到左边：\(16x^2+8x+1-4x-m=0\) ⇒ \(8x-4x=4x\)，常数 \(1-m\) 留着：</p>
         <div class="formula-box">$$(4x+1)^2=4x+m\ \Rightarrow\ 16x^2+4x+(1-m)=0$$</div>
       </div></div>
 
-      <div class="step"><div class="step-head">✅ 判别式收口</div>
+      <div class="step"><div class="step-inner">
+        <div class="step-head">✅ 判别式收口 + 验算</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「y²=4x+m」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>平方项是 \(y\) ⇒ 直接把直线里的 \(y\) 整个代进去，得 \(16x^2+4x+(1-m)=0\) ⇒ \(\Delta=64m-48=0\) ⇒ \(m=\dfrac34\)。</div></div>
-        <div class="step-inner">
+        <p><b>④ 认准 a、b、c</b>：\(a=16\)、\(b=4\)、\(c=1-m\)。\(\Delta=b^2-4ac=4^2-4\times16\times(1-m)=16-64(1-m)\)。</p>
+        <p><b>⑤ 展开</b>：\(-64(1-m)=-64+64m\)，故 \(\Delta=16-64+64m=64m-48\)。</p>
+        <p><b>⑥ 令 \(\Delta=0\)</b>：\(64m=48\) ⇒ \(m=\dfrac{48}{64}=\dfrac34\)。</p>
         <div class="formula-box">$$\Delta=16-64(1-m)=64m-48=0\ \Rightarrow\ m=\frac34$$</div>
-        <div class="note">验算：\(16x^2+4x+\tfrac14=(4x+\tfrac12)^2\) 完全平方 ✓。（截图 \(x^2=4x+m\) 缺 \(y\) 是排印笔误，两条竖线谈不上相切。）</div>
+        <div class="note">回代验算：\(m=\tfrac34\) 时方程为 \(16x^2+4x+\tfrac14=0\)，即 \((4x+\tfrac12)^2=0\)，确实是完全平方 ✓，重根 \(x=-\tfrac18\)（切点横坐标）。另外：截图里写成 \(x^2=4x+m\) 缺了 \(y\)，那是排印笔误——只含 \(x\) 的式子表示两条竖直线，谈不上与抛物线相切。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -841,15 +852,17 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 排印陷阱：y²=4x+m 与 y²=4(x+m) 差多少", "sub": "括号挪一格，答案从 3/4 变成 3/16 —— 两条抛物线画在一起，切线对上的根本不是同一个 m", "view": [-1.3, 2.4, -3.2, 3.2], "param": {"name": "m", "label": "抛物线参数 m", "min": 0, "max": 3, "step": 0.005, "val": 0.75, "fmt": 3, "ticks": ["0", "0.75", "3"]}, "scalars": [{"n": "m", "e": "p"}, {"n": "d1", "e": "64*p-48"}, {"n": "d2", "e": "256*p-48"}], "shapes": [{"t": "func", "f": "sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "-sqrt(4*p+S.m)", "c": "#2563eb", "w": 2.6}, {"t": "func", "f": "2*sqrt(p+S.m)", "c": "#f59e0b", "w": 1.8, "dash": [7, 5]}, {"t": "func", "f": "-2*sqrt(p+S.m)", "c": "#f59e0b", "w": 1.8, "dash": [7, 5]}, {"t": "line", "k": 4, "q": 1, "c": "#c2410c", "w": 2.4}, {"t": "text", "x": 1.35, "y": 2.8, "c": "#2563eb", "s": "蓝实线 = y² = 4x + m（正确读法）", "fs": 11}, {"t": "text", "x": 1.35, "y": -2.85, "c": "#f59e0b", "s": "橙虚线 = y² = 4(x+m)（误读）", "fs": 11}], "readouts": [{"k": "m", "e": "p", "f": 3}, {"k": "Δ₁（正确读法）", "e": "S.d1", "f": 3}, {"k": "Δ₂（误读）", "e": "S.d2", "f": 3}, {"k": "正确解 m = 3/4", "e": "0.75", "f": 2, "hl": true}, {"k": "误读解 m = 3/16", "e": "0.1875", "f": 4}], "concl": {"cond": "abs(p-0.75)<0.01", "on": "✅ 正确读法下 m = <b>3/4</b>；若误读成 4(x+m) 会解出 3/16 —— 差 4 倍", "off": "拖到 m = 0.75：只有蓝线与橙直线相切，橙虚线还没对上"}, "hud": "🖐 左右拖动 = 改 m · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🧠 两次标准翻译</div>
+        <div class="step-head">🧠 两次标准翻译（背下来）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「在点 (0,1) 处的切线」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复盘第一段翻译：<b>「在点处」= 切点已知 + 导数给斜率</b>；若是「过点」则要另设切点，两件事别混。</div></div>
-        <div class="note">① 切线 = 切点验证 + 导数值 + 点斜式<br>② 相切 = 联立后二次方程 Δ=0（先确认真是二次！）</div>
+        <div class="note">① <b>切线</b> = 切点在曲线上（代一代验证）+ 导数给斜率（复合别丢内层系数）+ 点斜式<br>② <b>相切</b> = 联立消元 → 一元二次方程 → \(\Delta=0\)（<b>先确认真是二次</b>：二次项系数 \(\neq0\)）</div>
+        <p>两句翻译的价值在于：它们把几何词（切、相切）变成了可算的代数动作，不需要图像也能落笔。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">⚠️ 排印陷阱的识别</div>
+        <div class="step-head">⚠️ 排印陷阱的识别方法</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「若直线 l 与抛物线 y²=4x+m 也相切」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复盘第二段翻译：<b>「相切」= 联立后 \(\Delta=0\)</b>；两次翻译各用一种工具，中间用 \(l\) 的方程串起来。</div></div>
-        <p>\(x^2=4x+m\) 只含 \(x\)：\((x-2)^2=m+4\) 是<b>两条竖直线</b>，与「抛物线」矛盾 ⇒ 按原型 \(y^2=4x+m\) 求解。考场上遇到疑似印刷错误，先找「能让题目成立的最合理原型」，再动笔。</p>
+        <p><b>③ 为什么断定 \(x^2=4x+m\) 是笔误</b>：把它配方得 \((x-2)^2=m+4\)，解得 \(x=2\pm\sqrt{m+4}\)——这是<b>两条竖直线</b>。而本题第 1 关算出的 \(l\) 是一条斜线，\(y^2=4x+m\) 是抛物线。「竖直线与抛物线相切」这个提法本身不成立，说明丢掉的是 \(y\) 的平方，原型应为 \(y^2=4x+m\)。</p>
+        <p><b>④ 考场策略</b>：遇到疑似印刷错误，不要停在那里纠结，先找「能让题目成立的最合理原型」再动笔，并把判断依据写一句在旁（本题依据就是「竖直线无切点」）。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
