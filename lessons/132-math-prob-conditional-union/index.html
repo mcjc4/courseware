@@ -781,8 +781,11 @@ section[id]{scroll-margin-top:58px}
             <div class="step on"><div class="step-inner">
         <div class="step-head">🔗 条件概率的定义反着用</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「P(B|A)=1/6」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>条件概率的定义式反着用：\(P(AB)=P(A)\cdot P(B|A)=\dfrac35\times\dfrac16=\dfrac1{10}\)——先把交集拿到手，后面才有东西可代。</div></div>
-        <div class="formula-box">$$P(AB)=P(A)\cdot P(B|A)=\frac35\times\frac16=\frac1{10}$$</div>
-        <p>\(P(B|A)\) 的含义：在「\(A\) 已发生」的世界里 \(B\) 占的比例——乘回 \(P(A)\) 就还原成全空间的交集。</p>
+        <p><b>先看清目标</b>：要的是 \(P(AB)\)（交集、同时发生），手上是 \(P(A)=\dfrac35\) 与 \(P(B|A)=\dfrac16\)。条件概率与交集之间只隔一条定义式，把它<b>倒过来用</b>就行。</p>
+        <p><b>① 写定义</b>：\(P(B|A)=\dfrac{P(AB)}{P(A)}\)，前提 \(P(A)>0\)（本题 \(\dfrac35>0\) ✓）。这个式子的意思是：把样本空间<b>缩小到 \(A\) 里面</b>之后，\(B\) 占的比例。</p>
+        <p><b>② 两边乘 \(P(A)\)</b>：得到乘法公式 \(P(AB)=P(A)\cdot P(B|A)\)。——「\(A\) 发生的概率」乘上「在 \(A\) 里 \(B\) 的比例」，就还原成全空间里 \(AB\) 的比重。</p>
+        <p><b>③ 代入算数</b>：分母 5 与 6 相乘得 30，分子 3，约掉公因子 3：</p>
+        <div class="formula-box">$$P(AB)=P(A)\cdot P(B|A)=\frac35\times\frac16=\frac{3}{30}=\frac1{10}$$</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -804,15 +807,20 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 P(B)：并集账本什么时候刚好填满全集", "sub": "加法公式 P(A∪B) = P(A) + P(B) − P(AB) = 0.6 + P(B) − 0.1 —— 交集被数了两次，要还一次", "view": [-0.06, 1.16, -0.5, 0.72], "param": {"name": "b", "label": "P(B)", "min": 0.1, "max": 0.9, "step": 0.002, "val": 0.5, "fmt": 3, "ticks": ["0.1", "0.5", "0.9"]}, "scalars": [{"n": "bo", "e": "p-0.1"}, {"n": "un", "e": "0.6+p-0.1"}, {"n": "out", "e": "1-S.un"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0.3, "x2": 1, "y2": 0.3, "c": "#e2e8f0", "w": 14}, {"t": "seg", "x1": 0, "y1": 0.3, "x2": 0.5, "y2": 0.3, "c": "#bfdbfe", "w": 14}, {"t": "seg", "x1": 0.5, "y1": 0.3, "x2": 0.6, "y2": 0.3, "c": "#f59e0b", "w": 14}, {"t": "seg", "x1": 0.6, "y1": 0.3, "x2": "S.un", "y2": 0.3, "c": "#a7f3d0", "w": 14}, {"t": "point", "x": 0.25, "y": 0.3, "c": "#2563eb", "r": 4, "label": "A\\B = 0.5", "dy": -13}, {"t": "point", "x": 0.55, "y": 0.3, "c": "#c2410c", "r": 4, "label": "AB = 0.1", "dx": 2, "dy": 20}, {"t": "point", "x": "(0.6+S.un)/2", "y": 0.3, "c": "#0f766e", "r": 4, "label": "B\\A", "dy": -13}, {"t": "text", "x": 0.5, "y": -0.12, "c": "#94a3b8", "s": "四段拼起来 = P(A∪B)，灰色剩余 = 并集之外", "fs": 11}], "readouts": [{"k": "P(A)", "e": "0.6", "f": 2}, {"k": "P(B)", "e": "p", "f": 3}, {"k": "P(AB)（上一步算的）", "e": "0.1", "f": 3}, {"k": "P(A∪B)", "e": "S.un", "f": 3, "hl": true}, {"k": "并集之外（0 ⇒ 满足题设）", "e": "S.out", "f": 3}], "concl": {"cond": "abs(p-0.5)<0.005", "on": "✅ 0.6 + 1/2 − 1/10 = 1 ⇒ P(A∪B) = 1 ⇒ <b>P(B) = 1/2，选 C</b>", "off": "拖到 P(B) = 0.5：那时四段刚好填满整条，并集之外为 0"}, "hud": "🖐 左右拖动 = 改 P(B) · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">➖ 并集公式</div>
+        <div class="step-head">➖ 加法公式：为什么要减交集</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「P(A∪B)=1」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(A\)、\(B\) 合起来盖满全集 ⇒ 加法公式右边为 1 ⇒ \(1=P(A)+P(B)-P(AB)\) ⇒ 只有 \(P(B)\) 未知 ⇒ 移项得 \(\dfrac12\)，选 C。</div></div>
+        <p><b>先看清目标</b>：要求 \(P(B)\)，已知 \(P(A\cup B)=1\)、\(P(A)=\dfrac35\)、\(P(AB)=\dfrac1{10}\)。加法公式是唯一同时含这四个量的式子。</p>
+        <p><b>① 公式与理由</b>：\(P(A\cup B)=P(A)+P(B)-P(AB)\)。把 \(A\) 与 \(B\) 的概率直接相加时，<b>中间那一块 \(AB\) 被数了两遍</b>（既在 \(A\) 里又在 \(B\) 里），所以必须减掉一次才算真正的并集。</p>
         <div class="formula-box">$$P(A\cup B)=P(A)+P(B)-P(AB)=1$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 移项收口</div>
+        <div class="step-head">✅ 移项收口 + 账本验算</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「P(A)=3/5」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>移项时别丢负号：\(P(B)=1-P(A)+P(AB)=1-\dfrac35+\dfrac1{10}=\dfrac12\)。</div></div>
-        <div class="formula-box">$$P(B)=1-\frac35+\frac1{10}=\frac12\quad(\text{选 } \mathrm{C})$$</div>
+        <p><b>② 把已知填进去</b>：\(1=\dfrac35+P(B)-\dfrac1{10}\)。</p>
+        <p><b>③ 移项解 \(P(B)\)</b>：先把常数合成同分母 \(\dfrac35=\dfrac6{10}\)，\(1-\dfrac6{10}+\dfrac1{10}=\dfrac{10-6+1}{10}=\dfrac5{10}\)：</p>
+        <div class="formula-box">$$P(B)=1-\frac35+\frac1{10}=\frac{10}{10}-\frac6{10}+\frac1{10}=\frac{5}{10}=\frac12\quad(\text{选 } \mathrm{C})$$</div>
+        <p><b>④ 韦恩图账本验算</b>：\(A\) 独占 \(=\dfrac35-\dfrac1{10}=\dfrac5{10}\)；\(B\) 独占 \(=\dfrac12-\dfrac1{10}=\dfrac4{10}\)；交集 \(\dfrac1{10}\)。三块相加 \(\dfrac{5+4+1}{10}=1\) ✓ 恰好铺满全空间。</p>
         <div class="note">韦恩图账本：A 独占 1/2 + B 独占 2/5 + 交集 1/10 = 1 ✓</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
@@ -833,15 +841,16 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 复盘：四段账本与四个选项各差在哪一步", "sub": "正确答案 0.5；忘减交集得 0.4（选 D）、把条件概率当 P(B) 得 1/6、把并集当 P(A)+P(B) 得 0.4", "view": [-0.06, 1.16, -0.55, 0.75], "param": {"name": "b", "label": "你算出的 P(B)", "min": 0.1, "max": 0.9, "step": 0.002, "val": 0.5, "fmt": 3, "ticks": ["0.1", "0.5", "0.9"]}, "scalars": [{"n": "un", "e": "0.6+p-0.1"}, {"n": "w1", "e": "1-0.6"}, {"n": "w2", "e": "1/6"}, {"n": "w3", "e": "0.6"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0.32, "x2": 1, "y2": 0.32, "c": "#e2e8f0", "w": 13}, {"t": "seg", "x1": 0, "y1": 0.32, "x2": 0.5, "y2": 0.32, "c": "#bfdbfe", "w": 13}, {"t": "seg", "x1": 0.5, "y1": 0.32, "x2": 0.6, "y2": 0.32, "c": "#f59e0b", "w": 13}, {"t": "seg", "x1": 0.6, "y1": 0.32, "x2": "min(1,S.un)", "y2": 0.32, "c": "#a7f3d0", "w": 13}, {"t": "seg", "x1": 0.7, "y1": -0.05, "x2": 0.7, "y2": 0.62, "c": "#94a3b8", "w": 1.2, "dash": [4, 4]}, {"t": "seg", "x1": 0.6, "y1": -0.05, "x2": 0.6, "y2": 0.62, "c": "#94a3b8", "w": 1.2, "dash": [4, 4]}, {"t": "seg", "x1": 0.5, "y1": -0.05, "x2": 0.5, "y2": 0.62, "c": "#22c3a6", "w": 2.4}, {"t": "seg", "x1": 0.4, "y1": -0.05, "x2": 0.4, "y2": 0.62, "c": "#94a3b8", "w": 1.2, "dash": [4, 4]}, {"t": "point", "x": "p", "y": 0.32, "c": "#c2410c", "r": 6, "pulse": true, "label": "你", "dy": -14}, {"t": "text", "x": 0.7, "y": 0.68, "c": "#94a3b8", "s": "A 7/10", "fs": 11}, {"t": "text", "x": 0.6, "y": 0.68, "c": "#94a3b8", "s": "B 3/5", "fs": 11}, {"t": "text", "x": 0.5, "y": 0.68, "c": "#0f766e", "s": "C 1/2 ✔", "fs": 11}, {"t": "text", "x": 0.4, "y": 0.68, "c": "#94a3b8", "s": "D 2/5", "fs": 11}], "readouts": [{"k": "你的 P(B)", "e": "p", "f": 3}, {"k": "并集 P(A∪B)", "e": "S.un", "f": 3, "hl": true}, {"k": "易错① 忘减交集 ⇒ P(B) = 1−0.6", "e": "S.w1", "f": 3}, {"k": "易错② 把 P(B|A) 当 P(B)", "e": "S.w2", "f": 3}, {"k": "易错③ 把 P(A) 当成 P(B)", "e": "S.w3", "f": 3}], "concl": {"cond": "abs(p-0.5)<0.005", "on": "✅ 落在绿线上 ⇒ <b>P(B) = 1/2，选 C</b>；三条易错分别把你带到 0.4 / 1/6 / 0.6", "off": "拖到 0.5：只有这个取值能让 0.6 + P(B) − 0.1 = 1"}, "hud": "🖐 左右拖动 = 改 P(B) · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">⚠️ 三大易错</div>
+        <div class="step-head">⚠️ 三大易错，逐个说明为什么错</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「P(A∪B)=1」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复盘时纠正一个常见误读：并集为 1 <b>不等于互斥</b>（互斥要求 \(P(AB)=0\)）——本题重叠 \(\frac1{10}\) 还在，直接算 \(1-P(A)\) 会得到 \(\frac25\)。</div></div>
-        <div class="note">① 把 P(B|A)=1/6 当 P(B)——条件概率只在 A 内部有效<br>② P(A)+P(B) 忘减交集<br>③ P(A∪B)=1 误当对立事件（对立还要求 P(AB)=0，本题 1/10≠0）</div>
+        <div class="note"><b>① 把 \(P(B|A)=\dfrac16\) 当成 \(P(B)\)</b>：\(\dfrac16\approx0.167\)，而正确值 \(\dfrac12\)。条件概率只在 \(A\) 内部有效，离开 \(A\) 就没有意义——乘上 \(P(A)\) 才能回到全空间。<br>        <b>② 用加法时忘减交集</b>：若写 \(P(A)+P(B)=\dfrac35+\dfrac12=\dfrac{11}{10}>1\)，概率超过 1 是<b>明显荒谬</b>的，这个自检信号一出就该回头减 \(P(AB)\)。<br>        <b>③ 把 \(P(A\cup B)=1\) 当成「\(A,B\) 对立」</b>：对立要求两条——互斥（\(P(AB)=0\)）且并集为全集。本题 \(P(AB)=\dfrac1{10}\ne0\)，只是「合起来盖满全空间」，允许重叠，不是对立。</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 三步节奏</div>
+        <div class="step-head">✅ 三步节奏（这类题的通用流水线）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「则 P(B)=」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>三步节奏：① 条件概率换交集 ② 加法公式列方程 ③ 移项解 \(P(B)\)；三步都用同一张韦恩图，就不会乱。</div></div>
-        <p>① 乘法公式出交集 → ② 加法公式搭桥 → ③ 移项解目标。条件+并集型题目几乎全是这个节奏。</p>
+        <p><b>④ 第 1 步：乘法公式出交集</b>——凡给出 \(P(B|A)\)，先把它变成 \(P(AB)\)；<br>        <b>⑤ 第 2 步：加法公式搭桥</b>——凡涉及并集，写 \(P(A)+P(B)-P(AB)\)；<br>        <b>⑥ 第 3 步：移项解目标</b>——把已知量代进去，只留一个未知数。</p>
+        <p>「条件概率 + 并集」型题目几乎全是这个节奏：<b>条件→交集→并集→移项</b>，四步走完，不需要画图也能落地。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
