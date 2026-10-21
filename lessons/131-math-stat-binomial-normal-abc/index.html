@@ -785,10 +785,14 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖偏移量 d：方差什么时候归零", "sub": "s² = 离差平方的平均值 —— 每一项都是平方，求和为 0 只能说明每一项都是 0", "view": [0.7, 4.6, -0.95, 0.95], "param": {"name": "d", "label": "第 3 个数据的偏移 d", "min": -2, "max": 2, "step": 0.01, "val": 0.6, "fmt": 2, "ticks": ["−2", "0", "2"]}, "scalars": [{"n": "mn", "e": "2+p/3"}, {"n": "ss", "e": "2*(p/3)*(p/3)+(2*p/3)*(2*p/3)"}, {"n": "v", "e": "S.ss/3"}, {"n": "eq", "e": "abs(p)<1e-9?1:0"}], "shapes": [{"t": "seg", "x1": 1.2, "y1": 0, "x2": 4.2, "y2": 0, "c": "#cbd5e1", "w": 2}, {"t": "point", "x": 2, "y": 0.16, "c": "#2563eb", "r": 5}, {"t": "point", "x": 2, "y": -0.16, "c": "#2563eb", "r": 5}, {"t": "point", "x": "2+p", "y": 0, "c": "#f59e0b", "r": 6, "pulse": true, "label": "2+d", "dy": -6}, {"t": "seg", "x1": "S.mn", "y1": -0.62, "x2": "S.mn", "y2": 0.62, "c": "#7c3aed", "w": 2, "dash": [5, 4]}, {"t": "point", "x": "S.mn", "y": 0, "c": "#7c3aed", "r": 4, "label": "均值", "dy": 20}, {"t": "text", "x": 2.6, "y": -0.72, "c": "#94a3b8", "s": "紫虚线 = 均值随 d 移动 · 蓝点 = 两个固定的 2", "fs": 11}], "readouts": [{"k": "均值 x̄", "e": "S.mn", "f": 4}, {"k": "离差平方和", "e": "S.ss", "f": 4}, {"k": "方差 s² = 平方和/3", "e": "S.v", "f": 4, "hl": true}, {"k": "所有数据相等（1=是）", "e": "S.eq", "f": 0}], "concl": {"cond": "abs(p)<0.02", "on": "✅ s² = 0 ⇒ 每个离差都是 0 ⇒ <b>所有数据都相等</b> ⇒ <b>A 项对</b>", "off": "拖到 d = 0：只有那时三个数全相等，方差才归零"}, "hud": "🖐 左右拖动 = 改偏移量 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🧮 定义级判断</div>
+        <div class="step-head">🧮 定义级判断：两个方向都要走</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「方差 s²=0」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>平方和为零 ⇒ <b>每一项都为零</b> ⇒ 每个 \(x_i\) 都等于平均数 ⇒ 所有数据相等，A 对（不用算，定义直接推）。</div></div>
+        <p><b>先看清目标</b>：A 说的是「\(s^2=0\)」与「所有数据相等」互为条件（充要）。要判它，得<b>正反各证一次</b>，只证一边不够。</p>
+        <p><b>① 写出定义</b>：\(s^2=\dfrac1n\sum_{i=1}^{n}(x_i-\bar x)^2\)。注意它是「每个数据与平均数的差的平方」再平均。</p>
         <div class="formula-box">$$s^2=\tfrac1n\textstyle\sum(x_i-\bar x)^2=0\ \Leftrightarrow\ x_i=\bar x\ (\forall i)$$</div>
-        <p>每一项平方非负，和为零 ⟺ 每项为零 ⟺ <b>所有数据相等</b>——充要条件，A 正确。</p>
+        <p><b>② 正向（\(s^2=0\Rightarrow\) 全相等）</b>：每一项 \((x_i-\bar x)^2\ge0\) 非负，所以 \(s^2\) 是「\(n\) 个非负数之和除以 \(n\)」。\(n\) 个非负数之和为 0，当且仅当<b>每一个都是 0</b>（只要有一个正数，和就大于 0）。于是 \((x_i-\bar x)^2=0\) 对每个 \(i\) 成立，即 \(x_i=\bar x\)——所有数据都等于平均数，彼此相等。</p>
+        <p><b>③ 反向（全相等 \(\Rightarrow s^2=0\)）</b>：若 \(x_1=\cdots=x_n=c\)，则 \(\bar x=c\)，每项 \((c-c)^2=0\)，故 \(s^2=0\)。</p>
+        <p><b>④ 结论</b>：两个方向都成立 ⇒ 这是<b>充要条件</b>，A 正确。（若只证了 ②，只能说明「\(s^2=0\) 能推出全相等」，还差那一半。）</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -810,17 +814,25 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖幂次 k：x³ 项的系数到底是几", "sub": "四个括号各出一份系数，加起来才是答案 —— 题面给的 −69 少了整整 104", "view": [-0.35, 4.5, -185, 38], "param": {"name": "k", "label": "幂次 k", "min": 0, "max": 4, "step": 1, "snap": true, "val": 3, "fmt": 0, "ticks": ["0", "2", "4"]}, "scalars": [{"n": "c1", "e": "(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(4,p)*pow(-3,p)"}, {"n": "c2", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(5,p)"}, {"n": "c3", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(6,p)"}, {"n": "c4", "e": "-(function(n,k){var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;})(7,p)"}, {"n": "tt", "e": "S.c1+S.c2+S.c3+S.c4"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": "S.c1", "c": "#2563eb", "w": 16}, {"t": "seg", "x1": 1, "y1": 0, "x2": 1, "y2": "S.c2", "c": "#f59e0b", "w": 16}, {"t": "seg", "x1": 2, "y1": 0, "x2": 2, "y2": "S.c3", "c": "#7c3aed", "w": 16}, {"t": "seg", "x1": 3, "y1": 0, "x2": 3, "y2": "S.c4", "c": "#0f766e", "w": 16}, {"t": "seg", "x1": -0.3, "y1": 0, "x2": 4.2, "y2": 0, "c": "#cbd5e1", "w": 2}, {"t": "seg", "x1": -0.3, "y1": "-69", "x2": 4.2, "y2": "-69", "c": "#ef4444", "w": 1.5, "dash": [6, 4]}, {"t": "text", "x": 0, "y": "-S.c1-14", "c": "#2563eb", "s": "(1−3x)⁴", "fs": 11}, {"t": "text", "x": 1, "y": 14, "c": "#f59e0b", "s": "(1−x)⁵", "fs": 11}, {"t": "text", "x": 2, "y": 14, "c": "#7c3aed", "s": "(1−x)⁶", "fs": 11}, {"t": "text", "x": 3, "y": 14, "c": "#0f766e", "s": "(1−x)⁷", "fs": 11}, {"t": "text", "x": 2.0, "y": -74, "c": "#ef4444", "s": "红虚线 = 题面给的 −69", "fs": 11}, {"t": "text", "x": 2.0, "y": -168, "c": "#94a3b8", "s": "同款中间量陷阱：z 的截距是 ln a，不是 a ⇒ a = e^{4.16} ≈ 64.2", "fs": 11}], "readouts": [{"k": "幂次 k", "e": "p", "f": 0}, {"k": "(1−3x)⁴ 的系数", "e": "S.c1", "f": 0}, {"k": "(1−x)⁵ 的系数", "e": "S.c2", "f": 0}, {"k": "(1−x)⁶ 的系数", "e": "S.c3", "f": 0}, {"k": "(1−x)⁷ 的系数", "e": "S.c4", "f": 0}, {"k": "四项相加", "e": "S.tt", "f": 0, "hl": true}], "concl": {"cond": "abs(p-3)<0.5", "on": "✅ k = 3：−108 − 10 − 20 − 35 = <b>−173 ≠ −69</b> ⇒ <b>C 项错</b>", "off": "拖到 k = 3：看四项系数相加是否等于题面给的 −69"}, "hud": "🖐 左右拖动 = 换幂次（只取整数）", "inline": true, "free": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🌉 B：指数桥没过</div>
+        <div class="step-head">🌉 B：线性化之后的截距不是 a</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「令 z=ln(y−c)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>取对数把指数模型拉直：\(\ln(y-c)=bx+\ln a\) ⇒ <b>斜率是 \(b\)、截距是 \(\ln a\)</b>，还原 \(a\) 要再取指数。</div></div>
-        <p>\(z=\ln(y-c)=\ln a+bx\)：回归给 \(b=1.32\) ✓，但截距 \(4.16=\ln a\) ⇒ \(a=e^{4.16}\approx64\ne4.16\) ⇒ <b>B 错</b>。</p>
+        <p><b>先看清目标</b>：B 断言两个参数 \(a=4.16\)、\(b=1.32\)。而回归方程是在<b>变换后</b>的 \(z\) 上做的，所以要问：\(z\) 与 \(a,b\) 是什么关系。</p>
+        <p><b>① 把模型变成直线</b>：\(y=ae^{bx}+c\) 先移项 \(y-c=ae^{bx}\)，两边取自然对数，\(\ln(y-c)=\ln\left(ae^{bx}\right)=\ln a+\ln e^{bx}=\ln a+bx\)。所以 \(z=\ln(y-c)\) 确实是 \(x\) 的一次函数。</p>
+        <p><b>② 逐项对照</b>：\(\hat z=1.32x+4.16\) 与 \(z=(\ln a)+bx\) 对比：一次项系数 \(b=1.32\) ✓（这一半对）；常数项 \(\ln a=4.16\)。</p>
+        <p><b>③ 过「指数桥」</b>：\(\ln a=4.16\) ⇒ \(a=e^{4.16}\approx64.0\)。（\(\ln64\approx4.159\)，所以 \(e^{4.16}\) 略大于 64。）\(64\ne4.16\) ⇒ <b>B 错</b>。</p>
+        <div class="formula-box">$$\ln a=4.16\ \Rightarrow\ a=e^{4.16}\approx64.0\ \ne\ 4.16$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">💥 C：系数被 (−3)³ 炸开</div>
+        <div class="step-head">💥 C：逐项取 x³ 系数</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「含 x³ 项的系数是 −69」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\((1-3x)^4\) 的 \(x^3\) 系数带 \((-3)^3\)：\(C_4^3(-27)=-108\)；其余三段是 \(-10,-20,-35\) ⇒ 合计 \(-173\)。</div></div>
-        <p>\((1-3x)^4\) 的 \(x^3\) 系数 \(C_4^3(-3)^3=-108\)，加 \(-10-20-35\)：</p>
+        <p><b>④ 通项公式</b>：\((1+u)^n\) 中 \(x^k\) 项为 \(C_n^k u^k\)。这里 \(u\) 分别是 \(-3x\) 或 \(-x\)，\(k=3\)，所以要算的是 \(C_n^3\cdot(\text{系数})^3\)——<b>符号由「负数的三次方仍为负」决定</b>。</p>
+        <p><b>⑤ 四项逐个算</b>：</p>
+        <div class="formula-box">$$(1-3x)^4:\ C_4^3(-3)^3=4\times(-27)=-108;\quad (1-x)^5:\ C_5^3(-1)^3=10\times(-1)=-10$$</div>
+        <div class="formula-box">$$(1-x)^6:\ C_6^3(-1)^3=20\times(-1)=-20;\quad (1-x)^7:\ C_7^3(-1)^3=35\times(-1)=-35$$</div>
+        <p><b>⑥ 相加</b>：\(-108-10-20-35=-173\ne-69\) ⇒ <b>C 错</b>。</p>
         <div class="formula-box">$$-173\ne-69\ \Rightarrow\ \text{C 错}$$</div>
-        <div class="note">\(-69\) 是 \((1-x)^4\) 老版本的答案——命题人把一项换成 \((1-3x)^4\) 等着人套旧结论。</div>
+        <div class="note">\(-69\) 是把首项当成 \((1-x)^4\) 时的旧答案（\(-4-10-20-35=-69\)）——命题人只把一项换成 \((1-3x)^4\)，专等套旧结论的人。另外容易漏的还有：\((-3)^3=-27\)，若写成 \(+27\) 会算出 \(-65\)，也不对。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -840,16 +852,21 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖上界 b：175→180 这一牙到底多大", "sub": "μ=170、σ=5：175 = μ+σ、180 = μ+2σ —— 中间那一牙是「两个区间差的一半」", "view": [148, 192, -0.006, 0.088], "param": {"name": "b", "label": "上界 b（cm）", "min": 171, "max": 186, "step": 0.05, "val": 180, "fmt": 2, "ticks": ["171", "180", "186"]}, "scalars": [{"n": "zb", "e": "(p-170)/5"}, {"n": "fb", "e": "(function(z){var t=1/(1+0.2316419*abs(z));var d=0.3989423*exp(-z*z/2);var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-q:q;})(S.zb)"}, {"n": "f1", "e": "(function(z){var t=1/(1+0.2316419*abs(z));var d=0.3989423*exp(-z*z/2);var q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-q:q;})(1)"}, {"n": "pr", "e": "S.fb-S.f1"}, {"n": "cr", "e": "(0.9545-0.6827)/2"}], "shapes": [{"t": "func", "f": "exp(-(p-170)*(p-170)/50)/(5*sqrt(2*PI))", "c": "#2563eb", "w": 2.6}, {"t": "band", "f": "exp(-(p-170)*(p-170)/50)/(5*sqrt(2*PI))", "x1": 175, "x2": "p", "fill": "37,99,235", "fa": 0.32}, {"t": "seg", "x1": 170, "y1": 0, "x2": 170, "y2": 0.082, "c": "#94a3b8", "w": 1.4, "dash": [5, 4]}, {"t": "seg", "x1": 175, "y1": 0, "x2": 175, "y2": 0.07, "c": "#c2410c", "w": 1.6}, {"t": "seg", "x1": "p", "y1": 0, "x2": "p", "y2": 0.07, "c": "#c2410c", "w": 1.6}, {"t": "text", "x": 170, "y": 0.0855, "c": "#94a3b8", "s": "μ=170", "fs": 11}, {"t": "text", "x": 175.6, "y": 0.075, "c": "#c2410c", "s": "μ+σ", "fs": 11}, {"t": "text", "x": 180.6, "y": 0.075, "c": "#c2410c", "s": "μ+2σ", "fs": 11}, {"t": "text", "x": 155, "y": 0.055, "c": "#94a3b8", "s": "蓝色块 = P(175 &lt; X &lt; b)", "fs": 11}], "readouts": [{"k": "上界 b", "e": "p", "f": 2}, {"k": "z = (b−170)/5", "e": "S.zb", "f": 3}, {"k": "P(175 &lt; X &lt; b)", "e": "S.pr", "f": 4, "hl": true}, {"k": "正确值（两区间差的一半）", "e": "S.cr", "f": 4}, {"k": "题面给的（整条月牙）", "e": "0.2718", "f": 4}], "concl": {"cond": "abs(p-180)<0.4", "on": "✅ P(175&lt;X&lt;180) = (0.9545−0.6827)/2 = <b>0.1359</b> ≠ 0.2718 ⇒ <b>D 项错</b>（0.2718 是整条月牙，忘了除以 2）", "off": "拖到 b = 180：看蓝色块的面积是不是 0.1359"}, "hud": "🖐 左右拖动 = 改上界 · 滚轮微调", "inline": true, "free": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🌙 区间翻译与月牙差</div>
+        <div class="step-head">🌙 D：先把端点翻译成 μ+kσ</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「P(175&lt;X&lt;180)=0.2718」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(175=\mu+\sigma\)、\(180=\mu+2\sigma\) ⇒ 这是<b>单侧月牙</b> ⇒ 两个区间相减后还要除以 2 ⇒ \(0.1359\)，D 错。</div></div>
-        <p>\(175=\mu+\sigma\)、\(180=\mu+2\sigma\)：</p>
-        <div class="formula-box">$$P(\mu+\sigma,\mu+2\sigma)=\tfrac12(0.9545-0.6827)\approx0.1359\ne0.2718\ \Rightarrow\ \text{D 错}$$</div>
+        <p><b>先看清目标</b>：题给的是 \(N(170,5^2)\)，即 \(\mu=170\)、\(\sigma=5\)。而附表只给了「\(\mu\pm\sigma\)」「\(\mu\pm2\sigma\)」两个区间，所以必须把 \(175\)、\(180\) 换算成这两种形式。</p>
+        <p><b>① 端点翻译</b>：\(175=170+5=\mu+\sigma\)；\(180=170+10=\mu+2\sigma\)。于是 D 求的是 \(P(\mu+\sigma&lt;X&lt;\mu+2\sigma)\)——一个<b>同侧</b>的月牙形区间。</p>
+        <p><b>② 用对称性把双侧区间对半</b>：正态曲线关于 \(x=\mu\) 对称，所以\(P(\mu&lt;X&lt;\mu+k\sigma)=\tfrac12P(\mu-k\sigma&lt;X&lt;\mu+k\sigma)\)。于是本题=「\(2\sigma\) 的单侧」减「\(1\sigma\) 的单侧」：</p>
+        <div class="formula-box">$$P(\mu+\sigma,\mu+2\sigma)=\tfrac12(0.9545-0.6827)=\tfrac12\times0.2718\approx0.1359$$</div>
+        <p><b>③ 逐步算数</b>：\(0.9545-0.6827=0.2718\)；再乘 \(\tfrac12\) 得 \(0.1359\)。牢记这一步：<b>差出来的是双侧夹层，同侧还要对半</b>。</p>
+        <p><b>④ 对照选项</b>：D 写的是 \(0.2718\)——正好是<b>忘了对半</b>的那个数，所以它错得很精确 ⇒ <b>D 错</b>。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 收口</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「下列说法正确的是」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>A 定义级正确、B 指数桥没过、C 系数被 \((-3)^3\) 炸开、D 月牙忘对半 ⇒ <b>只有 A</b>。</div></div>
-        <p>A 充要成立；B、C、D 全部验伪。<b>答案：A</b>。</p>
+        <p><b>⑤ 四个选项的判决</b>：A 充要成立（正反都证过）；B 截距是 \(\ln a\) 不是 \(a\)；C 逐项相加得 \(-173\ne-69\)；D 少了对半 \(0.1359\ne0.2718\)。三个数值陷阱全部验伪 ⇒ <b>答案：A</b>。</p>
+        <div class="note">规律：这类「四个互不相关的说法」的多选题，正确项往往在<b>定义层</b>（不用算），错误项全在<b>中间量</b>（\(\ln a\)、\((-3)^3\)、对半）。先把定义层的项定下来，再用数值逐项验伪，最省时间。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
