@@ -865,22 +865,22 @@ section[id]{scroll-margin-top:58px}
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 收口</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「求 a 的取值范围」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>上界来自峰值（\(a&lt;1\)）、下界来自端点（\(a>\dfrac2e\)），两头都是<b>开</b> ⇒ \(a\in\left(\dfrac2e,1\right)\)。</div></div>
-        <p><b>⑤ 两条条件各管一头</b>：峰高 \(>0\) 管<b>上界</b>（\(a&lt;1\)），端点 \(f(e)&lt;0\) 管<b>下界</b>（\(a>\frac2e\)），缺一条都不够——只有峰高不压端点，右零点可能跑到 \(e\) 右边；只有端点不冒峰头，曲线压根不穿轴。</p>
+        <p><b>④ 两条条件各管一头</b>：峰高 \(>0\) 管<b>上界</b>（\(a&lt;1\)），端点 \(f(e)&lt;0\) 管<b>下界</b>（\(a>\frac2e\)），缺一条都不够——只有峰高不压端点，右零点可能跑到 \(e\) 右边；只有端点不冒峰头，曲线压根不穿轴。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">🔍 反过来验：区间里真的有两个零点吗</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「在 (0,e) 上有且仅有两个零点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>必要条件（峰高>0、端点&lt;0）只说明「有可能两个」，还得<b>反过来证它真的有两个</b>：在递增段与递减段各用一次零点存在定理 + 单调性保证唯一。</div></div>
-        <p><b>⑥ 先把「右零点比 e 小」证死</b>：设 \(a>\dfrac2e\)。已知 \(f\left(\dfrac1a\right)=-\ln a>0\)（峰顶在轴上方），又 \(f(e)=2-ae&lt;0\)（端点已到轴下方）。而 \(f\) 在 \(\left(\dfrac1a,+\infty\right)\) 上<b>严格递减且连续</b> ⇒ 在 \(\left(\dfrac1a,\,e\right)\) 内有且只有一处 \(f=0\)（零点存在定理 + 单调性保证唯一）⇒ 右零点 \(x_2\in\left(\dfrac1a,e\right)\)，当然 < \(e\)。</p>
-        <p><b>⑦ 左零点为什么不用另算</b>：\(f\) 在 \(\left(0,\dfrac1a\right)\) 上递增，\(x\to0^+\) 时 \(\ln x\to-\infty\) ⇒ \(f\to-\infty\)，而 \(f\left(\dfrac1a\right)>0\) ⇒ 同样在 \(\left(0,\dfrac1a\right)\) 内<b>恰有一根</b>；又 \(a>\dfrac2e\) ⇒ \(\dfrac1a&lt;\dfrac e2&lt;e\) ⇒ 这根天然落在 \((0,e)\) 里。两个零点合计正好 2 个。</p>
+        <p><b>⑤ 先把「右零点比 e 小」证死</b>：设 \(a>\dfrac2e\)。已知 \(f\left(\dfrac1a\right)=-\ln a>0\)（峰顶在轴上方），又 \(f(e)=2-ae&lt;0\)（端点已到轴下方）。而 \(f\) 在 \(\left(\dfrac1a,+\infty\right)\) 上<b>严格递减且连续</b> ⇒ 在 \(\left(\dfrac1a,\,e\right)\) 内有且只有一处 \(f=0\)（零点存在定理 + 单调性保证唯一）⇒ 右零点 \(x_2\in\left(\dfrac1a,e\right)\)，当然 < \(e\)。</p>
+        <p><b>⑥ 左零点为什么不用另算</b>：\(f\) 在 \(\left(0,\dfrac1a\right)\) 上递增，\(x\to0^+\) 时 \(\ln x\to-\infty\) ⇒ \(f\to-\infty\)，而 \(f\left(\dfrac1a\right)>0\) ⇒ 同样在 \(\left(0,\dfrac1a\right)\) 内<b>恰有一根</b>；又 \(a>\dfrac2e\) ⇒ \(\dfrac1a&lt;\dfrac e2&lt;e\) ⇒ 这根天然落在 \((0,e)\) 里。两个零点合计正好 2 个。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">📝 规范作答顺序</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「求 a 的取值范围」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>答案要写「充要」三段：必要①峰高、必要②端点、充分③存在性。只写前两步是这类题最典型的扣分点。</div></div>
-        <p><b>⑧ 三步写答案</b>：①必要（峰高 \(-\ln a>0\Rightarrow a&lt;1\)）；②必要（端点 \(f(e)=2-ae&lt;0\Rightarrow a>\dfrac2e\)）；③充分（⑥⑦ 说明这时确有两个零点）。三步齐了才叫「充要」，只写前两步是常见扣分点。</p>
+        <p><b>⑦ 三步写答案</b>：①必要（峰高 \(-\ln a>0\Rightarrow a&lt;1\)）；②必要（端点 \(f(e)=2-ae&lt;0\Rightarrow a>\dfrac2e\)）；③充分（⑤⑥ 说明这时确有两个零点）。三步齐了才叫「充要」，只写前两步是常见扣分点。</p>
         <div class="formula-box">$$\boxed{\ a\in\left(\frac2e,\ 1\right)\ }$$</div>
-        <p><b>⑨ 为什么两头都取不到</b>：\(a=1\) 峰值归零（②已经算过），\(a=\dfrac2e\) 零点正好被开区间踢出（③已经算过）。把图板拖到 \(a=1\) 和 \(a\approx0.736\) 两个刻度，能直接看见「两根合一」与「右零点压线」。</p>
+        <p><b>⑧ 为什么两头都取不到</b>：\(a=1\) 峰值归零（②已经算过），\(a=\dfrac2e\) 零点正好被开区间踢出（③已经算过）。把图板拖到 \(a=1\) 和 \(a\approx0.736\) 两个刻度，能直接看见「两根合一」与「右零点压线」。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
