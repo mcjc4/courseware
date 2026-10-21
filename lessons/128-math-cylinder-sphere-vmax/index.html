@@ -781,14 +781,18 @@ section[id]{scroll-margin-top:58px}
             <div class="step on"><div class="step-inner">
         <div class="step-head">🎯 圆周角 + 弦 → 外接圆</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「AB=2，∠ACB=30°」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>弦与对角已知 ⇒ 用<b>正弦定理</b> \(\dfrac{AB}{\sin C}=2R\) 求外接圆半径，得 \(R=2\)——这正是底面圆的半径，圆柱的形状从此定了一半。</div></div>
-        <p>\(A\)、\(B\)、\(C\) 都在下底面圆周上：\(\triangle ABC\) 的外接圆<b>就是</b>下底面圆。正弦定理一步：</p>
-        <div class="formula-box">$$2R=\frac{AB}{\sin\angle ACB}=\frac{2}{\tfrac12}=4\ \Rightarrow\ r=R=2$$</div>
+        <p><b>先看清目标</b>：要的是圆柱<b>底面半径</b> \(r\)。手上只有「弦 \(AB=2\)」和「圆周角 \(30^\circ\)」两个量——弦与它所对的圆周角，正好是正弦定理的原料。</p>
+        <p><b>① 为什么 △ABC 的外接圆就是底面圆</b>：\(A\)、\(B\)、\(C\) 三点都在下底面圆周上；不共线的三点<b>唯一</b>确定一个圆，所以过这三点的圆只能是下底面圆本身 ⇒ 「\(\triangle ABC\) 外接圆半径」就等于「底面半径 \(r\)」，不必另设一个字母。</p>
+        <p><b>② 正弦定理怎么摆才不错</b>：\(\dfrac{AB}{\sin\angle ACB}=2R\)——分子必须是<b>这个角所对的那条边</b>。\(\angle ACB\) 对的是 \(AB\)，所以写 \(\dfrac{2}{\sin30^\circ}\)；若误配成 \(AC\) 或 \(BC\)（它们并不对应 \(\angle C\)），式子立刻失效。</p>
+        <p><b>③ 代入算数</b>：\(\sin30^\circ=\dfrac12\)，除以 \(\tfrac12\) 等于乘 2：</p>
+        <div class="formula-box">$$2r=\frac{AB}{\sin\angle ACB}=\frac{2}{\tfrac12}=2\times2=4\ \Rightarrow\ r=2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">⚽ 轴截面模型预备</div>
+        <div class="step-head">⚽ 球心为什么落在 \(O_1O\) 的中点</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「点 A、B、C 在下底面的圆周上」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(A,B,C\) 都在底面圆上 ⇒ \(\triangle ABC\) 的外接圆<b>就是</b>底面圆 ⇒ 刚算的 \(R=2\) 不是三角形自己的半径，而是圆柱底面半径。</div></div>
-        <p>\(P\) 在上底圆周、\(ABC\) 在下底圆周——图形关于中截面对称，<b>外接球心必在两底面圆心 \(O_1O\) 的连线上</b>（到上、下底面圆周各点等距）。</p>
+        <p><b>④ 先定位</b>（第 2 关全靠这一步）：设球心 \(O_s\)、球半径 \(R_s\)。「\(O_s\) 到上底面圆周上<b>每一点</b>的距离都是 \(R_s\)」⇒ \(O_s\) 必在经过上底面圆心 \(O_1\) 且垂直于上底面的那条轴上；「到下底面圆周每点等距」⇒ 又必在过 \(O\) 的轴上。两条轴是同一条直线 \(OO_1\)，故 \(O_s\in OO_1\)。</p>
+        <p><b>⑤ 再定它在中点</b>：记 \(O_s\) 到上底面距离 \(h_2\)、到下底面距离 \(h_1\)，则 \(h_1+h_2=h\)。两个底面圆半径都是 \(r=2\)，由勾股得 \(R_s^2=h_2^2+r^2\) 且 \(R_s^2=h_1^2+r^2\)，两式相减：\(h_1^2-h_2^2=0\) ⇒ \(h_1=h_2\)（长度非负，舍去负根）⇒ \(h_1=h_2=\dfrac h2\)。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -810,17 +814,22 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖圆柱的高 h：外接球半径什么时候等于 √13", "sub": "球心在轴的中点：R² = r² + (h/2)² = 4 + h²/4 —— 表面积 52π ⇒ R² = 13 ⇒ h = 6", "view": [-5.4, 5.4, -5.0, 5.0], "param": {"name": "h", "label": "圆柱的高 h", "min": 2, "max": 9, "step": 0.02, "val": 6, "fmt": 2, "ticks": ["2", "6", "9"]}, "scalars": [{"n": "R2", "e": "4+p*p/4"}, {"n": "R", "e": "sqrt(4+p*p/4)"}, {"n": "S4", "e": "4*PI*(4+p*p/4)"}], "shapes": [{"t": "ellipse", "a": "S.R", "b": "S.R", "c": "#f59e0b", "w": 2.4, "dash": [6, 4]}, {"t": "seg", "x1": -2, "y1": "p/2", "x2": 2, "y2": "p/2", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": -2, "y1": "-p/2", "x2": 2, "y2": "-p/2", "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": -2, "y1": "-p/2", "x2": -2, "y2": "p/2", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 2, "y1": "-p/2", "x2": 2, "y2": "p/2", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 0, "y1": 0, "x2": 2, "y2": "p/2", "c": "#c2410c", "w": 1.8}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "球心（轴中点）", "dx": 2, "dy": 20}, {"t": "point", "x": 2, "y": "p/2", "c": "#c2410c", "r": 5, "label": "P", "dx": 10, "dy": -4}, {"t": "text", "x": 0, "y": -4.4, "c": "#94a3b8", "s": "蓝矩形 = 圆柱轴截面（半宽 r = 2）· 橙虚圆 = 外接球", "fs": 11}], "readouts": [{"k": "圆柱的高 h", "e": "p", "f": 2}, {"k": "R² = 4 + h²/4", "e": "S.R2", "f": 4, "hl": true}, {"k": "外接球半径 R", "e": "S.R", "f": 4}, {"k": "表面积 4πR²", "e": "S.S4", "f": 3}], "concl": {"cond": "abs(S.R2-13)<0.05", "on": "✅ R² = 13 ⇒ 4πR² = 52π，反解 <b>h = 6</b>", "off": "拖到 R² = 13：那时 4 + h²/4 = 13 ⇒ h = 6"}, "hud": "🖐 左右拖动 = 改圆柱的高 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🧮 勾股拼半径</div>
+        <div class="step-head">🧮 把表面积翻译成 \(R_s^2\)</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「三棱锥 P-ABC 外接球的表面积为 52π」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>球面面积给的是球半径：\(4\pi\rho^2=52\pi\) ⇒ \(\rho^2=13\)；球心在中轴中点 ⇒ \(\rho^2=R^2+\left(\frac h2\right)^2\) ⇒ 反解出柱高 \(h=6\)。</div></div>
-        <p>球心在连线中点：到 \(P\)（或任意下底圆周点）的距离满足</p>
+        <p><b>先看清目标</b>：\(r=2\) 已知，\(h\) 未知。题干里唯一还没用过的信息是「表面积 \(52\pi\)」——它是牵出 \(h\) 的唯一绳索。</p>
+        <p><b>① 球的表面积公式</b>：\(S_{\text{球}}=4\pi R_s^2\)（<b>不是</b> \(\pi R_s^2\)，那是圆的面积，这一步是本题第一个送分也是第一个丢分点）：</p>
+        <div class="formula-box">$$4\pi R_s^2=52\pi\ \Rightarrow\ R_s^2=\frac{52\pi}{4\pi}=13$$</div>
+        <p><b>② 轴截面上的勾股</b>：过 \(OO_1\) 把圆柱切开，\(O_s\) 到底面圆心的竖直距离是 \(\tfrac h2\)，上底面圆周点 \(P\) 到 \(O_1\) 的水平距离是 \(r=2\)，\(O_sP\) 就是球半径 \(R_s\)（斜边）：</p>
         <div class="formula-box">$$R_s^2=r^2+\left(\tfrac{h}{2}\right)^2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 解出 h</div>
+        <div class="step-head">✅ 解出 h 并回代验算</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「点 P 是上底面圆周上的一个动点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(P\) 在上底面圆周上 ⇒ <b>到底面的距离恒为柱高</b> \(h\) ⇒ 棱锥的高是常数，只要求出 \(h\)，体积就只差底面积。</div></div>
-        <p>表面积 \(52\pi=4\pi R_s^2\Rightarrow R_s^2=13\)：</p>
-        <div class="formula-box">$$4+\tfrac{h^2}{4}=13\ \Rightarrow\ h^2=36\ \Rightarrow\ h=6$$</div>
+        <p><b>③ 一个数一个数填进去</b>：\(R_s^2=13\)、\(r^2=4\)，先移项再乘 4：</p>
+        <div class="formula-box">$$13=4+\frac{h^2}{4}\ \Rightarrow\ \frac{h^2}{4}=9\ \Rightarrow\ h^2=36\ \Rightarrow\ h=6$$</div>
+        <p><b>④ 舍根的交代</b>：\(h\) 是圆柱的高，长度必须为正，\(h=-6\) 无几何意义，舍去。</p>
+        <p><b>⑤ 回代验算</b>：\(R_s^2=4+\left(\tfrac62\right)^2=4+9=13\)，反过来 \(4\pi\times13=52\pi\) ✓ 与题干吻合。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -840,17 +849,22 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖点 C：底面积最大时体积也最大", "sub": "AB = 2 是定弦，C 在圆上跑 —— 离 AB 最远时 S△ABC 最大 = 2+√3 ⇒ V = ⅓·S·h = 4+2√3", "view": [-2.9, 2.9, -2.9, 2.9], "param": {"name": "φ", "label": "点 C 的方位角 φ（度）", "min": 0, "max": 360, "step": 0.5, "val": 90, "fmt": 1, "ticks": ["0", "180", "360"]}, "scalars": [{"n": "rd", "e": "p*PI/180"}, {"n": "cx", "e": "2*cos(S.rd)"}, {"n": "cy", "e": "2*sin(S.rd)"}, {"n": "ds", "e": "abs(S.cy+1.7320508075688772)"}, {"n": "ar", "e": "S.ds"}, {"n": "vv", "e": "2*S.ds"}], "shapes": [{"t": "ellipse", "a": 2, "b": 2, "c": "#94a3b8", "w": 1.8, "dash": [6, 4]}, {"t": "area", "pts": [["-1", "-1.7320508075688772"], ["1", "-1.7320508075688772"], ["S.cx", "S.cy"]], "fill": "37,99,235", "fa": 0.24}, {"t": "seg", "x1": -1, "y1": -1.7320508075688772, "x2": 1, "y2": -1.7320508075688772, "c": "#2563eb", "w": 3}, {"t": "seg", "x1": -1, "y1": -1.7320508075688772, "x2": "S.cx", "y2": "S.cy", "c": "#2563eb", "w": 2}, {"t": "seg", "x1": 1, "y1": -1.7320508075688772, "x2": "S.cx", "y2": "S.cy", "c": "#2563eb", "w": 2}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4, "label": "O", "dx": -8, "dy": 4}, {"t": "point", "x": -1, "y": -1.7320508075688772, "c": "#2563eb", "r": 4.5, "label": "A", "dx": -9, "dy": -2}, {"t": "point", "x": 1, "y": -1.7320508075688772, "c": "#2563eb", "r": 4.5, "label": "B", "dx": 9, "dy": -2}, {"t": "point", "x": "S.cx", "y": "S.cy", "c": "#f59e0b", "r": 6, "pulse": true, "label": "C", "dx": 8, "dy": -3}, {"t": "text", "x": 0, "y": -2.55, "c": "#94a3b8", "s": "弦 AB = 2 固定，圆心到弦 = √3；C 到 AB 最远 = √3 + 2", "fs": 11}], "readouts": [{"k": "C 到直线 AB 的距离", "e": "S.ds", "f": 4}, {"k": "S△ABC = ½·2·距离", "e": "S.ar", "f": 4, "hl": true}, {"k": "V = ⅓·S·h（h=6）", "e": "S.vv", "f": 4, "hl": true}, {"k": "目标 2+√3 ≈", "e": "2+sqrt(3)", "f": 4}], "concl": {"cond": "abs(S.ar-(2+sqrt(3)))<0.01", "on": "✅ 最远点 ⇒ S<sub>max</sub> = 2+√3 ≈ 3.732 ⇒ <b>V<sub>max</sub> = 4+2√3 ≈ 7.464</b>", "off": "拖 φ 让 C 跑到弦 AB 的正对面（φ = 90°）：那时底面积最大"}, "hud": "🖐 左右拖动 = 让 C 在圆周上跑 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">📈 压成一元问题</div>
+        <div class="step-head">📈 先看清目标：到底谁在变</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「三棱锥 P-ABC 体积的最大值」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(V=\frac13 S_{\triangle ABC}\cdot h\)，\(h=6\) 已定 ⇒ 问题化成「\(C\) 在圆上动，底面积最大是多少」，而 \(S=\frac12|AB|\cdot d(C,AB)\) ⇒ 只需让 \(C\) 到 \(AB\) 最远。</div></div>
-        <p>\(V=\tfrac13\cdot S_{\triangle ABC}\cdot h\)，\(h=6\) 已定 ⇒ 只需 \(S\) 最大。\(S=\tfrac12\cdot AB\cdot d(C,AB)\)，\(AB=2\) 定弦：</p>
-        <div class="formula-box">$$d_{\max}=R+\sqrt{R^2-1}=2+\sqrt3$$</div>
+        <p>\(V=\tfrac13 S_{\triangle ABC}\cdot h\)。第 2 关已算出 \(h=6\)，它是<b>常数</b>，所以「\(V\) 最大」完全等价于「底面积 \(S\) 最大」——三个变量瞬间压成一个。</p>
+        <p><b>① 底面积怎么表达</b>：\(S=\tfrac12\cdot AB\cdot d(C,AB)\)。\(AB=2\) 由题干固定，能动位置的只有 \(C\) ⇒ 问题变成「\(C\) 在圆上怎么走，到弦 \(AB\) 的距离最大」。</p>
+        <p><b>② 定弦动点的几何答案</b>：\(AB\) 是圆内一条定弦。\(C\) 到 \(AB\) 的距离，可以看成「\(C\) 到圆心 \(O\) 的连线」在垂直 \(AB\) 方向上的投影加上弦心距。\(C\) 跑到弦 \(AB\) 的<b>中垂线与圆的远侧交点</b>时，两者同向且都取满，于是距离最大：</p>
+        <div class="formula-box">$$d_{\max}=r+\sqrt{r^2-\left(\tfrac{AB}{2}\right)^2}$$</div>
+        <p><b>③ 弦心距具体是多少</b>：\(\tfrac{AB}2=1\)、\(r=2\)。圆心到弦的垂足把弦平分，于是得到一个斜边 \(r=2\)、一条直角边 \(1\) 的直角三角形：\(\sqrt{2^2-1^2}=\sqrt3\)。故 \(d_{\max}=2+\sqrt3\)。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 收口</div>
+        <div class="step-head">✅ 逐级收口</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「AB=2，∠ACB=30°」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(AB\) 定长 ⇒ 圆心到 \(AB\) 的距离 \(d=\sqrt{2^2-1^2}=\sqrt3\) ⇒ \(C\) 到 \(AB\) 的最大距离 \(R+d=2+\sqrt3\) ⇒ \(S_{\max}=2+\sqrt3\) ⇒ \(V_{\max}=4+2\sqrt3\)。</div></div>
+        <p><b>④ 面积</b>：\(S_{\max}=\tfrac12\times2\times(2+\sqrt3)=2+\sqrt3\)——这里 \(\tfrac12\) 与 \(AB=2\) 正好约成 1，不是又冒出个系数。</p>
         <div class="formula-box">$$S_{\max}=2+\sqrt3\quad\Rightarrow\quad V_{\max}=\tfrac13(2+\sqrt3)\cdot6=\boxed{4+2\sqrt3}$$</div>
-        <div class="note">\(C\) 取到弦 \(AB\) 对面的圆周「顶点」时距离最大——这是定弦动点问题的标准极值位置。</div>
+        <p><b>⑤ 为什么 \(\tfrac13\times6\) 变成 2</b>：\(\dfrac{6}{3}=2\)，故 \(V_{\max}=2(2+\sqrt3)=4+2\sqrt3\)。</p>
+        <div class="note">数值自检：\(4+2\sqrt3\approx4+3.46=7.46\)；反过来 \(\tfrac13\times3.73\times6\approx7.46\) ✓ 数量级合理。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
