@@ -780,14 +780,18 @@ section[id]{scroll-margin-top:58px}
             <div class="step on"><div class="step-inner">
         <div class="step-head">📏 参数化焦点弦</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「经过 F₂ 的直线与 C 的右支交于 A、B 两点」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>焦点弦 ⇒ \(A,F_2,B\) 共线、\(|AB|=|AF_2|+|BF_2|\)；再对 \(A,B\) 各用一次双曲线定义 ⇒ 所有边都能写成 \(m,n,a\)。</div></div>
-        <p>设 \(|AF_2|=m\)、\(|BF_2|=n\)。\(F_2\) 夹在 \(A\)、\(B\) 之间 ⇒ \(|AB|=m+n\)。双曲线定义（右支）：</p>
-        <div class="formula-box">$$|AF_1|=m+2a,\qquad |BF_1|=n+2a$$</div>
+        <p><b>先看清目标</b>：题干给的是「\(\triangle ABF_1\) 为等腰三角形」这种<b>长度关系</b>，所以第一步不是求 \(e\)，而是把所有线段都用字母表示出来。</p>
+        <p><b>① 设两个小段</b>：\(AB\) 是过 \(F_2\) 的弦，设 \(|AF_2|=m\)、\(|BF_2|=n\)。因为 \(F_2\) 落在线段 \(AB\) 上（弦过焦点），\(A\)、\(B\) 分居 \(F_2\) 两侧，所以 \(|AB|=m+n\)——这一步是把「整条弦」拆成两段的依据。</p>
+        <p><b>② 用双曲线定义补出另一半</b>：\(A\)、\(B\) 都在右支上，右支上的点满足\(|PF_1|-|PF_2|=2a\)，于是</p>
+        <div class="formula-box">$$|AF_1|=|AF_2|+2a=m+2a,\qquad |BF_1|=|BF_2|+2a=n+2a$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">⚖️ 等腰条件</div>
+        <div class="step-head">⚖️ 等腰条件：解出 n</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「|AF₁|=|AB|」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把 \(|AF_1|=m+2a\) 与 \(|AB|=m+n\) 相等 ⇒ \(n=2a\) ⇒ \(|BF_1|=4a\)，两个未知量只剩一个 \(m\)。</div></div>
-        <div class="formula-box">$$|AF_1|=|AB|\ \Rightarrow\ m+2a=m+n\ \Rightarrow\ n=2a,\ |BF_1|=4a$$</div>
+        <p><b>③ 代进等腰等式</b>：\(|AF_1|=|AB|\)（两条腰），左边是 \(m+2a\)，右边是 \(m+n\)：</p>
+        <div class="formula-box">$$|AF_1|=|AB|\ \Rightarrow\ m+2a=m+n\ \Rightarrow\ n=2a$$</div>
+        <p><b>④ 约掉了什么</b>：两边同时减去 \(m\)，\(m\) 整体消失，剩下的就是 \(n=2a\)。于是 \(|BF_1|=n+2a=2a+2a=4a\)——底边长度也定下来了，第 2 关直接可用。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -809,16 +813,22 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 m：等腰三角形的顶角把腰长定死", "sub": "AB = AF₁ = m+2a、BF₁ = 4a —— 顶角余弦 1/9 反解出 m = a = 1", "view": [-1.3, 5.7, -0.9, 4.3], "param": {"name": "m", "label": "|AF₂| = m（取 a = 1）", "min": 0.3, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.3", "1", "2.5"]}, "scalars": [{"n": "L", "e": "p+2"}, {"n": "fx", "e": "S.L-8/S.L"}, {"n": "fy", "e": "sqrt(max(0,S.L*S.L-S.fx*S.fx))"}, {"n": "cs", "e": "1-8/(S.L*S.L)"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": "S.L", "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.4}, {"t": "seg", "x1": "S.L", "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.4}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": "S.L", "y": 0, "c": "#2563eb", "r": 5, "label": "B", "dx": 8, "dy": -4}, {"t": "point", "x": "p", "y": 0, "c": "#0f766e", "r": 5, "label": "F₂", "dy": 19}, {"t": "point", "x": "S.fx", "y": "S.fy", "c": "#c2410c", "r": 5, "label": "F₁", "dx": 8, "dy": -4}, {"t": "text", "x": 2.6, "y": 3.9, "c": "#94a3b8", "s": "|AB| = |AF₁| = m+2a（等腰）· |BF₁| = 4a", "fs": 11}], "readouts": [{"k": "|AB| = |AF₁| = m + 2a", "e": "S.L", "f": 3}, {"k": "|BF₁| = 4a", "e": "4", "f": 2}, {"k": "cos∠BAF₁ = 1 − 8/(m+2a)²", "e": "S.cs", "f": 5, "hl": true}, {"k": "题给 1/9 ≈", "e": "1/9", "f": 5}, {"k": "m", "e": "p", "f": 3}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ 1 − 8/(m+2)² = 1/9 ⇒ (m+2)² = 9 ⇒ <b>m = a = 1</b>", "off": "拖到 m = 1：那时顶角余弦才等于 1/9"}, "hud": "🖐 左右拖动 = 改 |AF₂| · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">📐 等腰三角形余弦定理</div>
+        <div class="step-head">📐 等腰三角形里用余弦定理</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「cos∠BAF₁=1/9」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>等腰 \(\triangle ABF_1\) 已知顶角余弦 ⇒ 用余弦定理 \(|BF_1|^2=2|AF_1|^2(1-\cos\theta)\) ⇒ \(16a^2=2(m+2a)^2\cdot\dfrac89\) ⇒ \(|AF_1|=3a\)、\(m=a\)。</div></div>
-        <p>\(\triangle ABF_1\) 中 \(|AB|=|AF_1|=m+2a\)（腰）、\(|BF_1|=4a\)（底）、顶角 \(\cos A=\tfrac19\)：</p>
-        <div class="formula-box">$$16a^2=2(m+2a)^2\left(1-\tfrac19\right)\ \Rightarrow\ (m+2a)^2=9a^2$$</div>
+        <p><b>先看清目标</b>：腰长是 \(|AF_1|=|AB|=m+2a\)，卡在未知的 \(m\) 上；而题干给的 \(\cos A=\dfrac19\) 是顶角余弦——余弦定理正好把「两腰一底一角」串起来。</p>
+        <p><b>① 认清三条边和那个角</b>：\(\triangle ABF_1\) 中，腰 \(|AB|=|AF_1|=m+2a\)，底 \(|BF_1|=4a\)，顶角 \(\angle BAF_1\) 的余弦为 \(\dfrac19\)。</p>
+        <p><b>② 写余弦定理（对底边 \(BF_1\)）</b>：\(|BF_1|^2=|AB|^2+|AF_1|^2-2|AB||AF_1|\cos A\)。因为两腰相等，前两项合成 \(2(m+2a)^2\)：</p>
+        <div class="formula-box">$$(4a)^2=2(m+2a)^2-2(m+2a)^2\times\tfrac19=2(m+2a)^2\left(1-\tfrac19\right)$$</div>
+        <p><b>③ 算括号</b>：\(1-\dfrac19=\dfrac89\)，于是右边 \(=2\times\dfrac89(m+2a)^2=\dfrac{16}{9}(m+2a)^2\)，左边 \(16a^2\)：</p>
+        <div class="formula-box">$$16a^2=\frac{16}{9}(m+2a)^2\ \Rightarrow\ (m+2a)^2=9a^2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 解出三边</div>
+        <div class="step-head">✅ 开方解出三边（并舍负）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「|AF₁|=|AB|」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>腰长算出来是 \(3a\) ⇒ 顺带得到 \(|AF_2|=a\)：\(m\) 也被钉死了，接下来只剩 \(c\)。</div></div>
-        <div class="formula-box">$$|AF_1|=|AB|=3a,\quad |AF_2|=m=a$$</div>
+        <p><b>④ 开方</b>：\((m+2a)^2=(3a)^2\) ⇒ \(m+2a=\pm3a\)。但 \(m>0\)、\(a>0\)，\(m+2a\) 是长度必须为正，故取 \(m+2a=3a\)，舍去 \(-3a\)。</p>
+        <p><b>⑤ 回代求 \(m\)</b>：\(m=3a-2a=a\)。于是三边全部落地：</p>
+        <div class="formula-box">$$|AF_1|=|AB|=3a,\quad |AF_2|=m=a,\quad |BF_1|=4a$$</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -838,17 +848,24 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖离心率 e：焦点三角形反解 e = √21/3", "sub": "△AF₁F₂ 三边：|AF₁| = 3a = 3、|AF₂| = a = 1、|F₁F₂| = 2c = 2e —— 顶角余弦 1/9 锁死 e", "view": [-1.4, 3.9, -0.75, 3.6], "param": {"name": "e", "label": "离心率 e", "min": 1.05, "max": 1.95, "step": 0.005, "val": 1.5275, "fmt": 4, "ticks": ["1.05", "1.5275", "1.95"]}, "scalars": [{"n": "fx", "e": "5-2*p*p"}, {"n": "fy", "e": "sqrt(max(0,9-S.fx*S.fx))"}, {"n": "cs", "e": "S.fx/3"}, {"n": "cs2", "e": "(10-4*p*p)/6"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": 1, "y2": 0, "c": "#2563eb", "w": 2.6}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#c2410c", "w": 2.6}, {"t": "seg", "x1": 1, "y1": 0, "x2": "S.fx", "y2": "S.fy", "c": "#7c3aed", "w": 2.4}, {"t": "point", "x": 0, "y": 0, "c": "#64748b", "r": 4.5, "label": "A", "dx": -9, "dy": 2}, {"t": "point", "x": 1, "y": 0, "c": "#2563eb", "r": 5, "label": "F₂", "dy": 19}, {"t": "point", "x": "S.fx", "y": "S.fy", "c": "#c2410c", "r": 5, "label": "F₁", "dx": 8, "dy": -4}, {"t": "text", "x": 2.0, "y": 3.3, "c": "#94a3b8", "s": "|AF₁| = 3、|AF₂| = 1、|F₁F₂| = 2e", "fs": 11}], "readouts": [{"k": "离心率 e", "e": "p", "f": 4, "hl": true}, {"k": "2c = 2e", "e": "2*p", "f": 4}, {"k": "cos∠F₁AF₂", "e": "S.cs", "f": 5}, {"k": "题给 1/9 ≈", "e": "1/9", "f": 5}, {"k": "√21/3 ≈", "e": "sqrt(21)/3", "f": 4}], "concl": {"cond": "abs(S.cs-1/9)<0.002", "on": "✅ 4c² = 28a²/3 ⇒ e² = 7/3 ⇒ <b>e = √21/3 ≈ 1.5275</b>", "off": "拖到 cos∠F₁AF₂ = 1/9 ≈ 0.1111：那时 e 正好是 √21/3"}, "hud": "🖐 左右拖动 = 改离心率 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🎯 角的两重身份</div>
+        <div class="step-head">🎯 角的两重身份（关键的桥梁）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「cos∠BAF₁=1/9」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(B,A,F_2\) 共线 ⇒ \(\angle F_1AF_2=\angle BAF_1\)：<b>同一个角在两个三角形里各有身份</b>——这是本题最巧的一步。</div></div>
-        <p>\(F_2\) 在线段 \(AB\) 上 ⇒ \(\angle BAF_1=\angle F_1AF_2\)。\(\triangle AF_1F_2\) 三边 \(3a\)、\(a\)、\(2c\)：</p>
-        <div class="formula-box">$$(3a)^2+a^2-(2c)^2=2\cdot3a\cdot a\cdot\tfrac19$$</div>
+        <p><b>先看清目标</b>：\(\cos A=\dfrac19\) 属于 \(\triangle ABF_1\)，而 \(a\)、\(c\) 的关系要靠 \(\triangle AF_1F_2\)（它含 \(2c\)）。所以必须把这个角「搬」到小三角形里去。</p>
+        <p><b>① 为什么能搬</b>：\(F_2\) 在线段 \(AB\) 上，而 \(A\)、\(F_1\) 都是公共点，所以射线 \(AB\) 就是射线 \(AF_2\)，于是 \(\angle BAF_1=\angle F_1AF_2\)——<b>同一个角，两种写法</b>。</p>
+        <p><b>② 小三角形的三条边</b>：\(|AF_1|=3a\)、\(|AF_2|=a\)（第 2 关所得），\(|F_1F_2|=2c\)（两焦点距离）。夹角 \(\angle F_1AF_2\) 的余弦仍是 \(\dfrac19\)。</p>
+        <p><b>③ 余弦定理的「移项版」</b>：由 \(b^2=a^2+c^2-2ac\cos\theta\) 反解得 \(2ac\cos\theta=a^2+c^2-b^2\)。这里 \(a\) 边 \(=3a\)、\(c\) 边 \(=a\)、\(b\) 边 \(=2c\)：</p>
+        <div class="formula-box">$$2\cdot3a\cdot a\cdot\tfrac19=(3a)^2+a^2-(2c)^2$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
         <div class="step-head">✅ 解出离心率</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「则 C 的离心率是」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>在 \(\triangle AF_1F_2\) 里三边 \(3a,a,2c\)、夹角余弦 \(\dfrac19\) ⇒ \(\dfrac{c^2}{a^2}=\dfrac73\) ⇒ \(e=\sqrt{\dfrac73}=\dfrac{\sqrt{21}}{3}\)（验：\(e>1\) ✓）。</div></div>
-        <div class="formula-box">$$\tfrac{c^2}{a^2}=\tfrac73\ \Rightarrow\ e=\sqrt{\tfrac73}=\frac{\sqrt{21}}{3}$$</div>
-        <div class="note">验证：\(e\approx1.53>1\)；三角形不等式 \(3a<a+2c\)（\(c\approx1.53a\)）✓。</div>
+        <p><b>④ 左边逐项乘</b>：\(2\times3a\times a=6a^2\)，再乘 \(\dfrac19\) 得 \(\dfrac{6a^2}{9}=\dfrac{2a^2}{3}\)。</p>
+        <p><b>⑤ 右边合并同类项</b>：\((3a)^2+a^2=9a^2+a^2=10a^2\)，故右边 \(=10a^2-4c^2\)。两边相等：\(\dfrac{2a^2}{3}=10a^2-4c^2\)。</p>
+        <p><b>⑥ 移项解 \(c^2\)</b>：\(4c^2=10a^2-\dfrac{2a^2}{3}=\dfrac{30a^2-2a^2}{3}=\dfrac{28a^2}{3}\)，两边除以 4 得 \(c^2=\dfrac{7a^2}{3}\)。</p>
+        <div class="formula-box">$$\frac{c^2}{a^2}=\frac73\ \Rightarrow\ e=\frac ca=\sqrt{\frac73}=\frac{\sqrt7}{\sqrt3}=\frac{\sqrt{21}}{3}$$</div>
+        <p><b>⑦ 有理化</b>：\(\dfrac{\sqrt7}{\sqrt3}\) 上下同乘 \(\sqrt3\) 得 \(\dfrac{\sqrt{21}}{3}\)。</p>
+        <div class="note">验算两条：① \(e=\dfrac{\sqrt{21}}{3}\approx1.53>1\) ✓（双曲线离心率必大于 1）；② 三角形不等式 \(|AF_1|<|AF_2|+|F_1F_2|\) 即 \(3a<a+2c\) ⇒ \(c>a\) ⇒ \(e>1\) ✓ 自洽。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
