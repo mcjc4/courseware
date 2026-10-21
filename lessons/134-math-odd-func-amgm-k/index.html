@@ -779,17 +779,28 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 a：什么时候 f(x) 真的是奇函数", "sub": "奇函数必过原点 ⇒ f(0)=0 ⇒ b=1；再由 f(−1) + f(1) = 0 反解 a", "view": [-3, 3, -0.58, 0.58], "param": {"name": "a", "label": "参数 a（已取 b = 1）", "min": 0.5, "max": 5, "step": 0.01, "val": 2, "fmt": 2, "ticks": ["0.5", "2", "5"]}, "scalars": [{"n": "A", "e": "p"}, {"n": "f1", "e": "1/(4+p)"}, {"n": "fm", "e": "-0.5/(1+p)"}, {"n": "sm", "e": "1/(4+p)-0.5/(1+p)"}], "shapes": [{"t": "func", "f": "(pow(2,p)-1)/(2*pow(2,p)+S.A)", "c": "#2563eb", "w": 2.8}, {"t": "point", "x": 1, "y": "S.f1", "c": "#c2410c", "r": 5, "label": "f(1)", "dx": 10, "dy": -5}, {"t": "point", "x": -1, "y": "S.fm", "c": "#c2410c", "r": 5, "label": "f(−1)", "dx": -4, "dy": 19}, {"t": "point", "x": 0, "y": 0, "c": "#7c3aed", "r": 5.5, "pulse": true, "label": "f(0)=0 ⇒ b=1", "dy": -6}, {"t": "text", "x": 1.7, "y": 0.5, "c": "#94a3b8", "s": "橙点关于原点对称 ⇔ f(−1) + f(1) = 0", "fs": 11}], "readouts": [{"k": "a", "e": "p", "f": 2}, {"k": "f(1) = 1/(4+a)", "e": "S.f1", "f": 4}, {"k": "f(−1) = −1/(2(1+a))", "e": "S.fm", "f": 4}, {"k": "f(−1) + f(1)（0 ⇒ 奇）", "e": "S.sm", "f": 5, "hl": true}], "concl": {"cond": "abs(p-2)<0.02", "on": "✅ 2(1+a) = 4+a ⇒ <b>a = 2</b>；于是 f(x) = (2ˣ−1) / (2(2ˣ+1))，单调递增", "off": "拖到 a = 2：那时 f(−1) 与 f(1) 才刚好关于原点对称"}, "hud": "🖐 左右拖动 = 改参数 a · 滚轮微调", "inline": true, "free": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🧲 f(0)=0 先定 b</div>
+        <div class="step-head">🧲 第一步：f(0)=0 只定一个参数</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「函数 f(x)=(2^x−b)/(2^{x+1}+a) 是 R 的奇函数」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>定义域含 0 ⇒ 先用 \(f(0)=0\)：\(\dfrac{1-b}{2+a}=0\) ⇒ \(b=1\)；再回代 \(f(-x)=-f(x)\) 定 \(a\)。</div></div>
-        <div class="formula-box">$$f(0)=\frac{1-b}{2+a}=0\ \Rightarrow\ b=1$$</div>
+        <p><b>先看清目标</b>：要定 \(a\)、\(b\) 两个参数。奇函数给的是「性质」，其中 <b>\(f(0)=0\)</b> 能定一个，另一条「\(f(-x)=-f(x)\) 对任意 \(x\) 成立」是<b>恒等式</b>，含有无穷多条约束——才够定第二个。</p>
+        <p><b>① 为什么奇函数一定有 \(f(0)=0\)</b>：\(f\) 是 \(\mathbb{R}\) 上的奇函数 ⇒ 定义域包含 0，把 \(x=0\) 代入定义式 \(f(-x)=-f(x)\)：\(f(0)=-f(0)\) ⇒ \(2f(0)=0\) ⇒ \(f(0)=0\)。</p>
+        <p><b>② 代进去解 \(b\)</b>：\(x=0\) 时分子 \(2^0-b=1-b\)，分母 \(2^{0+1}+a=2+a\)。分式等于 0 要求<b>分子为 0 而分母不为 0</b>：</p>
+        <div class="formula-box">$$f(0)=\frac{1-b}{2+a}=0\ \Rightarrow\ 1-b=0\ \Rightarrow\ b=1$$</div>
+        <p><b>③ 为什么现在还不能收工</b>：\(b=1\) 只用掉了「\(f(0)=0\)」这一条，而任何奇函数都满足它——它和 \(a\) 完全无关。\(a\) 必须靠恒等式来定。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 回代恒等式定 a</div>
+        <div class="step-head">✅ 回代恒等式定 a（这一步最容易跳）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「a、b 是常数」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(b\) 定了之后把 \(f(-x)+f(x)=0\) 通分，分子恒为 0 ⇒ 逐项比较系数 ⇒ \(a=2\) ⇒ \(f(x)=\frac12\left(1-\dfrac{2}{2^x+1}\right)\)。</div></div>
-        <p>\(f(-x)=-f(x)\) 恒成立，整理得 \((a-2)(2^x-1)=0\) 对所有 \(x\) 成立：</p>
-        <div class="formula-box">$$a=2\ \Rightarrow\ f(x)=\frac{2^x-1}{2(2^x+1)}=\frac12\left(1-\frac{2}{2^x+1}\right)$$</div>
-        <div class="note">\(f(0)=0\) 只是必要条件——必须回代验证才能把 \(a\) 也钉死。</div>
+        <p><b>④ 先把 \(b=1\) 代回去</b>：\(f(x)=\dfrac{2^x-1}{2\cdot2^x+a}\)。</p>
+        <p><b>⑤ 写出 \(f(-x)\)</b>：把每个 \(x\) 换成 \(-x\)，得 \(f(-x)=\dfrac{2^{-x}-1}{2\cdot2^{-x}+a}\)。上下同乘 \(2^x\) 化成整数指数：分子 \((2^{-x}-1)2^x=1-2^x\)，分母 \((2\cdot2^{-x}+a)2^x=2+a\cdot2^x\)。</p>
+        <p><b>⑥ 令 \(f(-x)=-f(x)\)</b>：右边 \(-f(x)=\dfrac{-(2^x-1)}{2\cdot2^x+a}=\dfrac{1-2^x}{2\cdot2^x+a}\)。两个分式<b>分子都是 \(1-2^x\)</b>，于是整式变为「分母相等」。</p>
+        <div class="formula-box">$$\frac{1-2^x}{2+a\cdot2^x}=\frac{1-2^x}{2\cdot2^x+a}$$</div>
+        <p><b>⑦ 约掉分子</b>：当 \(x\ne0\) 时 \(2^x\ne1\)，分子 \(1-2^x\ne0\)，两边可以约掉，得\(2+a\cdot2^x=2\cdot2^x+a\)，并且要对<b>任意</b> \(x\ne0\) 成立。</p>
+        <p><b>⑧ 移项提取公因式</b>：\(a\cdot2^x-2\cdot2^x+2-a=0\) ⇒ \((a-2)2^x-(a-2)=0\) ⇒ \((a-2)(2^x-1)=0\)。因为对任意 \(x\ne0\) 都有 \(2^x-1\ne0\)，<b>只能 \(a-2=0\)</b> ⇒ \(a=2\)。</p>
+        <div class="formula-box">$$(a-2)(2^x-1)=0\ (\forall x\ne0)\ \Rightarrow\ a=2$$</div>
+        <p><b>⑨ 定型并改写成好用的形状</b>：</p>
+        <div class="formula-box">$$f(x)=\frac{2^x-1}{2(2^x+1)}=\frac12\cdot\frac{(2^x+1)-2}{2^x+1}=\frac12\left(1-\frac{2}{2^x+1}\right)$$</div>
+        <div class="note">\(f(0)=0\) 只是必要条件——必须回代把恒等式写出来，才能把 \(a\) 也钉死。最后那个变形不是花架子：第 2 关看单调性时，\(\dfrac{2}{2^x+1}\) 的增减一眼可见。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -811,17 +822,24 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 x：把 f 从不等式里「摘掉」", "sub": "f 递增且为奇函数 ⇒ f(u₁) + f(v) &lt; 0 ⟺ f(u₁) &lt; f(−v) ⟺ u₁ &lt; −v —— 参数只剩一个 k", "view": [-3, 3, -0.58, 0.58], "param": {"name": "x", "label": "变量 x（取 k = 1.5）", "min": -2, "max": 2, "step": 0.01, "val": 0, "fmt": 2, "ticks": ["−2", "0", "2"]}, "scalars": [{"n": "A", "e": "2"}, {"n": "u1", "e": "1.5*pow(3,p)"}, {"n": "u2", "e": "pow(9,p)-pow(3,p)+2"}, {"n": "v1", "e": "pow(3,p)-pow(9,p)-2"}, {"n": "f1", "e": "(pow(2,S.u1)-1)/(2*pow(2,S.u1)+2)"}, {"n": "fv", "e": "(pow(2,S.v1)-1)/(2*pow(2,S.v1)+2)"}, {"n": "sm", "e": "S.f1+S.fv"}, {"n": "df", "e": "S.u1-S.u2"}], "shapes": [{"t": "func", "f": "(pow(2,p)-1)/(2*pow(2,p)+2)", "c": "#2563eb", "w": 2.8}, {"t": "point", "x": "S.u1", "y": "S.f1", "c": "#c2410c", "r": 6, "pulse": true, "label": "f(k·3ˣ)", "dy": -6}, {"t": "point", "x": "S.v1", "y": "S.fv", "c": "#7c3aed", "r": 6, "pulse": true, "label": "f(3ˣ−9ˣ−2)", "dy": 19}, {"t": "text", "x": 1.8, "y": 0.5, "c": "#94a3b8", "s": "橙 + 紫 &lt; 0 ⇔ 橙点在紫点左边（f 递增）", "fs": 11}], "readouts": [{"k": "3ˣ", "e": "pow(3,p)", "f": 4}, {"k": "u₁ = k·3ˣ", "e": "S.u1", "f": 4}, {"k": "−v = 9ˣ − 3ˣ + 2", "e": "S.u2", "f": 4}, {"k": "f(u₁) + f(3ˣ−9ˣ−2)", "e": "S.sm", "f": 5, "hl": true}, {"k": "u₁ − (9ˣ−3ˣ+2)（&lt;0 ⇒ 成立）", "e": "S.df", "f": 5}], "concl": {"cond": "S.u1<S.u2", "on": "✅ 去掉 f 之后只剩 <b>k·3ˣ &lt; 9ˣ − 3ˣ + 2</b>（对任意 x 都要成立）", "off": "这一步 u₁ ≥ 9ˣ−3ˣ+2，原不等式在此处失效 —— k 取得太大了"}, "hud": "🖐 左右拖动 = 改 x · 滚轮微调", "inline": true, "free": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🚀 单调性 + 奇偶性两件套</div>
+        <div class="step-head">🚀 先看单调性，再把 f 脱掉</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「不等式 f(k·3^x)+f(3^x−9^x−2)&lt;0」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>移项 + 奇函数：\(f(k\cdot3^x)&lt;f(-(3^x-9^x-2))\)，再用<b>单调递增</b>去 \(f\) ⇒ \(k\cdot3^x&lt;9^x-3^x+2\)。</div></div>
-        <p>\(f=\tfrac12(1-\tfrac{2}{2^x+1})\) 在 \(\mathbb{R}\) 上<b>递增</b>，且是奇函数：</p>
+        <p><b>先看清目标</b>：不等式里 \(f\) 套在 \(f(k\cdot3^x)\) 和 \(f(3^x-9^x-2)\) 两层壳里，不能直接解。要靠「单调 + 奇函数」这两件套，把 \(f\) 从两边<b>剥掉</b>。</p>
+        <p><b>① 单调性是怎么看出来的</b>：用第 1 关的变形 \(f(x)=\dfrac12\left(1-\dfrac{2}{2^x+1}\right)\)。链条是：\(x\) 增大 ⇒ \(2^x\) 增大（底数 \(2>1\)，指数函数递增）⇒ \(2^x+1\) 增大 ⇒ \(\dfrac{2}{2^x+1}\) <b>减小</b>（分母变大）⇒ \(1-\) 它 <b>增大</b> ⇒ \(f\) 增大。每一步都保序，所以 \(f\) 在 \(\mathbb{R}\) 上<b>严格递增</b>。</p>
+        <p><b>② 奇函数负责「搬项」</b>：\(f(A)+f(B)&lt;0\) ⇒ \(f(A)&lt;-f(B)\)；而奇函数有 \(-f(B)=f(-B)\)，于是 \(f(A)&lt;f(-B)\)。</p>
         <div class="formula-box">$$f(A)+f(B)&lt;0\ \Leftrightarrow\ f(A)&lt;f(-B)\ \Leftrightarrow\ A&lt;-B$$</div>
+        <p><b>③ 严格递增才能去 f</b>：单调递增保证 \(f(A)&lt;f(-B)\) 与 \(A&lt;-B\) <b>互为充要</b>；又 \(A&lt;-B\Leftrightarrow A+B&lt;0\)。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 代入并分离参数</div>
+        <div class="step-head">✅ 代入 + 分离参数</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「对任意 x∈R 恒成立」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两边同除 \(3^x>0\) 分离参数：\(k&lt;3^x+\dfrac{2}{3^x}-1\) ⇒ 记右边为 \(h(u),\ u=3^x>0\) ⇒ 求 \(h\) 的最小值。</div></div>
-        <div class="formula-box">$$k\cdot3^x&lt;9^x-3^x+2\ \Rightarrow\ k&lt;3^x+\frac{2}{3^x}-1$$</div>
-        <div class="note">两边除以 \(3^x>0\)——参数 \(k\) 与 \(x\) 彻底分家。</div>
+        <p><b>④ 认清 A、B 是谁</b>：\(A=k\cdot3^x\)，\(B=3^x-9^x-2\)。</p>
+        <p><b>⑤ 写 \(A+B&lt;0\)</b>：\(k\cdot3^x+3^x-9^x-2&lt;0\)，把 \(k\cdot3^x\) 留在左边、其余搬到右边（记得变号）：</p>
+        <div class="formula-box">$$k\cdot3^x&lt;9^x-3^x+2$$</div>
+        <p><b>⑥ 为什么能除 \(3^x\)</b>：\(3^x>0\) 对一切实数 \(x\) 成立，两边同除正数<b>不等号不变向</b>。逐项除：\(\dfrac{9^x}{3^x}=\left(\dfrac93\right)^x=3^x\)、\(\dfrac{3^x}{3^x}=1\)、\(\dfrac{2}{3^x}\) 保留：</p>
+        <div class="formula-box">$$k&lt;3^x-1+\frac{2}{3^x}=3^x+\frac{2}{3^x}-1$$</div>
+        <div class="note">分离参数的意义：右边只剩 \(x\) 的表达式，左边只剩 \(k\)——于是「对任意 \(x\) 恒成立」变成「\(k\) 小于右边的最小值」，第 3 关就只管求最小值。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -841,16 +859,23 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 k：AM-GM 给出最后的上界", "sub": "k &lt; 3ˣ + 2·3⁻ˣ − 1 对任意 x 成立 ⇒ k &lt; min = 2√2 − 1（t = 3ˣ = √2 时取到）", "view": [0.25, 5.0, -0.35, 4.6], "param": {"name": "k", "label": "参数 k", "min": 0.5, "max": 3, "step": 0.005, "val": 1.5, "fmt": 3, "ticks": ["0.5", "1.828", "3"]}, "scalars": [{"n": "kk", "e": "p"}, {"n": "mn", "e": "2*sqrt(2)-1"}, {"n": "gp", "e": "p-(2*sqrt(2)-1)"}], "shapes": [{"t": "func", "f": "p+2/p-1", "c": "#2563eb", "w": 2.8}, {"t": "line", "k": 0, "q": "S.kk", "c": "#c2410c", "w": 2}, {"t": "point", "x": "sqrt(2)", "y": "2*sqrt(2)-1", "c": "#0f766e", "r": 6, "pulse": true, "label": "最低点", "dx": 6, "dy": -6}, {"t": "seg", "x1": "sqrt(2)", "y1": 0, "x2": "sqrt(2)", "y2": "2*sqrt(2)-1", "c": "#0f766e", "w": 1.2, "dash": [5, 4]}, {"t": "text", "x": 3.2, "y": 4.15, "c": "#94a3b8", "s": "蓝 = t + 2/t − 1（t = 3ˣ &gt; 0）", "fs": 11}, {"t": "text", "x": 3.0, "y": "S.kk+0.28", "c": "#c2410c", "s": "橙线 = 你选的 k", "fs": 11}], "readouts": [{"k": "k", "e": "p", "f": 3}, {"k": "min = 2√2 − 1 ≈", "e": "S.mn", "f": 4, "hl": true}, {"k": "取到最小值时 t = √2 ≈", "e": "sqrt(2)", "f": 4}, {"k": "k − min（≥0 ⇒ 不成立）", "e": "S.gp", "f": 4}], "concl": {"cond": "p<2*sqrt(2)-1", "on": "✅ k &lt; 2√2 − 1 ⇒ 对任意 x 都成立 ⇒ <b>选 A</b>", "off": "❌ k ≥ 2√2 − 1 ⇒ 在 t = √2 附近不等式会失效（橙线压到曲线之上）"}, "hud": "🖐 左右拖动 = 改 k · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">⚖️ 对勾函数最小值</div>
+        <div class="step-head">⚖️ 换元 + 均值不等式求最小值</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「k 的取值范围是」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>\(h(u)=u+\dfrac2u-1\ge2\sqrt2-1\)，\(u=\sqrt2\) 时取等且 \(u>0\) 合法 ⇒ 最小值可达 ⇒ \(k\) 必须<b>严格小于</b> \(2\sqrt2-1\)，选 A。</div></div>
-        <p>令 \(u=3^x>0\)：\(h=u+\dfrac2u-1\ge2\sqrt2-1\)，\(u=\sqrt2\)（即 \(x=\log_3\sqrt2\)）取等。</p>
+        <p><b>先看清目标</b>：\(k&lt;3^x+\dfrac{2}{3^x}-1\) 要对<b>任意</b> \(x\) 成立，等价于 \(k\) 小于右边这个函数的最小值。</p>
+        <p><b>① 换元</b>：令 \(u=3^x\)。因为指数函数值恒正，\(u\) 的取值范围是 \((0,+\infty)\)——这个范围后面判取等时要用。代换后 \(\dfrac{2}{3^x}=\dfrac2u\)，右边变成 \(h(u)=u+\dfrac2u-1\)。</p>
+        <p><b>② 用基本不等式（AM-GM）</b>：对 \(u>0\) 有 \(u+\dfrac2u\ge2\sqrt{u\cdot\dfrac2u}=2\sqrt2\)。（两项都是正数才能用，\(u>0\) 正好保证。）</p>
+        <p><b>③ 取等条件必须验证</b>：等号成立当且仅当 \(u=\dfrac2u\)，即 \(u^2=2\) ⇒ \(u=\sqrt2\)（取正，负根不在定义域）。\(u=\sqrt2>0\) ✓ 在范围内；对应 \(x=\log_3\sqrt2\)，是实数 ✓。取等点可达，所以最小值<b>真的能取到</b>：\(h_{\min}=2\sqrt2-1\)。</p>
+        <div class="formula-box">$$h_{\min}=2\sqrt2-1,\qquad \text{当 } u=\sqrt2\ (x=\log_3\sqrt2)\ \text{时取到}$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 边界法则</div>
+        <div class="step-head">✅ 边界法则：为什么不能取等号</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「对任意 x∈R 恒成立」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>边界法则复盘：<b>最小值能取到 ⇒ 不能取等</b>（取等时那一点就不满足严格小于）。选项 B 的 \(-2\sqrt2-1&lt;k\) 是硬凑的对称下界，题目从没要求。</div></div>
+        <p><b>④ 检验 \(k=h_{\min}\) 行不行</b>：取 \(k=2\sqrt2-1\)、\(x=x^*=\log_3\sqrt2\)，此时右边恰好等于 \(k\)，原来的不等式变成 \(A+B=0\)，即 \(f(A)+f(B)=0\)。但题目要求的是<b>严格小于 0</b>，等号不成立 ⇒ \(k\) 取不到 \(h_{\min}\)。</p>
         <div class="formula-box">$$k=2\sqrt2-1\ \text{时在}\ x^*\ \text{处取等，不严格}\ \Rightarrow\ k&lt;2\sqrt2-1$$</div>
-        <p><b>选 A</b>。B 的对称区间是画蛇添足——\(k\) 可以是任意负数，没有下界。</p>
+        <p><b>⑤ 为什么没有下界</b>：\(k\) 越小，\(k\cdot3^x\) 越小，不等式越容易成立——\(k=-100\)、\(k=-10^6\) 都可以。所以 <b>B 选项那个对称区间是画蛇添足</b>。</p>
+        <p><b>选 A</b>。</p>
+        <div class="note">这类「恒成立求参数」的三段式：分离参数 → 求另一边最值 → 判等号能否取到。第三段最容易漏，漏了就差一个「开闭区间」。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
