@@ -777,15 +777,22 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖虚部 b：分母怎么被「实数化」", "sub": "同乘共轭 −2−bi：i(−2−bi) = b − 2i，分母变成 4 + b² —— 一步把分母擦成实数", "view": [-3.1, 2.5, -2.7, 2.3], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}], "shapes": [{"t": "seg", "x1": 0, "y1": 0, "x2": -2, "y2": "p", "c": "#2563eb", "w": 2.4}, {"t": "seg", "x1": 0, "y1": 0, "x2": -2, "y2": "-p", "c": "#94a3b8", "w": 1.8, "dash": [6, 4]}, {"t": "seg", "x1": 0, "y1": 0, "x2": 0, "y2": 1, "c": "#f59e0b", "w": 2.4}, {"t": "seg", "x1": 0, "y1": 0, "x2": "S.re", "y2": "S.im", "c": "#c2410c", "w": 2.8}, {"t": "point", "x": -2, "y": "p", "c": "#2563eb", "r": 5, "label": "−2+bi", "dx": -4, "dy": -5}, {"t": "point", "x": -2, "y": "-p", "c": "#94a3b8", "r": 4.5, "label": "共轭 −2−bi", "dx": -2, "dy": 19}, {"t": "point", "x": 0, "y": 1, "c": "#f59e0b", "r": 5, "label": "分子 i", "dx": 8, "dy": -4}, {"t": "point", "x": "S.re", "y": "S.im", "c": "#c2410c", "r": 6.5, "pulse": true, "label": "商", "dx": 9, "dy": -4}, {"t": "text", "x": -1.1, "y": 2.0, "c": "#94a3b8", "s": "蓝 = 分母 · 灰虚 = 它的共轭 · 橙 = 分子 · 红 = 商", "fs": 11}], "readouts": [{"k": "分母的模方 4 + b²", "e": "S.n2", "f": 3}, {"k": "商的实部 b/(4+b²)", "e": "S.re", "f": 4}, {"k": "商的虚部 −2/(4+b²)", "e": "S.im", "f": 4, "hl": true}, {"k": "−2/5 =", "e": "-0.4", "f": 3}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ b = 1 ⇒ i(−2−i) = 1 − 2i，除以 5 ⇒ <b>1/5 − (2/5)i</b>", "off": "拖到 b = 1：那时分母是 −2+i，商正好是 1/5 − (2/5)i"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">🤝 除法变乘法</div>
+        <div class="step-head">🤝 为什么必须「实数化」</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「i/(−2+i)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>分母是复数 ⇒ 分子分母同乘共轭 \(-2-i\)：分母变成 \((-2)^2+1^2=5\)，除法就变成乘法。</div></div>
-        <div class="formula-box">$$\frac{i}{-2+i}=\frac{i(-2-i)}{(-2+i)(-2-i)}=\frac{i(-2-i)}{(-2)^2+1^2}$$</div>
+        <p><b>先看清目标</b>：要读虚部，就得先把 \(z\) 写成 \(a+bi\) 的标准形（\(a,b\) 都是实数）。而现在分母 \(-2+i\) 是复数，\(\dfrac{i}{-2+i}\) 没法直接拆成实部、虚部——必须先<b>把分母变成实数</b>。</p>
+        <p><b>① 分母的共轭是什么</b>：\(-2+i\) 的共轭是 \(-2-i\)——规则是<b>只把虚部的符号翻过来，实部不动</b>。（这一点本题第 3 关还会重点提醒。）</p>
+        <p><b>② 为什么乘共轭能变实数</b>：设 \(z=a+bi\)，则 \(z\bar z=(a+bi)(a-bi)=a^2-(bi)^2=a^2-b^2i^2=a^2+b^2\)。用了平方差公式与 \(i^2=-1\)，结果是<b>纯实数</b>，且为正。</p>
+        <p><b>③ 分子分母同乘，值不变</b>：\(-2-i\ne0\)，同乘一个非零数不改变分式的值，于是除法变成了「分子乘共轭 ÷ 实数」：</p>
+        <div class="formula-box">$$\frac{i}{-2+i}=\frac{i(-2-i)}{(-2+i)(-2-i)}=\frac{i(-2-i)}{(-2)^2+1^2}=\frac{i(-2-i)}{5}$$</div>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 展开</div>
+        <div class="step-head">✅ 分母用平方差、分子用分配律</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「i/(−2+i)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>展开分子时 \(i\cdot(-i)=-i^2=+1\) ⇒ 分子 \(=1-2i\) ⇒ \(z=\dfrac{1-2i}{5}\)。</div></div>
+        <p><b>④ 分母怎么得 5</b>：\((-2+i)(-2-i)=(-2)^2-i^2=4-(-1)=4+1=5\)。这里 \(-i^2=+1\) 是<b>最容易漏的一步</b>，写成 \(4-1=3\) 就全错。</p>
+        <p><b>⑤ 分子逐项展开</b>：\(i\cdot(-2)=-2i\)；\(i\cdot(-i)=-i^2=-(-1)=+1\)。把两项按「实部在前、虚部在后」重排：</p>
         <div class="formula-box">$$\text{分子：}\ i(-2-i)=-2i-i^2=1-2i;\qquad \text{分母：}\ 5$$</div>
+        <p><b>⑥ 分母变成实数了</b>：现在 \(\dfrac{1-2i}{5}\) 只是「一个复数除以一个实数」，逐项除即可——第 2 关就做这件事。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -807,15 +814,20 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 拖 b：商的虚部落在哪条选项线上", "sub": "四个选项就是四条水平线：±1/5 与 ±2/5 —— 商的轨迹扫过去，只在 −2/5 上真正停住", "view": [-3.1, 2.5, -1.15, 1.15], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}], "shapes": [{"t": "line", "k": 0, "q": 0.4, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": 0.2, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -0.2, "c": "#94a3b8", "w": 1.3, "dash": [6, 4]}, {"t": "line", "k": 0, "q": -0.4, "c": "#22c3a6", "w": 2.4}, {"t": "point", "x": "S.re", "y": "S.im", "c": "#c2410c", "r": 7, "pulse": true, "label": "商", "dx": 10, "dy": -5}, {"t": "text", "x": 1.55, "y": 0.47, "c": "#94a3b8", "s": "A 1/5", "fs": 11}, {"t": "text", "x": 1.55, "y": 0.27, "c": "#94a3b8", "s": "B −1/5（错在下面）", "fs": 10.5}, {"t": "text", "x": 1.55, "y": -0.27, "c": "#94a3b8", "s": "C 2/5（符号反了）", "fs": 10.5}, {"t": "text", "x": 1.55, "y": -0.47, "c": "#0f766e", "s": "D −2/5 ✔", "fs": 11.5}], "readouts": [{"k": "b", "e": "p", "f": 2}, {"k": "商的实部", "e": "S.re", "f": 4}, {"k": "商的虚部", "e": "S.im", "f": 4, "hl": true}, {"k": "A 选项 1/5", "e": "0.2", "f": 2}, {"k": "D 选项 −2/5", "e": "-0.4", "f": 2}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ 红点落在绿线上 ⇒ 虚部 = <b>−2/5，选 D</b>", "off": "拖到 b = 1：红点会正好停在 −2/5 这条绿线上"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">📦 化成 a+bi</div>
+        <div class="step-head">📦 化成 a+bi 才读得出实部虚部</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「的虚部」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>化成标准形 \(z=\dfrac15-\dfrac25i\) ⇒ 虚部是系数 \(-\dfrac25\)（<b>不是</b> \(-\dfrac25i\)）。</div></div>
-        <div class="formula-box">$$z=\frac{1-2i}{5}=\frac15-\frac25 i$$</div>
+        <p><b>先看清目标</b>：题目问「虚部」，而虚部的定义是标准形 \(a+bi\) 里的 <b>\(b\)</b>。所以必须把 \(\dfrac{1-2i}{5}\) 拆成两个独立的分式。</p>
+        <p><b>① 逐项除</b>：分母是实数 5，可以把分子拆开分别除（这一步不能用在上一步的复数分母上）：</p>
+        <div class="formula-box">$$z=\frac{1-2i}{5}=\frac{1}{5}-\frac{2}{5}i$$</div>
+        <p><b>② 对照标准形</b>：\(a+bi\) 里 \(a=\dfrac15\)（实部）、\(b=-\dfrac25\)。注意中间的加号在这里变成了减号，说明 \(b\) 本身带<b>负号</b>。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">✅ 读虚部</div>
+        <div class="step-head">✅ 读虚部：不带 i 的那个数</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「（　　）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>对照选项：\(\dfrac15\) 是实部（A）、\(\dfrac25\) 是漏负号（C）⇒ 只有 D 对。</div></div>
-        <p>实部 \(a=\tfrac15\)、<b>虚部 \(b=-\tfrac25\)</b>（实数，不带 i）——选 D。</p>
+        <p><b>③ 定义辨析</b>：实部 \(a=\dfrac15\)；<b>虚部 \(b=-\dfrac25\)</b>——虚部是一个<b>实数</b>，不是 \(bi\)。写成 \(-\dfrac25i\) 就是概念性错误。</p>
+        <p><b>④ 顺带检查符号</b>：\(\dfrac{1-2i}{5}=\dfrac15-\dfrac25i\)，减号来自分子的 \(-2i\)，而分母 \(+5\) 不会让符号反号，所以虚部必为负 ⇒ <b>选 D（\(-\dfrac25\)）</b>。</p>
+        <p><b>⑤ 数值自检</b>：\(\dfrac15=0.2\)、\(-\dfrac25=-0.4\)，即 \(z=0.2-0.4i\)。乘回 \(-2+i\) 应还原成 \(i\)：\((0.2-0.4i)(-2+i)\) 展开四项——实部 \(0.2\times(-2)+(-0.4i)\times i=-0.4-0.4i^2=-0.4+0.4=0\)，虚部 \(0.2i+(-0.4i)(-2)=0.2i+0.8i=1.0i\)，结果恰好是 \(i\) ✓。</p>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
@@ -835,15 +847,18 @@ section[id]{scroll-margin-top:58px}
   <script type="application/json" class="ixb-cfg">{"title": "🎛 复盘：i² = −1 记反了会掉进哪个选项", "sub": "错在符号就落到 +2/5（选 C）；忘了除以模方就飞到 −2 —— 两处都要盯", "view": [-3.1, 2.5, -1.4, 1.4], "param": {"name": "b", "label": "分母的虚部 b（−2 + bi）", "min": 0.2, "max": 2.5, "step": 0.01, "val": 1, "fmt": 2, "ticks": ["0.2", "1", "2.5"]}, "scalars": [{"n": "n2", "e": "4+p*p"}, {"n": "re", "e": "p/S.n2"}, {"n": "im", "e": "-2/S.n2"}, {"n": "w1", "e": "2/S.n2"}, {"n": "w2", "e": "-2"}], "shapes": [{"t": "point", "x": "S.re", "y": "S.im", "c": "#0f766e", "r": 7, "pulse": true, "label": "正确 −2/5", "dx": 12, "dy": -5}, {"t": "point", "x": "S.re", "y": "S.w1", "c": "#ef4444", "r": 6, "label": "错① +2/5", "dx": 12, "dy": -5}, {"t": "line", "k": 0, "q": -0.4, "c": "#22c3a6", "w": 2.2}, {"t": "line", "k": 0, "q": 0.4, "c": "#ef4444", "w": 1.6, "dash": [6, 4]}, {"t": "text", "x": -2.4, "y": 1.2, "c": "#0f766e", "s": "绿点 = i² = −1（正确）", "fs": 11.5}, {"t": "text", "x": -2.4, "y": -1.2, "c": "#ef4444", "s": "红点 = 把 i² 记成 +1", "fs": 11.5}], "readouts": [{"k": "正确虚部", "e": "S.im", "f": 4, "hl": true}, {"k": "错① 虚部（i² 记反）", "e": "S.w1", "f": 4}, {"k": "错② 虚部（忘了除以模方）", "e": "S.w2", "f": 4}, {"k": "商的实部", "e": "S.re", "f": 4}], "concl": {"cond": "abs(p-1)<0.02", "on": "✅ i(−2−i) = −2i − i² = 1 − 2i ⇒ 除以 5 得 <b>1/5 − (2/5)i</b>，虚部 −2/5 ⇒ <b>选 D</b>", "off": "拖到 b = 1：看两个点分别落在哪条线上"}, "hud": "🖐 左右拖动 = 改分母的虚部 · 滚轮微调", "inline": true}</script>
 </div>
             <div class="step on"><div class="step-inner">
-        <div class="step-head">⚠️ 三大易错</div>
+        <div class="step-head">⚠️ 三大易错，逐条说清后果</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「i/(−2+i)」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复盘三步：① 同乘共轭 ② 展开并把 \(i^2\) 翻正 ③ 拆成 \(a+bi\)。三步里最容易崩的是第二步。</div></div>
-        <div class="note">① 忘记 i²=−1<br>② 共轭把实部也变了号（−2+i 的共轭是 −2−i，实部不变）<br>③ 把「虚部」答成 bi（带 i 直接丢分）</div>
+        <div class="note"><b>① 忘记 \(i^2=-1\)</b>：分母算成 \((-2)^2-1^2=3\) 而不是 5，整题结果从 \(\dfrac15-\dfrac25i\) 变成 \(\dfrac13-\dfrac23i\)，四个选项全对不上。<br>        <b>② 共轭取错</b>：\(-2+i\) 的共轭是 \(-2-i\)（<b>只有虚部变号</b>）。若写成 \(2-i\)（实部也翻），分子分母都变，结果符号全反。<br>        <b>③ 虚部带 i</b>：问「虚部」答 \(-\dfrac25i\) 直接零分——虚部是标准形 \(a+bi\) 里的 \(b\)，是实数。</div>
+        <p><b>④ 一句话记住三件事</b>：分母乘共轭、\(i^2=-1\)、虚部不带 \(i\)。三件事任意错一件，选择题必错。</p>
       </div></div>
 
       <div class="step"><div class="step-inner">
-        <div class="step-head">🕵️ 选项即错法清单</div>
+        <div class="step-head">🕵️ 选项即错法清单（10 秒保险）</div>
         <div class="stx"><div class="stx-s"><i>看到题干</i>「的虚部」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复盘概念：实部、虚部都是<b>实数</b>；复平面里虚部是纵坐标，所以 \(z\) 落在第四象限。</div></div>
-        <p>四个选项对应四种「过程数」：实部、两种符号错、正确虚部。算完用选项反查一步，10 秒买一份保险。</p>
+        <p><b>⑤ 命题人的选项怎么造</b>：本题四个选项对应四种「过程数」——正确虚部 \(-\dfrac25\)、丢了负号的 \(\dfrac25\)、把实部当虚部的 \(\dfrac15\)、以及带 \(i\) 的 \(-\dfrac25i\)。</p>
+        <p><b>⑥ 反查一步</b>：算出 \(z=\dfrac15-\dfrac25i\) 后，先确认自己算的「\(\dfrac25\)」在选项里出现了几次、符号对不对，再确认自己要填的是「\(b\) 还是 \(bi\)」。两步都过，答案就锁死了。</p>
+        <div class="note">除法通用流程：<b>找共轭 → 同乘 → 分母用平方差 → 分子分配律 → 逐项除 → 读实部虚部</b>。六步顺序固定，任何复数除法都套得进去。</div>
       </div></div>
       <button class="next-btn">下一步 →</button>
 
