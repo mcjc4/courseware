@@ -684,7 +684,7 @@ section[id]{scroll-margin-top:58px}
 @media(max-width:720px){.csa-vs{grid-template-columns:1fr}.csa-node{min-width:88px;padding:8px 10px}}
 
 
-/* ===== 分子动画舞台 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台 KMA · MSK-VER 20261022b ===== */
 .msk .csa-stage{padding:6px 10px 2px;background:linear-gradient(180deg,#fbfdff,#f6faff)}
 .msk-svg{display:block;width:100%;height:auto;overflow:visible}
 .msk .csa-top b{color:#0f766e}
@@ -692,6 +692,10 @@ section[id]{scroll-margin-top:58px}
 .msk-at text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:700;pointer-events:none;user-select:none}
 .msk-bd{stroke-linecap:round}
+.msk-vc{stroke-linecap:round}
+.msk-vl text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  font-weight:800;pointer-events:none}
+.msk-cv{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .msk-tag text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:800;pointer-events:none}
 .msk-eqp{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
@@ -888,7 +892,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 看第 3 步：S—S 和 O=O 同时断，第 4 步 S 才被 O 抢走</span>
   </div>
@@ -902,7 +906,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>FeS₂ 里 S 不是 −2：<b>S—S 成对</b>，所以每个 S 是 −1；写成 FeS 就全错了。</li><li>「粉碎」的答案只有一句：<b>增大接触面积、加快反应、使焙烧更充分</b>；别写成「降低活化能」。</li><li>这一步是<b>吸热</b>的，但整个焙烧是放热的 —— 因为后面成键放得更多。</li><li>S 升 5 价、每个 S 失 5 个电子；配平时别把 SO₂ 前的系数写错（8 个 S 就要 8 个 SO₂）。</li><li>SO₂ 是气态产物，不进烧渣；<b>烧渣里只剩 Fe₂O₃、CuO、NiO、Co₃O₄、Au</b>。</li><li>配平口诀：<b>S 失电子、O 得电子</b>；Fe 从 +2 到 +3 也要算进失电子里，漏掉就配不平。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.05,-1.95,5.95,3.6],"eq":"4FeS₂ + 11O₂ —焙烧→ 2Fe₂O₃ + 8SO₂","atoms":[{"id":"Fe","el":"Fe","lab":"Fe","x":-2.3,"y":0.1},{"id":"S1","el":"S","lab":"S","x":-1.32,"y":-0.12},{"id":"S2","el":"S","lab":"S","x":-0.38,"y":0.16},{"id":"O1","el":"O","x":0.85,"y":-1.05},{"id":"O2","el":"O","x":1.42,"y":-0.72},{"id":"O3","el":"O","x":0.85,"y":1.02},{"id":"O4","el":"O","x":1.42,"y":1.35}],"bonds":[{"id":"Fe-S1","a":"Fe","b":"S1","o":1},{"id":"S1-S2","a":"S1","b":"S2","o":1},{"id":"O1-O2","a":"O1","b":"O2","o":1},{"id":"O3-O4","a":"O3","b":"O4","o":1},{"id":"S1-O1","a":"S1","b":"O1","o":1,"k":0},{"id":"S1-O2","a":"S1","b":"O2","o":1,"k":0},{"id":"S2-O3","a":"S2","b":"O3","o":1,"k":0},{"id":"S2-O4","a":"S2","b":"O4","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"4FeS₂ + 11O₂ —焙烧→ 2Fe₂O₃ + 8SO₂","dur":780,"say":"黄铁矿里 Fe 是 <b>+2<\/b>、两个 S 连成 <b>S₂²⁻<\/b> 对（每个 S 记 −1）⇒ 这是一个「Fe + 一对 S」的结构单元。","trap":"FeS₂ 里 S 不是 −2：<b>S—S 成对<\/b>，所以每个 S 是 −1；写成 FeS 就全错了。"},{"at":{"O1":[0.3,-0.78],"O2":[0.86,-0.45],"O3":[0.3,0.74],"O4":[0.86,1.07]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"O₂ 从右边扑上来 —— 焙烧第一步永远是<b>氧分子先靠近<\/b>（所以要把矿石粉碎，让它多接触空气）。","trap":"「粉碎」的答案只有一句：<b>增大接触面积、加快反应、使焙烧更充分<\/b>；别写成「降低活化能」。"},{"at":{},"op":{},"bd":{"S1-S2":0,"O1-O2":0,"O3-O4":0},"tags":[{"t":"S—S 断 / O=O 断","x":-0.55,"y":-1.6,"c":"#dc2626","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"两处断键同时发生：<b>S—S 键断<\/b>（S 被松开）、<b>O=O 键断<\/b>（氧原子被放出来）。","trap":"这一步是<b>吸热<\/b>的，但整个焙烧是放热的 —— 因为后面成键放得更多。"},{"at":{"Fe":[-2.72,0.86],"S1":[-1.3,-0.72],"O1":[-2.05,-0.3],"O2":[-0.55,-0.3],"S2":[1.1,0.62],"O3":[0.35,1.05],"O4":[1.85,1.05]},"op":{},"bd":{"S1-O1":1,"S1-O2":1,"S2-O3":1,"S2-O4":1,"Fe-S1":0},"tags":[{"t":"S 被 O 夺走 → SO₂","x":1.1,"y":1.35,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"每个 S 抢到 2 个 O ⇒ 成 <b>SO₂<\/b>；S 从 −1 升到 <b>+4<\/b>，被氧化。","trap":"S 升 5 价、每个 S 失 5 个电子；配平时别把 SO₂ 前的系数写错（8 个 S 就要 8 个 SO₂）。"},{"at":{"S1":[-1.95,-0.95],"O1":[-2.65,-0.52],"O2":[-1.25,-0.52],"S2":[1.7,0.8],"O3":[0.95,1.25],"O4":[2.45,1.25]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"两个 SO₂ <b>以气体形式离开<\/b> ⇒ 这就是焙烧一定要「通空气、充分焙烧」的原因：把 S 彻底赶走。","trap":"SO₂ 是气态产物，不进烧渣；<b>烧渣里只剩 Fe₂O₃、CuO、NiO、Co₃O₄、Au<\/b>。"},{"at":{"Fe":[-2.55,0.55],"S1":[-2.0,-1.2],"O1":[-2.68,-0.8],"O2":[-1.32,-0.8],"S2":[1.8,0.85],"O3":[1.05,1.28],"O4":[2.55,1.28]},"op":{},"bd":{},"tags":[{"t":"Fe 留给 O ⇒ 烧渣","x":-2.2,"y":1.32,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":"Fe₂O₃ · CuO · NiO · Co₃O₄ · Au ⇒ 下一步酸浸","dur":780,"say":"Fe 这边被 O 接管，最终成 <b>Fe₂O₃<\/b>（Fe 由 +2 升到 +3）⇒ S 失去的电子给了 O，Fe 也交了一部分。","trap":"配平口诀：<b>S 失电子、O 得电子<\/b>；Fe 从 +2 到 +3 也要算进失电子里，漏掉就配不平。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.05,-1.95,5.95,3.6],"eq":"4FeS₂ + 11O₂ —焙烧→ 2Fe₂O₃ + 8SO₂","atoms":[{"id":"Fe","el":"Fe","lab":"Fe","x":-2.3,"y":0.1},{"id":"S1","el":"S","lab":"S","x":-1.32,"y":-0.12},{"id":"S2","el":"S","lab":"S","x":-0.38,"y":0.16},{"id":"O1","el":"O","x":0.85,"y":-1.05},{"id":"O2","el":"O","x":1.42,"y":-0.72},{"id":"O3","el":"O","x":0.85,"y":1.02},{"id":"O4","el":"O","x":1.42,"y":1.35}],"bonds":[{"id":"Fe-S1","a":"Fe","b":"S1","o":1},{"id":"S1-S2","a":"S1","b":"S2","o":1},{"id":"O1-O2","a":"O1","b":"O2","o":1},{"id":"O3-O4","a":"O3","b":"O4","o":1},{"id":"S1-O1","a":"S1","b":"O1","o":1,"k":0},{"id":"S1-O2","a":"S1","b":"O2","o":1,"k":0},{"id":"S2-O3","a":"S2","b":"O3","o":1,"k":0},{"id":"S2-O4","a":"S2","b":"O4","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"4FeS₂ + 11O₂ —焙烧→ 2Fe₂O₃ + 8SO₂","dur":780,"say":"黄铁矿里 Fe 是 <b>+2<\/b>、两个 S 连成 <b>S₂²⁻<\/b> 对（每个 S 记 −1）⇒ 这是一个「Fe + 一对 S」的结构单元。","trap":"FeS₂ 里 S 不是 −2：<b>S—S 成对<\/b>，所以每个 S 是 −1；写成 FeS 就全错了。"},{"at":{"O1":[0.3,-0.78],"O2":[0.86,-0.45],"O3":[0.3,0.74],"O4":[0.86,1.07]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"O₂ 从右边扑上来 —— 焙烧第一步永远是<b>氧分子先靠近<\/b>（所以要把矿石粉碎，让它多接触空气）。","trap":"「粉碎」的答案只有一句：<b>增大接触面积、加快反应、使焙烧更充分<\/b>；别写成「降低活化能」。"},{"at":{},"op":{},"bd":{"S1-S2":0,"O1-O2":0,"O3-O4":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"S—S 断 / O=O 断","x":-0.55,"y":-1.6,"c":"#dc2626","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"两处断键同时发生：<b>S—S 键断<\/b>（S 被松开）、<b>O=O 键断<\/b>（氧原子被放出来）。","trap":"这一步是<b>吸热<\/b>的，但整个焙烧是放热的 —— 因为后面成键放得更多。"},{"at":{"Fe":[-2.72,0.86],"S1":[-1.3,-0.72],"O1":[-2.05,-0.3],"O2":[-0.55,-0.3],"S2":[1.1,0.62],"O3":[0.35,1.05],"O4":[1.85,1.05]},"op":{},"bd":{"S1-O1":1,"S1-O2":1,"S2-O3":1,"S2-O4":1,"Fe-S1":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"S 被 O 夺走 → SO₂","x":1.1,"y":1.35,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"每个 S 抢到 2 个 O ⇒ 成 <b>SO₂<\/b>；S 从 −1 升到 <b>+4<\/b>，被氧化。","trap":"S 升 5 价、每个 S 失 5 个电子；配平时别把 SO₂ 前的系数写错（8 个 S 就要 8 个 SO₂）。"},{"at":{"S1":[-1.95,-0.95],"O1":[-2.65,-0.52],"O2":[-1.25,-0.52],"S2":[1.7,0.8],"O3":[0.95,1.25],"O4":[2.45,1.25]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"两个 SO₂ <b>以气体形式离开<\/b> ⇒ 这就是焙烧一定要「通空气、充分焙烧」的原因：把 S 彻底赶走。","trap":"SO₂ 是气态产物，不进烧渣；<b>烧渣里只剩 Fe₂O₃、CuO、NiO、Co₃O₄、Au<\/b>。"},{"at":{"Fe":[-2.55,0.55],"S1":[-2.0,-1.2],"O1":[-2.68,-0.8],"O2":[-1.32,-0.8],"S2":[1.8,0.85],"O3":[1.05,1.28],"O4":[2.55,1.28]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"Fe 留给 O ⇒ 烧渣","x":-2.2,"y":1.32,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":"Fe₂O₃ · CuO · NiO · Co₃O₄ · Au ⇒ 下一步酸浸","dur":780,"say":"Fe 这边被 O 接管，最终成 <b>Fe₂O₃<\/b>（Fe 由 +2 升到 +3）⇒ S 失去的电子给了 O，Fe 也交了一部分。","trap":"配平口诀：<b>S 失电子、O 得电子<\/b>；Fe 从 +2 到 +3 也要算进失电子里，漏掉就配不平。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「(1) “焙烧”时，把黄铁矿粉碎的原因是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>固体要参与反应 ⇒ <b>接触面积越大，反应越快越充分</b> ⇒ 提高焙烧速率和原料利用率。</div></div><p><b>先看清目标</b>：本关是流程前段（粉碎 → 焙烧 → 酸浸），四个问分别考「为什么这么操作」与「方程式怎么配、角色怎么判」。所以每读一问，先在纸上记下这一步的<b>目的</b>，再动笔写式子。</p><p><b>① 粉碎到底改变了什么</b>：焙烧是<b>气固反应</b>——固体颗粒表面与空气中的 O₂ 接触才反应。颗粒越细，单位质量固体的<b>表面积（比表面）越大</b>，能同时接触 O₂ 的「工作面」越多。</p><p><b>② 由此带来两个结果</b>：一是<b>反应速率加快</b>（单位时间反应的量多）；二是<b>反应更充分</b>——颗粒内部原本接触不到气体的部分被暴露出来，矿石利用率提高，残渣中未反应的原料减少。</p><p><b>③ 通用答法</b>：凡「粉碎 / 研磨 / 提高浸出率 / 加快溶解」类问题，答案骨架都是「<b>增大接触面积 ⇒ 加快反应速率、使反应更充分</b>」，按题补一句目的即可。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「(2) “焙烧”时，CoS 发生反应的化学方程式为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co₃O₄ 要拆成 <b>Co₂O₃·CoO</b>（两个 +3、一个 +2）；S 从 −2 升到 +4（失 6e⁻），O₂ 得电子 ⇒ 配平得 <b style="color:#0f766e">3CoS + 5O₂ =(高温) Co₃O₄ + 3SO₂</b>（O：左 10、右 4+6=10 ✓）。</div></div><p><b>① 先定产物和价态</b>：反应物 CoS 中 Co 为 +2、S 为 −2。焙烧（与 O₂ 高温反应）后，S 被氧化成 SO₂（S 为 +4）；Co 变成 Co₃O₄。注意 Co₃O₄ 是<b>混合价态</b>：写成 Co₂O₃·CoO，即 <b>两个 Co 为 +3、一个 Co 为 +2</b>。这一步看不懂，电子就永远配不平。</p><p><b>② 算电子转移（判断谁氧化谁还原）</b>：S：−2 → +4，每个 S <b>失 6e⁻</b>；Co：3 个 Co 里有两个从 +2 → +3，<b>每个失 1e⁻、共失 2e⁻</b>；O：O₂ 中每个 O 从 0 → −2，<b>每个 O 得 2e⁻，一个 O₂ 得 4e⁻</b>。</p><p><b>③ 用「定 1 法」配平（比硬凑更快）</b>：先令 Co₃O₄ 的系数为 1（它含 3 个 Co）：</p><p>　Co 守恒 ⇒ CoS 系数 <b>3</b>；<br>　S 守恒 ⇒ SO₂ 系数 <b>3</b>（3 个 S 全进 SO₂）；<br>　O 守恒 ⇒ 右边 O 共 \(4+3\times2=10\) 个 ⇒ 左边 O₂ 系数 \(10\div2=\)<b>5</b>。</p><p><b>④ 写完必须验两件事</b>：一是原子守恒——O 左边 \(5\times2=10\)、右边 \(4+6=10\) ✓；二是电子守恒——失电子 \(3\times6+2=20\)，得电子 \(5\times4=20\) ✓。两条都过才算配平正确。</p><p style="text-align:center;font-weight:700">3CoS + 5O₂ =(高温) Co₃O₄ + 3SO₂</p><div class="stx"><div class="stx-s"><i>看到题干</i>「(3) “酸浸”时，Co₃O₄ 溶解反应中氧化剂与还原剂的物质的量之比为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co(III) 氧化性强 ⇒ 会把还原性物质氧化 ⇒ 这里 H₂O₂ 是<b>还原剂</b>，把 Co(III) 还原成 Co(II) 以便浸出。2 个 Co(III) 共得 2e⁻，1 个 H₂O₂ 失 2e⁻ ⇒ <b>1:1</b>。</div></div><p><b>① 先判角色：H₂O₂ 在这里是还原剂</b>。H₂O₂ 既能作氧化剂又能作还原剂，取决于对手的强弱。题给「Co₂O₃ 的氧化性 &gt; Cl₂」，说明 <b>Co(III) 是很强的氧化剂</b>，于是 H₂O₂ 只能<b>被氧化</b>、充当<b>还原剂</b>，把 Co(III) 拉回 Co(II) 以便浸出。</p><p><b>② 两个半反应的电子数</b>：还原（Co 得电子）：\(\mathrm{Co^{3+}}+e^-\to\mathrm{Co^{2+}}\)，Co₃O₄ 里有 <b>2 个 Co(III)</b> ⇒ 共得 <b>2e⁻</b>；氧化（H₂O₂ 失电子）：\(\mathrm{H_2O_2}-2e^-\to\mathrm{O_2}\uparrow+2\mathrm{H^+}\)，一个 H₂O₂ 共失 <b>2e⁻</b>（两个 O 各从 −1 升到 0）。</p><p><b>③ 电子守恒 ⇒ 比 1:1</b>：要配平转移电子数，让「1 mol Co₃O₄（提供 2 mol Co(III)、得 2 mol e⁻）」对「1 mol H₂O₂（失 2 mol e⁻）」⇒ 氧化剂 : 还原剂 = <b>1 : 1</b>。</p><p><b>④ 容易混的一点</b>：若把氧化剂<b>按 Co(III) 计</b>，比会是 2 : 1；但题目问的是「Co₃O₄ 溶解反应中氧化剂与还原剂之比」，氧化剂是 <b>Co₃O₄ 这个物质</b>，1 mol 它提供 2 mol 电子 ⇒ 依题问应答 <b>1 : 1</b>。</p><p><b>⑤ 完整离子/化学方程式（写出来才不出错）</b>：</p><p style="text-align:center;font-weight:700">Co₃O₄ + H₂O₂ + 3H₂SO₄ = 3CoSO₄ + O₂↑ + 4H₂O</p><p>逐项验：Co \(1\times3=3\) ✓；S 3 = 3 ✓；O 左 \(4+2+12=18\)、右 \(12+2+4=18\) ✓；H 左 \(2+6=8\)、右 \(4\times2=8\) ✓；电子 得 2 = 失 2 ✓。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「此过程可用浓盐酸代替硫酸和双氧水，缺点除因其挥发性导致利用率低外，还有______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>题给 Co₂O₃ 的氧化性 &gt; Cl₂ ⇒ Co(III) 会把 Cl⁻ 氧化成<b>有毒的 Cl₂</b>，污染环境；另外盐酸易挥发、还原性也会干扰。</div></div><p><b>① 关键依据来自题给信息</b>：「Co₂O₃ 的氧化性 &gt; Cl₂」这句话不是摆设，它等价于说 <b>Co(III) 有能力把 Cl⁻ 氧化成 Cl₂</b>（因为 \(\mathrm{Cl_2}\) 的氧化性比 Co(III) 弱，逆反应就成立）。</p><p><b>② 后果</b>：用浓盐酸时会发生 \(2\mathrm{Co^{3+}}+2\mathrm{Cl^-}\to2\mathrm{Co^{2+}}+\mathrm{Cl_2}\uparrow\)，放出<b>有毒的黄绿色氯气</b> ⇒ 污染环境、危害操作人员，还会腐蚀设备。</p><p><b>③ 顺带两条次要缺点</b>：盐酸易挥发 ⇒ 利用率低（题干已给）；Cl⁻ 有还原性 ⇒ 与体系中的氧化性物质持续反应，消耗试剂、干扰主反应。</p><p><b>④ 为什么用硫酸 + 双氧水更好</b>：\(\mathrm{SO_4^{2-}}\) 中 S 已是最高价（+6），<b>没有还原性</b>，不会被 Co(III) 氧化；双氧水的还原产物是 O₂ 和 H₂O，不引入杂质离子 ⇒ 后续除杂负担小。</p>
       <button class="next-btn">下一步 →</button>
@@ -930,7 +934,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 Ksp 越小、要的 OH⁻ 越少 ⇒ 越早沉；看球往下沉就是变成渣了</span>
   </div>
@@ -944,7 +948,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>目标不是「把所有金属都沉掉」：<b>Ni、Co 是要回收的产品</b>，沉了就是损失。</li><li>调 pH 要用<b>不引新杂质</b>的碱（NiO / NiCO₃），不能用 NaOH，否则带进 Na⁺。</li><li>Fe³⁺ 沉淀完全只需 <b>pH≈2.8</b>：它一定是最先走的那个，不存在「沉不完」的问题。</li><li>「沉淀完全」的判据是 <b>c(离子) &lt; 10⁻⁵</b>，不是「看不见沉淀」；两个口径算出的 pH 差很多。</li><li>这就是 pH 窗口的<b>下限 6.6</b>：低于它 Cu²⁺ 沉不完，高于它 Co²⁺ 就要开始损失。</li><li>上限用「<b>开始沉淀</b>」算（代 c=0.1），下限用「<b>沉淀完全</b>」算（代 10⁻⁵）—— 用反必错。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-4.78,-1.95,9.56,4.45],"eq":"Mⁿ⁺ + n OH⁻ → M(OH)ₙ↓（Ksp 越小越先沉）","atoms":[{"id":"Fe","el":"Fe","lab":"Fe³⁺","x":-3.4,"y":-0.6,"r":0.34},{"id":"Cu","el":"Cu","lab":"Cu²⁺","x":-1.4,"y":-0.6,"r":0.34},{"id":"Ni","el":"Ni","lab":"Ni²⁺","x":1.4,"y":-0.6,"r":0.34},{"id":"Co","el":"Co","lab":"Co²⁺","x":3.4,"y":-0.6,"r":0.34},{"id":"A","el":"O","lab":"OH⁻","x":-4.3,"y":-0.15,"r":0.29,"fs":0.17,"op":0},{"id":"B","el":"O","lab":"OH⁻","x":-3.4,"y":-1.6,"r":0.29,"fs":0.17,"op":0},{"id":"C","el":"O","lab":"OH⁻","x":-2.5,"y":-0.15,"r":0.29,"fs":0.17,"op":0},{"id":"D","el":"O","lab":"OH⁻","x":-2.2,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"E","el":"O","lab":"OH⁻","x":-0.6,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"F","el":"O","lab":"OH⁻","x":2.6,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"G","el":"O","lab":"OH⁻","x":4.2,"y":-0.2,"r":0.29,"fs":0.17,"op":0}],"bonds":[{"id":"Fe-A","a":"Fe","b":"A","o":1,"k":0},{"id":"Fe-B","a":"Fe","b":"B","o":1,"k":0},{"id":"Fe-C","a":"Fe","b":"C","o":1,"k":0},{"id":"Cu-D","a":"Cu","b":"D","o":1,"k":0},{"id":"Cu-E","a":"Cu","b":"E","o":1,"k":0},{"id":"Co-F","a":"Co","b":"F","o":1,"k":0},{"id":"Co-G","a":"Co","b":"G","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"Mⁿ⁺ + n OH⁻ → M(OH)ₙ↓","dur":780,"say":"酸浸液里四种离子同时在：<b>Fe³⁺、Cu²⁺、Ni²⁺、Co²⁺<\/b>。目标是把前两个沉掉、后两个留住。","trap":"目标不是「把所有金属都沉掉」：<b>Ni、Co 是要回收的产品<\/b>，沉了就是损失。"},{"at":{},"op":{"A":1,"B":1,"C":1,"D":1,"E":1},"bd":{},"tags":[{"t":"加碱 ⇒ OH⁻ 进场","x":0.0,"y":-1.02,"c":"#1d4ed8","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"加碱后 <b>OH⁻ 浓度升高<\/b>，四个离子开始抢 —— 谁先被抢满，看谁 Ksp 小。","trap":"调 pH 要用<b>不引新杂质<\/b>的碱（NiO / NiCO₃），不能用 NaOH，否则带进 Na⁺。"},{"at":{"Fe":[-3.4,1.5],"A":[-4.3,1.14],"B":[-3.95,2.06],"C":[-3.4,0.56]},"op":{},"bd":{"Fe-A":1,"Fe-B":1,"Fe-C":1},"tags":[{"t":"Fe(OH)₃↓ 先沉","x":-3.4,"y":0.28,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"<b>Ksp(Fe(OH)₃)=10⁻³⁸·⁶ 最小<\/b> ⇒ Fe³⁺ 最先抢满 3 个 OH⁻，沉到底。","trap":"Fe³⁺ 沉淀完全只需 <b>pH≈2.8<\/b>：它一定是最先走的那个，不存在「沉不完」的问题。"},{"at":{"Cu":[-1.4,1.58],"D":[-2.15,1.1],"E":[-0.65,1.1]},"op":{},"bd":{"Cu-D":1,"Cu-E":1},"tags":[{"t":"Cu(OH)₂↓ 后沉","x":-1.4,"y":0.72,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"轮到 Cu²⁺：<b>Ksp=10⁻¹⁹·⁸<\/b>，pH 到 <b>6.6<\/b> 就沉完全。","trap":"「沉淀完全」的判据是 <b>c(离子) &lt; 10⁻⁵<\/b>，不是「看不见沉淀」；两个口径算出的 pH 差很多。"},{"at":{},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"Ni²⁺（10⁻¹²·⁹）、Co²⁺（10⁻¹⁴·⁸）还稳稳待在溶液里 —— <b>Ksp 大，抢不过前面两个<\/b>。","trap":"这就是 pH 窗口的<b>下限 6.6<\/b>：低于它 Cu²⁺ 沉不完，高于它 Co²⁺ 就要开始损失。"},{"at":{"Co":[3.4,1.58],"F":[2.65,1.1],"G":[4.15,1.1]},"op":{"F":1,"G":1},"bd":{"Co-F":1,"Co-G":1},"tags":[{"t":"pH>7.1：Co(OH)₂ 开始沉","x":3.4,"y":0.72,"c":"#b91c1c","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"pH 再升到 <b>7.1<\/b>，Co²⁺ 也开始沉 ⇒ 这是窗口<b>上限<\/b>；答案填 7.1，浸渣是 Fe(OH)₃ 和 Cu(OH)₂。","trap":"上限用「<b>开始沉淀<\/b>」算（代 c=0.1），下限用「<b>沉淀完全<\/b>」算（代 10⁻⁵）—— 用反必错。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-4.78,-1.95,9.56,4.45],"eq":"Mⁿ⁺ + n OH⁻ → M(OH)ₙ↓（Ksp 越小越先沉）","atoms":[{"id":"Fe","el":"Fe","lab":"Fe³⁺","x":-3.4,"y":-0.6,"r":0.34},{"id":"Cu","el":"Cu","lab":"Cu²⁺","x":-1.4,"y":-0.6,"r":0.34},{"id":"Ni","el":"Ni","lab":"Ni²⁺","x":1.4,"y":-0.6,"r":0.34},{"id":"Co","el":"Co","lab":"Co²⁺","x":3.4,"y":-0.6,"r":0.34},{"id":"A","el":"O","lab":"OH⁻","x":-4.3,"y":-0.15,"r":0.29,"fs":0.17,"op":0},{"id":"B","el":"O","lab":"OH⁻","x":-3.4,"y":-1.6,"r":0.29,"fs":0.17,"op":0},{"id":"C","el":"O","lab":"OH⁻","x":-2.5,"y":-0.15,"r":0.29,"fs":0.17,"op":0},{"id":"D","el":"O","lab":"OH⁻","x":-2.2,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"E","el":"O","lab":"OH⁻","x":-0.6,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"F","el":"O","lab":"OH⁻","x":2.6,"y":-0.2,"r":0.29,"fs":0.17,"op":0},{"id":"G","el":"O","lab":"OH⁻","x":4.2,"y":-0.2,"r":0.29,"fs":0.17,"op":0}],"bonds":[{"id":"Fe-A","a":"Fe","b":"A","o":1,"k":0},{"id":"Fe-B","a":"Fe","b":"B","o":1,"k":0},{"id":"Fe-C","a":"Fe","b":"C","o":1,"k":0},{"id":"Cu-D","a":"Cu","b":"D","o":1,"k":0},{"id":"Cu-E","a":"Cu","b":"E","o":1,"k":0},{"id":"Co-F","a":"Co","b":"F","o":1,"k":0},{"id":"Co-G","a":"Co","b":"G","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"Mⁿ⁺ + n OH⁻ → M(OH)ₙ↓","dur":780,"say":"酸浸液里四种离子同时在：<b>Fe³⁺、Cu²⁺、Ni²⁺、Co²⁺<\/b>。目标是把前两个沉掉、后两个留住。","trap":"目标不是「把所有金属都沉掉」：<b>Ni、Co 是要回收的产品<\/b>，沉了就是损失。"},{"at":{},"op":{"A":1,"B":1,"C":1,"D":1,"E":1},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"加碱 ⇒ OH⁻ 进场","x":0.0,"y":-1.02,"c":"#1d4ed8","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"加碱后 <b>OH⁻ 浓度升高<\/b>，四个离子开始抢 —— 谁先被抢满，看谁 Ksp 小。","trap":"调 pH 要用<b>不引新杂质<\/b>的碱（NiO / NiCO₃），不能用 NaOH，否则带进 Na⁺。"},{"at":{"Fe":[-3.4,1.5],"A":[-4.3,1.14],"B":[-3.95,2.06],"C":[-3.4,0.56]},"op":{},"bd":{"Fe-A":1,"Fe-B":1,"Fe-C":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"Fe(OH)₃↓ 先沉","x":-3.4,"y":0.28,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"<b>Ksp(Fe(OH)₃)=10⁻³⁸·⁶ 最小<\/b> ⇒ Fe³⁺ 最先抢满 3 个 OH⁻，沉到底。","trap":"Fe³⁺ 沉淀完全只需 <b>pH≈2.8<\/b>：它一定是最先走的那个，不存在「沉不完」的问题。"},{"at":{"Cu":[-1.4,1.58],"D":[-2.15,1.1],"E":[-0.65,1.1]},"op":{},"bd":{"Cu-D":1,"Cu-E":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"Cu(OH)₂↓ 后沉","x":-1.4,"y":0.72,"c":"#b45309","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"轮到 Cu²⁺：<b>Ksp=10⁻¹⁹·⁸<\/b>，pH 到 <b>6.6<\/b> 就沉完全。","trap":"「沉淀完全」的判据是 <b>c(离子) &lt; 10⁻⁵<\/b>，不是「看不见沉淀」；两个口径算出的 pH 差很多。"},{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"Ni²⁺（10⁻¹²·⁹）、Co²⁺（10⁻¹⁴·⁸）还稳稳待在溶液里 —— <b>Ksp 大，抢不过前面两个<\/b>。","trap":"这就是 pH 窗口的<b>下限 6.6<\/b>：低于它 Cu²⁺ 沉不完，高于它 Co²⁺ 就要开始损失。"},{"at":{"Co":[3.4,1.58],"F":[2.65,1.1],"G":[4.15,1.1]},"op":{"F":1,"G":1},"bd":{"Co-F":1,"Co-G":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"pH>7.1：Co(OH)₂ 开始沉","x":3.4,"y":0.72,"c":"#b91c1c","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"pH 再升到 <b>7.1<\/b>，Co²⁺ 也开始沉 ⇒ 这是窗口<b>上限<\/b>；答案填 7.1，浸渣是 Fe(OH)₃ 和 Cu(OH)₂。","trap":"上限用「<b>开始沉淀<\/b>」算（代 c=0.1），下限用「<b>沉淀完全<\/b>」算（代 10⁻⁵）—— 用反必错。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「(4) “调 pH”时，当 Co²⁺、Ni²⁺ 的浓度均为 0.1 mol·L⁻¹ 时，pH 最高可调至______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>⇒ 要找 pH 窗口：让 Fe³⁺、Cu²⁺ <b>沉淀完全</b>，同时 Co²⁺、Ni²⁺ <b>还没开始沉淀</b>。</div></div><p><b>先看清目标</b>：要「调 pH 除杂」，就得找一个<b>区间</b>——下界是所有杂质离子<b>沉淀完全</b>所需的 pH，上界是主产物离子<b>开始沉淀</b>的 pH。题目问「最高可调至多少」，就是问这个<b>上界</b>。</p><p><b>① 判据先约定两个标准</b>：「沉淀完全」按 \(c\le10^{-5}\ \mathrm{mol\cdot L^{-1}}\) 计；「开始沉淀」按溶液中该离子原始浓度 \(c=0.1\ \mathrm{mol\cdot L^{-1}}\) 计。两处都不写清，算出来的 pH 就没有意义。</p><p><b>② Fe³⁺ 沉淀完全</b>：\(K_{sp}[\mathrm{Fe(OH)_3}]=10^{-38.6}\)，\(c(\mathrm{OH^-})^3=\dfrac{10^{-38.6}}{10^{-5}}=10^{-33.6}\) ⇒ 开三次方 \(c(\mathrm{OH^-})=10^{-11.2}\)，pOH = 11.2 ⇒ <b>pH = 2.8</b>。</p><p><b>③ Cu²⁺ 沉淀完全</b>：\(K_{sp}[\mathrm{Cu(OH)_2}]=10^{-19.8}\)，\(c(\mathrm{OH^-})^2=\dfrac{10^{-19.8}}{10^{-5}}=10^{-14.8}\) ⇒ 开平方 \(c(\mathrm{OH^-})=10^{-7.4}\)，pOH = 7.4 ⇒ <b>pH = 6.6</b>。</p><p><b>④ Co²⁺ 开始沉淀</b>：\(K_{sp}[\mathrm{Co(OH)_2}]=10^{-14.8}\)，\(c(\mathrm{OH^-})^2=\dfrac{10^{-14.8}}{0.1}=10^{-13.8}\) ⇒ \(c(\mathrm{OH^-})=10^{-6.9}\)，pOH = 6.9 ⇒ <b>pH = 7.1</b>。</p><p><b>⑤ Ni²⁺ 开始沉淀</b>：\(K_{sp}[\mathrm{Ni(OH)_2}]=10^{-12.9}\)，\(c(\mathrm{OH^-})^2=\dfrac{10^{-12.9}}{0.1}=10^{-11.9}\) ⇒ \(c(\mathrm{OH^-})=10^{-5.95}\)，pOH = 5.95 ⇒ <b>pH = 8.05</b>。</p><p><b>⑥ 四个数排成一列看窗口</b>：\(2.8&lt;6.6&lt;7.1&lt;8.05\)。pH 必须同时满足「≥6.6（Cu²⁺ 才沉完）」和「&lt;7.1（Co²⁺ 才开始沉）」⇒ 窗口 \([6.6,\ 7.1)\)。所以<b>最高可调到 7.1</b>（再高 Co²⁺ 就要跟着沉、造成损失）。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「浸渣的主要成分为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>四个门槛 2.8 &lt; 6.6 &lt; 7.1 &lt; 8.05 排成一列，交集就是窗口 <b>[6.6, 7.1]</b> ⇒ pH 最高调到 <b style="color:#0f766e">7.1</b>（再高 Co²⁺ 就要开始沉了）；此时浸渣主要是 <b>Fe(OH)₃、Cu(OH)₂</b>。</div></div><p><b>⑦ 渣怎么来的</b>：pH 调到 7.1 时，Fe³⁺、Cu²⁺ 的浓度都已降到 \(10^{-5}\) 以下，以 \(\mathrm{Fe(OH)_3}\)、\(\mathrm{Cu(OH)_2}\) 沉淀形式进入滤渣；而 \(\mathrm{Co^{2+}}\)、\(\mathrm{Ni^{2+}}\) 尚未开始沉淀，仍留在滤液里 ⇒ 浸渣主要成分就是这两种氢氧化物。</p><p><b>⑧ 这一步的目的要说清</b>：调 pH 的本质是<b>利用各氢氧化物 Ksp 的差异</b>，先把 Ksp 小的杂质沉掉，把 Ksp 大的主产物留在液相——这正是「沉淀法除杂」的通用逻辑。回答时若能写出「2.8 &lt; 6.6 &lt; 7.1 &lt; 8.05」这条序列，就等于把判据摆全了。</p>
       <button class="next-btn">下一步 →</button>
@@ -970,7 +974,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 蓝字「孤对电子」就是 O 要送出去的那一对；绿线是配位键</span>
   </div>
@@ -984,7 +988,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>配位键不是「共用电子对双方各出一个」—— 这里<b>电子对全部由 O 出</b>，Co²⁺ 只出空轨道。</li><li>配位要有<b>空轨道</b>：Fe³⁺、Co²⁺ 这类过渡金属离子才有，Na⁺、Mg²⁺ 基本不形成稳定配合物。</li><li>写配合物时要标清配位原子：<b>P=O 上的 O</b> 配位，不是 P 配位、也不是 -OR 上的 O。</li><li>P204 是「二（2-乙基己基）磷酸」，两个 −OR；P507 只有一个 −OR、另一个是给电子的烷基 R。</li><li>结论方向别写反：电子云越浓 ⇒ 配位越强 ⇒ <b>O(P204) &lt; O(P507)</b>。</li><li>这类题统一套路：<b>看取代基是吸电子还是给电子 → 判断氧上电子云密度 → 定配位强弱</b>。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.6,-1.95,7.2,3.85],"eq":"P=O 的 O 提供孤对电子 → Co²⁺ 提供空轨道 ⇒ 配位键","atoms":[{"id":"Co","el":"Co","lab":"Co²⁺","x":1.35,"y":0.15,"r":0.44},{"id":"O","el":"O","lab":"O","x":-0.05,"y":0.15,"r":0.36},{"id":"P","el":"P","lab":"P","x":-1.3,"y":0.15,"r":0.38},{"id":"Ra","el":"C","lab":"-OR","x":-2.15,"y":-0.55,"r":0.34},{"id":"Rb1","el":"C","lab":"-OR","x":-2.15,"y":0.9,"r":0.34},{"id":"Rb2","el":"C","lab":"R","x":-2.15,"y":0.9,"r":0.34,"op":0},{"id":"Co2","el":"Co","lab":"Co²⁺","x":1.35,"y":0.15,"r":0.44,"op":0}],"bonds":[{"id":"P-O","a":"P","b":"O","o":1,"off":0.075},{"id":"P-Op","a":"P","b":"O","o":1,"off":-0.075},{"id":"P-Ra","a":"P","b":"Ra","o":1},{"id":"P-Rb1","a":"P","b":"Rb1","o":1},{"id":"P-Rb2","a":"P","b":"Rb2","o":1,"k":0},{"id":"O-Co","a":"O","b":"Co","o":1,"k":0},{"id":"P-Co2","a":"P","b":"Co2","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"P=O 的 O 提供孤对电子 → Co²⁺ 提供空轨道 ⇒ 配位键","dur":780,"say":"萃取剂抓 Co²⁺ 靠的是 <b>P=O 上那个氧<\/b>：它有一对<b>孤对电子<\/b>可以送出去。","trap":"配位键不是「共用电子对双方各出一个」—— 这里<b>电子对全部由 O 出<\/b>，Co²⁺ 只出空轨道。"},{"at":{"O":[0.42,0.15],"P":[-0.88,0.15],"Ra":[-1.72,-0.55],"Rb1":[-1.72,0.9]},"op":{},"bd":{},"tags":[{"t":"孤对电子 →","x":0.85,"y":-0.55,"c":"#1d4ed8","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"分子靠过去，O 把<b>孤对电子<\/b>朝 Co²⁺ 的空轨道伸 —— 方向必须对得准。","trap":"配位要有<b>空轨道<\/b>：Fe³⁺、Co²⁺ 这类过渡金属离子才有，Na⁺、Mg²⁺ 基本不形成稳定配合物。"},{"at":{"O":[0.55,0.15],"Co":[1.55,0.15]},"op":{},"bd":{"O-Co":1},"tags":[{"t":"配位键（O → Co）","x":1.05,"y":-0.75,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"配位键成形：<b>O 出电子、Co 出空位<\/b> ⇒ 这个键让 Co²⁺ 被「抓」进有机相。","trap":"写配合物时要标清配位原子：<b>P=O 上的 O<\/b> 配位，不是 P 配位、也不是 -OR 上的 O。"},{"at":{},"op":{"Rb2":1},"bd":{"P-Rb1":0,"P-Rb2":1},"tags":[],"eq":null,"dur":780,"say":"换成 <b>P204<\/b>：它有两个吸电子的 <b>−OR<\/b> ⇒ 把 O 上的电子云往 P 那边拉走。","trap":"P204 是「二（2-乙基己基）磷酸」，两个 −OR；P507 只有一个 −OR、另一个是给电子的烷基 R。"},{"at":{},"op":{"Rb2":0},"bd":{"P-Rb1":1,"P-Rb2":0},"tags":[{"t":"−OR 吸电子 ⇒ O 电子云变淡 ⇒ 配位弱","x":-0.55,"y":1.55,"c":"#b91c1c","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"换成 <b>P507<\/b>：只有一个 −OR，另一个是 <b>给电子的 R<\/b> ⇒ O 上的电子云更浓、抓 Co²⁺ 更有力。","trap":"结论方向别写反：电子云越浓 ⇒ 配位越强 ⇒ <b>O(P204) &lt; O(P507)<\/b>。"},{"at":{},"op":{},"bd":{},"tags":[{"t":"所以填「<」","x":0.0,"y":1.55,"c":"#15803d","fs":0.26,"dy":0.0}],"eq":"O(P204) < O(P507)","dur":780,"say":"吸电子基越多、P=O 的氧越「穷」⇒ 配位能力越弱；<b>P507 的 R 给电子，所以更强<\/b>。","trap":"这类题统一套路：<b>看取代基是吸电子还是给电子 → 判断氧上电子云密度 → 定配位强弱<\/b>。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.6,-1.95,7.2,3.85],"eq":"P=O 的 O 提供孤对电子 → Co²⁺ 提供空轨道 ⇒ 配位键","atoms":[{"id":"Co","el":"Co","lab":"Co²⁺","x":1.35,"y":0.15,"r":0.44},{"id":"O","el":"O","lab":"O","x":-0.05,"y":0.15,"r":0.36},{"id":"P","el":"P","lab":"P","x":-1.3,"y":0.15,"r":0.38},{"id":"Ra","el":"C","lab":"-OR","x":-2.15,"y":-0.55,"r":0.34},{"id":"Rb1","el":"C","lab":"-OR","x":-2.15,"y":0.9,"r":0.34},{"id":"Rb2","el":"C","lab":"R","x":-2.15,"y":0.9,"r":0.34,"op":0},{"id":"Co2","el":"Co","lab":"Co²⁺","x":1.35,"y":0.15,"r":0.44,"op":0}],"bonds":[{"id":"P-O","a":"P","b":"O","o":1,"off":0.075},{"id":"P-Op","a":"P","b":"O","o":1,"off":-0.075},{"id":"P-Ra","a":"P","b":"Ra","o":1},{"id":"P-Rb1","a":"P","b":"Rb1","o":1},{"id":"P-Rb2","a":"P","b":"Rb2","o":1,"k":0},{"id":"O-Co","a":"O","b":"Co","o":1,"k":0},{"id":"P-Co2","a":"P","b":"Co2","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"P=O 的 O 提供孤对电子 → Co²⁺ 提供空轨道 ⇒ 配位键","dur":780,"say":"萃取剂抓 Co²⁺ 靠的是 <b>P=O 上那个氧<\/b>：它有一对<b>孤对电子<\/b>可以送出去。","trap":"配位键不是「共用电子对双方各出一个」—— 这里<b>电子对全部由 O 出<\/b>，Co²⁺ 只出空轨道。"},{"at":{"O":[0.42,0.15],"P":[-0.88,0.15],"Ra":[-1.72,-0.55],"Rb1":[-1.72,0.9]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"孤对电子 →","x":0.85,"y":-0.55,"c":"#1d4ed8","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"分子靠过去，O 把<b>孤对电子<\/b>朝 Co²⁺ 的空轨道伸 —— 方向必须对得准。","trap":"配位要有<b>空轨道<\/b>：Fe³⁺、Co²⁺ 这类过渡金属离子才有，Na⁺、Mg²⁺ 基本不形成稳定配合物。"},{"at":{"O":[0.55,0.15],"Co":[1.55,0.15]},"op":{},"bd":{"O-Co":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"配位键（O → Co）","x":1.05,"y":-0.75,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"配位键成形：<b>O 出电子、Co 出空位<\/b> ⇒ 这个键让 Co²⁺ 被「抓」进有机相。","trap":"写配合物时要标清配位原子：<b>P=O 上的 O<\/b> 配位，不是 P 配位、也不是 -OR 上的 O。"},{"at":{},"op":{"Rb2":1},"bd":{"P-Rb1":0,"P-Rb2":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"换成 <b>P204<\/b>：它有两个吸电子的 <b>−OR<\/b> ⇒ 把 O 上的电子云往 P 那边拉走。","trap":"P204 是「二（2-乙基己基）磷酸」，两个 −OR；P507 只有一个 −OR、另一个是给电子的烷基 R。"},{"at":{},"op":{"Rb2":0},"bd":{"P-Rb1":1,"P-Rb2":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"−OR 吸电子 ⇒ O 电子云变淡 ⇒ 配位弱","x":-0.55,"y":1.55,"c":"#b91c1c","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"换成 <b>P507<\/b>：只有一个 −OR，另一个是 <b>给电子的 R<\/b> ⇒ O 上的电子云更浓、抓 Co²⁺ 更有力。","trap":"结论方向别写反：电子云越浓 ⇒ 配位越强 ⇒ <b>O(P204) &lt; O(P507)<\/b>。"},{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"所以填「<」","x":0.0,"y":1.55,"c":"#15803d","fs":0.26,"dy":0.0}],"eq":"O(P204) < O(P507)","dur":780,"say":"吸电子基越多、P=O 的氧越「穷」⇒ 配位能力越弱；<b>P507 的 R 给电子，所以更强<\/b>。","trap":"这类题统一套路：<b>看取代基是吸电子还是给电子 → 判断氧上电子云密度 → 定配位强弱<\/b>。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「(5) “沉钴”时，若只加入碳酸氢铵，制得的 CoCO₃ 沉淀颗粒较为疏松，原因是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Co²⁺ + 2HCO₃⁻ = CoCO₃↓ + CO₂↑ + H₂O ⇒ 反应<b>放出大量 CO₂ 气泡</b>，气泡扰动晶体生长 ⇒ CoCO₃ 颗粒<b>疏松</b>、易过滤易洗涤。</div></div><p><b>先看清目标</b>：本关三道小题——沉钴为什么疏松、萃取剂配位强弱、晶胞配位数与密度，三题彼此独立，但都属于「用一个模型把现象解释掉」。答题时先说<b>模型</b>（气泡成孔 / 电子云密度 / 面心立方），再落到结论。</p><p><b>① 先把反应式写出来</b>（这是本问的地基）：</p><p style="text-align:center;font-weight:700">Co²⁺ + 2HCO₃⁻ = CoCO₃↓ + CO₂↑ + H₂O</p><p><b>② 验一遍守恒</b>：电荷 左 \(+2+2\times(-1)=0\)、右 0 ✓；原子 Co 1=1、C 2=1+1、O \(2\times3=3+2+1=6\)、H 2=2 ✓。</p><p><b>③ 为什么会冒气泡</b>：\(\mathrm{HCO_3^-}\) 既提供 \(\mathrm{CO_3^{2-}}\) 去沉钴，又提供 \(\mathrm{H^+}\)。两个 \(\mathrm{HCO_3^-}\) 相遇时，一个给出 \(\mathrm{H^+}\)、另一个接受它变成 \(\mathrm{H_2CO_3}\)，随即分解放出 \(\mathrm{CO_2}\)。所以<b>每生成 1 mol \(\mathrm{CoCO_3}\) 必伴生 1 mol \(\mathrm{CO_2}\) 气体</b>。</p><p><b>④ 气泡为什么让颗粒疏松</b>：沉淀在液相中生成时，\(\mathrm{CO_2}\) 气泡从沉淀内部穿过、逸出，在颗粒里留下大量<b>气孔通道</b>；气泡还会扰动晶体生长、阻碍颗粒致密化 ⇒ 得到蓬松多孔的产品。</p><p><b>⑤ 好处落到操作上</b>：多孔 ⇒ 比表面大 ⇒ 过滤阻力小、洗涤时杂质易被带走；后续煅烧分解时也更容易进行。答题时把「气泡 → 多孔 → 易过滤洗涤」这条链写出来即可得满分。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「已知 -OR 是吸电子基团，请结合结构知识分析两者配位能力大小：O（P204）______O（P507）」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两者都靠 P=O 上的氧给孤对电子；P507 多一个<b>给电子</b>的烃基 R，P204 是两个<b>吸电子</b>的 −OR ⇒ P507 氧上电子云密度更大 ⇒ 配位更强 ⇒ <b style="color:#0f766e">O(P204) &lt; O(P507)</b>。</div></div><p><b>① 先看两者差在哪</b>：P204 与 P507 的骨架相同，都是「磷原子连着 P=O」的萃取剂，区别只在磷上另外两个取代基：<b>P204 是两个 −OR（题目说它是吸电子基）</b>，<b>P507 是一个 −OR 加上一个烷基 R（给电子基）</b>。</p><p><b>② 配位靠什么</b>：这类萃取剂与金属离子配位，靠的是 <b>P=O 上氧原子的孤对电子</b>去填充金属离子的空轨道。所以判断强弱，只看一件事——<b>这个氧上的电子云密度大不大</b>。</p><p><b>③ 取代基如何影响氧</b>：吸电子的 −OR 会把磷氧键上的电子云往磷方向拉、也从氧上「抽水」⇒ 氧的电子云密度下降 ⇒ 给电子能力变弱；给电子的烷基 R 则把电子推向磷、再传向氧 ⇒ 氧的电子云密度上升 ⇒ 给电子能力变强。</p><p><b>④ 比一比</b>：P204 有<b>两个</b>吸电子基 ⇒ 双重削弱；P507 只有<b>一个</b>吸电子基，另一个是给电子的烷基 ⇒ 相对削弱得少。所以 P204 的氧电子云更稀 ⇒ 配位能力更弱。</p><p><b>⑤ 结论</b>：O(P204) <b>&lt;</b> O(P507)。这也解释了工业上为什么 P507 能在更温和的条件下分离钴镍——它的配位能力更强、选择性也更好。</p><p><b>⑥ 答题模板</b>：「配位靠 P=O 氧的孤对电子 → −OR 吸电子使氧电子云密度降低 → P204 含两个 −OR、P507 只含一个 → 故 O(P204) &lt; O(P507)」。四句话缺一句都可能扣分。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「Co 的一种氧化物的立方晶胞如图所示。该晶体中 Co²⁺ 的配位数是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>NaCl 型 ⇒ <b>配位数 6、Z = 4</b> ⇒ ρ = 4M/(N_A·a³) = 4×75/(N_A·a³) ⇒ <b>ρ = 300/(N_A·a³×10⁻²¹) g/cm³</b>（a 以 nm 计）。</div></div><p><b>① 先认晶胞类型</b>：图里 Co²⁺ 与 O²⁻ 各自作<b>面心立方</b>排列、互相错开穿套，这就是标准的 <b>NaCl 型</b>结构。认出来这一句，后面三个数据都不用再推。</p><p><b>② 配位数</b>：取任一个 Co²⁺ 看它最近邻的 O²⁻——沿三个坐标轴各有上下 2 个 ⇒ 共 <b>6 个</b>，构成正八面体。所以 Co²⁺ 的配位数是 <b>6</b>（O²⁻ 的配位数同样是 6）。</p><p><b>③ 数一个晶胞里有几个「CoO」</b>：面心立方中，顶点 8 个各占 \(\dfrac18\)、面心 6 个各占 \(\dfrac12\) ⇒ \(8\times\dfrac18+6\times\dfrac12=1+3=4\) ⇒ <b>Z = 4</b>。</p><p><b>④ 密度公式</b>：\(\rho=\dfrac{Z\cdot M}{N_A\cdot V}\)，其中 \(V=a^3\)（\(a\) 为棱长）。注意 \(M\) 用 <b>CoO 的摩尔质量</b>：\(59+16=75\ \mathrm{g\cdot mol^{-1}}\)。</p><p><b>⑤ 单位换算（本题唯一的易错点）</b>：\(a\) 以 nm 给出，\(1\ \mathrm{nm}=10^{-7}\ \mathrm{cm}\) ⇒ \(V=a^3\times10^{-21}\ \mathrm{cm^3}\)。这一步漏了，答案就差 \(10^{21}\) 倍。</p><p style="text-align:center;font-weight:700">ρ = 4×75 / (N_A · a³ × 10⁻²¹) = 300 / (N_A · a³ × 10⁻²¹) g·cm⁻³</p><p><b>⑥ 自检</b>：代入 \(a\approx0.42\ \mathrm{nm}\)（典型值）估算，得 \(\rho\approx6.7\ \mathrm{g\cdot cm^{-3}}\)，与钴氧化物的实际密度同一量级 ⇒ 公式方向没错。</p>
       <button class="next-btn">下一步 →</button>
@@ -4053,7 +4057,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <script>
 
-/* ===== 分子动画舞台引擎 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台引擎 KMA · MSK-VER 20261022b ===== */
 (function () {
   if (window.__MSK__) { window.__MSK_BOOT__ && window.__MSK_BOOT__(); return; }
   window.__MSK__ = 1;
@@ -4069,6 +4073,11 @@ document.addEventListener('DOMContentLoaded',function(){
     for (var k in attrs) e.setAttribute(k, attrs[k]);
     return e;
   }
+  function mfn(s) {
+    var src = String(s == null ? '' : s).replace(/\^/g, '**');
+    try { return new Function('x', 'with(Math){return (' + src + ')}'); }
+    catch (e) { return function () { return NaN; }; }
+  }
 
   function boot(root) {
     if (root.__msk) return;
@@ -4080,12 +4089,45 @@ document.addEventListener('DOMContentLoaded',function(){
     var svg = root.querySelector('.msk-svg');
     var v = data.view || [-5, -3, 10, 6];
     svg.setAttribute('viewBox', v.join(' '));
-    var gB = svg.querySelector('.msk-bds');
-    var gA = svg.querySelector('.msk-ats');
-    var gT = svg.querySelector('.msk-tags');
+
+    /* 图层次序：曲线(底) → 键 → 矢量 → 实体 → 标签。旧文件缺 g 时自动补。 */
+    function grp(cls, anchor) {
+      var e = svg.querySelector('.' + cls);
+      if (e) return e;
+      e = mk('g', {'class': cls});
+      if (anchor && anchor.parentNode === svg) svg.insertBefore(e, anchor);
+      else svg.appendChild(e);
+      return e;
+    }
+    var gA0 = svg.querySelector('.msk-ats');
+    var gB0 = svg.querySelector('.msk-bds');
+    var gC = grp('msk-cvs', gB0);
+    var gF = grp('msk-fcs', gC);
+    var gB = grp('msk-bds');
+    var gV = grp('msk-vecs', gA0);
+    var gA = grp('msk-ats');
+    var gL = grp('msk-vls', svg.querySelector('.msk-tags') || null);
+    var gT = grp('msk-tags');
     var eqEl = root.querySelector('.msk-eqp');
 
-    /* ---------------- 原子 ---------------- */
+    /* 箭头 marker：按颜色缓存 */
+    var defs = mk('defs', {});
+    svg.insertBefore(defs, svg.firstChild);
+    var MK = {};
+    function arrow(col) {
+      var key = String(col).replace(/[^0-9a-zA-Z]/g, '');
+      var id = 'mskarw' + key;
+      if (!MK[key]) {
+        var m = mk('marker', {id: id, viewBox: '0 0 10 10', refX: 8.5, refY: 5,
+                              markerWidth: 4.6, markerHeight: 4.6, orient: 'auto-start-reverse'});
+        m.appendChild(mk('path', {d: 'M0,0 L10,5 L0,10 z', fill: col}));
+        defs.appendChild(m);
+        MK[key] = id;
+      }
+      return MK[key];
+    }
+
+    /* ---------------- 实体（默认圆形原子；数学/物理可换形状） ---------------- */
     var A = {}, ids = [];
     (data.atoms || []).forEach(function (a) {
       var r = a.r != null ? a.r : (a.el === 'H' ? 0.23 : 0.31);
@@ -4093,21 +4135,70 @@ document.addEventListener('DOMContentLoaded',function(){
       var g = mk('g', {'class': 'msk-at'});
       var halo = mk('circle', {r: r * 1.5, fill: col, opacity: 0});
       halo.setAttribute('class', 'halo');
-      var c = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
-      var t = mk('text', {
-        'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: '#fff',
-        'text-anchor': 'middle', 'dominant-baseline': 'central'
-      });
-      t.textContent = (a.lab != null ? a.lab : a.el);
-      g.appendChild(halo); g.appendChild(c); g.appendChild(t);
-      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')');
+      g.appendChild(halo);
+      var body;
+      if (a.shape === 'rect') {
+        body = mk('rect', {x: -r * 1.2, y: -r * 0.66, width: r * 2.4, height: r * 1.32,
+                           rx: .07, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'tri') {
+        body = mk('polygon', {points: (-r * 1.2) + ',' + (r * 0.78) + ' ' +
+                              (r * 1.2) + ',' + (r * 0.78) + ' 0,' + (-r * 0.95),
+                              fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'poly') {
+        var pp = (a.pts || [[-1, -1], [1, -1], [1, 1], [-1, 1]]).map(function (q) {
+          return (q[0] * r).toFixed(3) + ',' + (q[1] * r).toFixed(3);
+        }).join(' ');
+        body = mk('polygon', {points: pp, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else {
+        body = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
+      }
+      g.appendChild(body);
+      var lab = (a.lab != null ? a.lab : a.el);
+      if (lab && a.shape !== 'dot') {
+        var t = mk('text', {
+          'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: (a.tc || '#fff'),
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        });
+        t.textContent = lab;
+        g.appendChild(t);
+      }
+      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')' +
+                     (a.rot ? ' rotate(' + a.rot + ')' : ''));
       var op0 = (a.op == null ? 1 : a.op);
       g.setAttribute('opacity', op0);
-      gA.appendChild(g);
-      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0,
+      if (a.under) gC.insertBefore(g, gC.firstChild); else gA.appendChild(g);
+      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0, rot: (a.rot || 0),
                  tx: a.x, ty: a.y, top: op0, flash: 0};
       ids.push(a.id);
     });
+
+    /* ---------------- 面（顶点随实体自动变形） ---------------- */
+    var F = [];
+    (data.faces || []).forEach(function (q, i) {
+      var pg = mk('polygon', {'stroke-linejoin': 'round'});
+      var col = q.c || '#bfdbfe';
+      pg.setAttribute('fill', col);
+      if (q.s) { pg.setAttribute('stroke', q.s);
+                 pg.setAttribute('stroke-width', q.sw || .04);
+                 if (q.dash) pg.setAttribute('stroke-dasharray', q.dash); }
+      else pg.setAttribute('stroke', 'none');
+      var op0 = (q.op == null ? .45 : q.op);
+      pg.setAttribute('opacity', op0);
+      gF.appendChild(pg);
+      F.push({id: q.id || ('face' + i), pts: (q.pts || []), pg: pg,
+              op: op0, top: op0, c: col});
+    });
+
+    function paintFace(f) {
+      var ps = [], ok = true;
+      f.pts.forEach(function (id) {
+        var a = A[id];
+        if (!a || a.op < .05) { ok = false; return; }
+        ps.push(a.x.toFixed(3) + ',' + a.y.toFixed(3));
+      });
+      f.pg.setAttribute('points', ok ? ps.join(' ') : '');
+      f.pg.setAttribute('opacity', ok ? f.op.toFixed(3) : 0);
+    }
 
     /* ---------------- 键 ---------------- */
     var B = [], bmap = {};
@@ -4116,30 +4207,143 @@ document.addEventListener('DOMContentLoaded',function(){
       var o = b.o || 1;
       var lines = [];
       for (var i = 0; i < o; i++) {
-        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': .075, 'class': 'msk-bd'});
+        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': (b.w || .075), 'class': 'msk-bd'});
+        if (b.dash) ln.setAttribute('stroke-dasharray', b.dash);
         ln.setAttribute('opacity', 1);
         gB.appendChild(ln);
         lines.push(ln);
       }
       var k0 = (b.k == null ? 1 : b.k);
       var rec = {id: id, a: b.a, b: b.b, o: o, lines: lines, k: k0, tk: k0, mode: 0,
+                 w: (b.w || .075), dash: (b.dash || null), c: (b.c || null),
                  off: (b.off != null ? b.off : (o === 2 ? .085 : 0))};
       B.push(rec); bmap[id] = rec;
     });
 
+    /* ---------------- 矢量（力 / 速度 / 位移 / 电场强度） ---------------- */
+    var V = [], vids = [];
+    (data.vecs || []).forEach(function (q) {
+      var col = q.c || '#dc2626';
+      var g = mk('g', {'class': 'msk-vc'});
+      var ln = mk('line', {stroke: col, 'stroke-width': (q.w || .07)});
+      ln.setAttribute('marker-end', 'url(#' + arrow(col) + ')');
+      g.appendChild(ln);
+      var lb = null;
+      if (q.lab) {
+        lb = mk('text', {'font-size': (q.fs || .26), fill: col, 'text-anchor': 'middle',
+                         'dominant-baseline': 'central', 'class': 'msk-lbl'});
+        lb.textContent = q.lab;
+        g.appendChild(lb);
+      }
+      var op0 = (q.op == null ? 1 : q.op);
+      g.setAttribute('opacity', op0);
+      gV.appendChild(g);
+      V.push({id: q.id, src: q.src || null, dx: (q.dx || 0), dy: (q.dy || 0),
+              tdx: (q.dx || 0), tdy: (q.dy || 0), ax: (q.ax || 0), ay: (q.ay || 0),
+              g: g, ln: ln, lb: lb, op: op0, top: op0, col: col});
+      vids.push(q.id);
+    });
+
+    /* ---------------- 曲线（函数图像 / 轨迹 / 场线 / 波形） ---------------- */
+    var C = [], cids = [];
+    (data.curves || []).forEach(function (q) {
+      var col = q.c || '#2563eb';
+      var g = mk('g', {'class': 'msk-cvg'});
+      var p = mk('path', {'class': 'msk-cv', stroke: col, 'stroke-width': (q.w || .06)});
+      if (q.dash) p.setAttribute('stroke-dasharray', q.dash);
+      g.appendChild(p);
+      gC.appendChild(g);
+      var d = '';
+      if (q.d) {
+        d = q.d;
+      } else if (q.f) {
+        var f = mfn(q.f);
+        var x0 = (q.x0 != null) ? q.x0 : v[0];
+        var x1 = (q.x1 != null) ? q.x1 : v[0] + v[2];
+        var n = q.n || 160, seg = [];
+        for (var i = 0; i <= n; i++) {
+          var xx = x0 + (x1 - x0) * i / n;
+          var yy = f(xx);
+          if (!isFinite(yy)) continue;
+          if (q.flip) yy = -yy;
+          seg.push((seg.length ? 'L' : 'M') + xx.toFixed(3) + ',' + yy.toFixed(3));
+        }
+        d = seg.join(' ');
+      }
+      p.setAttribute('d', d || 'M0,0');
+      var op0 = (q.op == null ? 1 : q.op);
+      var pr0 = (q.prog == null ? 1 : q.prog);
+      g.setAttribute('opacity', op0);
+      C.push({id: q.id, p: p, g: g, op: op0, top: op0, prog: pr0, tprog: pr0,
+              len: 0, fixedDash: q.dash || null, col: col});
+      cids.push(q.id);
+    });
+
+    function paintCurve(c) {
+      if (c.len > 0 && !c.fixedDash) {
+        c.p.setAttribute('stroke-dasharray', c.len + ' ' + c.len);
+        c.p.setAttribute('stroke-dashoffset', (c.len * (1 - c.prog)).toFixed(2));
+      }
+      c.g.setAttribute('opacity', c.op.toFixed(3));
+    }
+    function measure() {
+      C.forEach(function (c) {
+        try { c.len = c.p.getTotalLength() || 0; } catch (e) { c.len = 0; }
+        paintCurve(c);
+      });
+    }
+
+    function paintVec(q) {
+      var ox = q.ax, oy = q.ay, rr = 0;
+      if (q.src && A[q.src]) {
+        ox = A[q.src].x; oy = A[q.src].y; rr = A[q.src].r * .95;
+      }
+      var L = Math.sqrt(q.dx * q.dx + q.dy * q.dy) || 1;
+      var sx = ox + q.dx / L * rr, sy = oy + q.dy / L * rr;
+      var x2 = ox + q.dx, y2 = oy + q.dy;
+      q.ln.setAttribute('x1', sx.toFixed(3));
+      q.ln.setAttribute('y1', sy.toFixed(3));
+      q.ln.setAttribute('x2', x2.toFixed(3));
+      q.ln.setAttribute('y2', y2.toFixed(3));
+      q.g.setAttribute('opacity', q.op.toFixed(3));
+      if (q.lb) {
+        q.lb.setAttribute('x', (x2 + q.dx / L * .26).toFixed(3));
+        q.lb.setAttribute('y', (y2 + q.dy / L * .26).toFixed(3));
+      }
+    }
+    V.forEach(function (q) { paintVec(q); });
+    C.forEach(function (c) { paintCurve(c); });
+    F.forEach(function (f) { paintFace(f); });
+    setTimeout(measure, 40);
+
     /* ---------------- 步骤 ---------------- */
     var steps = data.steps || [];
     var N = steps.length, cur = -1, anim = null;
+    var locTags = [];
 
     function blankTags() { while (gT.firstChild) gT.removeChild(gT.firstChild); }
 
     function applyStep(k) {
       var s = steps[k] || {};
       var at = s.at || {}, op = s.op || {}, bd = s.bd || {};
+      var vv = s.vv || {}, vo = s.vo || {}, cv = s.cv || {}, fv = s.fv || {};
       ids.forEach(function (id) {
         var a = A[id];
         if (at[id]) { a.tx = at[id][0]; a.ty = at[id][1]; }
         if (op[id] != null) { a.top = op[id]; }
+      });
+      V.forEach(function (q) {
+        if (vv[q.id]) { q.tdx = vv[q.id][0]; q.tdy = vv[q.id][1]; }
+        if (vo[q.id] != null) q.top = vo[q.id];
+      });
+      C.forEach(function (c) {
+        var w = cv[c.id];
+        if (w == null) return;
+        if (typeof w === 'number') { c.top = w ? 1 : 0; }
+        else { if (w.op != null) c.top = w.op; if (w.prog != null) c.tprog = w.prog; }
+      });
+      F.forEach(function (f) {
+        if (fv[f.id] != null) f.top = fv[f.id] ? 1 : 0;
       });
       B.forEach(function (b) {
         var key = b.id;
@@ -4167,7 +4371,7 @@ document.addEventListener('DOMContentLoaded',function(){
         t.__el = tx;
       });
       if (eqEl) eqEl.textContent = s.eq != null ? s.eq : (data.eq || '');
-      window.__mskTags = s.tags || [];
+      locTags = s.tags || [];
     }
 
     function frame(now) {
@@ -4183,7 +4387,8 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x = a.x0 + (a.tx - a.x0) * pm;
         a.y = a.y0 + (a.ty - a.y0) * pm;
         a.op = a.op0 + (a.top - a.op0) * pk;
-        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')');
+        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')' +
+                         (a.rot ? ' rotate(' + a.rot + ')' : ''));
         a.g.setAttribute('opacity', a.op.toFixed(3));
         var h = a.g.querySelector('.halo');
         if (h) {
@@ -4198,19 +4403,38 @@ document.addEventListener('DOMContentLoaded',function(){
         drawBond(b, p);
       });
 
-      (window.__mskTags || []).forEach(function (t) {
+      V.forEach(function (q) {
+        q.dx = q.dx0 + (q.tdx - q.dx0) * pm;
+        q.dy = q.dy0 + (q.tdy - q.dy0) * pm;
+        q.op = q.op0v + (q.top - q.op0v) * pk;
+        paintVec(q);
+      });
+      C.forEach(function (c) {
+        c.prog = c.prog0 + (c.tprog - c.prog0) * pm;
+        c.op = c.op0v + (c.top - c.op0v) * pk;
+        paintCurve(c);
+      });
+      F.forEach(function (f) {
+        f.op = f.op0 + (f.top - f.op0) * pk;
+        paintFace(f);
+      });
+
+      locTags.forEach(function (t) {
         if (!t.__el) return;
         var q = Math.max(0, (p - .35) / .65);
         t.__el.setAttribute('opacity', (q > 0 ? Math.min(1, q * 2.2) : 0).toFixed(3));
         t.__el.setAttribute('transform', 'translate(' + (q * (t.dx || 0)).toFixed(2) + ',' +
-          (-q * (t.dy || .18)).toFixed(2) + ')');
+          (-q * (t.dy != null ? t.dy : .18)).toFixed(2) + ')');
       });
 
       if (p < 1) requestAnimationFrame(frame);
       else {
         B.forEach(function (b) { b.mode = 0; drawBond(b, 1); });
         ids.forEach(function (a) { a.flash = 0; });
-        (window.__mskTags || []).forEach(function (t) {
+        V.forEach(function (q) { q.dx = q.tdx; q.dy = q.tdy; q.op = q.top; paintVec(q); });
+        C.forEach(function (c) { c.prog = c.tprog; c.op = c.top; paintCurve(c); });
+        F.forEach(function (f) { f.op = f.top; paintFace(f); });
+        locTags.forEach(function (t) {
           if (t.__el) t.__el.setAttribute('opacity', 1);
         });
         anim = null;
@@ -4230,8 +4454,8 @@ document.addEventListener('DOMContentLoaded',function(){
       var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
       /* gap：两截各向后退多少 ⇒ k=0 时退到 0 长度（断成两截） */
       var gap = (1 - b.k) * LL / 2;
-      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : '#94a3b8');
-      var w = b.mode ? .095 : .075;
+      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : (b.c || '#94a3b8'));
+      var w = b.mode ? (b.w || .075) * 1.25 : (b.w || .075);
       var off = b.off;
       for (var i = 0; i < b.lines.length; i++) {
         var ln = b.lines[i];
@@ -4247,6 +4471,7 @@ document.addEventListener('DOMContentLoaded',function(){
         /* 另一半 */
         if (!ln._r) {
           ln._r = mk('line', {'class': 'msk-bd', 'stroke-linecap': 'round'});
+          if (b.dash) ln._r.setAttribute('stroke-dasharray', b.dash);
           gB.appendChild(ln._r);
         }
         var r = ln._r;
@@ -4258,6 +4483,19 @@ document.addEventListener('DOMContentLoaded',function(){
         r.setAttribute('stroke-width', w);
         r.setAttribute('opacity', b.k > .002 ? 1 : 0);
       }
+    }
+
+    /* KaTeX：say / trap 里的公式要现渲染（innerHTML 是后来塞进去的） */
+    var MD = [{left:'$$',right:'$$',display:true},
+              {left:'\\(',right:'\\)',display:false},
+              {left:'$',right:'$',display:false}];
+    function rmath(el) {
+      if (!el) return;
+      if (!window.renderMathInElement) {          /* katex 还没加载完：稍后重试 */
+        setTimeout(function () { rmath(el); }, 400);
+        return;
+      }
+      try { window.renderMathInElement(el, {delimiters: MD, throwOnError: false}); } catch (e) {}
     }
 
     /* ---------------- 控制 ---------------- */
@@ -4284,6 +4522,9 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x0 = a.x; a.y0 = a.y; a.op0 = a.op;
       });
       B.forEach(function (b) { b.k0 = b.k; });
+      V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+      C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+      F.forEach(function (f) { f.op0 = f.op; });
       applyStep(k);
       anim = {t0: performance.now(), dur: silent ? 1 : (s.dur || 780)};
       requestAnimationFrame(frame);
@@ -4292,8 +4533,8 @@ document.addEventListener('DOMContentLoaded',function(){
         d.classList.toggle('on', i <= k);
         d.classList.toggle('cur', i === k);
       });
-      if (sayEl) sayEl.innerHTML = s.say || '';
-      if (trapEl) trapEl.innerHTML = s.trap || '';
+      if (sayEl) { sayEl.innerHTML = s.say || ''; rmath(sayEl); }
+      if (trapEl) { trapEl.innerHTML = s.trap || ''; rmath(trapEl); }
       if (bar) bar.style.width = ((k + 1) / N * 100) + '%';
       if (idxEl) idxEl.textContent = (k + 1) + ' / ' + N;
       if (bPrev) bPrev.disabled = (k === 0);
@@ -4323,6 +4564,9 @@ document.addEventListener('DOMContentLoaded',function(){
     /* 无动画地落到第 1 步 */
     ids.forEach(function (id) { var a = A[id]; a.x0 = a.x; a.y0 = a.y; a.op0 = a.op; });
     B.forEach(function (b) { b.k0 = b.k; });
+    V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+    C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+    F.forEach(function (f) { f.op0 = f.op; });
     paint(0, true);
   }
 
