@@ -684,7 +684,7 @@ section[id]{scroll-margin-top:58px}
 @media(max-width:720px){.csa-vs{grid-template-columns:1fr}.csa-node{min-width:88px;padding:8px 10px}}
 
 
-/* ===== 分子动画舞台 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台 KMA · MSK-VER 20261022b ===== */
 .msk .csa-stage{padding:6px 10px 2px;background:linear-gradient(180deg,#fbfdff,#f6faff)}
 .msk-svg{display:block;width:100%;height:auto;overflow:visible}
 .msk .csa-top b{color:#0f766e}
@@ -692,6 +692,10 @@ section[id]{scroll-margin-top:58px}
 .msk-at text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:700;pointer-events:none;user-select:none}
 .msk-bd{stroke-linecap:round}
+.msk-vc{stroke-linecap:round}
+.msk-vl text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  font-weight:800;pointer-events:none}
+.msk-cv{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .msk-tag text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:800;pointer-events:none}
 .msk-eqp{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
@@ -889,7 +893,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 第 3 步成键变绿是复分解；第 5 步冒出的深灰球是被还原出来的银</span>
   </div>
@@ -903,7 +907,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>SO₂ 不是直接与 Ag⁺ 反应：中间必过 <b>SO₂ + H₂O ⇌ H₂SO₃</b> 这一步，别漏写水。</li><li>Ag⁺ 结合的是 <b>O 端</b>不是 S 端：S 上没有多余电子对，接不上银离子。</li><li>这一步 <b>S 的价态没变（+4）</b>—— 复分解只换伙伴，不动电子。</li><li>「大量白色」是主体反应；如果只写白色、漏掉灰黑，Ⅱ① 的设问就接不上。</li><li>灰黑不等于「沉淀很脏」：<b>银单质就是灰黑色</b>，这是判断氧化还原发生了的关键证据。</li><li>离子方程式配平要点：S 从 +4 到 +6 失 2e，Ag⁺ 得 1e×2 ⇒ <b>SO₂ : Ag⁺ = 1 : 2</b>。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-2.95,-1.45,5.9,3.35],"eq":"SO₂ + 2Ag⁺ + H₂O → Ag₂SO₃↓ + 2H⁺（白）","atoms":[{"id":"S","el":"S","lab":"S","x":0.0,"y":-0.05},{"id":"O1","el":"O","x":-0.86,"y":0.42},{"id":"O2","el":"O","x":0.86,"y":0.42},{"id":"Ag1","el":"Ag","lab":"Ag⁺","x":-1.95,"y":0.98,"r":0.38},{"id":"Ag2","el":"Ag","lab":"Ag⁺","x":1.95,"y":0.98,"r":0.38},{"id":"Ag3","el":"Ag","lab":"Ag","x":-2.45,"y":-0.95,"r":0.36,"op":0},{"id":"Ag4","el":"Ag","lab":"Ag","x":2.45,"y":-0.95,"r":0.36,"op":0}],"bonds":[{"id":"S-O1","a":"S","b":"O1","o":1},{"id":"S-O2","a":"S","b":"O2","o":1},{"id":"Ag1-O1","a":"Ag1","b":"O1","o":1,"k":0},{"id":"Ag2-O2","a":"Ag2","b":"O2","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"SO₂ + 2Ag⁺ + H₂O → Ag₂SO₃↓ + 2H⁺（白）","dur":780,"say":"溶液里是 <b>SO₂ 分子<\/b> 和 <b>Ag⁺<\/b>。SO₂ 溶进水先变 H₂SO₃，再给出 SO₃²⁻。","trap":"SO₂ 不是直接与 Ag⁺ 反应：中间必过 <b>SO₂ + H₂O ⇌ H₂SO₃<\/b> 这一步，别漏写水。"},{"at":{"Ag1":[-1.62,0.82],"Ag2":[1.62,0.82]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"两个 Ag⁺ 从两侧靠过来，目标是 SO₃²⁻ 上带负电的<b>氧<\/b>。","trap":"Ag⁺ 结合的是 <b>O 端<\/b>不是 S 端：S 上没有多余电子对，接不上银离子。"},{"at":{"S":[0.0,0.05],"O1":[-0.82,0.5],"O2":[0.82,0.5],"Ag1":[-1.7,0.92],"Ag2":[1.7,0.92]},"op":{},"bd":{"Ag1-O1":1,"Ag2-O2":1},"tags":[{"t":"Ag₂SO₃（白）","x":0.0,"y":1.42,"c":"#475569","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两根 <b>Ag—O<\/b> 键成形 ⇒ 生成 <b>Ag₂SO₃<\/b>，这就是瓶里那层<b>白色<\/b>沉淀。","trap":"这一步 <b>S 的价态没变（+4）<\/b>—— 复分解只换伙伴，不动电子。"},{"at":{"S":[0.0,0.35],"O1":[-0.82,0.8],"O2":[0.82,0.8],"Ag1":[-1.7,1.22],"Ag2":[1.7,1.22]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"Ag₂SO₃ 不溶，往下沉成<b>白色固体<\/b> ⇒ 现象「大量白色沉淀」。","trap":"「大量白色」是主体反应；如果只写白色、漏掉灰黑，Ⅱ① 的设问就接不上。"},{"at":{},"op":{"Ag3":1,"Ag4":1},"bd":{},"tags":[{"t":"另一条路：SO₂ 夺电子 ⇒ 2Ag（灰黑）","x":0.0,"y":-1.18,"c":"#334155","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"同一次通气里还有第二条路：<b>SO₂ 把 Ag⁺ 还原成 Ag 单质<\/b>（灰黑色），S 自己被氧化成 SO₄²⁻。","trap":"灰黑不等于「沉淀很脏」：<b>银单质就是灰黑色<\/b>，这是判断氧化还原发生了的关键证据。"},{"at":{},"op":{},"bd":{},"tags":[],"eq":"SO₂ + 2Ag⁺ + 2H₂O → 2Ag↓ + SO₄²⁻ + 4H⁺（灰黑）","dur":780,"say":"两条路并行 ⇒ Ag 一部分变成难溶盐、一部分变成单质 ⇒ <b>Ag 的回收率低<\/b>，这正是本题要改进的地方。","trap":"离子方程式配平要点：S 从 +4 到 +6 失 2e，Ag⁺ 得 1e×2 ⇒ <b>SO₂ : Ag⁺ = 1 : 2<\/b>。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-2.95,-1.45,5.9,3.35],"eq":"SO₂ + 2Ag⁺ + H₂O → Ag₂SO₃↓ + 2H⁺（白）","atoms":[{"id":"S","el":"S","lab":"S","x":0.0,"y":-0.05},{"id":"O1","el":"O","x":-0.86,"y":0.42},{"id":"O2","el":"O","x":0.86,"y":0.42},{"id":"Ag1","el":"Ag","lab":"Ag⁺","x":-1.95,"y":0.98,"r":0.38},{"id":"Ag2","el":"Ag","lab":"Ag⁺","x":1.95,"y":0.98,"r":0.38},{"id":"Ag3","el":"Ag","lab":"Ag","x":-2.45,"y":-0.95,"r":0.36,"op":0},{"id":"Ag4","el":"Ag","lab":"Ag","x":2.45,"y":-0.95,"r":0.36,"op":0}],"bonds":[{"id":"S-O1","a":"S","b":"O1","o":1},{"id":"S-O2","a":"S","b":"O2","o":1},{"id":"Ag1-O1","a":"Ag1","b":"O1","o":1,"k":0},{"id":"Ag2-O2","a":"Ag2","b":"O2","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"SO₂ + 2Ag⁺ + H₂O → Ag₂SO₃↓ + 2H⁺（白）","dur":780,"say":"溶液里是 <b>SO₂ 分子<\/b> 和 <b>Ag⁺<\/b>。SO₂ 溶进水先变 H₂SO₃，再给出 SO₃²⁻。","trap":"SO₂ 不是直接与 Ag⁺ 反应：中间必过 <b>SO₂ + H₂O ⇌ H₂SO₃<\/b> 这一步，别漏写水。"},{"at":{"Ag1":[-1.62,0.82],"Ag2":[1.62,0.82]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"两个 Ag⁺ 从两侧靠过来，目标是 SO₃²⁻ 上带负电的<b>氧<\/b>。","trap":"Ag⁺ 结合的是 <b>O 端<\/b>不是 S 端：S 上没有多余电子对，接不上银离子。"},{"at":{"S":[0.0,0.05],"O1":[-0.82,0.5],"O2":[0.82,0.5],"Ag1":[-1.7,0.92],"Ag2":[1.7,0.92]},"op":{},"bd":{"Ag1-O1":1,"Ag2-O2":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"Ag₂SO₃（白）","x":0.0,"y":1.42,"c":"#475569","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两根 <b>Ag—O<\/b> 键成形 ⇒ 生成 <b>Ag₂SO₃<\/b>，这就是瓶里那层<b>白色<\/b>沉淀。","trap":"这一步 <b>S 的价态没变（+4）<\/b>—— 复分解只换伙伴，不动电子。"},{"at":{"S":[0.0,0.35],"O1":[-0.82,0.8],"O2":[0.82,0.8],"Ag1":[-1.7,1.22],"Ag2":[1.7,1.22]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"Ag₂SO₃ 不溶，往下沉成<b>白色固体<\/b> ⇒ 现象「大量白色沉淀」。","trap":"「大量白色」是主体反应；如果只写白色、漏掉灰黑，Ⅱ① 的设问就接不上。"},{"at":{},"op":{"Ag3":1,"Ag4":1},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"另一条路：SO₂ 夺电子 ⇒ 2Ag（灰黑）","x":0.0,"y":-1.18,"c":"#334155","fs":0.23,"dy":0.0}],"eq":null,"dur":780,"say":"同一次通气里还有第二条路：<b>SO₂ 把 Ag⁺ 还原成 Ag 单质<\/b>（灰黑色），S 自己被氧化成 SO₄²⁻。","trap":"灰黑不等于「沉淀很脏」：<b>银单质就是灰黑色<\/b>，这是判断氧化还原发生了的关键证据。"},{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"SO₂ + 2Ag⁺ + 2H₂O → 2Ag↓ + SO₄²⁻ + 4H⁺（灰黑）","dur":780,"say":"两条路并行 ⇒ Ag 一部分变成难溶盐、一部分变成单质 ⇒ <b>Ag 的回收率低<\/b>，这正是本题要改进的地方。","trap":"离子方程式配平要点：S 从 +4 到 +6 失 2e，Ag⁺ 得 1e×2 ⇒ <b>SO₂ : Ag⁺ = 1 : 2<\/b>。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「(1) 实验室用 70% H₂SO₄ 和 Na₂SO₃ 制取干燥 SO₂，选择净化与收集 SO₂ 所需装置」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>SO₂ 是<b>酸性、还原性</b>气体且有毒 ⇒ 只能用<b>浓硫酸</b>干燥（碱石灰会吸掉它）；密度大于空气、易溶于水 ⇒ <b>向上排空气法</b>收集；末尾必须接<b>NaOH 溶液</b>吸收尾气。</div></div><p><b>先看清目标</b>：本关两件事——选对装置（干燥 + 收集 + 尾气）、读懂「白 + 灰」这个双重现象。装置题按「发生→净化→收集→尾气」四段走；现象题则要问自己一句：<b>一个反应能同时给出两种颜色吗？</b></p><p><b>① 先写发生反应</b>：\(\mathrm{Na_2SO_3}+\mathrm{H_2SO_4}=\mathrm{Na_2SO_4}+\mathrm{SO_2}\uparrow+\mathrm{H_2O}\)。这是「强酸制弱酸」——硫酸的酸性强于亚硫酸，所以能把 SO₂ 赶出来。用 70% 硫酸而不用稀硫酸：稀硫酸中 SO₂ 溶解损失大、气流不稳。</p><p><b>② 为什么要「净化 + 干燥」</b>：从溶液里出来的气体必然带<b>水蒸气</b>（还可能有少量酸雾），题目要「干燥 SO₂」，所以中间必须加干燥装置。</p><p><b>③ 干燥剂怎么选（本题第一个考点）</b>：SO₂ 是<b>酸性氧化物</b>且有<b>还原性</b> ⇒ 碱性干燥剂（碱石灰、NaOH）会把它吸收掉，氧化性干燥剂（浓硫酸除外）会把它氧化 ⇒ 唯一合适的是<b>浓硫酸</b>。洗气瓶接法是「<b>长管进、短管出</b>」，让气体从液面下冒泡通过。</p><p><b>④ 收集方法怎么定（第二个考点）</b>：\(M(\mathrm{SO_2})=64&gt;29\) ⇒ 密度比空气大 ⇒ <b>向上排空气法</b>；又因 SO₂ 易溶于水（常温约 1:40）⇒ <b>不能用排水法</b>。集气瓶同样是「长管伸到底、短管排出空气」。</p><p><b>⑤ 尾气必须处理</b>：SO₂ 有毒、会污染空气 ⇒ 末端接盛 <b>NaOH 溶液</b>的烧杯，\(2\mathrm{NaOH}+\mathrm{SO_2}=\mathrm{Na_2SO_3}+\mathrm{H_2O}\)。</p><p><b>⑥ 连接顺序串起来</b>：发生装置 → 浓硫酸洗气瓶（干燥）→ 向上排空气集气瓶（收集）→ NaOH 溶液（尾气吸收）。填接口时按「进气管接前一级的出气管」逐段对齐即可。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「Ⅰ. 实验现象：瓶内产生大量白色沉淀，瓶底沉淀略显灰色」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>一个现象说不出两个产物 ⇒ 必须<b>两条反应路</b>：复分解生成难溶的 Ag₂SO₃（白），氧化还原生成 Ag 单质（灰黑）。</div></div><p style="text-align:center;font-weight:700;color:#2563eb">复分解（主）：SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p style="text-align:center;font-weight:700;color:#b45309">氧化还原（副）：SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><p><b>① 先把现象拆成两条信息</b>：「大量<b>白色</b>沉淀」+「瓶底略显<b>灰色</b>」。一个化学反应只会给出一种颜色的产物，出现两种颜色 ⇒ <b>一定同时发生了两条不同的反应</b>。这一步推理是整题的钥匙。</p><p><b>② 白色从哪来（复分解）</b>：SO₂ 溶于水生成亚硫酸 \(\mathrm{SO_2}+\mathrm{H_2O}\rightleftharpoons\mathrm{H_2SO_3}\)，它电离出 \(\mathrm{SO_3^{2-}}\)；\(\mathrm{Ag^+}\) 与 \(\mathrm{SO_3^{2-}}\) 结合成难溶的 \(\mathrm{Ag_2SO_3}\)（白色）：</p><p style="text-align:center;font-weight:700">SO₂ + 2AgNO₃ + H₂O = Ag₂SO₃↓ + 2HNO₃</p><p>验一遍：Ag 2=2、S 1=1、O \(2+1=3\) 与 \(3\) ✓、H 2=2 ✓。</p><p><b>③ 灰色从哪来（氧化还原）</b>：SO₂ 中 S 为 +4，有<b>还原性</b>；\(\mathrm{Ag^+}\) 有<b>氧化性</b> ⇒ 两者一拍即合，SO₂ 把 \(\mathrm{Ag^+}\) 还原成 <b>银单质</b>。极细的银粉呈灰黑色，混在白色沉淀里就是「略显灰色」。</p><p style="text-align:center;font-weight:700">SO₂ + 2Ag⁺ + 2H₂O = 2Ag↓ + SO₄²⁻ + 4H⁺</p><p>配平要点：S 从 +4 → +6 失 <b>2e⁻</b>；两个 \(\mathrm{Ag^+}\) 各得 1e⁻、共 <b>2e⁻</b> ⇒ 电子守恒。电荷核对：左 \(2\times(+1)=+2\)，右 \(-2+4\times(+1)=+2\) ✓。</p><p><b>④ 为什么氧化还原的硫产物是 SO₄²⁻ 而不是别的</b>：S 从 +4 被氧化，在酸性水溶液中唯一稳定的高价态就是 +6 的硫酸根；它不沉淀，因为 \(\mathrm{Ag_2SO_4}\) 溶解度较大（Ksp 达 10⁻⁵ 量级，第 2 关会算给你看）。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「a. 25℃时，Ksp(Ag₂SO₃)=1.5×10⁻¹⁴，Ksp(Ag₂SO₄)=1.4×10⁻⁵」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>Ksp(Ag₂SO₃)=1.5×10⁻¹⁴ 远小于 Ksp(Ag₂SO₄)=1.4×10⁻⁵ ⇒ <b>Ag₂SO₃ 先沉、量也大</b>，白色是主体；灰色 Ag 只是副路的"签名"。</div></div><p><b>① Ksp 小意味着什么</b>：\(K_{sp}\) 越小，越容易沉淀——它等于饱和溶液中离子浓度的乘积，数值小说明「只要很少的离子就能沉出来」。</p><p><b>② 两个数差了九个数量级</b>：\(1.5\times10^{-14}\) 与 \(1.4\times10^{-5}\) 相差约 \(10^{9}\) 倍 ⇒ \(\mathrm{Ag_2SO_3}\) 的溶解度远小于 \(\mathrm{Ag_2SO_4}\)。所以溶液里的 \(\mathrm{SO_3^{2-}}\)、\(\mathrm{SO_4^{2-}}\) 会优先与 \(\mathrm{Ag^+}\) 生成 \(\mathrm{Ag_2SO_3}\) 沉淀 ⇒ 白色沉淀的<b>主体是 Ag₂SO₃</b>。</p><p><b>③ 这条信息后面怎么用</b>：第 2 关第 ③ 问要判断「有没有 \(\mathrm{Ag_2SO_4}\) 沉淀」，就看 \(Q=c^2(\mathrm{Ag^+})\cdot c(\mathrm{SO_4^{2-}})\) 有没有超过 \(1.4\times10^{-5}\)。给出 Ksp 就是为了让你算这个 Q，而不是凭感觉。</p>
       <button class="next-btn">下一步 →</button>
@@ -931,7 +935,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 第 4 步 S—O 断、SO₂ 冒出；第 5 步两个离子靠近却不连键 = Q 不够</span>
   </div>
@@ -945,7 +949,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>验 SO₃²⁻ 不能用 BaCl₂：<b>题干先加了过量盐酸</b>，SO₃²⁻ 早被赶成 SO₂，哪来的 BaSO₃。</li><li>这一步的实质是<b>强酸制弱酸</b>：盐酸把 H₂SO₃ 顶出来，H₂SO₃ 再分解成 SO₂ + H₂O。</li><li>注意 <b>Ag—O 键先断</b>：Ag₂SO₃ 溶解了才轮到 SO₃²⁻ 与 H⁺ 反应。</li><li>标准答法要写全两步：<b>①取上清液 ②滴品红、红色褪去</b>；只写「有刺激性气味气体」不给分。</li><li>判据是 <b>Q 与 Ksp 比大小</b>：Q &lt; Ksp ⇒ 不生成沉淀 ⇒ 填「&lt;」，不是「=」。</li><li>反过来若 Q &gt; Ksp 才会沉；判断「有没有某沉淀」永远只做这一件事：<b>算 Q，比 Ksp</b>。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.3,-2.15,6.6,4.55],"eq":"Ag₂SO₃ + 2HCl → 2AgCl↓ + SO₂↑ + H₂O","atoms":[{"id":"S","el":"S","lab":"S","x":-0.3,"y":0.15},{"id":"O1","el":"O","x":-1.12,"y":-0.28},{"id":"O2","el":"O","x":0.52,"y":-0.28},{"id":"O3","el":"O","x":-0.3,"y":0.95},{"id":"Ag1","el":"Ag","lab":"Ag⁺","x":-2.05,"y":0.55,"r":0.36},{"id":"H1","el":"H","x":1.8,"y":0.85},{"id":"H2","el":"H","x":2.5,"y":1.1},{"id":"Cl1","el":"Cl","lab":"Cl⁻","x":1.95,"y":-0.35,"r":0.34},{"id":"Cl2","el":"Cl","lab":"Cl⁻","x":2.75,"y":0.15,"r":0.34},{"id":"Q1","el":"Ag","lab":"Ag⁺","x":-2.55,"y":-1.45,"r":0.32,"op":0},{"id":"Q2","el":"S","lab":"SO₄²⁻","x":-1.5,"y":-1.45,"r":0.4,"fs":0.18,"op":0}],"bonds":[{"id":"S-O1","a":"S","b":"O1","o":1},{"id":"S-O2","a":"S","b":"O2","o":1},{"id":"S-O3","a":"S","b":"O3","o":1},{"id":"Ag1-O1","a":"Ag1","b":"O1","o":1},{"id":"S-H1","a":"S","b":"H1","o":1,"k":0},{"id":"O3-H1","a":"O3","b":"H1","o":1,"k":0},{"id":"Q1-Q2","a":"Q1","b":"Q2","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"Ag₂SO₃ + 2HCl → 2AgCl↓ + SO₂↑ + H₂O","dur":780,"say":"固体 X 里已经证到 Ag₂SO₃：一个 <b>SO₃²⁻<\/b> 挂在 Ag⁺ 上，S 是 +4。","trap":"验 SO₃²⁻ 不能用 BaCl₂：<b>题干先加了过量盐酸<\/b>，SO₃²⁻ 早被赶成 SO₂，哪来的 BaSO₃。"},{"at":{"H1":[1.05,0.8],"H2":[1.7,1.05]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"加盐酸 ⇒ <b>H⁺ 大量进场<\/b>，它要抢的是 SO₃²⁻ 上的氧。","trap":"这一步的实质是<b>强酸制弱酸<\/b>：盐酸把 H₂SO₃ 顶出来，H₂SO₃ 再分解成 SO₂ + H₂O。"},{"at":{"H1":[-0.3,0.62],"O3":[-0.3,0.95]},"op":{},"bd":{"Ag1-O1":0,"O3-H1":1},"tags":[{"t":"H⁺ 接上 O","x":-0.55,"y":1.62,"c":"#1d4ed8","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"H⁺ 接到氧上成 <b>—OH<\/b>，Ag⁺ 被挤走 ⇒ SO₃²⁻ 开始散架。","trap":"注意 <b>Ag—O 键先断<\/b>：Ag₂SO₃ 溶解了才轮到 SO₃²⁻ 与 H⁺ 反应。"},{"at":{"S":[-0.3,0.05],"O1":[-1.3,-0.55],"O2":[0.7,-0.55],"O3":[0.0,1.62],"H1":[0.0,0.78]},"op":{},"bd":{"S-O3":0},"tags":[{"t":"SO₂↑ 逸出","x":-1.3,"y":1.75,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"S—O 键一断，<b>SO₂ 以气体逸出<\/b> ⇒ 把它通进品红溶液，<b>红色褪去<\/b>，SO₃²⁻ 就被证死了。","trap":"标准答法要写全两步：<b>①取上清液 ②滴品红、红色褪去<\/b>；只写「有刺激性气味气体」不给分。"},{"at":{},"op":{"Q1":1,"Q2":1},"bd":{},"tags":[{"t":"Q = c²(Ag⁺)·c(SO₄²⁻) < Ksp ⇒ 不沉","x":0.55,"y":-1.82,"c":"#1d4ed8","fs":0.22,"dy":0.0}],"eq":null,"dur":780,"say":"再看 Ag₂SO₄ 会不会沉：溶液里 <b>SO₄²⁻ 只来自副反应、浓度极小<\/b> ⇒ Q 远小于 1.4×10⁻⁵。","trap":"判据是 <b>Q 与 Ksp 比大小<\/b>：Q &lt; Ksp ⇒ 不生成沉淀 ⇒ 填「&lt;」，不是「=」。"},{"at":{},"op":{},"bd":{},"tags":[],"eq":"c²(Ag⁺)·c(SO₄²⁻) < Ksp(Ag₂SO₄) ⇒ 沉淀中不含 Ag₂SO₄","dur":780,"say":"Q 够不到 Ksp，两个离子虽然碰面也<b>成不了晶格<\/b> ⇒ 固体 X 里没有 Ag₂SO₄。","trap":"反过来若 Q &gt; Ksp 才会沉；判断「有没有某沉淀」永远只做这一件事：<b>算 Q，比 Ksp<\/b>。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.3,-2.15,6.6,4.55],"eq":"Ag₂SO₃ + 2HCl → 2AgCl↓ + SO₂↑ + H₂O","atoms":[{"id":"S","el":"S","lab":"S","x":-0.3,"y":0.15},{"id":"O1","el":"O","x":-1.12,"y":-0.28},{"id":"O2","el":"O","x":0.52,"y":-0.28},{"id":"O3","el":"O","x":-0.3,"y":0.95},{"id":"Ag1","el":"Ag","lab":"Ag⁺","x":-2.05,"y":0.55,"r":0.36},{"id":"H1","el":"H","x":1.8,"y":0.85},{"id":"H2","el":"H","x":2.5,"y":1.1},{"id":"Cl1","el":"Cl","lab":"Cl⁻","x":1.95,"y":-0.35,"r":0.34},{"id":"Cl2","el":"Cl","lab":"Cl⁻","x":2.75,"y":0.15,"r":0.34},{"id":"Q1","el":"Ag","lab":"Ag⁺","x":-2.55,"y":-1.45,"r":0.32,"op":0},{"id":"Q2","el":"S","lab":"SO₄²⁻","x":-1.5,"y":-1.45,"r":0.4,"fs":0.18,"op":0}],"bonds":[{"id":"S-O1","a":"S","b":"O1","o":1},{"id":"S-O2","a":"S","b":"O2","o":1},{"id":"S-O3","a":"S","b":"O3","o":1},{"id":"Ag1-O1","a":"Ag1","b":"O1","o":1},{"id":"S-H1","a":"S","b":"H1","o":1,"k":0},{"id":"O3-H1","a":"O3","b":"H1","o":1,"k":0},{"id":"Q1-Q2","a":"Q1","b":"Q2","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"Ag₂SO₃ + 2HCl → 2AgCl↓ + SO₂↑ + H₂O","dur":780,"say":"固体 X 里已经证到 Ag₂SO₃：一个 <b>SO₃²⁻<\/b> 挂在 Ag⁺ 上，S 是 +4。","trap":"验 SO₃²⁻ 不能用 BaCl₂：<b>题干先加了过量盐酸<\/b>，SO₃²⁻ 早被赶成 SO₂，哪来的 BaSO₃。"},{"at":{"H1":[1.05,0.8],"H2":[1.7,1.05]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"加盐酸 ⇒ <b>H⁺ 大量进场<\/b>，它要抢的是 SO₃²⁻ 上的氧。","trap":"这一步的实质是<b>强酸制弱酸<\/b>：盐酸把 H₂SO₃ 顶出来，H₂SO₃ 再分解成 SO₂ + H₂O。"},{"at":{"H1":[-0.3,0.62],"O3":[-0.3,0.95]},"op":{},"bd":{"Ag1-O1":0,"O3-H1":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"H⁺ 接上 O","x":-0.55,"y":1.62,"c":"#1d4ed8","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"H⁺ 接到氧上成 <b>—OH<\/b>，Ag⁺ 被挤走 ⇒ SO₃²⁻ 开始散架。","trap":"注意 <b>Ag—O 键先断<\/b>：Ag₂SO₃ 溶解了才轮到 SO₃²⁻ 与 H⁺ 反应。"},{"at":{"S":[-0.3,0.05],"O1":[-1.3,-0.55],"O2":[0.7,-0.55],"O3":[0.0,1.62],"H1":[0.0,0.78]},"op":{},"bd":{"S-O3":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"SO₂↑ 逸出","x":-1.3,"y":1.75,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"S—O 键一断，<b>SO₂ 以气体逸出<\/b> ⇒ 把它通进品红溶液，<b>红色褪去<\/b>，SO₃²⁻ 就被证死了。","trap":"标准答法要写全两步：<b>①取上清液 ②滴品红、红色褪去<\/b>；只写「有刺激性气味气体」不给分。"},{"at":{},"op":{"Q1":1,"Q2":1},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"Q = c²(Ag⁺)·c(SO₄²⁻) < Ksp ⇒ 不沉","x":0.55,"y":-1.82,"c":"#1d4ed8","fs":0.22,"dy":0.0}],"eq":null,"dur":780,"say":"再看 Ag₂SO₄ 会不会沉：溶液里 <b>SO₄²⁻ 只来自副反应、浓度极小<\/b> ⇒ Q 远小于 1.4×10⁻⁵。","trap":"判据是 <b>Q 与 Ksp 比大小<\/b>：Q &lt; Ksp ⇒ 不生成沉淀 ⇒ 填「&lt;」，不是「=」。"},{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"c²(Ag⁺)·c(SO₄²⁻) < Ksp(Ag₂SO₄) ⇒ 沉淀中不含 Ag₂SO₄","dur":780,"say":"Q 够不到 Ksp，两个离子虽然碰面也<b>成不了晶格<\/b> ⇒ 固体 X 里没有 Ag₂SO₄。","trap":"反过来若 Q &gt; Ksp 才会沉；判断「有没有某沉淀」永远只做这一件事：<b>算 Q，比 Ksp<\/b>。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「将灰黑色固体加入浓硝酸中，固体溶解，______（填实验现象），说明沉淀中含有 Ag」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>红棕色气体 = <b>NO₂</b> ⇒ 说明固体里有能被硝酸氧化的<b>银单质</b> ⇒ 来自氧化还原路。</div></div><p><b>先看清目标</b>：本关全是<b>检验与判据</b>——浓硝酸验 Ag、盐酸 + 品红验 Ag₂SO₃、Q 与 Ksp 判 Ag₂SO₄。三个空各考一种「怎么证明」，所以每空都要写清<b>操作 + 现象 + 结论</b>三件套。</p><p><b>① 为什么浓硝酸能证明是 Ag</b>：银是活泼性较弱的金属，能被浓硝酸氧化，而浓硝酸被还原的产物是<b>红棕色的 NO₂</b>：</p><p style="text-align:center;font-weight:700">Ag + 2HNO₃(浓) = AgNO₃ + NO₂↑ + H₂O</p><p>所以空里填「<b>产生红棕色气体</b>」。注意颜色描述要准：NO₂ 是<b>红棕色</b>（不是「红褐色」「黄绿色」）。</p><p><b>② 为什么这个现象只指向 Ag</b>：若灰黑色固体只是未洗净的 \(\mathrm{Ag_2SO_3}\)，它溶于硝酸只会「溶解」而不会给出红棕色气体（其中 S 已是 +4，不充当被氧化的主角）。红棕色气体出现 ⇒ 必有<b>零价银</b>被氧化 ⇒ 沉淀中含 Ag。</p><p><b>③ 顺带把离子方程式写掉</b>（题目的第二空）：\(\mathrm{SO_2}+2\mathrm{Ag^+}+2\mathrm{H_2O}=2\mathrm{Ag}\downarrow+\mathrm{SO_4^{2-}}+4\mathrm{H^+}\)。检查三件事：原子守恒、电荷守恒（左 +2 / 右 −2+4=+2）、电子守恒（S 失 2e⁻、2Ag⁺ 共得 2e⁻）。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「取上层清液于试管中，______（填实验操作和现象），说明沉淀中含有 Ag₂SO₃」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>加过量盐酸后 Ag₂SO₃ 会放出 <b>SO₂</b> ⇒ 上清液里有 H₂SO₃ ⇒ 用<b>品红溶液</b>验：红色褪去（加热又复原）⇒ 证明含 Ag₂SO₃。</div></div><p><b>④ 前一步发生了什么</b>：固体 X 加过量盐酸时，\(\mathrm{Ag_2SO_3}+2\mathrm{HCl}=2\mathrm{AgCl}\downarrow+\mathrm{SO_2}\uparrow+\mathrm{H_2O}\)。银离子被沉成 AgCl（白），而亚硫酸根遇酸变成不稳定的 \(\mathrm{H_2SO_3}\)，随即分解放出 SO₂。所以<b>上清液里溶有 SO₂</b>。</p><p><b>⑤ 怎么验 SO₂</b>：SO₂ 的专属检验试剂是<b>品红溶液</b>——SO₂ 能使品红<b>褪色</b>，且加热后颜色<b>恢复</b>（这是它区别于 Cl₂ 等永久漂白剂的关键）。所以空里填「<b>滴加品红溶液，红色褪去（加热后恢复红色）</b>」。</p><p><b>⑥ 为什么不能用 BaCl₂</b>：上清液里若含 \(\mathrm{SO_4^{2-}}\)，加 BaCl₂ 确实会生成 BaSO₄ 白色沉淀，但那证明的是<b>氧化还原路</b>产生了硫酸根，<b>与 Ag₂SO₃ 无关</b>。本题问的是「说明沉淀中含有 Ag₂SO₃」，所以必须抓 SO₂ 这个特征产物。</p><p><b>⑦ 化学方程式</b>（题目的第二空）：\(\mathrm{SO_2}+2\mathrm{AgNO_3}+\mathrm{H_2O}=\mathrm{Ag_2SO_3}\downarrow+2\mathrm{HNO_3}\)。注意是化学方程式（不是离子方程式），因为 \(\mathrm{Ag_2SO_3}\) 是沉淀、要写化学式。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「③进一步实验证明，沉淀中不含 Ag₂SO₄，原因是 c²(Ag⁺)·c(SO₄²⁻)______1.4×10⁻⁵」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>判断沉淀要<b>算 Q</b>：Q = c²(Ag⁺)·c(SO₄²⁻) = 0.1²·c(SO₄²⁻) = 0.01c(SO₄²⁻)。要析出需 Q &gt; Ksp ⇒ c(SO₄²⁻) &gt; 1.4×10⁻³ mol/L，而氧化生成的 SO₄²⁻ 远达不到 ⇒ <b style="color:#0f766e">Q &lt; Ksp，填「&lt;」</b>，沉淀中不含 Ag₂SO₄。</div></div><p><b>① 判据是什么</b>：有没有沉淀，看<b>浓度商 Q</b> 与 Ksp 的大小关系——\(Q&gt;K_{sp}\) 才析出沉淀，\(Q&lt;K_{sp}\) 说明还没到饱和、不沉淀。所以本题要算的是 \(Q=c^2(\mathrm{Ag^+})\cdot c(\mathrm{SO_4^{2-}})\)。</p><p><b>② 代入已知浓度</b>：题给 \(\mathrm{AgNO_3}\) 为 \(0.1\ \mathrm{mol\cdot L^{-1}}\)（且反应消耗的银只占很小一部分），取 \(c(\mathrm{Ag^+})=0.1\)：</p><p style="text-align:center;font-weight:700">Q = 0.1² × c(SO₄²⁻) = 0.01 · c(SO₄²⁻)</p><p><b>③ 反推「要沉需要多少 SO₄²⁻」</b>：令 \(Q&gt;K_{sp}=1.4\times10^{-5}\)，则 \(c(\mathrm{SO_4^{2-}})&gt;\dfrac{1.4\times10^{-5}}{0.01}=1.4\times10^{-3}\ \mathrm{mol\cdot L^{-1}}\)。也就是说，硫酸根浓度要高达毫摩尔每升量级才可能沉银。</p><p><b>④ 实际有多少</b>：硫酸根只来自<b>少量</b>的氧化还原副反应（每生成 2 mol Ag 才产生 1 mol \(\mathrm{SO_4^{2-}}\)），其浓度比 \(10^{-3}\) 小得多 ⇒ \(Q\) 远小于 \(K_{sp}\)。</p><p><b>⑤ 结论</b>：填「<b>&lt;</b>」。因为 \(Q&lt;K_{sp}\)，溶液中不可能析出 \(\mathrm{Ag_2SO_4}\)，所以沉淀里也就没有它——这正好解释了为什么白色沉淀是「纯」的 \(\mathrm{Ag_2SO_3}\)。</p><p><b>⑥ 方法迁移</b>：凡「判断某沉淀会不会生成 / 沉淀是否纯净」，套路都是「算 Q → 与 Ksp 比 → 定结论」，不要凭「溶解度大小」一句话糊过去。</p>
       <button class="next-btn">下一步 →</button>
@@ -971,7 +975,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 第 3 步两根 N—Ag 配位键就是「把银藏起来」的那把锁</span>
   </div>
@@ -985,7 +989,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 5</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（5 条）<i data-act="close">✕</i></div><ol><li>要「避免复分解」不是换温度、换浓度，而是<b>把 Ag⁺ 藏起来</b> —— 这才是本题的改进思路。</li><li>配位原子是 <b>N</b>，不是 H：氨的 H 上没有孤对电子，接不上 Ag⁺。</li><li>配合物写方括号、电荷写在括号外：<b>[Ag(NH₃)₂]⁺</b>，别写成 Ag(NH₃)₂⁺ 或 AgNH₃。</li><li>这是本题的标准答法核心一句：<b>先加足量氨水配位，把 c(Ag⁺) 降下来，再通 SO₂</b>。</li><li>答题别只写「加氨水」：要写清 <b>顺序</b>（先氨水、后 SO₂）和 <b>目的</b>（配位降低 c(Ag⁺)）。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-2.95,-1.35,5.9,3.15],"eq":"Ag⁺ + 2NH₃ ⇌ [Ag(NH₃)₂]⁺","atoms":[{"id":"Ag","el":"Ag","lab":"Ag⁺","x":0.0,"y":0.15,"r":0.4},{"id":"N1","el":"N","lab":"NH₃","x":-1.75,"y":0.15,"r":0.36,"fs":0.2},{"id":"N2","el":"N","lab":"NH₃","x":1.75,"y":0.15,"r":0.36,"fs":0.2},{"id":"S","el":"S","lab":"S","x":0.0,"y":-1.05,"r":0.34,"op":0}],"bonds":[{"id":"Ag-N1","a":"Ag","b":"N1","o":1,"k":0},{"id":"Ag-N2","a":"Ag","b":"N2","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"Ag⁺ + 2NH₃ ⇌ [Ag(NH₃)₂]⁺","dur":780,"say":"原方案的问题：溶液里全是<b>自由的 Ag⁺<\/b>，SO₂ 一进来就两条路一起走。","trap":"要「避免复分解」不是换温度、换浓度，而是<b>把 Ag⁺ 藏起来<\/b> —— 这才是本题的改进思路。"},{"at":{"N1":[-1.05,0.15],"N2":[1.05,0.15]},"op":{},"bd":{},"tags":[{"t":"NH₃ 的 N 有孤对电子 →","x":-1.55,"y":-0.55,"c":"#1d4ed8","fs":0.22,"dy":0.0}],"eq":null,"dur":780,"say":"加足量氨水：<b>NH₃ 上的 N 有一对孤对电子<\/b>，正对着 Ag⁺ 的空轨道过来。","trap":"配位原子是 <b>N<\/b>，不是 H：氨的 H 上没有孤对电子，接不上 Ag⁺。"},{"at":{"Ag":[0.0,0.15],"N1":[-1.02,0.15],"N2":[1.02,0.15]},"op":{},"bd":{"Ag-N1":1,"Ag-N2":1},"tags":[{"t":"[Ag(NH₃)₂]⁺（二氨合银）","x":0.0,"y":0.98,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"两根 <b>N—Ag 配位键<\/b>成形 ⇒ 变成 <b>[Ag(NH₃)₂]⁺<\/b>，银还在溶液里，但已经<b>不是游离 Ag⁺<\/b>了。","trap":"配合物写方括号、电荷写在括号外：<b>[Ag(NH₃)₂]⁺<\/b>，别写成 Ag(NH₃)₂⁺ 或 AgNH₃。"},{"at":{"S":[0.0,-0.95]},"op":{"S":1},"bd":{},"tags":[{"t":"游离 Ag⁺ 极低 ⇒ c²(Ag⁺)·c(SO₃²⁻) < Ksp","x":0.0,"y":-1.04,"c":"#1d4ed8","fs":0.21,"dy":0.0}],"eq":null,"dur":780,"say":"现在再通 SO₂：<b>游离 c(Ag⁺) 被压到极低<\/b> ⇒ Ag₂SO₃ 的 Q 达不到 Ksp ⇒ <b>复分解发生不了<\/b>。","trap":"这是本题的标准答法核心一句：<b>先加足量氨水配位，把 c(Ag⁺) 降下来，再通 SO₂<\/b>。"},{"at":{},"op":{},"bd":{},"tags":[],"eq":"方案：先加足量氨水 → 再通 SO₂ ⇒ 只走氧化还原，得到 Ag","dur":780,"say":"复分解被堵死，SO₂ 只能<b>走氧化还原<\/b>把银还原出来 ⇒ 回收率提高，这就是优化方案。","trap":"答题别只写「加氨水」：要写清 <b>顺序<\/b>（先氨水、后 SO₂）和 <b>目的<\/b>（配位降低 c(Ag⁺)）。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-2.95,-1.44,5.9,3.24],"eq":"Ag⁺ + 2NH₃ ⇌ [Ag(NH₃)₂]⁺","atoms":[{"id":"Ag","el":"Ag","lab":"Ag⁺","x":0.0,"y":0.15,"r":0.4},{"id":"N1","el":"N","lab":"NH₃","x":-1.75,"y":0.15,"r":0.36,"fs":0.2},{"id":"N2","el":"N","lab":"NH₃","x":1.75,"y":0.15,"r":0.36,"fs":0.2},{"id":"S","el":"S","lab":"S","x":0.0,"y":-1.05,"r":0.34,"op":0}],"bonds":[{"id":"Ag-N1","a":"Ag","b":"N1","o":1,"k":0},{"id":"Ag-N2","a":"Ag","b":"N2","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"Ag⁺ + 2NH₃ ⇌ [Ag(NH₃)₂]⁺","dur":780,"say":"原方案的问题：溶液里全是<b>自由的 Ag⁺<\/b>，SO₂ 一进来就两条路一起走。","trap":"要「避免复分解」不是换温度、换浓度，而是<b>把 Ag⁺ 藏起来<\/b> —— 这才是本题的改进思路。"},{"at":{"N1":[-1.05,0.15],"N2":[1.05,0.15]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"NH₃ 的 N 有孤对电子 →","x":-1.55,"y":-0.55,"c":"#1d4ed8","fs":0.22,"dy":0.0}],"eq":null,"dur":780,"say":"加足量氨水：<b>NH₃ 上的 N 有一对孤对电子<\/b>，正对着 Ag⁺ 的空轨道过来。","trap":"配位原子是 <b>N<\/b>，不是 H：氨的 H 上没有孤对电子，接不上 Ag⁺。"},{"at":{"Ag":[0.0,0.15],"N1":[-1.02,0.15],"N2":[1.02,0.15]},"op":{},"bd":{"Ag-N1":1,"Ag-N2":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"[Ag(NH₃)₂]⁺（二氨合银）","x":0.0,"y":0.98,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"两根 <b>N—Ag 配位键<\/b>成形 ⇒ 变成 <b>[Ag(NH₃)₂]⁺<\/b>，银还在溶液里，但已经<b>不是游离 Ag⁺<\/b>了。","trap":"配合物写方括号、电荷写在括号外：<b>[Ag(NH₃)₂]⁺<\/b>，别写成 Ag(NH₃)₂⁺ 或 AgNH₃。"},{"at":{"S":[0.0,-0.95]},"op":{"S":1},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"游离 Ag⁺ 极低 ⇒ c²(Ag⁺)·c(SO₃²⁻) < Ksp","x":0.0,"y":-1.04,"c":"#1d4ed8","fs":0.21,"dy":0.0}],"eq":null,"dur":780,"say":"现在再通 SO₂：<b>游离 c(Ag⁺) 被压到极低<\/b> ⇒ Ag₂SO₃ 的 Q 达不到 Ksp ⇒ <b>复分解发生不了<\/b>。","trap":"这是本题的标准答法核心一句：<b>先加足量氨水配位，把 c(Ag⁺) 降下来，再通 SO₂<\/b>。"},{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"方案：先加足量氨水 → 再通 SO₂ ⇒ 只走氧化还原，得到 Ag","dur":780,"say":"复分解被堵死，SO₂ 只能<b>走氧化还原<\/b>把银还原出来 ⇒ 回收率提高，这就是优化方案。","trap":"答题别只写「加氨水」：要写清 <b>顺序<\/b>（先氨水、后 SO₂）和 <b>目的<\/b>（配位降低 c(Ag⁺)）。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「④另取 m g 固体 X 进行定量分析，测得其中 Ag 的质量为 m₂ g」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两个未知量 ⇒ 列<b>两个方程</b>：总质量、银的质量。设 n₁=n(Ag₂SO₃)、n₂=n(Ag)。</div></div><p>296n₁ + 108n₂ = m（总质量）；216n₁ + 108n₂ = m₂（银的质量，Ag₂SO₃ 里 Ag 占 216）。<br>两式相减：80n₁ = m − m₂ ⇒ n₁ = (m − m₂)/80，代回得 n₂ = (37m₂ − 27m)/1080。</p><p><b>先看清目标</b>：本关是「先算后设计」——先用两本账算出两条路的速率比（定量）再用这个结论去设计优化方案（定性）。所以第 ④ 问的比值不是终点，它是第 (3) 问的依据。</p><p><b>① 为什么必须设两个未知数</b>：固体 X 是两种物质的混合物，只知道总质量 \(m\) 一个数，解不出两个组分——所以要用「银元素的质量 \(m_2\)」把第二本账补上。</p><p><b>② 先把两个摩尔质量拆清楚</b>：\(M(\mathrm{Ag_2SO_3})=108\times2+32+16\times3=216+32+48=296\)；\(M(\mathrm{Ag})=108\)。注意第二本账算的是<b>银元素</b>，1 mol \(\mathrm{Ag_2SO_3}\) 里含 <b>2 mol Ag、质量 216 g</b>。</p><p><b>③ 列两本账</b>（设 \(n_1=n(\mathrm{Ag_2SO_3})\)、\(n_2=n(\mathrm{Ag})\)）：</p><p style="text-align:center;font-weight:700">296n₁ + 108n₂ = m　　;　　216n₁ + 108n₂ = m₂</p><p><b>④ 相减消元</b>（\(n_2\) 的系数相同，正好抵消）：\((296-216)n_1=m-m_2\) ⇒ \(80n_1=m-m_2\) ⇒ \(n_1=\dfrac{m-m_2}{80}\)。</p><p><b>⑤ 回代求 \(n_2\)</b>：\(108n_2=m_2-216n_1=m_2-216\cdot\dfrac{m-m_2}{80}=\dfrac{80m_2-216m+216m_2}{80}=\dfrac{296m_2-216m}{80}\)，两边除 108 并约去公因子 8：</p><p style="text-align:center;font-weight:700">n₂ = (37m₂ − 27m) / 1080</p><div class="stx"><div class="stx-s"><i>看到题干</i>「该条件下 SO₂ 与 AgNO₃ 溶液发生复分解反应和氧化还原反应的平均反应速率之比为______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>复分解每份耗 1 个 SO₂，氧化还原每 2 个 Ag 耗 1 个 SO₂ ⇒ 比值为 n₁ : n₂/2 ⇒ <b style="color:#0f766e">27(m−m₂) : (37m₂−27m)</b>。</div></div><p><b>① 速率的「计数口径」必须先统一</b>：题目要的是两个反应的速率之比，而两个反应消耗的<b>是同一种物质 SO₂</b> ⇒ 就用「单位时间消耗的 SO₂ 的物质的量」作速率，比值就等于「两条路各自消耗的 SO₂ 的量之比」。</p><p><b>② 复分解消耗多少 SO₂</b>：由 \(\mathrm{SO_2}+2\mathrm{AgNO_3}+\mathrm{H_2O}=\mathrm{Ag_2SO_3}\downarrow+2\mathrm{HNO_3}\)，1 mol \(\mathrm{Ag_2SO_3}\) 对应 <b>1 mol SO₂</b> ⇒ 消耗量为 \(n_1\)。</p><p><b>③ 氧化还原消耗多少 SO₂</b>：由 \(\mathrm{SO_2}+2\mathrm{Ag^+}+2\mathrm{H_2O}=2\mathrm{Ag}\downarrow+\mathrm{SO_4^{2-}}+4\mathrm{H^+}\)，<b>2 mol Ag 对应 1 mol SO₂</b> ⇒ 消耗量为 \(\dfrac{n_2}{2}\)。这一步系数最容易写反，务必回到方程式里数。</p><p><b>④ 作比并化简</b>：\(n_1:\dfrac{n_2}{2}=\dfrac{m-m_2}{80}:\dfrac{37m_2-27m}{2160}\)，两边同乘 2160：\(27(m-m_2):(37m_2-27m)\)。</p><p style="text-align:center;font-weight:700">v(复分解) : v(氧化还原) = 27(m−m₂) : (37m₂−27m)</p><div class="stx"><div class="stx-s"><i>看到题干</i>「(3) 基于上述探究，兴趣小组重新设计了用 SO₂ 从 AgNO₃ 溶液中回收 Ag 的优化方案，避免了复分解反应的发生」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>只有副路产 Ag，主路白白消耗 SO₂ 却不产银 ⇒ <b>掐断主路</b>：先加足量氨水把 Ag⁺ 配位成 [Ag(NH₃)₂]⁺，游离 c(Ag⁺) 骤降 ⇒ Ag₂SO₃ 无法沉淀，SO₂ 只走氧化还原路，过滤即得 Ag。</div></div><p><b>① 先诊断「为什么回收率低」</b>：两条路对银的贡献完全不同——复分解把银变成 <b>\(\mathrm{Ag_2SO_3}\) 沉淀</b>（还得再处理才能得银），氧化还原才直接给出 <b>Ag 单质</b>。而第 3 关算出两条路的速率<b>同量级</b>，说明大量 SO₂ 被白白消耗在主路上 ⇒ <b>掐断主路</b>就能提升回收率。</p><p><b>② 掐断主路的原理</b>：主路要成立，必须有足够的游离 \(\mathrm{Ag^+}\) 与 \(\mathrm{SO_3^{2-}}\) 把 \(Q\) 顶到 \(K_{sp}=1.5\times10^{-14}\) 以上。只要把 \(c(\mathrm{Ag^+})\) 压得极低，\(Q=c^2(\mathrm{Ag^+})\cdot c(\mathrm{SO_3^{2-}})\) 就永远够不到 Ksp ⇒ 不沉淀。</p><p><b>③ 用什么把 Ag⁺ 藏起来</b>：题给信息 b 已经点明——\(\mathrm{Ag_2SO_3}\)、\(\mathrm{Ag_2SO_4}\) 都能溶于浓氨水生成 \([\mathrm{Ag(NH_3)_2}]^+\)。所以先向 \(\mathrm{AgNO_3}\) 溶液中加入<b>足量氨水</b>，让 \(\mathrm{Ag^+}\) 变成银氨配离子，游离 \(\mathrm{Ag^+}\) 浓度降到几乎为零 ⇒ 复分解路被堵死。</p><p><b>④ 氧化还原路为什么还能走</b>：配位只是「降低了游离浓度」，银仍在 +1 价、仍有氧化性；SO₂ 作为还原剂照样能把它还原成 Ag 单质（配离子会随消耗而释放银）。所以银照样被还原出来，只是不再变成亚硫酸银。</p><p><b>⑤ 完整方案怎么写</b>：向 \(\mathrm{AgNO_3}\) 溶液中先加入足量氨水（生成 \([\mathrm{Ag(NH_3)_2}]^+\)），再通入 SO₂ 至不再产生沉淀，过滤、洗涤、干燥即得银。</p><p><b>⑥ 为什么这样答才完整</b>：三步缺一不可——<b>「加氨水配位」是手段</b>、<b>「抑制 Ag₂SO₃ 沉淀」是原理</b>、<b>「通 SO₂ 后过滤得 Ag」是结果</b>。只写「加氨水」不写目的，通常拿不到满分。</p>
       <button class="next-btn">下一步 →</button>
@@ -4054,7 +4058,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <script>
 
-/* ===== 分子动画舞台引擎 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台引擎 KMA · MSK-VER 20261022b ===== */
 (function () {
   if (window.__MSK__) { window.__MSK_BOOT__ && window.__MSK_BOOT__(); return; }
   window.__MSK__ = 1;
@@ -4070,6 +4074,11 @@ document.addEventListener('DOMContentLoaded',function(){
     for (var k in attrs) e.setAttribute(k, attrs[k]);
     return e;
   }
+  function mfn(s) {
+    var src = String(s == null ? '' : s).replace(/\^/g, '**');
+    try { return new Function('x', 'with(Math){return (' + src + ')}'); }
+    catch (e) { return function () { return NaN; }; }
+  }
 
   function boot(root) {
     if (root.__msk) return;
@@ -4081,12 +4090,45 @@ document.addEventListener('DOMContentLoaded',function(){
     var svg = root.querySelector('.msk-svg');
     var v = data.view || [-5, -3, 10, 6];
     svg.setAttribute('viewBox', v.join(' '));
-    var gB = svg.querySelector('.msk-bds');
-    var gA = svg.querySelector('.msk-ats');
-    var gT = svg.querySelector('.msk-tags');
+
+    /* 图层次序：曲线(底) → 键 → 矢量 → 实体 → 标签。旧文件缺 g 时自动补。 */
+    function grp(cls, anchor) {
+      var e = svg.querySelector('.' + cls);
+      if (e) return e;
+      e = mk('g', {'class': cls});
+      if (anchor && anchor.parentNode === svg) svg.insertBefore(e, anchor);
+      else svg.appendChild(e);
+      return e;
+    }
+    var gA0 = svg.querySelector('.msk-ats');
+    var gB0 = svg.querySelector('.msk-bds');
+    var gC = grp('msk-cvs', gB0);
+    var gF = grp('msk-fcs', gC);
+    var gB = grp('msk-bds');
+    var gV = grp('msk-vecs', gA0);
+    var gA = grp('msk-ats');
+    var gL = grp('msk-vls', svg.querySelector('.msk-tags') || null);
+    var gT = grp('msk-tags');
     var eqEl = root.querySelector('.msk-eqp');
 
-    /* ---------------- 原子 ---------------- */
+    /* 箭头 marker：按颜色缓存 */
+    var defs = mk('defs', {});
+    svg.insertBefore(defs, svg.firstChild);
+    var MK = {};
+    function arrow(col) {
+      var key = String(col).replace(/[^0-9a-zA-Z]/g, '');
+      var id = 'mskarw' + key;
+      if (!MK[key]) {
+        var m = mk('marker', {id: id, viewBox: '0 0 10 10', refX: 8.5, refY: 5,
+                              markerWidth: 4.6, markerHeight: 4.6, orient: 'auto-start-reverse'});
+        m.appendChild(mk('path', {d: 'M0,0 L10,5 L0,10 z', fill: col}));
+        defs.appendChild(m);
+        MK[key] = id;
+      }
+      return MK[key];
+    }
+
+    /* ---------------- 实体（默认圆形原子；数学/物理可换形状） ---------------- */
     var A = {}, ids = [];
     (data.atoms || []).forEach(function (a) {
       var r = a.r != null ? a.r : (a.el === 'H' ? 0.23 : 0.31);
@@ -4094,21 +4136,70 @@ document.addEventListener('DOMContentLoaded',function(){
       var g = mk('g', {'class': 'msk-at'});
       var halo = mk('circle', {r: r * 1.5, fill: col, opacity: 0});
       halo.setAttribute('class', 'halo');
-      var c = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
-      var t = mk('text', {
-        'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: '#fff',
-        'text-anchor': 'middle', 'dominant-baseline': 'central'
-      });
-      t.textContent = (a.lab != null ? a.lab : a.el);
-      g.appendChild(halo); g.appendChild(c); g.appendChild(t);
-      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')');
+      g.appendChild(halo);
+      var body;
+      if (a.shape === 'rect') {
+        body = mk('rect', {x: -r * 1.2, y: -r * 0.66, width: r * 2.4, height: r * 1.32,
+                           rx: .07, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'tri') {
+        body = mk('polygon', {points: (-r * 1.2) + ',' + (r * 0.78) + ' ' +
+                              (r * 1.2) + ',' + (r * 0.78) + ' 0,' + (-r * 0.95),
+                              fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'poly') {
+        var pp = (a.pts || [[-1, -1], [1, -1], [1, 1], [-1, 1]]).map(function (q) {
+          return (q[0] * r).toFixed(3) + ',' + (q[1] * r).toFixed(3);
+        }).join(' ');
+        body = mk('polygon', {points: pp, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else {
+        body = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
+      }
+      g.appendChild(body);
+      var lab = (a.lab != null ? a.lab : a.el);
+      if (lab && a.shape !== 'dot') {
+        var t = mk('text', {
+          'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: (a.tc || '#fff'),
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        });
+        t.textContent = lab;
+        g.appendChild(t);
+      }
+      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')' +
+                     (a.rot ? ' rotate(' + a.rot + ')' : ''));
       var op0 = (a.op == null ? 1 : a.op);
       g.setAttribute('opacity', op0);
-      gA.appendChild(g);
-      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0,
+      if (a.under) gC.insertBefore(g, gC.firstChild); else gA.appendChild(g);
+      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0, rot: (a.rot || 0),
                  tx: a.x, ty: a.y, top: op0, flash: 0};
       ids.push(a.id);
     });
+
+    /* ---------------- 面（顶点随实体自动变形） ---------------- */
+    var F = [];
+    (data.faces || []).forEach(function (q, i) {
+      var pg = mk('polygon', {'stroke-linejoin': 'round'});
+      var col = q.c || '#bfdbfe';
+      pg.setAttribute('fill', col);
+      if (q.s) { pg.setAttribute('stroke', q.s);
+                 pg.setAttribute('stroke-width', q.sw || .04);
+                 if (q.dash) pg.setAttribute('stroke-dasharray', q.dash); }
+      else pg.setAttribute('stroke', 'none');
+      var op0 = (q.op == null ? .45 : q.op);
+      pg.setAttribute('opacity', op0);
+      gF.appendChild(pg);
+      F.push({id: q.id || ('face' + i), pts: (q.pts || []), pg: pg,
+              op: op0, top: op0, c: col});
+    });
+
+    function paintFace(f) {
+      var ps = [], ok = true;
+      f.pts.forEach(function (id) {
+        var a = A[id];
+        if (!a || a.op < .05) { ok = false; return; }
+        ps.push(a.x.toFixed(3) + ',' + a.y.toFixed(3));
+      });
+      f.pg.setAttribute('points', ok ? ps.join(' ') : '');
+      f.pg.setAttribute('opacity', ok ? f.op.toFixed(3) : 0);
+    }
 
     /* ---------------- 键 ---------------- */
     var B = [], bmap = {};
@@ -4117,30 +4208,143 @@ document.addEventListener('DOMContentLoaded',function(){
       var o = b.o || 1;
       var lines = [];
       for (var i = 0; i < o; i++) {
-        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': .075, 'class': 'msk-bd'});
+        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': (b.w || .075), 'class': 'msk-bd'});
+        if (b.dash) ln.setAttribute('stroke-dasharray', b.dash);
         ln.setAttribute('opacity', 1);
         gB.appendChild(ln);
         lines.push(ln);
       }
       var k0 = (b.k == null ? 1 : b.k);
       var rec = {id: id, a: b.a, b: b.b, o: o, lines: lines, k: k0, tk: k0, mode: 0,
+                 w: (b.w || .075), dash: (b.dash || null), c: (b.c || null),
                  off: (b.off != null ? b.off : (o === 2 ? .085 : 0))};
       B.push(rec); bmap[id] = rec;
     });
 
+    /* ---------------- 矢量（力 / 速度 / 位移 / 电场强度） ---------------- */
+    var V = [], vids = [];
+    (data.vecs || []).forEach(function (q) {
+      var col = q.c || '#dc2626';
+      var g = mk('g', {'class': 'msk-vc'});
+      var ln = mk('line', {stroke: col, 'stroke-width': (q.w || .07)});
+      ln.setAttribute('marker-end', 'url(#' + arrow(col) + ')');
+      g.appendChild(ln);
+      var lb = null;
+      if (q.lab) {
+        lb = mk('text', {'font-size': (q.fs || .26), fill: col, 'text-anchor': 'middle',
+                         'dominant-baseline': 'central', 'class': 'msk-lbl'});
+        lb.textContent = q.lab;
+        g.appendChild(lb);
+      }
+      var op0 = (q.op == null ? 1 : q.op);
+      g.setAttribute('opacity', op0);
+      gV.appendChild(g);
+      V.push({id: q.id, src: q.src || null, dx: (q.dx || 0), dy: (q.dy || 0),
+              tdx: (q.dx || 0), tdy: (q.dy || 0), ax: (q.ax || 0), ay: (q.ay || 0),
+              g: g, ln: ln, lb: lb, op: op0, top: op0, col: col});
+      vids.push(q.id);
+    });
+
+    /* ---------------- 曲线（函数图像 / 轨迹 / 场线 / 波形） ---------------- */
+    var C = [], cids = [];
+    (data.curves || []).forEach(function (q) {
+      var col = q.c || '#2563eb';
+      var g = mk('g', {'class': 'msk-cvg'});
+      var p = mk('path', {'class': 'msk-cv', stroke: col, 'stroke-width': (q.w || .06)});
+      if (q.dash) p.setAttribute('stroke-dasharray', q.dash);
+      g.appendChild(p);
+      gC.appendChild(g);
+      var d = '';
+      if (q.d) {
+        d = q.d;
+      } else if (q.f) {
+        var f = mfn(q.f);
+        var x0 = (q.x0 != null) ? q.x0 : v[0];
+        var x1 = (q.x1 != null) ? q.x1 : v[0] + v[2];
+        var n = q.n || 160, seg = [];
+        for (var i = 0; i <= n; i++) {
+          var xx = x0 + (x1 - x0) * i / n;
+          var yy = f(xx);
+          if (!isFinite(yy)) continue;
+          if (q.flip) yy = -yy;
+          seg.push((seg.length ? 'L' : 'M') + xx.toFixed(3) + ',' + yy.toFixed(3));
+        }
+        d = seg.join(' ');
+      }
+      p.setAttribute('d', d || 'M0,0');
+      var op0 = (q.op == null ? 1 : q.op);
+      var pr0 = (q.prog == null ? 1 : q.prog);
+      g.setAttribute('opacity', op0);
+      C.push({id: q.id, p: p, g: g, op: op0, top: op0, prog: pr0, tprog: pr0,
+              len: 0, fixedDash: q.dash || null, col: col});
+      cids.push(q.id);
+    });
+
+    function paintCurve(c) {
+      if (c.len > 0 && !c.fixedDash) {
+        c.p.setAttribute('stroke-dasharray', c.len + ' ' + c.len);
+        c.p.setAttribute('stroke-dashoffset', (c.len * (1 - c.prog)).toFixed(2));
+      }
+      c.g.setAttribute('opacity', c.op.toFixed(3));
+    }
+    function measure() {
+      C.forEach(function (c) {
+        try { c.len = c.p.getTotalLength() || 0; } catch (e) { c.len = 0; }
+        paintCurve(c);
+      });
+    }
+
+    function paintVec(q) {
+      var ox = q.ax, oy = q.ay, rr = 0;
+      if (q.src && A[q.src]) {
+        ox = A[q.src].x; oy = A[q.src].y; rr = A[q.src].r * .95;
+      }
+      var L = Math.sqrt(q.dx * q.dx + q.dy * q.dy) || 1;
+      var sx = ox + q.dx / L * rr, sy = oy + q.dy / L * rr;
+      var x2 = ox + q.dx, y2 = oy + q.dy;
+      q.ln.setAttribute('x1', sx.toFixed(3));
+      q.ln.setAttribute('y1', sy.toFixed(3));
+      q.ln.setAttribute('x2', x2.toFixed(3));
+      q.ln.setAttribute('y2', y2.toFixed(3));
+      q.g.setAttribute('opacity', q.op.toFixed(3));
+      if (q.lb) {
+        q.lb.setAttribute('x', (x2 + q.dx / L * .26).toFixed(3));
+        q.lb.setAttribute('y', (y2 + q.dy / L * .26).toFixed(3));
+      }
+    }
+    V.forEach(function (q) { paintVec(q); });
+    C.forEach(function (c) { paintCurve(c); });
+    F.forEach(function (f) { paintFace(f); });
+    setTimeout(measure, 40);
+
     /* ---------------- 步骤 ---------------- */
     var steps = data.steps || [];
     var N = steps.length, cur = -1, anim = null;
+    var locTags = [];
 
     function blankTags() { while (gT.firstChild) gT.removeChild(gT.firstChild); }
 
     function applyStep(k) {
       var s = steps[k] || {};
       var at = s.at || {}, op = s.op || {}, bd = s.bd || {};
+      var vv = s.vv || {}, vo = s.vo || {}, cv = s.cv || {}, fv = s.fv || {};
       ids.forEach(function (id) {
         var a = A[id];
         if (at[id]) { a.tx = at[id][0]; a.ty = at[id][1]; }
         if (op[id] != null) { a.top = op[id]; }
+      });
+      V.forEach(function (q) {
+        if (vv[q.id]) { q.tdx = vv[q.id][0]; q.tdy = vv[q.id][1]; }
+        if (vo[q.id] != null) q.top = vo[q.id];
+      });
+      C.forEach(function (c) {
+        var w = cv[c.id];
+        if (w == null) return;
+        if (typeof w === 'number') { c.top = w ? 1 : 0; }
+        else { if (w.op != null) c.top = w.op; if (w.prog != null) c.tprog = w.prog; }
+      });
+      F.forEach(function (f) {
+        if (fv[f.id] != null) f.top = fv[f.id] ? 1 : 0;
       });
       B.forEach(function (b) {
         var key = b.id;
@@ -4168,7 +4372,7 @@ document.addEventListener('DOMContentLoaded',function(){
         t.__el = tx;
       });
       if (eqEl) eqEl.textContent = s.eq != null ? s.eq : (data.eq || '');
-      window.__mskTags = s.tags || [];
+      locTags = s.tags || [];
     }
 
     function frame(now) {
@@ -4184,7 +4388,8 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x = a.x0 + (a.tx - a.x0) * pm;
         a.y = a.y0 + (a.ty - a.y0) * pm;
         a.op = a.op0 + (a.top - a.op0) * pk;
-        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')');
+        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')' +
+                         (a.rot ? ' rotate(' + a.rot + ')' : ''));
         a.g.setAttribute('opacity', a.op.toFixed(3));
         var h = a.g.querySelector('.halo');
         if (h) {
@@ -4199,19 +4404,38 @@ document.addEventListener('DOMContentLoaded',function(){
         drawBond(b, p);
       });
 
-      (window.__mskTags || []).forEach(function (t) {
+      V.forEach(function (q) {
+        q.dx = q.dx0 + (q.tdx - q.dx0) * pm;
+        q.dy = q.dy0 + (q.tdy - q.dy0) * pm;
+        q.op = q.op0v + (q.top - q.op0v) * pk;
+        paintVec(q);
+      });
+      C.forEach(function (c) {
+        c.prog = c.prog0 + (c.tprog - c.prog0) * pm;
+        c.op = c.op0v + (c.top - c.op0v) * pk;
+        paintCurve(c);
+      });
+      F.forEach(function (f) {
+        f.op = f.op0 + (f.top - f.op0) * pk;
+        paintFace(f);
+      });
+
+      locTags.forEach(function (t) {
         if (!t.__el) return;
         var q = Math.max(0, (p - .35) / .65);
         t.__el.setAttribute('opacity', (q > 0 ? Math.min(1, q * 2.2) : 0).toFixed(3));
         t.__el.setAttribute('transform', 'translate(' + (q * (t.dx || 0)).toFixed(2) + ',' +
-          (-q * (t.dy || .18)).toFixed(2) + ')');
+          (-q * (t.dy != null ? t.dy : .18)).toFixed(2) + ')');
       });
 
       if (p < 1) requestAnimationFrame(frame);
       else {
         B.forEach(function (b) { b.mode = 0; drawBond(b, 1); });
         ids.forEach(function (a) { a.flash = 0; });
-        (window.__mskTags || []).forEach(function (t) {
+        V.forEach(function (q) { q.dx = q.tdx; q.dy = q.tdy; q.op = q.top; paintVec(q); });
+        C.forEach(function (c) { c.prog = c.tprog; c.op = c.top; paintCurve(c); });
+        F.forEach(function (f) { f.op = f.top; paintFace(f); });
+        locTags.forEach(function (t) {
           if (t.__el) t.__el.setAttribute('opacity', 1);
         });
         anim = null;
@@ -4231,8 +4455,8 @@ document.addEventListener('DOMContentLoaded',function(){
       var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
       /* gap：两截各向后退多少 ⇒ k=0 时退到 0 长度（断成两截） */
       var gap = (1 - b.k) * LL / 2;
-      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : '#94a3b8');
-      var w = b.mode ? .095 : .075;
+      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : (b.c || '#94a3b8'));
+      var w = b.mode ? (b.w || .075) * 1.25 : (b.w || .075);
       var off = b.off;
       for (var i = 0; i < b.lines.length; i++) {
         var ln = b.lines[i];
@@ -4248,6 +4472,7 @@ document.addEventListener('DOMContentLoaded',function(){
         /* 另一半 */
         if (!ln._r) {
           ln._r = mk('line', {'class': 'msk-bd', 'stroke-linecap': 'round'});
+          if (b.dash) ln._r.setAttribute('stroke-dasharray', b.dash);
           gB.appendChild(ln._r);
         }
         var r = ln._r;
@@ -4259,6 +4484,19 @@ document.addEventListener('DOMContentLoaded',function(){
         r.setAttribute('stroke-width', w);
         r.setAttribute('opacity', b.k > .002 ? 1 : 0);
       }
+    }
+
+    /* KaTeX：say / trap 里的公式要现渲染（innerHTML 是后来塞进去的） */
+    var MD = [{left:'$$',right:'$$',display:true},
+              {left:'\\(',right:'\\)',display:false},
+              {left:'$',right:'$',display:false}];
+    function rmath(el) {
+      if (!el) return;
+      if (!window.renderMathInElement) {          /* katex 还没加载完：稍后重试 */
+        setTimeout(function () { rmath(el); }, 400);
+        return;
+      }
+      try { window.renderMathInElement(el, {delimiters: MD, throwOnError: false}); } catch (e) {}
     }
 
     /* ---------------- 控制 ---------------- */
@@ -4285,6 +4523,9 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x0 = a.x; a.y0 = a.y; a.op0 = a.op;
       });
       B.forEach(function (b) { b.k0 = b.k; });
+      V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+      C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+      F.forEach(function (f) { f.op0 = f.op; });
       applyStep(k);
       anim = {t0: performance.now(), dur: silent ? 1 : (s.dur || 780)};
       requestAnimationFrame(frame);
@@ -4293,8 +4534,8 @@ document.addEventListener('DOMContentLoaded',function(){
         d.classList.toggle('on', i <= k);
         d.classList.toggle('cur', i === k);
       });
-      if (sayEl) sayEl.innerHTML = s.say || '';
-      if (trapEl) trapEl.innerHTML = s.trap || '';
+      if (sayEl) { sayEl.innerHTML = s.say || ''; rmath(sayEl); }
+      if (trapEl) { trapEl.innerHTML = s.trap || ''; rmath(trapEl); }
       if (bar) bar.style.width = ((k + 1) / N * 100) + '%';
       if (idxEl) idxEl.textContent = (k + 1) + ' / ' + N;
       if (bPrev) bPrev.disabled = (k === 0);
@@ -4324,6 +4565,9 @@ document.addEventListener('DOMContentLoaded',function(){
     /* 无动画地落到第 1 步 */
     ids.forEach(function (id) { var a = A[id]; a.x0 = a.x; a.y0 = a.y; a.op0 = a.op; });
     B.forEach(function (b) { b.k0 = b.k; });
+    V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+    C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+    F.forEach(function (f) { f.op0 = f.op; });
     paint(0, true);
   }
 
