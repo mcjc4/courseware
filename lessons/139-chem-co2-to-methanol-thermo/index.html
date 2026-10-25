@@ -684,7 +684,7 @@ section[id]{scroll-margin-top:58px}
 @media(max-width:720px){.csa-vs{grid-template-columns:1fr}.csa-node{min-width:88px;padding:8px 10px}}
 
 
-/* ===== 分子动画舞台 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台 KMA · MSK-VER 20261022b ===== */
 .msk .csa-stage{padding:6px 10px 2px;background:linear-gradient(180deg,#fbfdff,#f6faff)}
 .msk-svg{display:block;width:100%;height:auto;overflow:visible}
 .msk .csa-top b{color:#0f766e}
@@ -692,6 +692,10 @@ section[id]{scroll-margin-top:58px}
 .msk-at text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:700;pointer-events:none;user-select:none}
 .msk-bd{stroke-linecap:round}
+.msk-vc{stroke-linecap:round}
+.msk-vl text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  font-weight:800;pointer-events:none}
+.msk-cv{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .msk-tag text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
   font-weight:800;pointer-events:none}
 .msk-eqp{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
@@ -888,7 +892,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 每一步都会看到原子真的在动：断键变红、成键变绿</span>
   </div>
@@ -902,7 +906,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 7</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（7 条）<i data-act="close">✕</i></div><ol><li>3 个 H₂ 是 <b>6 个 H</b>：3 个进甲基、1 个进羟基、2 个被脱走的氧带走 —— 一个不多一个不少。</li><li>碰撞 ≠ 反应：只有<b>活化分子</b>且取向合适的碰撞才成反应，所以才有「活化能」。</li><li>算 ΔH 要<b>两笔都算</b>：断键吸热 + 成键放热；只算一边必然错。</li><li>别只断一根：甲醇里 C—O 是<b>单键</b>，两根 π 都要断，C 的键数才从 4 保持到 4。</li><li>甲醇是 <b>CH₃—O—H</b>：O 上必须有一个 H，别画成 CH₃—O 就收笔。</li><li>脱掉的是 <b>O + 2H</b>，不是 OH + H；所以反应式里 H₂O 的系数是 1。</li><li>升温对这个反应是<b>双重打击</b>：既压不住 −TΔS，又让放热反应逆移。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.3,-2.95,6.95,4.75],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O","atoms":[{"id":"C1","el":"C","x":0.0,"y":0.55},{"id":"O1","el":"O","x":-0.95,"y":0.55},{"id":"O2","el":"O","x":0.95,"y":0.55},{"id":"H1","el":"H","x":-3.0,"y":-1.7},{"id":"H2","el":"H","x":-2.25,"y":-1.7},{"id":"H3","el":"H","x":-1.35,"y":-2.25},{"id":"H4","el":"H","x":-0.6,"y":-2.25},{"id":"H5","el":"H","x":1.4,"y":-2.25},{"id":"H6","el":"H","x":2.15,"y":-2.25}],"bonds":[{"id":"C1-O1a","a":"C1","b":"O1","o":1,"off":0.085},{"id":"C1-O1b","a":"C1","b":"O1","o":1,"off":-0.085},{"id":"C1-O2a","a":"C1","b":"O2","o":1,"off":0.085},{"id":"C1-O2b","a":"C1","b":"O2","o":1,"off":-0.085},{"id":"H1-H2","a":"H1","b":"H2","o":1},{"id":"H3-H4","a":"H3","b":"H4","o":1},{"id":"H5-H6","a":"H5","b":"H6","o":1},{"id":"C1-H1","a":"C1","b":"H1","o":1,"k":0},{"id":"C1-H2","a":"C1","b":"H2","o":1,"k":0},{"id":"C1-H3","a":"C1","b":"H3","o":1,"k":0},{"id":"O1-H4","a":"O1","b":"H4","o":1,"k":0},{"id":"O2-H5","a":"O2","b":"H5","o":1,"k":0},{"id":"O2-H6","a":"O2","b":"H6","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O","dur":780,"say":"左边是 1 个 CO₂（O=C=O，直线形）+ 3 个 H₂ ⇒ 一共 <b>4 个分子、4 mol 气体<\/b>。","trap":"3 个 H₂ 是 <b>6 个 H<\/b>：3 个进甲基、1 个进羟基、2 个被脱走的氧带走 —— 一个不多一个不少。"},{"at":{"H1":[-1.45,-1.2],"H2":[-1.05,-0.7],"H3":[-0.1,-1.35],"H4":[0.3,-0.85],"H5":[1.25,-1.2],"H6":[0.85,-0.7]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"3 个 H₂ 先<b>靠过去<\/b> —— 反应要发生，第一步永远是有效碰撞。","trap":"碰撞 ≠ 反应：只有<b>活化分子<\/b>且取向合适的碰撞才成反应，所以才有「活化能」。"},{"at":{"H1":[-1.62,-1.42],"H2":[-0.95,-0.98],"H3":[-0.22,-1.52],"H4":[0.42,-1.02],"H5":[1.38,-1.4],"H6":[0.78,-0.96]},"op":{},"bd":{"H1-H2":0,"H3-H4":0,"H5-H6":0},"tags":[],"eq":null,"dur":780,"say":"3 根 <b>H—H 键同时断<\/b> ⇒ 断键吸能，这是 ΔH 里被抵消掉的那一部分。","trap":"算 ΔH 要<b>两笔都算<\/b>：断键吸热 + 成键放热；只算一边必然错。"},{"at":{"O2":[1.28,0.92]},"op":{},"bd":{"C1-O1b":0,"C1-O2b":0},"tags":[{"t":"两根 π 键断","x":0.0,"y":1.55,"c":"#dc2626","fs":0.27,"dy":0.0}],"eq":null,"dur":780,"say":"CO₂ 的<b>两根 C=O 各断一根 π 键<\/b> ⇒ C 上腾出 2 个位置，双键全部降成单键。","trap":"别只断一根：甲醇里 C—O 是<b>单键<\/b>，两根 π 都要断，C 的键数才从 4 保持到 4。"},{"at":{"C1":[-1.55,0.45],"O1":[-0.72,0.02],"H1":[-2.3,1.0],"H2":[-2.3,-0.1],"H3":[-1.55,1.32],"H4":[-0.3,0.52],"O2":[2.1,0.62],"H5":[1.6,1.1],"H6":[2.6,1.1]},"op":{},"bd":{"C1-H1":1,"C1-H2":1,"C1-H3":1,"O1-H4":1,"C1-O2a":0},"tags":[],"eq":null,"dur":780,"say":"6 个 H 各就各位：<b>3 个接在 C 上<\/b>（成甲基）、<b>1 个接在 O 上<\/b>（成羟基）⇒ 甲醇骨架搭好。","trap":"甲醇是 <b>CH₃—O—H<\/b>：O 上必须有一个 H，别画成 CH₃—O 就收笔。"},{"at":{"O2":[2.12,-0.9],"H5":[1.38,-0.45],"H6":[2.68,-0.45]},"op":{},"bd":{"O2-H5":1,"O2-H6":1},"tags":[{"t":"H₂O 脱去 →","x":2.62,"y":-1.8,"c":"#b45309","fs":0.27,"dy":0.0}],"eq":null,"dur":780,"say":"多出来的那个 O 带上 2 个 H 变成 <b>H₂O 脱走<\/b> —— 这一步就是「脱水」。","trap":"脱掉的是 <b>O + 2H<\/b>，不是 OH + H；所以反应式里 H₂O 的系数是 1。"},{"at":{"O2":[2.68,-1.35],"H5":[1.95,-0.9],"H6":[3.22,-0.9]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"4 个分子进、2 个分子出 ⇒ <b>ΔS &lt; 0（熵减）<\/b>；再叠加 ΔH &lt; 0 ⇒ 只能<b>低温自发<\/b>。","trap":"升温对这个反应是<b>双重打击<\/b>：既压不住 −TΔS，又让放热反应逆移。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.3,-2.95,6.95,4.75],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O","atoms":[{"id":"C1","el":"C","x":0.0,"y":0.55},{"id":"O1","el":"O","x":-0.95,"y":0.55},{"id":"O2","el":"O","x":0.95,"y":0.55},{"id":"H1","el":"H","x":-3.0,"y":-1.7},{"id":"H2","el":"H","x":-2.25,"y":-1.7},{"id":"H3","el":"H","x":-1.35,"y":-2.25},{"id":"H4","el":"H","x":-0.6,"y":-2.25},{"id":"H5","el":"H","x":1.4,"y":-2.25},{"id":"H6","el":"H","x":2.15,"y":-2.25}],"bonds":[{"id":"C1-O1a","a":"C1","b":"O1","o":1,"off":0.085},{"id":"C1-O1b","a":"C1","b":"O1","o":1,"off":-0.085},{"id":"C1-O2a","a":"C1","b":"O2","o":1,"off":0.085},{"id":"C1-O2b","a":"C1","b":"O2","o":1,"off":-0.085},{"id":"H1-H2","a":"H1","b":"H2","o":1},{"id":"H3-H4","a":"H3","b":"H4","o":1},{"id":"H5-H6","a":"H5","b":"H6","o":1},{"id":"C1-H1","a":"C1","b":"H1","o":1,"k":0},{"id":"C1-H2","a":"C1","b":"H2","o":1,"k":0},{"id":"C1-H3","a":"C1","b":"H3","o":1,"k":0},{"id":"O1-H4","a":"O1","b":"H4","o":1,"k":0},{"id":"O2-H5","a":"O2","b":"H5","o":1,"k":0},{"id":"O2-H6","a":"O2","b":"H6","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O","dur":780,"say":"左边是 1 个 CO₂（O=C=O，直线形）+ 3 个 H₂ ⇒ 一共 <b>4 个分子、4 mol 气体<\/b>。","trap":"3 个 H₂ 是 <b>6 个 H<\/b>：3 个进甲基、1 个进羟基、2 个被脱走的氧带走 —— 一个不多一个不少。"},{"at":{"H1":[-1.45,-1.2],"H2":[-1.05,-0.7],"H3":[-0.1,-1.35],"H4":[0.3,-0.85],"H5":[1.25,-1.2],"H6":[0.85,-0.7]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"3 个 H₂ 先<b>靠过去<\/b> —— 反应要发生，第一步永远是有效碰撞。","trap":"碰撞 ≠ 反应：只有<b>活化分子<\/b>且取向合适的碰撞才成反应，所以才有「活化能」。"},{"at":{"H1":[-1.62,-1.42],"H2":[-0.95,-0.98],"H3":[-0.22,-1.52],"H4":[0.42,-1.02],"H5":[1.38,-1.4],"H6":[0.78,-0.96]},"op":{},"bd":{"H1-H2":0,"H3-H4":0,"H5-H6":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"3 根 <b>H—H 键同时断<\/b> ⇒ 断键吸能，这是 ΔH 里被抵消掉的那一部分。","trap":"算 ΔH 要<b>两笔都算<\/b>：断键吸热 + 成键放热；只算一边必然错。"},{"at":{"O2":[1.28,0.92]},"op":{},"bd":{"C1-O1b":0,"C1-O2b":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"两根 π 键断","x":0.0,"y":1.55,"c":"#dc2626","fs":0.27,"dy":0.0}],"eq":null,"dur":780,"say":"CO₂ 的<b>两根 C=O 各断一根 π 键<\/b> ⇒ C 上腾出 2 个位置，双键全部降成单键。","trap":"别只断一根：甲醇里 C—O 是<b>单键<\/b>，两根 π 都要断，C 的键数才从 4 保持到 4。"},{"at":{"C1":[-1.55,0.45],"O1":[-0.72,0.02],"H1":[-2.3,1.0],"H2":[-2.3,-0.1],"H3":[-1.55,1.32],"H4":[-0.3,0.52],"O2":[2.1,0.62],"H5":[1.6,1.1],"H6":[2.6,1.1]},"op":{},"bd":{"C1-H1":1,"C1-H2":1,"C1-H3":1,"O1-H4":1,"C1-O2a":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"6 个 H 各就各位：<b>3 个接在 C 上<\/b>（成甲基）、<b>1 个接在 O 上<\/b>（成羟基）⇒ 甲醇骨架搭好。","trap":"甲醇是 <b>CH₃—O—H<\/b>：O 上必须有一个 H，别画成 CH₃—O 就收笔。"},{"at":{"O2":[2.12,-0.9],"H5":[1.38,-0.45],"H6":[2.68,-0.45]},"op":{},"bd":{"O2-H5":1,"O2-H6":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"H₂O 脱去 →","x":2.62,"y":-1.8,"c":"#b45309","fs":0.27,"dy":0.0}],"eq":null,"dur":780,"say":"多出来的那个 O 带上 2 个 H 变成 <b>H₂O 脱走<\/b> —— 这一步就是「脱水」。","trap":"脱掉的是 <b>O + 2H<\/b>，不是 OH + H；所以反应式里 H₂O 的系数是 1。"},{"at":{"O2":[2.68,-1.35],"H5":[1.95,-0.9],"H6":[3.22,-0.9]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"4 个分子进、2 个分子出 ⇒ <b>ΔS &lt; 0（熵减）<\/b>；再叠加 ΔH &lt; 0 ⇒ 只能<b>低温自发<\/b>。","trap":"升温对这个反应是<b>双重打击<\/b>：既压不住 −TΔS，又让放热反应逆移。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>正反应<b>放热</b>（ΔH&lt;0），且 4 mol 气体 → 2 mol 气体（<b>ΔS&lt;0</b>）⇒ −TΔS 为正且随温度增大 ⇒ 只有<b>低温</b>时 ΔG = ΔH − TΔS 才可能小于 0 ⇒ <b>低温自发</b>。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(1) 反应 I 能自发进行的条件是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把 ΔG 判据落到温度上：ΔH&lt;0 有利、ΔS&lt;0 不利 ⇒ 温度越高越不利 ⇒ 填「<b>低温</b>」。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「反应 II：2CH₃OH(g) ⇌ CH₃OCH₃(g) + H₂O(g)　ΔH₂ = +23.9 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>ΔH₂ &gt; 0 ⇒ 反应 II <b>吸热</b>，升温对它<b>正移</b>有利；气体分子数 2 → 2（Δn = 0）⇒ <b>压强、惰气都动不了它</b>，只有温度和浓度能。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(2) 若容器中仅发生反应 II，下列说法正确的是______」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>四个选项考四件事：压强判据、充惰气、升温、分离产物 ⇒ 逐个用"Δn=0 + 吸热"两条已知去判。</div></div><p><b>先看清目标</b>：(1) 问「自发条件」和「哪条曲线是 I」；(2) 是四选二的多选。两问共用同一套已知：\(\Delta H_1&lt;0\) 且反应 I 的气体分子数减少。</p><p><b>① 判据先写出来</b>：\(\Delta G=\Delta H-T\Delta S\)，\(\Delta G&lt;0\) 时反应自发。所以要把 \(\Delta H\) 和 \(\Delta S\) 的<b>符号</b>分别确定。</p><p><b>② 反应 I 的 ΔH</b>：题干直接给 \(\Delta H_1=-49.6\ \mathrm{kJ\cdot mol^{-1}}&lt;0\) ⇒ <b>放热</b>。</p><p><b>③ 反应 I 的 ΔS</b>：数气体分子数——左边 \(1+3=4\) mol，右边 \(1+1=2\) mol，\(\Delta n=2-4=-2&lt;0\) ⇒ 气体变少、混乱度降低 ⇒ \(\Delta S&lt;0\)。</p><p><b>④ 合成结论</b>：\(\Delta G=-49.6-T\cdot(\text{负数})=-49.6+T|\Delta S|\)。前一项恒为负（有利），后一项随温度增大而变大（不利）。温度低时后一项很小，\(\Delta G&lt;0\) ⇒ <b>低温自发</b>；温度高到 \(T|\Delta S|&gt;49.6\) 时 \(\Delta G&gt;0\)，反应不再自发。</p><p><b>⑤ 哪条曲线是 I</b>：把 \(\Delta G\) 对 \(T\) 求导得 \(\dfrac{d(\Delta G)}{dT}=-\Delta S\)。反应 I 的 \(\Delta S&lt;0\) ⇒ 斜率为正 ⇒ <b>随温度上升的那条曲线才是 I</b>（另一条斜率下降的，必然是 \(\Delta S&gt;0\) 的对照反应）。判断曲线不必背图，抓「斜率的符号 = −ΔS」即可。</p><p><b>⑥ (2) 的 A 为什么错</b>：反应 II 是 \(2\to2\)（\(\Delta n=0\)），气体总物质的量自始至终不变；恒温恒容下由 \(p=\dfrac{nRT}{V}\) 可知总压<b>一直没变</b>，「压强不再变化」在任何时刻都成立，无法标志平衡 ⇒ A 错。</p><p><b>⑦ (2) 的 B 为什么对（恒温恒压充氦气）</b>：分两步看。第一步，恒压充惰气 ⇒ 总体积变大 ⇒ 各组分的<b>分压按同一比例下降</b>（分压 = 摩尔分数 × 总压，总压不变而摩尔分数被 He 摊薄）。第二步，看 Q 怎么变：\(Q=\dfrac{p(\mathrm{CH_3OCH_3})\cdot p(\mathrm{H_2O})}{p^2(\mathrm{CH_3OH})}\)，分子是 2 次、分母也是 2 次，每一处都缩小同样倍数 \(k\) ⇒ \(Q\) 变为 \(\dfrac{k^2}{k^2}Q=Q\)，<b>Q 不变、仍等于 K</b> ⇒ 平衡不移动 ⇒ 甲醇转化率不变。而 He 占去了一部分体积 ⇒ \(\mathrm{CH_3OCH_3}\) 的体积分数<b>减小</b> ⇒ B 对。</p><p><b>⑧ (2) 的 C 为什么对</b>：\(\Delta H_2=+23.9&gt;0\) 吸热，升温使 \(K\) 增大 ⇒ 平衡正移 ⇒ 更多甲醇被转化 ⇒ 转化率升高 ⇒ C 对。</p><p><b>⑨ (2) 的 D 为什么错</b>：分离出 \(\mathrm{CH_3OCH_3}\) 后，产物浓度骤降 ⇒ <b>逆反应速率立刻变小</b>，随后正反应速率也跟着变小（甲醇被消耗、浓度下降）。转化率确实提高了，但「提高反应速率」这半句不成立 ⇒ D 错。</p><p><b style="color:#0f766e">答案 BC</b>。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「B. 恒温恒压下，平衡时充入氦气，CH₃OCH₃ 的体积分数减小，CH₃OH 的转化率不变」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>恒压充惰气 = 先<b>稀释</b>再谈<b>减压</b>：Δn=0 的反应只被稀释、不被减压推动 ⇒ 转化率不变，而体积分数被惰气摊薄 ⇒ 减小。</div></div>
       <button class="next-btn">下一步 →</button>
@@ -930,7 +934,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 注意第 3 步：两边断的是不同的键（一边 O—H，一边 C—O）</span>
   </div>
@@ -944,7 +948,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 6</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（6 条）<i data-act="close">✕</i></div><ol><li>别把醚写成 CH₃—CH₃—O：醚是 <b>C—O—C</b> 三明治，O 夹在两个碳中间。</li><li>缩合不是随便碰：<b>取向不对</b>就没有有效碰撞，所以工业上要靠催化剂把分子摆正。</li><li>两边断的不是同一根键：一边断 O—H，一边断 C—O —— 这是本题最容易画错的地方。</li><li>接上去的必须是 <b>CH₃ 那一端</b>，不是 OH 那一端 —— 接反了就变成两个甲醇又凑回去了。</li><li>数原子要对得上：<b>2 个甲醇 = 2C + 2O + 8H</b>，甲醚 2C+1O+6H 加水 1O+2H，正好相等。</li><li>Δn=0 的平衡：<b>恒容加压、充惰气都不移动</b>；这题 A、B 两项就靠这一条判死。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.45,-1.1,7.3,2.4],"eq":"2CH₃OH ⇌ CH₃OCH₃ + H₂O（ΔH₂ = +23.9 kJ·mol⁻¹）","atoms":[{"id":"M1","el":"C","lab":"CH₃","x":-2.75,"y":-0.32,"r":0.34},{"id":"O1","el":"O","x":-1.68,"y":0.15},{"id":"H1","el":"H","x":-1.1,"y":-0.38},{"id":"M2","el":"C","lab":"CH₃","x":2.75,"y":-0.32,"r":0.34},{"id":"O2","el":"O","x":1.68,"y":0.15},{"id":"H2","el":"H","x":1.1,"y":-0.38}],"bonds":[{"id":"M1-O1","a":"M1","b":"O1","o":1},{"id":"O1-H1","a":"O1","b":"H1","o":1},{"id":"M2-O2","a":"M2","b":"O2","o":1},{"id":"O2-H2","a":"O2","b":"H2","o":1},{"id":"O1-M2","a":"O1","b":"M2","o":1,"k":0},{"id":"O2-H1","a":"O2","b":"H1","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"2CH₃OH ⇌ CH₃OCH₃ + H₂O（ΔH₂ = +23.9 kJ·mol⁻¹）","dur":780,"say":"两个甲醇并排：<b>各有一个 CH₃、一个 O、一个 O—H 上的 H<\/b>。目标是把它们拆成「两半拼醚 + 一份水」。","trap":"别把醚写成 CH₃—CH₃—O：醚是 <b>C—O—C<\/b> 三明治，O 夹在两个碳中间。"},{"at":{"M2":[1.05,-0.3],"O2":[0.18,0.1],"H2":[-0.4,-0.42]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"两个分子先「撞」到一起 —— 脱水缩合要求 O 与 C 正面对上。","trap":"缩合不是随便碰：<b>取向不对<\/b>就没有有效碰撞，所以工业上要靠催化剂把分子摆正。"},{"at":{"H1":[-1.35,0.8],"H2":[-0.4,-0.42]},"op":{},"bd":{"O1-H1":0,"M2-O2":0},"tags":[{"t":"H 脱落","x":-1.05,"y":1.05,"c":"#dc2626","fs":0.26,"dy":0.0},{"t":"OH 整个脱落","x":0.55,"y":0.95,"c":"#dc2626","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两处断键：左边分子断 <b>O—H<\/b>（只交出 H），右边分子断 <b>C—O<\/b>（整个 OH 都要走）。","trap":"两边断的不是同一根键：一边断 O—H，一边断 C—O —— 这是本题最容易画错的地方。"},{"at":{"M2":[-0.88,-0.3],"H1":[0.42,-0.62]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"右边那个 CH₃ <b>接到左边分子的 O 上<\/b>（成 C—O—C），脱下来的 OH 去等那个 H。","trap":"接上去的必须是 <b>CH₃ 那一端<\/b>，不是 OH 那一端 —— 接反了就变成两个甲醇又凑回去了。"},{"at":{"M1":[-2.56,-0.26],"O1":[-1.62,0.2],"M2":[-0.7,-0.26],"O2":[0.95,0.3],"H1":[0.38,0.02],"H2":[1.52,0.0]},"op":{},"bd":{"O1-M2":1,"O2-H1":1},"tags":[{"t":"新键 C—O","x":-0.6,"y":0.92,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"两根新键同时生成 ⇒ 左边成 <b>CH₃—O—CH₃（甲醚）<\/b>，右边成 <b>H₂O<\/b>。","trap":"数原子要对得上：<b>2 个甲醇 = 2C + 2O + 8H<\/b>，甲醚 2C+1O+6H 加水 1O+2H，正好相等。"},{"at":{"O2":[2.3,-0.35],"H1":[1.72,-0.1],"H2":[2.86,-0.1]},"op":{},"bd":{},"tags":[{"t":"H₂O 脱去 →","x":2.35,"y":-0.76,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"水脱走，反应 <b>2 分子 → 2 分子（Δn = 0）<\/b> ⇒ 压强对它没影响，只有温度能推动。","trap":"Δn=0 的平衡：<b>恒容加压、充惰气都不移动<\/b>；这题 A、B 两项就靠这一条判死。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.45,-1.1,7.3,2.4],"eq":"2CH₃OH ⇌ CH₃OCH₃ + H₂O（ΔH₂ = +23.9 kJ·mol⁻¹）","atoms":[{"id":"M1","el":"C","lab":"CH₃","x":-2.75,"y":-0.32,"r":0.34},{"id":"O1","el":"O","x":-1.68,"y":0.15},{"id":"H1","el":"H","x":-1.1,"y":-0.38},{"id":"M2","el":"C","lab":"CH₃","x":2.75,"y":-0.32,"r":0.34},{"id":"O2","el":"O","x":1.68,"y":0.15},{"id":"H2","el":"H","x":1.1,"y":-0.38}],"bonds":[{"id":"M1-O1","a":"M1","b":"O1","o":1},{"id":"O1-H1","a":"O1","b":"H1","o":1},{"id":"M2-O2","a":"M2","b":"O2","o":1},{"id":"O2-H2","a":"O2","b":"H2","o":1},{"id":"O1-M2","a":"O1","b":"M2","o":1,"k":0},{"id":"O2-H1","a":"O2","b":"H1","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"2CH₃OH ⇌ CH₃OCH₃ + H₂O（ΔH₂ = +23.9 kJ·mol⁻¹）","dur":780,"say":"两个甲醇并排：<b>各有一个 CH₃、一个 O、一个 O—H 上的 H<\/b>。目标是把它们拆成「两半拼醚 + 一份水」。","trap":"别把醚写成 CH₃—CH₃—O：醚是 <b>C—O—C<\/b> 三明治，O 夹在两个碳中间。"},{"at":{"M2":[1.05,-0.3],"O2":[0.18,0.1],"H2":[-0.4,-0.42]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"两个分子先「撞」到一起 —— 脱水缩合要求 O 与 C 正面对上。","trap":"缩合不是随便碰：<b>取向不对<\/b>就没有有效碰撞，所以工业上要靠催化剂把分子摆正。"},{"at":{"H1":[-1.35,0.8],"H2":[-0.4,-0.42]},"op":{},"bd":{"O1-H1":0,"M2-O2":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"H 脱落","x":-1.05,"y":1.05,"c":"#dc2626","fs":0.26,"dy":0.0},{"t":"OH 整个脱落","x":0.55,"y":0.95,"c":"#dc2626","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两处断键：左边分子断 <b>O—H<\/b>（只交出 H），右边分子断 <b>C—O<\/b>（整个 OH 都要走）。","trap":"两边断的不是同一根键：一边断 O—H，一边断 C—O —— 这是本题最容易画错的地方。"},{"at":{"M2":[-0.88,-0.3],"H1":[0.42,-0.62]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"右边那个 CH₃ <b>接到左边分子的 O 上<\/b>（成 C—O—C），脱下来的 OH 去等那个 H。","trap":"接上去的必须是 <b>CH₃ 那一端<\/b>，不是 OH 那一端 —— 接反了就变成两个甲醇又凑回去了。"},{"at":{"M1":[-2.56,-0.26],"O1":[-1.62,0.2],"M2":[-0.7,-0.26],"O2":[0.95,0.3],"H1":[0.38,0.02],"H2":[1.52,0.0]},"op":{},"bd":{"O1-M2":1,"O2-H1":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"新键 C—O","x":-0.6,"y":0.92,"c":"#15803d","fs":0.24,"dy":0.0}],"eq":null,"dur":780,"say":"两根新键同时生成 ⇒ 左边成 <b>CH₃—O—CH₃（甲醚）<\/b>，右边成 <b>H₂O<\/b>。","trap":"数原子要对得上：<b>2 个甲醇 = 2C + 2O + 8H<\/b>，甲醚 2C+1O+6H 加水 1O+2H，正好相等。"},{"at":{"O2":[2.3,-0.35],"H1":[1.72,-0.1],"H2":[2.86,-0.1]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"H₂O 脱去 →","x":2.35,"y":-0.76,"c":"#b45309","fs":0.25,"dy":0.0}],"eq":null,"dur":780,"say":"水脱走，反应 <b>2 分子 → 2 分子（Δn = 0）<\/b> ⇒ 压强对它没影响，只有温度能推动。","trap":"Δn=0 的平衡：<b>恒容加压、充惰气都不移动<\/b>；这题 A、B 两项就靠这一条判死。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「p(CH₃OH) = 0.75 MPa，p(CH₃OCH₃) = 0.75 MPa，p(CO₂) = 0.25 MPa 和 p(H₂) = 0.5 MPa」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>两个反应<b>共用甲醇</b>（I 生成、II 消耗）⇒ 用两个反应进度 α、β 列账，就能把没给的 p(H₂O) 反解出来；Kp 只按反应 I 写（Δn=−2 ⇒ 单位 MPa⁻²）。</div></div><p><b>先看清目标</b>：\(K_p\) 表达式要五个分压——\(p(\mathrm{CH_3OH})\)、\(p(\mathrm{H_2O})\)、\(p(\mathrm{CO_2})\)、\(p(\mathrm{H_2})\)，其中 <b>\(p(\mathrm{H_2O})\) 题里没给</b>。所以本题真正的活是「用物料衡算把它算出来」，代入只是最后一步。</p><p><b>① 设两个反应进度</b>（都以分压为单位）：反应 I 走了 \(\alpha\)，反应 II 走了 \(\beta\)。两个反应<b>共用甲醇</b>——I 生成它、II 消耗它，这是唯一的耦合点，也是「必须联立」的原因。</p><p><b>② 五种物质逐个用 α、β 表示</b>（严格按化学计量数增减）：</p><p style="text-align:center;font-weight:700">p(CO₂)=p₀(CO₂)−α　　p(H₂)=p₀(H₂)−3α　　p(CH₃OH)=α−2β　　p(CH₃OCH₃)=β　　p(H₂O)=α+β</p><p>逐项对账：I 里 CO₂ 系数 1 ⇒ 消耗 \(\alpha\)；H₂ 系数 3 ⇒ 消耗 \(3\alpha\)；甲醇系数 1 ⇒ I 生成 \(\alpha\)，而 II 中甲醇系数 2 ⇒ 再消耗 \(2\beta\)，故净得 \(\alpha-2\beta\)；二甲醚系数 1 ⇒ 生成 \(\beta\)；水在 I 中生成 \(\alpha\)、在 II 中又生成 \(\beta\) ⇒ 合计 \(\alpha+\beta\)。</p><p><b>③ 先用二甲醚定 β</b>：\(p(\mathrm{CH_3OCH_3})=\beta=0.75\ \mathrm{MPa}\)。</p><p><b>④ 再用甲醇定 α</b>：\(\alpha-2\beta=0.75\) ⇒ \(\alpha=0.75+2\times0.75=0.75+1.5=2.25\)。</p><p><b>⑤ 缺的那个量终于能算了</b>：\(p(\mathrm{H_2O})=\alpha+\beta=2.25+0.75=\)<b style="color:#0f766e">3.0 MPa</b>。注意水是两次生成的<b>累加</b>，只按反应 I 算成 2.25 就错了——这是本题最大的坑。</p><p><b>⑥ 顺手验初始分压</b>（不参与 Kp，但可自检）：\(p_0(\mathrm{CO_2})=0.25+2.25=2.5\)；\(p_0(\mathrm{H_2})=0.5+3\times2.25=0.5+6.75=7.25\)。投料比约 1 : 2.9——题干只说「一定量」，并未规定 1 : 3，所以这个比值不矛盾。</p><p><b>⑦ Kp 只按反应 I 的方程式写</b>：生成物分压作分子、反应物分压按系数作幂作分母。<b>二甲醚不能进 Kp 表达式</b>——它属于反应 II；它对甲醇的影响已经体现在 \(p(\mathrm{CH_3OH})\) 的数值里了。</p><p style="text-align:center;font-weight:700">Kp = p(CH₃OH) · p(H₂O) ÷ [ p(CO₂) · p(H₂)³ ]</p><p><b>⑧ 代入算数</b>：分子 \(0.75\times3.0=2.25\)；分母 \(0.5^3=0.125\)，\(0.25\times0.125=0.03125\)；\(2.25\div0.03125=\)<b style="color:#0f766e">72</b>。</p><p><b>⑨ 用单位反查表达式</b>：\(\Delta n=1+1-4=-2\) ⇒ 单位 \((\mathrm{MPa})^{-2}\)，与题目给的空格单位一致 ⇒ 说明分子分母没写反（写反了单位会是 \(\mathrm{MPa^{2}}\)）。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「则反应 I 的平衡常数 Kp = ______ MPa⁻²」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>把平衡分压代进 Kp = p(CH₃OH)·p(H₂O) / [p(CO₂)·p(H₂)³] = 0.75×3.0 / (0.25×0.5³) = <b style="color:#0f766e">72 MPa⁻²</b>。注意单位是 MPa⁻²（Δn = −2）。</div></div>
       <button class="next-btn">下一步 →</button>
@@ -970,7 +974,7 @@ section[id]{scroll-margin-top:58px}
   <div class="csa-stage">
     <div class="msk-eqp"></div>
     <svg class="msk-svg" preserveAspectRatio="xMidYMid meet">
-      <g class="msk-bds"></g><g class="msk-ats"></g><g class="msk-tags"></g>
+      <g class="msk-fcs"></g><g class="msk-cvs"></g><g class="msk-bds"></g><g class="msk-vecs"></g><g class="msk-ats"></g><g class="msk-tags"></g>
     </svg>
     <span class="msk-hint">🖱 这一关看的是「逆反应」：升温先断键、再把单键升成双键</span>
   </div>
@@ -984,7 +988,7 @@ section[id]{scroll-margin-top:58px}
     <span class="csa-idx">1 / 7</span>
   </div>
   <div class="csa-pop"><div class="csa-pop-h">⚠️ 本关易错点清单（7 条）<i data-act="close">✕</i></div><ol><li>反应 II 的产率不只取决于它自己 —— 上游反应 I 供多少甲醇，才是真正的天花板。</li><li>升温<b>正逆速率都变大</b>，只是吸热方向变多；别写成「升温使正反应减慢」。</li><li>逆反应不是「倒带」，而是<b>另一条路径</b>：水直接进攻碳，不需要先变回 CO₂ 的中间态。</li><li>这一步就是「为什么升温对放热反应不利」的分子解释：<b>逆反应要断的键更多、吸能更多</b>。</li><li>甲醇的 C—O 是单键、CO₂ 是双键：<b>逆反应要把单键升成双键</b>，所以吸能。</li><li>配平核对：<b>1 个 CH₃OH + 1 个 H₂O = 1C + 2O + 6H = CO₂ + 3H₂</b>，原子一个不差。</li><li>答题必须落到「<b>反应 I 放热、升温逆移 ⇒ 甲醇减少</b>」，只写「II 是吸热所以产率该升高」就完全反了。</li></ol></div>
-  <script type="application/json" class="msk-data">{"view":[-3.3,-1.52,6.95,3.42],"eq":"CH₃OH + H₂O → CO₂ + 3H₂（反应 I 逆移）","atoms":[{"id":"C1","el":"C","x":-1.55,"y":0.45},{"id":"O1","el":"O","x":-0.72,"y":0.02},{"id":"H1","el":"H","x":-2.3,"y":1.0},{"id":"H2","el":"H","x":-2.3,"y":-0.1},{"id":"H3","el":"H","x":-1.55,"y":1.32},{"id":"H4","el":"H","x":-0.3,"y":0.52},{"id":"O2","el":"O","x":2.2,"y":-1.2},{"id":"H5","el":"H","x":1.5,"y":-0.75},{"id":"H6","el":"H","x":2.75,"y":-0.75}],"bonds":[{"id":"C1-O1a","a":"C1","b":"O1","o":1,"off":0.085},{"id":"C1-O1b","a":"C1","b":"O1","o":1,"off":-0.085,"k":0},{"id":"C1-O2a","a":"C1","b":"O2","o":1,"off":0.085,"k":0},{"id":"C1-O2b","a":"C1","b":"O2","o":1,"off":-0.085,"k":0},{"id":"C1-H1","a":"C1","b":"H1","o":1},{"id":"C1-H2","a":"C1","b":"H2","o":1},{"id":"C1-H3","a":"C1","b":"H3","o":1},{"id":"O1-H4","a":"O1","b":"H4","o":1},{"id":"O2-H5","a":"O2","b":"H5","o":1},{"id":"O2-H6","a":"O2","b":"H6","o":1},{"id":"H1-H2","a":"H1","b":"H2","o":1,"k":0},{"id":"H3-H4","a":"H3","b":"H4","o":1,"k":0},{"id":"H5-H6","a":"H5","b":"H6","o":1,"k":0}],"steps":[{"at":{},"op":{},"bd":{},"tags":[],"eq":"CH₃OH + H₂O → CO₂ + 3H₂（反应 I 逆移）","dur":780,"say":"平衡时手上有 <b>CH₃OH + H₂O<\/b>：甲醇是反应 II 的原料，水是它的产物。","trap":"反应 II 的产率不只取决于它自己 —— 上游反应 I 供多少甲醇，才是真正的天花板。"},{"at":{"O2":[1.55,-0.55],"H5":[0.85,-0.15],"H6":[2.15,-0.2]},"op":{},"bd":{},"tags":[{"t":"🔥 升温 T↑","x":0.0,"y":-1.16,"c":"#b91c1c","fs":0.3,"dy":0.0}],"eq":null,"dur":780,"say":"温度一升，两个分子<b>动能变大、撞得更狠<\/b> —— 对吸热方向是帮忙，对放热方向是拆台。","trap":"升温<b>正逆速率都变大<\/b>，只是吸热方向变多；别写成「升温使正反应减慢」。"},{"at":{"O2":[0.55,-0.1],"H5":[-0.05,0.3],"H6":[1.15,0.25]},"op":{},"bd":{},"tags":[],"eq":null,"dur":780,"say":"水分子逼近甲醇的碳 —— 逆反应 I 要发生，必须让 O 重新贴回 C 上。","trap":"逆反应不是「倒带」，而是<b>另一条路径<\/b>：水直接进攻碳，不需要先变回 CO₂ 的中间态。"},{"at":{"H1":[-2.6,1.3],"H2":[-2.1,-0.55],"H3":[-1.3,1.55],"H4":[-0.35,1.05],"H5":[0.15,-0.85],"H6":[1.35,-1.05]},"op":{},"bd":{"C1-H1":0,"C1-H2":0,"C1-H3":0,"O1-H4":0,"O2-H5":0,"O2-H6":0},"tags":[{"t":"6 根键同时断","x":-1.3,"y":-1.05,"c":"#dc2626","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"升温给足了能量 ⇒ <b>4 根 C—H / O—H 键一起断<\/b>，6 个 H 全部脱下来。","trap":"这一步就是「为什么升温对放热反应不利」的分子解释：<b>逆反应要断的键更多、吸能更多<\/b>。"},{"at":{"C1":[0.2,0.1],"O1":[-0.72,0.12],"O2":[1.12,0.1]},"op":{},"bd":{"C1-O1b":1,"C1-O2a":1,"C1-O2b":1},"tags":[{"t":"O=C=O 重新形成","x":0.2,"y":1.05,"c":"#b91c1c","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两个 O 各自与 C 补成双键 ⇒ <b>CO₂ 回来了<\/b>（直线形 O=C=O）。","trap":"甲醇的 C—O 是单键、CO₂ 是双键：<b>逆反应要把单键升成双键<\/b>，所以吸能。"},{"at":{"H1":[-2.7,1.15],"H2":[-2.05,1.15],"H3":[-0.3,1.35],"H4":[0.35,1.35],"H5":[1.55,1.15],"H6":[2.2,1.15]},"op":{},"bd":{"H1-H2":1,"H3-H4":1,"H5-H6":1},"tags":[],"eq":null,"dur":780,"say":"6 个 H 两两配对成 <b>3 个 H₂<\/b> ⇒ 2 个分子变回 4 个分子，熵增、吸热，升温正合它意。","trap":"配平核对：<b>1 个 CH₃OH + 1 个 H₂O = 1C + 2O + 6H = CO₂ + 3H₂<\/b>，原子一个不差。"},{"at":{"C1":[0.2,0.42],"O1":[-0.9,0.28],"O2":[1.3,0.28],"H1":[-2.95,1.3],"H2":[-2.3,1.32],"H3":[-0.55,1.55],"H4":[0.1,1.58],"H5":[1.8,1.32],"H6":[2.45,1.3]},"op":{"H1":0.55,"H2":0.55,"H3":0.55,"H4":0.55,"H5":0.55,"H6":0.55},"bd":{},"tags":[{"t":"⚠ 甲醇断供 · 甲醚停产","x":0.2,"y":-1.16,"c":"#b91c1c","fs":0.3,"dy":0.0}],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O　ΔH₁ = −49.6 kJ·mol⁻¹","dur":780,"say":"甲醇被逆反应吃掉 ⇒ 留给反应 II 的甲醇变少 ⇒ <b>甲醚产率随温度下降<\/b>，尽管 II 本身是吸热的。","trap":"答题必须落到「<b>反应 I 放热、升温逆移 ⇒ 甲醇减少<\/b>」，只写「II 是吸热所以产率该升高」就完全反了。"}]}</script>
+  <script type="application/json" class="msk-data">{"view":[-3.3,-1.52,6.95,3.42],"eq":"CH₃OH + H₂O → CO₂ + 3H₂（反应 I 逆移）","atoms":[{"id":"C1","el":"C","x":-1.55,"y":0.45},{"id":"O1","el":"O","x":-0.72,"y":0.02},{"id":"H1","el":"H","x":-2.3,"y":1.0},{"id":"H2","el":"H","x":-2.3,"y":-0.1},{"id":"H3","el":"H","x":-1.55,"y":1.32},{"id":"H4","el":"H","x":-0.3,"y":0.52},{"id":"O2","el":"O","x":2.2,"y":-1.2},{"id":"H5","el":"H","x":1.5,"y":-0.75},{"id":"H6","el":"H","x":2.75,"y":-0.75}],"bonds":[{"id":"C1-O1a","a":"C1","b":"O1","o":1,"off":0.085},{"id":"C1-O1b","a":"C1","b":"O1","o":1,"off":-0.085,"k":0},{"id":"C1-O2a","a":"C1","b":"O2","o":1,"off":0.085,"k":0},{"id":"C1-O2b","a":"C1","b":"O2","o":1,"off":-0.085,"k":0},{"id":"C1-H1","a":"C1","b":"H1","o":1},{"id":"C1-H2","a":"C1","b":"H2","o":1},{"id":"C1-H3","a":"C1","b":"H3","o":1},{"id":"O1-H4","a":"O1","b":"H4","o":1},{"id":"O2-H5","a":"O2","b":"H5","o":1},{"id":"O2-H6","a":"O2","b":"H6","o":1},{"id":"H1-H2","a":"H1","b":"H2","o":1,"k":0},{"id":"H3-H4","a":"H3","b":"H4","o":1,"k":0},{"id":"H5-H6","a":"H5","b":"H6","o":1,"k":0}],"vecs":[],"faces":[],"curves":[],"steps":[{"at":{},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":"CH₃OH + H₂O → CO₂ + 3H₂（反应 I 逆移）","dur":780,"say":"平衡时手上有 <b>CH₃OH + H₂O<\/b>：甲醇是反应 II 的原料，水是它的产物。","trap":"反应 II 的产率不只取决于它自己 —— 上游反应 I 供多少甲醇，才是真正的天花板。"},{"at":{"O2":[1.55,-0.55],"H5":[0.85,-0.15],"H6":[2.15,-0.2]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"🔥 升温 T↑","x":0.0,"y":-1.16,"c":"#b91c1c","fs":0.3,"dy":0.0}],"eq":null,"dur":780,"say":"温度一升，两个分子<b>动能变大、撞得更狠<\/b> —— 对吸热方向是帮忙，对放热方向是拆台。","trap":"升温<b>正逆速率都变大<\/b>，只是吸热方向变多；别写成「升温使正反应减慢」。"},{"at":{"O2":[0.55,-0.1],"H5":[-0.05,0.3],"H6":[1.15,0.25]},"op":{},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"水分子逼近甲醇的碳 —— 逆反应 I 要发生，必须让 O 重新贴回 C 上。","trap":"逆反应不是「倒带」，而是<b>另一条路径<\/b>：水直接进攻碳，不需要先变回 CO₂ 的中间态。"},{"at":{"H1":[-2.6,1.3],"H2":[-2.1,-0.55],"H3":[-1.3,1.55],"H4":[-0.35,1.05],"H5":[0.15,-0.85],"H6":[1.35,-1.05]},"op":{},"bd":{"C1-H1":0,"C1-H2":0,"C1-H3":0,"O1-H4":0,"O2-H5":0,"O2-H6":0},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"6 根键同时断","x":-1.3,"y":-1.05,"c":"#dc2626","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"升温给足了能量 ⇒ <b>4 根 C—H / O—H 键一起断<\/b>，6 个 H 全部脱下来。","trap":"这一步就是「为什么升温对放热反应不利」的分子解释：<b>逆反应要断的键更多、吸能更多<\/b>。"},{"at":{"C1":[0.2,0.1],"O1":[-0.72,0.12],"O2":[1.12,0.1]},"op":{},"bd":{"C1-O1b":1,"C1-O2a":1,"C1-O2b":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"O=C=O 重新形成","x":0.2,"y":1.05,"c":"#b91c1c","fs":0.26,"dy":0.0}],"eq":null,"dur":780,"say":"两个 O 各自与 C 补成双键 ⇒ <b>CO₂ 回来了<\/b>（直线形 O=C=O）。","trap":"甲醇的 C—O 是单键、CO₂ 是双键：<b>逆反应要把单键升成双键<\/b>，所以吸能。"},{"at":{"H1":[-2.7,1.15],"H2":[-2.05,1.15],"H3":[-0.3,1.35],"H4":[0.35,1.35],"H5":[1.55,1.15],"H6":[2.2,1.15]},"op":{},"bd":{"H1-H2":1,"H3-H4":1,"H5-H6":1},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[],"eq":null,"dur":780,"say":"6 个 H 两两配对成 <b>3 个 H₂<\/b> ⇒ 2 个分子变回 4 个分子，熵增、吸热，升温正合它意。","trap":"配平核对：<b>1 个 CH₃OH + 1 个 H₂O = 1C + 2O + 6H = CO₂ + 3H₂<\/b>，原子一个不差。"},{"at":{"C1":[0.2,0.42],"O1":[-0.9,0.28],"O2":[1.3,0.28],"H1":[-2.95,1.3],"H2":[-2.3,1.32],"H3":[-0.55,1.55],"H4":[0.1,1.58],"H5":[1.8,1.32],"H6":[2.45,1.3]},"op":{"H1":0.55,"H2":0.55,"H3":0.55,"H4":0.55,"H5":0.55,"H6":0.55},"bd":{},"vv":{},"vo":{},"cv":{},"fv":{},"tags":[{"t":"⚠ 甲醇断供 · 甲醚停产","x":0.2,"y":-1.16,"c":"#b91c1c","fs":0.3,"dy":0.0}],"eq":"CO₂ + 3H₂ ⇌ CH₃OH + H₂O　ΔH₁ = −49.6 kJ·mol⁻¹","dur":780,"say":"甲醇被逆反应吃掉 ⇒ 留给反应 II 的甲醇变少 ⇒ <b>甲醚产率随温度下降<\/b>，尽管 II 本身是吸热的。","trap":"答题必须落到「<b>反应 I 放热、升温逆移 ⇒ 甲醇减少<\/b>」，只写「II 是吸热所以产率该升高」就完全反了。"}]}</script>
 </div>
 <div class="stx"><div class="stx-s"><i>看到题干</i>「(4) 一定温度下 CH₃OCH₃ 的平衡产率随温度的变化如图 2 所示」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>产率随温度<b>下降</b>，可反应 II 本身是<b>吸热</b>的（升温本该正移）⇒ 原因只能在"上游"：反应 I 放热、升温大幅<b>逆移</b> ⇒ 体系里 c(CH₃OH) 显著减少。</div></div><p><b>先看清目标</b>：图 2 显示产率随温度<b>下降</b>。可这很奇怪——反应 II 是吸热的（\(\Delta H_2=+23.9&gt;0\)），升温本该让它正移、产率上升。<b>现象与「只看 II」的推理正好相反</b>，说明原因不在 II 身上，必须往上找。</p><p><b>① 往上游找</b>：二甲醚是由甲醇经反应 II 得到的，甲醇又只能由反应 I 提供。反应 I 是<b>放热</b>的（\(\Delta H_1=-49.6\)），升温会令它<b>大幅逆移</b> ⇒ 体系里甲醇的平衡浓度显著减小。</p><p><b>② 两条相反的作用</b>：作用一（对 II 有利）：升温使 II 正移，同样多的甲醇能转化得更彻底；作用二（对 II 不利）：原料甲醇的<b>总量少了</b>，巧妇难为无米之炊。实测是产率下降 ⇒ 说明<b>「原料变少」压过了「自身正移」</b>。</p><p><b>③ 答题要写全因果链</b>：升温 → 反应 I（放热）逆移 → \(c(\mathrm{CH_3OH})\) 减小 → 反应 II 的原料减少 → 二甲醚平衡产率下降。只说「升温不利于生成」会被扣分，因为 II 本身吸热、升温本来是<b>有利</b>的。</p><div class="stx"><div class="stx-s"><i>看到题干</i>「反应 I：CO₂(g) + 3H₂(g) ⇌ CH₃OH(g) + H₂O(g)　ΔH₁ = −49.6 kJ·mol⁻¹」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>I 是 II 的<b>原料供应站</b>：甲醇断供 ⇒ 即使 II 被升温推着正移，也没有原料可转 ⇒ <b>"原料变少"压过"II 自身正移"</b>，产率净下降。</div></div><div class="stx"><div class="stx-s"><i>看到题干</i>「(5) 某温度下，反应初期 c(CH₃OH) 的含量在一段时间内基本保持不变」</div><div class="stx-m">↓ 所以想到</div><div class="stx-t"><i>解题动作</i>浓度"不变"（不是相等）= 已经<b>达到平衡</b>，不是还没开始反应 ⇒ 画能量图按"放热的反应 I"处理。</div></div><p><b>④ 为什么「含量基本不变」等于已达平衡</b>：甲醇是中间产物——I 不断地生成它、II 不断地消耗它。若两者速率不等，它的含量必然单调上升或下降；现在<b>一段时间内基本不变</b>，说明生成速率与消耗速率<b>相等</b> ⇒ 体系已建立（近似）平衡，而不是「反应还没开始」。这一句判断决定了后面画图的形状。</p><p><b>⑤ 能量图怎么画（三要素）</b>：① 纵轴能量、横轴反应历程；② 左端反应物平台 \((\mathrm{CO_2}+3\mathrm{H_2})\) 画在<b>高处</b>，右端生成物平台\((\mathrm{CH_3OH}+\mathrm{H_2O})\) 画在<b>低处</b>——因为反应 I 放热；③ 中间画一座<b>活化能峰</b>，峰顶高于反应物平台。两端平台的<b>高度差</b>就是 \(|\Delta H_1|=49.6\ \mathrm{kJ\cdot mol^{-1}}\)。</p><p><b>⑥ 三个常见扣分点</b>：忘记画峰（画成一条斜线）、把峰画在反应物平台之下、把生成物画得比反应物高（那是吸热，与 \(\Delta H_1&lt;0\) 矛盾）。</p>
       <button class="next-btn">下一步 →</button>
@@ -4053,7 +4057,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <script>
 
-/* ===== 分子动画舞台引擎 MSK-VER 20261021a ===== */
+/* ===== 考点动画舞台引擎 KMA · MSK-VER 20261022b ===== */
 (function () {
   if (window.__MSK__) { window.__MSK_BOOT__ && window.__MSK_BOOT__(); return; }
   window.__MSK__ = 1;
@@ -4069,6 +4073,11 @@ document.addEventListener('DOMContentLoaded',function(){
     for (var k in attrs) e.setAttribute(k, attrs[k]);
     return e;
   }
+  function mfn(s) {
+    var src = String(s == null ? '' : s).replace(/\^/g, '**');
+    try { return new Function('x', 'with(Math){return (' + src + ')}'); }
+    catch (e) { return function () { return NaN; }; }
+  }
 
   function boot(root) {
     if (root.__msk) return;
@@ -4080,12 +4089,45 @@ document.addEventListener('DOMContentLoaded',function(){
     var svg = root.querySelector('.msk-svg');
     var v = data.view || [-5, -3, 10, 6];
     svg.setAttribute('viewBox', v.join(' '));
-    var gB = svg.querySelector('.msk-bds');
-    var gA = svg.querySelector('.msk-ats');
-    var gT = svg.querySelector('.msk-tags');
+
+    /* 图层次序：曲线(底) → 键 → 矢量 → 实体 → 标签。旧文件缺 g 时自动补。 */
+    function grp(cls, anchor) {
+      var e = svg.querySelector('.' + cls);
+      if (e) return e;
+      e = mk('g', {'class': cls});
+      if (anchor && anchor.parentNode === svg) svg.insertBefore(e, anchor);
+      else svg.appendChild(e);
+      return e;
+    }
+    var gA0 = svg.querySelector('.msk-ats');
+    var gB0 = svg.querySelector('.msk-bds');
+    var gC = grp('msk-cvs', gB0);
+    var gF = grp('msk-fcs', gC);
+    var gB = grp('msk-bds');
+    var gV = grp('msk-vecs', gA0);
+    var gA = grp('msk-ats');
+    var gL = grp('msk-vls', svg.querySelector('.msk-tags') || null);
+    var gT = grp('msk-tags');
     var eqEl = root.querySelector('.msk-eqp');
 
-    /* ---------------- 原子 ---------------- */
+    /* 箭头 marker：按颜色缓存 */
+    var defs = mk('defs', {});
+    svg.insertBefore(defs, svg.firstChild);
+    var MK = {};
+    function arrow(col) {
+      var key = String(col).replace(/[^0-9a-zA-Z]/g, '');
+      var id = 'mskarw' + key;
+      if (!MK[key]) {
+        var m = mk('marker', {id: id, viewBox: '0 0 10 10', refX: 8.5, refY: 5,
+                              markerWidth: 4.6, markerHeight: 4.6, orient: 'auto-start-reverse'});
+        m.appendChild(mk('path', {d: 'M0,0 L10,5 L0,10 z', fill: col}));
+        defs.appendChild(m);
+        MK[key] = id;
+      }
+      return MK[key];
+    }
+
+    /* ---------------- 实体（默认圆形原子；数学/物理可换形状） ---------------- */
     var A = {}, ids = [];
     (data.atoms || []).forEach(function (a) {
       var r = a.r != null ? a.r : (a.el === 'H' ? 0.23 : 0.31);
@@ -4093,21 +4135,70 @@ document.addEventListener('DOMContentLoaded',function(){
       var g = mk('g', {'class': 'msk-at'});
       var halo = mk('circle', {r: r * 1.5, fill: col, opacity: 0});
       halo.setAttribute('class', 'halo');
-      var c = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
-      var t = mk('text', {
-        'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: '#fff',
-        'text-anchor': 'middle', 'dominant-baseline': 'central'
-      });
-      t.textContent = (a.lab != null ? a.lab : a.el);
-      g.appendChild(halo); g.appendChild(c); g.appendChild(t);
-      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')');
+      g.appendChild(halo);
+      var body;
+      if (a.shape === 'rect') {
+        body = mk('rect', {x: -r * 1.2, y: -r * 0.66, width: r * 2.4, height: r * 1.32,
+                           rx: .07, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'tri') {
+        body = mk('polygon', {points: (-r * 1.2) + ',' + (r * 0.78) + ' ' +
+                              (r * 1.2) + ',' + (r * 0.78) + ' 0,' + (-r * 0.95),
+                              fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else if (a.shape === 'poly') {
+        var pp = (a.pts || [[-1, -1], [1, -1], [1, 1], [-1, 1]]).map(function (q) {
+          return (q[0] * r).toFixed(3) + ',' + (q[1] * r).toFixed(3);
+        }).join(' ');
+        body = mk('polygon', {points: pp, fill: col, stroke: '#fff', 'stroke-width': .05});
+      } else {
+        body = mk('circle', {r: r, fill: col, stroke: '#fff', 'stroke-width': .055});
+      }
+      g.appendChild(body);
+      var lab = (a.lab != null ? a.lab : a.el);
+      if (lab && a.shape !== 'dot') {
+        var t = mk('text', {
+          'font-size': (a.fs || (a.el === 'H' ? .24 : .28)), fill: (a.tc || '#fff'),
+          'text-anchor': 'middle', 'dominant-baseline': 'central'
+        });
+        t.textContent = lab;
+        g.appendChild(t);
+      }
+      g.setAttribute('transform', 'translate(' + a.x + ',' + a.y + ')' +
+                     (a.rot ? ' rotate(' + a.rot + ')' : ''));
       var op0 = (a.op == null ? 1 : a.op);
       g.setAttribute('opacity', op0);
-      gA.appendChild(g);
-      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0,
+      if (a.under) gC.insertBefore(g, gC.firstChild); else gA.appendChild(g);
+      A[a.id] = {g: g, r: r, base: col, x: a.x, y: a.y, op: op0, rot: (a.rot || 0),
                  tx: a.x, ty: a.y, top: op0, flash: 0};
       ids.push(a.id);
     });
+
+    /* ---------------- 面（顶点随实体自动变形） ---------------- */
+    var F = [];
+    (data.faces || []).forEach(function (q, i) {
+      var pg = mk('polygon', {'stroke-linejoin': 'round'});
+      var col = q.c || '#bfdbfe';
+      pg.setAttribute('fill', col);
+      if (q.s) { pg.setAttribute('stroke', q.s);
+                 pg.setAttribute('stroke-width', q.sw || .04);
+                 if (q.dash) pg.setAttribute('stroke-dasharray', q.dash); }
+      else pg.setAttribute('stroke', 'none');
+      var op0 = (q.op == null ? .45 : q.op);
+      pg.setAttribute('opacity', op0);
+      gF.appendChild(pg);
+      F.push({id: q.id || ('face' + i), pts: (q.pts || []), pg: pg,
+              op: op0, top: op0, c: col});
+    });
+
+    function paintFace(f) {
+      var ps = [], ok = true;
+      f.pts.forEach(function (id) {
+        var a = A[id];
+        if (!a || a.op < .05) { ok = false; return; }
+        ps.push(a.x.toFixed(3) + ',' + a.y.toFixed(3));
+      });
+      f.pg.setAttribute('points', ok ? ps.join(' ') : '');
+      f.pg.setAttribute('opacity', ok ? f.op.toFixed(3) : 0);
+    }
 
     /* ---------------- 键 ---------------- */
     var B = [], bmap = {};
@@ -4116,30 +4207,143 @@ document.addEventListener('DOMContentLoaded',function(){
       var o = b.o || 1;
       var lines = [];
       for (var i = 0; i < o; i++) {
-        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': .075, 'class': 'msk-bd'});
+        var ln = mk('line', {stroke: '#94a3b8', 'stroke-width': (b.w || .075), 'class': 'msk-bd'});
+        if (b.dash) ln.setAttribute('stroke-dasharray', b.dash);
         ln.setAttribute('opacity', 1);
         gB.appendChild(ln);
         lines.push(ln);
       }
       var k0 = (b.k == null ? 1 : b.k);
       var rec = {id: id, a: b.a, b: b.b, o: o, lines: lines, k: k0, tk: k0, mode: 0,
+                 w: (b.w || .075), dash: (b.dash || null), c: (b.c || null),
                  off: (b.off != null ? b.off : (o === 2 ? .085 : 0))};
       B.push(rec); bmap[id] = rec;
     });
 
+    /* ---------------- 矢量（力 / 速度 / 位移 / 电场强度） ---------------- */
+    var V = [], vids = [];
+    (data.vecs || []).forEach(function (q) {
+      var col = q.c || '#dc2626';
+      var g = mk('g', {'class': 'msk-vc'});
+      var ln = mk('line', {stroke: col, 'stroke-width': (q.w || .07)});
+      ln.setAttribute('marker-end', 'url(#' + arrow(col) + ')');
+      g.appendChild(ln);
+      var lb = null;
+      if (q.lab) {
+        lb = mk('text', {'font-size': (q.fs || .26), fill: col, 'text-anchor': 'middle',
+                         'dominant-baseline': 'central', 'class': 'msk-lbl'});
+        lb.textContent = q.lab;
+        g.appendChild(lb);
+      }
+      var op0 = (q.op == null ? 1 : q.op);
+      g.setAttribute('opacity', op0);
+      gV.appendChild(g);
+      V.push({id: q.id, src: q.src || null, dx: (q.dx || 0), dy: (q.dy || 0),
+              tdx: (q.dx || 0), tdy: (q.dy || 0), ax: (q.ax || 0), ay: (q.ay || 0),
+              g: g, ln: ln, lb: lb, op: op0, top: op0, col: col});
+      vids.push(q.id);
+    });
+
+    /* ---------------- 曲线（函数图像 / 轨迹 / 场线 / 波形） ---------------- */
+    var C = [], cids = [];
+    (data.curves || []).forEach(function (q) {
+      var col = q.c || '#2563eb';
+      var g = mk('g', {'class': 'msk-cvg'});
+      var p = mk('path', {'class': 'msk-cv', stroke: col, 'stroke-width': (q.w || .06)});
+      if (q.dash) p.setAttribute('stroke-dasharray', q.dash);
+      g.appendChild(p);
+      gC.appendChild(g);
+      var d = '';
+      if (q.d) {
+        d = q.d;
+      } else if (q.f) {
+        var f = mfn(q.f);
+        var x0 = (q.x0 != null) ? q.x0 : v[0];
+        var x1 = (q.x1 != null) ? q.x1 : v[0] + v[2];
+        var n = q.n || 160, seg = [];
+        for (var i = 0; i <= n; i++) {
+          var xx = x0 + (x1 - x0) * i / n;
+          var yy = f(xx);
+          if (!isFinite(yy)) continue;
+          if (q.flip) yy = -yy;
+          seg.push((seg.length ? 'L' : 'M') + xx.toFixed(3) + ',' + yy.toFixed(3));
+        }
+        d = seg.join(' ');
+      }
+      p.setAttribute('d', d || 'M0,0');
+      var op0 = (q.op == null ? 1 : q.op);
+      var pr0 = (q.prog == null ? 1 : q.prog);
+      g.setAttribute('opacity', op0);
+      C.push({id: q.id, p: p, g: g, op: op0, top: op0, prog: pr0, tprog: pr0,
+              len: 0, fixedDash: q.dash || null, col: col});
+      cids.push(q.id);
+    });
+
+    function paintCurve(c) {
+      if (c.len > 0 && !c.fixedDash) {
+        c.p.setAttribute('stroke-dasharray', c.len + ' ' + c.len);
+        c.p.setAttribute('stroke-dashoffset', (c.len * (1 - c.prog)).toFixed(2));
+      }
+      c.g.setAttribute('opacity', c.op.toFixed(3));
+    }
+    function measure() {
+      C.forEach(function (c) {
+        try { c.len = c.p.getTotalLength() || 0; } catch (e) { c.len = 0; }
+        paintCurve(c);
+      });
+    }
+
+    function paintVec(q) {
+      var ox = q.ax, oy = q.ay, rr = 0;
+      if (q.src && A[q.src]) {
+        ox = A[q.src].x; oy = A[q.src].y; rr = A[q.src].r * .95;
+      }
+      var L = Math.sqrt(q.dx * q.dx + q.dy * q.dy) || 1;
+      var sx = ox + q.dx / L * rr, sy = oy + q.dy / L * rr;
+      var x2 = ox + q.dx, y2 = oy + q.dy;
+      q.ln.setAttribute('x1', sx.toFixed(3));
+      q.ln.setAttribute('y1', sy.toFixed(3));
+      q.ln.setAttribute('x2', x2.toFixed(3));
+      q.ln.setAttribute('y2', y2.toFixed(3));
+      q.g.setAttribute('opacity', q.op.toFixed(3));
+      if (q.lb) {
+        q.lb.setAttribute('x', (x2 + q.dx / L * .26).toFixed(3));
+        q.lb.setAttribute('y', (y2 + q.dy / L * .26).toFixed(3));
+      }
+    }
+    V.forEach(function (q) { paintVec(q); });
+    C.forEach(function (c) { paintCurve(c); });
+    F.forEach(function (f) { paintFace(f); });
+    setTimeout(measure, 40);
+
     /* ---------------- 步骤 ---------------- */
     var steps = data.steps || [];
     var N = steps.length, cur = -1, anim = null;
+    var locTags = [];
 
     function blankTags() { while (gT.firstChild) gT.removeChild(gT.firstChild); }
 
     function applyStep(k) {
       var s = steps[k] || {};
       var at = s.at || {}, op = s.op || {}, bd = s.bd || {};
+      var vv = s.vv || {}, vo = s.vo || {}, cv = s.cv || {}, fv = s.fv || {};
       ids.forEach(function (id) {
         var a = A[id];
         if (at[id]) { a.tx = at[id][0]; a.ty = at[id][1]; }
         if (op[id] != null) { a.top = op[id]; }
+      });
+      V.forEach(function (q) {
+        if (vv[q.id]) { q.tdx = vv[q.id][0]; q.tdy = vv[q.id][1]; }
+        if (vo[q.id] != null) q.top = vo[q.id];
+      });
+      C.forEach(function (c) {
+        var w = cv[c.id];
+        if (w == null) return;
+        if (typeof w === 'number') { c.top = w ? 1 : 0; }
+        else { if (w.op != null) c.top = w.op; if (w.prog != null) c.tprog = w.prog; }
+      });
+      F.forEach(function (f) {
+        if (fv[f.id] != null) f.top = fv[f.id] ? 1 : 0;
       });
       B.forEach(function (b) {
         var key = b.id;
@@ -4167,7 +4371,7 @@ document.addEventListener('DOMContentLoaded',function(){
         t.__el = tx;
       });
       if (eqEl) eqEl.textContent = s.eq != null ? s.eq : (data.eq || '');
-      window.__mskTags = s.tags || [];
+      locTags = s.tags || [];
     }
 
     function frame(now) {
@@ -4183,7 +4387,8 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x = a.x0 + (a.tx - a.x0) * pm;
         a.y = a.y0 + (a.ty - a.y0) * pm;
         a.op = a.op0 + (a.top - a.op0) * pk;
-        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')');
+        a.g.setAttribute('transform', 'translate(' + a.x.toFixed(3) + ',' + a.y.toFixed(3) + ')' +
+                         (a.rot ? ' rotate(' + a.rot + ')' : ''));
         a.g.setAttribute('opacity', a.op.toFixed(3));
         var h = a.g.querySelector('.halo');
         if (h) {
@@ -4198,19 +4403,38 @@ document.addEventListener('DOMContentLoaded',function(){
         drawBond(b, p);
       });
 
-      (window.__mskTags || []).forEach(function (t) {
+      V.forEach(function (q) {
+        q.dx = q.dx0 + (q.tdx - q.dx0) * pm;
+        q.dy = q.dy0 + (q.tdy - q.dy0) * pm;
+        q.op = q.op0v + (q.top - q.op0v) * pk;
+        paintVec(q);
+      });
+      C.forEach(function (c) {
+        c.prog = c.prog0 + (c.tprog - c.prog0) * pm;
+        c.op = c.op0v + (c.top - c.op0v) * pk;
+        paintCurve(c);
+      });
+      F.forEach(function (f) {
+        f.op = f.op0 + (f.top - f.op0) * pk;
+        paintFace(f);
+      });
+
+      locTags.forEach(function (t) {
         if (!t.__el) return;
         var q = Math.max(0, (p - .35) / .65);
         t.__el.setAttribute('opacity', (q > 0 ? Math.min(1, q * 2.2) : 0).toFixed(3));
         t.__el.setAttribute('transform', 'translate(' + (q * (t.dx || 0)).toFixed(2) + ',' +
-          (-q * (t.dy || .18)).toFixed(2) + ')');
+          (-q * (t.dy != null ? t.dy : .18)).toFixed(2) + ')');
       });
 
       if (p < 1) requestAnimationFrame(frame);
       else {
         B.forEach(function (b) { b.mode = 0; drawBond(b, 1); });
         ids.forEach(function (a) { a.flash = 0; });
-        (window.__mskTags || []).forEach(function (t) {
+        V.forEach(function (q) { q.dx = q.tdx; q.dy = q.tdy; q.op = q.top; paintVec(q); });
+        C.forEach(function (c) { c.prog = c.tprog; c.op = c.top; paintCurve(c); });
+        F.forEach(function (f) { f.op = f.top; paintFace(f); });
+        locTags.forEach(function (t) {
           if (t.__el) t.__el.setAttribute('opacity', 1);
         });
         anim = null;
@@ -4230,8 +4454,8 @@ document.addEventListener('DOMContentLoaded',function(){
       var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
       /* gap：两截各向后退多少 ⇒ k=0 时退到 0 长度（断成两截） */
       var gap = (1 - b.k) * LL / 2;
-      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : '#94a3b8');
-      var w = b.mode ? .095 : .075;
+      var col = b.mode > 0 ? '#22c55e' : (b.mode < 0 ? '#ef4444' : (b.c || '#94a3b8'));
+      var w = b.mode ? (b.w || .075) * 1.25 : (b.w || .075);
       var off = b.off;
       for (var i = 0; i < b.lines.length; i++) {
         var ln = b.lines[i];
@@ -4247,6 +4471,7 @@ document.addEventListener('DOMContentLoaded',function(){
         /* 另一半 */
         if (!ln._r) {
           ln._r = mk('line', {'class': 'msk-bd', 'stroke-linecap': 'round'});
+          if (b.dash) ln._r.setAttribute('stroke-dasharray', b.dash);
           gB.appendChild(ln._r);
         }
         var r = ln._r;
@@ -4258,6 +4483,19 @@ document.addEventListener('DOMContentLoaded',function(){
         r.setAttribute('stroke-width', w);
         r.setAttribute('opacity', b.k > .002 ? 1 : 0);
       }
+    }
+
+    /* KaTeX：say / trap 里的公式要现渲染（innerHTML 是后来塞进去的） */
+    var MD = [{left:'$$',right:'$$',display:true},
+              {left:'\\(',right:'\\)',display:false},
+              {left:'$',right:'$',display:false}];
+    function rmath(el) {
+      if (!el) return;
+      if (!window.renderMathInElement) {          /* katex 还没加载完：稍后重试 */
+        setTimeout(function () { rmath(el); }, 400);
+        return;
+      }
+      try { window.renderMathInElement(el, {delimiters: MD, throwOnError: false}); } catch (e) {}
     }
 
     /* ---------------- 控制 ---------------- */
@@ -4284,6 +4522,9 @@ document.addEventListener('DOMContentLoaded',function(){
         a.x0 = a.x; a.y0 = a.y; a.op0 = a.op;
       });
       B.forEach(function (b) { b.k0 = b.k; });
+      V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+      C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+      F.forEach(function (f) { f.op0 = f.op; });
       applyStep(k);
       anim = {t0: performance.now(), dur: silent ? 1 : (s.dur || 780)};
       requestAnimationFrame(frame);
@@ -4292,8 +4533,8 @@ document.addEventListener('DOMContentLoaded',function(){
         d.classList.toggle('on', i <= k);
         d.classList.toggle('cur', i === k);
       });
-      if (sayEl) sayEl.innerHTML = s.say || '';
-      if (trapEl) trapEl.innerHTML = s.trap || '';
+      if (sayEl) { sayEl.innerHTML = s.say || ''; rmath(sayEl); }
+      if (trapEl) { trapEl.innerHTML = s.trap || ''; rmath(trapEl); }
       if (bar) bar.style.width = ((k + 1) / N * 100) + '%';
       if (idxEl) idxEl.textContent = (k + 1) + ' / ' + N;
       if (bPrev) bPrev.disabled = (k === 0);
@@ -4323,6 +4564,9 @@ document.addEventListener('DOMContentLoaded',function(){
     /* 无动画地落到第 1 步 */
     ids.forEach(function (id) { var a = A[id]; a.x0 = a.x; a.y0 = a.y; a.op0 = a.op; });
     B.forEach(function (b) { b.k0 = b.k; });
+    V.forEach(function (q) { q.dx0 = q.dx; q.dy0 = q.dy; q.op0v = q.op; });
+    C.forEach(function (c) { c.prog0 = c.prog; c.op0v = c.op; });
+    F.forEach(function (f) { f.op0 = f.op; });
     paint(0, true);
   }
 
